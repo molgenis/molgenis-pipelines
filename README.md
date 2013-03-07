@@ -12,15 +12,13 @@ In addition it contains protocols that may be re-used between different (version
 
 	# Download the latest MOLGENIS Compute from http://www.molgenis.org/wiki/ComputeStart
 	# Currently (March 2013) http://www.molgenis.org/raw-attachment/wiki/ComputeStart/molgenis_compute-fb05467.zip
-	
+	hoi
 	>mkdir mycompute
-	>
 	>cd mycompute
 	>
+	>#
 	>wget http://www.molgenis.org/raw-attachment/wiki/ComputeStart/molgenis_compute-fb05467.zip
-	>
 	>unzip molgenis_compute-\<version>.zip
-	>
 	>mv molgenis_compute-\<version>/* .  
 	>  
 	>#test  
