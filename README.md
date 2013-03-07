@@ -23,5 +23,5 @@ In addition it contains protocols that may be re-used between different (version
 	>
 	>mv molgenis_compute-\<version>/* .  
 	>  
-	>\#test  
+	>#test  
 	>sh molgenis_compute.sh  
