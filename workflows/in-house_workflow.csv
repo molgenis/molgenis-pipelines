@@ -1,0 +1,32 @@
+name,protocol_name,PreviousSteps_name
+Demultiplex,Demultiplex,
+Zipfq,Zipfq,Demultiplex
+Fastqc,Fastqc,Zipfq
+BwaAlignLeft,BwaAlignLeft,Fastqc
+BwaAlignRight,BwaAlignRight,Fastqc
+BwaSampe,BwaSampe,"BwaAlignLeft, BwaAlignRight"
+SamToBam,SamToBam,BwaSampe
+SamSort,SamSort,SamToBam
+PicardQC,PicardQC,SamSort
+Markduplicates,Markduplicates,SamSort
+RealignTargetCreator,RealignTargetCreator,Markduplicates
+Realign,Realign,RealignTargetCreator
+Fixmates,Fixmates,Realign
+CovariatesBefore,CovariatesBefore,Fixmates
+Recalibrate,Recalibrate,"Fixmates, CovariatesBefore"
+SamSortRecal,SamSortRecal,Recalibrate
+CovariatesAfter,CovariatesAfter,SamSortRecal
+AnalyzeCovariates,AnalyzeCovariates,"CovariatesBefore, CovariatesAfter"
+MergeBam,MergeBam,SamSortRecal
+PicardQCrecal,PicardQCrecal,MergeBam
+Coverage,Coverage,MergeBam
+CoverageGATK,CoverageGATK,MergeBam
+IndelGenotyper,IndelGenotyper,MergeBam
+FilterIndels,FilterIndels,IndelGenotyper
+UnifiedGenotyper,UnifiedGenotyper,MergeBam
+MakeIndelMask,MakeIndelMask,FilterIndels
+GenomicAnnotator,GenomicAnnotator,UnifiedGenotyper
+VariantAnnotator,VariantAnnotator,GenomicAnnotator
+VcfToTable,VcfToTable,VariantAnnotator
+ConcordanceCheck,ConcordanceCheck,"MergeBam, UnifiedGenotyper"
+QCReport,QCReport,"PicardQCrecal, Markduplicates, ConcordanceCheck, Coverage, VcfToTable"
