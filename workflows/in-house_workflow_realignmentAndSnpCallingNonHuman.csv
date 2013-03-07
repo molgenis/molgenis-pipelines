@@ -1,0 +1,20 @@
+name,protocol_name,PreviousSteps_name
+Fastqc,Fastqc,
+BwaAlignLeft,BwaAlignLeft,Fastqc
+BwaAlignRight,BwaAlignRight,Fastqc
+BwaSampe,BwaSampe,"BwaAlignLeft, BwaAlignRight"
+SamToBam,SamToBam,BwaSampe
+SamSort,SamSort,SamToBam
+PicardQC,PicardQC,SamSort
+Markduplicates,Markduplicates,SamSort
+MergeBam,MergeBam,Markduplicates
+Coverage,Coverage,MergeBam
+CoverageGATK,CoverageGATK,MergeBam
+IndelGenotyper,IndelGenotyper,MergeBam
+FilterIndels,FilterIndels,IndelGenotyper
+UnifiedGenotyper,UnifiedGenotyper,MergeBam
+GenomicAnnotator,GenomicAnnotator,UnifiedGenotyper
+MakeIndelMask,MakeIndelMask,UnifiedGenotyper
+VariantFiltration,VariantFiltration,MakeIndelMask
+VcfToTable,VcfToTable,VariantFiltration
+QCReport,QCReport,"PicardQC, Markduplicates, Coverage, VcfToTable"
