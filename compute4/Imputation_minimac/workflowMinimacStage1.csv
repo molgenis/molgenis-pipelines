@@ -1,0 +1,3 @@
+name,protocol_name,PreviousSteps_name
+prepare_s00,prepareStudy,
+prepare_s01,startMinimacStage2,prepare_s00
