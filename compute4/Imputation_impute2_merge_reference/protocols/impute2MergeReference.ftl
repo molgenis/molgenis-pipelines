@@ -1,16 +1,17 @@
-#MOLGENIS walltime=24:00:00 nodes=1 cores=1 mem=4
+#MOLGENIS nodes=1 cores=1 mem=4
 
 m="${m}"
+h_ref0="${h_ref0}"
+l_ref0="${l_ref0}"
 h_ref1="${h_ref1}"
 l_ref1="${l_ref1}"
-h_ref2="${h_ref2}"
-l_ref2="${l_ref2}"
 additonalImpute2Param="${additonalImpute2Param}"
 chr="${chr}"
 fromChrPos="${fromChrPos}"
 toChrPos="${toChrPos}"
 imputationIntermediatesFolder="${imputationIntermediatesFolder}"
 impute2Bin="${impute2Bin}"
+panel1LegendFolder="${panel1LegendFolder}"
 
 <#noparse>
 
@@ -28,10 +29,10 @@ finalOutput="${imputationIntermediatesFolder}/chr${chr}_${fromChrPos}-${toChrPos
 echo "tmpOutput: ${tmpOutput}"
 
 inputs $m
+inputs $h_ref0
+inputs $l_ref0
 inputs $h_ref1
 inputs $l_ref1
-inputs $h_ref2
-inputs $l_ref2
 
 alloutputsexist \
 	"${finalOutput}.legend" \
@@ -40,12 +41,15 @@ alloutputsexist \
 	"${finalOutput}_warnings"
 
 mkdir -p $imputationIntermediatesFolder
+mkdir -p $panel1LegendFolder
+
+awk '{print $1,$2,$3,$4}' < <(zcat $l_ref1) > ${panel1LegendFolder}/chr${chr}_${fromChrPos}-${toChrPos}.legend
 
 $impute2Bin \
 	-merge_ref_panels \
 	-m $m \
-	-h $h \
-	-l $l \
+	-h $h_ref0 $h_ref1 \
+	-l $l_ref0 ${panel1LegendFolder}/chr${chr}_${fromChrPos}-${toChrPos}.legend \
 	-int $fromChrPos $toChrPos \
 	-merge_ref_panels_output_ref $tmpOutput \
 	$additonalImpute2Param
@@ -77,7 +81,7 @@ then
 
 else
   
-	echo -e "\nNon zero return code not making files final. Existing temp files are kept for debugging purposes\n\n"
+	echo -e "\nNon zero return code not making files final. Existing temp files are kept for debugging purposes\n\n" >&2
 	#Return non zero return code
 	exit 1
 
