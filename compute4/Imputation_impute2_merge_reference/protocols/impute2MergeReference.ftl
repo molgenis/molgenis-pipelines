@@ -36,9 +36,7 @@ inputs $l_ref1
 
 alloutputsexist \
 	"${finalOutput}.legend" \
-	"${finalOutput}.hap" \
-	"${finalOutput}_summary" \
-	"${finalOutput}_warnings"
+	"${finalOutput}.hap"
 
 mkdir -p $imputationIntermediatesFolder
 mkdir -p $panel1LegendFolder

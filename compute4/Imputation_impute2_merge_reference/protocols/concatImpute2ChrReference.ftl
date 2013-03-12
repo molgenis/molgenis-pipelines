@@ -15,32 +15,32 @@ outputFolder="${outputFolder}"
 
 <#noparse>
 
-alloutputsexist "${outputFolder}/chr${chr}_hap" "${outputFolder}/chr${chr}_legend"
+alloutputsexist "${outputFolder}/chr${chr}.hap" "${outputFolder}/chr${chr}.legend"
 
 echo "chr: ${chr}"
 echo "outputFolder: ${outputFolder}"
-echo "impute2OutputFiles: ${impute2ChunkOutputHaps[@]}"
-echo "impute2OutputInfoFiles: ${impute2ChunkOutputLegends[@]}"
+echo "impute2OutputHapFiles: ${impute2ChunkOutputHaps[@]}"
+echo "impute2OutputLegendFiles: ${impute2ChunkOutputLegends[@]}"
 
 mkdir -p $outputFolder
 
-rm -f ${outputFolder}/~chr${chr}_hap
-rm -f ${outputFolder}/~chr${chr}_legend
-rm -f ${outputFolder}/chr${chr}_hap
-rm -f ${outputFolder}/chr${chr}_legend
+rm -f ${outputFolder}/~chr${chr}.hap
+rm -f ${outputFolder}/~chr${chr}.legend
+rm -f ${outputFolder}/chr${chr}.hap
+rm -f ${outputFolder}/chr${chr}.legend
 
 #Concat the actual imputation results
-cat ${impute2ChunkOutputHaps[@]} >> ${outputFolder}/~chr${chr}_hap
+cat ${impute2ChunkOutputHaps[@]} >> ${outputFolder}/~chr${chr}.hap
 
 returnCode=$?
 if [ $returnCode -eq 0 ]
 then
 
 	echo "Impute2 outputs concattenated"
-	mv ${outputFolder}/~chr${chr}_hap ${outputFolder}/chr${chr}_hap
+	mv ${outputFolder}/~chr${chr}.hap ${outputFolder}/chr${chr}.hap
 
 else
-	echo "Failed to cat impute2 outputs to ${outputFolder}/~chr${chr}_hap" >&2
+	echo "Failed to cat impute2 outputs to ${outputFolder}/~chr${chr}.hap" >&2
 	exit -1
 fi
 
@@ -62,12 +62,12 @@ do
 	if [ "$headerSet" == "false" ]
 	then
 		echo "print header from: ${chunkInfoFile}"
-		head -n 1 < $chunkInfoFile >> ${outputFolder}/~chr${chr}_legend
+		head -n 1 < $chunkInfoFile >> ${outputFolder}/~chr${chr}.legend
 		
 		returnCode=$?
 		if [ $returnCode -ne 0 ]
 		then
-			echo "Failed to print header of info file ${chunkInfoFile} to ${outputFolder}/~chr${chr}_legend" >&2
+			echo "Failed to print header of info file ${chunkInfoFile} to ${outputFolder}/~chr${chr}.legend" >&2
 			exit -1
 		fi
 		
@@ -75,18 +75,18 @@ do
 	fi
 	
 	#Cat without header
-	tail -n +2 < $chunkInfoFile >> ${outputFolder}/~chr${chr}_legend
+	tail -n +2 < $chunkInfoFile >> ${outputFolder}/~chr${chr}.legend
 	
 	returnCode=$?
 	if [ $returnCode -ne 0 ]
 	then
-		echo "Failed to append info file ${chunkInfoFile} to ${outputFolder}/~chr${chr}_legend" >&2
+		echo "Failed to append info file ${chunkInfoFile} to ${outputFolder}/~chr${chr}.legend" >&2
 		exit -1
 	fi
 	
 done
 
 echo "Impute2 output infos concattenated"
-mv ${outputFolder}/~chr${chr}_legend ${outputFolder}/chr${chr}_legend
+mv ${outputFolder}/~chr${chr}.legend ${outputFolder}/chr${chr}.legend
 
 </#noparse>
