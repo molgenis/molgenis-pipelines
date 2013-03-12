@@ -1,5 +1,5 @@
 Name,defaultValue,description,dataType,hasOne_name
-clusterQueue,gcc,,,
+clusterQueue,test,,,
 mem,4,Memory in GB,,
 walltime,24:00:00,,,
 cores,1,,,
