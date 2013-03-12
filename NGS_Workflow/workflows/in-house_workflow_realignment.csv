@@ -1,0 +1,8 @@
+name,protocol_name,PreviousSteps_name
+Fastqc,Fastqc,
+BwaAlignLeft,BwaAlignLeft,
+BwaAlignRight,BwaAlignRight,
+BwaSampe,BwaSampe,"BwaAlignLeft, BwaAlignRight"
+SamToBam,SamToBam,BwaSampe
+SamSort,SamSort,SamToBam
+PicardQC,PicardQC,SamSort

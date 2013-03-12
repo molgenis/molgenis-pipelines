@@ -1,0 +1,5 @@
+name,protocol_name,PreviousSteps_name
+filterVcf,filterVcf,
+convertReferenceVcfSnpId,convertReferenceVcfSnpId,filterVcf
+vcfToTriTyperReference,vcfToTriTyperReference,convertReferenceVcfSnpId
+createImpute2Reference,createImpute2Reference,convertReferenceVcfSnpId
