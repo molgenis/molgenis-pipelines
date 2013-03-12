@@ -1,0 +1,5 @@
+h_ref1,h_ref2,l_ref1,l_ref2,additonalImpute2Param,outputFolder,chr,fromChrPos,toChrPos
+/path/ALL_1000G_phase1integrated_v3_chr${chr}_impute.hap.gz,/path/gonl4/chr${chr}.hap,ALL_1000G_phase1integrated_v3_chr${chr}_impute.legend.gz, /path/gonl4/chr{chr}.legend,-Ne 20000,/resultPathNl/,1,1,5000001
+/path/ALL_1000G_phase1integrated_v3_chr${chr}_impute.hap.gz,/path/gonl4/chr${chr}.hap,ALL_1000G_phase1integrated_v3_chr${chr}_impute.legend.gz, /path/gonl4/chr{chr}.legend,-Ne 20000,/resultPathNl/,1,5000001,10000001
+/path/ALL_1000G_phase1integrated_v3_chr${chr}_impute.hap.gz,/path/gonl4/chr${chr}.hap,ALL_1000G_phase1integrated_v3_chr${chr}_impute.legend.gz, /path/gonl4/chr{chr}.legend,-Ne 20000,/resultPathNl/,2,1,5000001
+/path/ALL_1000G_phase1integrated_v3_chr${chr}_impute.hap.gz,/path/gonl4/chr${chr}.hap,ALL_1000G_phase1integrated_v3_chr${chr}_impute.legend.gz, /path/gonl4/chr{chr}.legend,-Ne 20000,/resultPathNl/,2,5000001,10000001
