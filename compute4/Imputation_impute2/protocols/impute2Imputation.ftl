@@ -46,7 +46,7 @@ $impute2Bin \
 	-l $l \
 	-int $fromChrPos $toChrPos \
 	-o $tmpOutput \
-	-use_prephased_g
+	-use_prephased_g \
 	$additonalImpute2Param
 		
 #Get return code from last program call
