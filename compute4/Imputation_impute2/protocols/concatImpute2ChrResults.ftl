@@ -1,4 +1,4 @@
-#MOLGENIS walltime=48:00:00 nodes=1 cores=1 mem=4
+#MOLGENIS nodes=1 cores=1 mem=4
 
 #FOREACH project,chr
 
@@ -15,7 +15,7 @@ outputFolder="${outputFolder}"
 
 <#noparse>
 
-alloutputsexist "${outputFolder}/chr_${chr}" "${outputFolder}/chr_${chr}_info"
+alloutputsexist "${outputFolder}/chr${chr}" "${outputFolder}/chr${chr}_info"
 
 echo "chr: ${chr}"
 echo "outputFolder: ${outputFolder}"
@@ -24,21 +24,23 @@ echo "impute2OutputInfoFiles: ${impute2ChunkOutputInfos[@]}"
 
 mkdir -p $outputFolder
 
-rm -f ${outputFolder}/~chr_${chr}
-rm -f ${outputFolder}/chr_${chr}_info
+rm -f ${outputFolder}/~chr${chr}
+rm -f ${outputFolder}/~chr${chr}_info
+rm -f ${outputFolder}/chr${chr}
+rm -f ${outputFolder}/chr${chr}_info
 
 #Concat the actual imputation results
-cat ${impute2ChunkOutputs[@]} >> ${outputFolder}/~chr_${chr}
+cat ${impute2ChunkOutputs[@]} >> ${outputFolder}/~chr${chr}
 
 returnCode=$?
 if [ $returnCode -eq 0 ]
 then
 
 	echo "Impute2 outputs concattenated"
-	mv ${outputFolder}/~chr_${chr} ${outputFolder}/chr_${chr}
+	mv ${outputFolder}/~chr${chr} ${outputFolder}/chr${chr}
 
 else
-	echo "Failed to cat impute2 outputs to ${outputFolder}/~chr_${chr}" >&2
+	echo "Failed to cat impute2 outputs to ${outputFolder}/~chr${chr}" >&2
 	exit -1
 fi
 
@@ -60,12 +62,12 @@ do
 	if [ "$headerSet" == "false" ]
 	then
 		echo "print header from: ${chunkInfoFile}"
-		head -n 1 < $chunkInfoFile >> ${outputFolder}/~chr_${chr}_info
+		head -n 1 < $chunkInfoFile >> ${outputFolder}/~chr${chr}_info
 		
 		returnCode=$?
 		if [ $returnCode -ne 0 ]
 		then
-			echo "Failed to print header of info file ${chunkInfoFile} to ${outputFolder}/~chr_${chr}_info" >&2
+			echo "Failed to print header of info file ${chunkInfoFile} to ${outputFolder}/~chr${chr}_info" >&2
 			exit -1
 		fi
 		
@@ -73,18 +75,18 @@ do
 	fi
 	
 	#Cat without header
-	tail -n +2 < $chunkInfoFile >> ${outputFolder}/~chr_${chr}_info
+	tail -n +2 < $chunkInfoFile >> ${outputFolder}/~chr${chr}_info
 	
 	returnCode=$?
 	if [ $returnCode -ne 0 ]
 	then
-		echo "Failed to append info file ${chunkInfoFile} to ${outputFolder}/~chr_${chr}_info" >&2
+		echo "Failed to append info file ${chunkInfoFile} to ${outputFolder}/~chr${chr}_info" >&2
 		exit -1
 	fi
 	
 done
 
 echo "Impute2 output infos concattenated"
-mv ${outputFolder}/~chr_${chr}_info ${outputFolder}/chr_${chr}_info
+mv ${outputFolder}/~chr${chr}_info ${outputFolder}/chr${chr}_info
 
 </#noparse>
