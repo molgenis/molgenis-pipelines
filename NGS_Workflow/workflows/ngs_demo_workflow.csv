@@ -1,8 +1,0 @@
-name,protocol_name,PreviousSteps_name
-Fastqc,Fastqc,
-BwaAlignLeft,BwaAlignLeft,Fastqc
-BwaAlignRight,BwaAlignRight,Fastqc
-BwaSampe,BwaSampe,"BwaAlignLeft, BwaAlignRight"
-SamToBam,SamToBam,BwaSampe
-SamSort,SamSort,SamToBam
-PicardQC,PicardQC,SamSort
