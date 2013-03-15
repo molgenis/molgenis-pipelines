@@ -1,0 +1,3 @@
+project,studyInputDir,prePhasingResultDir,imputationPipeline,genomeBuild,chr,remoteWorksheet,autostart
+hapmapCEUr22b37,/your/input/data/,/home/hapmapCEUr22b37/prePhasingResult,minimac,b37,20,location/of/this/file/in/grid,FALSE
+hapmapCEUr22b37,/your/input/data/,/home/hapmapCEUr22b37/prePhasingResult,minimac,b37,21,location/of/this/file/in/grid,FALSE
