@@ -15,7 +15,7 @@ outputFolder="${outputFolder}"
 
 <#noparse>
 
-alloutputsexist "${outputFolder}/chr${chr}.hap" "${outputFolder}/chr${chr}.legend"
+alloutputsexist "${outputFolder}/chr${chr}.hap.gz" "${outputFolder}/chr${chr}.legend.gz"
 
 echo "chr: ${chr}"
 echo "outputFolder: ${outputFolder}"
@@ -26,8 +26,10 @@ mkdir -p $outputFolder
 
 rm -f ${outputFolder}/~chr${chr}.hap
 rm -f ${outputFolder}/~chr${chr}.legend
-rm -f ${outputFolder}/chr${chr}.hap
-rm -f ${outputFolder}/chr${chr}.legend
+rm -f ${outputFolder}/~chr${chr}.hap.gz
+rm -f ${outputFolder}/~chr${chr}.legend.gz
+rm -f ${outputFolder}/chr${chr}.hap.gz
+rm -f ${outputFolder}/chr${chr}.legend.gz
 
 #Concat the actual imputation results
 cat ${impute2ChunkOutputHaps[@]} >> ${outputFolder}/~chr${chr}.hap
@@ -36,9 +38,18 @@ returnCode=$?
 if [ $returnCode -eq 0 ]
 then
 
-	echo "Impute2 outputs concattenated"
-	mv ${outputFolder}/~chr${chr}.hap ${outputFolder}/chr${chr}.hap
-
+	gzip -c < ${outputFolder}/~chr${chr}.hap > ${outputFolder}/~chr${chr}.hap.gz
+	
+	returnCode=$?
+	if [ $returnCode -eq 0 ]
+	then
+		echo "Impute2 outputs concattenated"
+		mv  ${outputFolder}/~chr${chr}.hap.gz ${outputFolder}/chr${chr}.hap.gz
+	else
+		echo "Failed to gzip hap to ${outputFolder}/~chr${chr}.hap.gz" >&2
+		exit -1
+	fi
+	
 else
 	echo "Failed to cat impute2 outputs to ${outputFolder}/~chr${chr}.hap" >&2
 	exit -1
@@ -86,7 +97,17 @@ do
 	
 done
 
-echo "Impute2 output infos concattenated"
-mv ${outputFolder}/~chr${chr}.legend ${outputFolder}/chr${chr}.legend
+gzip -c <${outputFolder}/~chr${chr}.legend > ${outputFolder}/~chr${chr}.legend.gz
+returnCode=$?
+if [ $returnCode -eq 0 ]
+then
+	echo "Impute2 output infos concattenated"
+	mv ${outputFolder}/~chr${chr}.legend.gz ${outputFolder}/chr${chr}.legend.gz
+else
+	echo "Failed to gzip legend to ${outputFolder}/~chr${chr}.legend.gz" >&2
+	exit -1
+fi
+
+
 
 </#noparse>
