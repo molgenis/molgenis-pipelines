@@ -32,4 +32,7 @@ For a 'walkthrough' tutorial on Molgenis Compute, please visit https://github.co
 
 ### Step 2: clone this repo
 	
-	git clone https://github.com/molgenis/molgenis-legacy.git
+	# For read/write access:
+	git clone https://github.com/molgenis/molgenis-pipelines.git
+	# Alternatively for read-only access:
+	git clone git://github.com/molgenis/molgenis-pipelines.git
