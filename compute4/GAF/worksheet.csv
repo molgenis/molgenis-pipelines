@@ -1,0 +1,169 @@
+internalSampleID,externalSampleID,project,sequencer,contact,labStatusPhase,sequencingStartDate,run,flowcell,lane,barcodeMenu,seqType,prepKit,capturingKit,barcode,barcodeType
+1309,Pool1_1,RNAseqSebo_2,SN163,Sebo Withof <s.withof@umcg.nl>,Finished Successfully,121211,0485,AD1G9AACXX,1,RPI 25 ACTGAT,SR,SmallRNA,None,ACTGAT,RPI
+1310,Pool1_2,RNAseqSebo_2,SN163,Sebo Withof <s.withof@umcg.nl>,Finished Successfully,121211,0485,AD1G9AACXX,1,RPI 26 ATGAGC,SR,SmallRNA,None,ATGAGC,RPI
+1311,Pool1_3,RNAseqSebo_2,SN163,Sebo Withof <s.withof@umcg.nl>,Finished Successfully,121211,0485,AD1G9AACXX,1,RPI 27 ATTCCT,SR,SmallRNA,None,ATTCCT,RPI
+1312,Pool1_4,RNAseqSebo_2,SN163,Sebo Withof <s.withof@umcg.nl>,Finished Successfully,121211,0485,AD1G9AACXX,1,RPI 28 CAAAAG,SR,SmallRNA,None,CAAAAG,RPI
+1313,Pool1_5,RNAseqSebo_2,SN163,Sebo Withof <s.withof@umcg.nl>,Finished Successfully,121211,0485,AD1G9AACXX,1,RPI 29 CAACTA,SR,SmallRNA,None,CAACTA,RPI
+1314,Pool1_6,RNAseqSebo_2,SN163,Sebo Withof <s.withof@umcg.nl>,Finished Successfully,121211,0485,AD1G9AACXX,1,RPI 30 CACCGG,SR,SmallRNA,None,CACCGG,RPI
+1315,Pool2_7,RNAseqSebo_2,SN163,Sebo Withof <s.withof@umcg.nl>,Finished Successfully,121211,0485,AD1G9AACXX,2,RPI 31 CACGAT,SR,SmallRNA,None,CACGAT,RPI
+1316,Pool2_8,RNAseqSebo_2,SN163,Sebo Withof <s.withof@umcg.nl>,Finished Successfully,121211,0485,AD1G9AACXX,2,RPI 32 CACTCA,SR,SmallRNA,None,CACTCA,RPI
+1317,Pool2_9,RNAseqSebo_2,SN163,Sebo Withof <s.withof@umcg.nl>,Finished Successfully,121211,0485,AD1G9AACXX,2,RPI 33 CAGGCG,SR,SmallRNA,None,CAGGCG,RPI
+1318,Pool2_10,RNAseqSebo_2,SN163,Sebo Withof <s.withof@umcg.nl>,Finished Successfully,121211,0485,AD1G9AACXX,2,RPI 34 CATGGC,SR,SmallRNA,None,CATGGC,RPI
+1319,Pool2_11,RNAseqSebo_2,SN163,Sebo Withof <s.withof@umcg.nl>,Finished Successfully,121211,0485,AD1G9AACXX,2,RPI 35 CATTTT,SR,SmallRNA,None,CATTTT,RPI
+1320,Pool2_12,RNAseqSebo_2,SN163,Sebo Withof <s.withof@umcg.nl>,Finished Successfully,121211,0485,AD1G9AACXX,2,RPI 36 CCAACA,SR,SmallRNA,None,CCAACA,RPI
+1321,Pool3_13,RNAseqSebo_2,SN163,Sebo Withof <s.withof@umcg.nl>,Finished Successfully,121211,0485,AD1G9AACXX,3,RPI 25 ACTGAT,SR,SmallRNA,None,ACTGAT,RPI
+1322,Pool3_14,RNAseqSebo_2,SN163,Sebo Withof <s.withof@umcg.nl>,Finished Successfully,121211,0485,AD1G9AACXX,3,RPI 26 ATGAGC,SR,SmallRNA,None,ATGAGC,RPI
+1323,Pool3_15,RNAseqSebo_2,SN163,Sebo Withof <s.withof@umcg.nl>,Finished Successfully,121211,0485,AD1G9AACXX,3,RPI 27 ATTCCT,SR,SmallRNA,None,ATTCCT,RPI
+1324,Pool3_16,RNAseqSebo_2,SN163,Sebo Withof <s.withof@umcg.nl>,Finished Successfully,121211,0485,AD1G9AACXX,3,RPI 28 CAAAAG,SR,SmallRNA,None,CAAAAG,RPI
+1325,Pool3_17,RNAseqSebo_2,SN163,Sebo Withof <s.withof@umcg.nl>,Finished Successfully,121211,0485,AD1G9AACXX,3,RPI 29 CAACTA,SR,SmallRNA,None,CAACTA,RPI
+1326,Pool3_18,RNAseqSebo_2,SN163,Sebo Withof <s.withof@umcg.nl>,Finished Successfully,121211,0485,AD1G9AACXX,3,RPI 30 CACCGG,SR,SmallRNA,None,CACCGG,RPI
+1327,Pool4_19,RNAseqSebo_2,SN163,Sebo Withof <s.withof@umcg.nl>,Finished Successfully,121211,0485,AD1G9AACXX,4,RPI 31 CACGAT,SR,SmallRNA,None,CACGAT,RPI
+1328,Pool4_20,RNAseqSebo_2,SN163,Sebo Withof <s.withof@umcg.nl>,Finished Successfully,121211,0485,AD1G9AACXX,4,RPI 32 CACTCA,SR,SmallRNA,None,CACTCA,RPI
+1329,Pool4_21,RNAseqSebo_2,SN163,Sebo Withof <s.withof@umcg.nl>,Finished Successfully,121211,0485,AD1G9AACXX,4,RPI 33 CAGGCG,SR,SmallRNA,None,CAGGCG,RPI
+1330,Pool4_22,RNAseqSebo_2,SN163,Sebo Withof <s.withof@umcg.nl>,Finished Successfully,121211,0485,AD1G9AACXX,4,RPI 34 CATGGC,SR,SmallRNA,None,CATGGC,RPI
+1331,Pool4_23,RNAseqSebo_2,SN163,Sebo Withof <s.withof@umcg.nl>,Finished Successfully,121211,0485,AD1G9AACXX,4,RPI 35 CATTTT,SR,SmallRNA,None,CATTTT,RPI
+1332,Pool4_24,RNAseqSebo_2,SN163,Sebo Withof <s.withof@umcg.nl>,Finished Successfully,121211,0485,AD1G9AACXX,4,RPI 36 CCAACA,SR,SmallRNA,None,CCAACA,RPI
+1333,Pool5_T05_13305,RNAseqSebo_2,SN163,Sebo Withof <s.withof@umcg.nl>,Finished Successfully,121211,0485,AD1G9AACXX,5,RPI 01 ATCACG,SR,SmallRNA,None,ATCACG,RPI
+1334,Pool5_T05_64,RNAseqSebo_2,SN163,Sebo Withof <s.withof@umcg.nl>,Finished Successfully,121211,0485,AD1G9AACXX,5,RPI 02 CGATGT,SR,SmallRNA,None,CGATGT,RPI
+1335,Pool5_T05_5026,RNAseqSebo_2,SN163,Sebo Withof <s.withof@umcg.nl>,Finished Successfully,121211,0485,AD1G9AACXX,5,RPI 03 TTAGGC,SR,SmallRNA,None,TTAGGC,RPI
+1336,Pool5_T05_5196,RNAseqSebo_2,SN163,Sebo Withof <s.withof@umcg.nl>,Finished Successfully,121211,0485,AD1G9AACXX,5,RPI 04 TGACCA,SR,SmallRNA,None,TGACCA,RPI
+1358,5_D96_0266_RF14,SCA_B,SN163,Dineke Verbeek <d.s.verbeek@umcg.nl>,Finished Successfully,130110,0486,AD1LMUACXX,1,GAF 01 AGAGAT,PE,NEB,SureSelect_All_Exon_50MB_v4,AGAGAT,GAF
+1359,6_205D0439_RF28,SCA_B,SN163,Dineke Verbeek <d.s.verbeek@umcg.nl>,Finished Successfully,130110,0486,AD1LMUACXX,1,GAF 03 TCAGTT,PE,NEB,SureSelect_All_Exon_50MB_v4,TCAGTT,GAF
+1360,7_D03_0280_RF28,SCA_B,SN163,Dineke Verbeek <d.s.verbeek@umcg.nl>,Finished Successfully,130110,0486,AD1LMUACXX,1,GAF 06 CAACCT,PE,NEB,SureSelect_All_Exon_50MB_v4,CAACCT,GAF
+1361,8_205D02945_RF29,SCA_B,SN163,Dineke Verbeek <d.s.verbeek@umcg.nl>,Finished Successfully,130110,0486,AD1LMUACXX,1,GAF 12 GGAACT,PE,NEB,SureSelect_All_Exon_50MB_v4,GGAACT,GAF
+1362,10_26284_203_2131,SCA_B,SN163,Dineke Verbeek <d.s.verbeek@umcg.nl>,Finished Successfully,130110,0486,AD1LMUACXX,2,GAF 01 AGAGAT,PE,NEB,SureSelect_All_Exon_50MB_v4,AGAGAT,GAF
+1363,11_14134_203_2131,SCA_B,SN163,Dineke Verbeek <d.s.verbeek@umcg.nl>,Finished Successfully,130110,0486,AD1LMUACXX,2,GAF 03 TCAGTT,PE,NEB,SureSelect_All_Exon_50MB_v4,TCAGTT,GAF
+1364,13_D1023_RF2,SCA_B,SN163,Dineke Verbeek <d.s.verbeek@umcg.nl>,Finished Successfully,130110,0486,AD1LMUACXX,2,GAF 06 CAACCT,PE,NEB,SureSelect_All_Exon_50MB_v4,CAACCT,GAF
+1365,14_D021424_RF2,SCA_B,SN163,Dineke Verbeek <d.s.verbeek@umcg.nl>,Finished Successfully,130110,0486,AD1LMUACXX,2,GAF 12 GGAACT,PE,NEB,SureSelect_All_Exon_50MB_v4,GGAACT,GAF
+1366,15_DNA09_146684AR2,SCA_B,SN163,Dineke Verbeek <d.s.verbeek@umcg.nl>,Finished Successfully,130110,0486,AD1LMUACXX,3,GAF 01 AGAGAT,PE,NEB,SureSelect_All_Exon_50MB_v4,AGAGAT,GAF
+1367,16_DNA11_265504AR2,SCA_B,SN163,Dineke Verbeek <d.s.verbeek@umcg.nl>,Finished Successfully,130110,0486,AD1LMUACXX,3,GAF 03 TCAGTT,PE,NEB,SureSelect_All_Exon_50MB_v4,TCAGTT,GAF
+1368,17_DNA09_146674AR2,SCA_B,SN163,Dineke Verbeek <d.s.verbeek@umcg.nl>,Finished Successfully,130110,0486,AD1LMUACXX,3,GAF 06 CAACCT,PE,NEB,SureSelect_All_Exon_50MB_v4,CAACCT,GAF
+1369,19_DV472_96_1378,SCA_B,SN163,Dineke Verbeek <d.s.verbeek@umcg.nl>,Finished Successfully,130110,0486,AD1LMUACXX,3,GAF 12 GGAACT,PE,NEB,SureSelect_All_Exon_50MB_v4,GGAACT,GAF
+1370,20_DV15733_94_2725,SCA_B,SN163,Dineke Verbeek <d.s.verbeek@umcg.nl>,Finished Successfully,130110,0486,AD1LMUACXX,4,GAF 01 AGAGAT,PE,NEB,SureSelect_All_Exon_50MB_v4,AGAGAT,GAF
+1371,21_DV15583_94_2725,SCA_B,SN163,Dineke Verbeek <d.s.verbeek@umcg.nl>,Finished Successfully,130110,0486,AD1LMUACXX,4,GAF 03 TCAGTT,PE,NEB,SureSelect_All_Exon_50MB_v4,TCAGTT,GAF
+1372,22_D96_982AR1,SCA_B,SN163,Dineke Verbeek <d.s.verbeek@umcg.nl>,Finished Successfully,130110,0486,AD1LMUACXX,4,GAF 06 CAACCT,PE,NEB,SureSelect_All_Exon_50MB_v4,CAACCT,GAF
+1373,23_D02_0982AR1,SCA_B,SN163,Dineke Verbeek <d.s.verbeek@umcg.nl>,Finished Successfully,130110,0486,AD1LMUACXX,4,GAF 12 GGAACT,PE,NEB,SureSelect_All_Exon_50MB_v4,GGAACT,GAF
+1194,DSM11_26_04_2012_over,MedischeMicrobiologie2,SN163,Hermie Harmsen <H.J.M.Harmsen@umcg.nl>,Finished Successfully,130110,0486,AD1LMUACXX,5,GAF 01 AGAGAT,PE,NEB,None,AGAGAT,GAF
+1195,DSM25_26_04_2012_over,MedischeMicrobiologie2,SN163,Hermie Harmsen <H.J.M.Harmsen@umcg.nl>,Finished Successfully,130110,0486,AD1LMUACXX,5,GAF 02 TAATTT,PE,NEB,None,TAATTT,GAF
+1196,CP12_26_04_2012_over,MedischeMicrobiologie2,SN163,Hermie Harmsen <H.J.M.Harmsen@umcg.nl>,Finished Successfully,130110,0486,AD1LMUACXX,5,GAF 03 TCAGTT,PE,NEB,None,TCAGTT,GAF
+1197,S3RS_26_04_2012_over,MedischeMicrobiologie2,SN163,Hermie Harmsen <H.J.M.Harmsen@umcg.nl>,Finished Successfully,130110,0486,AD1LMUACXX,5,GAF 04 TGACTT,PE,NEB,None,TGACTT,GAF
+1252,121417g_1,MedischeMicrobiologie2,SN163,Hermie Harmsen <H.J.M.Harmsen@umcg.nl>,Finished Successfully,130110,0486,AD1LMUACXX,5,GAF 05 ACACAT,PE,NEB,None,ACACAT,GAF
+1253,123825r_2,MedischeMicrobiologie2,SN163,Hermie Harmsen <H.J.M.Harmsen@umcg.nl>,Finished Successfully,130110,0486,AD1LMUACXX,5,GAF 06 CAACCT,PE,NEB,None,CAACCT,GAF
+1254,124153m_3,MedischeMicrobiologie2,SN163,Hermie Harmsen <H.J.M.Harmsen@umcg.nl>,Finished Successfully,130110,0486,AD1LMUACXX,5,GAF 07 CATGCT,PE,NEB,None,CATGCT,GAF
+1255,122820t_4,MedischeMicrobiologie2,SN163,Hermie Harmsen <H.J.M.Harmsen@umcg.nl>,Finished Successfully,130110,0486,AD1LMUACXX,5,GAF 08 CGATCT,PE,NEB,None,CGATCT,GAF
+1256,12666q_5_cupje121666q,MedischeMicrobiologie2,SN163,Hermie Harmsen <H.J.M.Harmsen@umcg.nl>,Finished Successfully,130110,0486,AD1LMUACXX,5,GAF 09 GAAGGT,PE,NEB,None,GAAGGT,GAF
+1257,12104s_6,MedischeMicrobiologie2,SN163,Hermie Harmsen <H.J.M.Harmsen@umcg.nl>,Finished Successfully,130110,0486,AD1LMUACXX,5,GAF 10 GGAAGT,PE,NEB,None,GGAAGT,GAF
+1258,122585b_7,MedischeMicrobiologie2,SN163,Hermie Harmsen <H.J.M.Harmsen@umcg.nl>,Finished Successfully,130110,0486,AD1LMUACXX,5,GAF 11 GCATGT,PE,NEB,None,GCATGT,GAF
+1259,160823e_8,MedischeMicrobiologie2,SN163,Hermie Harmsen <H.J.M.Harmsen@umcg.nl>,Finished Successfully,130110,0486,AD1LMUACXX,5,GAF 12 GGAACT,PE,NEB,None,GGAACT,GAF
+1260,094356t_9,MedischeMicrobiologie2,SN163,Hermie Harmsen <H.J.M.Harmsen@umcg.nl>,Finished Successfully,130110,0486,AD1LMUACXX,6,GAF 01 AGAGAT,PE,NEB,None,AGAGAT,GAF
+1261,111241u_10,MedischeMicrobiologie2,SN163,Hermie Harmsen <H.J.M.Harmsen@umcg.nl>,Finished Successfully,130110,0486,AD1LMUACXX,6,GAF 02 TAATTT,PE,NEB,None,TAATTT,GAF
+1262,11080o_11,MedischeMicrobiologie2,SN163,Hermie Harmsen <H.J.M.Harmsen@umcg.nl>,Finished Successfully,130110,0486,AD1LMUACXX,6,GAF 03 TCAGTT,PE,NEB,None,TCAGTT,GAF
+1263,114888w_12,MedischeMicrobiologie2,SN163,Hermie Harmsen <H.J.M.Harmsen@umcg.nl>,Finished Successfully,130110,0486,AD1LMUACXX,6,GAF 04 TGACTT,PE,NEB,None,TGACTT,GAF
+1264,091652h_13,MedischeMicrobiologie2,SN163,Hermie Harmsen <H.J.M.Harmsen@umcg.nl>,Finished Successfully,130110,0486,AD1LMUACXX,6,GAF 05 ACACAT,PE,NEB,None,ACACAT,GAF
+1265,084479m_14,MedischeMicrobiologie2,SN163,Hermie Harmsen <H.J.M.Harmsen@umcg.nl>,Finished Successfully,130110,0486,AD1LMUACXX,6,GAF 06 CAACCT,PE,NEB,None,CAACCT,GAF
+1266,090301t_15,MedischeMicrobiologie2,SN163,Hermie Harmsen <H.J.M.Harmsen@umcg.nl>,Finished Successfully,130110,0486,AD1LMUACXX,6,GAF 07 CATGCT,PE,NEB,None,CATGCT,GAF
+1267,120699n_16,MedischeMicrobiologie2,SN163,Hermie Harmsen <H.J.M.Harmsen@umcg.nl>,Finished Successfully,130110,0486,AD1LMUACXX,6,GAF 08 CGATCT,PE,NEB,None,CGATCT,GAF
+1268,116245b_17,MedischeMicrobiologie2,SN163,Hermie Harmsen <H.J.M.Harmsen@umcg.nl>,Finished Successfully,130110,0486,AD1LMUACXX,6,GAF 09 GAAGGT,PE,NEB,None,GAAGGT,GAF
+1269,120698u_18,MedischeMicrobiologie2,SN163,Hermie Harmsen <H.J.M.Harmsen@umcg.nl>,Finished Successfully,130110,0486,AD1LMUACXX,6,GAF 10 GGAAGT,PE,NEB,None,GGAAGT,GAF
+1270,E57_19,MedischeMicrobiologie2,SN163,Hermie Harmsen <H.J.M.Harmsen@umcg.nl>,Finished Successfully,130110,0486,AD1LMUACXX,6,GAF 11 GCATGT,PE,NEB,None,GCATGT,GAF
+1271,E58_20,MedischeMicrobiologie2,SN163,Hermie Harmsen <H.J.M.Harmsen@umcg.nl>,Finished Successfully,130110,0486,AD1LMUACXX,6,GAF 12 GGAACT,PE,NEB,None,GGAACT,GAF
+1198,AM1_400bp,Asobara_Japonica,SN163,Louis van de Zande <louis.van.de.zande@rug.nl>,Finished Successfully,130110,0486,AD1LMUACXX,7,GAF 01 AGAGAT,PE,NEB,None,AGAGAT,GAF
+1199,AM1_800bp,Asobara_Japonica,SN163,Louis van de Zande <louis.van.de.zande@rug.nl>,Finished Successfully,130110,0486,AD1LMUACXX,7,GAF 06 CAACCT,PE,NEB,None,CAACCT,GAF
+1201,KG1_400bp,Asobara_Japonica,SN163,Louis van de Zande <louis.van.de.zande@rug.nl>,Finished Successfully,130110,0486,AD1LMUACXX,7,GAF 03 TCAGTT,PE,NEB,None,TCAGTT,GAF
+1202,KG1_800bp,Asobara_Japonica,SN163,Louis van de Zande <louis.van.de.zande@rug.nl>,Finished Successfully,130110,0486,AD1LMUACXX,7,GAF 12 GGAACT,PE,NEB,None,GGAACT,GAF
+1198,AM1_400bp,Asobara_Japonica,SN163,Louis van de Zande <louis.van.de.zande@rug.nl>,Finished Successfully,130110,0486,AD1LMUACXX,8,GAF 01 AGAGAT,PE,NEB,None,AGAGAT,GAF
+1199,AM1_800bp,Asobara_Japonica,SN163,Louis van de Zande <louis.van.de.zande@rug.nl>,Finished Successfully,130110,0486,AD1LMUACXX,8,GAF 06 CAACCT,PE,NEB,None,CAACCT,GAF
+1201,KG1_400bp,Asobara_Japonica,SN163,Louis van de Zande <louis.van.de.zande@rug.nl>,Finished Successfully,130110,0486,AD1LMUACXX,8,GAF 03 TCAGTT,PE,NEB,None,TCAGTT,GAF
+1202,KG1_800bp,Asobara_Japonica,SN163,Louis van de Zande <louis.van.de.zande@rug.nl>,Finished Successfully,130110,0486,AD1LMUACXX,8,GAF 12 GGAACT,PE,NEB,None,GGAACT,GAF
+1354,D14774_6pM,ValidatieSureSelectV5_stap3,SN163,Pieter van der Vlies <p.van.der.vlies@umcg.nl>,Finished Successfully,130129,0488,AD1P31ACXX,1,RPI 02 CGATGT,PE,Agilent,SureSelect_All_Exon_50MB_v5,CGATGT,RPI
+1355,D13440_6pM,ValidatieSureSelectV5_stap3,SN163,Pieter van der Vlies <p.van.der.vlies@umcg.nl>,Finished Successfully,130129,0488,AD1P31ACXX,1,RPI 04 TGACCA,PE,Agilent,SureSelect_All_Exon_50MB_v5,TGACCA,RPI
+1356,D33012_6pM,ValidatieSureSelectV5_stap3,SN163,Pieter van der Vlies <p.van.der.vlies@umcg.nl>,Finished Successfully,130129,0488,AD1P31ACXX,1,RPI 07 CAGATC,PE,Agilent,SureSelect_All_Exon_50MB_v5,CAGATC,RPI
+1357,D36656_6pM,ValidatieSureSelectV5_stap3,SN163,Pieter van der Vlies <p.van.der.vlies@umcg.nl>,Finished Successfully,130129,0488,AD1P31ACXX,1,RPI 16 CCGTCC,PE,Agilent,SureSelect_All_Exon_50MB_v5,CCGTCC,RPI
+1388,D14774_8pM,ValidatieSureSelectV5_stap3,SN163,Pieter van der Vlies <p.van.der.vlies@umcg.nl>,Finished Successfully,130129,0488,AD1P31ACXX,2,RPI 02 CGATGT,PE,Agilent,SureSelect_All_Exon_50MB_v5,CGATGT,RPI
+1389,D13440_8pM,ValidatieSureSelectV5_stap3,SN163,Pieter van der Vlies <p.van.der.vlies@umcg.nl>,Finished Successfully,130129,0488,AD1P31ACXX,2,RPI 04 TGACCA,PE,Agilent,SureSelect_All_Exon_50MB_v5,TGACCA,RPI
+1390,D33012_8pM,ValidatieSureSelectV5_stap3,SN163,Pieter van der Vlies <p.van.der.vlies@umcg.nl>,Finished Successfully,130129,0488,AD1P31ACXX,2,RPI 07 CAGATC,PE,Agilent,SureSelect_All_Exon_50MB_v5,CAGATC,RPI
+1391,D36656_8pM,ValidatieSureSelectV5_stap3,SN163,Pieter van der Vlies <p.van.der.vlies@umcg.nl>,Finished Successfully,130129,0488,AD1P31ACXX,2,RPI 16 CCGTCC,PE,Agilent,SureSelect_All_Exon_50MB_v5,CCGTCC,RPI
+1396,D14774_10pM,ValidatieSureSelectV5_stap3,SN163,Pieter van der Vlies <p.van.der.vlies@umcg.nl>,Finished Successfully,130129,0488,AD1P31ACXX,3,RPI 02 CGATGT,PE,Agilent,SureSelect_All_Exon_50MB_v5,CGATGT,RPI
+1397,D13440_10pM,ValidatieSureSelectV5_stap3,SN163,Pieter van der Vlies <p.van.der.vlies@umcg.nl>,Finished Successfully,130129,0488,AD1P31ACXX,3,RPI 04 TGACCA,PE,Agilent,SureSelect_All_Exon_50MB_v5,TGACCA,RPI
+1398,D33012_10pM,ValidatieSureSelectV5_stap3,SN163,Pieter van der Vlies <p.van.der.vlies@umcg.nl>,Finished Successfully,130129,0488,AD1P31ACXX,3,RPI 07 CAGATC,PE,Agilent,SureSelect_All_Exon_50MB_v5,CAGATC,RPI
+1399,D36656_10pM,ValidatieSureSelectV5_stap3,SN163,Pieter van der Vlies <p.van.der.vlies@umcg.nl>,Finished Successfully,130129,0488,AD1P31ACXX,3,RPI 16 CCGTCC,PE,Agilent,SureSelect_All_Exon_50MB_v5,CCGTCC,RPI
+1404,D14774_12pM,ValidatieSureSelectV5_stap3,SN163,Pieter van der Vlies <p.van.der.vlies@umcg.nl>,Finished Successfully,130129,0488,AD1P31ACXX,4,RPI 02 CGATGT,PE,Agilent,SureSelect_All_Exon_50MB_v5,CGATGT,RPI
+1405,D13440_12pM,ValidatieSureSelectV5_stap3,SN163,Pieter van der Vlies <p.van.der.vlies@umcg.nl>,Finished Successfully,130129,0488,AD1P31ACXX,4,RPI 04 TGACCA,PE,Agilent,SureSelect_All_Exon_50MB_v5,TGACCA,RPI
+1406,D33012_12pM,ValidatieSureSelectV5_stap3,SN163,Pieter van der Vlies <p.van.der.vlies@umcg.nl>,Finished Successfully,130129,0488,AD1P31ACXX,4,RPI 07 CAGATC,PE,Agilent,SureSelect_All_Exon_50MB_v5,CAGATC,RPI
+1407,D36656_12pM,ValidatieSureSelectV5_stap3,SN163,Pieter van der Vlies <p.van.der.vlies@umcg.nl>,Finished Successfully,130129,0488,AD1P31ACXX,4,RPI 16 CCGTCC,PE,Agilent,SureSelect_All_Exon_50MB_v5,CCGTCC,RPI
+1350,F51KK_6pM,ValidatieSureSelectV5_stap3,SN163,Pieter van der Vlies <p.van.der.vlies@umcg.nl>,Finished Successfully,130129,0488,AD1P31ACXX,5,RPI 01 ATCACG,PE,Agilent,SureSelect_All_Exon_50MB_v5,ATCACG,RPI
+1351,F64KvV_6pM,ValidatieSureSelectV5_stap3,SN163,Pieter van der Vlies <p.van.der.vlies@umcg.nl>,Finished Successfully,130129,0488,AD1P31ACXX,5,RPI 08 ACTTGA,PE,Agilent,SureSelect_All_Exon_50MB_v5,ACTTGA,RPI
+1352,D23189N_6pM,ValidatieSureSelectV5_stap3,SN163,Pieter van der Vlies <p.van.der.vlies@umcg.nl>,Finished Successfully,130129,0488,AD1P31ACXX,5,RPI 10 TAGCTT,PE,Agilent,SureSelect_All_Exon_50MB_v5,TAGCTT,RPI
+1353,T05_2923_I6_2_6pM,ValidatieSureSelectV5_stap3,SN163,Pieter van der Vlies <p.van.der.vlies@umcg.nl>,Finished Successfully,130129,0488,AD1P31ACXX,5,RPI 11 GGCTAC,PE,Agilent,SureSelect_All_Exon_50MB_v5,GGCTAC,RPI
+1384,F51KK_8pM,ValidatieSureSelectV5_stap3,SN163,Pieter van der Vlies <p.van.der.vlies@umcg.nl>,Finished Successfully,130129,0488,AD1P31ACXX,6,RPI 01 ATCACG,PE,Agilent,SureSelect_All_Exon_50MB_v5,ATCACG,RPI
+1385,F64KvV_8pM,ValidatieSureSelectV5_stap3,SN163,Pieter van der Vlies <p.van.der.vlies@umcg.nl>,Finished Successfully,130129,0488,AD1P31ACXX,6,RPI 08 ACTTGA,PE,Agilent,SureSelect_All_Exon_50MB_v5,ACTTGA,RPI
+1386,D23189N_8pM,ValidatieSureSelectV5_stap3,SN163,Pieter van der Vlies <p.van.der.vlies@umcg.nl>,Finished Successfully,130129,0488,AD1P31ACXX,6,RPI 10 TAGCTT,PE,Agilent,SureSelect_All_Exon_50MB_v5,TAGCTT,RPI
+1387,T05_2923_I6_2_8pM,ValidatieSureSelectV5_stap3,SN163,Pieter van der Vlies <p.van.der.vlies@umcg.nl>,Finished Successfully,130129,0488,AD1P31ACXX,6,RPI 11 GGCTAC,PE,Agilent,SureSelect_All_Exon_50MB_v5,GGCTAC,RPI
+1392,F51KK_10pM,ValidatieSureSelectV5_stap3,SN163,Pieter van der Vlies <p.van.der.vlies@umcg.nl>,Finished Successfully,130129,0488,AD1P31ACXX,7,RPI 01 ATCACG,PE,Agilent,SureSelect_All_Exon_50MB_v5,ATCACG,RPI
+1393,F64KvV_10pM,ValidatieSureSelectV5_stap3,SN163,Pieter van der Vlies <p.van.der.vlies@umcg.nl>,Finished Successfully,130129,0488,AD1P31ACXX,7,RPI 08 ACTTGA,PE,Agilent,SureSelect_All_Exon_50MB_v5,ACTTGA,RPI
+1394,D23189N_10pM,ValidatieSureSelectV5_stap3,SN163,Pieter van der Vlies <p.van.der.vlies@umcg.nl>,Finished Successfully,130129,0488,AD1P31ACXX,7,RPI 10 TAGCTT,PE,Agilent,SureSelect_All_Exon_50MB_v5,TAGCTT,RPI
+1395,T05_2923_I6_2_10pM,ValidatieSureSelectV5_stap3,SN163,Pieter van der Vlies <p.van.der.vlies@umcg.nl>,Finished Successfully,130129,0488,AD1P31ACXX,7,RPI 11 GGCTAC,PE,Agilent,SureSelect_All_Exon_50MB_v5,GGCTAC,RPI
+1400,F51KK_12pM,ValidatieSureSelectV5_stap3,SN163,Pieter van der Vlies <p.van.der.vlies@umcg.nl>,Finished Successfully,130129,0488,AD1P31ACXX,8,RPI 01 ATCACG,PE,Agilent,SureSelect_All_Exon_50MB_v5,ATCACG,RPI
+1401,F64KvV_12pM,ValidatieSureSelectV5_stap3,SN163,Pieter van der Vlies <p.van.der.vlies@umcg.nl>,Finished Successfully,130129,0488,AD1P31ACXX,8,RPI 08 ACTTGA,PE,Agilent,SureSelect_All_Exon_50MB_v5,ACTTGA,RPI
+1402,D23189N_12pM,ValidatieSureSelectV5_stap3,SN163,Pieter van der Vlies <p.van.der.vlies@umcg.nl>,Finished Successfully,130129,0488,AD1P31ACXX,8,RPI 10 TAGCTT,PE,Agilent,SureSelect_All_Exon_50MB_v5,TAGCTT,RPI
+1403,T05_2923_I6_2_12pM,ValidatieSureSelectV5_stap3,SN163,Pieter van der Vlies <p.van.der.vlies@umcg.nl>,Finished Successfully,130129,0488,AD1P31ACXX,8,RPI 11 GGCTAC,PE,Agilent,SureSelect_All_Exon_50MB_v5,GGCTAC,RPI
+1408,D047159,Microcephaly,SN163,Birgit Sikkema <b.sikkema01@umcg.nl>,Finished Successfully,130205,0489,BD1U11ACXX,1,GAF 01 AGAGAT,PE,NEB,SureSelect_All_Exon_50MB_v4,AGAGAT,GAF
+1409,D049763,Microcephaly,SN163,Birgit Sikkema <b.sikkema01@umcg.nl>,Finished Successfully,130205,0489,BD1U11ACXX,1,GAF 03 TCAGTT,PE,NEB,SureSelect_All_Exon_50MB_v4,TCAGTT,GAF
+1410,D057457,Microcephaly,SN163,Birgit Sikkema <b.sikkema01@umcg.nl>,Finished Successfully,130205,0489,BD1U11ACXX,1,GAF 06 CAACCT,PE,NEB,SureSelect_All_Exon_50MB_v4,CAACCT,GAF
+1411,D057734,Microcephaly,SN163,Birgit Sikkema <b.sikkema01@umcg.nl>,Finished Successfully,130205,0489,BD1U11ACXX,1,GAF 12 GGAACT,PE,NEB,SureSelect_All_Exon_50MB_v4,GGAACT,GAF
+1412,D057900,Microcephaly,SN163,Birgit Sikkema <b.sikkema01@umcg.nl>,Finished Successfully,130205,0489,BD1U11ACXX,2,GAF 01 AGAGAT,PE,NEB,SureSelect_All_Exon_50MB_v4,AGAGAT,GAF
+1413,D051856,Microcephaly,SN163,Birgit Sikkema <b.sikkema01@umcg.nl>,Finished Successfully,130205,0489,BD1U11ACXX,2,GAF 03 TCAGTT,PE,NEB,SureSelect_All_Exon_50MB_v4,TCAGTT,GAF
+1414,D031239,Dermatologie,SN163,Birgit Sikkema <b.sikkema01@umcg.nl>,Finished Successfully,130205,0489,BD1U11ACXX,2,GAF 06 CAACCT,PE,NEB,SureSelect_All_Exon_50MB_v4,CAACCT,GAF
+1415,D031240,Dermatologie,SN163,Birgit Sikkema <b.sikkema01@umcg.nl>,Finished Successfully,130205,0489,BD1U11ACXX,2,GAF 12 GGAACT,PE,NEB,SureSelect_All_Exon_50MB_v4,GGAACT,GAF
+801,D38103,Cardio,SN163,Jan Jongbloed <J.D.H.Jongbloed@umcg.nl>,Finished Successfully,130205,0489,BD1U11ACXX,3,GAF 04 TGACTT,PE,NEB,SureSelect_All_Exon_50MB_v4,TGACTT,GAF
+802,D38101,Cardio,SN163,Jan Jongbloed <J.D.H.Jongbloed@umcg.nl>,Finished Successfully,130205,0489,BD1U11ACXX,3,GAF 07 CATGCT,PE,NEB,SureSelect_All_Exon_50MB_v4,CATGCT,GAF
+803,D47535,Cardio,SN163,Jan Jongbloed <J.D.H.Jongbloed@umcg.nl>,Finished Successfully,130205,0489,BD1U11ACXX,3,GAF 11 GCATGT,PE,NEB,SureSelect_All_Exon_50MB_v4,GCATGT,GAF
+804,D51872,Cardio,SN163,Jan Jongbloed <J.D.H.Jongbloed@umcg.nl>,Finished Successfully,130205,0489,BD1U11ACXX,3,GAF 13 ATCGAT,PE,NEB,SureSelect_All_Exon_50MB_v4,ATCGAT,GAF
+1347,Sample4,Zeegras_3,SN163,Jeanine Olsen <j.l.olsen@rug.nl>,Finished Successfully,130205,0489,BD1U11ACXX,4,RPI 01 ATCACG,PE,TruSeqRNA,None,ATCACG,RPI
+1377,HA1,ChipSeqEpigenitica,SN163,Marianne Rots <M.G.Rots@umcg.nl>,Finished Successfully,130205,0489,BD1U11ACXX,5,MON 04 TTCAGC,PE,Mondrian,None,TTCAGC,MON
+1378,HA2,ChipSeqEpigenitica,SN163,Marianne Rots <M.G.Rots@umcg.nl>,Finished Successfully,130205,0489,BD1U11ACXX,5,MON 01 AAGGGA,PE,Mondrian,None,AAGGGA,MON
+1379,HA3,ChipSeqEpigenitica,SN163,Marianne Rots <M.G.Rots@umcg.nl>,Finished Successfully,130205,0489,BD1U11ACXX,5,MON 05 AAGACG,PE,Mondrian,None,AAGACG,MON
+1380,HA4,ChipSeqEpigenitica,SN163,Marianne Rots <M.G.Rots@umcg.nl>,Finished Successfully,130205,0489,BD1U11ACXX,5,MON 02 CCTTCA,PE,Mondrian,None,CCTTCA,MON
+1381,HA5,ChipSeqEpigenitica,SN163,Marianne Rots <M.G.Rots@umcg.nl>,Finished Successfully,130205,0489,BD1U11ACXX,5,MON 06 CCTCGG,PE,Mondrian,None,CCTCGG,MON
+1382,HA6,ChipSeqEpigenitica,SN163,Marianne Rots <M.G.Rots@umcg.nl>,Finished Successfully,130205,0489,BD1U11ACXX,5,MON 07 GGATGT,PE,Mondrian,None,GGATGT,MON
+1383,HA7,ChipSeqEpigenitica,SN163,Marianne Rots <M.G.Rots@umcg.nl>,Finished Successfully,130205,0489,BD1U11ACXX,5,MON 03 GGACCC,PE,Mondrian,None,GGACCC,MON
+1374,802,Celegans2,SN163,Annemieke van der Goot <a.t.van.der.goot@umcg.nl>,Finished Successfully,130205,0489,BD1U11ACXX,6,GAF 01 AGAGAT,PE,NEB,None,AGAGAT,GAF
+1375,806,Celegans2,SN163,Annemieke van der Goot <a.t.van.der.goot@umcg.nl>,Finished Successfully,130205,0489,BD1U11ACXX,6,GAF 03 TCAGTT,PE,NEB,None,TCAGTT,GAF
+1376,819,Celegans2,SN163,Annemieke van der Goot <a.t.van.der.goot@umcg.nl>,Finished Successfully,130205,0489,BD1U11ACXX,6,GAF 06 CAACCT,PE,NEB,None,CAACCT,GAF
+1150,4113_GAF772over,TIFN_Anne3_over,SN163,Anne de Jong <Anne.de.Jong@rug.nl>,Finished Successfully,130205,0489,BD1U11ACXX,7,GAF 15 CTGACT,PE,NEB,None,CTGACT,GAF
+1151,4102_GAF768over,TIFN_Anne3_over,SN163,Anne de Jong <Anne.de.Jong@rug.nl>,Finished Successfully,130205,0489,BD1U11ACXX,7,GAF 16 GTCTAT,PE,NEB,None,GTCTAT,GAF
+1152,4114_GAF811over,TIFN_Anne3_over,SN163,Anne de Jong <Anne.de.Jong@rug.nl>,Finished Successfully,130205,0489,BD1U11ACXX,7,GAF 17 TACTGT,PE,NEB,None,TACTGT,GAF
+1153,4158_GAF815over,TIFN_Anne3_over,SN163,Anne de Jong <Anne.de.Jong@rug.nl>,Finished Successfully,130205,0489,BD1U11ACXX,7,GAF 18 TGCTAT,PE,NEB,None,TGCTAT,GAF
+1289,B4067,TIFN_Anne6,SN163,Anne de Jong <Anne.de.Jong@rug.nl>,Finished Successfully,130205,0489,BD1U11ACXX,7,GAF 01 AGAGAT,PE,NEB,None,AGAGAT,GAF
+1290,B4110,TIFN_Anne6,SN163,Anne de Jong <Anne.de.Jong@rug.nl>,Finished Successfully,130205,0489,BD1U11ACXX,7,GAF 02 TAATTT,PE,NEB,None,TAATTT,GAF
+1291,B4119,TIFN_Anne6,SN163,Anne de Jong <Anne.de.Jong@rug.nl>,Finished Successfully,130205,0489,BD1U11ACXX,7,GAF 03 TCAGTT,PE,NEB,None,TCAGTT,GAF
+1292,B4127,TIFN_Anne6,SN163,Anne de Jong <Anne.de.Jong@rug.nl>,Finished Successfully,130205,0489,BD1U11ACXX,7,GAF 04 TGACTT,PE,NEB,None,TGACTT,GAF
+1293,B4133,TIFN_Anne6,SN163,Anne de Jong <Anne.de.Jong@rug.nl>,Finished Successfully,130205,0489,BD1U11ACXX,7,GAF 05 ACACAT,PE,NEB,None,ACACAT,GAF
+1294,B4134,TIFN_Anne6,SN163,Anne de Jong <Anne.de.Jong@rug.nl>,Finished Successfully,130205,0489,BD1U11ACXX,7,GAF 06 CAACCT,PE,NEB,None,CAACCT,GAF
+1295,B4135,TIFN_Anne6,SN163,Anne de Jong <Anne.de.Jong@rug.nl>,Finished Successfully,130205,0489,BD1U11ACXX,7,GAF 07 CATGCT,PE,NEB,None,CATGCT,GAF
+1296,B4143,TIFN_Anne6,SN163,Anne de Jong <Anne.de.Jong@rug.nl>,Finished Successfully,130205,0489,BD1U11ACXX,7,GAF 08 CGATCT,PE,NEB,None,CGATCT,GAF
+1297,B4147,TIFN_Anne6,SN163,Anne de Jong <Anne.de.Jong@rug.nl>,Finished Successfully,130205,0489,BD1U11ACXX,7,GAF 09 GAAGGT,PE,NEB,None,GAAGGT,GAF
+1298,B4164,TIFN_Anne6,SN163,Anne de Jong <Anne.de.Jong@rug.nl>,Finished Successfully,130205,0489,BD1U11ACXX,7,GAF 10 GGAAGT,PE,NEB,None,GGAAGT,GAF
+1299,B4166,TIFN_Anne6,SN163,Anne de Jong <Anne.de.Jong@rug.nl>,Finished Successfully,130205,0489,BD1U11ACXX,7,GAF 11 GCATGT,PE,NEB,None,GCATGT,GAF
+1300,B4167,TIFN_Anne6,SN163,Anne de Jong <Anne.de.Jong@rug.nl>,Finished Successfully,130205,0489,BD1U11ACXX,7,GAF 12 GGAACT,PE,NEB,None,GGAACT,GAF
+1301,B4158,TIFN_Anne6,SN163,Anne de Jong <Anne.de.Jong@rug.nl>,Finished Successfully,130205,0489,BD1U11ACXX,7,GAF 13 ATCGAT,PE,NEB,None,ATCGAT,GAF
+1302,B4114,TIFN_Anne6,SN163,Anne de Jong <Anne.de.Jong@rug.nl>,Finished Successfully,130205,0489,BD1U11ACXX,7,GAF 14 ATGCAT,PE,NEB,None,ATGCAT,GAF
+1150,4113_GAF772over,TIFN_Anne3_over,SN163,Anne de Jong <Anne.de.Jong@rug.nl>,Finished Successfully,130205,0489,BD1U11ACXX,8,GAF 15 CTGACT,PE,NEB,None,CTGACT,GAF
+1151,4102_GAF768over,TIFN_Anne3_over,SN163,Anne de Jong <Anne.de.Jong@rug.nl>,Finished Successfully,130205,0489,BD1U11ACXX,8,GAF 16 GTCTAT,PE,NEB,None,GTCTAT,GAF
+1152,4114_GAF811over,TIFN_Anne3_over,SN163,Anne de Jong <Anne.de.Jong@rug.nl>,Finished Successfully,130205,0489,BD1U11ACXX,8,GAF 17 TACTGT,PE,NEB,None,TACTGT,GAF
+1153,4158_GAF815over,TIFN_Anne3_over,SN163,Anne de Jong <Anne.de.Jong@rug.nl>,Finished Successfully,130205,0489,BD1U11ACXX,8,GAF 18 TGCTAT,PE,NEB,None,TGCTAT,GAF
+1289,B4067,TIFN_Anne6,SN163,Anne de Jong <Anne.de.Jong@rug.nl>,Finished Successfully,130205,0489,BD1U11ACXX,8,GAF 01 AGAGAT,PE,NEB,None,AGAGAT,GAF
+1290,B4110,TIFN_Anne6,SN163,Anne de Jong <Anne.de.Jong@rug.nl>,Finished Successfully,130205,0489,BD1U11ACXX,8,GAF 02 TAATTT,PE,NEB,None,TAATTT,GAF
+1291,B4119,TIFN_Anne6,SN163,Anne de Jong <Anne.de.Jong@rug.nl>,Finished Successfully,130205,0489,BD1U11ACXX,8,GAF 03 TCAGTT,PE,NEB,None,TCAGTT,GAF
+1292,B4127,TIFN_Anne6,SN163,Anne de Jong <Anne.de.Jong@rug.nl>,Finished Successfully,130205,0489,BD1U11ACXX,8,GAF 04 TGACTT,PE,NEB,None,TGACTT,GAF
+1293,B4133,TIFN_Anne6,SN163,Anne de Jong <Anne.de.Jong@rug.nl>,Finished Successfully,130205,0489,BD1U11ACXX,8,GAF 05 ACACAT,PE,NEB,None,ACACAT,GAF
+1294,B4134,TIFN_Anne6,SN163,Anne de Jong <Anne.de.Jong@rug.nl>,Finished Successfully,130205,0489,BD1U11ACXX,8,GAF 06 CAACCT,PE,NEB,None,CAACCT,GAF
+1295,B4135,TIFN_Anne6,SN163,Anne de Jong <Anne.de.Jong@rug.nl>,Finished Successfully,130205,0489,BD1U11ACXX,8,GAF 07 CATGCT,PE,NEB,None,CATGCT,GAF
+1296,B4143,TIFN_Anne6,SN163,Anne de Jong <Anne.de.Jong@rug.nl>,Finished Successfully,130205,0489,BD1U11ACXX,8,GAF 08 CGATCT,PE,NEB,None,CGATCT,GAF
+1297,B4147,TIFN_Anne6,SN163,Anne de Jong <Anne.de.Jong@rug.nl>,Finished Successfully,130205,0489,BD1U11ACXX,8,GAF 09 GAAGGT,PE,NEB,None,GAAGGT,GAF
+1298,B4164,TIFN_Anne6,SN163,Anne de Jong <Anne.de.Jong@rug.nl>,Finished Successfully,130205,0489,BD1U11ACXX,8,GAF 10 GGAAGT,PE,NEB,None,GGAAGT,GAF
+1299,B4166,TIFN_Anne6,SN163,Anne de Jong <Anne.de.Jong@rug.nl>,Finished Successfully,130205,0489,BD1U11ACXX,8,GAF 11 GCATGT,PE,NEB,None,GCATGT,GAF
+1300,B4167,TIFN_Anne6,SN163,Anne de Jong <Anne.de.Jong@rug.nl>,Finished Successfully,130205,0489,BD1U11ACXX,8,GAF 12 GGAACT,PE,NEB,None,GGAACT,GAF
+1301,B4158,TIFN_Anne6,SN163,Anne de Jong <Anne.de.Jong@rug.nl>,Finished Successfully,130205,0489,BD1U11ACXX,8,GAF 13 ATCGAT,PE,NEB,None,ATCGAT,GAF
+1302,B4114,TIFN_Anne6,SN163,Anne de Jong <Anne.de.Jong@rug.nl>,Finished Successfully,130205,0489,BD1U11ACXX,8,GAF 14 ATGCAT,PE,NEB,None,ATGCAT,GAF
+
