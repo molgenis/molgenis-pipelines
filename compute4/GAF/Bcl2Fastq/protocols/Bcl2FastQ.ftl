@@ -25,6 +25,8 @@ umask ${umask}
 # Initialize script specific vars.
 #
 SCRIPTNAME=$(basename $0)
+FLUXDIR=${bcl2fastqDir}/<#noparse>${SCRIPTNAME}</#noparse>_in_flux/
+<#assign fluxDir>${r"${FLUXDIR}"}</#assign>
 
 #
 # Should I stay or should I go?
@@ -35,8 +37,8 @@ then
 	echo "${bcl2fastqDir}/<#noparse>${SCRIPTNAME}</#noparse>.finished already exists: skipping BCL to FastQ conversion."
 	exit 0
 else
-	rm -Rf ${bcl2fastqDir}_in_flux/
-	mkdir -p ${bcl2fastqDir}_in_flux/
+	rm -Rf ${fluxDir}
+	mkdir -p ${fluxDir}
 fi
 
 #
@@ -44,7 +46,7 @@ fi
 #
 perl ${scriptsDir}/CreateIlluminaSampleSheet.pl \
 -i ${McWorksheet} \
--o ${bcl2fastqDir}_in_flux/Illumina_R${run}.csv \
+-o ${fluxDir}/Illumina_R${run}.csv \
 -r ${run}
 
 #
@@ -54,13 +56,13 @@ ${bcl2fastqConfigureTool} \
 --force \
 --fastq-cluster-count 0 \
 --input-dir ${bclDir}/Data/Intensities/BaseCalls/ \
---output-dir ${bcl2fastqDir}_in_flux/ \
---sample-sheet ${bcl2fastqDir}_in_flux/Illumina_R${run}.csv
+--output-dir ${fluxDir}/ \
+--sample-sheet ${fluxDir}/Illumina_R${run}.csv
 
 #
 # Convert the BCLs to FastQs.
 #
-cd ${bcl2fastqDir}_in_flux/
+cd ${fluxDir}/
 make -j 6
 
 #
@@ -71,7 +73,8 @@ make -j 6
 #  * Write a *.finished file that prevents re-processing the data 
 #    when this job script is re-submitted. 
 #
-mv ${bcl2fastqDir}{_in_flux,}
+mv ${fluxDir}/* ${bcl2fastqDir}/
+rmdir ${fluxDir}
 sync
 touch ${bcl2fastqDir}/<#noparse>${SCRIPTNAME}</#noparse>.finished
 sync
