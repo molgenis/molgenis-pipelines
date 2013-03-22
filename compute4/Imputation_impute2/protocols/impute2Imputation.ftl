@@ -49,6 +49,8 @@ impute2FileArg[2]="-exclude_snps_g"
 
 aditionalArgs="${additonalImpute2Param}"
 
+<#noparse>
+
 aditionalArgsArray=($aditionalArgs)
 
 for (( i=0; i<${#aditionalArgsArray[@]}; i++ ));
@@ -70,8 +72,6 @@ do
 	fi
 	
 done
-
-<#noparse>
 
 
 startTime=$(date +%s)
@@ -101,8 +101,6 @@ alloutputsexist \
 mkdir -p $imputationIntermediatesFolder
 
 ${stage} impute/${impute2version}
-
-impute2
 
 
 $impute2Bin \
