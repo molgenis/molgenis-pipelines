@@ -49,6 +49,8 @@ impute2FileArg[2]="-exclude_snps_g"
 
 aditionalArgs="${additonalImpute2Param}"
 
+${stage} impute/${impute2version}
+
 <#noparse>
 
 aditionalArgsArray=($aditionalArgs)
@@ -99,8 +101,6 @@ alloutputsexist \
 	"${finalOutput}_warnings"
 
 mkdir -p $imputationIntermediatesFolder
-
-${stage} impute/${impute2version}
 
 
 $impute2Bin \
