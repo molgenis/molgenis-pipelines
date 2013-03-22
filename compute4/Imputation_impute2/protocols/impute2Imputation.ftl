@@ -35,7 +35,21 @@ do
     getFile $element
 done
 
-<#noparse>
+#Escaped the array:2 part, check if this works
+containsElement () {
+  local e
+  for e in "${r"${@:2}"}"; do [[ "$e" == "$1" ]] && return 1; done
+  return 0
+}
+
+#DECLARE POSSIBLE VALUES FOR additonalImpute2Param HERE
+impute2FileArg[0]="-sample_g_ref"
+impute2FileArg[1]="-exclude_samples_g"
+impute2FileArg[2]="-exclude_snps_g"
+
+aditionalArgs="${additonalImpute2Param}"
+
+aditionalArgsArray=($aditionalArgs)
 
 for (( i=0; i<${#aditionalArgsArray[@]}; i++ ));
 do
@@ -57,7 +71,7 @@ do
 	
 done
 
-
+<#noparse>
 
 
 startTime=$(date +%s)
