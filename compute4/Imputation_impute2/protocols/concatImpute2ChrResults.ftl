@@ -11,6 +11,27 @@ inputs ${ssvQuoted(impute2ChunkOutput)}
 inputs ${ssvQuoted(impute2ChunkOutputInfo)}
 chr="${chr}"
 
+#Split space separated list chunkOutput
+INCO="${ssvQuoted(impute2ChunkOutput)}"
+arr1=$(echo $INCO | tr " " "\n")
+
+for element in $arr1
+do
+    echo "Detected files: $element"
+    getFile $element
+done
+
+#Split space separated list chunkOutputInfo
+INCOI="${ssvQuoted(impute2ChunkOutputInfo)}"
+arr2=$(echo $INCOI | tr " " "\n")
+
+for element in $arr2
+do
+    echo "Detected files: $element"
+    getFile $element
+done
+
+
 outputFolder="${outputFolder}"
 
 <#noparse>
@@ -38,6 +59,7 @@ then
 
 	echo "Impute2 outputs concattenated"
 	mv ${outputFolder}/~chr${chr} ${outputFolder}/chr${chr}
+	putFile ${outputFolder}/chr${chr}
 
 else
 	echo "Failed to cat impute2 outputs to ${outputFolder}/~chr${chr}" >&2
@@ -88,5 +110,6 @@ done
 
 echo "Impute2 output infos concattenated"
 mv ${outputFolder}/~chr${chr}_info ${outputFolder}/chr${chr}_info
+putFile ${outputFolder}/chr${chr}_info
 
 </#noparse>

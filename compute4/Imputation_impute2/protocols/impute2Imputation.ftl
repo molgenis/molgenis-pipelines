@@ -9,9 +9,56 @@ chr="${chr}"
 fromChrPos="${fromChrPos}"
 toChrPos="${toChrPos}"
 imputationIntermediatesFolder="${imputationIntermediatesFolder}"
-impute2Bin="${impute2Bin}"
+impute2Bin="${impute2gridBin}"
+
+
+getFile ${known_haps_g}
+getFile ${m}
+
+#Split variable h on spaces
+INH="${h}"
+arr1=$(echo $INH | tr " " "\n")
+
+for element in $arr1
+do
+    echo "Detected files: $element"
+    getFile $element
+done
+
+#Repeat splitting for variable l
+INL="${l}"
+arr2=$(echo $INL | tr " " "\n")
+
+for element in $arr2
+do
+    echo "Detected files: $element"
+    getFile $element
+done
 
 <#noparse>
+
+for (( i=0; i<${#aditionalArgsArray[@]}; i++ ));
+do
+	currentArg=${aditionalArgsArray[$i]}
+	containsElement $currentArg ${impute2FileArg[@]}
+	if [[ $? -eq 1 ]]; 
+	then 
+		
+		i=`expr $i + 1`
+		
+		file=${aditionalArgsArray[$i]}
+		
+		echo "File for this argument: $currentArg will get and is requered for this script to start $file"
+		inputs $file
+		get $file
+		echo "Found additional Impute2 file: $file"
+		
+	fi
+	
+done
+
+
+
 
 startTime=$(date +%s)
 
@@ -38,6 +85,11 @@ alloutputsexist \
 	"${finalOutput}_warnings"
 
 mkdir -p $imputationIntermediatesFolder
+
+${stage} impute/${impute2version}
+
+impute2
+
 
 $impute2Bin \
 	-known_haps_g $known_haps_g \
@@ -79,6 +131,7 @@ then
 	for tempFile in ${tmpOutput}* ; do
 		finalFile=`echo $tempFile | sed -e "s/~//g"`
 		mv $tempFile $finalFile
+		putFile $finalFile
 	done
 	
 elif [ `grep "ERROR: There are no type 2 SNPs after applying the command-line settings for this run"  ${tmpOutput}_summary | wc -l | awk '{print $1}'` == 1 ]
@@ -102,6 +155,7 @@ then
 	for tempFile in ${tmpOutput}* ; do
 		finalFile=`echo $tempFile | sed -e "s/~//g"`
 		mv $tempFile $finalFile
+		putFile $finalFile
 	done
 		
 
