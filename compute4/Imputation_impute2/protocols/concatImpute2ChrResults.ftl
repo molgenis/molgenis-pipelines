@@ -2,46 +2,36 @@
 
 #FOREACH project,chr
 
-
-
 declare -a impute2ChunkOutputs=(${ssvQuoted(impute2ChunkOutput)})
 declare -a impute2ChunkOutputInfos=(${ssvQuoted(impute2ChunkOutputInfo)})
 
-inputs ${ssvQuoted(impute2ChunkOutput)}
-inputs ${ssvQuoted(impute2ChunkOutputInfo)}
 chr="${chr}"
-
-#Split space separated list chunkOutput
-INCO="${ssvQuoted(impute2ChunkOutput)}"
-arr1=$(echo $INCO | tr " " "\n")
-
-for element in $arr1
-do
-    echo "Detected files: $element"
-    getFile $element
-done
-
-#Split space separated list chunkOutputInfo
-INCOI="${ssvQuoted(impute2ChunkOutputInfo)}"
-arr2=$(echo $INCOI | tr " " "\n")
-
-for element in $arr2
-do
-    echo "Detected files: $element"
-    getFile $element
-done
-
 
 outputFolder="${outputFolder}"
 
 <#noparse>
 
-alloutputsexist "${outputFolder}/chr${chr}" "${outputFolder}/chr${chr}_info"
-
 echo "chr: ${chr}"
 echo "outputFolder: ${outputFolder}"
 echo "impute2OutputFiles: ${impute2ChunkOutputs[@]}"
 echo "impute2OutputInfoFiles: ${impute2ChunkOutputInfos[@]}"
+
+alloutputsexist "${outputFolder}/chr${chr}" "${outputFolder}/chr${chr}_info"
+
+for element in $impute2ChunkOutputs
+do
+    echo "Impute2 chuck: $element"
+    getFile $element
+    inputs $element
+done
+
+for element in $impute2ChunkOutputInfos
+do
+    echo "Impute2 chuck info: $element"
+    getFile $element
+    inputs $element
+done
+
 
 mkdir -p $outputFolder
 
