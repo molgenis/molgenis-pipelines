@@ -9,7 +9,7 @@ chr="${chr}"
 fromChrPos="${fromChrPos}"
 toChrPos="${toChrPos}"
 imputationIntermediatesFolder="${imputationIntermediatesFolder}"
-impute2Bin="${impute2gridBin}"
+impute2Bin="${impute2Bin}"
 aditionalArgs="${additonalImpute2Param}"
 
 ${stage} impute/${impute2version}
