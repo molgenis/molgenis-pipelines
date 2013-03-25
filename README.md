@@ -34,5 +34,6 @@ For a 'walkthrough' tutorial on Molgenis Compute, please visit https://github.co
 	
 	# For read/write access:
 	git clone https://github.com/molgenis/molgenis-pipelines.git
-	# Alternatively for read-only access:
-	git clone git://github.com/molgenis/molgenis-pipelines.git
+	# Alternatively to only download the pipelines use:
+	wget https://github.com/molgenis/molgenis-pipelines/archive/master.zip
+	unzip master
