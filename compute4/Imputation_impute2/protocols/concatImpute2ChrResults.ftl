@@ -18,14 +18,14 @@ echo "impute2OutputInfoFiles: ${impute2ChunkOutputInfos[@]}"
 
 alloutputsexist "${outputFolder}/chr${chr}" "${outputFolder}/chr${chr}_info"
 
-for element in $impute2ChunkOutputs
+for element in ${impute2ChunkOutputs[@]}
 do
     echo "Impute2 chuck: $element"
     getFile $element
     inputs $element
 done
 
-for element in $impute2ChunkOutputInfos
+for element in ${impute2ChunkOutputInfos[@]}
 do
     echo "Impute2 chuck info: $element"
     getFile $element
