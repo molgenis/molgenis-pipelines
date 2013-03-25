@@ -62,6 +62,7 @@ done
 impute2FileArg[0]="-sample_g_ref"
 impute2FileArg[1]="-exclude_samples_g"
 impute2FileArg[2]="-exclude_snps_g"
+impute2FileArg[3]="-sample_g"
 
 # This function test if element is in array
 # http://stackoverflow.com/questions/3685970/bash-check-if-an-array-contains-a-value
