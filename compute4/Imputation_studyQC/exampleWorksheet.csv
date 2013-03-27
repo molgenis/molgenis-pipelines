@@ -1,0 +1,3 @@
+study,studyInputDir,triTyperReferenceFolder,outputFolder,chr
+celiacNl,/studyInputDir/pedmap/,${root}/resources/impute2Reference/gonl4/,/resultPathNl/,1
+celiacNl,/studyInputDir/pedmap/,${root}/resources/impute2Reference/gonl4/,/resultPathNl/,2
