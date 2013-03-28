@@ -1,0 +1,3 @@
+study,studyInputDir,triTyperReference,outputFolder,chr
+celiacNl,/studyInputDir/pedmap/,${root}/resources/imputationReference/gonl_release4/TriTyperRsId/Chr${chr},/resultPathNl/,1
+celiacNl,/studyInputDir/pedmap/,${root}/resources/imputationReference/gonl_release4/TriTyperRsId/Chr${chr},/resultPathNl/,2
