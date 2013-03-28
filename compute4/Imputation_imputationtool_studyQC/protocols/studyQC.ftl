@@ -13,8 +13,7 @@ outputTriTyperChrTmpDir="${outputTriTyperChrTmpDir}"
 outputPedMapForwardDir="${outputPedMapForwardDir}"
 outputPedMapForwardChrDir="${outputPedMapForwardChrDir}"
 outputPedMapForwardChrTmpDir="${outputPedMapForwardChrTmpDir}"
-triTyperReferenceFolder="${triTyperReferenceFolder}"
-triTyperReferenceChrRsIDs="${triTyperReferenceChrRsIDs}"
+triTyperReference="${triTyperReference}"
 imputationToolJar="${imputationToolJar}"
 imputationToolVersion="${imputationToolVersion}"
 javaVersion="${javaVersion}"
@@ -28,8 +27,7 @@ ${stage} imputationTool/${imputationToolVersion}
 echo "chr: ${chr}"
 echo "outputFolder: ${outputFolder}"
 echo "studyInputDir: ${studyInputDir}"
-echo "triTyperReferenceFolder: ${triTyperReferenceFolder}"
-echo "triTyperReferenceChrRsIDs: ${triTyperReferenceChrRsIDs}"
+echo "triTyperReference: ${triTyperReference}"
 echo "outputTriTyperDir: ${outputTriTyperDir}"
 echo "outputTriTyperChrDir: ${outputTriTyperChrDir}"
 echo "outputTriTyperChrTmpDir: ${outputTriTyperChrTmpDir}"
@@ -79,7 +77,7 @@ fi
 java -Xmx8g -jar $imputationToolJar \
 --mode ttpmh \
 --in $outputTriTyperChrDir \
---hap $triTyperReferenceChrRsIDs \
+--hap $triTyperReference \
 --out $outputPedMapForwardChrTmpDir \
 &> $outputPedMapForwardChrTmpDir/chr$chr.out
 
