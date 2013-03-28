@@ -43,6 +43,8 @@ echo "javaVersion: ${javaVersion}"
 mkdir -p $outputTriTyperDir
 mkdir -p $outputTriTyperChrDir
 mkdir -p $outputPedMapForwardDir
+mkdir -p $outputPedMapForwardChrDir
+mkdir -p $outputPedMapForwardChrTmpDir
 
 
 #Convert study PED/MAP to TriTyper format
@@ -60,7 +62,7 @@ if [ $returnCode -eq 0 ]
 then
 
 	echo -e "\nStudy PED/MAP to TriTyper finished succesfull. Moving temp files to final.\n\n"
-	mv $outputTriTyperChrTmpDir $outputTriTyperChrDir
+	mv $outputTriTyperChrTmpDir/* $outputTriTyperChrDir
 	putFile "$outputTriTyperChrDir/GenotypeMatrix.dat"
     putFile "$outputTriTyperChrDir/Individuals.txt"
     putFile "$outputTriTyperChrDir/PhenotypeInformation.txt"
@@ -90,7 +92,7 @@ if [ $returnCode -eq 0 ]
 then
 
 	echo -e "\nAlign study data to reference finished succesfull. Moving temp files to final.\n\n"
-	mv $outputPedMapForwardChrTmpDir $outputPedMapForwardChrDir
+	mv $outputPedMapForwardChrTmpDir/* $outputPedMapForwardChrDir
 	putFile "$outputPedMapForwardChrDir/chr$chr.dat"
 	putFile "$outputPedMapForwardChrDir/chr$chr.map"
 	putFile "$outputPedMapForwardChrDir/chr$chr.markersbeagleformat"
