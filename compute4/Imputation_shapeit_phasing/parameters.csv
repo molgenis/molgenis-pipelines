@@ -20,7 +20,7 @@ imputationIntermediatesFolder,${outputFolder}/imputationChunks/,,string,
 impute2ChunkOutput,${imputationIntermediatesFolder}/chr${chr}_${fromChrPos}-${toChrPos},,string,
 impute2ChunkOutputInfo,${imputationIntermediatesFolder}/chr${chr}_${fromChrPos}-${toChrPos}_info,,string,
 outputFolder,,,,
-project,,,,outputFolder
+project,,,,"outputFolder,studyData,studyDataType"
 m,,,,
 outputFolder,,,,
 chr,,,,
