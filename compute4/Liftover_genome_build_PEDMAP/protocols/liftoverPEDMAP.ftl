@@ -33,17 +33,21 @@ startTime=$(date +%s)
 #Check if outputs exist
 alloutputsexist \
 	"${outputFolderChrDir}/chr${chr}.ped" \
-	"${outputFolderChrDir}/chr${chr}.map"
+	"${outputFolderChrDir}/chr${chr}.map" \
+	"${outputFolderChrDir}/chr${chr}.fam"
 
 #Create output directories
 mkdir -p $outputFolder
 mkdir -p $outputFolderChrDir
+mkdir -p $outputFolderTmp
 
 #Retrieve input Files
 inputs $studyInputDir/chr$chr.ped
 inputs $studyInputDir/chr$chr.map
+inputs $studyInputDir/chr$chr.fam
 getFile $studyInputDir/chr$chr.ped
 getFile $studyInputDir/chr$chr.map
+getFile $studyInputDir/chr$chr.fam
 
 #create bed file based on map file
 awk '{$5=$2;$2=$4;$3=$4+1;$1="chr"$1;print $1,$2,$3,$5}' OFS="\t" $studyInputDir/chr$chr.map > $outputFolderTmp/chr$chr.old.bed
@@ -60,6 +64,10 @@ awk '/^[^#]/ {print $4}' $outputFolderTmp/chr$chr.new.unmapped.txt > $outputFold
 
 #create mappings file used by plink
 awk '{print $4, $2}' OFS="\t" $outputFolderTmp/chr$chr.new.bed > $outputFolderTmp/chr$chr.new.Mappings.txt 
+
+#Copy original fam file to new output directory
+cp $studyInputDir/chr$chr.fam $outputFolderChrDir/chr$chr.fam
+putFile $outputFolderChrDir/chr$chr.fam
 
 #create new plink data without the unmapped snps                            
 $plinkBin \
