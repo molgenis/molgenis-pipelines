@@ -1,0 +1,3 @@
+project,m,outputFolder,chr,studyData,studyDataType
+celiacNl,/path/genetic_map_chr${chr}_combined_b37.txt,/resultPathNl/,1,/projectDir/pedmapForward/chr{chr}.ped /projectDir/pedmapForward/chr{chr}.map,PED
+celiacNl,/path/genetic_map_chr${chr}_combined_b37.txt,/resultPathNl/,2,/projectDir/pedmapForward/chr{chr}.ped /projectDir/pedmapForward/chr{chr}.map,PED

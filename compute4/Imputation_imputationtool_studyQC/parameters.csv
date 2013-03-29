@@ -21,7 +21,7 @@ outputPedMapForwardChrTmpDir,${outputFolder}/pedmapForward/~chr${chr}/,,,
 imputationToolJar,${tooldir}/ImputationTool-${imputationToolVersion}/ImputationTool.jar,,,
 imputationToolVersion,20120912,,,
 javaVersion,1.6.0_33,,,
-study,,,,outputFolder
+study,,,,"outputFolder,studyInputDir,triTyperReference"
 triTyperReference,,,,
 outputFolder,,,,
 chr,,,,
