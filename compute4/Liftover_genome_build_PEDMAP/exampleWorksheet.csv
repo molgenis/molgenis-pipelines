@@ -1,0 +1,3 @@
+study,studyInputDir,liftOverChainFile,outputFolder,chr
+celiacNl,/studyInputDir/pedmap/,/target/gpfs2/gcc/resources/liftover/hg18ToHg19.over.chain,/resultPathNl/,1
+celiacNl,/studyInputDir/pedmap/,/target/gpfs2/gcc/resources/liftover/hg18ToHg19.over.chain,/resultPathNl/,2
