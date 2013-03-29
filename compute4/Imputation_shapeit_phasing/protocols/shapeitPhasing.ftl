@@ -2,17 +2,16 @@
 
 foreach project,chr
 
-mkdir -p ${phasingIntermediatesFolder}
-
 shapeitBin = "${shapeitBin}"
 m="${m}"
 studyData="${studyData}"
 studyDataType="${studyDataType}"
 threads="${shapeitThreads}"
 chr="${chr}"
+outputFolder="${outputFolder}"
 
-tmpOutput="${phasingIntermediatesFolder}/~chr${chr}"
-finalOutput="${phasingIntermediatesFolder}/chr${chr}"
+tmpOutput="${outputFolder}/~chr${chr}"
+finalOutput="${outputFolder}/chr${chr}"
 
 ${stage} shapeit/${shapeitversion}
 
@@ -24,14 +23,16 @@ echo "studyData: ${studyData}"
 echo "studyDataType: ${studyDataType}"
 echo "threads: ${shapeitThreads}"
 echo "chr: ${chr}"
-echo "interMediFolder: ${phasingIntermediatesFolder}"
+echo "outputFolder: ${outputFolder}"
 echo "tmpOutput: ${tmpOutput}"
 
-if [ $studyDataType = "PED" ]; then
+mkdir -p ${outputFolder}
+
+if [ $studyDataType == "PED" ]; then
 	inputVarName="--input-ped"
-elif [ $studyDataType = "BED" ]; then
+elif [ $studyDataType == "BED" ]; then
 	inputVarName="--input-bed"
-elif [ $studyDataType = "GEN" ]; then
+elif [ $studyDataType == "GEN" ]; then
 	inputVarName="--input-gen"
 else
   	echo "The variable studyDataType provided in the worksheet does not match any of the following values: PED, BED or GEN"
@@ -42,34 +43,34 @@ fi
 startTime=$(date +%s)
 
 alloutputsexist \
-	"${phasingIntermediatesFolder}/chr${chr}.haps" \
-	"${phasingIntermediatesFolder}/chr${chr}.sample"
+	"${outputFolder}/chr${chr}.haps" \
+	"${outputFolder}/chr${chr}.sample"
 
 getFile $m
 inputs $m
 
 # $studyData can be multiple files. Here we will check each file and do a getFile, if needed, for each file
-for refStudyData in $studyData
+for studyDataFile in $studyData
 do
-	echo "Reference haplotype file: ${refStudyData}"
-	getFile $refStudyData
-	inputs $refStudyData
+	echo "Study data file detected: ${studyDataFile}"
+	getFile $studyDataFile
+	inputs $studyDataFile
 done
 
 
 
 
 $shapeitBin \
-$inputVarName $studyPedMap \
---input-map $m \
---output-max $tmpOutput \
---thread $threads
+	$inputVarName $studyPedMap \
+	--input-map $m \
+	--output-max $tmpOutput \
+	--thread $threads
 
 
 #Get return code from last program call
 returnCode=$?
 
-echo "returnCode shapeIt: ${returnCode}"
+echo "returnCode ShapeIt2: ${returnCode}"
 
 if [ $returnCode -eq 0 ]
 then
@@ -78,6 +79,7 @@ then
 
 	for tempFile in ${tmpOutput}* ; do
 		finalFile=`echo $tempFile | sed -e "s/~//g"`
+		echo "Moving temp file: ${tempFile} to ${finalFile}"
 		mv $tempFile $finalFile
 		putFile $finalFile
 	done
