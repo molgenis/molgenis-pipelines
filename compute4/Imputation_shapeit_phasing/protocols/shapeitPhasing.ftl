@@ -2,7 +2,7 @@
 
 foreach project,chr
 
-shapeitBin = "${shapeitBin}"
+shapeitBin="${shapeitBin}"
 m="${m}"
 studyData="${studyData}"
 studyDataType="${studyDataType}"
@@ -61,7 +61,7 @@ done
 
 
 $shapeitBin \
-	$inputVarName $studyPedMap \
+	$inputVarName $studyData \
 	--input-map $m \
 	--output-max $tmpOutput \
 	--thread $threads
