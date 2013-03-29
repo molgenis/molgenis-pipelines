@@ -38,6 +38,22 @@ echo "imputationToolJar: ${imputationToolJar}"
 echo "imputationToolVersion: ${imputationToolVersion}"
 echo "javaVersion: ${javaVersion}"
 
+alloutputsexist \
+	"${outputTriTyperChrDir}/GenotypeMatrix.dat" \
+    "${outputTriTyperChrDir}/Individuals.txt" \
+    "${outputTriTyperChrDir}/PhenotypeInformation.txt" \
+    "${outputTriTyperChrDir}/SNPMappings.txt" \
+    "${outputTriTyperChrDir}/SNPs.txt" \
+	"${outputPedMapForwardChrDir}/chr$chr.dat" \
+	"${outputPedMapForwardChrDir}/chr$chr.map" \
+	"${outputPedMapForwardChrDir}/chr$chr.markersbeagleformat" \
+	"${outputPedMapForwardChrDir}/chr$chr.ped" \
+	"${outputPedMapForwardChrDir}/chr$chr.out" \
+	"${outputPedMapForwardChrDir}/exportlog.txt"
+
+inputs $studyInputDir/chr$chr.ped
+inputs $studyInputDir/chr$chr.map
+inputs $triTyperReference
 
 #Create output directories
 mkdir -p $outputTriTyperDir

@@ -139,6 +139,7 @@ then
 
 	for tempFile in ${tmpOutput}* ; do
 		finalFile=`echo $tempFile | sed -e "s/~//g"`
+		echo "Moving temp file: ${tempFile} to ${finalFile}"
 		mv $tempFile $finalFile
 		putFile $finalFile
 	done
@@ -163,6 +164,7 @@ then
 
 	for tempFile in ${tmpOutput}* ; do
 		finalFile=`echo $tempFile | sed -e "s/~//g"`
+		echo "Moving temp file: ${tempFile} to ${finalFile}"
 		mv $tempFile $finalFile
 		putFile $finalFile
 	done
