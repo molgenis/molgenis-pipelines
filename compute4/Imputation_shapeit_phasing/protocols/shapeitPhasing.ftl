@@ -4,46 +4,63 @@ foreach project,chr
 
 mkdir -p ${phasingIntermediatesFolder}
 
-shapeitBin = "${shapeitGridBin}"
+shapeitBin = "${shapeitBin}"
 m="${m}"
-studyPedMap="${studyPedMap}"
+studyData="${studyData}"
+studyDataType="${studyDataType}"
 threads="${shapeitThreads}"
 chr="${chr}"
 
 tmpOutput="${phasingIntermediatesFolder}/~chr${chr}"
 finalOutput="${phasingIntermediatesFolder}/chr${chr}"
 
-
-getFile ${m}
-
-#Split variable studyPedMap on spaces
-INSPM="${studyPedMap}"
-arr1=$(echo $INSPM | tr " " "\n")
-
-for element in $arr1
-do
-    echo "Detected files: $element"
-    getFile $element
-done
-
 ${stage} shapeit/${shapeitversion}
 
 
-
-startTime=$(date +%s)
+<#noparse>
 
 echo "m: ${m}";
-echo "studyPedMap: ${studyPedMap}"
+echo "studyData: ${studyData}"
+echo "studyDataType: ${studyDataType}"
 echo "threads: ${shapeitThreads}"
 echo "chr: ${chr}"
 echo "interMediFolder: ${phasingIntermediatesFolder}"
-
 echo "tmpOutput: ${tmpOutput}"
 
-<#noparse>
+if [ $studyDataType = "PED" ]; then
+	inputVarName="--input-ped"
+elif [ $studyDataType = "BED" ]; then
+	inputVarName="--input-bed"
+elif [ $studyDataType = "GEN" ]; then
+	inputVarName="--input-gen"
+else
+  	echo "The variable studyDataType provided in the worksheet does not match any of the following values: PED, BED or GEN"
+  	echo "Analysis can not be continued. Exiting now!"
+  	exit 1
+fi
+
+startTime=$(date +%s)
+
+alloutputsexist \
+	"${phasingIntermediatesFolder}/chr${chr}.haps" \
+	"${phasingIntermediatesFolder}/chr${chr}.sample"
+
+getFile $m
+inputs $m
+
+# $studyData can be multiple files. Here we will check each file and do a getFile, if needed, for each file
+for refStudyData in $studyData
+do
+	echo "Reference haplotype file: ${refStudyData}"
+	getFile $refStudyData
+	inputs $refStudyData
+done
+
+
+
 
 $shapeitBin \
---input-ped $studyPedMap \
+$inputVarName $studyPedMap \
 --input-map $m \
 --output-max $tmpOutput \
 --thread $threads

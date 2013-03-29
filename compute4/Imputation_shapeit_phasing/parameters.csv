@@ -22,11 +22,8 @@ impute2ChunkOutput,${imputationIntermediatesFolder}/chr${chr}_${fromChrPos}-${to
 impute2ChunkOutputInfo,${imputationIntermediatesFolder}/chr${chr}_${fromChrPos}-${toChrPos}_info,,string,
 outputFolder,,,,
 project,,,,outputFolder
-known_haps_g,,,,
 m,,,,
-h,,,,
-l,,,,
-additonalImpute2Param,,,,
 outputFolder,,,,
 chr,,,,
-studyPedMap,,,,
+studyData,,Two study input files,string,
+studyDataType,,enum (PED,BED,GEN),,
