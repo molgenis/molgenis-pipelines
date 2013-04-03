@@ -20,6 +20,17 @@ python ${convert_from_minimac_prob_to_plink} \
 	${imputationResultDir}/~chunk${chrChunk}-chr${chr}_sampleChunk${sampleChunk}.imputed.ped \
 	${imputationResultDir}/~chunk${chrChunk}-chr${chr}_sampleChunk${sampleChunk}.imputed.map 
 
+returnCode=$?
+
+if [ $returnCode -eq 0 ]
+then
+	echo 'Convert prob and info files to plink, finished with no apparent problem'
+else
+       echo -e "\nNon zero return code not making files final. Existing temp files are kept for debuging purposes\n\n"
+       #Return non zero return code
+       exit 1
+fi
+
 #Measure concordance with plink
 ${plink} \
 	--file ${imputationResultDir}/~chunk${chrChunk}-chr${chr}_sampleChunk${sampleChunk}.imputed \
