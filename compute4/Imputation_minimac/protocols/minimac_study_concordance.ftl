@@ -47,7 +47,8 @@ then
 
 	mv ${imputationResultDir}/~chunk${chrChunk}-chr${chr}_sampleChunk${sampleChunk}.imputed.ped ${imputationResultDir}/chunk${chrChunk}-chr${chr}_sampleChunk${sampleChunk}.imputed.ped
 	mv ${imputationResultDir}/~chunk${chrChunk}-chr${chr}_sampleChunk${sampleChunk}.imputed.map ${imputationResultDir}/chunk${chrChunk}-chr${chr}_sampleChunk${sampleChunk}.imputed.map
-	mv ${imputationResultDir}/~chunk${chrChunk}-chr${chr}_sampleChunk${sampleChunk}.concordance ${imputationResultDir}/chunk${chrChunk}-chr${chr}_sampleChunk${sampleChunk}.concordance
+	mv ${imputationResultDir}/~chunk${chrChunk}-chr${chr}_sampleChunk${sampleChunk}.concordance.log ${imputationResultDir}/chunk${chrChunk}-chr${chr}_sampleChunk${sampleChunk}.concordance.log
+	mv ${imputationResultDir}/~chunk${chrChunk}-chr${chr}_sampleChunk${sampleChunk}.concordance.diff ${imputationResultDir}/chunk${chrChunk}-chr${chr}_sampleChunk${sampleChunk}.concordance.diff
 
 	putFile ${imputationResultDir}/chunk${chrChunk}-chr${chr}_sampleChunk${sampleChunk}.imputed.ped
 	putFile ${imputationResultDir}/chunk${chrChunk}-chr${chr}_sampleChunk${sampleChunk}.imputed.map
