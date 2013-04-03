@@ -16,6 +16,17 @@ ${stage} impute/${impute2version}
 
 <#noparse>
 
+tmpOutput="${imputationIntermediatesFolder}/~chr${chr}_${fromChrPos}-${toChrPos}"
+finalOutput="${imputationIntermediatesFolder}/chr${chr}_${fromChrPos}-${toChrPos}"
+
+echo "known_haps_g: ${known_haps_g}";
+echo "chr: ${chr}"
+echo "fromChrPos: ${fromChrPos}"
+echo "toChrPos: ${toChrPos}"
+echo "interMediFolder: ${imputationIntermediatesFolder}"
+echo "tmpOutput: ${tmpOutput}"
+echo "finalOutput: ${finalOutput}"
+
 alloutputsexist \
 	"${finalOutput}" \
 	"${finalOutput}_info" \
@@ -24,15 +35,6 @@ alloutputsexist \
 	"${finalOutput}_warnings"
 
 startTime=$(date +%s)
-
-echo "known_haps_g: ${known_haps_g}";
-echo "chr: ${chr}"
-echo "fromChrPos: ${fromChrPos}"
-echo "toChrPos: ${toChrPos}"
-echo "interMediFolder: ${imputationIntermediatesFolder}"
-
-tmpOutput="${imputationIntermediatesFolder}/~chr${chr}_${fromChrPos}-${toChrPos}"
-finalOutput="${imputationIntermediatesFolder}/chr${chr}_${fromChrPos}-${toChrPos}"
 
 echo "tmpOutput: ${tmpOutput}"
 
