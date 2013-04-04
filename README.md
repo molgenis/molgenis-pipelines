@@ -5,6 +5,7 @@
 This repository contains the following pipelines:
 * Alignment
 * Imputation
+* GWAS
 
 In addition it contains protocols that may be re-used between different (versions of a) pipeline(s).
 
