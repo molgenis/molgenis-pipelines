@@ -16,7 +16,7 @@ if [ -z "$GNUPLOT_PS_DIR" ]; then
     export GNUPLOT_PS_DIR=${gnuplot_path}/term/PostScript
 fi  
 
-mkdir -p ${resultDir}/pca
+mkdir -p ${resultDir}
 
 #Creating parameters file
 echo "
@@ -31,7 +31,7 @@ familynames:     NO
 " > ${resultDir}/param.txt
 
 #Convert from ped / map to eigen
-${convertf} -p ${resultDir}/pca/param.txt
+${convertf} -p ${resultDir}/param.txt
 
 alloutputsexist \
   ${resultDir}/combinedPca.pca \
