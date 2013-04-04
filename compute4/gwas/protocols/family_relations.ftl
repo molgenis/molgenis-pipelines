@@ -2,27 +2,26 @@
 
 #FOREACH project
 
-#TODO: create protocol to merge ped/map files if needed
 
-getFile ${resultDir}/merged/merged.bed
-getFile ${resultDir}/merged/merged.bim
-getFile ${resultDir}/merged/merged.fam
+getFile ${studyInputDir}/merged.bed
+getFile ${studyInputDir}/merged.bim
+getFile ${studyInputDir}/merged.fam
 
-mkdir -p ${resultDir}/family_rel
+mkdir -p ${resultDir}
 
 alloutputsexist \
-  ${resultDir}/family_rel/merged.kin
+  ${resultDir}/merged.kin
 
-${king} -b ${resultDir}/merged/merged.bed --kinship --related --prefix ${resultDir}/family_rel/~merged
+${king} -b ${studyInputDir}/merged.bed --kinship --related --prefix ${resultDir}/~merged
 
 #Get return code from last program call
 returnCode=$?
 
 if [ $returnCode -eq 0 ]
 then
-  mv ${resultDir}/family_rel/~merged.kin ${resultDir}/family_rel/merged.kin
+	mv ${resultDir}/~merged.kin ${resultDir}/merged.kin
 
-	putFile ${resultDir}/family_rel/merged.kin
+	putFile ${resultDir}/merged.kin
 
 else
   
