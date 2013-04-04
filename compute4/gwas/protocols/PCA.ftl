@@ -2,8 +2,8 @@
 
 #FOREACH project
 
-getFile ${resultDir}/prunning/merged.ped
-getFile ${resultDir}/prunning/merged.map
+getFile ${studyInputDir}/merged.ped
+getFile ${studyInputDir}/merged.map
 
 #Check if convertf is on path
 hash convertf || PATH=$PATH:${tooldir}/EIG/
@@ -20,37 +20,37 @@ mkdir -p ${resultDir}/pca
 
 #Creating parameters file
 echo "
-genotypename:    ${resultDir}/prunning/merged.ped
-snpname:         ${resultDir}/prunning/merged.map
-indivname:       ${resultDir}/prunning/merged.ped
+genotypename:    ${studyInputDir}/merged.ped
+snpname:         ${studyInputDir}/merged.map
+indivname:       ${studyInputDir}/merged.ped
 outputformat:    EIGENSTRAT
-genotypeoutname: ${resultDir}/pca/~combined.eigenstratgeno
-snpoutname:      ${resultDir}/pca/~combined.snp
-indivoutname:    ${resultDir}/pca/~combined.ind
+genotypeoutname: ${resultDir}/~combined.eigenstratgeno
+snpoutname:      ${resultDir}/~combined.snp
+indivoutname:    ${resultDir}/~combined.ind
 familynames:     NO
-" > ${resultDir}/pca/param.txt
+" > ${resultDir}/param.txt
 
 #Convert from ped / map to eigen
 ${convertf} -p ${resultDir}/pca/param.txt
 
 alloutputsexist \
-  ${resultDir}/pca/combinedPca.pca \
-  ${resultDir}/pca/combinedPca.plot \
-  ${resultDir}/pca/combinedPca.eval \
-  ${resultDir}/pca/combinedPca.log
+  ${resultDir}/combinedPca.pca \
+  ${resultDir}/combinedPca.plot \
+  ${resultDir}/combinedPca.eval \
+  ${resultDir}/combinedPca.log
 
 
 #Do the PCA
 #We change the running directory because the pdf is exported at current dir
-cd ${resultDir}/pca; ${smartpca_perl} \
-    -i ${resultDir}/pca/~combined.eigenstratgeno \
-    -a ${resultDir}/pca/~combined.snp \
-    -b ${resultDir}/pca/~combined.ind \
+cd ${resultDir}; ${smartpca_perl} \
+    -i ${resultDir}/~combined.eigenstratgeno \
+    -a ${resultDir}/~combined.snp \
+    -b ${resultDir}/~combined.ind \
     -k 10 \
-    -o ${resultDir}/pca/~combinedPca.pca \
-    -p ${resultDir}/pca/~combinedPca.plot \
-    -e ${resultDir}/pca/~combinedPca.eval \
-    -l ${resultDir}/pca/~combinedPca.log \
+    -o ${resultDir}/~combinedPca.pca \
+    -p ${resultDir}/~combinedPca.plot \
+    -e ${resultDir}/~combinedPca.eval \
+    -l ${resultDir}/~combinedPca.log \
     -m 0 \
     -t 10 \
     -s 6 
@@ -60,23 +60,23 @@ returnCode=$?
 
 if [ $returnCode -eq 0 ]
 then
-	mv ${resultDir}/pca/~combined.eigenstratgeno ${resultDir}/pca/combined.eigenstratgeno
-	mv ${resultDir}/pca/~combined.snp ${resultDir}/pca/combined.snp
-	mv ${resultDir}/pca/~combined.ind ${resultDir}/pca/combined.ind
-	mv ${resultDir}/pca/~combinedPca.pca ${resultDir}/pca/combinedPca.pca
-	mv ${resultDir}/pca/~combinedPca.plot ${resultDir}/pca/combinedPca.plot
-	mv ${resultDir}/pca/~combinedPca.eval ${resultDir}/pca/combinedPca.eval
-	mv ${resultDir}/pca/~combinedPca.log ${resultDir}/pca/combinedPca.log
-	mv ${resultDir}/pca/~combinedPca.plot.pdf ${resultDir}/pca/combinedPca.plot.pdf
+	mv ${resultDir}/~combined.eigenstratgeno ${resultDir}/combined.eigenstratgeno
+	mv ${resultDir}/~combined.snp ${resultDir}/combined.snp
+	mv ${resultDir}/~combined.ind ${resultDir}/combined.ind
+	mv ${resultDir}/~combinedPca.pca ${resultDir}/combinedPca.pca
+	mv ${resultDir}/~combinedPca.plot ${resultDir}/combinedPca.plot
+	mv ${resultDir}/~combinedPca.eval ${resultDir}/combinedPca.eval
+	mv ${resultDir}/~combinedPca.log ${resultDir}/combinedPca.log
+	mv ${resultDir}/~combinedPca.plot.pdf ${resultDir}/combinedPca.plot.pdf
 
-	putFile ${resultDir}/pca/combined.eigenstratgeno
-	putFile ${resultDir}/pca/combined.snp
-	putFile ${resultDir}/pca/combined.ind
-	putFile ${resultDir}/pca/combinedPca.pca
-	putFile ${resultDir}/pca/combinedPca.plot
-	putFile ${resultDir}/pca/combinedPca.eval
-	putFile ${resultDir}/pca/combinedPca.log
-	putFile ${resultDir}/pca/combinedPca.plot.pdf
+	putFile ${resultDir}/combined.eigenstratgeno
+	putFile ${resultDir}/combined.snp
+	putFile ${resultDir}/combined.ind
+	putFile ${resultDir}/combinedPca.pca
+	putFile ${resultDir}/combinedPca.plot
+	putFile ${resultDir}/combinedPca.eval
+	putFile ${resultDir}/combinedPca.log
+	putFile ${resultDir}/combinedPca.plot.pdf
 	
 else
   

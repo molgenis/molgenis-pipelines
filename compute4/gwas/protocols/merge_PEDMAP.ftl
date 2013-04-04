@@ -3,12 +3,12 @@
 #FOREACH project
 
 mkdir -p ${resultDir}
-touch ${resultDir}/allfiles.txt
+rm -f ${resultDir}/allfiles.txt
 
 getFile ${studyInputDir}/chr1.ped
 getFile ${studyInputDir}/chr1.map
 
-for $CHROMOSOME in {2..22}
+for CHROMOSOME in {2..22}
 do
    getFile ${studyInputDir}/chr$CHROMOSOME.ped
    getFile ${studyInputDir}/chr$CHROMOSOME.map
