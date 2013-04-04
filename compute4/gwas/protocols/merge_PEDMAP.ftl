@@ -5,23 +5,23 @@
 mkdir -p ${resultDir}
 touch ${resultDir}/allfiles.txt
 
-getFile ${inputDir}/chr1.ped
-getFile ${inputDir}/chr1.map
+getFile ${studyInputDir}/chr1.ped
+getFile ${studyInputDir}/chr1.map
 
 for $CHROMOSOME in {2..22}
 do
-   getFile ${inputDir}/chr$CHROMOSOME.ped
-   getFile ${inputDir}/chr$CHROMOSOME.map
-   echo "${inputDir}/chr$CHROMOSOME.ped ${inputDir}/chr$CHROMOSOME.map" >> ${resultDir}/allfiles.txt
+   getFile ${studyInputDir}/chr$CHROMOSOME.ped
+   getFile ${studyInputDir}/chr$CHROMOSOME.map
+   echo "${studyInputDir}/chr$CHROMOSOME.ped ${studyInputDir}/chr$CHROMOSOME.map" >> ${resultDir}/allfiles.txt
 done
 
 alloutputsexist \
    ${resultDir}/merged.ped \
    ${resultDir}/merged.map
 
-${plink} --file ${inputDir}/chr1 --merge-list ${resultDir}/allfiles.txt --noweb --recode --out ${resultDir}/~merged
+${plink} --file ${studyInputDir}/chr1 --merge-list ${resultDir}/allfiles.txt --noweb --recode --out ${resultDir}/~merged
 
-${plink} --file ${inputDir}/chr1 --merge-list ${resultDir}/allfiles.txt --noweb --make-bed --out ${resultDir}/~merged
+${plink} --file ${studyInputDir}/chr1 --merge-list ${resultDir}/allfiles.txt --noweb --make-bed --out ${resultDir}/~merged
 
 
 #Get return code from last program call
