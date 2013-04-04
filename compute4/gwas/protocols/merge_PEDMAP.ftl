@@ -2,25 +2,26 @@
 
 #FOREACH project
 
-touch ${resultDir}/prunning/allfiles.txt
+mkdir -p ${resultDir}
+touch ${resultDir}/allfiles.txt
 
-getFile ${resultDir}/prunning/chr1.ped
-getFile ${resultDir}/prunning/chr1.map
+getFile ${inputDir}/chr1.ped
+getFile ${inputDir}/chr1.map
 
 for $CHROMOSOME in {2..22}
 do
-   getFile ${resultDir}/prunning/chr$CHROMOSOME.ped
-   getFile ${resultDir}/prunning/chr$CHROMOSOME.map
-   echo "${resultDir}/prunning/chr$CHROMOSOME.ped ${resultDir}/prunning/chr$CHROMOSOME.map" >> ${resultDir}/prunning/allfiles.txt
+   getFile ${inputDir}/chr$CHROMOSOME.ped
+   getFile ${inputDir}/chr$CHROMOSOME.map
+   echo "${inputDir}/chr$CHROMOSOME.ped ${inputDir}/chr$CHROMOSOME.map" >> ${resultDir}/allfiles.txt
 done
 
 alloutputsexist \
-   ${resultDir}/prunning/merged.ped \
-   ${resultDir}/prunning/merged.map
+   ${resultDir}/merged.ped \
+   ${resultDir}/merged.map
 
-${plink} --file ${resultDir}/prunning/chr1 --merge-list ${resultDir}/prunning/allfiles.txt --noweb --recode --out ${resultDir}/prunning/~merged
+${plink} --file ${inputDir}/chr1 --merge-list ${resultDir}/allfiles.txt --noweb --recode --out ${resultDir}/~merged
 
-${plink} --file ${resultDir}/prunning/chr1 --merge-list ${resultDir}/prunning/allfiles.txt --noweb --make-bed --out ${resultDir}/prunning/~merged
+${plink} --file ${inputDir}/chr1 --merge-list ${resultDir}/allfiles.txt --noweb --make-bed --out ${resultDir}/~merged
 
 
 #Get return code from last program call
@@ -28,18 +29,18 @@ returnCode=$?
 
 if [ $returnCode -eq 0 ]
 then
-    mv ${resultDir}/prunning/~merged.ped ${resultDir}/prunning/merged.ped
-    mv ${resultDir}/prunning/~merged.map ${resultDir}/prunning/merged.map
+    mv ${resultDir}/~merged.ped ${resultDir}/merged.ped
+    mv ${resultDir}/~merged.map ${resultDir}/merged.map
 
-    mv ${resultDir}/prunning/~merged.fam ${resultDir}/prunning/merged.fam
-    mv ${resultDir}/prunning/~merged.bim ${resultDir}/prunning/merged.bim
-    mv ${resultDir}/prunning/~merged.bed ${resultDir}/prunning/merged.bed
+    mv ${resultDir}/~merged.fam ${resultDir}/merged.fam
+    mv ${resultDir}/~merged.bim ${resultDir}/merged.bim
+    mv ${resultDir}/~merged.bed ${resultDir}/merged.bed
 
-    putFile ${resultDir}/prunning/merged.ped
-    putFile ${resultDir}/prunning/merged.map
-    putFile ${resultDir}/prunning/merged.fam
-    putFile ${resultDir}/prunning/merged.bim
-    putFile ${resultDir}/prunning/merged.bed
+    putFile ${resultDir}/merged.ped
+    putFile ${resultDir}/merged.map
+    putFile ${resultDir}/merged.fam
+    putFile ${resultDir}/merged.bim
+    putFile ${resultDir}/merged.bed
 
 else
   
