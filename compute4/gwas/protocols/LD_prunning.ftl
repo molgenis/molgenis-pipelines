@@ -2,30 +2,30 @@
 
 #FOREACH project,chr
 
-getFile ${resultDir}/qc_1/chr${chr}.ped
-getFile ${resultDir}/qc_1/chr${chr}.map
+getFile ${studyInputDir}/chr${chr}.ped
+getFile ${studyInputDir}/chr${chr}.map
 
-mkdir -p ${resultDir}/prunning
+mkdir -p ${resultDir}
 
 alloutputsexist \
-    ${resultDir}/prunning/chr${chr}.ped
-    ${resultDir}/prunning/chr${chr}.map
+    ${resultDir}/chr${chr}.ped
+    ${resultDir}/chr${chr}.map
 
 # http://pngu.mgh.harvard.edu/~purcell/plink/summary.shtml#prune
-${plink} --file ${resultDir}/qc_1/chr${chr} --indep-pairwise 1000 5 0.2 --out ${resultDir}/prunning/~chr${chr} --noweb
+${plink} --file ${studyInputDir}/chr${chr} --indep-pairwise 1000 5 0.2 --out ${resultDir}/~chr${chr} --noweb
 
-${plink} --file ${resultDir}/qc_1/chr${chr} --extract ${resultDir}/prunning/~chr${chr}.prune.in --noweb --recode --out ${resultDir}/prunning/~chr${chr}
+${plink} --file ${studyInputDir}/chr${chr} --extract ${resultDir}/~chr${chr}.prune.in --noweb --recode --out ${resultDir}/~chr${chr}
 
 #Get return code from last program call
 returnCode=$?
 
 if [ $returnCode -eq 0 ]
 then
-    mv ${resultDir}/prunning/~chr${chr}.ped ${resultDir}/prunning/chr${chr}.ped
-    mv ${resultDir}/prunning/~chr${chr}.map ${resultDir}/prunning/chr${chr}.map
+    mv ${resultDir}/~chr${chr}.ped ${resultDir}/chr${chr}.ped
+    mv ${resultDir}/~chr${chr}.map ${resultDir}/chr${chr}.map
 
-    putFile ${resultDir}/prunning/chr${chr}.ped
-    putFile ${resultDir}/prunning/chr${chr}.map
+    putFile ${resultDir}/chr${chr}.ped
+    putFile ${resultDir}/chr${chr}.map
 
 else
   
