@@ -8,7 +8,7 @@ echo "Begin job ${jobname} at $(date)" >> $PBS_O_WORKDIR/RUNTIME.log
 
 echo Running on node: `hostname`
 
-sleep 60
+sleep 10
 ###### MAIN ######
 </#macro>
 
