@@ -22,6 +22,12 @@ set -u
 umask ${umask}
 
 #
+# Setup environmnet for tools we need.
+#
+module load bcl2fastq/${bcl2fastqVersion}
+module list
+
+#
 # Initialize script specific vars.
 #
 SCRIPTNAME=$(basename $0)
@@ -52,7 +58,7 @@ perl ${scriptsDir}/CreateIlluminaSampleSheet.pl \
 #
 # Configure BCL to FastQ conversion for this run. 
 #
-${bcl2fastqConfigureTool} \
+configureBclToFastq.pl \
 --force \
 --fastq-cluster-count 0 \
 --input-dir ${bclDir}/Data/Intensities/BaseCalls/ \
