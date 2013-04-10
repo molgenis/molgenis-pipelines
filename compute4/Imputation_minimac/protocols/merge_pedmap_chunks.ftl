@@ -24,7 +24,7 @@ echo $TO_RUN
 
 echo $TO_RUN > ${imputationResultDir}/chr${chr}_sampleChunk${sampleChunk}.imputed.merge_ped.sh
 
-${imputationResultDir}/chr${chr}_sampleChunk${sampleChunk}.imputed.merge_ped.sh
+. ${imputationResultDir}/chr${chr}_sampleChunk${sampleChunk}.imputed.merge_ped.sh
 
 #Get return code from last program call
 returnCode=$?
@@ -49,7 +49,7 @@ echo $TO_RUN
 
 echo $TO_RUN > ${imputationResultDir}/chr${chr}_sampleChunk${sampleChunk}.imputed.merge_map.sh
 
-${imputationResultDir}/chr${chr}_sampleChunk${sampleChunk}.imputed.merge_map.sh
+. ${imputationResultDir}/chr${chr}_sampleChunk${sampleChunk}.imputed.merge_map.sh
 
 #Get return code from last program call
 returnCode=$?
