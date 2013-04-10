@@ -22,9 +22,9 @@ TO_RUN=$(echo "paste "; value=0; ls -1 ${imputationResultDir}/chunk*-chr${chr}_s
 echo "PED Merging Script:" 
 echo $TO_RUN
 
-echo $TO_RUN > ${imputationResultDir}/chunk$temp_chunk-chr${chr}_sampleChunk${sampleChunk}.imputed.merge.sh
+echo $TO_RUN > ${imputationResultDir}/chunk$temp_chunk-chr${chr}_sampleChunk${sampleChunk}.imputed.merge_ped.sh
 
-${imputationResultDir}/chunk$temp_chunk-chr${chr}_sampleChunk${sampleChunk}.imputed.merge.sh
+${imputationResultDir}/chunk$temp_chunk-chr${chr}_sampleChunk${sampleChunk}.imputed.merge_ped.sh
 
 #Get return code from last program call
 returnCode=$?
@@ -47,7 +47,9 @@ TO_RUN=(echo "cat "; ls -1 ${imputationResultDir}/chunk*-chr${chr}_sampleChunk${
 echo "MAP Merging script:"
 echo $TO_RUN
 
-$TO_RUN
+echo $TO_RUN > ${imputationResultDir}/chunk$temp_chunk-chr${chr}_sampleChunk${sampleChunk}.imputed.merge_map.sh
+
+${imputationResultDir}/chunk$temp_chunk-chr${chr}_sampleChunk${sampleChunk}.imputed.merge_map.sh
 
 #Get return code from last program call
 returnCode=$?
