@@ -17,7 +17,7 @@ alloutputsexist \
 	${imputationResultDir}/chr${chr}_sampleChunk${sampleChunk}.imputed.ped \
 	${imputationResultDir}/chr${chr}_sampleChunk${sampleChunk}.imputed.map
 
-TO_RUN=$(echo "paste \\"; value=0; ls -1 ${imputationResultDir}/chunk*-chr${chr}_sampleChunk${sampleChunk}.imputed.ped | sort -n -k 1.$STUDY_LENGTH | while read CMD; do value=`expr $value + 1`; if [ $value -eq 1 ]; then echo "$CMD "; else echo "<(cut -d ' ' -f 7- $CMD) "; fi; done; echo "> ${imputationResultDir}/~chr${chr}_sampleChunk${sampleChunk}.imputed.ped")
+TO_RUN=$(echo "paste "; value=0; ls -1 ${imputationResultDir}/chunk*-chr${chr}_sampleChunk${sampleChunk}.imputed.ped | sort -n -k 1.$STUDY_LENGTH | while read CMD; do value=`expr $value + 1`; if [ $value -eq 1 ]; then echo "$CMD "; else echo "<(cut -d ' ' -f 7- $CMD) "; fi; done; echo "> ${imputationResultDir}/~chr${chr}_sampleChunk${sampleChunk}.imputed.ped")
 
 echo "PED Merging Script:"
 echo $TO_RUN
