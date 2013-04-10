@@ -28,5 +28,7 @@ else
 	echo -e "\nNon zero return code not making files final. Existing temp files are kept for debuging purposes\n\n"
 	#Return non zero return code
 	exit 1
-
 fi
+
+python ${parse_king_kin} ${resultDir}/merged.kin ${resultDir}/indv_to_eclude 'FS'
+
