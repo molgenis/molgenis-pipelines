@@ -22,7 +22,7 @@ TO_RUN=$(echo "paste \\"; value=0; ls -1 ${imputationResultDir}/chunk*-chr${chr}
 echo "PED Merging Script:"
 echo $TO_RUN
 
-${TO_RUN}
+$TO_RUN
 
 #Get return code from last program call
 returnCode=$?
@@ -45,7 +45,7 @@ TO_RUN=(echo "cat "; ls -1 ${imputationResultDir}/chunk*-chr${chr}_sampleChunk${
 echo "MAP Merging script:"
 echo $TO_RUN
 
-$(TO_RUN)
+$TO_RUN
 
 #Get return code from last program call
 returnCode=$?
