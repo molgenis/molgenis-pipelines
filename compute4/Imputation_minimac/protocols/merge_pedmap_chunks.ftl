@@ -19,10 +19,12 @@ alloutputsexist \
 
 TO_RUN=$(echo "paste "; value=0; ls -1 ${imputationResultDir}/chunk*-chr${chr}_sampleChunk${sampleChunk}.imputed.ped | sort -n -k 1.$STUDY_LENGTH | while read CMD; do value=`expr $value + 1`; if [ $value -eq 1 ]; then echo "$CMD "; else echo "<(cut -d ' ' -f 7- $CMD) "; fi; done; echo "> ${imputationResultDir}/~chr${chr}_sampleChunk${sampleChunk}.imputed.ped")
 
-echo "PED Merging Script:"
+echo "PED Merging Script:" 
 echo $TO_RUN
 
-$TO_RUN
+echo $TO_RUN > ${imputationResultDir}/chunk$temp_chunk-chr${chr}_sampleChunk${sampleChunk}.imputed.merge.sh
+
+${imputationResultDir}/chunk$temp_chunk-chr${chr}_sampleChunk${sampleChunk}.imputed.merge.sh
 
 #Get return code from last program call
 returnCode=$?
