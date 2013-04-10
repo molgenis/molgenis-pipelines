@@ -1,6 +1,6 @@
 #MOLGENIS walltime=96:00:00 nodes=1 cores=1 mem=4
 
-#FOREACH project,resultDir
+#FOREACH project,removeDir
 
 
 getFile ${studyInputDir}/merged.ped
