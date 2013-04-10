@@ -3,14 +3,14 @@
 #FOREACH project
 
 
-getFile ${studyInputDir}/merged.bed
-getFile ${studyInputDir}/merged.bim
-getFile ${studyInputDir}/merged.fam
+getFile ${studyInputDir}/merged.ped
+getFile ${studyInputDir}/merged.map
 
 mkdir -p ${resultDir}
 
 alloutputsexist \
-  ${resultDir}/merged.kin
+  ${resultDir}/merged.ped \
+  ${resultDir}/merged.map
 
 ${king} -b ${studyInputDir}/merged.bed --kinship --related --prefix ${resultDir}/~merged
 
