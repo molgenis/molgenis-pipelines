@@ -42,7 +42,7 @@ else
 fi
 
 
-TO_RUN=(echo "cat "; ls -1 ${imputationResultDir}/chunk*-chr${chr}_sampleChunk${sampleChunk}.imputed.map | sort -n -k 1.$STUDY_LENGTH | while read CMD; do echo " $CMD "; done; echo " > ${imputationResultDir}/~chr${chr}_sampleChunk${sampleChunk}.imputed.map")
+TO_RUN=$(echo "cat "; ls -1 ${imputationResultDir}/chunk*-chr${chr}_sampleChunk${sampleChunk}.imputed.map | sort -n -k 1.$STUDY_LENGTH | while read CMD; do echo " $CMD "; done; echo " > ${imputationResultDir}/~chr${chr}_sampleChunk${sampleChunk}.imputed.map")
 
 echo "MAP Merging script:"
 echo $TO_RUN
