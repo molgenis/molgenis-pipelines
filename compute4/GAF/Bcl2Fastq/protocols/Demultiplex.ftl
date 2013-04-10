@@ -43,6 +43,7 @@ umask ${umask}
 # Setup environmnet for tools we need.
 #
 module load R
+module list
 
 #
 # Initialize script specific vars.
@@ -90,9 +91,9 @@ fi
 		# Demultiplex the multiplexed, gzipped FastQ file.
 		#
 		Rscript ${demultiplexScript} --bcs '${csv(barcode)}' \
-		--mpr1 ${runResultsDir}/${compressedFastqFilenameSR} \
-		--dmr1 '${csv_with_prefix(compressedDemultiplexedSampleFastqFilenameSR, fluxDir)}' \
-		--ukr1 ${fluxDir}/${compressedDemultiplexedDiscardedFastqFilenameSR} \
+		--mpr1 "${runResultsDir}/${compressedFastqFilenameSR}" \
+		--dmr1 "${csv_with_prefix(compressedDemultiplexedSampleFastqFilenameSR, fluxDir)}" \
+		--ukr1 "${fluxDir}/${compressedDemultiplexedDiscardedFastqFilenameSR}" \
 		--tm MP \
 		> ${fluxDir}/${filenamePrefix}.demultiplex.log
 		
@@ -188,12 +189,13 @@ fi
 			reads_1=$(gzip -cd ${runResultsDir}/${compressedDemultiplexedSampleFastqFilenamePE1[fileToCheck_index]} | wc -l)
 			reads_2=$(gzip -cd ${runResultsDir}/${compressedDemultiplexedSampleFastqFilenamePE2[fileToCheck_index]} | wc -l)
 			if (( $reads_1 != $reads_2)); then
-				touch ${fluxDir}/${filenamePrefix}_${barcode[fileToCheck_index]}.read_count_check.FAILED
+				touch ${fluxDir}/${filenamePrefix}_${barcode[fileToCheck_index]}.read_count_check_for_pairs.FAILED
 				echo "FATAL: Number of reads in both ${filenamePrefix}_${barcode[fileToCheck_index]} FastQ files not the same!"
 				exit 1
 			fi
 
 		</#list>
+		touch ${fluxDir}/${filenamePrefix}.read_count_check_for_pairs.passed
 	<#elseif barcodeType[0] == "GAF">
 		#
 		# Check if the files required for demultiplexing are present.
@@ -222,12 +224,12 @@ fi
 		# Demultiplex the multiplexed, gzipped FastQ file.
 		#
 		Rscript ${demultiplexScript} --bcs '${csv(barcode)}' \
-		--mpr1 ${runResultsDir}/${compressedFastqFilenamePE1} \
-		--mpr2 ${runResultsDir}/${compressedFastqFilenamePE2} \
-		--dmr1 '${csv_with_prefix(compressedDemultiplexedSampleFastqFilenamePE1, fluxDir)}' \    
-		--dmr2 '${csv_with_prefix(compressedDemultiplexedSampleFastqFilenamePE2, fluxDir)}' \
-		--ukr1 ${fluxDir}/${compressedDemultiplexedDiscardedFastqFilenamePE1} \
-		--ukr2 ${fluxDir}/${compressedDemultiplexedDiscardedFastqFilenamePE2} \
+		--mpr1 "${runResultsDir}/${compressedFastqFilenamePE1}" \
+		--mpr2 "${runResultsDir}/${compressedFastqFilenamePE2}" \
+		--dmr1 "${csv_with_prefix(compressedDemultiplexedSampleFastqFilenamePE1, fluxDir)}" \
+		--dmr2 "${csv_with_prefix(compressedDemultiplexedSampleFastqFilenamePE2, fluxDir)}" \
+		--ukr1 "${fluxDir}/${compressedDemultiplexedDiscardedFastqFilenamePE1}" \
+		--ukr2 "${fluxDir}/${compressedDemultiplexedDiscardedFastqFilenamePE2}" \
 		--tm MP \
 		> ${fluxDir}/${filenamePrefix}.demultiplex.log
 		
