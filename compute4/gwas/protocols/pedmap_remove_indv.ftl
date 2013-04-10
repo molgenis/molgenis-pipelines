@@ -5,6 +5,7 @@
 
 getFile ${studyInputDir}/merged.ped
 getFile ${studyInputDir}/merged.map
+getFile ${removeDir}/indv_to_exclude
 
 mkdir -p ${resultDir}
 
@@ -12,16 +13,18 @@ alloutputsexist \
   ${resultDir}/merged.ped \
   ${resultDir}/merged.map
 
-${king} -b ${studyInputDir}/merged.bed --kinship --related --prefix ${resultDir}/~merged
+${plink} --file ${studyInputDir}/merged --remove ${removeDir}/indv_to_exclude --noweb --recode --out ${resultDir}/~merged
 
 #Get return code from last program call
 returnCode=$?
 
 if [ $returnCode -eq 0 ]
 then
-	mv ${resultDir}/~merged.kin ${resultDir}/merged.kin
+	mv ${resultDir}/~merged.ped ${resultDir}/merged.ped
+	mv ${resultDir}/~merged.map ${resultDir}/merged.map
 
-	putFile ${resultDir}/merged.kin
+	putFile ${resultDir}/merged.ped
+	putFile ${resultDir}/merged.map
 
 else
   
@@ -29,22 +32,4 @@ else
 	#Return non zero return code
 	exit 1
 fi
-
-python ${parse_king_kin} ${resultDir}/merged.kin ${resultDir}/~indv_to_exclude 'FS'
-
-returnCode=$?
-
-if [ $returnCode -eq 0 ]
-then
-        mv ${resultDir}/~indv_to_exclude ${resultDir}/indv_to_exclude
-
-        putFile ${resultDir}/indv_to_exclude
-
-else
-
-        echo -e "\nNon zero return code not making files final. Existing temp files are kept for debuging purposes\n\n"
-        #Return non zero return code
-        exit 1
-fi
-
 
