@@ -43,7 +43,7 @@ else
 	exit 1
 fi
 
-cp chr${chr}_sampleChunk1.imputed.map ${imputationResultDir}/~chr${chr}.imputed.map
+cp ${imputationResultDir}/chr${chr}_sampleChunk1.imputed.map ${imputationResultDir}/~chr${chr}.imputed.map
 
 returnCode=$?
 
