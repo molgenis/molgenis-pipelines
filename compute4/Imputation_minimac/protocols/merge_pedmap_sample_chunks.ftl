@@ -22,9 +22,13 @@ TO_RUN=$(echo "cat ";ls -1 ${imputationResultDir}/chr${chr}_sampleChunk*.imputed
 echo "PED Merging script: "
 echo $TO_RUN
 
+echo "script saved at: ${imputationResultDir}/chr${chr}.imputed.merge_ped.sh"
+
 echo $TO_RUN > ${imputationResultDir}/chr${chr}.imputed.merge_ped.sh
 
 . ${imputationResultDir}/chr${chr}.imputed.merge_ped.sh
+
+returnCode=$?
 
 if [ $returnCode -eq 0 ]
 then
@@ -40,6 +44,8 @@ else
 fi
 
 cp chr${chr}_sampleChunk1.imputed.map ${imputationResultDir}/~chr${chr}.imputed.map
+
+returnCode=$?
 
 if [ $returnCode -eq 0 ]
 then
