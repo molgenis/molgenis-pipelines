@@ -17,6 +17,7 @@ alloutputsexist \
 "${indelsVcf}"
 
 perl ${mergeSVspl} \
+-referenceFastaIndex ${indexfileFastaIndex} \
 -pindelVCF ${pindelOutputVcf} \
 -unifiedGenotyperVCF ${ugindelsvcf} \
 -outputVCF ${indelsVcf}
