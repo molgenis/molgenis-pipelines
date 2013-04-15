@@ -17,7 +17,7 @@ done
 alloutputsexist \
 	${imputationResultDir}/chr${chr}.imputed.plink.dose.gz
 
-TO_RUN=$( echo " paste "; ls -1 ${imputationResultDir}/chr${chr}_sampleChunk*.imputed.plink.dose.gz | sort -n -k 1.$STUDY_LENGTH | while read CMD; do  value=`expr $value + 1`; if [ $value -eq 1 ]; then echo " <( zcat $CMD) "; else " <( zcat $CMD | cut -f 4- ) "; fi; done; echo " | gzip > ${imputationResultDir}/~chr${chr}.imputed.plink.dose.gz ")
+TO_RUN=$( echo " paste "; ls -1 ${imputationResultDir}/chr${chr}_sampleChunk*.imputed.plink.dose.gz | sort -n -k 1.$STUDY_LENGTH | while read CMD; do  value=`expr $value + 1`; if [ $value -eq 1 ]; then echo " <( zcat $CMD) "; else echo " <( zcat $CMD | cut -f 4- ) "; fi; done; echo " | gzip > ${imputationResultDir}/~chr${chr}.imputed.plink.dose.gz ")
 
 echo "Merging script:"
 echo $TO_RUN
