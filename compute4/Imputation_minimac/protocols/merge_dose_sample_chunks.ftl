@@ -24,7 +24,7 @@ echo $TO_RUN
 
 echo $TO_RUN > ${imputationResultDir}/chr${chr}.imputed.merge_dose.sh
 
-. ${imputationResultDir}/${imputationResultDir}/chr${chr}.imputed.merge_dose.sh
+. ${imputationResultDir}/chr${chr}.imputed.merge_dose.sh
 
 #Get return code from last program call
 returnCode=$?
