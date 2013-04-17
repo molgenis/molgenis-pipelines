@@ -1,4 +1,5 @@
 Name,defaultValue,description,dataType,hasOne_name
+umask,0007,Umask for file system permissions on POSIX-compliant systems,string,
 scheduler,PBS,,,
 clusterQueue,gcc,,,
 mem,4,Memory in GB,,
@@ -286,10 +287,11 @@ log,log.log,,,
 fastqcVersion,v0.7.0,,,
 bwaVersion,0.5.8c_patched,,,
 picardVersion,1.61,,,
+abyssVersion,1.3.5,,,
 #
 sampleID_kmer_combo,${sampleID}_${kmer},,,"assemblyResultDir,assemblyResultPrefix,abyssContigs"
 assemblyResultDir,${projectResultsDir}/${sampleID}_k${kmer}/,,,
-assemblyResultPrefix,${assemblyResultDir}/ABySS_k${kmer},,,
+assemblyResultPrefix,${assemblyResultDir}/ABySS,,,
 abyssContigs,${assemblyResultPrefix}-contigs.fa,,,"kmer,sampleID"
 fastqPrefix,${sequencingStartDate}_${sequencer}_${run}_${flowcell}_L${lane}_${barcode},,,
 fastq_1,${projectrawdatadir}/${fastqPrefix}_1.fq.gz,,,
