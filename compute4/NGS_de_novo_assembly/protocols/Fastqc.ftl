@@ -19,7 +19,7 @@ umask ${umask}
 # Initialize script specific vars.
 #
 RESULTDIR=<#if projectResultsDir?is_enumerable>${projectResultsDir[0]}<#else>${projectResultsDir}</#if>
-SCRIPTNAME=$(basename $0)
+SCRIPTNAME=${jobname}
 FLUXDIR=<#noparse>${RESULTDIR}/${SCRIPTNAME}</#noparse>_in_flux/
 <#assign fluxDir>${r"${FLUXDIR}"}</#assign>
 

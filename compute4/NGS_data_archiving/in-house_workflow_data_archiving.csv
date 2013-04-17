@@ -1,6 +1,0 @@
-name,protocol_name,PreviousSteps_name
-CreateBclToFastqSampleSheet,CreateBclToFastqSampleSheet,
-BclToFastq,BclToFastq,CreateBclToFastqSampleSheet
-CopyFqToRawdatadir,CopyFqToRawdatadir,BclToFastq
-Demultiplex,Demultiplex,CopyFqToRawdatadir
-CreateFinalReport,CreateFinalReport,
