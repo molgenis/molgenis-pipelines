@@ -18,7 +18,7 @@ umask ${umask}
 #
 # Initialize script specific vars.
 #
-SCRIPTNAME=$(basename $0)
+SCRIPTNAME=${jobname}
 FLUXDIR=${assemblyResultDir}/<#noparse>${SCRIPTNAME}</#noparse>_in_flux/
 <#assign fluxDir>${r"${FLUXDIR}"}</#assign>
 
@@ -49,15 +49,23 @@ module list
 <#list libs as thislib>
 <#assign allreads_1_for_this_lib = "${allreads_1[thislib_index]}" />
 <#assign allreads_2_for_this_lib = "${allreads_2[thislib_index]}" />
-<#list "${allreads_1_for_this_lib}"?split(', ') as read1>
-<#if "${read1}"?ends_with(']')>getFile ${read1?replace(']$', '', 'r')}
-<#elseif "${read1}"?starts_with('[')>getFile ${read1?substring(1)}
+<#if "${allreads_1_for_this_lib}"?starts_with('[')>
+<#assign allreads_1_for_this_lib = "${allreads_1_for_this_lib?substring(1)}" />
 </#if>
+<#if "${allreads_1_for_this_lib}"?ends_with(']')>
+<#assign allreads_1_for_this_lib = "${allreads_1_for_this_lib?replace(']$', '', 'r')}" />
+</#if>
+<#if "${allreads_2_for_this_lib}"?starts_with('[')>
+<#assign allreads_2_for_this_lib = "${allreads_2_for_this_lib?substring(1)}" />
+</#if>
+<#if "${allreads_2_for_this_lib}"?ends_with(']')>
+<#assign allreads_2_for_this_lib = "${allreads_2_for_this_lib?replace(']$', '', 'r')}" />
+</#if>
+<#list "${allreads_1_for_this_lib}"?split(', ') as read1>
+getFile ${read1}
 </#list>
 <#list "${allreads_2_for_this_lib}"?split(', ') as read2>
-<#if "${read2}"?ends_with(']')>getFile ${read2?replace(']$', '', 'r')}
-<#elseif "${read2}"?starts_with('[')>getFile ${read2?substring(1)}
-</#if>
+getFile ${read2}
 </#list>
 </#list>
 
@@ -74,7 +82,19 @@ mp='${ssv(libs)}' \
 <#list libs as thislib>
 <#assign allreads_1_for_this_lib = "${allreads_1[thislib_index]}" />
 <#assign allreads_2_for_this_lib = "${allreads_2[thislib_index]}" />
-${thislib}='<#list "${allreads_1_for_this_lib}"?split(',') as read1><#if "${read1}"?ends_with(']')>${read1?replace(']$', '', 'r')}<#elseif "${read1}"?starts_with('[')>${read1?substring(1)}</#if></#list> <#list "${allreads_2_for_this_lib}"?split(',') as read2><#if "${read2}"?ends_with(']')>${read2?replace(']$', '', 'r')}<#elseif "${read2}"?starts_with('[')>${read2?substring(1)}</#if></#list>' \
+<#if "${allreads_1_for_this_lib}"?starts_with('[')>
+<#assign allreads_1_for_this_lib = "${allreads_1_for_this_lib?substring(1)}" />
+</#if>
+<#if "${allreads_1_for_this_lib}"?ends_with(']')>
+<#assign allreads_1_for_this_lib = "${allreads_1_for_this_lib?replace(']$', '', 'r')}" />
+</#if>
+<#if "${allreads_2_for_this_lib}"?starts_with('[')>
+<#assign allreads_2_for_this_lib = "${allreads_2_for_this_lib?substring(1)}" />
+</#if>
+<#if "${allreads_2_for_this_lib}"?ends_with(']')>
+<#assign allreads_2_for_this_lib = "${allreads_2_for_this_lib?replace(']$', '', 'r')}" />
+</#if>
+${thislib}='<#list "${allreads_1_for_this_lib}"?split(',') as read1>${read1}</#list> <#list "${allreads_2_for_this_lib}"?split(',') as read2>${read2}</#list>' \
 </#list>2>&1 | tee -a ${fluxDir}/ABySS.log
 
 #
