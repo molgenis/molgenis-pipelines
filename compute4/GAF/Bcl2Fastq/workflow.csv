@@ -2,3 +2,4 @@ name,protocol_name,PreviousSteps_name
 Bcl2FastQ,Bcl2FastQ,
 Illumina2GafFastQ,Illumina2GafFastQ,Bcl2FastQ
 Demultiplex,Demultiplex,Illumina2GafFastQ
+CreateFinalReport,CreateFinalReport,

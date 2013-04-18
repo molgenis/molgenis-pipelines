@@ -1,5 +1,3 @@
-
-
 #
 # Initialize: resource usage requests + workflow control
 #
@@ -12,15 +10,33 @@
 set -e
 set -u
 
-<#noparse>
-#module load abyss/${abyssVersion}
-</#noparse>
+#
+# Change permissions.
+#
+umask ${umask}
 
-<#noparse>
-export PATH=/target/gpfs2/gcc/tools/ABySS/bin/:${PATH}
-export PATH=/target/gpfs2/gcc/apps/openmpi-1.43/bin/:${PATH}
-</#noparse>
+#
+# Initialize script specific vars.
+#
+SCRIPTNAME=${jobname}
+FLUXDIR=${assemblyResultDir}/<#noparse>${SCRIPTNAME}</#noparse>_in_flux/
+<#assign fluxDir>${r"${FLUXDIR}"}</#assign>
 
+#
+# Should I stay or should I go?
+#
+if [ -f "${assemblyResultDir}/<#noparse>${SCRIPTNAME}</#noparse>.finished" ]
+then
+    # Skip this job script.
+	echo "${assemblyResultDir}/<#noparse>${SCRIPTNAME}</#noparse>.finished already exists: skipping this job."
+	exit 0
+else
+	rm -Rf ${fluxDir}
+	mkdir -p -m 0770 ${fluxDir}
+fi
+
+module load ABySS/${abyssVersion}
+module list
 
 <#assign folded = foldParameters(parameters,"project,sampleID,kmer,library") />
 <#assign libs = stringList(folded, "library") />
@@ -33,24 +49,27 @@ export PATH=/target/gpfs2/gcc/apps/openmpi-1.43/bin/:${PATH}
 <#list libs as thislib>
 <#assign allreads_1_for_this_lib = "${allreads_1[thislib_index]}" />
 <#assign allreads_2_for_this_lib = "${allreads_2[thislib_index]}" />
-<#list "${allreads_1_for_this_lib}"?split(', ') as read1>
-<#if "${read1}"?ends_with(']')>getFile ${read1?replace(']$', '', 'r')}
-<#elseif "${read1}"?starts_with('[')>getFile ${read1?substring(1)}
+<#if "${allreads_1_for_this_lib}"?starts_with('[')>
+<#assign allreads_1_for_this_lib = "${allreads_1_for_this_lib?substring(1)}" />
 </#if>
+<#if "${allreads_1_for_this_lib}"?ends_with(']')>
+<#assign allreads_1_for_this_lib = "${allreads_1_for_this_lib?replace(']$', '', 'r')}" />
+</#if>
+<#if "${allreads_2_for_this_lib}"?starts_with('[')>
+<#assign allreads_2_for_this_lib = "${allreads_2_for_this_lib?substring(1)}" />
+</#if>
+<#if "${allreads_2_for_this_lib}"?ends_with(']')>
+<#assign allreads_2_for_this_lib = "${allreads_2_for_this_lib?replace(']$', '', 'r')}" />
+</#if>
+<#list "${allreads_1_for_this_lib}"?split(', ') as read1>
+getFile ${read1}
 </#list>
 <#list "${allreads_2_for_this_lib}"?split(', ') as read2>
-<#if "${read2}"?ends_with(']')>getFile ${read2?replace(']$', '', 'r')}
-<#elseif "${read2}"?starts_with('[')>getFile ${read2?substring(1)}
-</#if>
+getFile ${read2}
 </#list>
 </#list>
 
-alloutputsexist "${abyssContigs}"
-
-# first make logdir...
-mkdir -p -m 0770 "${assemblyResultDir}"
-
-cd ${assemblyResultDir}
+cd ${fluxDir}
 
 abyss-pe \
 np=4 \
@@ -63,8 +82,34 @@ mp='${ssv(libs)}' \
 <#list libs as thislib>
 <#assign allreads_1_for_this_lib = "${allreads_1[thislib_index]}" />
 <#assign allreads_2_for_this_lib = "${allreads_2[thislib_index]}" />
-${thislib}='<#list "${allreads_1_for_this_lib}"?split(',') as read1><#if "${read1}"?ends_with(']')>${read1?replace(']$', '', 'r')}<#elseif "${read1}"?starts_with('[')>${read1?substring(1)}</#if></#list> <#list "${allreads_2_for_this_lib}"?split(',') as read2><#if "${read2}"?ends_with(']')>${read2?replace(']$', '', 'r')}<#elseif "${read2}"?starts_with('[')>${read2?substring(1)}</#if></#list>' \
-</#list>2>&1 | tee -a ${assemblyResultDir}/ABySS_k${kmer}_runtime.log
+<#if "${allreads_1_for_this_lib}"?starts_with('[')>
+<#assign allreads_1_for_this_lib = "${allreads_1_for_this_lib?substring(1)}" />
+</#if>
+<#if "${allreads_1_for_this_lib}"?ends_with(']')>
+<#assign allreads_1_for_this_lib = "${allreads_1_for_this_lib?replace(']$', '', 'r')}" />
+</#if>
+<#if "${allreads_2_for_this_lib}"?starts_with('[')>
+<#assign allreads_2_for_this_lib = "${allreads_2_for_this_lib?substring(1)}" />
+</#if>
+<#if "${allreads_2_for_this_lib}"?ends_with(']')>
+<#assign allreads_2_for_this_lib = "${allreads_2_for_this_lib?replace(']$', '', 'r')}" />
+</#if>
+${thislib}='<#list "${allreads_1_for_this_lib}"?split(',') as read1>${read1}</#list> <#list "${allreads_2_for_this_lib}"?split(',') as read2>${read2}</#list>' \
+</#list>2>&1 | tee -a ${fluxDir}/ABySS.log
+
+#
+# We made it until here:
+#  * Remove the _in_flux suffix.
+#  * Flush disk caches to disk to make sure we don't loose any data 
+#    when a machine crashes and some of the "written" data was in a write buffer.
+#  * Write a *.finished file that prevents re-processing the data 
+#    when this job script is re-submitted. 
+#
+mv ${fluxDir}/* ${assemblyResultDir}/
+rmdir ${fluxDir}
+sync
+touch ${assemblyResultDir}/<#noparse>${SCRIPTNAME}</#noparse>.finished
+sync
 
 <#noparse>
 # TODO: use putFile to move all output dir contents.
