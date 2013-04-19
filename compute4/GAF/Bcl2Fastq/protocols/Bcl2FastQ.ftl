@@ -7,7 +7,7 @@
 #
 # Initialize: resource usage requests + workflow control
 #
-#MOLGENIS walltime=06:00:00 nodes=1 cores=6 mem=12
+#MOLGENIS walltime=12:00:00 nodes=1 cores=6 mem=12
 #FOREACH run
 
 #
@@ -30,21 +30,22 @@ module list
 #
 # Initialize script specific vars.
 #
-SCRIPTNAME=$(basename $0)
-FLUXDIR=${bcl2fastqDir}/<#noparse>${SCRIPTNAME}</#noparse>_in_flux/
+RESULTDIR=<#if projectResultsDir?is_enumerable>${bcl2fastqDir[0]}<#else>${bcl2fastqDir}</#if>
+SCRIPTNAME=${jobname}
+FLUXDIR=<#noparse>${RESULTDIR}/${SCRIPTNAME}</#noparse>_in_flux/
 <#assign fluxDir>${r"${FLUXDIR}"}</#assign>
 
 #
 # Should I stay or should I go?
 #
-if [ -f "${bcl2fastqDir}/<#noparse>${SCRIPTNAME}</#noparse>.finished" ]
+if [ -f "<#noparse>${RESULTDIR}/${SCRIPTNAME}</#noparse>.finished" ]
 then
     # Skip this job script.
-	echo "${bcl2fastqDir}/<#noparse>${SCRIPTNAME}</#noparse>.finished already exists: skipping BCL to FastQ conversion."
+	echo "<#noparse>${RESULTDIR}/${SCRIPTNAME}</#noparse>.finished already exists: skipping this job."
 	exit 0
 else
 	rm -Rf ${fluxDir}
-	mkdir -p ${fluxDir}
+	mkdir -p -m 0770 ${fluxDir}
 fi
 
 #
@@ -79,8 +80,8 @@ make -j 6
 #  * Write a *.finished file that prevents re-processing the data 
 #    when this job script is re-submitted. 
 #
-mv ${fluxDir}/* ${bcl2fastqDir}/
+mv ${fluxDir}/* <#noparse>${RESULTDIR}/</#noparse>
 rmdir ${fluxDir}
 sync
-touch ${bcl2fastqDir}/<#noparse>${SCRIPTNAME}</#noparse>.finished
+touch <#noparse>${RESULTDIR}/${SCRIPTNAME}</#noparse>.finished
 sync
