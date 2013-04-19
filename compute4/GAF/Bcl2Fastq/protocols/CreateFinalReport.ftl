@@ -19,7 +19,7 @@ set -u
 umask ${umask}
 
 perl ${createPerSampleFinalReportPl} \
--inputdir ${arraydir} \
--outputdir ${arraydir} \
+-inputdir ${arrayDir} \
+-outputdir ${arrayDir} \
 -run ${run} \
 -samplecsv ${McWorksheet}
