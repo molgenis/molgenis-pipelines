@@ -27,21 +27,22 @@ umask ${umask}
 #
 # Initialize script specific vars.
 #
-SCRIPTNAME=$(basename $0)
-FLUXDIR=${runResultsDir}/<#noparse>${SCRIPTNAME}</#noparse>_in_flux/
+RESULTDIR=<#if projectResultsDir?is_enumerable>${runResultsDir[0]}<#else>${runResultsDir}</#if>
+SCRIPTNAME=${jobname}
+FLUXDIR=<#noparse>${RESULTDIR}/${SCRIPTNAME}</#noparse>_in_flux/
 <#assign fluxDir>${r"${FLUXDIR}"}</#assign>
 
 #
 # Should I stay or should I go?
 #
-if [ -f "${runResultsDir}/<#noparse>${SCRIPTNAME}</#noparse>.finished" ]
+if [ -f "<#noparse>${RESULTDIR}/${SCRIPTNAME}</#noparse>.finished" ]
 then
     # Skip this job script.
-	echo "${runResultsDir}/<#noparse>${SCRIPTNAME}</#noparse>.finished already exists: skipping this job."
+	echo "<#noparse>${RESULTDIR}/${SCRIPTNAME}</#noparse>.finished already exists: skipping this job."
 	exit 0
 else
 	rm -Rf ${fluxDir}
-	mkdir -p ${fluxDir}
+	mkdir -p -m 0770 ${fluxDir}
 fi
 
 <#if seqType == "SR">
@@ -171,8 +172,8 @@ fi
 #  * Write a *.finished file that prevents re-processing the data 
 #    when this job script is re-submitted. 
 #
-mv ${fluxDir}/* ${runResultsDir}/
+mv ${fluxDir}/* <#noparse>${RESULTDIR}/</#noparse>
 rmdir ${fluxDir}
 sync
-touch ${runResultsDir}/<#noparse>${SCRIPTNAME}</#noparse>.finished
+touch <#noparse>${RESULTDIR}/${SCRIPTNAME}</#noparse>.finished
 sync
