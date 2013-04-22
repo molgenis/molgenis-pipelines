@@ -23,6 +23,12 @@ set -u
 umask ${umask}
 
 #
+# Setup environment for tools we need.
+#
+module load molgenis_compute/
+module list
+
+#
 # Create run dirs.
 #
 mkdir -p ${runJobsDir}
@@ -31,10 +37,7 @@ mkdir -p ${runResultsDir}
 #
 # Create subset of samples for this project.
 #
-<#--<#assign unfolded = unfoldParametersCSV(parameters) />
-<#list unfolded as sampleSequenceDetails>
-echo ${sampleSequenceDetails} >> ${runJobsDir}/${run}.csv
-</#list>-->
+export PERL5LIB=${scriptsDir}/
 ${scriptsDir}/extract_samples_from_GAF_list.pl --i ${McWorksheet} --o ${runJobsDir}/${run}.csv --c run --q ${run}
 
 #
