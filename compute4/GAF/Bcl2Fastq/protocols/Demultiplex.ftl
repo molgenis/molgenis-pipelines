@@ -40,7 +40,7 @@ set -u
 umask ${umask}
 
 #
-# Setup environmnet for tools we need.
+# Setup environment for tools we need.
 #
 module load R
 module list
@@ -48,7 +48,7 @@ module list
 #
 # Initialize script specific vars.
 #
-RESULTDIR=<#if projectResultsDir?is_enumerable>${runResultsDir[0]}<#else>${runResultsDir}</#if>
+RESULTDIR=<#if runResultsDir?is_enumerable>${runResultsDir[0]}<#else>${runResultsDir}</#if>
 SCRIPTNAME=${jobname}
 FLUXDIR=<#noparse>${RESULTDIR}/${SCRIPTNAME}</#noparse>_in_flux/
 <#assign fluxDir>${r"${FLUXDIR}"}</#assign>

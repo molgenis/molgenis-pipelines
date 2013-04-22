@@ -18,6 +18,7 @@ set -u
 #
 umask ${umask}
 
+export PERL5LIB=${scriptsDir}/
 ${createPerSampleFinalReportPl} \
 -i ${arrayDir} \
 -o ${arrayDir} \

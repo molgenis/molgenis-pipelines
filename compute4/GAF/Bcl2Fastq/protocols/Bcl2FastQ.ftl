@@ -22,7 +22,7 @@ set -u
 umask ${umask}
 
 #
-# Setup environmnet for tools we need.
+# Setup environment for tools we need.
 #
 module load bcl2fastq/${bcl2fastqVersion}
 module list
@@ -30,7 +30,7 @@ module list
 #
 # Initialize script specific vars.
 #
-RESULTDIR=<#if projectResultsDir?is_enumerable>${bcl2fastqDir[0]}<#else>${bcl2fastqDir}</#if>
+RESULTDIR=<#if bcl2fastqDir?is_enumerable>${bcl2fastqDir[0]}<#else>${bcl2fastqDir}</#if>
 SCRIPTNAME=${jobname}
 FLUXDIR=<#noparse>${RESULTDIR}/${SCRIPTNAME}</#noparse>_in_flux/
 <#assign fluxDir>${r"${FLUXDIR}"}</#assign>
@@ -51,6 +51,7 @@ fi
 #
 # Create sample sheet in Illumina format based on our GAF sample sheets.
 #
+export PERL5LIB=${scriptsDir}/
 perl ${scriptsDir}/CreateIlluminaSampleSheet.pl \
 -i ${McWorksheet} \
 -o ${fluxDir}/Illumina_R${run}.csv \
