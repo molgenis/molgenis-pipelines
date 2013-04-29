@@ -61,7 +61,7 @@ fi
 	cd ${fluxDir}
 	md5sum -c ${fluxDir}/${compressedFastqFilenameSR}${md5sumExtension}
 	
-	<#elseif barcodeType[0] == "RPI" || barcodeType[0] == "MON">
+	<#elseif barcodeType[0] == "RPI" || barcodeType[0] == "MON" || barcodeType[0] == "AGI">
 	#
 	# Process sample FastQ files for lanes with RPI or MON barcodes.
 	#
@@ -114,7 +114,7 @@ fi
 	cd ${fluxDir}
 	md5sum -c ${fluxDir}/${compressedFastqFilenamePE2}${md5sumExtension}
 	
-	<#elseif barcodeType[0] == "RPI" || barcodeType[0] == "MON">
+	<#elseif barcodeType[0] == "RPI" || barcodeType[0] == "MON" || barcodeType[0] == "AGI">
 	#
 	# Process sample FastQ files for lanes with RPI or MON barcodes.
 	#
