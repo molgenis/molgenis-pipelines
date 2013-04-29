@@ -71,7 +71,7 @@ fi
 #
 <#if seqType == "SR">
 	
-	<#if barcode[0] == "None" || barcodeType[0] == "RPI" || barcodeType[0] == "MON">
+	<#if barcode[0] == "None" || barcodeType[0] == "RPI" || barcodeType[0] == "MON" || barcodeType[0] == "AGI">
 		#
 		# Do nothing.
 		#
@@ -166,7 +166,7 @@ fi
 		# Do nothing.
 		#
 		touch ${fluxDir}/${filenamePrefix}.demultiplex.read_count_check.skipped
-	<#elseif barcodeType[0] == "RPI" || barcodeType[0] == "MON">
+	<#elseif barcodeType[0] == "RPI" || barcodeType[0] == "MON" || barcodeType[0] == "AGI">
 	    #
 	    # Illumina demultiplexed files: do not demultiplex, but do perform a read count check between reads 1 and 2
 	    #
