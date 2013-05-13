@@ -1,0 +1,7 @@
+name,protocol_name,PreviousSteps_name
+beagle_s1,preparePedMapForImpute2,
+beagle_s2,convertPedMapToTriTyper,beagle_s1
+beagle_s3,createBatches,beagle_s2
+beagle_s4,prepareStudyWithBatches,beagle_s3
+beagle_s5,convertPreparedStudyToBeagle,beagle_s4
+beagle_s6,imputeWithBeagle,beagle_s5
