@@ -18,8 +18,9 @@ set -u
 #
 umask ${umask}
 
-perl ${createPerSampleFinalReportPl} \
--inputdir ${arraydir} \
--outputdir ${arraydir} \
--run ${run} \
--samplecsv ${McWorksheet}
+export PERL5LIB=${scriptsDir}/
+${createPerSampleFinalReportPl} \
+-i ${arrayDir} \
+-o ${arrayDir} \
+-r ${run} \
+-s ${McWorksheet}

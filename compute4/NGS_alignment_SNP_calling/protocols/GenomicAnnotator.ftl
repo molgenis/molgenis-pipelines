@@ -17,18 +17,18 @@ inputs "${dbsnpSNPstxt}"
 inputs "${snpsvcf}"
 alloutputsexist "${snpsgenomicannotatedvcf}"
 
-#####Annotate with dbSNP135 SNPs only#####
+#####Annotate with dbSNP${dbsnpLatestVersionNumber} SNPs only#####
 java -Xmx10g -jar ${genomeAnalysisTKjar} \
 -T GenomicAnnotator \
 -l info \
 -R ${indexfile} \
 -B:variant,vcf ${snpsvcf} \
--B:dbSNP135,AnnotatorInputTable ${dbsnpSNPstxt} \
--s dbSNP135.AF,dbSNP135.ASP,dbSNP135.ASS,dbSNP135.CDA,dbSNP135.CFL,dbSNP135.CLN,dbSNP135.DSS,dbSNP135.G5,\
-dbSNP135.G5A,dbSNP135.GCF,dbSNP135.GMAF,dbSNP135.GNO,dbSNP135.HD,dbSNP135.INT,dbSNP135.KGPROD,dbSNP135.KGPilot1,dbSNP135.KGPilot123,\
-dbSNP135.KGVAL,dbSNP135.LSD,dbSNP135.MTP,dbSNP135.MUT,dbSNP135.NOC,dbSNP135.NOV,dbSNP135.NS,dbSNP135.NSF,dbSNP135.NSM,dbSNP135.OM,\
-dbSNP135.OTH,dbSNP135.PH1,dbSNP135.PH2,dbSNP135.PH3,dbSNP135.PM,dbSNP135.PMC,dbSNP135.R3,dbSNP135.R5,dbSNP135.REF,dbSNP135.RSPOS,\
-dbSNP135.RV,dbSNP135.S3D,dbSNP135.SAO,dbSNP135.SCS,dbSNP135.SLO,dbSNP135.SSR,dbSNP135.SYN,dbSNP135.TPA,dbSNP135.U3,dbSNP135.U5,dbSNP135.VC,\
-dbSNP135.VLD,dbSNP135.VP,dbSNP135.WGT,dbSNP135.WTD,dbSNP135.dbSNPBuildID \
+-B:dbSNP${dbsnpLatestVersionNumber},AnnotatorInputTable ${dbsnpSNPstxt} \
+-s dbSNP${dbsnpLatestVersionNumber}.AF,dbSNP${dbsnpLatestVersionNumber}.ASP,dbSNP${dbsnpLatestVersionNumber}.ASS,dbSNP${dbsnpLatestVersionNumber}.CDA,dbSNP${dbsnpLatestVersionNumber}.CFL,dbSNP${dbsnpLatestVersionNumber}.CLN,dbSNP${dbsnpLatestVersionNumber}.DSS,dbSNP${dbsnpLatestVersionNumber}.G5,\
+dbSNP${dbsnpLatestVersionNumber}.G5A,dbSNP${dbsnpLatestVersionNumber}.GCF,dbSNP${dbsnpLatestVersionNumber}.GMAF,dbSNP${dbsnpLatestVersionNumber}.GNO,dbSNP${dbsnpLatestVersionNumber}.HD,dbSNP${dbsnpLatestVersionNumber}.INT,dbSNP${dbsnpLatestVersionNumber}.KGPROD,dbSNP${dbsnpLatestVersionNumber}.KGPilot1,dbSNP${dbsnpLatestVersionNumber}.KGPilot123,\
+dbSNP${dbsnpLatestVersionNumber}.KGVAL,dbSNP${dbsnpLatestVersionNumber}.LSD,dbSNP${dbsnpLatestVersionNumber}.MTP,dbSNP${dbsnpLatestVersionNumber}.MUT,dbSNP${dbsnpLatestVersionNumber}.NOC,dbSNP${dbsnpLatestVersionNumber}.NOV,dbSNP${dbsnpLatestVersionNumber}.NS,dbSNP${dbsnpLatestVersionNumber}.NSF,dbSNP${dbsnpLatestVersionNumber}.NSM,dbSNP${dbsnpLatestVersionNumber}.OM,\
+dbSNP${dbsnpLatestVersionNumber}.OTH,dbSNP${dbsnpLatestVersionNumber}.PH1,dbSNP${dbsnpLatestVersionNumber}.PH2,dbSNP${dbsnpLatestVersionNumber}.PH3,dbSNP${dbsnpLatestVersionNumber}.PM,dbSNP${dbsnpLatestVersionNumber}.PMC,dbSNP${dbsnpLatestVersionNumber}.R3,dbSNP${dbsnpLatestVersionNumber}.R5,dbSNP${dbsnpLatestVersionNumber}.REF,dbSNP${dbsnpLatestVersionNumber}.RSPOS,\
+dbSNP${dbsnpLatestVersionNumber}.RV,dbSNP${dbsnpLatestVersionNumber}.S3D,dbSNP${dbsnpLatestVersionNumber}.SAO,dbSNP${dbsnpLatestVersionNumber}.SCS,dbSNP${dbsnpLatestVersionNumber}.SLO,dbSNP${dbsnpLatestVersionNumber}.SSR,dbSNP${dbsnpLatestVersionNumber}.SYN,dbSNP${dbsnpLatestVersionNumber}.TPA,dbSNP${dbsnpLatestVersionNumber}.U3,dbSNP${dbsnpLatestVersionNumber}.U5,dbSNP${dbsnpLatestVersionNumber}.VC,\
+dbSNP${dbsnpLatestVersionNumber}.VLD,dbSNP${dbsnpLatestVersionNumber}.VP,dbSNP${dbsnpLatestVersionNumber}.WGT,dbSNP${dbsnpLatestVersionNumber}.WTD,dbSNP${dbsnpLatestVersionNumber}.dbSNPBuildID \
 -o ${snpsgenomicannotatedvcf} \
 -L ${baitsbed}
