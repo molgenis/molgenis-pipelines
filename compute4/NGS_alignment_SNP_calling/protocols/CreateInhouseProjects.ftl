@@ -44,7 +44,7 @@ mkdir -p ${qcdir}
 			# ln -s ${allRawNgsDataDir}/${runPrefix[sample_index]}/${compressedFastqFilenamePE1[sample_index]} ${projectrawdatadir}/${compressedFastqFilenameNoBarcodePE1[sample_index]}
 		<#else>
 			ln -s ${allRawNgsDataDir}/${runPrefix[sample_index]}/${compressedDemultiplexedSampleFastqFilenameSR[sample_index]} ${projectrawdatadir}/
-			ln -s ${allRawNgsDataDir}/${runPrefix[sample_index]}/${demultiplexedSampleFastqChecksumFilenameSR} ${projectrawdatadir}/
+			ln -s ${allRawNgsDataDir}/${runPrefix[sample_index]}/${demultiplexedSampleFastqChecksumFilenameSR[sample_index]} ${projectrawdatadir}/
 		</#if>
 		
 	<#elseif seqType[sample_index] == "PE">
