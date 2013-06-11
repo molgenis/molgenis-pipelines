@@ -26,6 +26,7 @@ mkdir -p ${projectResultsDir}/coverage
 mkdir -p ${projectResultsDir}/snps
 mkdir -p ${projectResultsDir}/structural_variants
 mkdir -p ${projectResultsDir}/qc/statistics
+mkdir -p ${projectResultsDir}/coverage_visualization
 
 
 # Copy error, out and finished logs to project jobs directory
@@ -76,6 +77,16 @@ cp ${intermediatedir}/*.pdf ${projectResultsDir}/qc/statistics
 # Copy coverage stats (for future reference) to results directory
 
 cp ${intermediatedir}/*.coverage* ${projectResultsDir}/coverage
+
+# Copy coverage visualization bed files to results directory
+<#if capturingKit != "None">
+	<#list sample as s>
+		cp ${s}.coverage.bed ${projectResultsDir}/coverage_visualization/
+	</#list>
+
+	cat ${projectResultsDir}/coverage_visualization/*.coverage.bed > ${projectResultsDir}/coverage_visualization/all_samples_coverage.bed
+	gzip ${projectResultsDir}/coverage_visualization/*.bed
+</#if>
 
 
 # Copy final SNP and SV vcf and vcf.table to results directory
