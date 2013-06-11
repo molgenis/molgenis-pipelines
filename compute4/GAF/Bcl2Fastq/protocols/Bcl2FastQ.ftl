@@ -197,8 +197,20 @@ if [[ "${mismatchArray}" ]];then
 		 b+=$i","
 	done
 	
-	echo "Mismatches string is: ${b:0:${#b}-1}"
+	echo "Maximum mismatches per lane are: ${b:0:${#b}-1}"
 	</#noparse>
+	
+	#
+	# Set number of mismatches to 1 if not null.
+	#
+	if [ $(contains "${stringArray[@]}" "0") == "y" ]; then
+		echo "---FATAL: 0 mismatches possible for Illumina demultiplexing. Adjust the worksheet. ---"
+		mismatchNr=('0')
+		exit 1
+	else
+		echo "--- 1 mismatches possible for Illumina demultiplexen ---"
+		mismatchNr=('1')
+	fi
 
 	#
 	# Configure BCL to FastQ conversion using Illumina tool possibly including demultiplexing with mismatches.
@@ -209,7 +221,7 @@ if [[ "${mismatchArray}" ]];then
 	--input-dir ${bclDir}/Data/Intensities/BaseCalls/ \
 	--output-dir ${fluxDir}/ \
 	--sample-sheet ${fluxDir}/Illumina_R${run}.csv \
-	<#noparse>--mismatches ${b:0:${#b}-1} </#noparse>
+	--mismatches ${mismatchNr}  
 	
 else 
 	echo "FATAL: mismatchArray is empty."
