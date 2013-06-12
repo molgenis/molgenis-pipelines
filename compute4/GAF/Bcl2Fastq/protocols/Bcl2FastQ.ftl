@@ -198,7 +198,7 @@ if [[ "${mismatchArray}" ]];then
 	done
 	
 	echo "Maximum mismatches per lane are: ${b:0:${#b}-1}"
-	</#noparse>
+	
 	
 	#
 	# Set number of mismatches to 1 if not null.
@@ -211,7 +211,7 @@ if [[ "${mismatchArray}" ]];then
 		echo "--- 1 mismatches possible for Illumina demultiplexen ---"
 		mismatchNr=('1')
 	fi
-
+</#noparse>
 	#
 	# Configure BCL to FastQ conversion using Illumina tool possibly including demultiplexing with mismatches.
 	#
@@ -221,7 +221,7 @@ if [[ "${mismatchArray}" ]];then
 	--input-dir ${bclDir}/Data/Intensities/BaseCalls/ \
 	--output-dir ${fluxDir}/ \
 	--sample-sheet ${fluxDir}/Illumina_R${run}.csv \
-	--mismatches ${mismatchNr}  
+	<#noparse>--mismatches ${mismatchNr}</#noparse>  
 	
 else 
 	echo "FATAL: mismatchArray is empty."
