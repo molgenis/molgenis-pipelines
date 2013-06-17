@@ -7,7 +7,7 @@ getFile ${rightbarcodefqgz}
 
 
 #Trim reads for adapters using Illumina TruSeq adapter file
-${fastq-mcf} \
+${fastqmcf} \
 -s 1.5 \
 -t 0.05 \
 ${adapters} \
