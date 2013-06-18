@@ -31,6 +31,8 @@ alloutputsexist \
  "${qualityscoredistribution}" \
  "${qualityscoredistributionpdf}" \
  "${hsmetrics}" \
+ "${targetedpcrmetrics}" \
+ "${targetedpcrmetricspertarget}" \
  "${bamindexstats}"
 
 
@@ -96,6 +98,18 @@ TMP_DIR=${tempdir}
 	echo "## METRICS CLASS net.sf.picard.analysis.directed.HsMetrics" >> ${hsmetrics}
 	echo "BAIT_SET	GENOME_SIZE	BAIT_TERRITORY	TARGET_TERRITORY	BAIT_DESIGN_EFFICIENCY	TOTAL_READS	PF_READS	PF_UNIQUE_READS	PCT_PF_READS	PCT_PF_UQ_READS	PF_UQ_READS_ALIGNED	PCT_PF_UQ_READS_ALIGNED	PF_UQ_BASES_ALIGNED	ON_BAIT_BASES	NEAR_BAIT_BASES	OFF_BAIT_BASES	ON_TARGET_BASES	PCT_SELECTED_BASES	PCT_OFF_BAIT	ON_BAIT_VS_SELECTED	MEAN_BAIT_COVERAGE	MEAN_TARGET_COVERAGE	PCT_USABLE_BASES_ON_BAIT	PCT_USABLE_BASES_ON_TARGET	FOLD_ENRICHMENT	ZERO_CVG_TARGETS_PCT	FOLD_80_BASE_PENALTY	PCT_TARGET_BASES_2X	PCT_TARGET_BASES_10X	PCT_TARGET_BASES_20X	PCT_TARGET_BASES_30X	HS_LIBRARY_SIZE	HS_PENALTY_10X	HS_PENALTY_20X	HS_PENALTY_30X	AT_DROPOUT	GC_DROPOUT	SAMPLE	LIBRARY	READ_GROUP" >> ${hsmetrics}
 	echo "NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA" >> ${hsmetrics}
+</#if>
+
+<#if capturingKit != "None">
+	java -jar -Xmx4g ${collecttargetedpcrmetricsjar} \
+	INPUT=${sortedbam} \
+	OUTPUT=${targetedpcrmetrics} \
+	R=${indexfile} \
+	AMPLICON_INTERVALS=${baitintervals} \
+	TARGET_INTERVALS=${targetintervals} \
+	PER_TARGET_COVERAGE=${targetedpcrmetricspertarget}
+<#else>
+	#Implement the else part when output file structure is known
 </#if>
 
 java -jar -Xmx4g ${bamindexstatsjar} \
