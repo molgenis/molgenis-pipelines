@@ -5,7 +5,7 @@ getFile ${indexfile}
 getFile ${lefttrimmedbarcodefqgz}
 getFile ${righttrimmedbarcodefqgz}
 
-${bwadir} mem \
+${bwabin} mem \
 -t ${bwamemcores} \
 -R '@RG\tID:${lane}\tPL:illumina\tLB:${library}\tSM:${externalSampleID}' \
 ${indexfile} \
