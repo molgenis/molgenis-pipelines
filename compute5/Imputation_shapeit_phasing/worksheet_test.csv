@@ -1,0 +1,2 @@
+project,m,outputFolder,chr,studyData,studyDataType
+phasetest,/target/gpfs2/gcc/resources/geneticMap/hapmapPhase2/b37/genetic_map_chr${chr}_combined_b37.txt,/target/gpfs2/gcc/home/akanterakis/runs/ticket_1744/Imputation_shapeit_phasing_results/,1,/target/gpfs2/gcc/home/akanterakis/runs/ticket_1744/Liftover_genome_build_PEDMAP_liftover_results/chr1/chr${chr}.ped /target/gpfs2/gcc/home/akanterakis/runs/ticket_1744/Liftover_genome_build_PEDMAP_liftover_results/chr1/chr${chr}.map,PED

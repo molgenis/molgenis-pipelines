@@ -1,0 +1,2 @@
+study,studyInputDir,liftOverChainFile,outputFolder,chr
+celiacNl,/target/gpfs2/gcc/resources/GWAS/HapMap3/b36,/target/gpfs2/gcc/resources/liftover/hg18ToHg19.over.chain,/target/gpfs2/gcc/home/akanterakis/runs/ticket_1744/Liftover_genome_build_PEDMAP_liftover_results,1
