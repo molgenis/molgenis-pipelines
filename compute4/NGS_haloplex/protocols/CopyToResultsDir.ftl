@@ -126,7 +126,6 @@ cd ${projectResultsDir}
 zip -r ${projectResultsDir}/${project}.zip snps
 zip -gr ${projectResultsDir}/${project}.zip qc
 zip -gr ${projectResultsDir}/${project}.zip structural_variants
-zip -gr ${projectResultsDir}/${project}.zip coverage_visualization
 zip -g ${projectResultsDir}/${project}.zip ${project}.csv
 zip -g ${projectResultsDir}/${project}.zip README.pdf
 zip -g ${projectResultsDir}/${project}.zip ${project}_QCReport.pdf

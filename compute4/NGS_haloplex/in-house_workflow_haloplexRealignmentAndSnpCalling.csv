@@ -6,8 +6,7 @@ BwaSampe,BwaSampe,"BwaAlignLeft,BwaAlignRight"
 SamToBam,SamToBam,BwaSampe
 SamSort,SamSort,SamToBam
 PicardQC,PicardQC,SamSort
-Markduplicates,Markduplicates,SamSort
-RealignTargetCreator,RealignTargetCreator,Markduplicates
+RealignTargetCreator,RealignTargetCreator,SamSort
 Realign,Realign,RealignTargetCreator
 Fixmates,Fixmates,Realign
 CovariatesBefore,CovariatesBefore,Fixmates
@@ -30,5 +29,5 @@ GenomicAnnotator,GenomicAnnotator,UnifiedGenotyper
 VariantAnnotator,VariantAnnotator,GenomicAnnotator
 VcfToTable,VcfToTable,VariantAnnotator
 ConcordanceCheck,ConcordanceCheck,"MergeBam,UnifiedGenotyper"
-QCReport,QCReport,"PicardQCrecal,Markduplicates,ConcordanceCheck,Coverage,VcfToTable"
+QCReport,QCReport,"PicardQCrecal,SamSort,ConcordanceCheck,Coverage,VcfToTable"
 CopyToResultsDir,CopyToResultsDir,"Fastqc,MergeBam,PicardQCrecal,VariantAnnotator,VcfToTable,SvVcfToTable,ConcordanceCheck,QCReport"
