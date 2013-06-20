@@ -128,4 +128,6 @@ putFile ${meanqualitybycyclepdf}
 putFile ${qualityscoredistribution}
 putFile ${qualityscoredistributionpdf}
 putFile ${hsmetrics}
+putFile ${targetedpcrmetrics}
+putFile ${targetedpcrmetricspertarget}
 putFile ${bamindexstats}
