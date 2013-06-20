@@ -19,6 +19,8 @@
 <#assign qualityscoredistribution=samplequalityscoredistribution />
 <#assign qualityscoredistributionpdf=samplequalityscoredistributionpdf />
 <#assign hsmetrics=samplehsmetrics />
+<#assign targetedpcrmetrics=sampletargetedpcrmetrics />
+<#assign targetedpcrmetricspertarget=sampletargetedpcrmetricspertarget />
 <#assign bamindexstats=samplebamindexstats />
 
 <#include "PicardQC.ftl">
