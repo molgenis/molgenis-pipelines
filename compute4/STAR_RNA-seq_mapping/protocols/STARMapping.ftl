@@ -2,15 +2,15 @@
 
 fastq1="${fastq1}"
 fastq2="${fastq2}"
-outputDir="${outputDir}"
+outputFolder="${outputFolder}"
 STAR="${STAR}"
 STARindex="${STARindex}"
 
 <#noparse>
 
-echo -e "fastq1=${fastq1}\nfastq2=${fastq2}\noutputDir=${outputDir}\nSTAR=${STAR}\nSTARindex=${STARindex}"
+echo -e "fastq1=${fastq1}\nfastq2=${fastq2}\noutputFolder=${outputFolder}\nSTAR=${STAR}\nSTARindex=${STARindex}"
 
-mkdir -p ${outputDir}
+mkdir -p ${outputFolder}
 
 seq=`head -2 ${fastq1} | tail -1`
 readLength="${#seq}"
@@ -30,7 +30,7 @@ if [ ${#fastq} -eq 0 ]; then
 echo "Mapping single-end reads"
 echo "Allowing $numMism mismatches"
 ${STAR} \
---outFileNamePrefix ${outputDir} \
+--outFileNamePrefix ${outputFolder} \
 --readFilesIn ${fastq1} \
 --readFilesCommand zcat \
 --genomeDir ${STARindex} \
