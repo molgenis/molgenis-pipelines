@@ -51,7 +51,7 @@ ${STAR} \
 --genomeLoad NoSharedMemory \
 --runThreadN 8 \
 --outFilterMultimapNmax 1 \
---outFilterMismatchNmax ${numMism} \
+--outFilterMismatchNmax ${numMism}
 fi
 
 </#noparse>
