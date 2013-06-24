@@ -37,6 +37,12 @@
 source dataTransfer.sh
 
 <#if scheduler != "GRID">
+#
+# Source functions for data transfer to cluster.
+#
+SCRIPTDIR=${outputdir}
+<#noparse>source ${SCRIPTDIR}/dataTransfer.sh</#noparse>
+
 # Configures the GCC bash environment
 source ${root}/gcc.bashrc
 </#if>

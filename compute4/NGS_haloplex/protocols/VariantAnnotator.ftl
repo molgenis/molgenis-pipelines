@@ -8,12 +8,12 @@
 # =====================================================
 #
 
-#MOLGENIS walltime=45:00:00 mem=10
+#MOLGENIS walltime=23:00:00 mem=10 cores=2
 #FOREACH externalSampleID
 
 inputs "${snpeffjar}"
 inputs "${snpeffconfig}" 
-inputs "${snpsgenomicannotatedvcf}"
+inputs "${sample}.snps.vcf"
 inputs "${mergedbam}"
 inputs "${dbsnpvcf}"
 inputs "${indexfile}"
@@ -21,7 +21,7 @@ inputs "${indexfile}"
 alloutputsexist "${snpeffsummaryhtml}" "${snpeffintermediate}" "${snpsfinalvcf}"
 
 ####Create snpEFF annotations on original input file####
-java -Xmx4g -jar ${snpeffjar} \
+java -Xmx10g -jar ${snpeffjar} \
 eff \
 -v \
 -c ${snpeffconfig} \
@@ -30,19 +30,20 @@ eff \
 GRCh37.64 \
 -onlyCoding true \
 -stats ${snpeffsummaryhtml} \
-${snpsgenomicannotatedvcf} \
+${sample}.snps.vcf \
 > ${snpeffintermediate}
 
 ####Annotate SNPs with snpEff information####
-java -jar -Xmx4g ${genomeAnalysisTKjar1411} \
+java -jar -Xmx10g /target/gpfs2/gcc/tools/GenomeAnalysisTK-2.5-2-gf57256b/GenomeAnalysisTK.jar \
 -T VariantAnnotator \
+-R ${indexfile} \
+-I ${mergedbam} \
+--variant ${sample}.snps.vcf \
+-D ${dbsnpvcf} \
 --useAllAnnotations \
+--snpEffFile ${snpeffintermediate} \
 --excludeAnnotation MVLikelihoodRatio \
 --excludeAnnotation TechnologyComposition \
--I ${mergedbam} \
---snpEffFile ${snpeffintermediate} \
--D ${dbsnpvcf} \
--R ${indexfile} \
---variant ${snpsgenomicannotatedvcf} \<#if capturingKit != "None">
+-o ${snpsfinalvcf} \<#if capturingKit != "None">
 -L ${baitsbed} \</#if>
--o ${snpsfinalvcf}
+-nt 2
