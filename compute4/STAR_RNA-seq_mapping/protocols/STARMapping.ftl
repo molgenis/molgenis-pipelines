@@ -10,7 +10,7 @@ STARindex="${STARindex}"
 
 echo -e "fastq1=${fastq1}\nfastq2=${fastq2}\noutputDir=${outputDir}\nSTAR=${STAR}\nSTARindex=${STARindex}"
 
-mkdir ${outputDir}
+mkdir -p ${outputDir}
 
 seq=`head -2 ${fastq1} | tail -1`
 readLength="${#seq}"
