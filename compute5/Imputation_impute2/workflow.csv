@@ -1,0 +1,3 @@
+step,protocol,parameterMapping
+imputation,/target/gpfs2/gcc/home/akanterakis/runs/ticket_1744/Imputation_impute2/protocols/impute2Imputation.sh,knownHapsG=user_knownHapsG;m=user_m;h=user_h;l=user_l;additonalImpute2Param=user_additonalImpute2Param;chr=user_chr;fromChrPos=user_fromChrPos;toChrPos=user_toChrPos;imputationIntermediatesFolder=user_imputationIntermediatesFolder;impute2Bin=user_impute2Bin;aditionalArgs=user_additonalImpute2Param;stage=user_stage;impute2version=user_impute2version
+concatRes,/target/gpfs2/gcc/home/akanterakis/runs/ticket_1744/Imputation_impute2/protocols/concatImpute2ChrResults.sh,chr=user_chr;outputFolder=user_outputFolder;impute2ChunkOutput=user_impute2ChunkOutput;impute2ChunkOutputInfo=user_impute2ChunkOutputInfo;project=user_project
