@@ -70,7 +70,8 @@ $shapeitBin \
 	$inputVarName $studyData \
 	--input-map $m \
 	--output-max $tmpOutput \
-	--thread $threads
+	--thread $threads \
+	--output-log ${tmpOutput}.log
 
 
 #Get return code from last program call
