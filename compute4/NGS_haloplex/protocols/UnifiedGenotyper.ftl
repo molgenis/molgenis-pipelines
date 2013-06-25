@@ -8,7 +8,7 @@
 # =====================================================
 #
 
-#MOLGENIS walltime=46:00:00 mem=8 cores=5
+#MOLGENIS walltime=46:00:00 mem=12 cores=5
 #FOREACH externalSampleID
 
 inputs "${mergedbam}" 
@@ -18,15 +18,20 @@ alloutputsexist \
  "${snpsvcf}" \
  "${snpsvcf}.metrics"
 
-java -Xmx8g -Djava.io.tmpdir=${tempdir} -XX:+UseParallelGC -XX:ParallelGCThreads=1 -jar \
-${genomeAnalysisTKjar} \
--l INFO \
+
+java -Xmx12g -Djava.io.tmpdir=${tempdir} -XX:+UseParallelGC -XX:ParallelGCThreads=1 -jar \
+/target/gpfs2/gcc/tools/GenomeAnalysisTK-2.5-2-gf57256b/GenomeAnalysisTK.jar \
 -T UnifiedGenotyper \
--I ${mergedbam} \
---out ${sample}.snps.vcf \
 -R ${indexfile} \
--D ${dbsnprod} \
--stand_call_conf 30.0 \
--stand_emit_conf 10.0 \
+-I ${mergedbam} \
+-D ${dbsnpvcf} \
+-ploidy ${ploidy} \
+-stand_call_conf 50 \
+--annotateNDA \
+-dt NONE \
+-o ${sample}.snps.vcf \
 -nt 4 \
---metrics_file ${sample}.snps.vcf.metrics
+-L ${baitintervals}
+
+
+putFile ${sample}.snps.vcf
