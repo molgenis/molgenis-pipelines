@@ -16,42 +16,44 @@ seq=`head -2 ${fastq1} | tail -1`
 readLength="${#seq}"
 
 if [ $readLength -ge 90 ]; then
- numMism=4
+	numMism=4
 elif [ $readLength -ge 60 ]; then
- numMism=3
+	numMism=3
 else
- numMism=2
+	numMism=2
 fi
 
 echo "readLength=$readLength"
 
-if [ ${#fastq} -eq 0 ]; then
+if [ ${#fastq2} -eq 0 ]; 
+then
 
-echo "Mapping single-end reads"
-echo "Allowing $numMism mismatches"
-${STAR} \
---outFileNamePrefix ${outputFolder} \
---readFilesIn ${fastq1} \
---readFilesCommand zcat \
---genomeDir ${STARindex} \
---genomeLoad NoSharedMemory \
---runThreadN 8 \
---outFilterMultimapNmax 1 \
---outFilterMismatchNmax ${numMism}
+	echo "Mapping single-end reads"
+	echo "Allowing $numMism mismatches"
+	${STAR} \
+		--outFileNamePrefix ${outputFolder} \
+		--readFilesIn ${fastq1} \
+		--readFilesCommand zcat \
+		--genomeDir ${STARindex} \
+		--genomeLoad NoSharedMemory \
+		--runThreadN 8 \
+		--outFilterMultimapNmax 1 \
+		--outFilterMismatchNmax ${numMism}
 
 else
-echo "Mapping paired-end reads"
-let numMism=$numMism*2
-echo "Allowing $numMism mismatches"
-${STAR} \
---outFileNamePrefix ${sampleFolder} \
---readFilesIn ${fastq1} ${fastq2} \
---readFilesCommand zcat \
---genomeDir ${STARindex} \
---genomeLoad NoSharedMemory \
---runThreadN 8 \
---outFilterMultimapNmax 1 \
---outFilterMismatchNmax ${numMism}
+
+	echo "Mapping paired-end reads"
+	let numMism=$numMism*2
+	echo "Allowing $numMism mismatches"
+	${STAR} \
+		--outFileNamePrefix ${outputFolder} \
+		--readFilesIn ${fastq1} ${fastq2} \
+		--readFilesCommand zcat \
+		--genomeDir ${STARindex} \
+		--genomeLoad NoSharedMemory \
+		--runThreadN 8 \
+		--outFilterMultimapNmax 1 \
+		--outFilterMismatchNmax ${numMism}
 fi
 
 </#noparse>
