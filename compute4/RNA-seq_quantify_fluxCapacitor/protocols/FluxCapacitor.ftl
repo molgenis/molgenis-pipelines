@@ -67,7 +67,7 @@ echo "Flux Capacitor return code: ${returnCodeFlux}"
 if [ $returnCodeFlux -eq 0 ]
 then
 
-	for tempFile in $gtfExpression___tmp___* ; do
+	for tempFile in ${gtfExpression}___tmp___* ; do
 		finalFile=`echo $tempFile | sed -e "s/___tmp___//g"`
 		echo "Moving temp file: ${tempFile} to ${finalFile}"
 		mv $tempFile $finalFile
