@@ -75,7 +75,7 @@ echo "STAR return code: ${starReturnCode}"
 if [ $starReturnCode -eq 0 ]
 then
 
-	for tempFile in ${outputFolder}/${prefix}___tmp___ ; do
+	for tempFile in ${outputFolder}/${prefix}___tmp___* ; do
 		finalFile=`echo $tempFile | sed -e "s/___tmp___//g"`
 		echo "Moving temp file: ${tempFile} to ${finalFile}"
 		mv $tempFile $finalFile
