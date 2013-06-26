@@ -13,7 +13,7 @@ echo -e "fastq1=${fastq1}\nfastq2=${fastq2}\noutputFolder=${outputFolder}\nprefi
 
 mkdir -p ${outputFolder}
 
-alloutputsexist ${outputFolder}/${prefix}Aligned.out.sorted.bam
+alloutputsexist ${outputFolder}/${prefix}Aligned.out.sam
 
 inputs ${fastq1}
 

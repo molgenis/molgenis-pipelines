@@ -18,12 +18,16 @@ ${samtools} view -bS \
 	${outputFolder}/${outputPrefix}Aligned.out.sam \
 	> ${outputFolder}/${outputPrefix}Aligned.out.bam
 
+returnCode=$?
+
 if [ $returnCode -ne 0 ]
 then
 	echo -e "\nNon zero return code not making files final. Existing temp files are kept for debugging purposes\n\n"
 	#Return non zero return code
 	exit 1
 fi
+
+echo "conversion to bam complete" 
 
 ${samtools} sort \
 	${outputFolder}/${outputPrefix}Aligned.out.bam \
@@ -37,6 +41,8 @@ then
 	#Return non zero return code
 	exit 1
 fi
+
+echo "bam file sorted"
 
 ${samtools} index \
 	${outputFolder}/${outputPrefix}___tmp___Aligned.out.sorted.bam
