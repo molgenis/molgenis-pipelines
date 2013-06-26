@@ -43,14 +43,18 @@ then
 		#Return non zero return code
 		exit 1
 	fi
+
+	echo "bam files merged"
 	
 else 
 
 	 ln -s ${sortedBams[0]} ${mergedBam}
+	 
+	 echo "created symlink for the single bam file to be on same location as merged bam"
 	
 fi
 
-exit 0;
+
 
 echo "Writing mpileup output to $mpileupFile"
 
