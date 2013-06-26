@@ -13,6 +13,10 @@ echo -e "fastq1=${fastq1}\nfastq2=${fastq2}\noutputFolder=${outputFolder}\nprefi
 
 mkdir -p ${outputFolder}
 
+alloutputsexist ${outputFolder}/${prefix}Aligned.out.sorted.bam
+
+inputs ${fastq1}
+
 seq=`head -2 ${fastq1} | tail -1`
 readLength="${#seq}"
 
@@ -26,13 +30,15 @@ fi
 
 echo "readLength=$readLength"
 
+
+
 if [ ${#fastq2} -eq 0 ]; 
 then
 
 	echo "Mapping single-end reads"
 	echo "Allowing $numMism mismatches"
 	${STAR} \
-		--outFileNamePrefix ${outputFolder}/${prefix} \
+		--outFileNamePrefix ${outputFolder}/${prefix}___tmp___ \
 		--readFilesIn ${fastq1} \
 		--readFilesCommand zcat \
 		--genomeDir ${STARindex} \
@@ -41,13 +47,17 @@ then
 		--outFilterMultimapNmax 1 \
 		--outFilterMismatchNmax ${numMism}
 
+	starReturnCode=$?
+
 else
+
+	inputs ${fastq2}
 
 	echo "Mapping paired-end reads"
 	let numMism=$numMism*2
 	echo "Allowing $numMism mismatches"
 	${STAR} \
-		--outFileNamePrefix ${outputFolder}/${prefix} \
+		--outFileNamePrefix ${outputFolder}/${prefix}___tmp___ \
 		--readFilesIn ${fastq1} ${fastq2} \
 		--readFilesCommand zcat \
 		--genomeDir ${STARindex} \
@@ -55,6 +65,29 @@ else
 		--runThreadN 8 \
 		--outFilterMultimapNmax 1 \
 		--outFilterMismatchNmax ${numMism}
+		
+	starReturnCode=$?
+	
 fi
+
+echo "STAR return code: ${starReturnCode}"
+
+if [ $starReturnCode -eq 0 ]
+then
+
+	for tempFile in ${outputFolder}/${prefix}___tmp___ ; do
+		finalFile=`echo $tempFile | sed -e "s/___tmp___//g"`
+		echo "Moving temp file: ${tempFile} to ${finalFile}"
+		mv $tempFile $finalFile
+	done
+	
+else
+  
+	echo -e "\nNon zero return code not making files final. Existing temp files are kept for debugging purposes\n\n"
+	#Return non zero return code
+	exit 1
+	
+fi
+
 
 </#noparse>
