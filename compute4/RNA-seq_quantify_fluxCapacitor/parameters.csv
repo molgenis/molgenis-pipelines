@@ -16,7 +16,6 @@ studyEna,,,,
 mergedStudy,,,,expressionFolder
 sample,,,,
 run,,,,
-expressionRun,,,,
 baseFolder,,,,
 sortedBam,${baseFolder}/${studyEna}/${sample}/${run}/${run}Aligned.out.sorted.bam,,,
 expressionFolder,${baseFolder}/${mergedStudy}/expressionData/,,,
@@ -32,4 +31,3 @@ samtools,${toolDir}samtools-0.1.18/samtools,,,
 bamToBed,/target/gpfs2/gcc/home/dasha/BEDTools-Version-2.16.2/bin/bamToBed,,,
 FluxCapacitor,/target/gpfs2/gcc/home/dasha/tools/flux-capacitor-1.2.3/bin/flux-capacitor,,,
 processReadCountsJar,/target/gpfs2/gcc/home/dasha/scripts/processReadCounts/ProcessReadCounts/dist/ProcessReadCounts.jar,,,
-
