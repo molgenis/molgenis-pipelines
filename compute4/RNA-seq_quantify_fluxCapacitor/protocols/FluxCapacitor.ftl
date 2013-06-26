@@ -1,4 +1,4 @@
-#MOLGENIS walltime=5:00:00 nodes=1 cores=1 mem=4
+#MOLGENIS walltime=5:00:00 nodes=1 cores=1 mem=6
 
 bamToBed="${bamToBed}"
 sortedBam="${sortedBam}"
@@ -8,6 +8,8 @@ gtfExpression="${gtfExpression}"
 
 
 <#noparse>
+
+export FLUX_MEM="6G";
 
 echo -e "sortedBam=${sortedBam}\nannotationGtf=${annotationGtf}\ngtfExpression=${gtfExpression}"
 
@@ -20,7 +22,7 @@ ${bamToBed} \
 -i ${sortedBam} \
 > ${bedFile}
 
-rm $gtfExpression
+rm ${gtfExpression}___tmp___
 
 
 pairedCount=`samtools view -f 2 -c ${sortedBam}`
@@ -28,29 +30,57 @@ pairedCount=`samtools view -f 2 -c ${sortedBam}`
 if [ $pairedCount -eq "0" ]; then
 	
 	echo "Quantifying the expression of single-end RNA-seq data"
-	echo "output=$gtfExpression"
+	
+	echo "Temp output: ${gtfExpression}___tmp___"
 	
 	${FluxCapacitor} \
 		-i "$bedFile" \
 		-a "$annotationGtf" \
-		-o "$gtfExpression" \
+		-o "${gtfExpression}___tmp___" \
 		-m SINGLE \
 		-d SIMPLE \
 		-r true
+		
+		returnCodeFlux=$?
 
 else
 
 	echo "Quantifying the expression of paired-end RNA-seq data"
-	echo "output=$gtfExpression"
+	
+	echo "Temp output: ${gtfExpression}___tmp___"
 
 	${FluxCapacitor} \
 		-i "$bedFile" \
 		-a "$annotationGtf" \
-		-o "$gtfExpression" \
+		-o "${gtfExpression}___tmp___" \
 		-m PAIRED \
 		-d PAIRED \
 		-r true
+		
+	returnCodeFlux=$?
+	
 fi
+
+
+echo "Flux Capacitor return code: ${returnCodeFlux}"
+
+if [ $returnCodeFlux -eq 0 ]
+then
+
+	for tempFile in $gtfExpression___tmp___* ; do
+		finalFile=`echo $tempFile | sed -e "s/___tmp___//g"`
+		echo "Moving temp file: ${tempFile} to ${finalFile}"
+		mv $tempFile $finalFile
+	done
+	
+else
+  
+	echo -e "\nNon zero return code not making files final. Existing temp files are kept for debugging purposes\n\n"
+	#Return non zero return code
+	exit 1
+	
+fi
+
 
 rm -f "$bedFile"
 
