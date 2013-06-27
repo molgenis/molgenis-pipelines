@@ -13,6 +13,8 @@ export FLUX_MEM="6G";
 
 echo -e "sortedBam=${sortedBam}\nannotationGtf=${annotationGtf}\ngtfExpression=${gtfExpression}"
 
+alloutputsexist ${gtfExpression}
+
 bedFile=${sortedBam//bam/bed}
 
 echo "Converting bam to bed (bedFile=$bedFile)"
