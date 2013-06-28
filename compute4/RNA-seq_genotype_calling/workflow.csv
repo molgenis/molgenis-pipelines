@@ -1,2 +1,3 @@
 name,protocol_name,PreviousSteps_name
 SNVMix,SNVMix,
+ConvertSNVMixToGen,ConvertSNVMixToGen

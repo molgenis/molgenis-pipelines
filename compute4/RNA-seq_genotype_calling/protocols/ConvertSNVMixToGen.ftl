@@ -3,34 +3,39 @@
 #FOREACH mergedStudy
 
 genotypeFolder="${genotypeFolder}"
-mergedBam="${mergedBam}"
-declare -a samples=(${ssvQuoted(sample)})
 
+declare -a samples=(${ssvQuoted(sample)})
+declare -a mergedBams=(${ssvQuoted(mergedBam)})
 <#noparse>
-snvmixFile=${mergedBam//bam/mpileup}.snvmix
+
 mkdir -p ${genotypeFolder}
 
-echo -e "genotypeFolder=${genotypeFolder}\nsnvmix file=${snvmixOut}"
-
+echo "genotypeFolder=${genotypeFolder}"
+echo "mergedBams=${mergedBams[*]}"
+echo "samples=${samples[*]}"
 
 rm -f ${genotypeFolder}/fileList.txt
 
 for (( i = 0 ; i < ${#samples[@]} ; i++ )) 
 do
-	cat "${sample[$i]}\t${snvmixFile[$i]}" >> ${genotypeFolder}/fileList.txt
+	snvmixFile=${mergedBams[$i]//bam/mpileup.snvmix}
+	echo -e "sample:${samples[$i]}\tgenotype file:${snvmixFile}"
+	echo -e  "${samples[$i]}\t${snvmixFile}" >> ${genotypeFolder}/fileList.txt
 done
 
 
 /cm/shared/apps/sunjdk/jdk1.6.0_21/bin/java \
-        Xmx4g \
+        -Xmx4g \
         -jar /target/gpfs2/gcc/home/dasha/scripts/genotyping/GenotypeCalling/dist/GenotypeCalling.jar \
         --mode SNVMixToGen \
         --fileList ${genotypeFolder}/fileList.txt \
         --p-value 0.8 \
         --out ${genotypeFolder}/___tmp___chr
 
+returnCode=$?
+echo "Return code ${returnCode}"
 
-if [ $returnCode -eq 0 ]
+if [ "${returnCode}" -eq "0" ]
 then
 	
 	echo "Moving temp files: ${genotypeFolder}/___tmp___chr* to ${genotypeFolder}/chr*"
@@ -51,10 +56,10 @@ fi
 
 #Filtering and sorting
 genPath=${genotypeFolder}/chr*.gen
-
+echo "Filtering in ${genPath}"
 for genFile in $genPath
 do
-	sampleFile=${genFile//gen/sample}
+	sampleFile=${genotypeFolder}/chr.sample
 	if [[ "$genFile" != *sorted* ]]; then
 		/target/gpfs2/gcc/tools/qctool/qctool_v1.3-linux-x86_64/qctool \
 		-g $genFile \
