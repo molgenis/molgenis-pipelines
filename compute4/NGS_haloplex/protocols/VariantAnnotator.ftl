@@ -13,7 +13,7 @@
 
 inputs "${snpeffjar}"
 inputs "${snpeffconfig}" 
-inputs "${sample}.snps.vcf"
+inputs "${sample}.snps.filtered.vcf"
 inputs "${mergedbam}"
 inputs "${dbsnpvcf}"
 inputs "${indexfile}"
@@ -30,7 +30,7 @@ eff \
 GRCh37.64 \
 -onlyCoding true \
 -stats ${snpeffsummaryhtml} \
-${sample}.snps.vcf \
+${sample}.snps.filtered.vcf \
 > ${snpeffintermediate}
 
 ####Annotate SNPs with snpEff information####
@@ -38,12 +38,13 @@ java -jar -Xmx10g /target/gpfs2/gcc/tools/GenomeAnalysisTK-2.5-2-gf57256b/Genome
 -T VariantAnnotator \
 -R ${indexfile} \
 -I ${mergedbam} \
---variant ${sample}.snps.vcf \
+--variant ${sample}.snps.filtered.vcf \
 -D ${dbsnpvcf} \
 --useAllAnnotations \
 --snpEffFile ${snpeffintermediate} \
 --excludeAnnotation MVLikelihoodRatio \
 --excludeAnnotation TechnologyComposition \
+-dt NONE \
 -o ${snpsfinalvcf} \<#if capturingKit != "None">
 -L ${baitsbed} \</#if>
 -nt 2

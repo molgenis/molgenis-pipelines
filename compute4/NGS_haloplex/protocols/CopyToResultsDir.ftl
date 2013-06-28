@@ -49,10 +49,6 @@ cp -rs ${projectrawdatadir} ${projectResultsDir}/rawdata
 cp ${intermediatedir}/*_fastqc.zip ${projectResultsDir}/qc
 
 
-# Copy dedup metrics to results directory
-cp ${intermediatedir}/*.dedup.metrics ${projectResultsDir}/qc/statistics
-
-
 # Create md5 sum and copy merged BAM plus index plus md5 sum to results directory
 <#if 0 &lt; mergedbam?size>
 	<#list 0..(mergedbam?size-1) as index>
