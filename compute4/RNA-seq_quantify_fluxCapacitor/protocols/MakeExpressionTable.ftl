@@ -11,7 +11,7 @@ rm -f ${expressionFolder}/fileList.txt
 </#list> 
 
 ${JAVA_HOME}/bin/java \
-	Xmx4g \
+	-Xmx4g \
 	-jar ${processReadCountsJar} \
 	--mode makeExpressionTable \
 	--fileList ${expressionFolder}/fileList.txt \
