@@ -1,5 +1,5 @@
 Name,defaultValue,description,dataType,hasOne_name
-clusterQueue,ss,,,
+clusterQueue,gcc,,,
 scheduler,PBS,,,
 mem,4,Memory in GB,,
 walltime,23:59:00,,,
