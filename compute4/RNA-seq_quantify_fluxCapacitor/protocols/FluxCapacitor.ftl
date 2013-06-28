@@ -1,4 +1,4 @@
-#MOLGENIS walltime=5:00:00 nodes=1 cores=1 mem=6
+#MOLGENIS walltime=24:00:00 nodes=1 cores=1 mem=6
 
 bamToBed="${bamToBed}"
 sortedBam="${sortedBam}"
@@ -12,6 +12,8 @@ gtfExpression="${gtfExpression}"
 export FLUX_MEM="6G";
 
 echo -e "sortedBam=${sortedBam}\nannotationGtf=${annotationGtf}\ngtfExpression=${gtfExpression}"
+
+alloutputsexist ${gtfExpression}
 
 bedFile=${sortedBam//bam/bed}
 
