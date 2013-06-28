@@ -6,6 +6,7 @@ This repository contains the following pipelines:
 * Alignment
 * Imputation
 * GWAS
+* RNA-seq (Experimental)
 
 In addition it contains protocols that may be re-used between different (versions of a) pipeline(s).
 
