@@ -36,7 +36,6 @@
 inputs ${ssvQuoted(samplehsmetrics)}
 inputs ${ssvQuoted(samplealignmentmetrics)}
 inputs ${ssvQuoted(sampleinsertsizemetrics)}
-inputs ${ssvQuoted(dedupmetrics)}
 inputs ${ssvQuoted(sampleconcordancefile)}
 inputs ${qcstatisticscolnames}
 
