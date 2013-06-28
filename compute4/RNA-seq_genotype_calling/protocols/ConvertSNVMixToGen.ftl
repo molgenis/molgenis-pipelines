@@ -3,24 +3,38 @@
 #FOREACH mergedStudy
 
 genotypeFolder="${genotypeFolder}"
+shapeitBin="${shapeitBin}"
 
 declare -a samples=(${ssvQuoted(sample)})
-declare -a mergedBams=(${ssvQuoted(mergedBam)})
+declare -a snvmixOuts=(${ssvQuoted(snvmixOut)})
 <#noparse>
 
 mkdir -p ${genotypeFolder}
 
 echo "genotypeFolder=${genotypeFolder}"
-echo "mergedBams=${mergedBams[*]}"
+echo "snvMixOuts=${snvmixOuts[*]}"
 echo "samples=${samples[*]}"
 
 rm -f ${genotypeFolder}/fileList.txt
 
+
+
+declare -a samplesProcessed=()
+
 for (( i = 0 ; i < ${#samples[@]} ; i++ )) 
 do
-	snvmixFile=${mergedBams[$i]//bam/mpileup.snvmix}
-	echo -e "sample:${samples[$i]}\tgenotype file:${snvmixFile}"
-	echo -e  "${samples[$i]}\t${snvmixFile}" >> ${genotypeFolder}/fileList.txt
+
+	for processedSample in ${samplesProcessed[@]}
+	do
+		if [ $processedSample == ${samples[$i]} ]
+		then
+			continue 2
+		fi
+	done
+
+	samplesProcessed=("${samplesProcessed[@]}" "${samples[$i]}")
+	echo -e "sample:${samples[$i]}\tgenotype file:${snvmixOuts[$i]}"
+	echo -e  "${samples[$i]}\t${snvmixOuts[$i]}" >> ${genotypeFolder}/fileList.txt
 done
 
 
@@ -58,21 +72,39 @@ fi
 genPath=${genotypeFolder}/chr*.gen
 echo "Filtering in ${genPath}"
 for genFile in $genPath
-do
-	sampleFile=${genotypeFolder}/chr.sample
+do	
 	if [[ "$genFile" != *sorted* ]]; then
+	
+		echo "------"
+		echo "Sortingen and filtering: ${genFile}"
+	
+		sampleFile=${genotypeFolder}/chr.sample
+		
+		tmp=${genFile##*chr}
+		chr=${tmp//.gen/}
+		
+		genFileSorted=${genFile//.gen/.sorted.gen}
+	
+		
+		sort -k3,3n ${genFile} > ${genFileSorted}
+			
+		genFileSortedFiltered=${genFile//.gen/_CR0.8_maf0.01.gen}
+	
 		/target/gpfs2/gcc/tools/qctool/qctool_v1.3-linux-x86_64/qctool \
 		-g $genFile \
 		-s ${sampleFile} \
-		-og ${genFile//.gen/_CR0.8_maf0.01.gen} \
+		-og ${genFileSortedFiltered} \
 		-maf 0.01 1 \
 		-hwe 4 \
 		-snp-missing-rate 0.8 \
-		-omit-chromosome
-
-		sort -k3,3n ${genFile//.gen/_CR0.8_maf0.01.gen} > ${genFile//.gen/_CR0.8_maf0.01.sorted.gen}
-		rm ${genFile//.gen/_CR0.8_maf0.01.gen}
+		-omit-chromosome 
+		
+		rm ${genFileSorted}
+		rm ${genFile}
 	fi
+	
 done
+
+
 
 </#noparse>
