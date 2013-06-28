@@ -7,11 +7,11 @@ rm -f ${expressionFolder}/fileList.txt
 
 <#assign samples=sample?size - 1>
 <#list 0..samples as i>
-  cat "${sample[i]}\t${gtfExpression[i]}" >> ${expressionFolder}/fileList.txt
+  echo -e "${sample[i]}\t${gtfExpression[i]}" >> ${expressionFolder}/fileList.txt
 </#list> 
 
-/cm/shared/apps/sunjdk/jdk1.6.0_21/bin/java \
-	Xmx4g \
+${JAVA_HOME}/bin/java \
+	-Xmx4g \
 	-jar ${processReadCountsJar} \
 	--mode makeExpressionTable \
 	--fileList ${expressionFolder}/fileList.txt \
