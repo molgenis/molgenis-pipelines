@@ -1,4 +1,4 @@
-#MOLGENIS nodes=1 cores=8 mem=2
+#MOLGENIS nodes=1 cores=8 mem=2G
 
 #foreach project,chr
 
