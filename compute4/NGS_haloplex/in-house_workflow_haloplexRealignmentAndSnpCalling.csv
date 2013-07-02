@@ -24,7 +24,8 @@ MergeIndelCalls,MergeIndelCalls,"IndelGenotyper,Pindel"
 StructuralVariantAnnotator,StructuralVariantAnnotator,MergeIndelCalls
 SvVcfToTable,SvVcfToTable,StructuralVariantAnnotator
 UnifiedGenotyper,UnifiedGenotyper,MergeBam
-VariantAnnotator,VariantAnnotator,UnifiedGenotyper
+VariantFiltration,VariantFiltration,UnifiedGenotyper
+VariantAnnotator,VariantAnnotator,VariantFiltration
 VcfToTable,VcfToTable,VariantAnnotator
 ConcordanceCheck,ConcordanceCheck,"MergeBam,UnifiedGenotyper"
 QCReport,QCReport,"PicardQCrecal,SamSort,ConcordanceCheck,Coverage,VcfToTable"
