@@ -1,4 +1,4 @@
-#MOLGENIS nodes=1 cores=1 mem=2
+#MOLGENIS nodes=1 cores=1 mem=2G
 
 #FOREACH study,chr
 
