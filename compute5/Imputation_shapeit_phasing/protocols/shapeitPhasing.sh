@@ -1,7 +1,5 @@
 #MOLGENIS nodes=1 cores=8 mem=2
 
-#foreach project,chr
-
 #Parameter mapping
 #string shapeitBin
 #string m
