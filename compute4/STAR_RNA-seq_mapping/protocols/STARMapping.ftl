@@ -15,6 +15,16 @@ mkdir -p ${outputFolder}
 
 alloutputsexist ${outputFolder}/${prefix}Aligned.out.sam
 
+
+#Output of this step is removed at the end of next step. Only run this step if output of next step is not present
+if [ -f ${outputFolder}/${outputPrefix}Aligned.out.sorted.bam ] && [ -f ${outputFolder}/${outputPrefix}Aligned.out.sorted.bam.bai ]
+then
+
+	echo "skipping"
+	exit 0
+
+fi
+
 inputs ${fastq1}
 
 seq=`head -2 ${fastq1} | tail -1`

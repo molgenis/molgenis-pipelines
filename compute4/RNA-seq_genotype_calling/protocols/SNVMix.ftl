@@ -1,4 +1,4 @@
-#MOLGENIS walltime=5:00:00 nodes=1 cores=1 mem=4
+#MOLGENIS walltime=24:00:00 nodes=1 cores=1 mem=4
 
 
 #FOREACH mergedStudy,sample
@@ -9,15 +9,13 @@ samtools="${samtools}"
 snpList="${snpList}"
 faFile="${faFile}"
 mergedBam="${mergedBam}"
-
+snvmixOut="${snvmixOut}"
+mpileupFile="${mpileupFile}"
 
 <#noparse>
 
 
-echo -e "SNVMix=${SNVMix}\nsnpList=${snpList}\nfaFile=${faFile}\nmergedBam=${mergedBam}"
-
-mpileupFile=${mergedBam//bam/mpileup}
-snvmixOut=${mpileupFile}.snvmix
+echo -e "SNVMix=${SNVMix}\nsnpList=${snpList}\nfaFile=${faFile}\nmergedBam=${mergedBam}\nmpileupFile=${mpileupFile}\n"
 
 echo "snvmixOutput=${snvmixOut}"
 
@@ -98,7 +96,7 @@ else
 	
 fi
 
-
+rm -f ${mergedBam}
 rm ${mpileupFile}
 
 </#noparse>
