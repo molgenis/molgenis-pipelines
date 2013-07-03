@@ -7,7 +7,7 @@
 #string m
 #string studyData
 #string studyDataType
-#string threads
+#string shapeitThreads
 #string chr
 #string outputFolder
 #string stage
@@ -27,7 +27,7 @@ ${stage} shapeit/${shapeitversion}
 echo "m: ${m}";
 echo "studyData: ${studyData}"
 echo "studyDataType: ${studyDataType}"
-echo "threads: ${shapeitThreads}"
+echo "shapeitThreads: ${shapeitThreads}"
 echo "chr: ${chr}"
 echo "outputFolder: ${outputFolder}"
 echo "tmpOutput: ${tmpOutput}"
@@ -70,7 +70,7 @@ $shapeitBin \
 	$inputVarName $studyData \
 	--input-map $m \
 	--output-max $tmpOutput \
-	--thread $threads \
+	--thread $shapeitThreads \
 	--output-log ${tmpOutput}.log
 
 
