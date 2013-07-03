@@ -1,4 +1,4 @@
-#MOLGENIS nodes=1 cores=1 mem=2
+#MOLGENIS nodes=1 cores=1 mem=2G
 
 #FOREACH study,chr
 
@@ -33,6 +33,7 @@ echo "outputFolderChrDir: ${outputFolderChrDir}"
 echo "liftOverChainFile: ${liftOverChainFile}"
 echo "liftOverUcscBin: ${liftOverUcscBin}"
 echo "plinkBin: ${plinkBin}"
+echo "stage: ${stage}"
 
 startTime=$(date +%s)
 
