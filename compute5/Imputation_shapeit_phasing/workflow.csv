@@ -1,2 +1,2 @@
 step,protocol,parameterMapping
-phasing,/target/gpfs2/gcc/home/akanterakis/GitHub/molgenis-pipelines/compute5/Imputation_shapeit_phasing/protocols/shapeitPhasing.sh,shapeitBin=user_shapeitBin;m=user_m;studyData=user_studyData;studyDataType=user_studyDataType;threads=user_shapeitThreads;chr=user_chr;outputFolder=user_outputFolder;stage=user_stage;shapeitversion=user_shapeitversion
+phasing,/target/gpfs2/gcc/home/akanterakis/GitHub/molgenis-pipelines/compute5/Imputation_shapeit_phasing/protocols/shapeitPhasing.sh,shapeitBin=user_shapeitBin;m=user_m;studyData=user_studyData;studyDataType=user_studyDataType;shapeitThreads=user_shapeitThreads;chr=user_chr;outputFolder=user_outputFolder;stage=user_stage;shapeitversion=user_shapeitversion
