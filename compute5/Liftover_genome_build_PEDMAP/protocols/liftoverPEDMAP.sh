@@ -33,6 +33,7 @@ echo "outputFolderChrDir: ${outputFolderChrDir}"
 echo "liftOverChainFile: ${liftOverChainFile}"
 echo "liftOverUcscBin: ${liftOverUcscBin}"
 echo "plinkBin: ${plinkBin}"
+echo "stage: ${stage}"
 
 startTime=$(date +%s)
 
