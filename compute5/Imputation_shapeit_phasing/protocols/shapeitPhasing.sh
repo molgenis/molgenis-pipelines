@@ -81,14 +81,6 @@ if $shapeitBin \
 	--output-max $tmpOutput \
 	--thread $shapeitThreads \
 	--output-log ${tmpOutput}.log
-
-
-#Get return code from last program call
-returnCode=$?
-
-echo "returnCode ShapeIt2: ${returnCode}"
-
-if [ $returnCode -eq 0 ]
 then
 	#Command successful
 	echo "returnCode ShapeIt2: $?"
