@@ -1,4 +1,4 @@
-#MOLGENIS walltime=6:00:00 nodes=1 cores=1 mem=4
+#MOLGENIS walltime=48:00:00 nodes=1 cores=1 mem=4
 
 outputFolder=${outputFolder}
 outputPrefix=${outputPrefix}
@@ -12,7 +12,7 @@ alloutputsexist \
 	${outputFolder}/${outputPrefix}Aligned.out.sorted.bam \
 	${outputFolder}/${outputPrefix}Aligned.out.sorted.bam.bai
 
-
+inputs ${outputFolder}/${outputPrefix}Aligned.out.sam
 
 ${samtools} view -bS \
 	${outputFolder}/${outputPrefix}Aligned.out.sam \

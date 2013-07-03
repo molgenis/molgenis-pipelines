@@ -1,6 +1,4 @@
-#MOLGENIS nodes=1 cores=8 mem=2
-
-#foreach project,chr
+#MOLGENIS nodes=1 cores=8 mem=2g
 
 #Parameter mapping
 #string shapeitBin
@@ -20,17 +18,22 @@ finalOutput="${outputFolder}/chr${chr}"
 
 
 
+if [ "${stage}" != "" ]
+then
+	${stage} shapeit/${shapeitversion}
+fi
 
 
-${stage} shapeit/${shapeitversion}
 
 echo "m: ${m}";
 echo "studyData: ${studyData}"
 echo "studyDataType: ${studyDataType}"
-echo "threads: ${shapeitThreads}"
+echo "threads: ${threads}"
 echo "chr: ${chr}"
 echo "outputFolder: ${outputFolder}"
 echo "tmpOutput: ${tmpOutput}"
+
+echo "test1"
 
 mkdir -p ${outputFolder}
 
@@ -46,6 +49,8 @@ else
   	exit 1
 fi
 
+echo "test2"
+
 startTime=$(date +%s)
 
 alloutputsexist \
@@ -54,6 +59,8 @@ alloutputsexist \
 
 getFile $m
 inputs $m
+
+echo "test3"
 
 # $studyData can be multiple files. Here we will check each file and do a getFile, if needed, for each file
 for studyDataFile in $studyData
@@ -64,23 +71,17 @@ do
 done
 
 
+echo "test4" 
 
-
-$shapeitBin \
+if $shapeitBin \
 	$inputVarName $studyData \
 	--input-map $m \
 	--output-max $tmpOutput \
 	--thread $threads \
-	--output-log ${tmpOutput}.log
-
-
-#Get return code from last program call
-returnCode=$?
-
-echo "returnCode ShapeIt2: ${returnCode}"
-
-if [ $returnCode -eq 0 ]
+	--output-log ${tmpOutput}.log;
 then
+	#Command successful
+	echo "returnCode ShapeIt2: $?"
 	
 	echo -e "\nMoving temp files to final files\n\n"
 
@@ -91,13 +92,16 @@ then
 		putFile $finalFile
 	done
 	
-else
-  
+else 
+	#Command failed
+	echo "returncode ShapeIt2: $?"
+	
 	echo -e "\nNon zero return code not making files final. Existing temp files are kept for debugging purposes\n\n"
 	#Return non zero return code
 	exit 1
-
+	
 fi
+
 
 endTime=$(date +%s)
 
