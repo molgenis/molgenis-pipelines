@@ -15,13 +15,19 @@ inputs "${snpsfinalvcf}"
 alloutputsexist "${snpsfinalvcftable}" "${snpsfinalvcftabletype}" "${snpsfinalvcftableclass}" "${snpsfinalvcftableimpact}"
 
 ####Transform VCF file into tabular file####
-perl ${vcf2tabpl} \
--vcf ${snpsfinalvcf} \
--output ${snpstmpvcftable} \
--filter ABHet,ABHom,AC,AN,BaseCounts,DP,GC,MQ,QD,SNPEFF_AMINO_ACID_CHANGE,SNPEFF_CODON_CHANGE,SNPEFF_EFFECT,SNPEFF_EXON_ID,SNPEFF_FUNCTIONAL_CLASS,SNPEFF_GENE_BIOTYPE,SNPEFF_GENE_NAME,SNPEFF_IMPACT,SNPEFF_TRANSCRIPT_ID \
--format GT
+java -jar -Xmx10g /target/gpfs2/gcc/tools/GenomeAnalysisTK-2.5-2-gf57256b/GenomeAnalysisTK.jar \
+-T VariantsToTable \
+-R ${indexfile} \
+-V ${snpsfinalvcf} \
+-F CHROM -F POS -F ID -F REF -F ALT -F QUAL -F FILTER \
+-F AC -F AN -F BaseCounts -F DP -F GC -F MQ -F QD -F SNPEFF_AMINO_ACID_CHANGE -F SNPEFF_CODON_CHANGE \
+-F SNPEFF_EFFECT -F SNPEFF_EXON_ID -F SNPEFF_FUNCTIONAL_CLASS -F SNPEFF_GENE_BIOTYPE \
+-F SNPEFF_GENE_NAME -F SNPEFF_IMPACT -F SNPEFF_TRANSCRIPT_ID \
+-GF GT -GF AB \
+--allowMissingData \
+-o ${snpstmpvcftable}
 
-echo -e "Chromosome\tPosition\tdbSNPid\tReference_allele\tAlternative_allele\tQuality\tFilter\tAllele_balance_heterozygous\tAllele_balance_homozygous\tAllele_count\tAllele_number\tBaseCounts_A_C_G_T\tDepth\tGC_content\tMapping_quality\tQuality_by_depth\tsnpEff_amino_acid_change\tsnpEff_codon_change\tsnpEff_effect\tsnpEff_exon_ID\tsnpEff_functional_class\tsnpEff_gene_biotype\tsnpEff_gene_name\tsnpEff_impact\tsnpEff_transcript_ID\tGenotype" > ${snpsfinalvcftable}
+echo -e "Chromosome\tPosition\tdbSNPid\tReference_allele\tAlternative_allele\tQuality\tFilter\tAllele_count\tAllele_number\tBaseCounts_A_C_G_T\tDepth\tGC_content\tMapping_quality\tQuality_by_depth\tsnpEff_amino_acid_change\tsnpEff_codon_change\tsnpEff_effect\tsnpEff_exon_ID\tsnpEff_functional_class\tsnpEff_gene_biotype\tsnpEff_gene_name\tsnpEff_impact\tsnpEff_transcript_ID\tGenotype\tAllele_balance" > ${snpsfinalvcftable}
 
 sed '2,$!d' ${snpstmpvcftable} >> ${snpsfinalvcftable}
 
