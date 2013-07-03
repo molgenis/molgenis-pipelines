@@ -78,7 +78,6 @@ if $shapeitBin \
 	--input-map $m \
 	--output-max $tmpOutput \
 	--thread $threads \
-	--thisShouldCrash \
 	--output-log ${tmpOutput}.log;
 then
 	#Command successful
