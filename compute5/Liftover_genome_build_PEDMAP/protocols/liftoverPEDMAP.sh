@@ -20,8 +20,8 @@
 
 
 
-#${stage} liftOverUcsc/${liftOverUcscVersion}
-#${stage} plink/${plinkVersion}
+${stage} liftOverUcsc/${liftOverUcscVersion}
+${stage} plink/${plinkVersion}
 
 
 #Echo parameter values

@@ -42,6 +42,7 @@ alloutputsexist()
       sleep 30
       exit 0;
   else
+      echo "checking for existance of output files, done."
       return;
   fi
 }
