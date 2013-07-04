@@ -2,6 +2,7 @@ Name,defaultValue,description,dataType,hasOne_name
 group,gaf,Group for file system permissions on POSIX-compliant systems,string,
 #group,staff,Group for file system permissions on POSIX-compliant systems,string,
 umask,0007,Umask for file system permissions on POSIX-compliant systems,string,
+adapterTrimming,ENABLED,,,
 scheduler,PBS,,,
 clusterQueue,gaf,,,
 mem,4,Memory in GB,,
@@ -32,11 +33,16 @@ runResultsDir,${allRunsDir}/${runLabel}/results/,Store final results here,string
 bclDir,${gafDir}/hiseq/${runLabel}/,,string,
 #bcl2fastqDir,${gafDir}/hiseq/${runLabel}_bcl2fastq/,,string,
 bcl2fastqDir,${runResultsDir}/${runLabel}_bcl2fastq/,,string,
-bcl2fastqVersion,1.8.3,,string,
+bcl2fastqVersion,1.8.4,,string,
+bcl2fastqBinDir,${toolDir}/bcl2fastq-${bcl2fastqVersion},,,
+bcl2fastqAdapterDir,${toolDir}/bcl2fastq-${bcl2fastqVersion}/share/bcl2fastq-${bcl2fastqVersion}/adapters/,,,
+truSeqAdapter1,${bcl2fastqAdapterDir}/TruSeq_r1.fa,,,
+truSeqAdapter2,${bcl2fastqAdapterDir}/TruSeq_r2.fa,,,
+adapterStringency,0.9,,,
 sequencingStartDate,,,,
 sequencer,,,,
 run,,,,"sequencer,sequencingStartDate,bclDir,bcl2fastqDir,runJobsDir,runResultsDir"
-flowcell,,,,"run,runJobsDir,runResultsDir"
+flowcell,,,,"run,runJobsDir,runResultsDir,seqType"
 seqType,,,,
 lane,,,,"flowcell,seqType"
 barcode,,,,
