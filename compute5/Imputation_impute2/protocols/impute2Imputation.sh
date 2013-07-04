@@ -15,9 +15,8 @@
 #string stage
 #string impute2version
 
-
-
-
+#output impute2chunk
+#output impute2chunkInfo
 
 
 ${stage} impute/${impute2version}
@@ -32,6 +31,9 @@ echo "toChrPos: ${toChrPos}"
 echo "interMediFolder: ${imputationIntermediatesFolder}"
 echo "tmpOutput: ${tmpOutput}"
 echo "finalOutput: ${finalOutput}"
+
+impute2chunk=${finalOutput}
+impute2chunkInfo=${finalOutput}_info
 
 alloutputsexist \
 	"${finalOutput}" \
