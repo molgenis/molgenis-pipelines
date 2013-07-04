@@ -218,9 +218,13 @@ if [[ "${mismatchArray}" ]];then
 	configureBclToFastq.pl \
 	--force \
 	--fastq-cluster-count 0 \
+	--no-eamss \
 	--input-dir ${bclDir}/Data/Intensities/BaseCalls/ \
 	--output-dir ${fluxDir}/ \
-	--sample-sheet ${fluxDir}/Illumina_R${run}.csv \
+	--sample-sheet ${fluxDir}/Illumina_R${run}.csv \<#if adapterTrimming == "ENABLED">
+	--adapter-sequence ${truSeqAdapter1} \<#if seqType == "PE">
+    --adapter-sequence ${truSeqAdapter2} \</#if>
+    --adapter-stringency ${adapterStringency} \</#if>
 	<#noparse>--mismatches ${mismatchNr}</#noparse>  
 	
 else 
