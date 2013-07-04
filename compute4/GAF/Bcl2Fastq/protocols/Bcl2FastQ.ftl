@@ -1,3 +1,6 @@
+#MOLGENIS
+#FOREACH flowcell
+
 #
 # =============================================================================
 # BCL to FastQ conversion using Illumina's bcl2fastq convertor.
@@ -223,9 +226,9 @@ if [[ "${mismatchArray}" ]];then
 	--output-dir ${fluxDir}/ \
 	--sample-sheet ${fluxDir}/Illumina_R${run}.csv \<#if adapterTrimming == "ENABLED">
 	--adapter-sequence ${truSeqAdapter1} \<#if seqType == "PE">
-    --adapter-sequence ${truSeqAdapter2} \</#if>
-    --adapter-stringency ${adapterStringency} \</#if>
-	<#noparse>--mismatches ${mismatchNr}</#noparse>  
+	--adapter-sequence ${truSeqAdapter2} \</#if>
+	--adapter-stringency ${adapterStringency} \</#if>
+	<#noparse>--mismatches ${mismatchNr}</#noparse>   
 	
 else 
 	echo "FATAL: mismatchArray is empty."
