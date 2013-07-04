@@ -2,7 +2,7 @@ Name,defaultValue,description,dataType,hasOne_name
 group,gaf,Group for file system permissions on POSIX-compliant systems,string,
 #group,staff,Group for file system permissions on POSIX-compliant systems,string,
 umask,0007,Umask for file system permissions on POSIX-compliant systems,string,
-adapterTrimming,ENABLE,,,
+adapterTrimming,ENABLED,,,
 scheduler,PBS,,,
 clusterQueue,gaf,,,
 mem,4,Memory in GB,,
