@@ -1,11 +1,13 @@
-#MOLGENIS nodes=1 cores=8 mem=2g
+#MOLGENIS nodes=1 cores=8 mem=2G
+
+#foreach project,chr
 
 #Parameter mapping
 #string shapeitBin
 #string m
 #string studyData
 #string studyDataType
-#string threads
+#string shapeitThreads
 #string chr
 #string outputFolder
 #string stage
@@ -28,7 +30,7 @@ fi
 echo "m: ${m}";
 echo "studyData: ${studyData}"
 echo "studyDataType: ${studyDataType}"
-echo "threads: ${threads}"
+echo "shapeitThreads: ${shapeitThreads}"
 echo "chr: ${chr}"
 echo "outputFolder: ${outputFolder}"
 echo "tmpOutput: ${tmpOutput}"
@@ -77,8 +79,8 @@ if $shapeitBin \
 	$inputVarName $studyData \
 	--input-map $m \
 	--output-max $tmpOutput \
-	--thread $threads \
-	--output-log ${tmpOutput}.log;
+	--thread $shapeitThreads \
+	--output-log ${tmpOutput}.log
 then
 	#Command successful
 	echo "returnCode ShapeIt2: $?"
