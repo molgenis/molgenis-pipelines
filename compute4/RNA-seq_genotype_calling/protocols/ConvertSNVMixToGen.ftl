@@ -4,6 +4,7 @@
 
 genotypeFolder="${genotypeFolder}"
 shapeitBin="${shapeitBin}"
+JAVA_HOME="${JAVA_HOME}"
 
 declare -a samples=(${ssvQuoted(sample)})
 declare -a snvmixOuts=(${ssvQuoted(snvmixOut)})
@@ -34,11 +35,19 @@ do
 
 	samplesProcessed=("${samplesProcessed[@]}" "${samples[$i]}")
 	echo -e "sample:${samples[$i]}\tgenotype file:${snvmixOuts[$i]}"
-	echo -e  "${samples[$i]}\t${snvmixOuts[$i]}" >> ${genotypeFolder}/fileList.txt
+	
+	if [ -f ${snvmixOuts[$i]} ]
+	then
+		echo -e  "${samples[$i]}\t${snvmixOuts[$i]}" >> ${genotypeFolder}/fileList.txt
+	else
+		echo "Skipping sample ${samples[$i]} no snvmix output"
+	fi
+	
+	
 done
 
 
-/cm/shared/apps/sunjdk/jdk1.6.0_21/bin/java \
+${JAVA_HOME}/bin/java \
         -Xmx4g \
         -jar /target/gpfs2/gcc/home/dasha/scripts/genotyping/GenotypeCalling/dist/GenotypeCalling.jar \
         --mode SNVMixToGen \
