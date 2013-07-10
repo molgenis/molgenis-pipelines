@@ -1,3 +1,3 @@
 name,protocol_name,PreviousSteps_name
-FluxCapacitor,FluxCapacitor,
-MakeExpressionTable,MakeExpressionTable,FluxCapacitor
+HTSeq-count,HTSeq-count,
+MakeExpressionTable,MakeExpressionTable,HTSeq-count
