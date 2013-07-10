@@ -19,7 +19,7 @@ echo -e "SNVMix=${SNVMix}\nsnpList=${snpList}\nfaFile=${faFile}\nmergedBam=${mer
 
 echo "snvmixOutput=${snvmixOut}"
 
-#alloutputsexist $snvmixOut
+alloutputsexist $snvmixOut
 
 echo "bams: ${sortedBams[@]}"
 
