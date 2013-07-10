@@ -7,7 +7,7 @@ rm -f ${expressionFolder}/fileList.txt
 
 <#assign samples=sample?size - 1>
 <#list 0..samples as i>
-  echo -e "${sample[i]}\t${gtfExpression[i]}" >> ${expressionFolder}/fileList.txt
+  echo -e "${sample[i]}\t${txtExpression[i]}" >> ${expressionFolder}/fileList.txt
 </#list> 
 
 ${JAVA_HOME}/bin/java \
