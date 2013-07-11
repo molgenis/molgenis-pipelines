@@ -6,6 +6,7 @@ nodes,1
 ppn,1
 defaultInterpreter,#!/bin/bash
 stage,module load
+checkStage, module list
 WORKDIR,/target/gpfs2/gcc/
 root,${WORKDIR}
 tempDir,${WORKDIR}/tmp/
@@ -28,13 +29,17 @@ genome,hg19,,,
 indexFileID,human_g1k_v37,,,
 indicesDir,${resDir}/${genome}/indices/bwa-${bwaVersion}/
 indexFileFastaIndex,${indicesDir}/${indexFileIDtest}.fa.fai,,,
-indexFileIDtest,human_g1k_v37,Append .chr1 if you want to test only on chr 1,,
+indexFileIDtest,human_g1k_v37.chr1,Append .chr1 if you want to test only on chr 1,,
 indexFile,${indicesDir}/${indexFileIDtest}.fa,,,
 fastqcVersion,v0.10.1
 bwaVersion,0.7.5a
 bwaAlignCores,4
-library,${fileprefix},,,
-filePrefix,${sequencingStartDate}_${sequencer}_${run}_${flowcell}_L${lane}
+picardVersion,1.94
+samToBamJar,$PICARD_HOME/SamFormatConverter.jar
+sortSamJar,$PICARD_HOME/SortSam.jar
+mergeSamFilesJar,$PICARD_HOME/MergeSamFiles.jar
+filePrefix,${runPrefix}_L${lane}
+library,${filePrefix},,,
 srInputFile,${rawDataDir}/${filePrefix}.fq.gz
 peEnd1FqGz,${rawDataDir}/${filePrefix}_1.fq.gz,fastq file with left read of sequence,string,
 peEnd2FqGz,${rawDataDir}/${filePrefix}_2.fq.gz,fastq file with right read of sequence,string,
@@ -72,3 +77,9 @@ srBarcodeAligned,${intermediateSrBarcode}.aligned.${indexFileID}.sai,(bwa_align)
 srBarcodeFastQcZip,${intermediateSrBarcode}.fq_fastqc.zip,(fastqc.ftl),,
 tmpAlignedSam,${tmpIntermediateDir}/~${filePrefix}_${barcode}.sam
 alignedSam,${intermediateDir}/${filePrefix}_${barcode}.sam
+tmpAlignedBam,${tmpIntermediateDir}/~${filePrefix}_${barcode}.bam
+alignedBam,${intermediateDir}/${filePrefix}_${barcode}.bam
+tmpAlignedSortedBam,${tmpIntermediateDir}/~${filePrefix}_${barcode}.sorted.bam
+tmpAlignedSortedBamIdx,${tmpIntermediateDir}/~${filePrefix}_${barcode}.sorted.bai
+AlignedSortedBam,${intermediateDir}/${filePrefix}_${barcode}.sorted.bam
+AlignedSortedBamIdx,${intermediateDir}/${filePrefix}_${barcode}.sorted.bai

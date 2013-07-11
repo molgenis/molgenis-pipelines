@@ -42,16 +42,24 @@ echo "srBarcodeAligned: ${srBarcodeAligned}"
 getFile ${indexFile}
 if [ ${seqType} == "PE" ]
 then
+        alloutputsexist \
+        "${peEnd1BarcodeAligned}" \
+        "${peEnd2BarcodeAligned}"
+    
 	getFile ${peEnd1BarcodeFqGz}
 	getFile ${peEnd2BarcodeFqGz}
 
 else
+        alloutputsexist \
+        "${srBarcodeAligned}"
+        
 	getFile ${srBarcodeFqGz}
 
 fi
 
 #Load module BWA
 ${stage} bwa/${bwaVersion}
+${checkStage}
 
 #Create tmp dir
 mkdir -p "${tmpIntermediateDir}"
@@ -126,4 +134,9 @@ else
 	exit -1
     fi
 fi
+
+
+
+
+
 

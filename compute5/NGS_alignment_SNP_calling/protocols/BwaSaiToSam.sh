@@ -1,4 +1,4 @@
-#MOLGENIS walltime=23:59:00
+#MOLGENIS walltime=23:59:00 ppn=1
 
 #Parameter mapping
 #string stage
@@ -17,7 +17,7 @@
 #string library
 #string externalSampleID
 #string tmpAlignedSam
-#string alignedSam
+#output alignedSam
 
 #Echo parameter values
 echo "stage: ${stage}"
@@ -38,6 +38,9 @@ echo "externalSampleID: ${externalSampleID}"
 echo "tmpAlignedSam: ${tmpAlignedSam}"
 echo "alignedSam: ${alignedSam}"
 
+alloutputsexist \
+"${alignedSam}"
+
 #If paired-end then copy 2 files, else only 1
 getFile ${indexFile}
 if [ ${seqType} == "PE" ]
@@ -52,7 +55,9 @@ else
         getFile ${srBarcodeFqGz}
 fi
 
+#Load BWA
 ${stage} bwa/${bwaVersion}
+${checkStage}
 
 #If paired-end do fastqc for both ends, else only for one
 if [ ${seqType} == "PE" ]

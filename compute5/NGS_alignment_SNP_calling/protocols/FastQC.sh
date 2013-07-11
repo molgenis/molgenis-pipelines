@@ -30,16 +30,24 @@ echo "srBarcodeFastQcZip: ${srBarcodeFastQcZip}"
 #If paired-end then copy 2 files, else only 1
 if [ ${seqType} == "PE" ]
 then
+        alloutputsexist \
+        "${peEnd1BarcodeFastQcZip}" \
+        "${peEnd2BarcodeFastQcZip}"
+        
 	getFile ${peEnd1BarcodeFqGz}
 	getFile ${peEnd2BarcodeFqGz}
 
 else
+        alloutputsexist \
+        "${srBarcodeFastQcZip}"
+        
 	getFile ${srBarcodeFqGz}
 
 fi
 
 #Load module
 ${stage} fastqc/${fastqcVersion}
+${checkStage}
 
 #Make tmp directory
 mkdir -p "${tmpIntermediateDir}"
