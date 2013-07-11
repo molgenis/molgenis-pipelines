@@ -81,5 +81,5 @@ tmpAlignedBam,${tmpIntermediateDir}/~${filePrefix}_${barcode}.bam
 alignedBam,${intermediateDir}/${filePrefix}_${barcode}.bam
 tmpAlignedSortedBam,${tmpIntermediateDir}/~${filePrefix}_${barcode}.sorted.bam
 tmpAlignedSortedBamIdx,${tmpIntermediateDir}/~${filePrefix}_${barcode}.sorted.bai
-AlignedSortedBam,${intermediateDir}/${filePrefix}_${barcode}.sorted.bam
-AlignedSortedBamIdx,${intermediateDir}/${filePrefix}_${barcode}.sorted.bai
+alignedSortedBam,${intermediateDir}/${filePrefix}_${barcode}.sorted.bam
+alignedSortedBamIdx,${intermediateDir}/${filePrefix}_${barcode}.sorted.bai
