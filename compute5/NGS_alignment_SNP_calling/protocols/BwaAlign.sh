@@ -2,6 +2,7 @@
 
 #Parameter mapping
 #string stage
+#string checkStage
 #string seqType
 #string bwaVersion
 #string indexFile
@@ -12,16 +13,20 @@
 #string srBarcodeFqGz
 #string tmpPeEnd1BarcodeAligned
 #string tmpPeEnd2BarcodeAligned
-#string peEnd1BarcodeAligned
-#string peEnd2BarcodeAligned
 #string intermediateDir
 #string tmpIntermediateDir
 #string tmpSrBarcodeAligned
+#string peEnd1BarcodeAligned
+#string peEnd2BarcodeAligned
 #string srBarcodeAligned
+#output OUTpeEnd1BarcodeAligned
+#output OUTpeEnd2BarcodeAligned
+#output OUTsrBarcodeAligned
 
 #Echo parameter values
 echo "stage: ${stage}"
-echo "seqType: ${stage}"
+echo "checkStage: ${checkStage}"
+echo "seqType: ${seqType}"
 echo "bwaVersion: ${bwaVersion}"
 echo "indexFile: ${indexFile}"
 echo "tmpIntermediateDir: ${tmpIntermediateDir}"
@@ -37,6 +42,8 @@ echo "intermediateDir: ${intermediateDir}"
 echo "tmpIntermediateDir: ${tmpIntermediateDir}"
 echo "tmpSrBarcodeAligned: ${tmpSrBarcodeAligned}"
 echo "srBarcodeAligned: ${srBarcodeAligned}"
+
+sleep 10
 
 #If paired-end then copy 2 files, else only 1
 getFile ${indexFile}
@@ -135,8 +142,7 @@ else
     fi
 fi
 
-
-
-
-
-
+#Map output vars
+OUTpeEnd1BarcodeAligned=${peEnd1BarcodeAligned}
+OUTpeEnd2BarcodeAligned=${peEnd2BarcodeAligned}
+OUTsrBarcodeAligned=${srBarcodeAligned}

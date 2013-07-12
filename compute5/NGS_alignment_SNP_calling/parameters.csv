@@ -6,7 +6,7 @@ nodes,1
 ppn,1
 defaultInterpreter,#!/bin/bash
 stage,module load
-checkStage, module list
+checkStage,module list
 WORKDIR,/target/gpfs2/gcc/
 root,${WORKDIR}
 tempDir,${WORKDIR}/tmp/
@@ -35,9 +35,9 @@ fastqcVersion,v0.10.1
 bwaVersion,0.7.5a
 bwaAlignCores,4
 picardVersion,1.94
-samToBamJar,$PICARD_HOME/SamFormatConverter.jar
-sortSamJar,$PICARD_HOME/SortSam.jar
-mergeSamFilesJar,$PICARD_HOME/MergeSamFiles.jar
+samToBamJar,SamFormatConverter.jar
+sortSamJar,SortSam.jar
+mergeSamFilesJar,MergeSamFiles.jar
 filePrefix,${runPrefix}_L${lane}
 library,${filePrefix},,,
 srInputFile,${rawDataDir}/${filePrefix}.fq.gz
@@ -65,7 +65,7 @@ tmpPeEnd2Barcode,${tmpIntermediateDir}/~${filePrefix}_${barcode}_2,,,
 tmpSrBarcode,${tmpIntermediateDir}/~${filePrefix}_${barcode},,,
 intermediatePeEnd1Barcode,${tmpIntermediateDir}/${filePrefix}_${barcode}_1,,,
 intermediatePeEnd2Barcode,${tmpIntermediateDir}/${filePrefix}_${barcode}_2,,,
-intermediateSrBarcode,${tmpIntermediateDir}/${filePrefix}_${barcode},,,
+intermediateSrBarcode,${intermediateDir}/${filePrefix}_${barcode},,,
 peEnd1BarcodeFastQcZip,${intermediatePeEnd1Barcode}.fq_fastqc.zip,(fastqc.ftl),,
 peEnd2BarcodeFastQcZip,${intermediatePeEnd2Barcode}.fq_fastqc.zip,(fastqc.ftl),,
 tmpPeEnd1BarcodeAligned,${tmpPeEnd1Barcode}.aligned.${indexFileID}.sai,(bwa_align),,

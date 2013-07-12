@@ -7,6 +7,7 @@
 #string peEnd2BarcodeFqGz
 #string srBarcodeFqGz
 #string stage
+#string checkStage
 #string fastqcVersion
 #string tmpIntermediateDir
 #string intermediateDir
@@ -20,12 +21,15 @@ echo "peEnd1BarcodeFqGz: ${peEnd1BarcodeFqGz}"
 echo "peEnd2BarcodeFqGz: ${peEnd2BarcodeFqGz}"
 echo "srBarcodeFqGz: ${srBarcodeFqGz}"
 echo "stage: ${stage}"
+echo "checkStage: ${checkStage}"
 echo "fastqcVersion: ${fastqcVersion}"
 echo "tmpIntermediateDir: ${tmpIntermediateDir}"
 echo "intermediateDir: ${intermediateDir}"
 echo "peEnd1BarcodeFastQcZip: ${peEnd1BarcodeFastQcZip}"
 echo "peEnd2BarcodeFastQcZip: ${peEnd2BarcodeFastQcZip}"
 echo "srBarcodeFastQcZip: ${srBarcodeFastQcZip}"
+
+sleep 10
 
 #If paired-end then copy 2 files, else only 1
 if [ ${seqType} == "PE" ]
@@ -80,6 +84,9 @@ then
 else
 	fastqc ${srBarcodeFqGz} \
 	-o ${tmpIntermediateDir}
+        
+        #Get return code from last program call
+	returnCode=$?
 
 	if [ $returnCode -eq 0 ]
 	then

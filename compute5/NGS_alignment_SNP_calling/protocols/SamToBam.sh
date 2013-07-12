@@ -2,17 +2,19 @@
 
 #Parameter mapping
 #string stage
+#string checkStage
 #string picardVersion
 #string samToBamJar
 #string alignedSam
 #string tmpAlignedBam
-#string alignedBam
 #string tempDir
 #string intermediateDir
-
+#string alignedBam
+#output OUTalignedBam
 
 #Echo parameter values
 echo "stage: ${stage}"
+echo "checkStage: ${checkStage}"
 echo "picardVersion: ${picardVersion}"
 echo "samToBamJar: ${samToBamJar}"
 echo "alignedSam: ${alignedSam}"
@@ -21,6 +23,7 @@ echo "alignedBam: ${alignedBam}"
 echo "tempDir: ${tempDir}"
 echo "intermediateDir: ${intermediateDir}"
 
+sleep 10
 
 #Check if output exists
 alloutputsexist \
@@ -34,7 +37,7 @@ ${stage} picard/${picardVersion}
 ${checkStage}
 
 #Run picard, convert SAM to BAM
-java -jar -Xmx3g ${samToBamJar} \
+java -jar -Xmx3g $PICARD_HOME/${samToBamJar} \
 INPUT=${alignedSam} \
 OUTPUT=${tmpAlignedBam} \
 VALIDATION_STRINGENCY=LENIENT \
@@ -57,3 +60,6 @@ else
     echo -e "\nFailed to move SamToBam results to ${intermediateDir}\n\n"
     exit -1
 fi
+
+#Map output vars
+OUTalignedBam=${alignedBam}

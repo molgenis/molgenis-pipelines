@@ -2,19 +2,22 @@
 
 #Parameter mapping
 #string stage
+#string checkStage
 #string picardVersion
 #string sortSamJar
 #string inputBam
 #string tmpSortedBam
 #string tmpSortedBamIdx
-#string sortedBam
-#string sortedBamIdx
 #string tempDir
 #string intermediateDir
-
+#string sortedBam
+#string sortedBamIdx
+#output OUTsortedBam
+#output OUTsortedBamIdx
 
 #Echo parameter values
 echo "stage: ${stage}"
+echo "checkStage: ${checkStage}"
 echo "picardVersion: ${picardVersion}"
 echo "sortSamJar: ${sortSamJar}"
 echo "inputBam: ${inputBam}"
@@ -25,6 +28,7 @@ echo "sortedBamIdx: ${sortedBamIdx}"
 echo "tempDir: ${tempDir}"
 echo "intermediateDir: ${intermediateDir}"
 
+sleep 10
 
 #Check if output exists
 alloutputsexist \
@@ -39,7 +43,7 @@ ${stage} picard/${picardVersion}
 ${checkStage}
 
 #Run picard, sort BAM file and create index on the fly
-java -jar -Xmx3g ${sortSamJar} \
+java -jar -Xmx3g $PICARD_HOME/${sortSamJar} \
 INPUT=${inputBam} \
 OUTPUT=${tmpSortedBam} \
 SORT_ORDER=coordinate \
@@ -66,3 +70,7 @@ else
     echo -e "\nFailed to move SortBam results to ${intermediateDir}\n\n"
     exit -1
 fi
+
+#Map output vars
+OUTsortedBam=${sortedBam}
+OUTsortedBamIdx=${sortedBamIdx}

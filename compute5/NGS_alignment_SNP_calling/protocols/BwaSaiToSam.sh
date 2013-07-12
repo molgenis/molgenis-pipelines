@@ -2,6 +2,7 @@
 
 #Parameter mapping
 #string stage
+#string checkStage
 #string seqType
 #string bwaVersion
 #string indexFile
@@ -17,10 +18,12 @@
 #string library
 #string externalSampleID
 #string tmpAlignedSam
-#output alignedSam
+#string alignedSam
+#output OUTalignedSam
 
 #Echo parameter values
 echo "stage: ${stage}"
+echo "checkStage: ${checkStage}"
 echo "seqType: ${stage}"
 echo "bwaVersion: ${bwaVersion}"
 echo "indexFile: ${indexFile}"
@@ -37,6 +40,8 @@ echo "library: ${library}"
 echo "externalSampleID: ${externalSampleID}"
 echo "tmpAlignedSam: ${tmpAlignedSam}"
 echo "alignedSam: ${alignedSam}"
+
+sleep 10
 
 alloutputsexist \
 "${alignedSam}"
@@ -110,3 +115,6 @@ else
 	exit -1
     fi
 fi
+
+#Map output vars
+OUTalignedSam=${alignedSam}

@@ -2,19 +2,21 @@
 
 #Parameter mapping
 #string stage
+#string checkStage
 #string picardVersion
 #string sortSamJar
 #string inputBam
 #string tmpSortedBam
 #string tmpSortedBamIdx
-#string sortedBam
-#string sortedBamIdx
+#output sortedBam
+#output sortedBamIdx
 #string tempDir
 #string intermediateDir
 
 
 #Echo parameter values
 echo "stage: ${stage}"
+echo "checkStage: ${checkStage}"
 echo "picardVersion: ${picardVersion}"
 echo "sortSamJar: ${sortSamJar}"
 echo "inputBam: ${inputBam}"
@@ -40,7 +42,7 @@ ${checkStage}
 
 
 
-java -jar -Xmx6g ${mergeSamFilesJar} \
+java -jar -Xmx6g $PICARD_HOME/${mergeSamFilesJar} \
 INPUT=${srb} \
 SORT_ORDER=coordinate \
 CREATE_INDEX=true \
