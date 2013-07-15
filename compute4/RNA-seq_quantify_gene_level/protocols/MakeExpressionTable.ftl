@@ -15,6 +15,6 @@ ${JAVA_HOME}/bin/java \
 	-jar ${processReadCountsJar} \
 	--mode makeExpressionTable \
 	--fileList ${expressionFolder}/fileList.txt \
-	--annot ${annotationTxt} \
+	--annot ${geneAnnotationTxt} \
 	--out ${expressionTable}
 
