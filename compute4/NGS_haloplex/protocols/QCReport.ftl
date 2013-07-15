@@ -47,7 +47,6 @@ Rscript ${getStatisticsScript} \
 --hsmetrics ${csvQuoted(samplehsmetrics)} \
 --alignment ${csvQuoted(samplealignmentmetrics)} \
 --insertmetrics ${csvQuoted(sampleinsertsizemetrics)} \
---dedupmetrics ${csvQuoted(dedupmetrics)} \
 --concordance ${csvQuoted(sampleconcordancefile)} \
 --sample ${csvQuoted(externalSampleIDfolded)} \
 --colnames ${qcstatisticscolnames} \
