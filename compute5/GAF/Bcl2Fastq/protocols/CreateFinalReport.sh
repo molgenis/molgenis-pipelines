@@ -19,6 +19,14 @@
 #string McWorksheet
 #string createPerSampleFinalReportPl
 
+echo "run: ${run}"
+echo "umask: ${umask}"
+echo "scriptsDir: ${scriptsDir}"
+echo "arrayDir: ${arrayDir}"
+echo "McWorksheet: ${McWorksheet}"
+echo "createPerSampleFinalReportPl: ${createPerSampleFinalReportPl}"
+echo "runResultsDir: ${runResultsDir}"
+
 #
 # Initialize script specific vars.
 #
