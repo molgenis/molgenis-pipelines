@@ -25,23 +25,23 @@ function CalculateMismatches() {
 	do
 		for j in "${!array[@]}"
 		do		 
-	 		echo  "${array[$i]} ${array[$j]}"|\
+			echo  "${array[$i]} ${array[$j]}"|\
 			awk ' BEGIN {
-     		pos=0
-     		mismatches=0	
-     		}
+    		pos=0
+    		mismatches=0	
+    		}
     		{
-     		max=(length($1) >= length($2))? length($1): length($2)     
-     		for(i=1; i <= max ; i++)
-     		{
-     	 		v1=substr($1, i, 1)  
-     	 		v2=substr($2, i, 1) 
-     	 		if(v1 != v2){ 
+    		max=(length($1) >= length($2))? length($1): length($2)     
+    		for(i=1; i <= max ; i++)
+    		{
+    			v1=substr($1, i, 1)  
+    			v2=substr($2, i, 1) 
+    			if(v1 != v2){ 
         			pos=i
 					mismatches=mismatches +1
-	 				}
-     		}
-        	printf("%d\n", mismatches)			
+					}
+    		}
+    		printf("%d\n", mismatches)
 	}'
 	done	
 done
@@ -69,13 +69,13 @@ function contains() {
 #
 function BuildMismatchstring() {
 	if [ -z "${mismatchArray:-}" ]; then
-		echo "--- mismatches unknown, 0 possible for Illumina demultiplexing."
-		stringArray+=('0')
+		echo "--- mismatches unknown, 1 possible for GAF barcode demultiplexing."
+		stringArray+=('1')
 	else
-		if [ $(contains "${mismatchArray[@]}" "1") == "y" ]; then
+		if [ $(contains "${mismatchArray[@]}" "1") == "y" ] || [ $(contains "${mismatchArray[@]}" "2") == "y" ]; then
 			echo "--- 0 mismatches possible for Illumina demultiplexen ---"
 			stringArray+=('0')
-	 	else
+		else
 			echo "--- 1 mismatch possible for Illumina demultiplexing ---"
 			stringArray+=('1')
 		fi
@@ -175,8 +175,9 @@ for i in "${Lanes[@]}"
 	
 	# Call 2 functions per lane for calculating the number of mismatches possible and build the mismatch array.
 	
-	<#noparse>if [ -z "${array:-}" ] ; then</#noparse>
+	<#noparse>if [ -z "${array:-}" ]; then</#noparse>
 		declare -a array
+		declare -a mismatchArray
 		BuildMismatchstring
 	else
 		CalculateMismatches
@@ -191,7 +192,7 @@ done
 # If barcodes differ only at one position, Illumina demultiplexing is started with zero mismatches for that lane
 # else, with one mismatch.
  
-if [[ "${mismatchArray}" ]];then
+if [[ "${stringArray}" ]]; then
 	#
 	# Build mismatches string for the Illumina tool.
 	#
