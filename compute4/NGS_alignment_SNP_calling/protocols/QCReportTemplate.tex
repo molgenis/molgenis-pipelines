@@ -69,7 +69,7 @@
 \clearpage
 \section*{Introduction}
 \addcontentsline{toc}{section}{Introduction}
-This report describes a series of statistics about your sequencing data. Together with this report you'll receive a SNP-list. If you, in addition, also want the raw data, then please notify us via e-mail. In any case we'll delete the raw data, three months after \today.
+This report describes a series of statistics about your sequencing data. Together with this report you'll receive a SNP-list, indel-list and BED files representing the coverage per target per sample. If you, in addition, also want the raw data, then please notify us via e-mail. In any case we'll delete the raw data, three months after \today.
 
 \clearpage
 \section*{Project analysis results}
@@ -195,8 +195,76 @@ The table below explains your SNP-list. The variables that are marked with * or 
 \end{center}
 
 \clearpage
-\section*{Appendix 2: Genome Analysis Facility Pipeline}
-\addcontentsline{toc}{section}{Appendix 2: Genome Analysis Facility Pipeline}
+\section*{Appendix 2: Indel-list}
+\addcontentsline{toc}{section}{Appendix 2: Indel-list}
+GATK Unified Genotyper* and Pindel** were used to call indels. The indel-list only contains events which were called by both algorithms, meaning the events have the same chromosome and position, and are annotated with the information aquiered from the Unified Genotyper. When both methods call an event on the same coordinates with different reference/alternative alleles the calls made by Pindel are annotated in the "Pindel_reference_allele" and "Pindel_alternative_allele" column.
+
+*GATK Unified Genotyper: http://www.broadinstitute.org/gatk/gatkdocs/org_broadinstitute_sting_gatk_walkers_genotyper_UnifiedGenotyper.html **Pindel: http://gmt.genome.wustl.edu/pindel/current/
+
+The table below explains your indel-list.\\
+
+\begin{center}
+	\begin{longtable}{p{5cm} p{8cm}}
+	\caption[indel-description]{indel description.}\label{grid_mlmmh} \\\\
+
+	\hline \multicolumn{1}{l}{\textbf{Name}} & \multicolumn{1}{l}{\textbf{Description}} \\\\
+	\endfirsthead
+
+	\multicolumn{2}{c}%
+	{{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\\\
+	\hline \textbf{Name} & \textbf{Description} \\\\
+	\endhead
+
+	\hline \multicolumn{2}{|r|}{{Continued on next page}} \\\\ \hline
+	\endfoot
+
+	\hline \hline
+	\endlastfoot
+
+	\tt{Chromosome} & Chromosome number \\\\
+	\tt{Position} & Position on reference genome \\\\
+	\tt{dbSNPid} & dbSNP ID, rs-number \\\\
+	\tt{Reference allele} & Reference allele \\\\
+	\tt{Alternative allele} & Alternative allele \\\\
+	\tt{Quality} & Quality score, phred** scaled \\\\
+	\tt{Filter} & Passed filter when value is PASS \\\\
+	\tt{Allele count} & Allele count in genotypes, for each alternative (ALT) allele \\\\
+	\tt{Allele number} & Total number of alleles in called genotypes \\\\
+	\tt{BaseCounts A C G T} & Number of called bases in the order of A,C,G,T \\\\
+	\tt{Depth} & The number of bases covering this site, also known as coverage \\\\
+	\tt{GC content} & GC content within 20 bp +/- the variant site \\\\
+	\tt{IndelType} & The type of discovered indel \\\\
+	\tt{Mapping quality} & Mapping quality, phred scaled \\\\
+	\tt{Pindel_reference_allele} & Reference allele as detected by Pindel (NA means Unified Genotyper and Pindel detected the same allele) \\\\
+	\tt{Pindel_alternative_allele} & Alternative allele as detected by Pindel (NA means Unified Genotyper and Pindel detected the same allele) \\\\
+	\tt{Quality by depth} & Variant confidence/quality by depth \\\\
+	\tt{snpEff amino acid change} & Amino acid change \\\\
+	\tt{snpEff codon change} & Codon change: old codon/new codon \\\\
+	\tt{snpEff effect} & Predicted effect of the variant, for a list of all effects see * \\\\
+	\tt{snpEff exon ID} & Chromosomal position depicted as: exon chromosomenumber start end \\\\
+	\tt{snpEff functional class} & Functional class, has one of these values; NONE, SILENT, MISSENSE, NONSENSE \\\\
+	\tt{snpEff gene biotype} & Biotype, as reported by ENSEMBL \\\\
+	\tt{snpEff gene name} & Gene name \\\\
+	\tt{snpEff impact} & Effect impact, can be one of these values; High, Moderate, Low, Modifier \\\\
+	\tt{snpEff transcript ID} & Transcript ID, as reported by ENSEMBL \\\\
+	\tt{Sample} & Sample ID \\\\
+	\tt{Genotype} & Genotype for the variant, where 0=reference and 1=alternative \\\\	\end{longtable}
+\end{center}
+
+\clearpage
+\section*{Appendix 3: Coverage visualization}
+\addcontentsline{toc}{section}{Appendix 3: Coverage visualization}
+\subsection*{Visualizing coverage using BED file}
+\addcontentsline{toc}{subsection}{Visualizing coverage using BED file}
+
+The *.bed.gz files in the coverage_visualization folder can be used to visualize the coverage in a region from the capturing kit for a given sample. To visualize coverage the *.bed.gz can be uploaded to the UCSC Genome Browser (http://genome-euro.ucsc.edu/cgi-bin/hgGateway?redirect=auto&source=genome.ucsc.edu) and loaded as a "custom track". The coverage is calculated using the following method:\\
+All regions which are captured are divided in bins of at least 50 bp (the maximum bin size is 99 bp). For each bin the base with the lowest coverage is calculated, this lowest coverage point is then given a color. When the coverage is below 10X the bin is colored red, between 10X and 20X the bin is colored orange. A bin is colored green when the coverage is above 20X. Afterwards adjecent bins with the same color are merged, resulting in a BED file containing regions and their respective coverage.\\
+Example 1: if a region is coloured red it means at least 1 base in the region has a coverage lower than 10X.\\
+Example 2: if a region is coloured green it means all bases in the region have a coverage of more than 20X.
+
+\clearpage
+\section*{Appendix 4: Genome Analysis Facility Pipeline}
+\addcontentsline{toc}{section}{Appendix 4: Genome Analysis Facility Pipeline}
 \subsection*{Exome sequencing}
 \addcontentsline{toc}{subsection}{Exome sequencing}
 \begin{wrapfigure}{r}{0.5\textwidth}
@@ -211,8 +279,8 @@ Figure \ref{fig:wet} illustrated the basic experimental process of exome capture
 The quality of the product was verified on the BioRad Experion instrument. If the quality of the product meets the criteria, the product is multiplexed in an equimolar pool of 4 simular products. This pool is hybridized to the Agilent SureSelect All exon V2, according the provided protocol. After amplification of the enriched products with PCR the quality of the products is verified on the BioRad Experion instrument and Paired End sequenced on the HiSeq2000 with 100 bp reads. Image Files were processed using standard Illumina basecalling software and the generated reads are ready for downstream processing after demultiplexing.
 
 \clearpage
-\section*{Appendix 3: Bioinformatics pipeline}
-\addcontentsline{toc}{section}{Appendix 3: Bioinformatics pipeline}
+\section*{Appendix 5: Bioinformatics pipeline}
+\addcontentsline{toc}{section}{Appendix 5: Bioinformatics pipeline}
 Your samples have been anlayzed with bioinformatics pipeline shown in Figure \ref{fig:dry}.
 \begin{figure}[h]
 	\caption{Bioinformatics pipeline. The ovals describe the steps in the pipeline. The arrows indicate the work flow of data between the steps.}
