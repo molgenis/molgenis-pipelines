@@ -1,0 +1,3 @@
+step,protocol,parameterMapping
+SNVMix,protocols/SNVMix.sh,
+ConvertSNVMixToGen,protocols/ConvertSNVMixToGen.sh,SNVMix
