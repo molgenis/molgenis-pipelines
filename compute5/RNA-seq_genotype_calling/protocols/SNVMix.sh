@@ -4,7 +4,6 @@
 #FOREACH mergedStudy,sample
 
 #Parameter mapping
-#string sortedBams
 #string samtools
 #string mpileupOptions
 #string snpList
@@ -24,6 +23,8 @@ echo "snvmixOutput=${snvmixOut}"
 #Check if output exists
 alloutputsexist ${snvmixOut}
 
+#Put all sortedBams into array
+declare -a sortedBams=( $(ls ${baseFolder}/${studyEna}/${sample}/${run}/*Aligned.out.sorted.bam) )
 echo "sortedBams: ${sortedBams[@]}"
 
 echo "Number of runs: ${#sortedBams[@]}"
