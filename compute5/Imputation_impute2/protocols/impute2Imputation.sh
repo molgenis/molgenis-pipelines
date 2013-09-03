@@ -11,7 +11,6 @@
 #string toChrPos
 #string imputationIntermediatesFolder
 #string impute2Bin
-#string aditionalArgs
 #string stage
 #string impute2version
 
