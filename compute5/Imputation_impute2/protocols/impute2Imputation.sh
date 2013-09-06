@@ -45,26 +45,26 @@ startTime=$(date +%s)
 
 echo "tmpOutput: ${tmpOutput}"
 
-getFile $knownHapsG
-inputs $knownHapsG
+getFile ${knownHapsG}
+inputs ${knownHapsG}
 
-getFile $m
-inputs $m
+getFile ${m}
+inputs ${m}
 
 # $h can be multiple files. Here we will check each file and do a getFile, if needed, for each file
-for refH in $h
+for refH in ${h}
 do
 	echo "Reference haplotype file: ${refH}"
-	getFile $refH
-	inputs $refH
+	getFile ${refH}
+	inputs ${refH}
 done
 
 # $l can be multiple files. Here we will check each file and do a getFile, if needed, for each file
-for refL in $l
+for refL in ${l}
 do
 	echo "Reference legend file: ${refL}"
-	getFile $refL
-	inputs $refL
+	getFile ${refL}
+	inputs ${refL}
 done
 
 # DECLARE POSSIBLE VALUES FOR additonalImpute2Param HERE
@@ -96,35 +96,35 @@ do
 		
 		file=${aditionalArgsArray[$i]}
 		
-		echo "File for this argument: $currentArg will get and is requered for this script to start $file"
-		inputs $file
-		get $file
-		echo "Found additional Impute2 file: $file"
+		echo "File for this argument: ${currentArg} will get and is requered for this script to start ${file}"
+		inputs ${file}
+		get ${file}
+		echo "Found additional Impute2 file: ${file}"
 		
 	fi
 	
 done
 
 
-mkdir -p $imputationIntermediatesFolder
+mkdir -p ${imputationIntermediatesFolder}
 
 
-$impute2Bin \
-	-known_haps_g $knownHapsG \
-	-m $m \
-	-h $h \
-	-l $l \
-	-int $fromChrPos $toChrPos \
-	-o $tmpOutput \
+${impute2Bin} \
+	-known_haps_g ${knownHapsG} \
+	-m ${m} \
+	-h ${h} \
+	-l ${l} \
+	-int ${fromChrPos} ${toChrPos} \
+	-o ${tmpOutput} \
 	-use_prephased_g \
-	$additonalImpute2Param
+	${additonalImpute2Param}
 		
 #Get return code from last program call
 returnCode=$?
 
 echo "returnCode impute2: ${returnCode}"
 
-if [ $returnCode -eq 0 ]
+if [ ${returnCode} -eq 0 ]
 then
 
 	#If there are no SNPs in this bin we will create empty files 
@@ -147,7 +147,7 @@ then
 	echo -e "\nMoving temp files to final files\n\n"
 
 	for tempFile in ${tmpOutput}* ; do
-		finalFile=`echo $tempFile | sed -e "s/~//g"`
+		finalFile=`echo ${tempFile} | sed -e "s/~//g"`
 		echo "Moving temp file: ${tempFile} to ${finalFile}"
 		mv $tempFile $finalFile
 		putFile $finalFile
@@ -174,8 +174,8 @@ then
 	for tempFile in ${tmpOutput}* ; do
 		finalFile=`echo $tempFile | sed -e "s/~//g"`
 		echo "Moving temp file: ${tempFile} to ${finalFile}"
-		mv $tempFile $finalFile
-		putFile $finalFile
+		mv ${tempFile} ${finalFile}
+		putFile ${finalFile}
 	done
 		
 
