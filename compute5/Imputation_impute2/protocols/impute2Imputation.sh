@@ -1,4 +1,4 @@
-LGENIS nodes=1 cores=1 mem=4G
+#MOLGENIS nodes=1 cores=1 mem=4G
 
 #Parameter mapping
 #string knownHapsG
