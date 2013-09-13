@@ -1,3 +1,4 @@
 step,protocol,dependencies
-imputation,./protocols/impute2Imputation.sh,
+alignment,./protocols/alignWithReference.sh,
+imputation,./protocols/impute2Imputation.sh,alignment
 concatRes,./protocols/concatImpute2ChrResults.sh,imputation

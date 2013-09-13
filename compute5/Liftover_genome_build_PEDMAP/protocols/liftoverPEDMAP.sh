@@ -19,10 +19,10 @@
 
 
 
-
-${stage} liftOverUcsc/${liftOverUcscVersion}
-${stage} plink/${plinkVersion}
-
+if hash ${stage} 2>/dev/null; then
+	${stage} liftOverUcsc/${liftOverUcscVersion}
+	${stage} plink/${plinkVersion}
+fi
 
 #Echo parameter values
 echo "chr: ${chr}"
