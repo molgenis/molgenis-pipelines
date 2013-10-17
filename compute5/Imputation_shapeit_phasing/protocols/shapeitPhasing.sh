@@ -35,8 +35,6 @@ echo "chr: ${chr}"
 echo "outputFolder: ${outputFolder}"
 echo "tmpOutput: ${tmpOutput}"
 
-echo "test1"
-
 mkdir -p ${outputFolder}
 
 if [ $studyDataType == "PED" ]; then
@@ -51,8 +49,6 @@ else
   	exit 1
 fi
 
-echo "test2"
-
 startTime=$(date +%s)
 
 alloutputsexist \
@@ -61,8 +57,6 @@ alloutputsexist \
 
 getFile $m
 inputs $m
-
-echo "test3"
 
 # $studyData can be multiple files. Here we will check each file and do a getFile, if needed, for each file
 for studyDataFile in $studyData
@@ -73,7 +67,6 @@ do
 done
 
 
-echo "test4" 
 
 if $shapeitBin \
 	$inputVarName $studyData \
