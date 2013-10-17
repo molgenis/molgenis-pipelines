@@ -75,7 +75,7 @@ $plinkBin \
 	--noweb \
 	--file $studyInputDir/chr$chr \
 	--recode \
-	--out $outputFolderChrDir/~chr$chr.unordered \
+	--out $outputFolderTmp/chr$chr.unordered \
 	--exclude $outputFolderTmp/chr$chr.new.unmappedSnps.txt \
 	--update-map $outputFolderTmp/chr$chr.new.Mappings.txt                        
 
@@ -91,7 +91,7 @@ if [ $returnCode -eq 0 ]
 then
 	$plinkBin \
 		--noweb \
-		--file $outputFolderChrDir/~chr$chr.unordered  \
+		--file $outputFolderTmp/chr$chr.unordered  \
 		--recode \
 		--out $outputFolderChrDir/~chr$chr
 
