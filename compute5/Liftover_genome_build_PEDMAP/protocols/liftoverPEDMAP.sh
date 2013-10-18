@@ -39,8 +39,8 @@ startTime=$(date +%s)
 
 #Check if outputs exist
 alloutputsexist \
-	"${outputFolderChrDir}/chr${chr}.ped" \
-	"${outputFolderChrDir}/chr${chr}.map" 
+	"${outputFolder}/chr${chr}.ped" \
+	"${outputFolder}/chr${chr}.map" 
 
 #Create output directories
 mkdir -p $outputFolder
@@ -111,6 +111,9 @@ then
 		mv $tempFile $finalFile
 		putFile $finalFile
 	done
+
+	echo -e "\nMoving resulting files to the final destination\n"
+	mv $outputFolderChrDir/chr$chr.{ped,map} $outputFolder/
 	
 else
   
