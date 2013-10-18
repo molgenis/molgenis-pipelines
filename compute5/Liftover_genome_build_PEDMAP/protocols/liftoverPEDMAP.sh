@@ -44,7 +44,7 @@ alloutputsexist \
 
 #Create output directories
 mkdir -p $outputFolder
-mkdir -p $outputFolderChrDir
+#mkdir -p $outputFolderChrDir
 mkdir -p $outputFolderTmp
 
 #Retrieve input Files
@@ -93,7 +93,7 @@ then
 		--noweb \
 		--file $outputFolderTmp/chr$chr.unordered  \
 		--recode \
-		--out $outputFolderChrDir/~chr$chr
+		--out $outputFolderTmp/~chr$chr
 
 	#Get return code from last program call
 	returnCode=$?
@@ -105,7 +105,7 @@ then
 	
 	echo -e "\nMoving temp files to final files\n\n"
 
-	for tempFile in $outputFolderChrDir/~chr$chr* ; do
+	for tempFile in $outputFolderTmp/~chr$chr* ; do
 		finalFile=`echo $tempFile | sed -e "s/~//g"`
 		echo "Moving temp file: ${tempFile} to ${finalFile}"
 		mv $tempFile $finalFile
@@ -113,7 +113,7 @@ then
 	done
 
 	echo -e "\nMoving resulting files to the final destination\n"
-	mv $outputFolderChrDir/chr$chr.{ped,map} $outputFolder/
+	mv $outputFolderTmp/chr$chr.{ped,map} $outputFolder/
 	
 else
   
