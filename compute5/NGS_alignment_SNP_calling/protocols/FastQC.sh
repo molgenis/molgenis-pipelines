@@ -1,4 +1,4 @@
-#MOLGENIS nodes=1 ppn=1 mem=1G walltime=08:00:00
+#MOLGENIS nodes=1 ppn=1 mem=1gb walltime=08:00:00
 
 
 #Parameter mapping

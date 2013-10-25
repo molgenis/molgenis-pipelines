@@ -1,0 +1,5 @@
+step,protocol,dependencies
+PrepareStudy,protocols/PrepareStudy.sh,
+FilterAndUpdateStudy,protocols/FilterAndUpdateStudy.sh,PrepareStudy
+CreateDosageFiles,protocols/CreateDosageFiles.sh,PrepareStudy
+RunTest,protocols/RunTest.sh,FilterAndUpdateStudy;CreateDosageFiles
