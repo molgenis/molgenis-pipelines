@@ -34,7 +34,7 @@ indexFile,${indicesDir}/${indexFileIDtest}.fa,,,
 fastqcVersion,v0.10.1
 bwaVersion,0.7.5a
 bwaAlignCores,4
-picardVersion,1.94
+picardVersion,1.99
 samToBamJar,SamFormatConverter.jar
 sortSamJar,SortSam.jar
 mergeSamFilesJar,MergeSamFiles.jar
@@ -44,10 +44,10 @@ srInputFile,${rawDataDir}/${filePrefix}.fq.gz
 peEnd1FqGz,${rawDataDir}/${filePrefix}_1.fq.gz,fastq file with left read of sequence,string,
 peEnd2FqGz,${rawDataDir}/${filePrefix}_2.fq.gz,fastq file with right read of sequence,string,
 generalProjectDir,${dataDir}/projects/
-projectDir,${generalProjectDir}/${project}/<#noparse>${runid}</#noparse>,project folder for this insilico run,,
+projectDir,${generalProjectDir}/${project}/${runid},project folder for this insilico run,,
 projectRawDataDir,${projectDir}/rawdata/ngs/,project specific rawdata directory for (demultiplexed) reads,string,
-projectRawArrayDataDir,${projectdir}/rawdata/array/,"Contains project specific rawdata (i.e., Genome Studio files)",string,
-intermediateDir,${tempDir}/${project}/<#noparse>${runid}</#noparse>/,store intermediate results here; empty at end of project,,
+projectRawArrayDataDir,${projectDir}/rawdata/array/,"Contains project specific rawdata (i.e., Genome Studio files)",string,
+intermediateDir,${tempDir}/${project}/${runid},store intermediate results here; empty at end of project,,
 tmpIntermediateDir,${intermediateDir}/tmp/
 projectJobsDir,${projectDir}/jobs/,Project specific job scripts directory,string,
 projectLogsDir,${projectDir}/logs/,Project specific log directory,string,
@@ -63,8 +63,8 @@ srBarcodeFqGz,${srBarcodeFq}.gz,,,
 tmpPeEnd1Barcode,${tmpIntermediateDir}/~${filePrefix}_${barcode}_1,,,
 tmpPeEnd2Barcode,${tmpIntermediateDir}/~${filePrefix}_${barcode}_2,,,
 tmpSrBarcode,${tmpIntermediateDir}/~${filePrefix}_${barcode},,,
-intermediatePeEnd1Barcode,${tmpIntermediateDir}/${filePrefix}_${barcode}_1,,,
-intermediatePeEnd2Barcode,${tmpIntermediateDir}/${filePrefix}_${barcode}_2,,,
+intermediatePeEnd1Barcode,${intermediateDir}/${filePrefix}_${barcode}_1,,,
+intermediatePeEnd2Barcode,${intermediateDir}/${filePrefix}_${barcode}_2,,,
 intermediateSrBarcode,${intermediateDir}/${filePrefix}_${barcode},,,
 peEnd1BarcodeFastQcZip,${intermediatePeEnd1Barcode}.fq_fastqc.zip,(fastqc.ftl),,
 peEnd2BarcodeFastQcZip,${intermediatePeEnd2Barcode}.fq_fastqc.zip,(fastqc.ftl),,
