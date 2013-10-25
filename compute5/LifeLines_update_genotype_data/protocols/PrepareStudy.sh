@@ -62,7 +62,7 @@ then
 else
 	#No missing sample IDs, continue conversion and move *.missing file to tmp directory
 	echo -e "\n${outputStudyPcaFile}.missing has a size of 0, no missing sample IDs found."
-	mv ${outputStudyPcaFile}.missing ${tempDir}/${studyId}_PCA.txt.missing
+	mv ${outputStudyPcaFile}.missing ${tmpProjectDir}/${studyId}_PCA.txt.missing
 fi
 
 
