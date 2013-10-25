@@ -1,4 +1,4 @@
-#MOLGENIS walltime=24:00:00 nodes=1 ppn=1 mem=4gb queue=gaf
+#MOLGENIS walltime=35:00:00 nodes=1 ppn=1 mem=4gb queue=gaf
 
 #Parameter mapping
 #string studyDir
