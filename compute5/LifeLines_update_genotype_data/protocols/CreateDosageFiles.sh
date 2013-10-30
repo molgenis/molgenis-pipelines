@@ -37,9 +37,9 @@ fi
 python $CONVERTDOSEPY \
 --subsetFile ${tmpUpdateIds} \
 --doseFile ${doseFile} \
---outFile ${resultDir}/${studyId}_chr${chr}.dose
+--outFile ${tmpProjectDir}/${studyId}_chr${chr}.dose
 
-gzip ${resultDir}/${studyId}_chr${chr}.dose -c > ${resultDir}/~${studyId}_chr${chr}.dose.gz
+gzip ${tmpProjectDir}/${studyId}_chr${chr}.dose -c > ${tmpProjectDir}/~${studyId}_chr${chr}.dose.gz
 
 #Get return code from last program call
 returnCode=$?
@@ -49,15 +49,15 @@ echo -e "\nreturnCode convertDosage.py: ${returnCode}\n\n"
 if [ $returnCode -eq 0 ]
 then
 	echo -e "\nconvertDosage.py finished succesfull. Moving temp files to final.\n\n"
-	mv ${resultDir}/~${studyId}_chr${chr}.dose.gz ${resultDir}/${studyId}_chr${chr}.dose.gz
+	mv ${tmpProjectDir}/~${studyId}_chr${chr}.dose.gz ${tmpProjectDir}/${studyId}_chr${chr}.dose.gz
 	
 	echo -e "\nGenerating md5sums.\n\n"
-	cd ${resultDir}/
+	cd ${tmpProjectDir}/
 	
-	md5sum ${resultDir}/${studyId}_chr${chr}.dose.gz > ${resultDir}/${studyId}_chr${chr}.dose.gz.md5
+	md5sum ${tmpProjectDir}/${studyId}_chr${chr}.dose.gz > ${tmpProjectDir}/${studyId}_chr${chr}.dose.gz.md5
 	
-	putFile "${resultDir}/${studyId}_chr${chr}.dose.gz"
-	putFile "${resultDir}/${studyId}_chr${chr}.dose.gz.md5"
+	putFile "${tmpProjectDir}/${studyId}_chr${chr}.dose.gz"
+	putFile "${tmpProjectDir}/${studyId}_chr${chr}.dose.gz.md5"
 else
 	echo -e "\nFailed to move convertDosage.py results to ${intermediateDir}\n\n"
 	exit -1

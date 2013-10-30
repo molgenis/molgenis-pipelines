@@ -18,6 +18,7 @@
 #string beagleQualityScoreFile
 #string studyImputationQuals
 #string validationDir
+#string referenceStudyDir
 
 #Echo parameter values
 echo "resultDir: ${resultDir}"
@@ -37,6 +38,7 @@ echo "outputStudyPcaFile: ${outputStudyPcaFile}"
 echo "beagleQualityScoreFile: ${beagleQualityScoreFile}"
 echo "studyImputationQuals: ${studyImputationQuals}"
 echo "validationDir: ${validationDir}"
+echo "referenceStudyDir: ${referenceStudyDir}"
 
 
 #Generate output directories
@@ -50,26 +52,31 @@ mkdir -p ${validationDir}
 gawk '{OFS="\t"; print 1,$1,1,$2}' ${studyMappingFile} > ${tmpUpdateIds}
 gawk '{OFS="\t"; print 1,$2}' ${studyMappingFile} > ${tmpKeep}
 
-#Convert PCA file
-python ${convertPcaPy} -s ${tmpUpdateIds} -d ${pcaFile} -o ${outputStudyPcaFile}
-
-if [ -s "${outputStudyPcaFile}.missing" ]
+if [[ "${referenceStudyDir}" == *UnimputedPedMap* ]]
 then
-	#*.missing file is larger than 0, so it contains an ID of a missing sample. Abort the conversion.
-	echo -e "\n${outputStudyPcaFile}.missing has a size larger than 0, which means an ID is missing.\n"
-	echo -e "Please contact the research office!\n"
-    exit -1
-else
-	#No missing sample IDs, continue conversion and move *.missing file to tmp directory
-	echo -e "\n${outputStudyPcaFile}.missing has a size of 0, no missing sample IDs found."
-	mv ${outputStudyPcaFile}.missing ${tmpProjectDir}/${studyId}_PCA.txt.missing
+	echo -e "\nDetected UnimputedPedMap in path of referenceStudyDir, meaning this is raw data. Converting PCA files..\n";
+
+	#Convert PCA file
+	python ${convertPcaPy} -s ${tmpUpdateIds} -d ${pcaFile} -o ${outputStudyPcaFile}
+	md5sum ${outputStudyPcaFile} > ${outputStudyPcaFile}.md5
+
+	if [ -s "${outputStudyPcaFile}.missing" ]
+	then
+		#*.missing file is larger than 0, so it contains an ID of a missing sample. Abort the conversion.
+		echo -e "\n${outputStudyPcaFile}.missing has a size larger than 0, which means an ID is missing.\n"
+		echo -e "Please contact the research office!\n"
+	    exit -1
+	else
+		#No missing sample IDs, continue conversion and move *.missing file to tmp directory
+		echo -e "\n${outputStudyPcaFile}.missing has a size of 0, no missing sample IDs found."
+		mv ${outputStudyPcaFile}.missing ${tmpProjectDir}/${studyId}_PCA.txt.missing
+	fi
 fi
 
-
-#Check doseFile parameter to establish which dosage conversion script to use
-if [[ "${doseFile}" == *BEAGLE* || "${doseFile}" == *beagle* || "${doseFile}" == *Beagle* ]]
+#Check referenceStudyDir parameter to establish which dosage conversion script to use
+if [[ "${referenceStudyDir}" == *BEAGLE* || "${referenceStudyDir}" == *beagle* || "${referenceStudyDir}" == *Beagle* ]]
 then
-	echo -e "\nDetected Beagle in path of doseFile. Converting Beagle batches file and copying Beagle Quality Scores to result directory.\n";
+	echo -e "\nDetected Beagle in path of referenceStudyDir. Converting Beagle batches file and copying Beagle Quality Scores to result directory.\n";
 	#Convert batches file
 	perl ${convertBatchesPl} ${tmpUpdateIds} ${beagleBatchFile} >> ${studyImputationBatches}
 	md5sum ${studyImputationBatches} > ${studyImputationBatches}.md5
@@ -77,7 +84,3 @@ then
 	cp ${beagleQualityScoreFile} ${studyImputationQuals}
 	md5sum ${studyImputationQuals} > ${studyImputationQuals}.md5
 fi
-
-#Create md5sums
-cd ${resultDir}
-md5sum ${outputStudyPcaFile} > ${outputStudyPcaFile}.md5
