@@ -3,3 +3,4 @@ PrepareStudy,protocols/PrepareStudy.sh,
 CreatePlinkFiles,protocols/CreatePlinkFiles.sh,PrepareStudy
 CreateDosageFiles,protocols/CreateDosageFiles.sh,PrepareStudy
 RunTest,protocols/RunTest.sh,CreatePlinkFiles;CreateDosageFiles
+MoveToResultsDir,protocols/MoveToResultsDir.sh,RunTest
