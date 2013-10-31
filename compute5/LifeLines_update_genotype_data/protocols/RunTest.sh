@@ -24,11 +24,8 @@ echo "tmpProjectDir: ${tmpProjectDir}"
 #Run validation script
 perl ${validatePl} \
 -studyId ${studyId} \
--studyDir ${resultDir} \
+-studyDir ${tmpProjectDir} \
 -pseudoFile ${studyMappingFile} \
 -testDir ${validationDir} \
 -refStudyDir ${referenceStudyDir} \
 -report ${validationReport}
-
-#Move *.dose file to tmp directory (*.doze.gz we keep to save diskspace)
-mv ${resultDir}/${studyId}_chr${chr}.dose ${tmpProjectDir}/${studyId}_chr${chr}.dose 
