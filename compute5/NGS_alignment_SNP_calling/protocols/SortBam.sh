@@ -1,4 +1,4 @@
-#MOLGENIS walltime=23:59:00 mem=3
+#MOLGENIS walltime=23:59:00 mem=3gb
 
 #Parameter mapping
 #string stage
@@ -12,8 +12,7 @@
 #string intermediateDir
 #string sortedBam
 #string sortedBamIdx
-#output OUTsortedBam
-#output OUTsortedBamIdx
+
 
 #Echo parameter values
 echo "stage: ${stage}"
@@ -70,7 +69,3 @@ else
     echo -e "\nFailed to move SortBam results to ${intermediateDir}\n\n"
     exit -1
 fi
-
-#Map output vars
-OUTsortedBam=${sortedBam}
-OUTsortedBamIdx=${sortedBamIdx}

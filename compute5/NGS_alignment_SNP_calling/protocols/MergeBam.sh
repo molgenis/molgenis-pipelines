@@ -1,4 +1,4 @@
-#MOLGENIS walltime=23:59:00 mem=6 ppn=2
+#MOLGENIS walltime=23:59:00 mem=6gb ppn=2
 
 #Parameter mapping
 #string stage
@@ -37,7 +37,7 @@ alloutputsexist \
 getFile ${inputBam}
 
 #Load Picard module
-${stage} picard/${picardVersion}
+${stage} picard-tools/${picardVersion}
 ${checkStage}
 
 

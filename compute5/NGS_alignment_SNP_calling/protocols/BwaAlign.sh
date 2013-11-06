@@ -1,4 +1,4 @@
-#MOLGENIS walltime=20:00:00 nodes=1 ppn=4 mem=6
+#MOLGENIS walltime=20:00:00 nodes=1 ppn=4 mem=6gb
 
 #Parameter mapping
 #string stage
@@ -19,9 +19,7 @@
 #string peEnd1BarcodeAligned
 #string peEnd2BarcodeAligned
 #string srBarcodeAligned
-#output OUTpeEnd1BarcodeAligned
-#output OUTpeEnd2BarcodeAligned
-#output OUTsrBarcodeAligned
+
 
 #Echo parameter values
 echo "stage: ${stage}"
@@ -88,12 +86,12 @@ then
 
     if [ $returnCode -eq 0 ]
     then
-	echo -e "\nBWA aln finished succesfull. Moving temp files to final.\n\n"
-	mv ${tmpPeEnd1BarcodeAligned} ${peEnd1BarcodeAligned}
-	putFile "${peEnd1BarcodeAligned}"
+		echo -e "\nBWA aln finished succesfull. Moving temp files to final.\n\n"
+		mv ${tmpPeEnd1BarcodeAligned} ${peEnd1BarcodeAligned}
+		putFile "${peEnd1BarcodeAligned}"
     else
-	echo -e "\nFailed to move BWA aln results to ${intermediateDir}\n\n"
-	exit -1
+		echo -e "\nFailed to move BWA aln results to ${intermediateDir}\n\n"
+		exit -1
     fi
 
     #Run BWA second time
@@ -110,12 +108,12 @@ then
 
     if [ $returnCode -eq 0 ]
     then
-	echo -e "\nBWA aln finished succesfull. Moving temp files to final.\n\n"
-	mv ${tmpPeEnd2BarcodeAligned} ${peEnd2BarcodeAligned}
-	putFile "${peEnd2BarcodeAligned}"
+		echo -e "\nBWA aln finished succesfull. Moving temp files to final.\n\n"
+		mv ${tmpPeEnd2BarcodeAligned} ${peEnd2BarcodeAligned}
+		putFile "${peEnd2BarcodeAligned}"
     else
-	echo -e "\nFailed to move BWA aln results to ${intermediateDir}\n\n"
-	exit -1
+		echo -e "\nFailed to move BWA aln results to ${intermediateDir}\n\n"
+		exit -1
     fi
     
 else
@@ -133,16 +131,12 @@ else
 
     if [ $returnCode -eq 0 ]
     then
-	echo -e "\nBWA aln finished succesfull. Moving temp files to final.\n\n"
-	mv ${tmpSrBarcodeAligned} ${srBarcodeAligned}
-	putFile "${srBarcodeAligned}"
+		echo -e "\nBWA aln finished succesfull. Moving temp files to final.\n\n"
+		mv ${tmpSrBarcodeAligned} ${srBarcodeAligned}
+		putFile "${srBarcodeAligned}"
     else
-	echo -e "\nFailed to move BWA aln results to ${intermediateDir}\n\n"
-	exit -1
+		echo -e "\nFailed to move BWA aln results to ${intermediateDir}\n\n"
+		exit -1
     fi
 fi
 
-#Map output vars
-OUTpeEnd1BarcodeAligned=${peEnd1BarcodeAligned}
-OUTpeEnd2BarcodeAligned=${peEnd2BarcodeAligned}
-OUTsrBarcodeAligned=${srBarcodeAligned}

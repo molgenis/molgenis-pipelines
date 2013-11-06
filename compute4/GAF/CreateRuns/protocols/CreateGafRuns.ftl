@@ -33,6 +33,7 @@ module list
 #
 mkdir -p ${runJobsDir}
 mkdir -p ${runResultsDir}
+<#if arrayID?has_content>mkdir -p ${finalReportResultDir}</#if>
 
 #
 # Create subset of samples for this project.
