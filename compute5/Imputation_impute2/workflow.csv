@@ -1,4 +1,5 @@
 step,protocol,dependencies
 alignment,./protocols/alignWithReference.sh,
 imputation,./protocols/impute2Imputation.sh,alignment
-concatRes,./protocols/concatImpute2ChrResults.sh,imputation
+concatResSamples,./protocols/concatImpute2ChrResults_samples.sh,imputation
+concatRes,./protocols/concatImpute2ChrResults.sh,concatResSamples

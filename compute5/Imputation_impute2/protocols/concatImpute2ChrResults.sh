@@ -6,31 +6,28 @@
 #string project
 #string chr
 #string outputFolder
-#list impute2ChunkOutput
-#list impute2ChunkOutputInfo
+#list impute2SamplesMerged
+#list impute2SamplesMergedInfo
 
 
-#declare -a impute2ChunkOutputs=(${ssvQuoted(impute2ChunkOutput)})
-#declare -a impute2ChunkOutputInfos=(${ssvQuoted(impute2ChunkOutputInfo)})
-
-declare -a impute2ChunkOutputs=(${impute2ChunkOutput[@]})
-declare -a impute2ChunkOutputInfos=(${impute2ChunkOutputInfo[@]})
+declare -a impute2SamplesMerged=(${impute2SamplesMerged[@]})
+declare -a impute2SamplesMergedInfo=(${impute2SamplesMergedInfo[@]})
 
 echo "chr: ${chr}"
 echo "outputFolder: ${outputFolder}"
-echo "impute2OutputFiles: ${impute2ChunkOutputs[@]}"
-echo "impute2OutputInfoFiles: ${impute2ChunkOutputInfos[@]}"
+echo "impute2SamplesMerged: ${impute2SamplesMerged[@]}"
+echo "impute2SamplesMergedInfo: ${impute2SamplesMergedInfo[@]}"
 
 alloutputsexist "${outputFolder}/chr${chr}" "${outputFolder}/chr${chr}_info"
 
-for element in ${impute2ChunkOutputs[@]}
+for element in ${impute2SamplesMerged[@]}
 do
     echo "Impute2 chuck: ${element}"
     getFile ${element}
     inputs ${element}
 done
 
-for element in ${impute2ChunkOutputInfos[@]}
+for element in ${impute2SamplesMergedInfo[@]}
 do
     echo "Impute2 chuck info: ${element}"
     getFile ${element}
@@ -46,7 +43,7 @@ rm -f ${outputFolder}/chr${chr}
 rm -f ${outputFolder}/chr${chr}_info
 
 #Concat the actual imputation results
-cat ${impute2ChunkOutputs[@]} >> ${outputFolder}/~chr${chr}
+cat ${impute2SamplesMerged[@]} >> ${outputFolder}/~chr${chr}
 
 returnCode=$?
 if [ $returnCode -eq 0 ]
@@ -63,7 +60,7 @@ fi
 
 #Need not capture the header of the first non empty file
 headerSet="false"
-for chunkInfoFile in "${impute2ChunkOutputInfos[@]}"
+for chunkInfoFile in "${impute2SamplesMergedInfo[@]}"
 do
 	
 	#Skip empty files
@@ -106,5 +103,3 @@ done
 echo "Impute2 output infos concattenated"
 mv ${outputFolder}/~chr${chr}_info ${outputFolder}/chr${chr}_info
 putFile ${outputFolder}/chr${chr}_info
-
-

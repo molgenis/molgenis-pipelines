@@ -9,6 +9,8 @@
 #string chr
 #string fromChrPos
 #string toChrPos
+#string fromSample
+#string toSample
 #string outputFolder
 #string imputationIntermediatesFolder
 #string impute2Bin
@@ -25,13 +27,15 @@ else
 	echo "Failed: ${stage} impute/${impute2version}"
 fi
 
-tmpOutput="${imputationIntermediatesFolder}/~chr${chr}_${fromChrPos}-${toChrPos}"
-finalOutput="${imputationIntermediatesFolder}/chr${chr}_${fromChrPos}-${toChrPos}"
+tmpOutput="${imputationIntermediatesFolder}/~chr${chr}_${fromChrPos}-${toChrPos}_${fromSample}-${toSample}"
+finalOutput="${imputationIntermediatesFolder}/chr${chr}_${fromChrPos}-${toChrPos}_${fromSample}-${toSample}"
 
-echo "knownHapsG: ${knownHapsG}";
+echo "knownHapsG: ${knownHapsG}"
 echo "chr: ${chr}"
 echo "fromChrPos: ${fromChrPos}"
 echo "toChrPos: ${toChrPos}"
+echo "fromSample: ${fromSample}"
+echo "toSample: ${toSample}"
 echo "interMediFolder: ${imputationIntermediatesFolder}"
 echo "tmpOutput: ${tmpOutput}"
 echo "outputFolder: ${outputFolder}"
@@ -50,7 +54,9 @@ alloutputsexist \
 startTime=$(date +%s)
 
 genotype_aligner_output_haps=$outputFolder/chr${chr}.haps
+genotype_aligner_output_sample=$outputFolder/chr${chr}.sample
 echo "genotype_aligner_output_haps: ${genotype_aligner_output_haps}"
+echo "genotype_aligner_output_sample: ${genotype_aligner_output_sample}"
 
 echo "tmpOutput: ${tmpOutput}"
 
@@ -117,6 +123,12 @@ done
 
 mkdir -p ${imputationIntermediatesFolder}
 
+#Create subset of samples to exclude 
+sample_subset_to_exclude=${tmpOutput}.toExclude
+echo "Samples excluded from this run: ${sample_subset_to_exclude}"
+cat <(cat ${genotype_aligner_output_sample} | tail -n +3 | head -n `expr ${fromSample} - 1`) <(cat ${genotype_aligner_output_sample} | tail -n +3 | tail -n +`expr ${toSample} + 1`) | cut -f 2 -d ' ' > ${sample_subset_to_exclude}
+
+
 #From http://mathgen.stats.ox.ac.uk/impute/impute_v2.html
 #To use pre-phased study data in this example, you would replace the -g file with a -known_haps_g file and add the -use_prephased_g flag to your IMPUTE2 command.
 
@@ -129,7 +141,9 @@ if ${impute2Bin} \
 	-int ${fromChrPos} ${toChrPos} \
 	-o ${tmpOutput} \
 	-use_prephased_g \
-	${additonalImpute2Param};
+	-sample_g ${genotype_aligner_output_sample} \
+	-exclude_samples_g ${sample_subset_to_exclude} \
+	${additonalImpute2Param}
 then
 
 	#If there are no SNPs in this bin we will create empty files 
@@ -220,7 +234,4 @@ else
     ((sec=num))
 fi
 echo "Running time: ${day} days ${hour} hours ${min} mins ${sec} secs"
-
-
-
 
