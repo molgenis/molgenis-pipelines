@@ -39,7 +39,7 @@ getFile ${sample_input}
 inputs ${sample_input}
 
 #Do the alignment
-java -jar ${genotypeAlignerJar} \
+if java -jar ${genotypeAlignerJar} \
 	--input ${basename_input} \
 	--inputType SHAPEIT2 \
 	--ref ${vcf} \
@@ -47,10 +47,6 @@ java -jar ${genotypeAlignerJar} \
 	--forceChr ${chr} \
 	--output ${outputFolder}/~chr${chr} \
 	--outputType SHAPEIT2
-
-returnCode=$?
-
-if [ ${returnCode} -eq 0 ]
 then
 	mv ${outputFolder}/~chr${chr}.haps ${outputFolder}/chr${chr}.haps
 	mv ${outputFolder}/~chr${chr}.sample ${outputFolder}/chr${chr}.sample
