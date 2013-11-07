@@ -19,10 +19,10 @@
 
 
 
-
-${stage} liftOverUcsc/${liftOverUcscVersion}
-${stage} plink/${plinkVersion}
-
+if hash ${stage} 2>/dev/null; then
+	${stage} liftOverUcsc/${liftOverUcscVersion}
+	${stage} plink/${plinkVersion}
+fi
 
 #Echo parameter values
 echo "chr: ${chr}"
@@ -39,12 +39,12 @@ startTime=$(date +%s)
 
 #Check if outputs exist
 alloutputsexist \
-	"${outputFolderChrDir}/chr${chr}.ped" \
-	"${outputFolderChrDir}/chr${chr}.map" 
+	"${outputFolder}/chr${chr}.ped" \
+	"${outputFolder}/chr${chr}.map" 
 
 #Create output directories
 mkdir -p $outputFolder
-mkdir -p $outputFolderChrDir
+#mkdir -p $outputFolderChrDir
 mkdir -p $outputFolderTmp
 
 #Retrieve input Files
@@ -75,7 +75,7 @@ $plinkBin \
 	--noweb \
 	--file $studyInputDir/chr$chr \
 	--recode \
-	--out $outputFolderChrDir/~chr$chr.unordered \
+	--out $outputFolderTmp/chr$chr.unordered \
 	--exclude $outputFolderTmp/chr$chr.new.unmappedSnps.txt \
 	--update-map $outputFolderTmp/chr$chr.new.Mappings.txt                        
 
@@ -91,9 +91,9 @@ if [ $returnCode -eq 0 ]
 then
 	$plinkBin \
 		--noweb \
-		--file $outputFolderChrDir/~chr$chr.unordered  \
+		--file $outputFolderTmp/chr$chr.unordered  \
 		--recode \
-		--out $outputFolderChrDir/~chr$chr
+		--out $outputFolderTmp/~chr$chr
 
 	#Get return code from last program call
 	returnCode=$?
@@ -105,12 +105,15 @@ then
 	
 	echo -e "\nMoving temp files to final files\n\n"
 
-	for tempFile in $outputFolderChrDir/~chr$chr* ; do
+	for tempFile in $outputFolderTmp/~chr$chr* ; do
 		finalFile=`echo $tempFile | sed -e "s/~//g"`
 		echo "Moving temp file: ${tempFile} to ${finalFile}"
 		mv $tempFile $finalFile
 		putFile $finalFile
 	done
+
+	echo -e "\nMoving resulting files to the final destination\n"
+	mv $outputFolderTmp/chr$chr.{ped,map} $outputFolder/
 	
 else
   

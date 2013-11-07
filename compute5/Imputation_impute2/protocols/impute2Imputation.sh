@@ -9,6 +9,9 @@
 #string chr
 #string fromChrPos
 #string toChrPos
+#string fromSample
+#string toSample
+#string outputFolder
 #string imputationIntermediatesFolder
 #string impute2Bin
 #string stage
@@ -17,18 +20,25 @@
 #output impute2ChunkOutput
 #output impute2ChunkOutputInfo
 
+if ${stage} impute/${impute2version};
+then
+	echo "Success: impute/${impute2version};"
+else
+	echo "Failed: ${stage} impute/${impute2version}"
+fi
 
-${stage} impute/${impute2version}
+tmpOutput="${imputationIntermediatesFolder}/~chr${chr}_${fromChrPos}-${toChrPos}_${fromSample}-${toSample}"
+finalOutput="${imputationIntermediatesFolder}/chr${chr}_${fromChrPos}-${toChrPos}_${fromSample}-${toSample}"
 
-tmpOutput="${imputationIntermediatesFolder}/~chr${chr}_${fromChrPos}-${toChrPos}"
-finalOutput="${imputationIntermediatesFolder}/chr${chr}_${fromChrPos}-${toChrPos}"
-
-echo "knownHapsG: ${knownHapsG}";
+echo "knownHapsG: ${knownHapsG}"
 echo "chr: ${chr}"
 echo "fromChrPos: ${fromChrPos}"
 echo "toChrPos: ${toChrPos}"
+echo "fromSample: ${fromSample}"
+echo "toSample: ${toSample}"
 echo "interMediFolder: ${imputationIntermediatesFolder}"
 echo "tmpOutput: ${tmpOutput}"
+echo "outputFolder: ${outputFolder}"
 echo "finalOutput: ${finalOutput}"
 
 impute2ChunkOutput=${finalOutput}
@@ -42,6 +52,11 @@ alloutputsexist \
 	"${finalOutput}_warnings"
 
 startTime=$(date +%s)
+
+genotype_aligner_output_haps=$outputFolder/chr${chr}.haps
+genotype_aligner_output_sample=$outputFolder/chr${chr}.sample
+echo "genotype_aligner_output_haps: ${genotype_aligner_output_haps}"
+echo "genotype_aligner_output_sample: ${genotype_aligner_output_sample}"
 
 echo "tmpOutput: ${tmpOutput}"
 
@@ -82,19 +97,19 @@ containsElement () {
 }
 
 
-aditionalArgsArray=($aditionalArgs)
+additonalImpute2ParamArray=($additonalImpute2Param)
 
-# Loop over all aditional args. If arg is encounterd that requeres file then do inputs and getFile on next element
-for (( i=0; i<${#aditionalArgsArray[@]}; i++ ));
+# Loop over all additional args. If arg is encounterd that requeres file then do inputs and getFile on next element
+for (( i=0; i<${#additonalImpute2ParamArray[@]}; i++ ));
 do
-	currentArg=${aditionalArgsArray[$i]}
+	currentArg=${additonalImpute2ParamArray[$i]}
 	containsElement $currentArg ${impute2FileArg[@]}
 	if [[ $? -eq 1 ]]; 
 	then 
 		
 		i=`expr $i + 1`
 		
-		file=${aditionalArgsArray[$i]}
+		file=${additonalImpute2ParamArray[$i]}
 		
 		echo "File for this argument: ${currentArg} will get and is requered for this script to start ${file}"
 		inputs ${file}
@@ -108,23 +123,27 @@ done
 
 mkdir -p ${imputationIntermediatesFolder}
 
+#Create subset of samples to exclude 
+sample_subset_to_exclude=${tmpOutput}.toExclude
+echo "Samples excluded from this run: ${sample_subset_to_exclude}"
+cat <(cat ${genotype_aligner_output_sample} | tail -n +3 | head -n `expr ${fromSample} - 1`) <(cat ${genotype_aligner_output_sample} | tail -n +3 | tail -n +`expr ${toSample} + 1`) | cut -f 2 -d ' ' > ${sample_subset_to_exclude}
 
-${impute2Bin} \
-	-known_haps_g ${knownHapsG} \
+
+#From http://mathgen.stats.ox.ac.uk/impute/impute_v2.html
+#To use pre-phased study data in this example, you would replace the -g file with a -known_haps_g file and add the -use_prephased_g flag to your IMPUTE2 command.
+
+#	-known_haps_g ${knownHapsG} 
+if ${impute2Bin} \
+	-known_haps_g ${genotype_aligner_output_haps} \
 	-m ${m} \
 	-h ${h} \
 	-l ${l} \
 	-int ${fromChrPos} ${toChrPos} \
 	-o ${tmpOutput} \
 	-use_prephased_g \
+	-sample_g ${genotype_aligner_output_sample} \
+	-exclude_samples_g ${sample_subset_to_exclude} \
 	${additonalImpute2Param}
-		
-#Get return code from last program call
-returnCode=$?
-
-echo "returnCode impute2: ${returnCode}"
-
-if [ ${returnCode} -eq 0 ]
 then
 
 	#If there are no SNPs in this bin we will create empty files 
@@ -215,6 +234,4 @@ else
     ((sec=num))
 fi
 echo "Running time: ${day} days ${hour} hours ${min} mins ${sec} secs"
-
-
 
