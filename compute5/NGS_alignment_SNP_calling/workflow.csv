@@ -1,5 +1,4 @@
 step,protocol,dependencies
 FastQC,protocols/FastQC.sh,
 BwaAlign,protocols/BwaAlign.sh,
-BwaSaiToSam,protocols/BwaSaiToSam.sh,BwaAlign
-SamToBam,protocols/SamToBam.sh,BwaSaiToSam
+SamToBam,protocols/SamToBam.sh,BwaAlign

@@ -1,5 +1,4 @@
-parameters,/Users/freerkvandijk/Downloads/testinhouse_pipeline.csv
-clusterQueue,gaf
+queue,devel
 mem,4
 walltime,23:59:00
 nodes,1
@@ -7,7 +6,7 @@ ppn,1
 defaultInterpreter,#!/bin/bash
 stage,module load
 checkStage,module list
-WORKDIR,/target/gpfs2/gcc/
+WORKDIR,/gcc/groups/gcc/tmp03/fvandijk/
 root,${WORKDIR}
 tempDir,${WORKDIR}/tmp/
 resDir,${root}/resources/
@@ -25,16 +24,16 @@ runJobsDir,${allRunDemultiplexDir}/${runPrefix}/jobs/
 runResultsDir,${allRunDemultiplexDir}/${runPrefix}/results/
 rawDataDir,${allRawNgsDataDir}/${runPrefix}
 arrayDir,${allRawDataDir}/array,,,
-genome,hg19,,,
+genome,b37,,,
 indexFileID,human_g1k_v37,,,
-indicesDir,${resDir}/${genome}/indices/bwa-${bwaVersion}/
-indexFileFastaIndex,${indicesDir}/${indexFileIDtest}.fa.fai,,,
+indicesDir,${resDir}/${genome}/indices/
+indexFileFastaIndex,${indicesDir}/${indexFileIDtest}.fasta.fai,,,
 indexFileIDtest,human_g1k_v37.chr1,Append .chr1 if you want to test only on chr 1,,
-indexFile,${indicesDir}/${indexFileIDtest}.fa,,,
+indexFile,${indicesDir}/${indexFileIDtest}.fasta,,,
 fastqcVersion,v0.10.1
 bwaVersion,0.7.5a
 bwaAlignCores,4
-picardVersion,1.99
+picardVersion,1.102
 samToBamJar,SamFormatConverter.jar
 sortSamJar,SortSam.jar
 mergeSamFilesJar,MergeSamFiles.jar
@@ -68,12 +67,6 @@ intermediatePeEnd2Barcode,${intermediateDir}/${filePrefix}_${barcode}_2,,,
 intermediateSrBarcode,${intermediateDir}/${filePrefix}_${barcode},,,
 peEnd1BarcodeFastQcZip,${intermediatePeEnd1Barcode}.fq_fastqc.zip,(fastqc.ftl),,
 peEnd2BarcodeFastQcZip,${intermediatePeEnd2Barcode}.fq_fastqc.zip,(fastqc.ftl),,
-tmpPeEnd1BarcodeAligned,${tmpPeEnd1Barcode}.aligned.${indexFileID}.sai,(bwa_align),,
-tmpPeEnd2BarcodeAligned,${tmpPeEnd2Barcode}.aligned.${indexFileID}.sai,(bwa_align),,
-peEnd1BarcodeAligned,${intermediatePeEnd1Barcode}.aligned.${indexFileID}.sai,(bwa_align),,
-peEnd2BarcodeAligned,${intermediatePeEnd2Barcode}.aligned.${indexFileID}.sai,(bwa_align),,
-tmpSrBarcodeAligned,${tmpSrBarcode}.aligned.${indexFileID}.sai,(bwa_align),,
-srBarcodeAligned,${intermediateSrBarcode}.aligned.${indexFileID}.sai,(bwa_align),,
 srBarcodeFastQcZip,${intermediateSrBarcode}.fq_fastqc.zip,(fastqc.ftl),,
 tmpAlignedSam,${tmpIntermediateDir}/~${filePrefix}_${barcode}.sam
 alignedSam,${intermediateDir}/${filePrefix}_${barcode}.sam
