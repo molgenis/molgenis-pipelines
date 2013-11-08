@@ -73,7 +73,7 @@ then
     #Get return code from last program call
     returnCode=$?
 
-    echo -e "\nreturnCode BWA: ${returnCode}\n\n"
+    echo -e "\nreturnCode BWA: $returnCode\n\n"
 
     if [ $returnCode -eq 0 ]
     then
@@ -97,7 +97,7 @@ else
     #Get return code from last program call
     returnCode=$?
 
-    echo -e "\nreturnCode BWA: ${returnCode}\n\n"
+    echo -e "\nreturnCode BWA: $returnCode\n\n"
 
     if [ $returnCode -eq 0 ]
     then

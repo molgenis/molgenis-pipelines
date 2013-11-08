@@ -37,6 +37,7 @@ picardVersion,1.102
 samToBamJar,SamFormatConverter.jar
 sortSamJar,SortSam.jar
 mergeSamFilesJar,MergeSamFiles.jar
+markDuplicatesJar,MarkDuplicates.jar
 filePrefix,${runPrefix}_L${lane}
 library,${filePrefix},,,
 srInputFile,${rawDataDir}/${filePrefix}.fq.gz
@@ -48,6 +49,7 @@ projectRawDataDir,${projectDir}/rawdata/ngs/,project specific rawdata directory 
 projectRawArrayDataDir,${projectDir}/rawdata/array/,"Contains project specific rawdata (i.e., Genome Studio files)",string,
 intermediateDir,${tempDir}/${project}/${runid},store intermediate results here; empty at end of project,,
 tmpIntermediateDir,${intermediateDir}/tmp/
+sample,${intermediateDir}/${externalSampleID}
 projectJobsDir,${projectDir}/jobs/,Project specific job scripts directory,string,
 projectLogsDir,${projectDir}/logs/,Project specific log directory,string,
 projectResultsDir,${projectDir}/results/,Store final results here; a sub set of the primary outputs that we want to keep/archive are moved to this dir; afterwards the remaining files from the intermediate dir will be lost when we clean up.,string,
@@ -76,3 +78,13 @@ tmpAlignedSortedBam,${tmpIntermediateDir}/~${filePrefix}_${barcode}.sorted.bam
 tmpAlignedSortedBamIdx,${tmpIntermediateDir}/~${filePrefix}_${barcode}.sorted.bai
 alignedSortedBam,${intermediateDir}/${filePrefix}_${barcode}.sorted.bam
 alignedSortedBamIdx,${intermediateDir}/${filePrefix}_${barcode}.sorted.bai
+tmpSampleMergedBam,${tmpIntermediateDir}/~${externalSampleID}.merged.bam
+tmpSampleMergedBamIdx,${tmpIntermediateDir}/~${externalSampleID}.merged.bai
+sampleMergedBam,${sample}.merged.bam
+sampleMergedBamIdx,${sample}.merged.bai
+tmpDedupBam,${tmpIntermediateDir}/~${externalSampleID}.merged.dedup.bam
+tmpDedupBamIdx,${tmpIntermediateDir}/~${externalSampleID}.merged.dedup.bai
+tmpDedupMetrics,${tmpIntermediateDir}/~${externalSampleID}.merged.dedup.metrics
+dedupBam,${sample}.merged.dedup.bam
+dedupBamIdx,${sample}.merged.dedup.bai
+dedupMetrics,${sample}.merged.dedup.metrics

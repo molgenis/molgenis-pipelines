@@ -47,7 +47,7 @@ TMP_DIR=${tempDir}
 #Get return code from last program call
 returnCode=$?
 
-echo -e "\nreturnCode SamToBam: ${returnCode}\n\n"
+echo -e "\nreturnCode SamToBam: $returnCode\n\n"
 
 if [ $returnCode -eq 0 ]
 then
