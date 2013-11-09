@@ -1,7 +1,7 @@
 Name,defaultValue,description,dataType,hasOne_name
-clusterQueue,ss,,,
+clusterQueue,gcc,,,
 mem,4,Memory in GB,,
-walltime,6:00:00,,,
+walltime,24:00:00,,,
 cores,1,,,
 defaultInterpreter,#!/bin/bash,,,
 jobname,jobname,,string,

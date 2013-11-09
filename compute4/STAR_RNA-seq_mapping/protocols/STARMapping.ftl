@@ -1,4 +1,4 @@
-#MOLGENIS walltime=6:00:00 nodes=1 cores=8 mem=30
+#MOLGENIS walltime=6:00:00 nodes=1 cores=8 mem=40
 
 fastq1="${fastq1}"
 fastq2="${fastq2}"
@@ -13,21 +13,20 @@ echo -e "fastq1=${fastq1}\nfastq2=${fastq2}\noutputFolder=${outputFolder}\nprefi
 
 mkdir -p ${outputFolder}
 
+if [[ -f ${outputFolder}/${prefix}Aligned.out.sorted.bam && -f ${outputFolder}/${prefix}Aligned.out.sorted.bam.bai ]]; then
+	echo "skipping, next step already has output"
+	rm -f ${outputFolder}/${outputPrefix}Aligned.out.sam
+	exit 0
+fi
+
+
 alloutputsexist ${outputFolder}/${prefix}Aligned.out.sam
 
 
-#Output of this step is removed at the end of next step. Only run this step if output of next step is not present
-if [ -f ${outputFolder}/${outputPrefix}Aligned.out.sorted.bam ] && [ -f ${outputFolder}/${outputPrefix}Aligned.out.sorted.bam.bai ]
-then
-
-	echo "skipping"
-	exit 0
-
-fi
-
 inputs ${fastq1}
 
-seq=`head -2 ${fastq1} | tail -1`
+seq=`zcat ${fastq1} | head -2 | tail -1`
+echo "seq used to determine read length: ${seq}"
 readLength="${#seq}"
 
 if [ $readLength -ge 90 ]; then

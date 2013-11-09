@@ -82,7 +82,10 @@ returnCode=$?
 
 echo "return code snvMix ${returnCode}"
 
-if [ $returnCode -eq 0 ]
+
+count=`cut -f 1 -d ":" ${snvmixOut}___tmp___ | uniq | wc -l`
+
+if [ $count -ge 22 ]
 then
 	
 	echo "Moving temp file: ${snvmixOut}___tmp___ to $snvmixOut"

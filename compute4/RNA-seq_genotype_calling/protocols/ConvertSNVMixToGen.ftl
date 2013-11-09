@@ -48,34 +48,34 @@ do
 done
 
 
-# ${JAVA_HOME}/bin/java \
-        # -Xmx4g \
-        # -jar /target/gpfs2/gcc/home/dasha/scripts/genotyping/GenotypeCalling/dist/GenotypeCalling.jar \
-        # --mode SNVMixToGen \
-        # --fileList ${genotypeFolder}/fileList.txt \
-        # --p-value 0.8 \
-        # --out ${genotypeFolder}/___tmp___chr
+ ${JAVA_HOME}/bin/java \
+         -Xmx4g \
+         -jar /target/gpfs2/gcc/home/dasha/scripts/genotyping/GenotypeCalling/dist/GenotypeCalling.jar \
+         --mode SNVMixToGen \
+         --fileList ${genotypeFolder}/fileList.txt \
+         --p-value 0.8 \
+         --out ${genotypeFolder}/___tmp___chr
 
-# returnCode=$?
-# echo "Return code ${returnCode}"
+ returnCode=$?
+ echo "Return code ${returnCode}"
 
-# if [ "${returnCode}" -eq "0" ]
-# then
+ if [ "${returnCode}" -eq "0" ]
+ then
 	
-	# echo "Moving temp files: ${genotypeFolder}/___tmp___chr* to ${genotypeFolder}/chr*"
-	# tmpFiles="${genotypeFolder}/___tmp___chr*"
-	# for f in $tmpFiles
-	# do
-		# mv $f ${f//___tmp___/}
-	# done
+	 echo "Moving temp files: ${genotypeFolder}/___tmp___chr* to ${genotypeFolder}/chr*"
+	 tmpFiles="${genotypeFolder}/___tmp___chr*"
+	 for f in $tmpFiles
+	 do
+		 mv $f ${f//___tmp___/}
+	 done
 	
-# else
+ else
   
-	# echo -e "\nNon zero return code not making files final. Existing temp files are kept for debugging purposes\n\n"
-	Return non zero return code
-	# exit 1
+	 echo -e "\nNon zero return code not making files final. Existing temp files are kept for debugging purposes\n\n"
+	#Return non zero return code
+	 exit 1
 	
-# fi
+ fi
 
 chrTriTyperDirs=""
 
@@ -97,18 +97,18 @@ do
 		genFileSorted=${genFile//.gen/.sorted.gen}
 	
 		
-		# sort -k3,3n ${genFile} > ${genFileSorted}
+		sort -k3,3n ${genFile} > ${genFileSorted}
 			
 		genFileSortedFiltered=${genFile//.gen/_CR0.8_maf0.01.gen}
 	
-		# /target/gpfs2/gcc/tools/qctool/qctool_v1.3-linux-x86_64/qctool \
-		# -g $genFileSorted \
-		# -s ${sampleFile} \
-		# -og ${genFileSortedFiltered} \
-		# -maf 0.01 1 \
-		# -hwe 4 \
-		# -snp-missing-rate 0.8 \
-		# -omit-chromosome 
+		/target/gpfs2/gcc/tools/qctool/qctool_v1.3-linux-x86_64/qctool \
+		-g $genFileSorted \
+		-s ${sampleFile} \
+		-og ${genFileSortedFiltered} \
+		-maf 0.01 1 \
+		-hwe 4 \
+		-snp-missing-rate 0.8 \
+		-omit-chromosome 
 		
 		trityperFolder=${genFile%.gen}
 		mkdir -p ${trityperFolder}

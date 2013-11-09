@@ -1,4 +1,4 @@
-#MOLGENIS walltime=24:00:00 nodes=1 cores=1 mem=6
+#MOLGENIS walltime=24:00:00 nodes=1 cores=2 mem=7
 
 bamToBed="${bamToBed}"
 sortedBam="${sortedBam}"
