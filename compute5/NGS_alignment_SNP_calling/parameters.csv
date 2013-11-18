@@ -1,5 +1,4 @@
-parameters,/Users/freerkvandijk/Downloads/testinhouse_pipeline.csv
-clusterQueue,gaf
+queue,devel
 mem,4
 walltime,23:59:00
 nodes,1
@@ -7,7 +6,7 @@ ppn,1
 defaultInterpreter,#!/bin/bash
 stage,module load
 checkStage,module list
-WORKDIR,/target/gpfs2/gcc/
+WORKDIR,/gcc/groups/gcc/tmp03/fvandijk/
 root,${WORKDIR}
 tempDir,${WORKDIR}/tmp/
 resDir,${root}/resources/
@@ -25,19 +24,20 @@ runJobsDir,${allRunDemultiplexDir}/${runPrefix}/jobs/
 runResultsDir,${allRunDemultiplexDir}/${runPrefix}/results/
 rawDataDir,${allRawNgsDataDir}/${runPrefix}
 arrayDir,${allRawDataDir}/array,,,
-genome,hg19,,,
+genome,b37,,,
 indexFileID,human_g1k_v37,,,
-indicesDir,${resDir}/${genome}/indices/bwa-${bwaVersion}/
-indexFileFastaIndex,${indicesDir}/${indexFileIDtest}.fa.fai,,,
+indicesDir,${resDir}/${genome}/indices/
+indexFileFastaIndex,${indicesDir}/${indexFileIDtest}.fasta.fai,,,
 indexFileIDtest,human_g1k_v37.chr1,Append .chr1 if you want to test only on chr 1,,
-indexFile,${indicesDir}/${indexFileIDtest}.fa,,,
+indexFile,${indicesDir}/${indexFileIDtest}.fasta,,,
 fastqcVersion,v0.10.1
 bwaVersion,0.7.5a
 bwaAlignCores,4
-picardVersion,1.99
+picardVersion,1.102
 samToBamJar,SamFormatConverter.jar
 sortSamJar,SortSam.jar
 mergeSamFilesJar,MergeSamFiles.jar
+markDuplicatesJar,MarkDuplicates.jar
 filePrefix,${runPrefix}_L${lane}
 library,${filePrefix},,,
 srInputFile,${rawDataDir}/${filePrefix}.fq.gz
@@ -49,6 +49,7 @@ projectRawDataDir,${projectDir}/rawdata/ngs/,project specific rawdata directory 
 projectRawArrayDataDir,${projectDir}/rawdata/array/,"Contains project specific rawdata (i.e., Genome Studio files)",string,
 intermediateDir,${tempDir}/${project}/${runid},store intermediate results here; empty at end of project,,
 tmpIntermediateDir,${intermediateDir}/tmp/
+sample,${intermediateDir}/${externalSampleID}
 projectJobsDir,${projectDir}/jobs/,Project specific job scripts directory,string,
 projectLogsDir,${projectDir}/logs/,Project specific log directory,string,
 projectResultsDir,${projectDir}/results/,Store final results here; a sub set of the primary outputs that we want to keep/archive are moved to this dir; afterwards the remaining files from the intermediate dir will be lost when we clean up.,string,
@@ -68,12 +69,6 @@ intermediatePeEnd2Barcode,${intermediateDir}/${filePrefix}_${barcode}_2,,,
 intermediateSrBarcode,${intermediateDir}/${filePrefix}_${barcode},,,
 peEnd1BarcodeFastQcZip,${intermediatePeEnd1Barcode}.fq_fastqc.zip,(fastqc.ftl),,
 peEnd2BarcodeFastQcZip,${intermediatePeEnd2Barcode}.fq_fastqc.zip,(fastqc.ftl),,
-tmpPeEnd1BarcodeAligned,${tmpPeEnd1Barcode}.aligned.${indexFileID}.sai,(bwa_align),,
-tmpPeEnd2BarcodeAligned,${tmpPeEnd2Barcode}.aligned.${indexFileID}.sai,(bwa_align),,
-peEnd1BarcodeAligned,${intermediatePeEnd1Barcode}.aligned.${indexFileID}.sai,(bwa_align),,
-peEnd2BarcodeAligned,${intermediatePeEnd2Barcode}.aligned.${indexFileID}.sai,(bwa_align),,
-tmpSrBarcodeAligned,${tmpSrBarcode}.aligned.${indexFileID}.sai,(bwa_align),,
-srBarcodeAligned,${intermediateSrBarcode}.aligned.${indexFileID}.sai,(bwa_align),,
 srBarcodeFastQcZip,${intermediateSrBarcode}.fq_fastqc.zip,(fastqc.ftl),,
 tmpAlignedSam,${tmpIntermediateDir}/~${filePrefix}_${barcode}.sam
 alignedSam,${intermediateDir}/${filePrefix}_${barcode}.sam
@@ -83,3 +78,13 @@ tmpAlignedSortedBam,${tmpIntermediateDir}/~${filePrefix}_${barcode}.sorted.bam
 tmpAlignedSortedBamIdx,${tmpIntermediateDir}/~${filePrefix}_${barcode}.sorted.bai
 alignedSortedBam,${intermediateDir}/${filePrefix}_${barcode}.sorted.bam
 alignedSortedBamIdx,${intermediateDir}/${filePrefix}_${barcode}.sorted.bai
+tmpSampleMergedBam,${tmpIntermediateDir}/~${externalSampleID}.merged.bam
+tmpSampleMergedBamIdx,${tmpIntermediateDir}/~${externalSampleID}.merged.bai
+sampleMergedBam,${sample}.merged.bam
+sampleMergedBamIdx,${sample}.merged.bai
+tmpDedupBam,${tmpIntermediateDir}/~${externalSampleID}.merged.dedup.bam
+tmpDedupBamIdx,${tmpIntermediateDir}/~${externalSampleID}.merged.dedup.bai
+tmpDedupMetrics,${tmpIntermediateDir}/~${externalSampleID}.merged.dedup.metrics
+dedupBam,${sample}.merged.dedup.bam
+dedupBamIdx,${sample}.merged.dedup.bai
+dedupMetrics,${sample}.merged.dedup.metrics

@@ -1,5 +1,7 @@
 step,protocol,dependencies
 FastQC,protocols/FastQC.sh,
 BwaAlign,protocols/BwaAlign.sh,
-BwaSaiToSam,protocols/BwaSaiToSam.sh,BwaAlign
-SamToBam,protocols/SamToBam.sh,BwaSaiToSam
+SamToBam,protocols/SamToBam.sh,BwaAlign
+SortBam,protocols/SortBam.sh,SamToBam;inputSortBam=alignedBam;tmpSortedBam=tmpAlignedSortedBam;tmpSortedBamIdx=tmpAlignedSortedBamIdx;sortedBam=alignedSortedBam;sortedBamIdx=alignedSortedBamIdx
+MergeBam,protocols/MergeBam.sh,SortBam;inputMergeBam=alignedSortedBam;inputMergeBamIdx=alignedSortedBamIdx;tmpMergedBam=tmpSampleMergedBam;tmpMergedBamIdx=tmpSampleMergedBamIdx;mergedBam=sampleMergedBam;mergedBamIdx=sampleMergedBamIdx
+MarkDuplicates,protocols/MarkDuplicates.sh,MergeBam
