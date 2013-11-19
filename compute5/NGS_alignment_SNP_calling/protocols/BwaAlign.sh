@@ -58,12 +58,15 @@ ${checkStage}
 #Create tmp dir
 mkdir -p "${tmpIntermediateDir}"
 
-#If paired-end do fastqc for both ends, else only for one
+READGROUPLINE="@RG\tID:${lane}\tPL:illumina\tLB:${library}\tSM:${externalSampleID}"
+
+#If paired-end use two fq files as input, else only one
 if [ ${seqType} == "PE" ]
 then
     #Run BWA for paired-end
     bwa mem \
     -M \
+    -R $READGROUPLINE \
     -t ${bwaAlignCores} \
     ${indexFile} \
     ${peEnd1BarcodeFqGz} \
@@ -89,6 +92,7 @@ else
     #Run BWA for single-read
     bwa mem \
     -M \
+    -R $READGROUPLINE \
     -t ${bwaAlignCores} \
     ${indexFile} \
     ${srBarcodeFqGz} \
