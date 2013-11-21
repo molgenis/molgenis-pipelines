@@ -15,6 +15,9 @@
 #string tmpIntermediateDir
 #string tmpAlignedSam
 #string alignedSam
+#string lane
+#string library
+#string externalSampleID
 
 #Echo parameter values
 echo "stage: ${stage}"
@@ -31,6 +34,10 @@ echo "intermediateDir: ${intermediateDir}"
 echo "tmpIntermediateDir: ${tmpIntermediateDir}"
 echo "tmpAlignedSam: ${tmpAlignedSam}"
 echo "alignedSam: ${alignedSam}"
+echo "lane: ${lane}"
+echo "library: ${library}"
+echo "externalSampleID: ${externalSampleID}"
+
 
 sleep 10
 

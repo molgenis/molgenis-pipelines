@@ -18,6 +18,10 @@
 #string recreateInsertsizePdfR
 #string baitIntervals
 #string targetIntervals
+#string RVersion
+#string capturingKit
+#string seqType
+#string intermediateDir
 
 
 #Echo parameter values
@@ -37,6 +41,10 @@ echo "tempDir: ${tempDir}"
 echo "recreateInsertsizePdfR: ${recreateInsertsizePdfR}"
 echo "baitIntervals: ${baitIntervals}"
 echo "targetIntervals: ${targetIntervals}"
+echo "RVersion: ${RVersion}"
+echo "capturingKit: ${capturingKit}"
+echo "seqType: ${seqType}"
+echo "intermediateDir: ${intermediateDir}"
 
 
 sleep 10
@@ -67,10 +75,14 @@ then
 fi
 
 
+
 #Load Picard module
 ${stage} picard-tools/${picardVersion}
 ${checkStage}
 
+#Load R module
+${stage} R/${RVersion}
+${checkStage}
 
 #Run Picard CollectAlignmentSummaryMetrics, CollectInsertSizeMetrics, QualityScoreDistribution and MeanQualityByCycle
 java -jar -Xmx4g $PICARD_HOME/${collectMultipleMetricsJar} \
@@ -106,12 +118,12 @@ then
     #If paired-end data *.insert_size_metrics files also need to be moved
     if [ ${seqType} == "PE" ]
 	then
-	echo "\nDetected paired-end data, moving all files.\n\n"
+	echo -e "\nDetected paired-end data, moving all files.\n\n"
     mv ${tmpCollectBamMetricsPrefix}.insert_size_metrics ${collectBamMetricsPrefix}.insert_size_metrics
     mv ${tmpCollectBamMetricsPrefix}.insert_size_histogram.pdf ${collectBamMetricsPrefix}.insert_size_histogram.pdf
     
     else
-    echo "\nDetected single read data, no *.insert_size_metrics files to be moved.\n\n"
+    echo -e "\nDetected single read data, no *.insert_size_metrics files to be moved.\n\n"
     
     fi
     
@@ -125,8 +137,8 @@ fi
 java -jar -Xmx4g $PICARD_HOME/${gcBiasMetricsJar} \
 R=${indexFile} \
 I=${inputCollectBamMetricsBam} \
-O=${collectBamMetricsPrefix}.gc_bias_metrics \
-CHART=${collectBamMetricsPrefix}.gc_bias_metrics.pdf \
+O=${tmpCollectBamMetricsPrefix}.gc_bias_metrics \
+CHART=${tmpCollectBamMetricsPrefix}.gc_bias_metrics.pdf \
 VALIDATION_STRINGENCY=LENIENT \
 TMP_DIR=${tempDir}
 
@@ -153,7 +165,7 @@ fi
 #if [ ${seqType} == "PE" ]
 #then
 	# Overwrite the PDFs that were just created by nicer onces:
-#	${recreateInsertsizePdfR} \
+#	rscript ${recreateInsertsizePdfR} \
 #	--insertSizeMetrics ${inputCollectBamMetricsBam}.insert_size_metrics \
 #	--pdf ${inputCollectBamMetricsBam}.insert_size_histogram.pdf
 
@@ -171,21 +183,21 @@ if [ ${capturingKit} != "None" ]
 then
 	java -jar -Xmx4g $PICARD_HOME/${hsMetricsJar} \
 	INPUT=${inputCollectBamMetricsBam} \
-	OUTPUT=${collectBamMetricsPrefix}.hs_metrics \
+	OUTPUT=${tmpCollectBamMetricsPrefix}.hs_metrics \
 	BAIT_INTERVALS=${baitIntervals} \
 	TARGET_INTERVALS=${targetIntervals} \
 	VALIDATION_STRINGENCY=LENIENT \
 	TMP_DIR=${tempDir}
 
 else
-	echo "## net.sf.picard.metrics.StringHeader" > ${collectBamMetricsPrefix}.hs_metrics
-	echo "#" >> ${collectBamMetricsPrefix}.hs_metrics
-	echo "## net.sf.picard.metrics.StringHeader" >> ${collectBamMetricsPrefix}.hs_metrics
-	echo "#" >> ${collectBamMetricsPrefix}.hs_metrics
-	echo "" >> ${collectBamMetricsPrefix}.hs_metrics
-	echo "## METRICS CLASS net.sf.picard.analysis.directed.HsMetrics" >> ${collectBamMetricsPrefix}.hs_metrics
-	echo "BAIT_SET	GENOME_SIZE	BAIT_TERRITORY	TARGET_TERRITORY	BAIT_DESIGN_EFFICIENCY	TOTAL_READS	PF_READS	PF_UNIQUE_READS	PCT_PF_READS	PCT_PF_UQ_READS	PF_UQ_READS_ALIGNED	PCT_PF_UQ_READS_ALIGNED	PF_UQ_BASES_ALIGNED	ON_BAIT_BASES	NEAR_BAIT_BASES	OFF_BAIT_BASES	ON_TARGET_BASES	PCT_SELECTED_BASES	PCT_OFF_BAIT	ON_BAIT_VS_SELECTED	MEAN_BAIT_COVERAGE	MEAN_TARGET_COVERAGE	PCT_USABLE_BASES_ON_BAIT	PCT_USABLE_BASES_ON_TARGET	FOLD_ENRICHMENT	ZERO_CVG_TARGETS_PCT	FOLD_80_BASE_PENALTY	PCT_TARGET_BASES_2X	PCT_TARGET_BASES_10X	PCT_TARGET_BASES_20X	PCT_TARGET_BASES_30X	HS_LIBRARY_SIZE	HS_PENALTY_10X	HS_PENALTY_20X	HS_PENALTY_30X	AT_DROPOUT	GC_DROPOUT	SAMPLE	LIBRARY	READ_GROUP" >> ${collectBamMetricsPrefix}.hs_metrics
-	echo "NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA" >> ${collectBamMetricsPrefix}.hs_metrics
+	echo "## net.sf.picard.metrics.StringHeader" > ${tmpCollectBamMetricsPrefix}.hs_metrics
+	echo "#" >> ${tmpCollectBamMetricsPrefix}.hs_metrics
+	echo "## net.sf.picard.metrics.StringHeader" >> ${tmpCollectBamMetricsPrefix}.hs_metrics
+	echo "#" >> ${tmpCollectBamMetricsPrefix}.hs_metrics
+	echo "" >> ${tmpCollectBamMetricsPrefix}.hs_metrics
+	echo "## METRICS CLASS net.sf.picard.analysis.directed.HsMetrics" >> ${tmpCollectBamMetricsPrefix}.hs_metrics
+	echo "BAIT_SET	GENOME_SIZE	BAIT_TERRITORY	TARGET_TERRITORY	BAIT_DESIGN_EFFICIENCY	TOTAL_READS	PF_READS	PF_UNIQUE_READS	PCT_PF_READS	PCT_PF_UQ_READS	PF_UQ_READS_ALIGNED	PCT_PF_UQ_READS_ALIGNED	PF_UQ_BASES_ALIGNED	ON_BAIT_BASES	NEAR_BAIT_BASES	OFF_BAIT_BASES	ON_TARGET_BASES	PCT_SELECTED_BASES	PCT_OFF_BAIT	ON_BAIT_VS_SELECTED	MEAN_BAIT_COVERAGE	MEAN_TARGET_COVERAGE	PCT_USABLE_BASES_ON_BAIT	PCT_USABLE_BASES_ON_TARGET	FOLD_ENRICHMENT	ZERO_CVG_TARGETS_PCT	FOLD_80_BASE_PENALTY	PCT_TARGET_BASES_2X	PCT_TARGET_BASES_10X	PCT_TARGET_BASES_20X	PCT_TARGET_BASES_30X	HS_LIBRARY_SIZE	HS_PENALTY_10X	HS_PENALTY_20X	HS_PENALTY_30X	AT_DROPOUT	GC_DROPOUT	SAMPLE	LIBRARY	READ_GROUP" >> ${tmpCollectBamMetricsPrefix}.hs_metrics
+	echo "NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA" >> ${tmpCollectBamMetricsPrefix}.hs_metrics
 
 fi
 
@@ -211,7 +223,7 @@ java -jar -Xmx4g $PICARD_HOME/${bamIndexStatsJar} \
 INPUT=${inputCollectBamMetricsBam} \
 VALIDATION_STRINGENCY=LENIENT \
 TMP_DIR=${tempDir} \
-> ${collectBamMetricsPrefix}.bam_index_stats
+> ${tmpCollectBamMetricsPrefix}.bam_index_stats
 
 #Get return code from last program call
 returnCode=$?

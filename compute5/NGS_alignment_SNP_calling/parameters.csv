@@ -30,6 +30,9 @@ indicesDir,${resDir}/${genome}/indices/
 indexFileFastaIndex,${indicesDir}/${indexFileIDtest}.fasta.fai,,,
 indexFileIDtest,human_g1k_v37.chr1,Append .chr1 if you want to test only on chr 1,,
 indexFile,${indicesDir}/${indexFileIDtest}.fasta,,,
+intervalListDir,${resDir}/${genome}/intervals/
+baitIntervals,${intervalListDir}/${capturingKit}_baits_${genome}_${indexFileIDtest}.interval_list
+targetIntervals,${intervalListDir}/${capturingKit}_exons_${genome}_${indexFileIDtest}.interval_list
 fastqcVersion,v0.10.1
 bwaVersion,0.7.5a
 bwaAlignCores,4
@@ -38,6 +41,15 @@ samToBamJar,SamFormatConverter.jar
 sortSamJar,SortSam.jar
 mergeSamFilesJar,MergeSamFiles.jar
 markDuplicatesJar,MarkDuplicates.jar
+collectMultipleMetricsJar,CollectMultipleMetrics.jar
+gcBiasMetricsJar,CollectGcBiasMetrics.jar
+hsMetricsJar,CalculateHsMetrics.jar
+bamIndexStatsJar,BamIndexStats.jar
+R_HOME,${toolDir}/R-${RVersion}/
+RVersion,2.14.2
+R,${R_HOME}/bin/R,,,
+rscript,${R_HOME}/bin/Rscript,,,
+recreateInsertsizePdfR,${scriptDir}/createInsertSizePlot.R
 filePrefix,${runPrefix}_L${lane}
 library,${filePrefix},,,
 srInputFile,${rawDataDir}/${filePrefix}.fq.gz
@@ -88,3 +100,5 @@ tmpDedupMetrics,${tmpIntermediateDir}/~${externalSampleID}.merged.dedup.metrics
 dedupBam,${sample}.merged.dedup.bam
 dedupBamIdx,${sample}.merged.dedup.bai
 dedupMetrics,${sample}.merged.dedup.metrics
+tmpCollectMergedDedupBamMetricsPrefix,${tmpIntermediateDir}/~${externalSampleID}
+collectMergedDedupBamMetricsPrefix,${intermediateDir}/${externalSampleID}
