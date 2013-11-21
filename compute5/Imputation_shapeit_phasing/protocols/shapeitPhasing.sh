@@ -9,6 +9,7 @@
 #string studyDataType
 #string shapeitThreads
 #string chr
+#string additonalShapeitParam
 #string outputFolder
 #string stage
 #string shapeitversion
@@ -32,6 +33,7 @@ echo "studyData: ${studyData}"
 echo "studyDataType: ${studyDataType}"
 echo "shapeitThreads: ${shapeitThreads}"
 echo "chr: ${chr}"
+echo "additonalShapeitParam: ${additonalShapeitParam}"
 echo "outputFolder: ${outputFolder}"
 echo "tmpOutput: ${tmpOutput}"
 
@@ -73,7 +75,8 @@ if $shapeitBin \
 	--input-map $m \
 	--output-max $tmpOutput \
 	--thread $shapeitThreads \
-	--output-log ${tmpOutput}.log
+	--output-log ${tmpOutput}.log \
+	${additonalShapeitParam}
 then
 	#Command successful
 	echo "returnCode ShapeIt2: $?"

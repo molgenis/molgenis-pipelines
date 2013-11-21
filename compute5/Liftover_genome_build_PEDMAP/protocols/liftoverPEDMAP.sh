@@ -39,8 +39,9 @@ startTime=$(date +%s)
 
 #Check if outputs exist
 alloutputsexist \
-	"${outputFolder}/chr${chr}.ped" \
-	"${outputFolder}/chr${chr}.map" 
+	"${outputFolder}/chr${chr}.bed" \
+	"${outputFolder}/chr${chr}.bim" \
+	"${outputFolder}/chr${chr}.fam" 
 
 #Create output directories
 mkdir -p $outputFolder
@@ -93,6 +94,7 @@ then
 		--noweb \
 		--file $outputFolderTmp/chr$chr.unordered  \
 		--recode \
+		--make-bed \
 		--out $outputFolderTmp/~chr$chr
 
 	#Get return code from last program call
