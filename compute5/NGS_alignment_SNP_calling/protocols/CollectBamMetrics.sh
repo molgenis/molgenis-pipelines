@@ -1,4 +1,4 @@
-#MOLGENIS walltime=35:59:00 mem=4
+#MOLGENIS walltime=35:59:00 mem=4gb
 
 
 #Parameter mapping
