@@ -1,116 +1,230 @@
-
-
 #MOLGENIS walltime=35:59:00 mem=4
 
-module load picard-tools/${picardVersion}
 
-getFile ${sortedbam}
-getFile ${indexfile}
-<#if capturingKit != "None">
-getFile ${baitintervals}
-getFile ${targetintervals}
-<#else>
-</#if>
+#Parameter mapping
+#string stage
+#string checkStage
+#string picardVersion
+#string collectMultipleMetricsJar
+#string gcBiasMetricsJar
+#string hsMetricsJar
+#string bamIndexStatsJar
+#string inputCollectBamMetricsBam
+#string inputCollectBamMetricsBamIdx
+#string indexFile
+#string collectBamMetricsPrefix
+#string tmpCollectBamMetricsPrefix
+#string tempDir
+#string recreateInsertsizePdfR
+#string baitIntervals
+#string targetIntervals
 
+
+#Echo parameter values
+echo "stage: ${stage}"
+echo "checkStage: ${checkStage}"
+echo "picardVersion: ${picardVersion}"
+echo "collectMultipleMetricsJar: ${collectMultipleMetricsJar}"
+echo "gcBiasMetricsJar: ${gcBiasMetricsJar}"
+echo "hsMetricsJar: ${hsMetricsJar}"
+echo "bamIndexStatsJar: ${bamIndexStatsJar}"
+echo "inputCollectBamMetricsBam: ${inputCollectBamMetricsBam}"
+echo "inputCollectBamMetricsBamIdx: ${inputCollectBamMetricsBamIdx}"
+echo "indexFile: ${indexFile}"
+echo "collectBamMetricsPrefix: ${collectBamMetricsPrefix}"
+echo "tmpCollectBamMetricsPrefix: ${tmpCollectBamMetricsPrefix}"
+echo "tempDir: ${tempDir}"
+echo "recreateInsertsizePdfR: ${recreateInsertsizePdfR}"
+echo "baitIntervals: ${baitIntervals}"
+echo "targetIntervals: ${targetIntervals}"
+
+
+sleep 10
+
+#Check if output exists
 alloutputsexist \
- "${alignmentmetrics}" \
- "${gcbiasmetrics}" \
- "${gcbiasmetricspdf}" \
- "${insertsizemetrics}" \
- "${insertsizemetricspdf}" \
- "${meanqualitybycycle}" \
- "${meanqualitybycyclepdf}" \
- "${qualityscoredistribution}" \
- "${qualityscoredistributionpdf}" \
- "${hsmetrics}" \
- "${bamindexstats}"
+"${collectBamMetricsPrefix}.alignment_summary_metrics" \
+"${collectBamMetricsPrefix}.quality_distribution_metrics" \
+"${collectBamMetricsPrefix}.quality_distribution.pdf" \
+"${collectBamMetricsPrefix}.quality_by_cycle_metrics" \
+"${collectBamMetricsPrefix}.quality_by_cycle.pdf" \
+"${collectBamMetricsPrefix}.insert_size_metrics" \
+"${collectBamMetricsPrefix}.insert_size_histogram.pdf" \
+"${collectBamMetricsPrefix}.gc_bias_metrics" \
+"${collectBamMetricsPrefix}.gc_bias_metrics.pdf" \
+"${collectBamMetricsPrefix}.hs_metrics" \
+"${collectBamMetricsPrefix}.bam_index_stats"
+
+#Get input files
+getFile ${inputCollectBamMetricsBam}
+getFile ${inputCollectBamMetricsBamIdx}
+getFile ${indexFile}
+getFile ${recreateInsertsizePdfR}
+if [ ${capturingKit} != "None" ]
+then
+	getFile ${baitIntervals}
+	getFile ${targetIntervals}
+fi
+
+
+#Load Picard module
+${stage} picard-tools/${picardVersion}
+${checkStage}
 
 
 #Run Picard CollectAlignmentSummaryMetrics, CollectInsertSizeMetrics, QualityScoreDistribution and MeanQualityByCycle
-java -jar -Xmx4g ${collectMultipleMetricsJar} \
-I=NIPD25.merged.dedup.bam \
-R=/target/gpfs2/gcc/resources/hg19/indices/human_g1k_v37.chr1.fa \
-O=SEtesting \
+java -jar -Xmx4g $PICARD_HOME/${collectMultipleMetricsJar} \
+I=${inputCollectBamMetricsBam} \
+R=${indexFile} \
+O=${tmpCollectBamMetricsPrefix} \
 PROGRAM=CollectAlignmentSummaryMetrics \
 PROGRAM=CollectInsertSizeMetrics \
 PROGRAM=QualityScoreDistribution \
 PROGRAM=MeanQualityByCycle \
 VALIDATION_STRINGENCY=LENIENT \
-TMP_DIR=${tempdir}
+TMP_DIR=${tempDir}
+
+#Get return code from last program call
+returnCode=$?
+
+echo -e "\nreturnCode CollectBamMetrics: $returnCode\n\n"
+
+if [ $returnCode -eq 0 ]
+then
+    echo -e "\nCollectBamMetrics finished succesfull. Moving temp files to final.\n\n"
+    mv ${tmpCollectBamMetricsPrefix}.alignment_summary_metrics ${collectBamMetricsPrefix}.alignment_summary_metrics
+    mv ${tmpCollectBamMetricsPrefix}.quality_distribution_metrics ${collectBamMetricsPrefix}.quality_distribution_metrics
+    mv ${tmpCollectBamMetricsPrefix}.quality_distribution.pdf ${collectBamMetricsPrefix}.quality_distribution.pdf
+    mv ${tmpCollectBamMetricsPrefix}.quality_by_cycle_metrics ${collectBamMetricsPrefix}.quality_by_cycle_metrics
+    mv ${tmpCollectBamMetricsPrefix}.quality_by_cycle.pdf ${collectBamMetricsPrefix}.quality_by_cycle.pdf
+    putFile "${collectBamMetricsPrefix}.alignment_summary_metrics"
+    putFile "${collectBamMetricsPrefix}.quality_distribution_metrics"
+    putFile "${collectBamMetricsPrefix}.quality_distribution.pdf"
+    putFile "${collectBamMetricsPrefix}.quality_by_cycle_metrics"
+    putFile "${collectBamMetricsPrefix}.quality_by_cycle.pdf"
+    
+    #If paired-end data *.insert_size_metrics files also need to be moved
+    if [ ${seqType} == "PE" ]
+	then
+	echo "\nDetected paired-end data, moving all files.\n\n"
+    mv ${tmpCollectBamMetricsPrefix}.insert_size_metrics ${collectBamMetricsPrefix}.insert_size_metrics
+    mv ${tmpCollectBamMetricsPrefix}.insert_size_histogram.pdf ${collectBamMetricsPrefix}.insert_size_histogram.pdf
+    
+    else
+    echo "\nDetected single read data, no *.insert_size_metrics files to be moved.\n\n"
+    
+    fi
+    
+else
+    echo -e "\nFailed to move CollectBamMetrics results to ${intermediateDir}\n\n"
+    exit -1
+fi
 
 
-java -jar -Xmx4g ${gcBiasMetricsJar} \
-R=${indexfile} \
-I=${sortedbam} \
-O=${gcbiasmetrics} \
-CHART=${gcbiasmetricspdf} \
+#Run Picard GcBiasMetrics
+java -jar -Xmx4g $PICARD_HOME/${gcBiasMetricsJar} \
+R=${indexFile} \
+I=${inputCollectBamMetricsBam} \
+O=${collectBamMetricsPrefix}.gc_bias_metrics \
+CHART=${collectBamMetricsPrefix}.gc_bias_metrics.pdf \
 VALIDATION_STRINGENCY=LENIENT \
-TMP_DIR=${tempdir}
+TMP_DIR=${tempDir}
 
-<#if seqType == "PE">
-	java -jar -Xmx4g ${insertsizemetricsjar} \
-	I=${sortedbam} \
-	O=${insertsizemetrics} \
-	H=${insertsizemetricspdf} \
-	VALIDATION_STRINGENCY=LENIENT \
-	TMP_DIR=${tempdir}
-	
+#Get return code from last program call
+returnCode=$?
+
+echo -e "\nreturnCode GcBiasMetrics: $returnCode\n\n"
+
+if [ $returnCode -eq 0 ]
+then
+    echo -e "\nGcBiasMetrics finished succesfull. Moving temp files to final.\n\n"
+    mv ${tmpCollectBamMetricsPrefix}.gc_bias_metrics ${collectBamMetricsPrefix}.gc_bias_metrics
+    mv ${tmpCollectBamMetricsPrefix}.gc_bias_metrics.pdf ${collectBamMetricsPrefix}.gc_bias_metrics.pdf
+    putFile "${collectBamMetricsPrefix}.gc_bias_metrics"
+    putFile "${collectBamMetricsPrefix}.gc_bias_metrics.pdf"
+    
+else
+    echo -e "\nFailed to move GcBiasMetrics results to ${intermediateDir}\n\n"
+    exit -1
+fi
+
+######IS THIS STILL NEEDED, IMPROVEMENTS/UPDATES TO BE DONE?#####
+#Create nicer insertsize plots if seqType is PE
+#if [ ${seqType} == "PE" ]
+#then
 	# Overwrite the PDFs that were just created by nicer onces:
-	${recreateinsertsizepdfR} \
-	--insertSizeMetrics ${insertsizemetrics} \
-	--pdf ${insertsizemetricspdf}
-<#else>
-	# Don't do insert size analysis because seqType != "PE" 
-</#if>
+#	${recreateInsertsizePdfR} \
+#	--insertSizeMetrics ${inputCollectBamMetricsBam}.insert_size_metrics \
+#	--pdf ${inputCollectBamMetricsBam}.insert_size_histogram.pdf
 
-java -jar -Xmx4g ${meanqualitybycyclejar} \
-I=${sortedbam} \
-O=${meanqualitybycycle} \
-CHART=${meanqualitybycyclepdf} \
-VALIDATION_STRINGENCY=LENIENT \
-TMP_DIR=${tempdir}
+#else
+	# Don't do insert size analysis because seqType != "PE"
 
-java -jar -Xmx4g ${qualityscoredistributionjar} \
-I=${sortedbam} \
-O=${qualityscoredistribution} \
-CHART=${qualityscoredistributionpdf} \
-VALIDATION_STRINGENCY=LENIENT \
-TMP_DIR=${tempdir}
+#fi
 
-<#if capturingKit != "None">
-	java -jar -Xmx4g ${hsmetricsjar} \
-	INPUT=${sortedbam} \
-	OUTPUT=${hsmetrics} \
-	BAIT_INTERVALS=${baitintervals} \
-	TARGET_INTERVALS=${targetintervals} \
+
+#####THIS IF/ELSE CONSTRUCTION NEEDS TO BE REMOVED#####
+#####THIS "FAKE" FILE SHOULDN'T BE NEEDED, PLEASE FIX IN NEXT PIPELINE VERSION#####
+
+#Run Picard HsMetrics if capturingKit was used
+if [ ${capturingKit} != "None" ]
+then
+	java -jar -Xmx4g $PICARD_HOME/${hsMetricsJar} \
+	INPUT=${inputCollectBamMetricsBam} \
+	OUTPUT=${collectBamMetricsPrefix}.hs_metrics \
+	BAIT_INTERVALS=${baitIntervals} \
+	TARGET_INTERVALS=${targetIntervals} \
 	VALIDATION_STRINGENCY=LENIENT \
-	TMP_DIR=${tempdir}
-<#else>
-	echo "## net.sf.picard.metrics.StringHeader" > ${hsmetrics}
-	echo "#" >> ${hsmetrics}
-	echo "## net.sf.picard.metrics.StringHeader" >> ${hsmetrics}
-	echo "#" >> ${hsmetrics}
-	echo "" >> ${hsmetrics}
-	echo "## METRICS CLASS net.sf.picard.analysis.directed.HsMetrics" >> ${hsmetrics}
-	echo "BAIT_SET	GENOME_SIZE	BAIT_TERRITORY	TARGET_TERRITORY	BAIT_DESIGN_EFFICIENCY	TOTAL_READS	PF_READS	PF_UNIQUE_READS	PCT_PF_READS	PCT_PF_UQ_READS	PF_UQ_READS_ALIGNED	PCT_PF_UQ_READS_ALIGNED	PF_UQ_BASES_ALIGNED	ON_BAIT_BASES	NEAR_BAIT_BASES	OFF_BAIT_BASES	ON_TARGET_BASES	PCT_SELECTED_BASES	PCT_OFF_BAIT	ON_BAIT_VS_SELECTED	MEAN_BAIT_COVERAGE	MEAN_TARGET_COVERAGE	PCT_USABLE_BASES_ON_BAIT	PCT_USABLE_BASES_ON_TARGET	FOLD_ENRICHMENT	ZERO_CVG_TARGETS_PCT	FOLD_80_BASE_PENALTY	PCT_TARGET_BASES_2X	PCT_TARGET_BASES_10X	PCT_TARGET_BASES_20X	PCT_TARGET_BASES_30X	HS_LIBRARY_SIZE	HS_PENALTY_10X	HS_PENALTY_20X	HS_PENALTY_30X	AT_DROPOUT	GC_DROPOUT	SAMPLE	LIBRARY	READ_GROUP" >> ${hsmetrics}
-	echo "NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA" >> ${hsmetrics}
-</#if>
+	TMP_DIR=${tempDir}
 
-java -jar -Xmx4g ${bamindexstatsjar} \
-INPUT=${sortedbam} \
+else
+	echo "## net.sf.picard.metrics.StringHeader" > ${collectBamMetricsPrefix}.hs_metrics
+	echo "#" >> ${collectBamMetricsPrefix}.hs_metrics
+	echo "## net.sf.picard.metrics.StringHeader" >> ${collectBamMetricsPrefix}.hs_metrics
+	echo "#" >> ${collectBamMetricsPrefix}.hs_metrics
+	echo "" >> ${collectBamMetricsPrefix}.hs_metrics
+	echo "## METRICS CLASS net.sf.picard.analysis.directed.HsMetrics" >> ${collectBamMetricsPrefix}.hs_metrics
+	echo "BAIT_SET	GENOME_SIZE	BAIT_TERRITORY	TARGET_TERRITORY	BAIT_DESIGN_EFFICIENCY	TOTAL_READS	PF_READS	PF_UNIQUE_READS	PCT_PF_READS	PCT_PF_UQ_READS	PF_UQ_READS_ALIGNED	PCT_PF_UQ_READS_ALIGNED	PF_UQ_BASES_ALIGNED	ON_BAIT_BASES	NEAR_BAIT_BASES	OFF_BAIT_BASES	ON_TARGET_BASES	PCT_SELECTED_BASES	PCT_OFF_BAIT	ON_BAIT_VS_SELECTED	MEAN_BAIT_COVERAGE	MEAN_TARGET_COVERAGE	PCT_USABLE_BASES_ON_BAIT	PCT_USABLE_BASES_ON_TARGET	FOLD_ENRICHMENT	ZERO_CVG_TARGETS_PCT	FOLD_80_BASE_PENALTY	PCT_TARGET_BASES_2X	PCT_TARGET_BASES_10X	PCT_TARGET_BASES_20X	PCT_TARGET_BASES_30X	HS_LIBRARY_SIZE	HS_PENALTY_10X	HS_PENALTY_20X	HS_PENALTY_30X	AT_DROPOUT	GC_DROPOUT	SAMPLE	LIBRARY	READ_GROUP" >> ${collectBamMetricsPrefix}.hs_metrics
+	echo "NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA" >> ${collectBamMetricsPrefix}.hs_metrics
+
+fi
+
+#Get return code from last program call
+returnCode=$?
+
+echo -e "\nreturnCode HsMetrics: $returnCode\n\n"
+
+if [ $returnCode -eq 0 ]
+then
+    echo -e "\nHsMetrics finished succesfull. Moving temp files to final.\n\n"
+    mv ${tmpCollectBamMetricsPrefix}.hs_metrics ${collectBamMetricsPrefix}.hs_metrics
+    putFile "${collectBamMetricsPrefix}.hs_metrics"
+    
+else
+    echo -e "\nFailed to move HsMetrics results to ${intermediateDir}\n\n"
+    exit -1
+fi
+
+
+#Run Picard BamIndexStats
+java -jar -Xmx4g $PICARD_HOME/${bamIndexStatsJar} \
+INPUT=${inputCollectBamMetricsBam} \
 VALIDATION_STRINGENCY=LENIENT \
-TMP_DIR=${tempdir} \
-> ${bamindexstats}
+TMP_DIR=${tempDir} \
+> ${collectBamMetricsPrefix}.bam_index_stats
 
+#Get return code from last program call
+returnCode=$?
 
-putFile ${alignmentmetrics}
-putFile ${gcbiasmetrics}
-putFile ${gcbiasmetricspdf}
-putFile ${insertsizemetrics}
-putFile ${insertsizemetricspdf}
-putFile ${meanqualitybycycle}
-putFile ${meanqualitybycyclepdf}
-putFile ${qualityscoredistribution}
-putFile ${qualityscoredistributionpdf}
-putFile ${hsmetrics}
-putFile ${bamindexstats}
+echo -e "\nreturnCode BamIndexStats: $returnCode\n\n"
+
+if [ $returnCode -eq 0 ]
+then
+    echo -e "\nBamIndexStats finished succesfull. Moving temp files to final.\n\n"
+    mv ${tmpCollectBamMetricsPrefix}.bam_index_stats ${collectBamMetricsPrefix}.bam_index_stats
+    putFile "${collectBamMetricsPrefix}.bam_index_stats"
+    
+else
+    echo -e "\nFailed to move BamIndexStats results to ${intermediateDir}\n\n"
+    exit -1
+fi
