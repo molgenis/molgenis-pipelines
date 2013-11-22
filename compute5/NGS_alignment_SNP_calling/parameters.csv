@@ -35,9 +35,15 @@ baitIntervals,${intervalListDir}/${capturingKit}_baits_${genome}_${indexFileIDte
 targetIntervals,${intervalListDir}/${capturingKit}_exons_${genome}_${indexFileIDtest}.interval_list
 indelRealignmentTargetIntervals,${intervalListDir}/1000G_phase1.indels_Mills_and_1000G_gold_standard.indels.b37.human_g1k_v37.chr1.intervals
 SVDir,${resDir}/${genome}/sv/
+SNPDir,${resDir}/${genome}/snp/
+dbSNPDir,${SNPDir}/dbSNP/
 KGSVDir,${SVDir}/1000G/
 KGPhase1IndelsVcf,${KGSVDir}/1000G_phase1.indels.b37.vcf
+KGPhase1IndelsVcfIdx,${KGSVDir}/1000G_phase1.indels.b37.vcf.idx
 MillsGoldStandardIndelsVcf,${KGSVDir}/Mills_and_1000G_gold_standard.indels.b37.vcf
+MillsGoldStandardIndelsVcfIdx,${KGSVDir}/Mills_and_1000G_gold_standard.indels.b37.vcf.idx
+dbSNP137Vcf,${dbSNPDir}/dbsnp_137.b37.vcf
+dbSNP137VcfIdx,${dbSNPDir}/dbsnp_137.b37.vcf.idx
 fastqcVersion,v0.10.1
 bwaVersion,0.7.5a
 bwaAlignCores,4
@@ -113,3 +119,9 @@ tmpRealignedBam,${tmpIntermediateDir}/~${externalSampleID}.merged.dedup.realigne
 tmpRealignedBamIdx,${tmpIntermediateDir}/~${externalSampleID}.merged.dedup.realigned.bai
 realignedBam,${intermediateDir}/${externalSampleID}.merged.dedup.realigned.bam
 realignedBamIdx,${intermediateDir}/${externalSampleID}.merged.dedup.realigned.bai
+recalBefore,before
+recalPost,post
+tmpBeforeRecalTable,${tmpIntermediateDir}/~${externalSampleID}.before.recal.table
+beforeRecalTable,${intermediateDir}/${externalSampleID}.before.recal.table
+tmpPostRecalTable,${tmpIntermediateDir}/~${externalSampleID}.post.recal.table
+postRecalTable,${intermediateDir}/${externalSampleID}.post.recal.table
