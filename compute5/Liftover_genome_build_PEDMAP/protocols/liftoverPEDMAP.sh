@@ -115,8 +115,8 @@ then
 	done
 
 	echo -e "\nMoving resulting files to the final destination\n"
-	mv $outputFolderTmp/chr$chr.{ped,map} $outputFolder/
-	
+	mv $outputFolderTmp/chr$chr.{bed,bim,fam} $outputFolder/
+
 else
   
 	echo -e "\nNon zero return code not making files final. Existing temp files are kept for debugging purposes\n\n"
