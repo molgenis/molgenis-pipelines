@@ -53,8 +53,7 @@ then
 	
 	echo -e "\nGenerating md5sums.\n\n"
 	cd ${tmpProjectDir}/
-	
-	md5sum ${tmpProjectDir}/${studyId}_chr${chr}.dose.gz > ${tmpProjectDir}/${studyId}_chr${chr}.dose.gz.md5
+	md5sum ${studyId}_chr${chr}.dose.gz > ${tmpProjectDir}/${studyId}_chr${chr}.dose.gz.md5
 	
 	putFile "${tmpProjectDir}/${studyId}_chr${chr}.dose.gz"
 	putFile "${tmpProjectDir}/${studyId}_chr${chr}.dose.gz.md5"
