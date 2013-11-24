@@ -6,6 +6,7 @@
 #string project
 #string chr
 #string outputFolder
+#string samplechunksn
 #list impute2SamplesMerged
 #list impute2SamplesMergedInfo
 
@@ -42,8 +43,26 @@ rm -f ${outputFolder}/~chr${chr}_info
 rm -f ${outputFolder}/chr${chr}
 rm -f ${outputFolder}/chr${chr}_info
 
+
+#Make the array of the files
+length_of_array=${#impute2SamplesMerged[@]}
+length_of_array=$(($length_of_array-1))
+
+declare -a impute2_samples_merged_files
+declare -a impute2_samples_merged_info_files
+
+for file_index in $(seq 0 $samplechunksn $length_of_array)
+do
+	impute2_samples_merged_files[$file_index]=impute2SamplesMerged[$file_index]
+	impute2_samples_merged_info_files[$file_index]=impute2SamplesMergedInfo[$file_index]
+done
+
+
 #Concat the actual imputation results
-cat ${impute2SamplesMerged[@]} >> ${outputFolder}/~chr${chr}
+toExecute="cat ${impute2_samples_merged_files[@]} >> ${outputFolder}/~chr${chr}"
+
+echo "Executing command: $toExecute"
+eval ${toExecute}
 
 returnCode=$?
 if [ $returnCode -eq 0 ]
@@ -60,7 +79,7 @@ fi
 
 #Need not capture the header of the first non empty file
 headerSet="false"
-for chunkInfoFile in "${impute2SamplesMergedInfo[@]}"
+for chunkInfoFile in "${impute2_samples_merged_info_files[@]}"
 do
 	
 	#Skip empty files
