@@ -53,8 +53,8 @@ declare -a impute2_samples_merged_info_files
 
 for file_index in $(seq 0 $samplechunksn $length_of_array)
 do
-	impute2_samples_merged_files[$file_index]=impute2SamplesMerged[$file_index]
-	impute2_samples_merged_info_files[$file_index]=impute2SamplesMergedInfo[$file_index]
+	impute2_samples_merged_files[$file_index]=${impute2SamplesMerged[$file_index]}
+	impute2_samples_merged_info_files[$file_index]=${impute2SamplesMergedInfo[$file_index]}
 done
 
 
