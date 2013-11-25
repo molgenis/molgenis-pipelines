@@ -22,4 +22,4 @@ mv ${tmpProjectDir}/${studyId}_chr${chr}.bed.md5 ${resultDir}/${studyId}_chr${ch
 mv ${tmpProjectDir}/${studyId}_chr${chr}.bim.md5 ${resultDir}/${studyId}_chr${chr}.bim.md5
 mv ${tmpProjectDir}/${studyId}_chr${chr}.fam.md5 ${resultDir}/${studyId}_chr${chr}.fam.md5
 mv ${tmpProjectDir}/${studyId}_chr${chr}.dose.gz ${resultDir}/${studyId}_chr${chr}.dose.gz
-mv ${tmpProjectDir}/${studyId}_chr${chr}.dose.gz ${resultDir}/${studyId}_chr${chr}.dose.gz.md5
+mv ${tmpProjectDir}/${studyId}_chr${chr}.dose.gz.md5 ${resultDir}/${studyId}_chr${chr}.dose.gz.md5

@@ -15,6 +15,9 @@
 #string tmpIntermediateDir
 #string tmpAlignedSam
 #string alignedSam
+#string lane
+#string library
+#string externalSampleID
 
 #Echo parameter values
 echo "stage: ${stage}"
@@ -31,6 +34,10 @@ echo "intermediateDir: ${intermediateDir}"
 echo "tmpIntermediateDir: ${tmpIntermediateDir}"
 echo "tmpAlignedSam: ${tmpAlignedSam}"
 echo "alignedSam: ${alignedSam}"
+echo "lane: ${lane}"
+echo "library: ${library}"
+echo "externalSampleID: ${externalSampleID}"
+
 
 sleep 10
 
@@ -58,12 +65,15 @@ ${checkStage}
 #Create tmp dir
 mkdir -p "${tmpIntermediateDir}"
 
-#If paired-end do fastqc for both ends, else only for one
+READGROUPLINE="@RG\tID:${lane}\tPL:illumina\tLB:${library}\tSM:${externalSampleID}"
+
+#If paired-end use two fq files as input, else only one
 if [ ${seqType} == "PE" ]
 then
     #Run BWA for paired-end
     bwa mem \
     -M \
+    -R $READGROUPLINE \
     -t ${bwaAlignCores} \
     ${indexFile} \
     ${peEnd1BarcodeFqGz} \
@@ -89,6 +99,7 @@ else
     #Run BWA for single-read
     bwa mem \
     -M \
+    -R $READGROUPLINE \
     -t ${bwaAlignCores} \
     ${indexFile} \
     ${srBarcodeFqGz} \
