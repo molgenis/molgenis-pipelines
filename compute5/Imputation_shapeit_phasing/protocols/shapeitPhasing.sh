@@ -9,6 +9,7 @@
 #string studyDataType
 #string shapeitThreads
 #string chr
+#string additonalShapeitParam
 #string outputFolder
 #string stage
 #string shapeitversion
@@ -32,6 +33,7 @@ echo "studyData: ${studyData}"
 echo "studyDataType: ${studyDataType}"
 echo "shapeitThreads: ${shapeitThreads}"
 echo "chr: ${chr}"
+echo "additonalShapeitParam: ${additonalShapeitParam}"
 echo "outputFolder: ${outputFolder}"
 echo "tmpOutput: ${tmpOutput}"
 
@@ -73,7 +75,8 @@ if $shapeitBin \
 	--input-map $m \
 	--output-max $tmpOutput \
 	--thread $shapeitThreads \
-	--output-log ${tmpOutput}.log
+	--output-log ${tmpOutput}.log \
+	${additonalShapeitParam}
 then
 	#Command successful
 	echo "returnCode ShapeIt2: $?"
@@ -103,27 +106,27 @@ endTime=$(date +%s)
 
 #Source: http://stackoverflow.com/questions/12199631/convert-seconds-to-hours-minutes-seconds-in-bash
 
-num=$endTime-$startTime
+num=$(($endTime-$startTime))
 min=0
 hour=0
 day=0
-if((num>59));then
-    ((sec=num%60))
-    ((num=num/60))
-    if((num>59));then
-        ((min=num%60))
-        ((num=num/60))
-        if((num>23));then
-            ((hour=num%24))
-            ((day=num/24))
+if ((num>59));then
+    sec=$(($num%60))
+    num=$(($num/60))
+    if ((num>59));then
+        min=$(($num%60))
+        num=$(($num/60))
+        if ((num>23));then
+            hour=$(($num%24))
+            day=$(($num/24))
         else
-            ((hour=num))
+            hour=num
         fi
     else
-        ((min=num))
+        min=num
     fi
 else
-    ((sec=num))
+    sec=num
 fi
 echo "Running time: ${day} days ${hour} hours ${min} mins ${sec} secs"
 
