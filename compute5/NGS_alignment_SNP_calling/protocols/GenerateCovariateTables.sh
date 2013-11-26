@@ -1,6 +1,5 @@
 #MOLGENIS walltime=35:59:00 mem=4gb
 
-
 #Parameter mapping
 #string stage
 #string checkStage

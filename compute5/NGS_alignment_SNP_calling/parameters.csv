@@ -57,8 +57,9 @@ gcBiasMetricsJar,CollectGcBiasMetrics.jar
 hsMetricsJar,CalculateHsMetrics.jar
 bamIndexStatsJar,BamIndexStats.jar
 R_HOME,${toolDir}/R-${RVersion}/
-RVersion,2.14.2
+RVersion,3.0.2
 R,${R_HOME}/bin/R,,,
+r_libs,/gcc/tmp03/tools/R-3.0.2/lib64/R/library
 rscript,${R_HOME}/bin/Rscript,,,
 GATKVersion,2.7-4-g6f46d11
 GATKJar,GenomeAnalysisTK.jar
@@ -95,7 +96,7 @@ intermediateSrBarcode,${intermediateDir}/${filePrefix}_${barcode},,,
 peEnd1BarcodeFastQcZip,${intermediatePeEnd1Barcode}.fq_fastqc.zip,(fastqc.ftl),,
 peEnd2BarcodeFastQcZip,${intermediatePeEnd2Barcode}.fq_fastqc.zip,(fastqc.ftl),,
 srBarcodeFastQcZip,${intermediateSrBarcode}.fq_fastqc.zip,(fastqc.ftl),,
-tmpAlignedSam,${tmpIntermediateDir}/~${filePrefix}_${barcode}.sam
+tmpAlignedSam,${intermediateDir}/~${filePrefix}_${barcode}.sam
 alignedSam,${intermediateDir}/${filePrefix}_${barcode}.sam
 tmpAlignedBam,${tmpIntermediateDir}/~${filePrefix}_${barcode}.bam
 alignedBam,${intermediateDir}/${filePrefix}_${barcode}.bam
@@ -125,3 +126,16 @@ tmpBeforeRecalTable,${tmpIntermediateDir}/~${externalSampleID}.before.recal.tabl
 beforeRecalTable,${intermediateDir}/${externalSampleID}.before.recal.table
 tmpPostRecalTable,${tmpIntermediateDir}/~${externalSampleID}.post.recal.table
 postRecalTable,${intermediateDir}/${externalSampleID}.post.recal.table
+tmpBQSRBam,${tmpIntermediateDir}/~${externalSampleID}.merged.dedup.realigned.bqsr.bam
+tmpBQSRBamIdx,${tmpIntermediateDir}/~${externalSampleID}.merged.dedup.realigned.bqsr.bai
+tmpBQSRBamMd5,${tmpIntermediateDir}/~${externalSampleID}.merged.dedup.realigned.bqsr.bam.md5
+BQSRBam,${intermediateDir}/${externalSampleID}.merged.dedup.realigned.bqsr.bam
+BQSRBamIdx,${intermediateDir}/${externalSampleID}.merged.dedup.realigned.bqsr.bai
+BQSRBamMd5,${intermediateDir}/${externalSampleID}.merged.dedup.realigned.bqsr.bam.md5
+tmpTmpBQSRBamMd5,tmpBQSRBamMd5,${tmpIntermediateDir}/~${externalSampleID}.merged.dedup.realigned.bqsr.bam.md5.tmp
+tmpBQSRPdf,${tmpIntermediateDir}/~${externalSampleID}.merged.dedup.realigned.bqsr.pdf
+BQSRPdf,${intermediateDir}/${externalSampleID}.merged.dedup.realigned.bqsr.pdf
+tmpBQSRCsv,${tmpIntermediateDir}/~${externalSampleID}.merged.dedup.realigned.bqsr.csv
+BQSRCsv,${intermediateDir}/${externalSampleID}.merged.dedup.realigned.bqsr.csv
+tmpCollectFinalBamMetricsPrefix,${tmpIntermediateDir}/~${externalSampleID}.merged.dedup.realigned.bqsr
+collectFinalBamMetricsPrefix,${intermediateDir}/${externalSampleID}.merged.dedup.realigned.bqsr
