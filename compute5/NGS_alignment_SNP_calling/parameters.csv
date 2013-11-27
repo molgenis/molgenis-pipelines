@@ -46,7 +46,7 @@ dbSNP137Vcf,${dbSNPDir}/dbsnp_137.b37.vcf
 dbSNP137VcfIdx,${dbSNPDir}/dbsnp_137.b37.vcf.idx
 fastqcVersion,v0.10.1
 bwaVersion,0.7.5a
-bwaAlignCores,4
+bwaAlignCores,8
 picardVersion,1.102
 samToBamJar,SamFormatConverter.jar
 sortSamJar,SortSam.jar

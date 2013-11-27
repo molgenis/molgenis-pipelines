@@ -82,6 +82,7 @@ then
 	-knownSites ${KGPhase1IndelsVcf} \
 	-knownSites ${MillsGoldStandardIndelsVcf} \
 	-knownSites ${dbSNP137Vcf} \
+	-nct 8 \
 	-o ${tmpOutputGenerateCovariateTablesTable}
 
 elif [ ${inputRecal} == "post" ]
@@ -95,6 +96,7 @@ then
 	-knownSites ${MillsGoldStandardIndelsVcf} \
 	-knownSites ${dbSNP137Vcf} \
 	-BQSR ${inputGenerateCovariateTablesTable} \
+	-nct 8 \
 	-o ${tmpOutputGenerateCovariateTablesTable}
 
 else

@@ -70,6 +70,7 @@ $GATK_HOME/${GATKJar} \
 -I ${realignedBam} \
 -BQSR ${beforeRecalTable} \
 --generate_md5 \
+-nct 8 \
 -o ${tmpBQSRBam}
 
 #Get return code from last program call
