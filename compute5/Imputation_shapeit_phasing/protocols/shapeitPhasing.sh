@@ -120,13 +120,13 @@ if ((num>59));then
             hour=$(($num%24))
             day=$(($num/24))
         else
-            hour=num
+            hour=${num}
         fi
     else
-        min=num
+        min=${num}
     fi
 else
-    sec=num
+    sec=${num}
 fi
 echo "Running time: ${day} days ${hour} hours ${min} mins ${sec} secs"
 
