@@ -16,7 +16,9 @@
 #string realignedBamIdx
 #string indelRealignmentTargetIntervals
 #string KGPhase1IndelsVcf
+#string KGPhase1IndelsVcfIdx
 #string MillsGoldStandardIndelsVcf
+#string MillsGoldStandardIndelsVcfIdx
 
 
 #Echo parameter values
@@ -35,7 +37,9 @@ echo "realignedBam: ${realignedBam}"
 echo "realignedBamIdx: ${realignedBamIdx}"
 echo "indelRealignmentTargetIntervals: ${indelRealignmentTargetIntervals}"
 echo "KGPhase1IndelsVcf: ${KGPhase1IndelsVcf}"
+echo "KGPhase1IndelsVcfIdx: ${KGPhase1IndelsVcfIdx}"
 echo "MillsGoldStandardIndelsVcf: ${MillsGoldStandardIndelsVcf}"
+echo "MillsGoldStandardIndelsVcfIdx: ${MillsGoldStandardIndelsVcfIdx}"
 
 
 sleep 10
@@ -51,7 +55,9 @@ getFile ${dedupBamIdx}
 getFile ${indexFile}
 getFile ${indelRealignmentTargetIntervals}
 getFile ${KGPhase1IndelsVcf}
+getFile ${KGPhase1IndelsVcfIdx}
 getFile ${MillsGoldStandardIndelsVcf}
+getFile ${MillsGoldStandardIndelsVcfIdx}
 
 
 #Load GATK module
