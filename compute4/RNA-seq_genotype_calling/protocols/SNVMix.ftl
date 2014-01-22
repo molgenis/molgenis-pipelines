@@ -83,7 +83,7 @@ returnCode=$?
 echo "return code snvMix ${returnCode}"
 
 
-count=`cut -f 1 -d ":" ${snvmixOut}___tmp___ | uniq | wc -l`
+ count=`cut -f 1 -d ":" ${snvmixOut}___tmp___ | uniq | wc -l`
 
 if [ $count -ge 22 ]
 then

@@ -42,6 +42,8 @@ then
 	exit 1
 fi
 
+rm ${outputFolder}/${outputPrefix}Aligned.out.bam
+
 echo "bam file sorted"
 
 ${samtools} index \
@@ -58,6 +60,11 @@ then
 		mv $tempFile $finalFile
 	done
 	
+	md5sum ${outputFolder}/${outputPrefix}Aligned.out.sorted.bam ${outputFolder}/${outputPrefix}Aligned.out.sorted.bam.bai > ${outputFolder}/${outputPrefix}Aligned.out.sorted.bam.md5
+	
+
+	rm ${outputFolder}/${outputPrefix}Aligned.out.sam
+	
 else
   
 	echo -e "\nNon zero return code not making files final. Existing temp files are kept for debugging purposes\n\n"
@@ -67,8 +74,8 @@ else
 fi
 
 
-rm ${outputFolder}/${outputPrefix}Aligned.out.bam
-rm ${outputFolder}/${outputPrefix}Aligned.out.sam
+
+
 
 
 </#noparse>

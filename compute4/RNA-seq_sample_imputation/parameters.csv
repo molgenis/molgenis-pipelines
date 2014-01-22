@@ -13,14 +13,14 @@ bashrc,${root}/gcc.bashrc,,,
 tooldir,${root}tools/,root Dir for tools,string,
 #,,,,
 studyEna,,,,
-mergedStudy,,,,genotypeFolder
-sample,,,,"mergedBam,snvmixOut,mergedStudy,mpileupFile"
+mergedStudy,,,,
+sample,,,,"mergedBam,snvmixOut,mergedStudy,mpileupFile,genotypeFolder,phasedFolder,chunkFile,imputationFolder"
 run,,,,"sortedBam,sample,mergedBam,snvmixOut"
 baseFolder,,,,
 mpileupFile,${baseFolder}/${studyEna}/${sample}/${sample}MergedRuns.mpileup,,,
 snvmixOut,${mpileupFile}.snvmix,,,sample
 sortedBam,${baseFolder}/${studyEna}/${sample}/${run}/${run}Aligned.out.sorted.bam,,,
-genotypeFolder,${baseFolder}/${mergedStudy}/genotypes/,,,
+genotypeFolder,${baseFolder}/${studyEna}/${sample}/gen/,,,
 mergedBam,${baseFolder}/${studyEna}/${sample}/${sample}MergedRuns.bam,,,
 #,,,,
 faFile,/target/gpfs2/gcc/home/dasha/resources/hg19/indices/human_g1k_v37.fa,,,
@@ -33,3 +33,8 @@ GenotypeCallingJar,/target/gpfs2/gcc/home/dasha/scripts/genotyping/GenotypeCalli
 snpList,/target/gpfs2/gcc/home/dasha/resources/hg19/genotypes/1000G/all_snp_positions.txt,,,
 shapeitversion,v2.644,,,
 shapeitBin,${tooldir}/Shapeit-${shapeitversion}/shapeit.v2.r644.linux.x86_64,,string,
+phasedFolder,${baseFolder}/${studyEna}/${sample}/phased/,,,
+chunkFile,/target/gpfs2/gcc/home/pdeelen/Projects/RnaSeqEqtl/compute-pipelines/RNA-seq_sample_imputation/b37AllChrBins.csv,,,
+imputationFolder,${baseFolder}/${studyEna}/${sample}/imputed/,,,
+impute2Bin,${tooldir}/impute_${impute2version}/impute2,,string,
+impute2version,v2.3.0_x86_64_static,,,

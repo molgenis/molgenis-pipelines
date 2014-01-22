@@ -5,6 +5,7 @@ htseq_count="${htseq_count}"
 annotationGtf="${annotationGtf}"
 txtExpression="${txtExpression}"
 samtools=${samtools}
+python=${python}
 
 <#noparse>
 
@@ -18,14 +19,14 @@ ${samtools} \
 	sort \
 	-n \
 	${sortedBam} \
-	${sortedBam%bam}byName
+	${TMPDIR}/nameSorted.bam
 
 
 echo -e "\nQuantifying expression"
 
 if ${samtools} \
 	view -h \
-	${sortedBam%bam}byName.bam | \
+	${TMPDIR}/nameSorted.bam | \
 	/target/gpfs2/gcc/tools/Python-2.7.3/bin/python \
 	${htseq_count} \
 	-m union \
