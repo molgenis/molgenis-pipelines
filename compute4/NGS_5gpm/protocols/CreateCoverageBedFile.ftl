@@ -11,6 +11,9 @@
 #MOLGENIS walltime=29:59:00 nodes=1 cores=1 mem=12
 #FOREACH externalSampleID
 
+module load GATK/${gatkVersion}
+module list
+
 getFile "${indexfile}"
 getFile "${mergedbam}"
 getFile "${mergedbamindex}"

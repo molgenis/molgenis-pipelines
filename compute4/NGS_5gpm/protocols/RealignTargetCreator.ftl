@@ -10,6 +10,9 @@
 
 #MOLGENIS walltime=35:59:00 mem=10
 
+module load GATK/${gatkVersion}
+module list
+
 inputs "${dedupbam}" 
 inputs "${indexfile}" 
 inputs "${dbsnprod}"

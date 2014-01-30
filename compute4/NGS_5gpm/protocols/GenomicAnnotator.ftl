@@ -11,6 +11,9 @@
 #MOLGENIS walltime=24:00:00 mem=10
 #FOREACH externalSampleID
 
+module load GATK/${gatkVersion}
+module list
+
 inputs "${indexfile}"
 inputs "${baitsbed}"
 inputs "${dbsnpSNPstxt}"
