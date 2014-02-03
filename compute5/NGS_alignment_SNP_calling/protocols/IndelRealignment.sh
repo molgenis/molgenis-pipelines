@@ -64,11 +64,11 @@ getFile ${MillsGoldStandardIndelsVcfIdx}
 ${stage} GATK/${GATKVersion}
 ${checkStage}
 
-#Run GATK on knowns only, fix misencoded quality scores on the fly (Automatically substracts 31 from Illumina Qscores and writes corrected Qscores away.)
+#Run GATK on knowns only
+#Only use --fix_misencoded_quality_scores to fix misencoded quality scores on the fly (Automatically substracts 31 from Illumina Qscores and writes corrected Qscores away.)
 java -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
 $GATK_HOME/${GATKJar} \
 -T IndelRealigner \
---fix_misencoded_quality_scores \
 -I ${dedupBam} \
 -R ${indexFile} \
 -targetIntervals ${indelRealignmentTargetIntervals} \

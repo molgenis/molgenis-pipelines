@@ -78,6 +78,8 @@ projectRawArrayDataDir,${projectDir}/rawdata/array/,"Contains project specific r
 intermediateDir,${tempDir}/${project}/${runid},store intermediate results here; empty at end of project,,
 tmpIntermediateDir,${intermediateDir}/tmp/
 sample,${intermediateDir}/${externalSampleID}
+tmpProjectPrefix,${intermediateDir}/tmp${project}
+projectPrefix,${intermediateDir}/${project}
 projectJobsDir,${projectDir}/jobs/,Project specific job scripts directory,string,
 projectLogsDir,${projectDir}/logs/,Project specific log directory,string,
 projectResultsDir,${projectDir}/results/,Store final results here; a sub set of the primary outputs that we want to keep/archive are moved to this dir; afterwards the remaining files from the intermediate dir will be lost when we clean up.,string,
@@ -141,3 +143,7 @@ tmpBQSRCsv,${intermediateDir}/tmp${externalSampleID}.merged.dedup.realigned.bqsr
 BQSRCsv,${intermediateDir}/${externalSampleID}.merged.dedup.realigned.bqsr.csv
 tmpCollectFinalBamMetricsPrefix,${intermediateDir}/tmp${externalSampleID}.merged.dedup.realigned.bqsr
 collectFinalBamMetricsPrefix,${intermediateDir}/${externalSampleID}.merged.dedup.realigned.bqsr
+tmpProjectChrVariantCalls,${tmpProjectPrefix}.chr${chr}.variant.calls.vcf
+tmpProjectChrVariantCallsIdx,${tmpProjectChrVariantCalls}.idx
+projectChrVariantCalls,${projectPrefix}.chr${chr}.variant.calls.vcf
+projectChrVariantCallsIdx,${projectChrVariantCalls}.idx
