@@ -27,6 +27,9 @@ export PATH=${JAVA_HOME}/bin:<#noparse>${PATH}</#noparse>
 export PATH=${R_HOME}/bin:<#noparse>${PATH}</#noparse>
 export R_LIBS=${R_LIBS}
 
+module load GATK/${gatkVersion}
+module list
+
 java -Djava.io.tmpdir=${tempdir} -Xmx12g -jar \
 ${genomeAnalysisTKjar} \
 -T DepthOfCoverage \

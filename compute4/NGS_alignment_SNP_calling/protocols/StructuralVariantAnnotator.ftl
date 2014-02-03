@@ -11,6 +11,9 @@
 #MOLGENIS walltime=45:00:00 mem=10
 #FOREACH externalSampleID
 
+module load snpEff/${snpEffVersion}
+modlue list
+
 inputs "${snpeffjar}"
 inputs "${snpeffconfig}" 
 inputs "${indelsVcf}"

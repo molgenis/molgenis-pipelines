@@ -8,6 +8,9 @@
 # =====================================================
 #
 
+module load GATK/${gatkVersion}
+module list
+
 inputs "${matefixedbam}"
 inputs "${indexfile}" 
 inputs "${dbsnprod}"
