@@ -10,6 +10,9 @@
 
 #MOLGENIS walltime=45:59:00 mem=4 cores=1
 
+module load GATK/${gatkVersion}
+module list
+
 inputs "${indexfile}" 
 inputs "${matefixedbam}"
 inputs "${matefixedcovariatecsv}"
