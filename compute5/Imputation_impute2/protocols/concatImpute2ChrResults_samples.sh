@@ -9,6 +9,7 @@
 #string imputationIntermediatesFolder
 #string fromChrPos
 #string toChrPos
+#string generateInfo
 #list impute2ChunkOutput
 #list impute2ChunkOutputInfo
 
@@ -84,7 +85,11 @@ fi
 
 
 #Merging infos (simple vertical merging)
-toExecute="paste ${imputation__has__impute2ChunkOutputInfo[@]} > ${imputationIntermediatesFolder}/~chr${chr}_${fromChrPos}-${toChrPos}_info"
+#toExecute="paste ${imputation__has__impute2ChunkOutputInfo[@]} > ${imputationIntermediatesFolder}/~chr${chr}_${fromChrPos}-${toChrPos}_info"
+#echo "Executing: ${toExecute}"
+#eval ${toExecute}
+
+toExecute="python ${generateInfo} --input_gprobs_filename ${imputationIntermediatesFolder}/chr${chr}_${fromChrPos}-${toChrPos} --output_info_filename ${imputationIntermediatesFolder}/~chr${chr}_${fromChrPos}-${toChrPos}_info"
 echo "Executing: ${toExecute}"
 eval ${toExecute}
 
