@@ -6,12 +6,21 @@
 #PBS -l mem=${mem}
 #PBS -e ${jobname}.err
 #PBS -o ${jobname}.out
-#PBS -W umask=0007
+#PBS -W umask=0057
 
 # Configures the GCC bash environment
-. ${bashrc}
+. ${root}/gcc.bashrc
 
-echo "Running on: " `hostname`
+<#function ssvQuoted items>
+	<#local result = "">
+	<#list items as item>
+		<#if item_index != 0>
+			<#local result =  result + " ">
+		</#if>
+		<#local result = result + "\"" + item + "\"">
+	</#list>
+	<#return result>
+</#function>
 
 
 inputs()
