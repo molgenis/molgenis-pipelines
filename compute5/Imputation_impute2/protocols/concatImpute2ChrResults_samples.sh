@@ -62,7 +62,7 @@ rm -f ${imputationIntermediatesFolder}/chr${chr}_${fromChrPos}-${toChrPos}_info
 toExecute="paste <(cut -d ' ' -f 1-5 ${imputation__has__impute2ChunkOutput[0]})"
 concatCommandColumns="cut -d ' ' -f 1-5 ${imputation__has__impute2ChunkOutput[0]} > ${imputationIntermediatesFolder}/~chr${chr}_${fromChrPos}-${toChrPos}.columns"
 concatCommand="paste ${imputationIntermediatesFolder}/~chr${chr}_${fromChrPos}-${toChrPos}.columns "
-echo "Running: ${concatCommandColumns}
+echo "Running: ${concatCommandColumns}"
 eval ${concatCommandColumns}
 indexVar=0
 for element in ${imputation__has__impute2ChunkOutput[@]}
