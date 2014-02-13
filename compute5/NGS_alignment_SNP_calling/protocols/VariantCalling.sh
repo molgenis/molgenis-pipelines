@@ -13,10 +13,10 @@
 #string dbSNP137VcfIdx
 #list BQSRBam
 #list BQSRBamIdx
-#string tmpProjectVariantCalls
-#string tmpProjectVariantCallsIdx
-#string projectVariantCalls
-#string projectVariantCallsIdx
+#string tmpProjectChrVariantCalls
+#string tmpProjectChrVariantCallsIdx
+#string projectChrVariantCalls
+#string projectChrVariantCallsIdx
 
 #Echo parameter values
 echo "stage: ${stage}"
@@ -37,10 +37,10 @@ for bamIdx in "${BQSRBamIdx[@]}"
 do
   echo "bamIdx: $bamIdx"
 done
-echo "tmpProjectVariantCalls: ${tmpProjectVariantCalls}"
-echo "tmpProjectVariantCallsIdx: ${tmpProjectVariantCallsIdx}"
-echo "projectVariantCalls: ${projectVariantCalls}"
-echo "projectVariantCallsIdx: ${projectVariantCallsIdx}"
+echo "tmpProjectChrVariantCalls: ${tmpProjectChrVariantCalls}"
+echo "tmpProjectChrVariantCallsIdx: ${tmpProjectChrVariantCallsIdx}"
+echo "projectChrVariantCalls: ${projectChrVariantCalls}"
+echo "projectChrVariantCallsIdx: ${projectChrVariantCallsIdx}"
 
 sleep 10
 
@@ -60,7 +60,7 @@ array_contains () {
 
 #Check if output exists
 alloutputsexist \
-"${projectVariantCalls}"
+"${projectChrVariantCalls}"
 
 
 #Get BQSR BAM, idx file and resources
@@ -99,7 +99,7 @@ ${INPUTS[@]} \
 --genotyping_mode DISCOVERY \
 -stand_emit_conf 10 \
 -stand_call_conf 30 \
--o ${tmpProjectVariantCalls} \
+-o ${tmpProjectChrVariantCalls} \
 -L ${baitChrBed} \
 -nct 16
 
@@ -112,10 +112,10 @@ echo -e "\nreturnCode VariantCalling: $returnCode\n\n"
 if [ $returnCode -eq 0 ]
 then
     echo -e "\nVariantCalling finished succesfull. Moving temp files to final.\n\n"
-    mv ${tmpProjectVariantCalls} ${projectVariantCalls}
-    mv ${tmpProjectVariantCallsIdx} ${projectVariantCallsIdx}
-    putFile "${projectVariantCalls}"
-    putFile "${projectVariantCallsIdx}"
+    mv ${tmpProjectChrVariantCalls} ${projectChrVariantCalls}
+    mv ${tmpProjectChrVariantCallsIdx} ${projectChrVariantCallsIdx}
+    putFile "${projectChrVariantCalls}"
+    putFile "${projectChrVariantCallsIdx}"1
     
 else
     echo -e "\nFailed to move VariantCalling results to ${intermediateDir}\n\n"
