@@ -22,12 +22,12 @@ alloutputsexist "${coveragegatk}" \
 "${coveragegatk}.sample_summary" \
 "${coveragegatk}.cumulative_coverage.pdf"
 
-export PATH=${JAVA_HOME}/bin:<#noparse>${PATH}</#noparse>
-export PATH=${R_HOME}/bin:<#noparse>${PATH}</#noparse>
-export R_LIBS=${R_LIBS}
+module load R/2.14.2
+module load GATK/1.0.5069
+module list
 
 java -Djava.io.tmpdir=${tempdir} -Xmx12g -jar \
-${genomeAnalysisTKjar} \
+$GATK_HOME/GenomeAnalysisTK.jar \
 -T DepthOfCoverage \
 -R ${indexfile} \
 -I ${mergedbam} \

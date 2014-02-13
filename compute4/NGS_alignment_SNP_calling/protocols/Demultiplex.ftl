@@ -11,8 +11,6 @@
 #MOLGENIS walltime=48:00:00 nodes=1 cores=4 mem=1
 #FOREACH flowcell, lane, seqType, filenamePrefix
 
-export PATH=${R_HOME}/bin:<#noparse>${PATH}</#noparse>
-
 #
 # Check if we need to run this step or wether demultiplexing was already executed successfully in a previous run.
 #

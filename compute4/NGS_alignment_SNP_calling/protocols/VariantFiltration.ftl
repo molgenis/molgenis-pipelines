@@ -18,6 +18,9 @@ alloutputsexist "${snpsgenomicannotatedfilteredvcf}"
 
 rm ${snpsgenomicannotatedvcf}.idx
 
+module load GATK/1.4-11-g845c0b1
+module list
+
 ##
 # http://www.broadinstitute.org/gsa/wiki/index.php/Best_Practice_Variant_Detection_with_the_GATK_v2
 ##
@@ -39,7 +42,7 @@ rm ${snpsgenomicannotatedvcf}.idx
 # with "DEPTH_10".
 ##
 
-java -jar -Xmx10g ${genomeAnalysisTKjar} \
+java -jar -Xmx10g ${GATK_HOME}/GenomeAnalysisTK.jar \
 -l INFO \
 -T VariantFiltration \
 -B:variant,VCF ${snpsgenomicannotatedvcf} \

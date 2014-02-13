@@ -34,11 +34,11 @@
 </#if>
 
 # Source functions for data transfer to cluster
-source dataTransfer.sh
+source ${scriptdir}/dataTransfer.sh
 
 <#if scheduler != "GRID">
 # Configures the GCC bash environment
-source ${root}/gcc.bashrc
+source ${root}/groups/gcc/home/gcc.bashrc
 </#if>
 
 <#include "Macros.ftl"/>
