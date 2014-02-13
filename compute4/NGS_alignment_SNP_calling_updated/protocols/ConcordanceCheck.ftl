@@ -184,7 +184,7 @@ else
 	module list
 	
 	##Create genotype VCF for sample
-	plink \
+	plink108 \
 	--recode-vcf \
 	--ped ${sample}.concordance.ped \
 	--map ${arraymapfile} \
@@ -228,7 +228,7 @@ else
 		module list
 	
 		##Lift over sample.genotype_array.aligned_to_ref.vcf from build 36 to build 37
-		perl liftOverVCF.pl \
+		liftOverVCF.pl \
 		-vcf ${sample}.genotypeArray.aligned_to_ref.vcf \
 		-gatk $GATK_HOME/.. \
 		-chain ${resdir}/b36/chainfiles/b36ToHg19.broad.over.chain \
