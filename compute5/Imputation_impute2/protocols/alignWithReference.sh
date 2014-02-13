@@ -10,6 +10,7 @@
 #string genotypeAlignerJar
 #string vcf
 #string refType
+#string javaExecutable
 
 echo "chr: ${chr}"
 echo "outputFolder: ${outputFolder}"
@@ -17,6 +18,7 @@ echo "knownHapsG: ${knownHapsG}"
 echo "genotypeAlignerJar: ${genotypeAlignerJar}"
 echo "vcf: ${vcf}"
 echo "refType: ${refType}"
+echo "javaExecutable: $(javaExecutable)"
 
 haps_input=${knownHapsG}
 sample_input="${knownHapsG%.haps}.sample"
@@ -41,7 +43,7 @@ getFile ${sample_input}
 inputs ${sample_input}
 
 #Do the alignment
-if java -jar ${genotypeAlignerJar} \
+if ${javaExecutable} -jar ${genotypeAlignerJar} \
 	--input ${basename_input} \
 	--inputType SHAPEIT2 \
 	--ref ${vcf} \
