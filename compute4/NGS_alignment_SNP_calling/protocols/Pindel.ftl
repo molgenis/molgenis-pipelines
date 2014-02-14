@@ -11,7 +11,7 @@
 #MOLGENIS walltime=33:00:00 nodes=1 cores=4 mem=4
 #FOREACH externalSampleID
 
-module load pindel/${pindelVersion}
+module load pindel/024t
 module list
 
 inputs "${mergedbam}"
@@ -33,7 +33,7 @@ echo "${mergedbam} ${targetedinsertsize} ${externalSampleID}" \
 > ${pindelcnfgfile}
 
 #Run pindel on all chromosomes
-${pindelBin} \
+pindel \
 -f ${indexfile} \
 -i ${pindelcnfgfile} \
 -c ALL \
@@ -53,7 +53,7 @@ ${pindelOutput}_TD \
 DATE=`date | awk '{print $6,$2,$3}' OFS="_"`
 
 #Convert pindel output to VCF and use GATK annotation as output
-${pindel2VcfBin} \
+pindel2vcf \
 -p ${pindelOutput}_MERGED \
 -r ${indexfile} \
 -R ${indexfileIDtest} \

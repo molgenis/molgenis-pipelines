@@ -11,7 +11,7 @@
 #MOLGENIS walltime=46:00:00 mem=8 cores=5
 #FOREACH externalSampleID
 
-module load GATK/${gatkVersion}
+module load GATK/1.0.5069
 module list
 
 inputs "${mergedbam}" 
@@ -22,7 +22,7 @@ alloutputsexist \
  "${snpsvcf}.metrics"
 
 java -Xmx8g -Djava.io.tmpdir=${tempdir} -XX:+UseParallelGC -XX:ParallelGCThreads=1 -jar \
-${genomeAnalysisTKjar} \
+$GATK_HOME/GenomeAnalysisTK.jar \
 -l INFO \
 -T UnifiedGenotyper \
 -I ${mergedbam} \

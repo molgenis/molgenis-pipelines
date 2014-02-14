@@ -11,7 +11,7 @@
 #MOLGENIS walltime=29:59:00 nodes=1 cores=1 mem=12
 #FOREACH externalSampleID
 
-module load GATK/${gatkVersion}
+module load GATK/1.0.5069
 module list
 
 <#if capturingKit != "None">
@@ -25,7 +25,7 @@ alloutputsexist "${samplecoveragebed}"
 
 #Calculate coverage for first list of bins
 java -Djava.io.tmpdir=${tempdir} -Xmx12g -jar \
-${genomeAnalysisTKjar} \
+$GATK_HOME/GenomeAnalysisTK.jar \
 -T DepthOfCoverage \
 -R ${indexfile} \
 -I ${mergedbam} \
@@ -35,7 +35,7 @@ ${genomeAnalysisTKjar} \
 
 #Calculate coverage for second list of bins
 java -Djava.io.tmpdir=${tempdir} -Xmx12g -jar \
-${genomeAnalysisTKjar} \
+$GATK_HOME/GenomeAnalysisTK.jar \
 -T DepthOfCoverage \
 -R ${indexfile} \
 -I ${mergedbam} \

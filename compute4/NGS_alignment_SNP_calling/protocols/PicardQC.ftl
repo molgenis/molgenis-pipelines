@@ -10,7 +10,8 @@
 
 #MOLGENIS walltime=35:59:00 mem=4
 
-module load picard-tools/${picardVersion}
+module load picard-tools/1.61
+module list
 
 getFile ${sortedbam}
 getFile ${indexfile}
@@ -34,14 +35,14 @@ alloutputsexist \
  "${bamindexstats}"
 
 
-java -jar -Xmx4g ${alignmentmetricsjar} \
+java -jar -Xmx4g $PICARD_HOME/CollectAlignmentSummaryMetrics.jar \
 I=${sortedbam} \
 O=${alignmentmetrics} \
 R=${indexfile} \
 VALIDATION_STRINGENCY=LENIENT \
 TMP_DIR=${tempdir}
 
-java -jar -Xmx4g ${gcbiasmetricsjar} \
+java -jar -Xmx4g $PICARD_HOME/CollectGcBiasMetrics.jar \
 R=${indexfile} \
 I=${sortedbam} \
 O=${gcbiasmetrics} \
@@ -50,7 +51,7 @@ VALIDATION_STRINGENCY=LENIENT \
 TMP_DIR=${tempdir}
 
 <#if seqType == "PE">
-	java -jar -Xmx4g ${insertsizemetricsjar} \
+	java -jar -Xmx4g $PICARD_HOME/CollectInsertSizeMetrics.jar \
 	I=${sortedbam} \
 	O=${insertsizemetrics} \
 	H=${insertsizemetricspdf} \
@@ -65,14 +66,14 @@ TMP_DIR=${tempdir}
 	# Don't do insert size analysis because seqType != "PE" 
 </#if>
 
-java -jar -Xmx4g ${meanqualitybycyclejar} \
+java -jar -Xmx4g $PICARD_HOME/MeanQualityByCycle.jar \
 I=${sortedbam} \
 O=${meanqualitybycycle} \
 CHART=${meanqualitybycyclepdf} \
 VALIDATION_STRINGENCY=LENIENT \
 TMP_DIR=${tempdir}
 
-java -jar -Xmx4g ${qualityscoredistributionjar} \
+java -jar -Xmx4g $PICARD_HOME/QualityScoreDistribution.jar \
 I=${sortedbam} \
 O=${qualityscoredistribution} \
 CHART=${qualityscoredistributionpdf} \
@@ -80,7 +81,7 @@ VALIDATION_STRINGENCY=LENIENT \
 TMP_DIR=${tempdir}
 
 <#if capturingKit != "None">
-	java -jar -Xmx4g ${hsmetricsjar} \
+	java -jar -Xmx4g $PICARD_HOME/CalculateHsMetrics.jar \
 	INPUT=${sortedbam} \
 	OUTPUT=${hsmetrics} \
 	BAIT_INTERVALS=${baitintervals} \
@@ -98,7 +99,7 @@ TMP_DIR=${tempdir}
 	echo "NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA" >> ${hsmetrics}
 </#if>
 
-java -jar -Xmx4g ${bamindexstatsjar} \
+java -jar -Xmx4g $PICARD_HOME/BamIndexStats.jar \
 INPUT=${sortedbam} \
 VALIDATION_STRINGENCY=LENIENT \
 TMP_DIR=${tempdir} \

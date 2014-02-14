@@ -11,6 +11,9 @@
 #MOLGENIS walltime=00:40:00
 #FOREACH externalSampleID
 
+module load GATK/1.0.5069
+module list
+
 inputs "${snpsfinalvcf}"
 alloutputsexist "${snpsfinalvcftable}" "${snpsfinalvcftabletype}" "${snpsfinalvcftableclass}" "${snpsfinalvcftableimpact}"
 

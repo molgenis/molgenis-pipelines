@@ -16,20 +16,18 @@ alloutputsexist \
 "${cyclecovariatebefore}" \
 "${cyclecovariateafter}"
 
-export PATH=${R_HOME}/bin:<#noparse>${PATH}</#noparse>
-export R_LIBS=${R_LIBS} 
-
-module load GATK/${gatkVersion}
+module load GATK/1.0.5069
+module load R/2.14.2
 module list
 
-java -jar -Xmx4g ${analyzecovariatesjar} -l INFO \
+java -jar -Xmx4g $GATK_HOME/AnalyzeCovariates.jar -l INFO \
 -resources ${indexfile} \
 --recal_file ${matefixedcovariatecsv} \
 -outputDir ${recalstatsbeforedir} \
 -Rscript ${rscript} \
 -ignoreQ 5
 
-java -jar -Xmx4g ${analyzecovariatesjar} -l INFO \
+java -jar -Xmx4g $GATK_HOME/AnalyzeCovariates.jar -l INFO \
 -resources ${indexfile} \
 --recal_file ${sortedrecalcovariatecsv} \
 -outputDir ${recalstatsafterdir} \
