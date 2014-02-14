@@ -10,7 +10,7 @@
 
 #MOLGENIS walltime=35:59:00 mem=10 cores=1
 
-module load GATK/${gatkVersion}
+module load GATK/1.0.5069
 module list
 
 inputs "${dedupbam}" 
@@ -21,7 +21,7 @@ inputs "${realignTargets}"
 alloutputsexist "${realignedbam}"
 
 java -Djava.io.tmpdir=${tempdir} -Xmx10g -jar \
-${genomeAnalysisTKjar} \
+$GATK_HOME/GenomeAnalysisTK.jar \
 -l INFO \
 -T IndelRealigner \
 -U ALLOW_UNINDEXED_BAM \

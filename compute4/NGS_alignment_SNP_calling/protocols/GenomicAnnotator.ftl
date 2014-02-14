@@ -11,7 +11,7 @@
 #MOLGENIS walltime=24:00:00 mem=10
 #FOREACH externalSampleID
 
-module load GATK/${gatkVersion}
+module load GATK/1.0.5069
 module list
 
 inputs "${indexfile}"
@@ -21,7 +21,7 @@ inputs "${snpsvcf}"
 alloutputsexist "${snpsgenomicannotatedvcf}"
 
 #####Annotate with dbSNP${dbsnpLatestVersionNumber} SNPs only#####
-java -Xmx10g -jar ${genomeAnalysisTKjar} \
+java -Xmx10g -jar $GATK_HOME/GenomeAnalysisTK.jar \
 -T GenomicAnnotator \
 -l info \
 -R ${indexfile} \

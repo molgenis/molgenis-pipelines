@@ -8,7 +8,7 @@
 # =====================================================
 #
 
-module load GATK/${gatkVersion}
+module load GATK/1.0.5069
 module list
 
 inputs "${matefixedbam}"
@@ -17,7 +17,7 @@ inputs "${dbsnprod}"
 alloutputsexist "${matefixedcovariatecsv}"
 
 java -jar -Xmx4g \
-${genomeAnalysisTKjar} -l INFO \
+$GATK_HOME/GenomeAnalysisTK.jar -l INFO \
 -T CountCovariates \
 -U ALLOW_UNINDEXED_BAM \
 -R ${indexfile} \

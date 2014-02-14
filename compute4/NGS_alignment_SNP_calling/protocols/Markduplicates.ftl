@@ -10,7 +10,8 @@
 
 #MOLGENIS walltime=35:59:00 mem=4
 
-module load picard-tools/${picardVersion}
+module load picard-tools/1.61
+module list
 
 inputs "${sortedbam}"
 inputs "${sortedbamindex}"
@@ -19,7 +20,7 @@ alloutputsexist \
  "${dedupmetrics}" \
  "${dedupbamindex}"
 
-java -Xmx4g -jar ${markduplicatesjar} \
+java -Xmx4g -jar $PICARD_HOME/MarkDuplicates.jar \
 INPUT=${sortedbam} \
 OUTPUT=${dedupbam} \
 METRICS_FILE=${dedupmetrics} \
@@ -28,7 +29,7 @@ ASSUME_SORTED=true \
 VALIDATION_STRINGENCY=LENIENT \
 TMP_DIR=${tempdir}
 
-java -jar -Xmx3g ${buildbamindexjar} \
+java -jar -Xmx3g $PICARD_HOME/BuildBamIndex.jar \
 INPUT=${dedupbam} \
 OUTPUT=${dedupbamindex} \
 VALIDATION_STRINGENCY=LENIENT \

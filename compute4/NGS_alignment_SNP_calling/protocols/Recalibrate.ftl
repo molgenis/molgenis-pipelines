@@ -10,7 +10,7 @@
 
 #MOLGENIS walltime=45:59:00 mem=4 cores=1
 
-module load GATK/${gatkVersion}
+module load GATK/1.0.5069
 module list
 
 inputs "${indexfile}" 
@@ -19,7 +19,7 @@ inputs "${matefixedcovariatecsv}"
 alloutputsexist "${recalbam}"
 
 java -jar -Xmx4g \
-${genomeAnalysisTKjar} \
+$GATK_HOME/GenomeAnalysisTK.jar \
 -l INFO \
 -T TableRecalibration \
 -U ALLOW_UNINDEXED_BAM \

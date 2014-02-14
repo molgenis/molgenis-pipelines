@@ -40,10 +40,8 @@ inputs ${ssvQuoted(dedupmetrics)}
 inputs ${ssvQuoted(sampleconcordancefile)}
 inputs ${qcstatisticscolnames}
 
-export PATH=${R_HOME}/bin:<#noparse>${PATH}</#noparse>
-export R_LIBS=${R_LIBS}
-
-module load graphviz/${graphvizVersion}
+module load R/2.14.2
+module load graphviz/2.34.0
 module list
 
 # get general sample statistics
