@@ -1,0 +1,5 @@
+name,protocol_name,PreviousSteps_name
+RunGerald,RunGerald,
+CopyFqToRawdatadir,CopyFqToRawdatadir,RunGerald
+Demultiplex,Demultiplex,CopyFqToRawdatadir
+CreateFinalReport,CreateFinalReport,

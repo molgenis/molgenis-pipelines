@@ -19,7 +19,6 @@
 #string externalSampleID
 #string tmpAlignedSam
 #string alignedSam
-#output OUTalignedSam
 
 #Echo parameter values
 echo "stage: ${stage}"
@@ -52,24 +51,26 @@ if [ ${seqType} == "PE" ]
 then
 	getFile ${peEnd1BarcodeAligned}
 	getFile ${peEnd2BarcodeAligned}
-        getFile ${peEnd1BarcodeFqGz}
+    getFile ${peEnd1BarcodeFqGz}
 	getFile ${peEnd2BarcodeFqGz}
 
 else
 	getFile ${srBarcodeAligned}
-        getFile ${srBarcodeFqGz}
+    getFile ${srBarcodeFqGz}
 fi
 
 #Load BWA
 ${stage} bwa/${bwaVersion}
 ${checkStage}
 
+READGROUPLINE="@RG\tID:${lane}\tPL:illumina\tLB:${library}\tSM:${externalSampleID}"
+
 #If paired-end do fastqc for both ends, else only for one
 if [ ${seqType} == "PE" ]
 then
     #Run BWA sampe
     bwa sampe \
-    -r "\'@RG\tID:${lane}\tPL:illumina\tLB:${library}\tSM:${externalSampleID}\'"
+    -r $READGROUPLINE \
     ${indexFile} \
     ${peEnd1BarcodeAligned} \
     ${peEnd2BarcodeAligned} \
@@ -80,21 +81,21 @@ then
     #Get return code from last program call
     returnCode=$?
 
-    echo -e "\nreturnCode BWA: ${returnCode}\n\n"
+    echo -e "\nreturnCode BWA: $returnCode\n\n"
 
     if [ $returnCode -eq 0 ]
     then
-	echo -e "\nBWA sampe finished succesfull. Moving temp files to final.\n\n"
-	mv ${tmpAlignedSam} ${alignedSam}
-	putFile "${alignedSam}"
+		echo -e "\nBWA sampe finished succesfull. Moving temp files to final.\n\n"
+		mv ${tmpAlignedSam} ${alignedSam}
+		putFile "${alignedSam}"
     else
-	echo -e "\nFailed to move BWA sampe results to ${intermediateDir}\n\n"
-	exit -1
+		echo -e "\nFailed to move BWA sampe results to ${intermediateDir}\n\n"
+		exit -1
     fi
 else
     #Run BWA samse
-    bwa sampe \
-    -r "\'@RG\tID:${lane}\tPL:illumina\tLB:${library}\tSM:${externalSampleID}\'"
+    bwa samse \
+    -r $READGROUPLINE \
     ${indexFile} \
     ${srBarcodeAligned} \
     ${srBarcodeFqGz} \
@@ -107,14 +108,11 @@ else
 
     if [ $returnCode -eq 0 ]
     then
-	echo -e "\nBWA samse finished succesfull. Moving temp files to final.\n\n"
-	mv ${tmpAlignedSam} ${alignedSam}
-	putFile "${alignedSam}"
+		echo -e "\nBWA samse finished succesfull. Moving temp files to final.\n\n"
+		mv ${tmpAlignedSam} ${alignedSam}
+		putFile "${alignedSam}"
     else
-	echo -e "\nFailed to move BWA samse results to ${intermediateDir}\n\n"
-	exit -1
+		echo -e "\nFailed to move BWA samse results to ${intermediateDir}\n\n"
+		exit -1
     fi
 fi
-
-#Map output vars
-OUTalignedSam=${alignedSam}

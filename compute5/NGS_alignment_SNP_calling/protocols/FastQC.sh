@@ -1,4 +1,4 @@
-#MOLGENIS nodes=1 ppn=1 mem=1G walltime=08:00:00
+#MOLGENIS nodes=1 ppn=1 mem=1gb walltime=08:00:00
 
 
 #Parameter mapping
@@ -67,7 +67,7 @@ then
 	#Get return code from last program call
 	returnCode=$?
 
-	echo -e "\nreturnCode FastQC: ${returnCode}\n\n"
+	echo -e "\nreturnCode FastQC: $returnCode\n\n"
 
 	if [ $returnCode -eq 0 ]
 	then

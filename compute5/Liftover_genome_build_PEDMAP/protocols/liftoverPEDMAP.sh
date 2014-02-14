@@ -16,13 +16,10 @@
 #string liftOverUcscVersion
 #string plinkVersion
 
-
-
-
-
-${stage} liftOverUcsc/${liftOverUcscVersion}
-${stage} plink/${plinkVersion}
-
+if hash ${stage} 2>/dev/null; then
+	${stage} liftOverUcsc/${liftOverUcscVersion}
+	${stage} plink/${plinkVersion}
+fi
 
 #Echo parameter values
 echo "chr: ${chr}"
@@ -39,12 +36,13 @@ startTime=$(date +%s)
 
 #Check if outputs exist
 alloutputsexist \
-	"${outputFolderChrDir}/chr${chr}.ped" \
-	"${outputFolderChrDir}/chr${chr}.map" 
+	"${outputFolder}/chr${chr}.bed" \
+	"${outputFolder}/chr${chr}.bim" \
+	"${outputFolder}/chr${chr}.fam" 
 
 #Create output directories
 mkdir -p $outputFolder
-mkdir -p $outputFolderChrDir
+#mkdir -p $outputFolderChrDir
 mkdir -p $outputFolderTmp
 
 #Retrieve input Files
@@ -75,7 +73,7 @@ $plinkBin \
 	--noweb \
 	--file $studyInputDir/chr$chr \
 	--recode \
-	--out $outputFolderChrDir/~chr$chr.unordered \
+	--out $outputFolderTmp/chr$chr.unordered \
 	--exclude $outputFolderTmp/chr$chr.new.unmappedSnps.txt \
 	--update-map $outputFolderTmp/chr$chr.new.Mappings.txt                        
 
@@ -91,9 +89,10 @@ if [ $returnCode -eq 0 ]
 then
 	$plinkBin \
 		--noweb \
-		--file $outputFolderChrDir/~chr$chr.unordered  \
+		--file $outputFolderTmp/chr$chr.unordered  \
 		--recode \
-		--out $outputFolderChrDir/~chr$chr
+		--make-bed \
+		--out $outputFolderTmp/~chr$chr
 
 	#Get return code from last program call
 	returnCode=$?
@@ -105,13 +104,16 @@ then
 	
 	echo -e "\nMoving temp files to final files\n\n"
 
-	for tempFile in $outputFolderChrDir/~chr$chr* ; do
+	for tempFile in $outputFolderTmp/~chr$chr* ; do
 		finalFile=`echo $tempFile | sed -e "s/~//g"`
 		echo "Moving temp file: ${tempFile} to ${finalFile}"
 		mv $tempFile $finalFile
 		putFile $finalFile
 	done
-	
+
+	echo -e "\nMoving resulting files to the final destination\n"
+	mv $outputFolderTmp/chr$chr.{bed,bim,fam} $outputFolder/
+
 else
   
 	echo -e "\nNon zero return code not making files final. Existing temp files are kept for debugging purposes\n\n"
@@ -125,29 +127,31 @@ endTime=$(date +%s)
 
 #Source: http://stackoverflow.com/questions/12199631/convert-seconds-to-hours-minutes-seconds-in-bash
 
-num=$endTime-$startTime
+
+num=$(($endTime-$startTime))
 min=0
 hour=0
 day=0
-if((num>59));then
-    ((sec=num%60))
-    ((num=num/60))
-    if((num>59));then
-        ((min=num%60))
-        ((num=num/60))
-        if((num>23));then
-            ((hour=num%24))
-            ((day=num/24))
+if ((num>59));then
+    sec=$(($num%60))
+    num=$(($num/60))
+    if ((num>59));then
+        min=$(($num%60))
+        num=$(($num/60))
+        if ((num>23));then
+            hour=$(($num%24))
+            day=$(($num/24))
         else
-            ((hour=num))
+            hour=${num}
         fi
     else
-        ((min=num))
+        min=${num}
     fi
 else
-    ((sec=num))
+    sec=${num}
 fi
 echo "Running time: ${day} days ${hour} hours ${min} mins ${sec} secs"
+
 
 
 

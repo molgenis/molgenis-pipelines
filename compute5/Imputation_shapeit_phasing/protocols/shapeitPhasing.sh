@@ -9,6 +9,7 @@
 #string studyDataType
 #string shapeitThreads
 #string chr
+#string additonalShapeitParam
 #string outputFolder
 #string stage
 #string shapeitversion
@@ -32,10 +33,9 @@ echo "studyData: ${studyData}"
 echo "studyDataType: ${studyDataType}"
 echo "shapeitThreads: ${shapeitThreads}"
 echo "chr: ${chr}"
+echo "additonalShapeitParam: ${additonalShapeitParam}"
 echo "outputFolder: ${outputFolder}"
 echo "tmpOutput: ${tmpOutput}"
-
-echo "test1"
 
 mkdir -p ${outputFolder}
 
@@ -51,8 +51,6 @@ else
   	exit 1
 fi
 
-echo "test2"
-
 startTime=$(date +%s)
 
 alloutputsexist \
@@ -61,8 +59,6 @@ alloutputsexist \
 
 getFile $m
 inputs $m
-
-echo "test3"
 
 # $studyData can be multiple files. Here we will check each file and do a getFile, if needed, for each file
 for studyDataFile in $studyData
@@ -73,14 +69,14 @@ do
 done
 
 
-echo "test4" 
 
 if $shapeitBin \
 	$inputVarName $studyData \
 	--input-map $m \
 	--output-max $tmpOutput \
 	--thread $shapeitThreads \
-	--output-log ${tmpOutput}.log
+	--output-log ${tmpOutput}.log \
+	${additonalShapeitParam}
 then
 	#Command successful
 	echo "returnCode ShapeIt2: $?"
@@ -110,27 +106,27 @@ endTime=$(date +%s)
 
 #Source: http://stackoverflow.com/questions/12199631/convert-seconds-to-hours-minutes-seconds-in-bash
 
-num=$endTime-$startTime
+num=$(($endTime-$startTime))
 min=0
 hour=0
 day=0
-if((num>59));then
-    ((sec=num%60))
-    ((num=num/60))
-    if((num>59));then
-        ((min=num%60))
-        ((num=num/60))
-        if((num>23));then
-            ((hour=num%24))
-            ((day=num/24))
+if ((num>59));then
+    sec=$(($num%60))
+    num=$(($num/60))
+    if ((num>59));then
+        min=$(($num%60))
+        num=$(($num/60))
+        if ((num>23));then
+            hour=$(($num%24))
+            day=$(($num/24))
         else
-            ((hour=num))
+            hour=${num}
         fi
     else
-        ((min=num))
+        min=${num}
     fi
 else
-    ((sec=num))
+    sec=${num}
 fi
 echo "Running time: ${day} days ${hour} hours ${min} mins ${sec} secs"
 

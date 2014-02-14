@@ -9,7 +9,7 @@
 #PBS -W umask=0007
 
 # Configures the GCC bash environment
-. ${root}/gcc.bashrc
+. ${bashrc}
 
 echo "Running on: " `hostname`
 

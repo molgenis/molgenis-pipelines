@@ -1,4 +1,4 @@
-#MOLGENIS walltime=23:59:00 mem=3
+#MOLGENIS walltime=23:59:00 mem=3gb
 
 #Parameter mapping
 #string stage
@@ -10,7 +10,6 @@
 #string tempDir
 #string intermediateDir
 #string alignedBam
-#output OUTalignedBam
 
 #Echo parameter values
 echo "stage: ${stage}"
@@ -33,7 +32,7 @@ alloutputsexist \
 getFile ${alignedSam}
 
 #Load Picard module
-${stage} picard/${picardVersion}
+${stage} picard-tools/${picardVersion}
 ${checkStage}
 
 #Run picard, convert SAM to BAM
@@ -48,7 +47,7 @@ TMP_DIR=${tempDir}
 #Get return code from last program call
 returnCode=$?
 
-echo -e "\nreturnCode SamToBam: ${returnCode}\n\n"
+echo -e "\nreturnCode SamToBam: $returnCode\n\n"
 
 if [ $returnCode -eq 0 ]
 then
@@ -60,6 +59,3 @@ else
     echo -e "\nFailed to move SamToBam results to ${intermediateDir}\n\n"
     exit -1
 fi
-
-#Map output vars
-OUTalignedBam=${alignedBam}

@@ -1,26 +1,25 @@
-#MOLGENIS walltime=23:59:00 mem=3
+#MOLGENIS walltime=23:59:00 mem=3gb
 
 #Parameter mapping
 #string stage
 #string checkStage
 #string picardVersion
 #string sortSamJar
-#string inputBam
+#string inputSortBam
 #string tmpSortedBam
 #string tmpSortedBamIdx
 #string tempDir
 #string intermediateDir
 #string sortedBam
 #string sortedBamIdx
-#output OUTsortedBam
-#output OUTsortedBamIdx
+
 
 #Echo parameter values
 echo "stage: ${stage}"
 echo "checkStage: ${checkStage}"
 echo "picardVersion: ${picardVersion}"
 echo "sortSamJar: ${sortSamJar}"
-echo "inputBam: ${inputBam}"
+echo "inputSortBam: ${inputSortBam}"
 echo "tmpSortedBam: ${tmpSortedBam}"
 echo "tmpSortedBamIdx: ${tmpSortedBamIdx}"
 echo "sortedBam: ${sortedBam}"
@@ -36,15 +35,15 @@ alloutputsexist \
 "${sortedBamIdx}"
 
 #Get aligned BAM file
-getFile ${inputBam}
+getFile ${inputSortBam}
 
 #Load Picard module
-${stage} picard/${picardVersion}
+${stage} picard-tools/${picardVersion}
 ${checkStage}
 
 #Run picard, sort BAM file and create index on the fly
 java -jar -Xmx3g $PICARD_HOME/${sortSamJar} \
-INPUT=${inputBam} \
+INPUT=${inputSortBam} \
 OUTPUT=${tmpSortedBam} \
 SORT_ORDER=coordinate \
 CREATE_INDEX=true \
@@ -56,7 +55,7 @@ TMP_DIR=${tempDir}
 #Get return code from last program call
 returnCode=$?
 
-echo -e "\nreturnCode SortBam: ${returnCode}\n\n"
+echo -e "\nreturnCode SortBam: $returnCode\n\n"
 
 if [ $returnCode -eq 0 ]
 then
@@ -70,7 +69,3 @@ else
     echo -e "\nFailed to move SortBam results to ${intermediateDir}\n\n"
     exit -1
 fi
-
-#Map output vars
-OUTsortedBam=${sortedBam}
-OUTsortedBamIdx=${sortedBamIdx}
