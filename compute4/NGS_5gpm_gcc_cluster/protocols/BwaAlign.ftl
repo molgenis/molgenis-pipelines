@@ -11,7 +11,7 @@
 #MOLGENIS walltime=15:00:00 nodes=1 cores=8 mem=6
 #TARGETS
 
-module load bwa/bwa-0.7.5a
+module load bwa/0.7.5a
 module list
 
 getFile ${indexfile}
