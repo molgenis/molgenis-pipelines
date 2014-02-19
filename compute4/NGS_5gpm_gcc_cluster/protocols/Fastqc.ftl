@@ -11,7 +11,7 @@
 #MOLGENIS walltime=08:00:00 nodes=1 cores=1 mem=1
 #TARGETS
 
-module load fastqc/fastqc-v0.7.0
+module load fastqc/v0.7.0
 module list
 
 <#if seqType == "SR">

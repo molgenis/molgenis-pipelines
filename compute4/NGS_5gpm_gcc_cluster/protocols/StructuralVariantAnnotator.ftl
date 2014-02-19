@@ -15,8 +15,6 @@ module load snpEff/2_0_5
 module load GATK/1.4-11-g845c0b1
 module list
 
-inputs "${snpeffjar}"
-inputs "${snpeffconfig}" 
 inputs "${indelsVcf}"
 inputs "${mergedbam}"
 inputs "${dbsnpvcf}"
