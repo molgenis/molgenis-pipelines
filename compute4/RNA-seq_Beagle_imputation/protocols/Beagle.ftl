@@ -1,4 +1,4 @@
-#MOLGENIS walltime=100:00:00 nodes=1 cores=1 mem=6
+#MOLGENIS walltime=100:00:00 nodes=1 cores=8 mem=60
 
 
 #FOREACH sample
@@ -6,7 +6,6 @@
 mergedVcfFile=${mergedVcfFile}
 GoNL=${GoNL}
 BeagleJar=${BeagleJar}
-tabixDir=${tabixDir}
 JAVA_HOME=${JAVA_HOME}
 prepareForBeagleJar=${prepareForBeagleJar}
 chr=${chr}
@@ -40,13 +39,15 @@ else
 	#
 	
 	${JAVA_HOME}/bin/java \
-	-Xmx6g \
-	-Xms6g \
+	-Xmx60g \
+	-Xms60g \
 	-jar ${prepareForBeagleJar} \
 		--chunkSize 24000 \
 		--excludedMarkers ${excludeMarkers} \
 		--refVariants ${GoNL}/chr${chr}.txt \
-		--studyVcf ${localMergedVcfFile}
+		--studyVcf ${localMergedVcfFile} \
+		--outputVcf $localOutput/tmp.vcf
+	rm ${localOutput}/tmp.vcf
 	
 	prepareReturnCode=$?
 	echo "prepareReturnCode return code: $prepareReturnCode"
@@ -64,8 +65,8 @@ else
 	
 	${JAVA_HOME}/bin/java \
 	-Djava.io.tmpdir=$TMPDIR \
-	-Xmx6g \
-	-Xms6g \
+	-Xmx60g \
+	-Xms60g \
 	-jar ${BeagleJar} \
 	gl=${localMergedVcfFile} \
 	ref=${GoNL}chr${chr}.vcf.gz \
