@@ -31,3 +31,5 @@ samtools,${toolDir}samtools-0.1.18/samtools,,,
 htseq_count,/gcc/tools/anaconda_1.8.0/lib/python2.7/site-packages/HTSeq-0.5.4p5-py2.7-linux-x86_64.egg/HTSeq/scripts/count.py,,,
 processReadCountsJar,/target/scratch/gcc/groups/gcc/pdeelen/Projects/RnaSeqEqtl/processReadCounts/ProcessReadCounts/dist/ProcessReadCounts.jar,,,
 python,python,,,
+inputVcf,,,,mergedVcf
+mergedVcf,,,,
