@@ -1,5 +1,5 @@
 Name,defaultValue,description,dataType,hasOne_name
-clusterQueue,gcc,,,
+clusterQueue,test,,,
 scheduler,PBS,,,
 mem,6,Memory in GB,,
 walltime,24:00:00,,,
@@ -13,8 +13,8 @@ bashrc,/gcc/groups/gcc/home/gcc.bashrc,,,
 toolDir,/gcc/tools/,root Dir for tools,string,
 #,,,,
 studyEna,,,,
-mergedStudy,,,,expressionFolder
-sample,,,,
+mergedStudy,,,,"expressionFolder,mergedFolder"
+sample,,,,"mergedFolder,mergedStudy,sampleTmpDir,sampleFolder"
 run,,,,
 baseFolder,,,,
 sortedBam,${baseFolder}/${studyEna}/${sample}/${run}/${run}Aligned.out.sorted.bam,,,
@@ -31,3 +31,14 @@ samtools,${toolDir}samtools-0.1.18/samtools,,,
 htseq_count,/gcc/tools/anaconda_1.8.0/lib/python2.7/site-packages/HTSeq-0.5.4p5-py2.7-linux-x86_64.egg/HTSeq/scripts/count.py,,,
 processReadCountsJar,/target/scratch/gcc/groups/gcc/pdeelen/Projects/RnaSeqEqtl/processReadCounts/ProcessReadCounts/dist/ProcessReadCounts.jar,,,
 python,python,,,
+sampleFolder,${baseFolder}/${studyEna}/${sample}/,,,
+refInfoFolder,/target/scratch/gcc/groups/gcc/pdeelen/Projects/RnaSeqEqtl/GoNL,,,
+prepareVcfJar,/target/scratch/gcc/groups/gcc/pdeelen/Projects/RnaSeqEqtl/PrepareBealgeVcf-1.0-SNAPSHOT-jar-with-dependencies.jar,,,
+mergedFolder,${baseFolder}/${mergedStudy}/prepareImputation/,,,
+beagleWindow,24000,,,
+tabix,/target/scratch/gcc/groups/gcc/pdeelen/Projects/RnaSeqEqtl/tabix-0.2.6/tabix,,,
+bgzip,/target/scratch/gcc/groups/gcc/pdeelen/Projects/RnaSeqEqtl/tabix-0.2.6/bgzip,,,
+sampleTmpDir,${mergedFolder}/tmp/${sample}/,,,
+bcftools,/gcc/groups/gcc/tmp02/pdeelen/Projects/RnaSeqEqtl/bcftools/bcftools,,,
+
+

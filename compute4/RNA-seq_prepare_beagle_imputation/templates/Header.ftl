@@ -7,6 +7,7 @@
 #PBS -e ${jobname}.err
 #PBS -o ${jobname}.out
 #PBS -W umask=0007
+#PBS -l file=1gb
 
 # Configures the GCC bash environment
 . ${bashrc}
