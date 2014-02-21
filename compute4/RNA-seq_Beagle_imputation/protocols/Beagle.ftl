@@ -1,4 +1,4 @@
-#MOLGENIS walltime=100:00:00 nodes=1 cores=8 mem=60
+#MOLGENIS walltime=100:00:00 nodes=1 cores=16 mem=60
 
 
 #FOREACH sample
@@ -68,6 +68,7 @@ else
 	-Xmx60g \
 	-Xms60g \
 	-jar ${BeagleJar} \
+	nthreads=10 \
 	gl=${localMergedVcfFile} \
 	ref=${GoNL}chr${chr}.vcf.gz \
 	chrom=${chr} \
