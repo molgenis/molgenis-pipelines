@@ -24,12 +24,12 @@ java -jar -Xmx4g $GATK_HOME/AnalyzeCovariates.jar -l INFO \
 -resources ${indexfile} \
 --recal_file ${matefixedcovariatecsv} \
 -outputDir ${recalstatsbeforedir} \
--Rscript ${rscript} \
+-Rscript $RHOME/bin/Rscript \
 -ignoreQ 5
 
 java -jar -Xmx4g $GATK_HOME/AnalyzeCovariates.jar -l INFO \
 -resources ${indexfile} \
 --recal_file ${sortedrecalcovariatecsv} \
 -outputDir ${recalstatsafterdir} \
--Rscript ${rscript} \
+-Rscript $RHOME/bin/Rscript \
 -ignoreQ 5
