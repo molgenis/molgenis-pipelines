@@ -21,7 +21,6 @@ demultiplexWorkflowFile,${McDir}/workflows/in-house_workflow_demultiplex.csv,,st
 workflowFile,${McDir}/pipelines/production/NGS_alignment_SNP_calling/in-house_workflow_realignmentAndSnpCalling.csv,,string,
 resdir,${root}/groups/gcc/tmp02/resources,,,
 prmrawdir,${root}/groups/gaf/prm02/
-rscript,$RHOME/bin/Rscript,,,
 intervallistdir,${resdir}/${genome}/intervals,,,
 capturingKit,,,,
 baitintervals,${intervallistdir}/${capturingKit}_baits_${genome}_${indexfileIDtest}.interval_list,,,

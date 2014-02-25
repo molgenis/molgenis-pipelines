@@ -36,7 +36,7 @@ $GATK_HOME/GenomeAnalysisTK.jar \
 -L ${targetintervals}</#if>
 
 #Create coverage graphs for sample
-${rscript} ${cumcoveragescriptgatk} \
+$RHOME/bin/Rscript ${cumcoveragescriptgatk} \
 --in ${coveragegatk}.sample_cumulative_coverage_proportions \
 --out ${coveragegatk}.cumulative_coverage.pdf \
 --max-depth 100 \
