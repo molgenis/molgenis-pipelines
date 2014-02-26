@@ -78,7 +78,6 @@ fi
 
 #Load Picard module
 ${stage} picard-tools/${picardVersion}
-${checkStage}
 
 #Load R module
 ${stage} R/${RVersion}
