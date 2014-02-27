@@ -76,6 +76,7 @@ projectPrefix,${intermediateDir}/${project}
 projectJobsDir,${projectDir}/jobs/
 projectLogsDir,${projectDir}/logs/
 projectResultsDir,${projectDir}/results/
+projectQcDir,${projectDir}/qc/
 rawFileExt,fq.gz
 rawFile,${projectRawtmpDataDir}/${filePrefix}_${barcode}
 peEnd1BarcodeFqGz,${rawFile}_1.${rawFileExt}
