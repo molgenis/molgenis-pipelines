@@ -33,9 +33,6 @@ echo "tmpBQSRCsv: ${tmpBQSRCsv}"
 echo "BQSRCsv: ${BQSRCsv}"
 echo "r_libs: ${r_libs}"
 
-
-sleep 10
-
 #Check if output exists
 alloutputsexist \
 "${BQSRPdf}" \
@@ -47,13 +44,10 @@ getFile ${indexFile}
 getFile ${beforeRecalTable}
 getFile ${postRecalTable}
 
-
 #Load GATK module
 ${stage} GATK/${GATKVersion}
+${stage} R/${RVersion}
 ${checkStage}
-
-#Set R library path
-R_LIBS="${r_libs}"
 
 #Analyze covariates (before and after) using GATK. Afterwards generate statistics and graphs and output as csv and pdf respectively
 java -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
