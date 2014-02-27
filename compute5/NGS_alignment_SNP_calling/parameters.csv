@@ -131,3 +131,4 @@ tmpProjectChrVariantCalls,${tmpProjectPrefix}.chr${chr}.variant.calls.vcf
 tmpProjectChrVariantCallsIdx,${tmpProjectChrVariantCalls}.idx
 projectChrVariantCalls,${projectPrefix}.chr${chr}.variant.calls.vcf
 projectChrVariantCallsIdx,${projectChrVariantCalls}.idx
+tmpIntermediateDir,${intermediateDir}/tmp/
