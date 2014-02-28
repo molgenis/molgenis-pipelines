@@ -14,8 +14,6 @@
 #string BQSRPdf
 #string tmpBQSRCsv
 #string BQSRCsv
-#string r_libs
-
 
 #Echo parameter values
 echo "stage: ${stage}"
@@ -31,7 +29,6 @@ echo "tmpBQSRPdf: ${tmpBQSRPdf}"
 echo "BQSRPdf: ${BQSRPdf}"
 echo "tmpBQSRCsv: ${tmpBQSRCsv}"
 echo "BQSRCsv: ${BQSRCsv}"
-echo "r_libs: ${r_libs}"
 
 #Check if output exists
 alloutputsexist \
