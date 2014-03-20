@@ -1,16 +1,17 @@
-#MOLGENIS walltime=100:00:00 nodes=1 cores=16 mem=60
+#MOLGENIS walltime=1000:00:00 nodes=1 cores=14 mem=60
 
 
-#FOREACH sample
 
 mergedVcfFile=${mergedVcfFile}
 GoNL=${GoNL}
 BeagleJar=${BeagleJar}
-JAVA_HOME=${JAVA_HOME}
 prepareForBeagleJar=${prepareForBeagleJar}
 chr=${chr}
 
 <#noparse>
+
+
+module load jdk
 
 localOutput=${TMPDIR}/
 localImputedPrefix=${localOutput}chr${chr}.imputed
@@ -38,12 +39,12 @@ else
 	# Detect regions without SNPs in the data to be imputed
 	#
 	
-	${JAVA_HOME}/bin/java \
+	java \
 	-Xmx60g \
 	-Xms60g \
 	-jar ${prepareForBeagleJar} \
 		--chunkSize 24000 \
-		--excludedMarkers ${excludeMarkers} \
+		--excludedMarkers ${exclMarkersFile} \
 		--refVariants ${GoNL}/chr${chr}.txt \
 		--studyVcf ${localMergedVcfFile} \
 		--outputVcf $localOutput/tmp.vcf
@@ -63,7 +64,7 @@ else
 	
 	echo "Imputation"
 	
-	${JAVA_HOME}/bin/java \
+	java \
 	-Djava.io.tmpdir=$TMPDIR \
 	-Xmx60g \
 	-Xms60g \
@@ -72,7 +73,7 @@ else
 	gl=${localMergedVcfFile} \
 	ref=${GoNL}chr${chr}.vcf.gz \
 	chrom=${chr} \
-	excludemarkers=${excludeMarkers} \
+	excludemarkers=${exclMarkersFile} \
 	out=${localImputedPrefix}
 	
 	returnCode=$?

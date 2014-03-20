@@ -9,6 +9,7 @@
 #PBS -W umask=0007
 #PBS -l file=10gb
 
+hostname
 # Configures the GCC bash environment
 . ${bashrc}
 
