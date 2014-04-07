@@ -11,7 +11,7 @@ root,${WORKDIR}
 tempDir,${WORKDIR}/groups/gaf/tmp02/tmp/
 resDir,${root}/resources/
 toolDir,${root}/tools/
-scriptDir,${toolDir}/tools/scripts/
+scriptDir,${toolDir}/scripts/
 gafHome,${root}/groups/gaf/
 tmpDataDir,${root}/groups/gaf/tmp02/
 allRawtmpDataDir,${tmpDataDir}/rawdata/

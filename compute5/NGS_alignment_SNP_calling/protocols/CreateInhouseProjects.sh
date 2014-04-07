@@ -1,4 +1,4 @@
-# =====================================================
+#!/bin/bash =====================================================
 #
 # $Id$
 # $URL$
@@ -16,7 +16,7 @@
 # =====================================================
 #
 
-#string seqType
+#list seqType
 #string projectRawArraytmpDataDir
 #string projectRawtmpDataDir
 #string projectJobsDir
@@ -25,14 +25,23 @@
 #string projectResultsDir
 #string projectQcDir
 
+#list sequencingStartDate
+#list sequencer
+#list run
+#list flowcell
+
 #string mainParameters
 #string chrParameters 
 #string worksheet 
 #string outputdir
+#string workflowpath
 
 #list internalSampleID
 #string project
 #string scriptDir
+
+#list barcode
+#list lane
 
 #MOLGENIS walltime=00:10:00
 #FOREACH project
@@ -64,45 +73,29 @@ cd ${projectRawtmpDataDir}
 #
 # For each sequence file (could be multiple per sample):
 #
-#<#list internalSampleID as sample>
 
-((n_elements=${internalSampleID[@]}, max_index=n_elements -1))
+n_elements=${internalSampleID[@]}
+max_index=${#internalSampleID[@]}
 for ((samplenumber = 0; samplenumber <= max_index; samplenumber++))
+do
 	if [[ ${seqType[samplenumber]} == "SR" ]]
 	then
-        if [[ ${barcode[samplenumber]} == "None" ]]
-        then
-            ln -s ../../../../../rawdata/ngs/${runPrefix[samplenumber]}/${compressedFastqFilenameSR[samplenumber]} ${projectRawtmpDataDir}/${compressedFastqFilenameNoBarcodeSR[samplenumber]}
-            ln -s ../../../../../rawdata/ngs/${runPrefix[samplenumber]}/${fastqChecksumFilenameSR[samplenumber]} ${projectRawtmpDataDir}/${fastqChecksumFilenameNoBarcodeSR[samplenumber]}
-
-            # Also add a symlink for the alignment step: 
-			ln -s ../../../../../rawdata/ngs/${runPrefix[samplenumber]}/${compressedFastqFilenameSR[samplenumber]} ${projectRawtmpDataDir}/${compressedFastqFilenameNoBarcodePE1[samplenumber]}
-        else
-  			ln -s ../../../../../rawdata/ngs/${runPrefix[samplenumber]}/${compressedDemultiplexedSampleFastqFilenameSR[samplenumber]} ${projectRawtmpDataDir}/
-            ln -s ../../../../../rawdata/ngs/${runPrefix[samplenumber]}/${demultiplexedSampleFastqChecksumFilenameSR[samplenumber]} ${projectRawtmpDataDir}/
-
-            # Also add a symlink for the alignment step:
-            ln -s ../../../../../rawdata/ngs/${runPrefix[samplenumber]}/${compressedFastqFilenameSR[samplenumber]} ${projectRawtmpDataDir}/${compressedFastqFilenameNoBarcodePE1[samplenumber]}
-        fi
-
+		ln -s ../../../../../rawdata/ngs/${sequencingStartDate[samplenumber]}_${sequencer[samplenumber]}_${run[samplenumber]}_${flowcell[samplenumber]}/${sequencingStartDate[samplenumber]}_${sequencer[samplenumber]}_${run[samplenumber]}_${flowcell[samplenumber]}_L${lane[samplenumber]}_${barcode[samplenumber]}.fq.gz ${projectRawtmpDataDir}/${sequencingStartDate[samplenumber]}_${sequencer[samplenumber]}_${run[samplenumber]}_${flowcell[samplenumber]}_L${lane[samplenumber]}_${barcode[samplenumber]}.fq.gz
+    		ln -s ../../../../../rawdata/ngs/${sequencingStartDate[samplenumber]}_${sequencer[samplenumber]}_${run[samplenumber]}_${flowcell[samplenumber]}/${sequencingStartDate[samplenumber]}_${sequencer[samplenumber]}_${run[samplenumber]}_${flowcell[samplenumber]}_L${lane[samplenumber]}_${barcode[samplenumber]}.fq.md5 ${projectRawtmpDataDir}/${sequencingStartDate[samplenumber]}_${sequencer[samplenumber]}_${run[samplenumber]}_${flowcell[samplenumber]}_L${lane[samplenumber]}_${barcode[samplenumber]}.fq.md5
 	elif [[ ${seqType[samplenumber]} == "PE" ]]
-    	if [[ ${barcode[samplenumber]} == "None" ]]
-            ln -s ../../../../../rawdata/ngs/${runPrefix[samplenumber]}/${compressedFastqFilenamePE1[samplenumber]} ${projectRawtmpDataDir}/${compressedFastqFilenameNoBarcodePE1[samplenumber]}
-            ln -s ../../../../../rawdata/ngs/${runPrefix[samplenumber]}/${compressedFastqFilenamePE2[samplenumber]} ${projectRawtmpDataDir}/${compressedFastqFilenameNoBarcodePE2[samplenumber]}
-            ln -s ../../../../../rawdata/ngs/${runPrefix[samplenumber]}/${fastqChecksumFilenamePE1[samplenumber]} ${projectRawtmpDataDir}/${fastqChecksumFilenameNoBarcodePE1[samplenumber]}
-            ln -s ../../../../../rawdata/ngs/${runPrefix[samplenumber]}/${fastqChecksumFilenamePE2[samplenumber]} ${projectRawtmpDataDir}/${fastqChecksumFilenameNoBarcodePE2[samplenumber]}
-        else
-            ln -s ../../../../../rawdata/ngs/${runPrefix[samplenumber]}/${compressedDemultiplexedSampleFastqFilenamePE1[samplenumber]} ${projectRawtmpDataDir}/
-            ln -s ../../../../../rawdata/ngs/${runPrefix[samplenumber]}/${compressedDemultiplexedSampleFastqFilenamePE2[samplenumber]} ${projectRawtmpDataDir}/
-            ln -s ../../../../../rawdata/ngs/${runPrefix[samplenumber]}/${demultiplexedSampleFastqChecksumFilenamePE1[samplenumber]} ${projectRawtmpDataDir}/
-            ln -s ../../../../../rawdata/ngs/${runPrefix[samplenumber]}/${demultiplexedSampleFastqChecksumFilenamePE2[samplenumber]} ${projectRawtmpDataDir}/
-        fi
-    fi
-
+	then
+   		ln -s ../../../../../rawdata/ngs/${sequencingStartDate[samplenumber]}_${sequencer[samplenumber]}_${run[samplenumber]}_${flowcell[samplenumber]}/${sequencingStartDate[samplenumber]}_${sequencer[samplenumber]}_${run[samplenumber]}_${flowcell[samplenumber]}_L${lane[samplenumber]}_${barcode[samplenumber]}_1.fq.gz ${projectRawtmpDataDir}/${sequencingStartDate[samplenumber]}_${sequencer[samplenumber]}_${run[samplenumber]}_${flowcell[samplenumber]}_L${lane[samplenumber]}_${barcode[samplenumber]}_1.fq.gz
+		ln -s ../../../../../rawdata/ngs/${sequencingStartDate[samplenumber]}_${sequencer[samplenumber]}_${run[samplenumber]}_${flowcell[samplenumber]}/${sequencingStartDate[samplenumber]}_${sequencer[samplenumber]}_${run[samplenumber]}_${flowcell[samplenumber]}_L${lane[samplenumber]}_${barcode[samplenumber]}_2.fq.gz ${projectRawtmpDataDir}/${sequencingStartDate[samplenumber]}_${sequencer[samplenumber]}_${run[samplenumber]}_${flowcell[samplenumber]}_L${lane[samplenumber]}_${barcode[samplenumber]}_2.fq.gz
+		ln -s ../../../../../rawdata/ngs/${sequencingStartDate[samplenumber]}_${sequencer[samplenumber]}_${run[samplenumber]}_${flowcell[samplenumber]}/${sequencingStartDate[samplenumber]}_${sequencer[samplenumber]}_${run[samplenumber]}_${flowcell[samplenumber]}_L${lane[samplenumber]}_${barcode[samplenumber]}_1.fq.gz ${projectRawtmpDataDir}/${sequencingStartDate[samplenumber]}_${sequencer[samplenumber]}_${run[samplenumber]}_${flowcell[samplenumber]}_L${lane[samplenumber]}_${barcode[samplenumber]}_1.fq.md5
+   		ln -s ../../../../../rawdata/ngs/${sequencingStartDate[samplenumber]}_${sequencer[samplenumber]}_${run[samplenumber]}_${flowcell[samplenumber]}/${sequencingStartDate[samplenumber]}_${sequencer[samplenumber]}_${run[samplenumber]}_${flowcell[samplenumber]}_L${lane[samplenumber]}_${barcode[samplenumber]}_2.fq.gz ${projectRawtmpDataDir}/${sequencingStartDate[samplenumber]}_${sequencer[samplenumber]}_${run[samplenumber]}_${flowcell[samplenumber]}_L${lane[samplenumber]}_${barcode[samplenumber]}_2.fq.md5
+ 	fi
 done
 
 
 cd $ROCKETPOINT
+
+echo "before splitting"
+echo pwd
 
 #
 # TODO: array for each sample:
@@ -111,10 +104,7 @@ cd $ROCKETPOINT
 #
 # Create subset of samples for this project.
 #
-<#--<#assign unfolded = unfoldParametersCSV(parameters) />
-#<#list unfolded as sampleSequenceDetails>
-#echo ${sampleSequenceDetails} >> ${projectJobsDir}/${project}.csv
-#</#list>-->
+
 ${scriptDir}/extract_samples_from_GAF_list.pl --i ${worksheet} --o ${projectJobsDir}/${project}.csv --c project --q ${project}
 
 #
@@ -123,7 +113,19 @@ ${scriptDir}/extract_samples_from_GAF_list.pl --i ${worksheet} --o ${projectJobs
 
 cd ..
 
-sh molgenis_compute.sh -p ${mainParameters} \
--p {chrParameters} -p ${worksheet} -rundir ${outputdir}
--w workflow.csv -b pbs -g -weave -runid test01
+if [ -f .compute.properties ];
+then
+     rm .compute.properties
+fi
+
+echo "before run second rocket"
+echo pwd
+
+sh /gcc/tools/molgenis_compute5/molgenis_compute.sh -p ${mainParameters} \
+-p ${chrParameters} -p ${worksheet} -rundir ${projectJobsDir} \
+-w ${workflowpath} -b pbs -g -weave -runid test01
+
+
+
+
 
