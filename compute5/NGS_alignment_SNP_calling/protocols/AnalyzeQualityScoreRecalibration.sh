@@ -14,6 +14,7 @@
 #string BQSRPdf
 #string tmpBQSRCsv
 #string BQSRCsv
+#string RVersion
 
 #Echo parameter values
 echo "stage: ${stage}"
