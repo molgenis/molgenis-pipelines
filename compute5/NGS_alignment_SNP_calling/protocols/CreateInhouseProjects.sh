@@ -123,7 +123,7 @@ echo pwd
 
 sh /gcc/tools/molgenis_compute5/molgenis_compute.sh -p ${mainParameters} \
 -p ${chrParameters} -p ${worksheet} -rundir ${projectJobsDir} \
--w ${workflowpath} -b pbs -g -weave -runid {run}
+-w ${workflowpath} -b pbs -g -weave -runid ${runid}
 
 
 
