@@ -22,15 +22,12 @@ workflowFile,${McDir}/pipelines/production/NGS_5gpm/in-house_workflow_5gpm.csv,,
 resdir,${root}/groups/gcc/tmp02/resources,,,
 prmrawdir,${root}/groups/gaf/prm02/
 intervallistdir,${resdir}/${genome}/intervals,,,
-capturingKit5gpm,SureSelect_All_Exon_50MB_v5_merged_CGD.updated.20131028.excl.ATXN8.FSHMD1A.KCNJ18.ENSEMBL,,,
+capturingKit5gpm,CGD_2014-03-12,,,
 baitintervals,${intervallistdir}/${capturingKit5gpm}_baits_${genome}_${indexfileIDtest}.interval_list,,,
 targetintervals,${intervallistdir}/${capturingKit5gpm}_exons_${genome}_${indexfileIDtest}.interval_list,,,
 targetcoverageintervals1,${intervallistdir}/${capturingKit5gpm}_exons_${genome}_${indexfileIDtest}_coverage.1.interval_list,,,
 targetcoverageintervals2,${intervallistdir}/${capturingKit5gpm}_exons_${genome}_${indexfileIDtest}_coverage.2.interval_list,,,
 baitsbed,${intervallistdir}/${capturingKit5gpm}_baits_${genome}_${indexfileIDtest}.bed,,,
-#
-fivegpm200flankbed,${intervallistdir}/${capturingKit5gpm}_baits_${genome}_${indexfileIDtest}_flanked200bp.bed,,,
-#
 tempdir,${tmpdatadir}/tmp/processing,,,
 tempprojectdir,${tmpdatadir}/tmp,,,
 genome,b37,,,

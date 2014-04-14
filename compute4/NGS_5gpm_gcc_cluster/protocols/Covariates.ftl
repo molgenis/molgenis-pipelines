@@ -1,12 +1,3 @@
-#
-# =====================================================
-# $Id$
-# $URL$
-# $LastChangedDate$
-# $LastChangedRevision$
-# $LastChangedBy$
-# =====================================================
-#
 
 module load GATK/1.0.5069
 module list
@@ -14,7 +5,7 @@ module list
 inputs "${matefixedbam}"
 inputs "${indexfile}" 
 inputs "${dbsnprod}"
-inputs "${fivegpm200flankbed}"
+inputs "${baitsbed}"
 alloutputsexist "${matefixedcovariatecsv}"
 
 java -jar -Xmx4g \
@@ -24,7 +15,7 @@ $GATK_HOME/GenomeAnalysisTK.jar -l INFO \
 -R ${indexfile} \
 --DBSNP ${dbsnprod} \
 -I ${matefixedbam} \
--L ${fivegpm200flankbed} \
+-L ${baitsbed} \
 -cov ReadGroupcovariate \
 -cov QualityScoreCovariate \
 -cov CycleCovariate \

@@ -1,12 +1,3 @@
-#
-# =====================================================
-# $Id: CopyToResultsDir.ftl 12202 2012-06-15 09:10:27Z freerkvandijk $
-# $URL: http://www.molgenis.org/svn/molgenis_apps/trunk/modules/compute/protocols/CopyToResultsDir.ftl $
-# $LastChangedDate: 2012-06-15 11:10:27 +0200 (Fri, 15 Jun 2012) $
-# $LastChangedRevision: 12202 $
-# $LastChangedBy: freerkvandijk $
-# =====================================================
-#
 
 #MOLGENIS walltime=23:59:00
 #FOREACH project
