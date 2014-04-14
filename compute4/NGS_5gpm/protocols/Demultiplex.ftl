@@ -1,12 +1,3 @@
-#
-# =====================================================
-# $Id$
-# $URL$
-# $LastChangedDate 20120807$
-# $LastChangedRevision$
-# $LastChangedBy WBKoetsier$
-# =====================================================
-#
 
 #MOLGENIS walltime=48:00:00 nodes=1 cores=4 mem=1
 #FOREACH flowcell, lane, seqType, filenamePrefix
