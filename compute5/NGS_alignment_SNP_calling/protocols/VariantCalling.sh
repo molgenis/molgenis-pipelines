@@ -115,7 +115,7 @@ then
     mv ${tmpProjectChrVariantCalls} ${projectChrVariantCalls}
     mv ${tmpProjectChrVariantCallsIdx} ${projectChrVariantCallsIdx}
     putFile "${projectChrVariantCalls}"
-    putFile "${projectChrVariantCallsIdx}"1
+    putFile "${projectChrVariantCallsIdx}"
     
 else
     echo -e "\nFailed to move VariantCalling results to ${intermediateDir}\n\n"
