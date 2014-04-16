@@ -136,5 +136,5 @@ echo "before run second rocket"
 echo pwd
 
 sh /gcc/tools/molgenis_compute5/molgenis_compute.sh -p ${mainParameters} \
--p ${chrParameters} -p ${worksheet} -rundir ${projectJobsDir} \
+-p ${chrParameters} -p ${projectJobsDir}/${project}.csv -rundir ${projectJobsDir} \
 -w ${workflowpath} -b pbs -g -weave -runid ${runid}
