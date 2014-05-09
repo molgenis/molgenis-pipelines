@@ -341,6 +341,8 @@ else
 	
 		module unload GATK
 		module load GATK/1.2-1-g33967a4
+		module unload R
+		module load R/2.14.2
 		module list
 	
 		###THESE STEPS USE NEWER VERSION OF GATK THAN OTHER STEPS IN ANALYSIS PIPELINE!!!
