@@ -61,4 +61,3 @@ $GATK_HOME/${GATKJar} \
     mv ${tmpBQSRCsv} ${BQSRCsv}
     putFile "${BQSRPdf}"
     putFile "${BQSRCsv}"
-fi
