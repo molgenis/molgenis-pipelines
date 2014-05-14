@@ -1,4 +1,4 @@
-#MOLGENIS walltime=35:59:00 mem=4gb
+#MOLGENIS walltime=23:59:00 mem=4gb
 
 #Parameter mapping
 #string stage
@@ -13,8 +13,6 @@
 #string dbSNP137VcfIdx
 #list BQSRBam
 #list BQSRBamIdx
-#string tmpProjectChrVariantCalls
-#string tmpProjectChrVariantCallsIdx
 #string projectChrVariantCalls
 #string projectChrVariantCallsIdx
 
@@ -37,8 +35,6 @@ for bamIdx in "${BQSRBamIdx[@]}"
 do
   echo "bamIdx: $bamIdx"
 done
-echo "tmpProjectChrVariantCalls: ${tmpProjectChrVariantCalls}"
-echo "tmpProjectChrVariantCallsIdx: ${tmpProjectChrVariantCallsIdx}"
 echo "projectChrVariantCalls: ${projectChrVariantCalls}"
 echo "projectChrVariantCallsIdx: ${projectChrVariantCallsIdx}"
 
@@ -49,7 +45,7 @@ array_contains () {
     local array="$1[@]"
     local seeking=$2
     local in=1
-    for element in "${!array}"; do
+    for element in "${array[@]}"; do
         if [[ $element == $seeking ]]; then
             in=0
             break
@@ -89,6 +85,12 @@ do
 	array_contains INPUTS "-I $bamFile" || INPUTS+=("-I $bamFile")    # If bamFile does not exist in array add it
 done
 
+makeTmpDir ${projectChrVariantCalls}
+tmpProjectChrVariantCalls=${MC_tmpFile}
+
+makeTmpDir ${projectChrVariantCallsIdx}
+tmpProjectChrVariantCallsIdx=${MC_tmpFile}
+
 #Run GATK HaplotypeCaller in DISCOVERY mode to call SNPs and indels
 java -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
 $GATK_HOME/${GATKJar} \
@@ -103,21 +105,9 @@ ${INPUTS[@]} \
 -L ${baitChrBed} \
 -nct 16
 
-
-#Get return code from last program call
-returnCode=$?
-
-echo -e "\nreturnCode VariantCalling: $returnCode\n\n"
-
-if [ $returnCode -eq 0 ]
-then
     echo -e "\nVariantCalling finished succesfull. Moving temp files to final.\n\n"
     mv ${tmpProjectChrVariantCalls} ${projectChrVariantCalls}
     mv ${tmpProjectChrVariantCallsIdx} ${projectChrVariantCallsIdx}
     putFile "${projectChrVariantCalls}"
     putFile "${projectChrVariantCallsIdx}"
-    
-else
-    echo -e "\nFailed to move VariantCalling results to ${intermediateDir}\n\n"
-    exit -1
-fi
+
