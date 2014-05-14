@@ -27,7 +27,7 @@ indexFileID,human_g1k_v37
 indicesDir,${resDir}/${genome}/indices/
 indexFileFastaIndex,${indicesDir}/${indexFileIDtest}.fasta.fai
 indexFileIDtest,human_g1k_v37
-indexFile,${indicesDir}/${indexFileIDtest}.fasta
+indexFile,${indicesDir}/${indexFileID}.fasta
 intervalListDir,${resDir}/${genome}/intervals/
 baitIntervals,${intervalListDir}/${capturingKit}_baits_${genome}_${indexFileIDtest}.interval_list
 baitBed,${intervalListDir}/${capturingKit}_baits_${genome}_${indexFileIDtest}.bed
