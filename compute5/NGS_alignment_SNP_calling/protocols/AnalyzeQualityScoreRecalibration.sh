@@ -56,21 +56,9 @@ $GATK_HOME/${GATKJar} \
 -after ${postRecalTable} \
 -csv ${tmpBQSRCsv} \
 -plots ${tmpBQSRPdf}
-
-#Get return code from last program call
-returnCode=$?
-
-echo -e "\nreturnCode AnalyzeQualityScoreRecalibration: $returnCode\n\n"
-
-if [ $returnCode -eq 0 ]
-then
     echo -e "\nAnalyzeQualityScoreRecalibration finished succesfull. Moving temp files to final.\n\n"
     mv ${tmpBQSRPdf} ${BQSRPdf}
     mv ${tmpBQSRCsv} ${BQSRCsv}
     putFile "${BQSRPdf}"
     putFile "${BQSRCsv}"
-    
-else
-    echo -e "\nFailed to move AnalyzeQualityScoreRecalibration results to ${intermediateDir}\n\n"
-    exit -1
 fi

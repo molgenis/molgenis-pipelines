@@ -5,8 +5,6 @@
 #string checkStage
 #string picardVersion
 #string mergeSamFilesJar
-#string tmpMergedBam
-#string tmpMergedBamIdx
 #string mergedBam
 #string mergedBamIdx
 #string tempDir
@@ -19,9 +17,6 @@ echo "stage: ${stage}"
 echo "checkStage: ${checkStage}"
 echo "picardVersion: ${picardVersion}"
 echo "mergeSamFilesJar: ${mergeSamFilesJar}"
-echo "inputMergeBam: ${inputMergeBam}"
-echo "tmpMergedBam: ${tmpMergedBam}"
-echo "tmpMergedBamIdx: ${tmpMergedBamIdx}"
 echo "mergedBam: ${mergedBam}"
 echo "mergedBamIdx: ${mergedBamIdx}"
 echo "tempDir: ${tempDir}"
@@ -42,7 +37,7 @@ array_contains () {
     local array="$1[@]"
     local seeking=$2
     local in=1
-    for element in "${!array}"; do
+    for element in "${array[@]}"; do
         if [[ $element == $seeking ]]; then
             in=0
             break
@@ -50,6 +45,12 @@ array_contains () {
     done
     return $in
 }
+
+makeTmpDir ${mergedBam}
+tmpMergedBam=${MC_tmpFile}
+
+makeTmpDir ${mergedBamIdx}
+tmpMergedBamIdx=${MC_tmpFile}
 
 #Check if output exists
 alloutputsexist \
@@ -88,21 +89,8 @@ MAX_RECORDS_IN_RAM=6000000 \
 VALIDATION_STRINGENCY=LENIENT \
 OUTPUT=${tmpMergedBam} \
 
-
-#Get return code from last program call
-returnCode=$?
-
-echo -e "\nreturnCode MergeBam: $returnCode\n\n"
-
-if [ $returnCode -eq 0 ]
-then
-    echo -e "\nMergedBam finished succesfull. Moving temp files to final.\n\n"
-    mv ${tmpMergedBam} ${mergedBam}
-    mv ${tmpMergedBamIdx} ${mergedBamIdx}
-    putFile "${mergedBam}"
-    putFile "${mergedBamIdx}"
-    
-else
-    echo -e "\nFailed to move MergeBam results to ${intermediateDir}\n\n"
-    exit -1
-fi
+echo -e "\nMergedBam finished succesfull. Moving temp files to final.\n\n"
+mv ${tmpMergedBam} ${mergedBam}
+mv ${tmpMergedBamIdx} ${mergedBamIdx}
+putFile "${mergedBam}"
+putFile "${mergedBamIdx}"
