@@ -1,5 +1,5 @@
 
-#MOLGENIS walltime=09:59:00 mem=4
+#MOLGENIS walltime=09:59:00 mem=8 cores=8 nodes=1
 #FOREACH externalSampleID
 
 inputs "${mergedbam}"

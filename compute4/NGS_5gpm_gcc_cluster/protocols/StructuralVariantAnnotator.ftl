@@ -1,5 +1,5 @@
 
-#MOLGENIS walltime=45:00:00 mem=10
+#MOLGENIS walltime=45:00:00 mem=10 cores=4
 #FOREACH externalSampleID
 
 module load snpEff/2_0_5

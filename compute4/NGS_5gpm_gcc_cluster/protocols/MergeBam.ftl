@@ -1,5 +1,5 @@
 
-#MOLGENIS walltime=23:59:00 mem=6 cores=2
+#MOLGENIS walltime=23:59:00 mem=6 cores=4 nodes=1
 #FOREACH externalSampleID
 
 module load picard-tools/1.61

@@ -1,5 +1,5 @@
 
-#MOLGENIS walltime=45:59:00 mem=4 cores=1
+#MOLGENIS walltime=45:59:00 mem=4 cores=4
 
 module load GATK/1.0.5069
 module list

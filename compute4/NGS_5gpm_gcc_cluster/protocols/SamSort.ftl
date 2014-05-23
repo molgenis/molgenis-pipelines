@@ -1,5 +1,5 @@
 
-#MOLGENIS walltime=35:59:00 mem=4
+#MOLGENIS walltime=35:59:00 mem=4 cores=4
 #TARGETS
 
 module load picard-tools/1.61
