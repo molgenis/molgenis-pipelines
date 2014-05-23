@@ -1,5 +1,4 @@
-
-#MOLGENIS walltime=00:45:00
+#MOLGENIS walltime=00:45:00 nodes=1 cores=2 mem=4
 
 module load GATK/1.0.5069
 module load R/2.14.2

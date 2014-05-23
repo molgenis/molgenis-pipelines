@@ -1,5 +1,5 @@
 
-#MOLGENIS walltime=35:59:00 mem=4
+#MOLGENIS walltime=35:59:00 mem=4 nodes=1 cores=8
 
 module load picard-tools/1.61
 module list

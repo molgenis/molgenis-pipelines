@@ -1,4 +1,4 @@
-#MOLGENIS walltime=20:00:00 mem=5
+#MOLGENIS walltime=20:00:00 mem=5 cores=6
 
 #FOREACH externalSampleID
 <#assign runtimelog = runtimelog[0] />

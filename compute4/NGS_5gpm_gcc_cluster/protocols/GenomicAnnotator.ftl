@@ -1,5 +1,5 @@
 
-#MOLGENIS walltime=24:00:00 mem=10
+#MOLGENIS walltime=24:00:00 mem=10 nodes=1 cores=4
 #FOREACH externalSampleID
 
 module load GATK/1.0.5069
