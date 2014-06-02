@@ -10,9 +10,7 @@
 #string indexFile
 #string beforeRecalTable
 #string postRecalTable
-#string tmpBQSRPdf
 #string BQSRPdf
-#string tmpBQSRCsv
 #string BQSRCsv
 #string RVersion
 
@@ -26,9 +24,7 @@ echo "intermediateDir: ${intermediateDir}"
 echo "indexFile: ${indexFile}"
 echo "beforeRecalTable: ${beforeRecalTable}"
 echo "postRecalTable: ${postRecalTable}"
-echo "tmpBQSRPdf: ${tmpBQSRPdf}"
 echo "BQSRPdf: ${BQSRPdf}"
-echo "tmpBQSRCsv: ${tmpBQSRCsv}"
 echo "BQSRCsv: ${BQSRCsv}"
 
 #Check if output exists
@@ -46,6 +42,13 @@ getFile ${postRecalTable}
 ${stage} GATK/${GATKVersion}
 ${stage} R/${RVersion}
 ${checkStage}
+
+makeTmpDir ${BQSRPdf}
+tmpBQSRPdf=${MC_tmpFile}
+
+makeTmpDir ${BQSRCsv}
+tmpBQSRCsv=${MC_tmpFile}
+
 
 #Analyze covariates (before and after) using GATK. Afterwards generate statistics and graphs and output as csv and pdf respectively
 java -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \

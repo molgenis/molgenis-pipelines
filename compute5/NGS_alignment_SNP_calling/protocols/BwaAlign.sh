@@ -10,7 +10,6 @@
 #string peEnd1BarcodeFqGz
 #string peEnd2BarcodeFqGz
 #string srBarcodeFqGz
-#string intermediateDir
 #string alignedSam
 #string lane
 #string library
@@ -26,7 +25,6 @@ echo "bwaAlignCores: ${bwaAlignCores}"
 echo "peEnd1BarcodeFqGz: ${peEnd1BarcodeFqGz}"
 echo "peEnd2BarcodeFqGz: ${peEnd2BarcodeFqGz}"
 echo "srBarcodeFqGz: ${srBarcodeFqGz}"
-echo "intermediateDir: ${intermediateDir}"
 echo "alignedSam: ${alignedSam}"
 echo "lane: ${lane}"
 echo "library: ${library}"

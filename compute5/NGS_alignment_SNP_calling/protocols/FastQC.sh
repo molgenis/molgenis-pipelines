@@ -61,15 +61,10 @@ then
 	${peEnd2BarcodeFqGz} \
 	-o ${tmpIntermediateDir}
 	
-	#Get return code from last program call
-	returnCode=$?
-
-	echo -e "\nreturnCode FastQC: $returnCode\n\n"
-
-		echo -e "\nFastQC finished succesfull. Moving temp files to final.\n\n"
-		mv ${tmpIntermediateDir}/* ${intermediateDir}
-		putFile "${peEnd1BarcodeFastQcZip}"
-                putFile "${peEnd2BarcodeFastQcZip}"
+	echo -e "\nFastQC finished succesfull. Moving temp files to final.\n\n"
+	mv ${tmpIntermediateDir}/* ${intermediateDir}
+	putFile "${peEnd1BarcodeFastQcZip}"
+        putFile "${peEnd2BarcodeFastQcZip}"
 
 else
 	fastqc ${srBarcodeFqGz} \

@@ -127,8 +127,6 @@ CHART=${tmpCollectBamMetricsPrefix}.gc_bias_metrics.pdf \
 VALIDATION_STRINGENCY=LENIENT \
 TMP_DIR=${tempDir}
 
-echo -e "\nreturnCode GcBiasMetrics: $returnCode\n\n"
-
     echo -e "\nGcBiasMetrics finished succesfull. Moving temp files to final.\n\n"
     mv ${tmpCollectBamMetricsPrefix}.gc_bias_metrics ${collectBamMetricsPrefix}.gc_bias_metrics
     mv ${tmpCollectBamMetricsPrefix}.gc_bias_metrics.pdf ${collectBamMetricsPrefix}.gc_bias_metrics.pdf

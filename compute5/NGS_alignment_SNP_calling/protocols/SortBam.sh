@@ -7,7 +7,6 @@
 #string sortSamJar
 #string inputSortBam
 #string tempDir
-#string intermediateDir
 #string sortedBam
 #string sortedBamIdx
 
@@ -21,7 +20,6 @@ echo "inputSortBam: ${inputSortBam}"
 echo "sortedBam: ${sortedBam}"
 echo "sortedBamIdx: ${sortedBamIdx}"
 echo "tempDir: ${tempDir}"
-echo "intermediateDir: ${intermediateDir}"
 
 sleep 10
 

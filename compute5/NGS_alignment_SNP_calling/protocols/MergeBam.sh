@@ -8,7 +8,6 @@
 #string mergedBam
 #string mergedBamIdx
 #string tempDir
-#string intermediateDir
 #list inputMergeBam
 #list inputMergeBamIdx
 
@@ -20,7 +19,6 @@ echo "mergeSamFilesJar: ${mergeSamFilesJar}"
 echo "mergedBam: ${mergedBam}"
 echo "mergedBamIdx: ${mergedBamIdx}"
 echo "tempDir: ${tempDir}"
-echo "intermediateDir: ${intermediateDir}"
 for bam in "${inputMergeBam[@]}"
 do
   echo "bam: $bam"
