@@ -11,10 +11,9 @@
 #string baitChrBed
 #string dbSNP137Vcf
 #string dbSNP137VcfIdx
-#list BQSRBam
-#list BQSRBamIdx
 #string projectChrVariantCalls
 #string projectChrVariantCallsIdx
+#list externalSampleID
 
 #Echo parameter values
 echo "stage: ${stage}"
@@ -27,14 +26,7 @@ echo "indexFile: ${indexFile}"
 echo "baitChrBed: ${baitChrBed}"
 echo "dbSNP137Vcf: ${dbSNP137Vcf}"
 echo "dbSNP137VcfIdx: ${dbSNP137VcfIdx}"
-for bam in "${BQSRBam[@]}"
-do
-  echo "bam: $bam"
-done
-for bamIdx in "${BQSRBamIdx[@]}"
-do
-  echo "bamIdx: $bamIdx"
-done
+
 echo "projectChrVariantCalls: ${projectChrVariantCalls}"
 echo "projectChrVariantCallsIdx: ${projectChrVariantCallsIdx}"
 
@@ -58,18 +50,18 @@ array_contains () {
 alloutputsexist \
 "${projectChrVariantCalls}"
 
+INPUTS=()
 
 #Get BQSR BAM, idx file and resources
 getFile indexFile
 getFile dbSNP137Vcf
 getFile dbSNP137VcfIdx
-for getBam in "${BQSRBam[@]}"
+for externalID in "${externalSampleID[@]}"
 do
-  getFile $getBam
-done
-for getBamIdx in "${BQSRBamIdx[@]}"
-do
-  getFile $getBamIdx
+  getFile ${intermediateDir}/$externalID.merged.dedup.realigned.bqsr.bam
+  getFile ${intermediateDir}/$externalID.merged.dedup.realigned.bqsr.bai
+  
+  INPUTS+=("-I ${intermediateDir}/$externalID.merged.dedup.realigned.bqsr.bam")
 done
 
 
@@ -77,13 +69,6 @@ done
 ${stage} GATK/${GATKVersion}
 ${checkStage}
 
-#Create string with input BAM files for GATK HaplotypeCaller
-#This check needs to be performed because Compute generates duplicate values in array
-INPUTS=()
-for bamFile in "${BQSRBam[@]}"
-do
-	array_contains INPUTS "-I $bamFile" || INPUTS+=("-I $bamFile")    # If bamFile does not exist in array add it
-done
 
 makeTmpDir ${projectChrVariantCalls}
 tmpProjectChrVariantCalls=${MC_tmpFile}
