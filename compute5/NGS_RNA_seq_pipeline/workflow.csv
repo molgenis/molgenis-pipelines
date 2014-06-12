@@ -1,0 +1,4 @@
+step,protocol,dependencies
+s00_STARMapping,protocols/STARMapping.sh,
+s01_HTSeq_count,protocols/HTSeq_count.sh,s00_STARMapping
+s02_MakeExpressionTable,protocols/MakeExpressionTable.sh,s01_HTSeq_count
