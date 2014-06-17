@@ -16,6 +16,9 @@
 #
 umask 0007
 
+module load jdk
+module list
+
 #
 # Create project dirs.
 #

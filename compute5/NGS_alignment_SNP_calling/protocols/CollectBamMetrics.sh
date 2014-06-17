@@ -1,4 +1,4 @@
-#MOLGENIS walltime=35:59:00 mem=4gb
+#MOLGENIS walltime=23:59:00 mem=4gb
 
 
 #Parameter mapping
@@ -13,7 +13,6 @@
 #string inputCollectBamMetricsBamIdx
 #string indexFile
 #string collectBamMetricsPrefix
-#string tmpCollectBamMetricsPrefix
 #string tempDir
 #string recreateInsertsizePdfR
 #string baitIntervals
@@ -36,7 +35,6 @@ echo "inputCollectBamMetricsBam: ${inputCollectBamMetricsBam}"
 echo "inputCollectBamMetricsBamIdx: ${inputCollectBamMetricsBamIdx}"
 echo "indexFile: ${indexFile}"
 echo "collectBamMetricsPrefix: ${collectBamMetricsPrefix}"
-echo "tmpCollectBamMetricsPrefix: ${tmpCollectBamMetricsPrefix}"
 echo "tempDir: ${tempDir}"
 echo "recreateInsertsizePdfR: ${recreateInsertsizePdfR}"
 echo "baitIntervals: ${baitIntervals}"
@@ -74,15 +72,15 @@ then
 	getFile ${targetIntervals}
 fi
 
-
-
 #Load Picard module
 ${stage} picard-tools/${picardVersion}
-${checkStage}
 
 #Load R module
 ${stage} R/${RVersion}
 ${checkStage}
+
+makeTmpDir ${collectBamMetricsPrefix}
+tmpCollectBamMetricsPrefix=${MC_tmpFile}
 
 #Run Picard CollectAlignmentSummaryMetrics, CollectInsertSizeMetrics, QualityScoreDistribution and MeanQualityByCycle
 java -jar -Xmx4g $PICARD_HOME/${collectMultipleMetricsJar} \
@@ -96,13 +94,6 @@ PROGRAM=MeanQualityByCycle \
 VALIDATION_STRINGENCY=LENIENT \
 TMP_DIR=${tempDir}
 
-#Get return code from last program call
-returnCode=$?
-
-echo -e "\nreturnCode CollectBamMetrics: $returnCode\n\n"
-
-if [ $returnCode -eq 0 ]
-then
     echo -e "\nCollectBamMetrics finished succesfull. Moving temp files to final.\n\n"
     mv ${tmpCollectBamMetricsPrefix}.alignment_summary_metrics ${collectBamMetricsPrefix}.alignment_summary_metrics
     mv ${tmpCollectBamMetricsPrefix}.quality_distribution_metrics ${collectBamMetricsPrefix}.quality_distribution_metrics
@@ -120,19 +111,13 @@ then
 	then
 	echo -e "\nDetected paired-end data, moving all files.\n\n"
     mv ${tmpCollectBamMetricsPrefix}.insert_size_metrics ${collectBamMetricsPrefix}.insert_size_metrics
-    mv ${tmpCollectBamMetricsPrefix}.insert_size_histogram.pdf ${collectBamMetricsPrefix}.insert_size_histogram.pdf
+    #mv ${tmpCollectBamMetricsPrefix}.insert_size_histogram.pdf ${collectBamMetricsPrefix}.insert_size_histogram.pdf
     
     else
     echo -e "\nDetected single read data, no *.insert_size_metrics files to be moved.\n\n"
     
     fi
     
-else
-    echo -e "\nFailed to move CollectBamMetrics results to ${intermediateDir}\n\n"
-    exit -1
-fi
-
-
 #Run Picard GcBiasMetrics
 java -jar -Xmx4g $PICARD_HOME/${gcBiasMetricsJar} \
 R=${indexFile} \
@@ -142,32 +127,20 @@ CHART=${tmpCollectBamMetricsPrefix}.gc_bias_metrics.pdf \
 VALIDATION_STRINGENCY=LENIENT \
 TMP_DIR=${tempDir}
 
-#Get return code from last program call
-returnCode=$?
-
-echo -e "\nreturnCode GcBiasMetrics: $returnCode\n\n"
-
-if [ $returnCode -eq 0 ]
-then
     echo -e "\nGcBiasMetrics finished succesfull. Moving temp files to final.\n\n"
     mv ${tmpCollectBamMetricsPrefix}.gc_bias_metrics ${collectBamMetricsPrefix}.gc_bias_metrics
     mv ${tmpCollectBamMetricsPrefix}.gc_bias_metrics.pdf ${collectBamMetricsPrefix}.gc_bias_metrics.pdf
     putFile "${collectBamMetricsPrefix}.gc_bias_metrics"
     putFile "${collectBamMetricsPrefix}.gc_bias_metrics.pdf"
-    
-else
-    echo -e "\nFailed to move GcBiasMetrics results to ${intermediateDir}\n\n"
-    exit -1
-fi
 
 ######IS THIS STILL NEEDED, IMPROVEMENTS/UPDATES TO BE DONE?#####
 #Create nicer insertsize plots if seqType is PE
 #if [ ${seqType} == "PE" ]
 #then
 	# Overwrite the PDFs that were just created by nicer onces:
-#	rscript ${recreateInsertsizePdfR} \
-#	--insertSizeMetrics ${inputCollectBamMetricsBam}.insert_size_metrics \
-#	--pdf ${inputCollectBamMetricsBam}.insert_size_histogram.pdf
+	Rscript ${recreateInsertsizePdfR} \
+	--insertSizeMetrics ${inputCollectBamMetricsBam}.insert_size_metrics \
+	--pdf ${inputCollectBamMetricsBam}.insert_size_histogram.pdf
 
 #else
 	# Don't do insert size analysis because seqType != "PE"
@@ -200,23 +173,9 @@ else
 	echo "NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA" >> ${tmpCollectBamMetricsPrefix}.hs_metrics
 
 fi
-
-#Get return code from last program call
-returnCode=$?
-
-echo -e "\nreturnCode HsMetrics: $returnCode\n\n"
-
-if [ $returnCode -eq 0 ]
-then
-    echo -e "\nHsMetrics finished succesfull. Moving temp files to final.\n\n"
-    mv ${tmpCollectBamMetricsPrefix}.hs_metrics ${collectBamMetricsPrefix}.hs_metrics
-    putFile "${collectBamMetricsPrefix}.hs_metrics"
-    
-else
-    echo -e "\nFailed to move HsMetrics results to ${intermediateDir}\n\n"
-    exit -1
-fi
-
+echo -e "\nHsMetrics finished succesfull. Moving temp files to final.\n\n"
+mv ${tmpCollectBamMetricsPrefix}.hs_metrics ${collectBamMetricsPrefix}.hs_metrics
+putFile "${collectBamMetricsPrefix}.hs_metrics"
 
 #Run Picard BamIndexStats
 java -jar -Xmx4g $PICARD_HOME/${bamIndexStatsJar} \
@@ -225,18 +184,6 @@ VALIDATION_STRINGENCY=LENIENT \
 TMP_DIR=${tempDir} \
 > ${tmpCollectBamMetricsPrefix}.bam_index_stats
 
-#Get return code from last program call
-returnCode=$?
-
-echo -e "\nreturnCode BamIndexStats: $returnCode\n\n"
-
-if [ $returnCode -eq 0 ]
-then
     echo -e "\nBamIndexStats finished succesfull. Moving temp files to final.\n\n"
     mv ${tmpCollectBamMetricsPrefix}.bam_index_stats ${collectBamMetricsPrefix}.bam_index_stats
     putFile "${collectBamMetricsPrefix}.bam_index_stats"
-    
-else
-    echo -e "\nFailed to move BamIndexStats results to ${intermediateDir}\n\n"
-    exit -1
-fi

@@ -9,6 +9,7 @@
 #string imputationIntermediatesFolder
 #string fromChrPos
 #string toChrPos
+#string generateInfo
 #list impute2ChunkOutput
 #list impute2ChunkOutputInfo
 
@@ -59,15 +60,29 @@ rm -f ${imputationIntermediatesFolder}/chr${chr}_${fromChrPos}-${toChrPos}_info
 
 #Merging chunks
 toExecute="paste <(cut -d ' ' -f 1-5 ${imputation__has__impute2ChunkOutput[0]})"
+concatCommandColumns="cut -d ' ' -f 1-5 ${imputation__has__impute2ChunkOutput[0]} > ${imputationIntermediatesFolder}/~chr${chr}_${fromChrPos}-${toChrPos}.columns"
+concatCommand="paste ${imputationIntermediatesFolder}/~chr${chr}_${fromChrPos}-${toChrPos}.columns "
+echo "Running: ${concatCommandColumns}"
+eval ${concatCommandColumns}
+indexVar=0
 for element in ${imputation__has__impute2ChunkOutput[@]}
 do
+	indexVar=`expr $indexVar + 1`
 	toExecute="${toExecute} <( cut -d ' ' -f 6- ${element} )"
+	concatCommandColumns="cut -d ' ' -f 6- ${element} > ${imputationIntermediatesFolder}/~chr${chr}_${fromChrPos}-${toChrPos}.${indexVar}"
+	echo "Running: ${concatCommandColumns}"
+	eval ${concatCommandColumns}
+	concatCommand="${concatCommand} ${imputationIntermediatesFolder}/~chr${chr}_${fromChrPos}-${toChrPos}.${indexVar} "
 done
 toExecute="${toExecute} > ${imputationIntermediatesFolder}/~chr${chr}_${fromChrPos}-${toChrPos}"
+concatCommand="${concatCommand} > ${imputationIntermediatesFolder}/~chr${chr}_${fromChrPos}-${toChrPos}"
 
-echo "Executing: $toExecute"
-eval ${toExecute}
+# Process substitution is not available in all Unix shells
+#echo "Executing: $toExecute"
+#eval ${toExecute}
 
+echo "Executing: ${concatCommand}"
+eval ${concatCommand}
 
 returnCode=$?
 if [ $returnCode -eq 0 ]
@@ -84,7 +99,11 @@ fi
 
 
 #Merging infos (simple vertical merging)
-toExecute="paste ${imputation__has__impute2ChunkOutputInfo[@]} > ${imputationIntermediatesFolder}/~chr${chr}_${fromChrPos}-${toChrPos}_info"
+#toExecute="paste ${imputation__has__impute2ChunkOutputInfo[@]} > ${imputationIntermediatesFolder}/~chr${chr}_${fromChrPos}-${toChrPos}_info"
+#echo "Executing: ${toExecute}"
+#eval ${toExecute}
+
+toExecute="python ${generateInfo} --input_gprobs_filename ${imputationIntermediatesFolder}/chr${chr}_${fromChrPos}-${toChrPos} --output_info_filename ${imputationIntermediatesFolder}/~chr${chr}_${fromChrPos}-${toChrPos}_info"
 echo "Executing: ${toExecute}"
 eval ${toExecute}
 

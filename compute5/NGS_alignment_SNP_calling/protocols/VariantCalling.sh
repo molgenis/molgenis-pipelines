@@ -1,4 +1,4 @@
-#MOLGENIS walltime=35:59:00 mem=4gb
+#MOLGENIS walltime=23:59:00 mem=4gb
 
 #Parameter mapping
 #string stage
@@ -11,12 +11,9 @@
 #string baitChrBed
 #string dbSNP137Vcf
 #string dbSNP137VcfIdx
-#list BQSRBam
-#list BQSRBamIdx
-#string tmpProjectVariantCalls
-#string tmpProjectVariantCallsIdx
-#string projectVariantCalls
-#string projectVariantCallsIdx
+#string projectChrVariantCalls
+#string projectChrVariantCallsIdx
+#list externalSampleID
 
 #Echo parameter values
 echo "stage: ${stage}"
@@ -29,18 +26,9 @@ echo "indexFile: ${indexFile}"
 echo "baitChrBed: ${baitChrBed}"
 echo "dbSNP137Vcf: ${dbSNP137Vcf}"
 echo "dbSNP137VcfIdx: ${dbSNP137VcfIdx}"
-for bam in "${BQSRBam[@]}"
-do
-  echo "bam: $bam"
-done
-for bamIdx in "${BQSRBamIdx[@]}"
-do
-  echo "bamIdx: $bamIdx"
-done
-echo "tmpProjectVariantCalls: ${tmpProjectVariantCalls}"
-echo "tmpProjectVariantCallsIdx: ${tmpProjectVariantCallsIdx}"
-echo "projectVariantCalls: ${projectVariantCalls}"
-echo "projectVariantCallsIdx: ${projectVariantCallsIdx}"
+
+echo "projectChrVariantCalls: ${projectChrVariantCalls}"
+echo "projectChrVariantCallsIdx: ${projectChrVariantCallsIdx}"
 
 sleep 10
 
@@ -49,7 +37,7 @@ array_contains () {
     local array="$1[@]"
     local seeking=$2
     local in=1
-    for element in "${!array}"; do
+    for element in "${array[@]}"; do
         if [[ $element == $seeking ]]; then
             in=0
             break
@@ -60,20 +48,20 @@ array_contains () {
 
 #Check if output exists
 alloutputsexist \
-"${projectVariantCalls}"
+"${projectChrVariantCalls}"
 
+INPUTS=()
 
 #Get BQSR BAM, idx file and resources
 getFile indexFile
 getFile dbSNP137Vcf
 getFile dbSNP137VcfIdx
-for getBam in "${BQSRBam[@]}"
+for externalID in "${externalSampleID[@]}"
 do
-  getFile $getBam
-done
-for getBamIdx in "${BQSRBamIdx[@]}"
-do
-  getFile $getBamIdx
+  getFile ${intermediateDir}/$externalID.merged.dedup.realigned.bqsr.bam
+  getFile ${intermediateDir}/$externalID.merged.dedup.realigned.bqsr.bai
+  
+  INPUTS+=("-I ${intermediateDir}/$externalID.merged.dedup.realigned.bqsr.bam")
 done
 
 
@@ -81,13 +69,12 @@ done
 ${stage} GATK/${GATKVersion}
 ${checkStage}
 
-#Create string with input BAM files for GATK HaplotypeCaller
-#This check needs to be performed because Compute generates duplicate values in array
-INPUTS=()
-for bamFile in "${BQSRBam[@]}"
-do
-	array_contains INPUTS "-I $bamFile" || INPUTS+=("-I $bamFile")    # If bamFile does not exist in array add it
-done
+
+makeTmpDir ${projectChrVariantCalls}
+tmpProjectChrVariantCalls=${MC_tmpFile}
+
+makeTmpDir ${projectChrVariantCallsIdx}
+tmpProjectChrVariantCallsIdx=${MC_tmpFile}
 
 #Run GATK HaplotypeCaller in DISCOVERY mode to call SNPs and indels
 java -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
@@ -99,25 +86,13 @@ ${INPUTS[@]} \
 --genotyping_mode DISCOVERY \
 -stand_emit_conf 10 \
 -stand_call_conf 30 \
--o ${tmpProjectVariantCalls} \
+-o ${tmpProjectChrVariantCalls} \
 -L ${baitChrBed} \
 -nct 16
 
-
-#Get return code from last program call
-returnCode=$?
-
-echo -e "\nreturnCode VariantCalling: $returnCode\n\n"
-
-if [ $returnCode -eq 0 ]
-then
     echo -e "\nVariantCalling finished succesfull. Moving temp files to final.\n\n"
-    mv ${tmpProjectVariantCalls} ${projectVariantCalls}
-    mv ${tmpProjectVariantCallsIdx} ${projectVariantCallsIdx}
-    putFile "${projectVariantCalls}"
-    putFile "${projectVariantCallsIdx}"
-    
-else
-    echo -e "\nFailed to move VariantCalling results to ${intermediateDir}\n\n"
-    exit -1
-fi
+    mv ${tmpProjectChrVariantCalls} ${projectChrVariantCalls}
+    mv ${tmpProjectChrVariantCallsIdx} ${projectChrVariantCallsIdx}
+    putFile "${projectChrVariantCalls}"
+    putFile "${projectChrVariantCallsIdx}"
+

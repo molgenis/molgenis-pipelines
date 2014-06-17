@@ -1,15 +1,9 @@
-#
-# =====================================================
-# $Id$
-# $URL$
-# $LastChangedDate$
-# $LastChangedRevision$
-# $LastChangedBy$
-# =====================================================
-#
 
 #MOLGENIS walltime=33:00:00 nodes=1 cores=8 mem=4
 #FOREACH externalSampleID
+
+module load pindel/${pindelVersion}
+module list
 
 inputs "${mergedbam}"
 inputs "${indexfile}"

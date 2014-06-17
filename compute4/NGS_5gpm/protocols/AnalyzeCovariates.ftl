@@ -1,14 +1,8 @@
-#
-# =====================================================
-# $Id$
-# $URL$
-# $LastChangedDate$
-# $LastChangedRevision$
-# $LastChangedBy$
-# =====================================================
-#
 
 #MOLGENIS walltime=00:45:00
+
+module load GATK/${gatkVersion}
+module list
 
 inputs "${matefixedcovariatecsv}"
 inputs "${sortedrecalcovariatecsv}"

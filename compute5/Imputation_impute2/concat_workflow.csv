@@ -1,0 +1,2 @@
+step,protocol,dependencies
+concatRes,./protocols/concatImpute2ChrResults_no_project.sh,in_impute2ChunkOutput=impute2ChunkOutput;in_impute2ChunkOutputInfo=impute2ChunkOutputInfo

@@ -126,8 +126,14 @@ mkdir -p ${imputationIntermediatesFolder}
 #Create subset of samples to exclude 
 sample_subset_to_exclude=${tmpOutput}.toExclude
 echo "Samples excluded from this run: ${sample_subset_to_exclude}"
-cat <(cat ${genotype_aligner_output_sample} | tail -n +3 | head -n `expr ${fromSample} - 1`) <(cat ${genotype_aligner_output_sample} | tail -n +3 | tail -n +`expr ${toSample} + 1`) | cut -f 2 -d ' ' > ${sample_subset_to_exclude}
 
+# Process substitution is not supported from all shells : http://www.gnu.org/software/bash/manual/bashref.html#Process-Substitution so it's better to avoid it.
+# This is the way to implement the following three lines in a single command with process substitution:
+# cat <(cat ${genotype_aligner_output_sample} | tail -n +3 | head -n `expr ${fromSample} - 1`) <(cat ${genotype_aligner_output_sample} | tail -n +3 | tail -n +`expr ${toSample} + 1`) | cut -f 2 -d ' ' > ${sample_subset_to_exclude}
+
+cat ${genotype_aligner_output_sample} | tail -n +3 | head -n `expr ${fromSample} - 1` > ${sample_subset_to_exclude}.part1
+cat ${genotype_aligner_output_sample} | tail -n +3 | tail -n +`expr ${toSample} + 1` > ${sample_subset_to_exclude}.part2
+cat ${sample_subset_to_exclude}.part1 ${sample_subset_to_exclude}.part2 | cut -f 2 -d ' ' > ${sample_subset_to_exclude}
 
 #From http://mathgen.stats.ox.ac.uk/impute/impute_v2.html
 #To use pre-phased study data in this example, you would replace the -g file with a -known_haps_g file and add the -use_prephased_g flag to your IMPUTE2 command.
@@ -225,13 +231,13 @@ if ((num>59));then
             hour=$(($num%24))
             day=$(($num/24))
         else
-            hour=num
+            hour=${num}
         fi
     else
-        min=num
+        min=${num}
     fi
 else
-    sec=num
+    sec=${num}
 fi
 echo "Running time: ${day} days ${hour} hours ${min} mins ${sec} secs"
 

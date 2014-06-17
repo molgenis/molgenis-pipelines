@@ -11,7 +11,8 @@
 #MOLGENIS walltime=23:59:00
 #TARGETS
 
-module load bwa/${bwaVersion}
+module load bwa/0.5.8c_patched
+module list
 
 getFile ${indexfile}
 getFile ${leftbwaout}

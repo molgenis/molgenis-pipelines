@@ -1,15 +1,9 @@
-#
-# =====================================================
-# $Id$
-# $URL$
-# $LastChangedDate$
-# $LastChangedRevision$
-# $LastChangedBy$
-# =====================================================
-#
 
 #MOLGENIS walltime=46:00:00 mem=8 cores=5
 #FOREACH externalSampleID
+
+module load GATK/${gatkVersion}
+module list
 
 inputs "${mergedbam}" 
 inputs "${indexfile}"

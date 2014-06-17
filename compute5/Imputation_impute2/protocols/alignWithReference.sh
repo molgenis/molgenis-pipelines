@@ -9,12 +9,16 @@
 #string knownHapsG
 #string genotypeAlignerJar
 #string vcf
+#string refType
+#string javaExecutable
 
 echo "chr: ${chr}"
 echo "outputFolder: ${outputFolder}"
 echo "knownHapsG: ${knownHapsG}"
 echo "genotypeAlignerJar: ${genotypeAlignerJar}"
 echo "vcf: ${vcf}"
+echo "refType: ${refType}"
+echo "javaExecutable: $(javaExecutable)"
 
 haps_input=${knownHapsG}
 sample_input="${knownHapsG%.haps}.sample"
@@ -39,11 +43,11 @@ getFile ${sample_input}
 inputs ${sample_input}
 
 #Do the alignment
-if java -jar ${genotypeAlignerJar} \
+if ${javaExecutable} -jar ${genotypeAlignerJar} \
 	--input ${basename_input} \
 	--inputType SHAPEIT2 \
 	--ref ${vcf} \
-	--refType VCF \
+	--refType ${refType} \
 	--forceChr ${chr} \
 	--output ${outputFolder}/~chr${chr} \
 	--outputType SHAPEIT2
@@ -78,17 +82,14 @@ if ((num>59));then
             hour=$(($num%24))
             day=$(($num/24))
         else
-            hour=num
+            hour=${num}
         fi
     else
-        min=num
+        min=${num}
     fi
 else
-    sec=num
+    sec=${num}
 fi
 echo "Running time: ${day} days ${hour} hours ${min} mins ${sec} secs"
-
-
-
 
 

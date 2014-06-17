@@ -1,15 +1,9 @@
-#
-# =====================================================
-# $Id$
-# $URL$
-# $LastChangedDate$
-# $LastChangedRevision$
-# $LastChangedBy$
-# =====================================================
-#
 
 #MOLGENIS walltime=45:00:00 mem=10
 #FOREACH externalSampleID
+
+module load snpEff/${snpEffVersion}
+module list
 
 inputs "${snpeffjar}"
 inputs "${snpeffconfig}" 

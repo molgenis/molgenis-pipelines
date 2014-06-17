@@ -1,12 +1,3 @@
-#
-# =====================================================
-# $Id$
-# $URL$
-# $LastChangedDate$
-# $LastChangedRevision$
-# $LastChangedBy$
-# =====================================================
-#
 
 #MOLGENIS walltime=00:05:00
 #FOREACH project
@@ -42,6 +33,9 @@ inputs ${qcstatisticscolnames}
 
 export PATH=${R_HOME}/bin:<#noparse>${PATH}</#noparse>
 export R_LIBS=${R_LIBS}
+
+module load graphviz/${graphvizVersion}
+module list
 
 # get general sample statistics
 Rscript ${getStatisticsScript} \
@@ -79,7 +73,7 @@ Rscript ${createsnptablescript} \
 
 
 # create workflow figure
-echo "${graph(workflowElements)}" | ${dot} -Tpng > ${workflowpng}
+echo "${graph(workflowElements)}" | dot -Tpng > ${workflowpng}
 
 # save latex template in file
 echo "<#include "QCReportTemplate.tex"/>" > ${qcstatisticstexreport}

@@ -11,19 +11,18 @@
 #MOLGENIS walltime=23:59:00 mem=6 cores=2
 #FOREACH externalSampleID
 
-module load picard-tools/${picardVersion}
+module load picard-tools/1.61
+module list
 
 inputs <#list sortedrecalbam as srb> "${srb}" </#list>
 alloutputsexist "${mergedbam}" \
 "${mergedbamindex}"
 
 <#if sortedrecalbam?size == 1>
-	#cp ${sortedrecalbam[0]} ${mergedbam}
-	#cp ${sortedrecalbam[0]}.bai ${mergedbamindex}
 	ln -s ${sortedrecalbam[0]} ${mergedbam}
 	ln -s ${sortedrecalbam[0]}.bai ${mergedbamindex}
 <#else>
-	java -jar -Xmx6g ${mergesamfilesjar} \
+	java -jar -Xmx6g $PICARD_HOME/MergeSamFiles.jar \
 	<#list sortedrecalbam as srb>INPUT=${srb} \
 	</#list>
 	ASSUME_SORTED=true USE_THREADING=true \
@@ -32,7 +31,7 @@ alloutputsexist "${mergedbam}" \
 	SORT_ORDER=coordinate \
 	VALIDATION_STRINGENCY=SILENT
 	
-	java -jar -Xmx3g ${buildbamindexjar} \
+	java -jar -Xmx3g $PICARD_HOME/BuildBamIndex.jar \
 	INPUT=${mergedbam} \
 	OUTPUT=${mergedbamindex} \
 	VALIDATION_STRINGENCY=LENIENT \

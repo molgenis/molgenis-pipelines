@@ -16,9 +16,6 @@
 #string liftOverUcscVersion
 #string plinkVersion
 
-
-
-
 if hash ${stage} 2>/dev/null; then
 	${stage} liftOverUcsc/${liftOverUcscVersion}
 	${stage} plink/${plinkVersion}
@@ -145,13 +142,13 @@ if ((num>59));then
             hour=$(($num%24))
             day=$(($num/24))
         else
-            hour=num
+            hour=${num}
         fi
     else
-        min=num
+        min=${num}
     fi
 else
-    sec=num
+    sec=${num}
 fi
 echo "Running time: ${day} days ${hour} hours ${min} mins ${sec} secs"
 

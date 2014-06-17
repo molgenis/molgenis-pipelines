@@ -1,4 +1,4 @@
-#MOLGENIS nodes=1 cores=1 mem=4
+#MOLGENIS nodes=1 cores=1 mem=8
 
 known_haps_g="${known_haps_g}"
 m="${m}"
