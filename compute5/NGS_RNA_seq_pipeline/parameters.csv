@@ -77,7 +77,7 @@ rightbarcodefqgz,${rightbarcodefq}.gz
 sortedBam,${intermediateDir}${externalSampleID}.Aligned.out.sorted.bam,,,
 expressionFolder,${intermediateDir},,,
 txtExpression,"${intermediateDir}/${externalSampleID}.htseq.txt",,,
-expressionTable,${intermediateDir}/expression_table.genelevel.v71.htseq.txt,,,
+expressionTable,${intermediateDir}/expression_table.genelevel.v71.htseq.txt.table,,,
 #,
 geneAnnotationTxt,${STARindex}//annotation_geneIds_v71.txt.gz,
 #,
