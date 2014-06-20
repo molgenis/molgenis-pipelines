@@ -59,9 +59,9 @@ rm -f ${imputationIntermediatesFolder}/~chr${chr}_${fromChrPos}-${toChrPos}_info
 rm -f ${imputationIntermediatesFolder}/chr${chr}_${fromChrPos}-${toChrPos}_info
 
 #Merging chunks
-toExecute="paste <(cut -d ' ' -f 1-5 ${imputation__has__impute2ChunkOutput[0]})"
+toExecute="paste -d ' ' <(cut -d ' ' -f 1-5 ${imputation__has__impute2ChunkOutput[0]})"
 concatCommandColumns="cut -d ' ' -f 1-5 ${imputation__has__impute2ChunkOutput[0]} > ${imputationIntermediatesFolder}/~chr${chr}_${fromChrPos}-${toChrPos}.columns"
-concatCommand="paste ${imputationIntermediatesFolder}/~chr${chr}_${fromChrPos}-${toChrPos}.columns "
+concatCommand="paste -d ' ' ${imputationIntermediatesFolder}/~chr${chr}_${fromChrPos}-${toChrPos}.columns "
 echo "Running: ${concatCommandColumns}"
 eval ${concatCommandColumns}
 indexVar=0
