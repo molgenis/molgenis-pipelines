@@ -48,9 +48,11 @@ rawFile,${projectRawtmpDataDir}/${filePrefix}_${barcode}
 peEnd1BarcodeFqGz,${rawFile}_1.${rawFileExt}
 peEnd2BarcodeFqGz,${rawFile}_2.${rawFileExt}
 srBarcodeFqGz,${rawFile}.${rawFileExt}
+srBarcodeFq,${intermediateDir}/${filePrefix}_${barcode}.fq
 peEnd1BarcodeFastQcZip,${intermediateDir}/${filePrefix}_${barcode}_1.fq_fastqc.zip
 peEnd2BarcodeFastQcZip,${intermediateDir}/${filePrefix}_${barcode}_2.fq_fastqc.zip
 srBarcodeFastQcZip,${intermediateDir}/${filePrefix}_${barcode}.fq_fastqc.zip
+BarcodeFastQcFolder,${intermediateDir}/${filePrefix}_${barcode}.fq_fastqc
 alignedSam,${intermediateDir}/${filePrefix}_${barcode}.sam
 alignedBam,${intermediateDir}/${filePrefix}_${barcode}.bam
 #,
@@ -65,6 +67,7 @@ baseFolder,
 #,
 STARindex,/gcc/resources/b37/indices/STARindex_v71/
 annotationGtf,${STARindex}/Homo_sapiens.GRCh37.71.cut.sorted.gtf
+annotationRefFlat,${STARindex}/Homo_sapiens.GRCh37.71.cut.sorted.gtf.annotation.refFlat
 projectrawdatadir,${projectDir}/rawdata/ngs/
 workflowFile,$MC_HOME/NGS_RNA_seq_pipeline/workflow.csv
 leftbarcode,${projectrawdatadir}/${filePrefix}_${barcode}_1
@@ -75,6 +78,11 @@ leftbarcodefqgz,${leftbarcodefq}.gz
 rightbarcodefqgz,${rightbarcodefq}.gz
 #,
 sortedBam,${intermediateDir}${externalSampleID}.Aligned.out.sorted.bam,,,
+flagstatMetrics,${intermediateDir}${externalSampleID}.flagstat
+dupStatMetrics,${intermediateDir}${externalSampleID}.mdupmetrics
+rnaSeqMetrics,${intermediateDir}${externalSampleID}.collectrnaseqmetrics
+insertsizeMetrics,${intermediateDir}${externalSampleID}.insertsizemetrics
+insertsizeMetricspdf,${intermediateDir}${externalSampleID}.insertsizemetrics.pdf
 expressionFolder,${intermediateDir},,,
 txtExpression,"${intermediateDir}/${externalSampleID}.htseq.txt",,,
 expressionTable,${intermediateDir}/expression_table.genelevel.v71.htseq.txt.table,,,
@@ -83,3 +91,8 @@ geneAnnotationTxt,${STARindex}//annotation_geneIds_v71.txt.gz,
 #,
 htseq_count,/gcc/tools/anaconda_1.8.0/lib/python2.7/site-packages/HTSeq-0.5.4p5-py2.7-linux-x86_64.egg/HTSeq/scripts/count.py,
 processReadCountsJar,${scriptDir}/ProcessReadCounts.jar
+recreateinsertsizepdfR,${toolDir}/createInsertSizePlot/createInsertSizePlot.R,
+qcMatrics,${intermediateDir}/${externalSampleID}.total.qc.metrics.table
+starLogFile,${intermediateDir}/${externalSampleID}.Log.final.out,
+qcMatricsList,${intermediateDir}/${project}_qcMatricsList.txt
+gcPlotList,${intermediateDir}/${project}_gcPlotList.txt
