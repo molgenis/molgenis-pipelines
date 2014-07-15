@@ -17,6 +17,8 @@ logger.out
 Icon?
 ehthumbs.db
 Thumbs.db
+.classpath
+.gitignore
 
 # Project specific files #
 ##########################
