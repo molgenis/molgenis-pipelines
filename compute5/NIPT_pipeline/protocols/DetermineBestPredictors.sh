@@ -43,7 +43,6 @@ Rscript ${RScriptPred} \
 ${chiIntermediateDir} \
 ${PredictOut4Preds} \
 ${PredictOut5Preds} \
-${chiIntermediateDir} \
 ${fractionTable} \
 ${sampleID} \
 ${chromoFocus}
