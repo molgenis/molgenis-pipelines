@@ -10,8 +10,6 @@ echo "chiIntermediateDir: ${chiIntermediateDir}"
 echo "resultDir: ${resultDir}"
 
 
-mkdir -p "${resultDir}/Diagnostiek"
-mkdir -p "${resultDir}/All"
+mkdir -p ${resultDir}
 
-cp ${chiIntermediateDir}/*.pdf ${resultDir}/All
-cp ${chiIntermediateDir}/*Diagnostiek* ${resultDir}/Diagnostiek
+cp ${chiIntermediateDir}/*.pdf ${resultDir}
