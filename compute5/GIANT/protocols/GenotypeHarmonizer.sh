@@ -18,7 +18,6 @@ then
 fi
 
 ${stage} GenotypeHarmonizer
-#auto
 java -jar ${GENOTYPEHARMONIZER_HOME}/GenotypeHarmonizer.jar -XX:ParallelGCThreads=4 --inputType PLINK_BED \
 --input ${GIANT_workDir_outputLiftoverDir}/chrX \
 --output ${GIANT_workDir_GH_OutputDir}/chrX \
