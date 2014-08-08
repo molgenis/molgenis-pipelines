@@ -1,4 +1,4 @@
-#MOLGENIS walltime=01:59:00 mem=4gb
+#MOLGENIS walltime=01:59:00 mem=4gb ppn=4
 
 #Parameter mapping
 #string GIANT_workDir_GH_OutputDir
