@@ -19,7 +19,7 @@ fi
 
 ${stage} GenotypeHarmonizer
 #auto
-java -jar ${GENOTYPEHARMONIZER_HOME}/GenotypeHarmonizer.jar --inputType PLINK_BED \
+java -jar ${GENOTYPEHARMONIZER_HOME}/GenotypeHarmonizer.jar -XX:ParallelGCThreads=4 --inputType PLINK_BED \
 --input ${GIANT_workDir_outputLiftoverDir}/chrX \
 --output ${GIANT_workDir_GH_OutputDir}/chrX \
 --ref ${chrX_1000G_phase1_refpanel_female_only_recode}.recode.vcf.gz
