@@ -84,7 +84,7 @@ plink \
 
 
 #This simple run, reorder SNPs in case liftoering produced unorder positions
-# /target/gpfs2/gcc/tools/plink-1.07-x86_64/plink --noweb --recode --file chr1 --out test
+# /gcc/tools/plink-1.07-x86_64/plink --noweb --recode --file chr1 --out test
 
 plink \
 	--noweb \
