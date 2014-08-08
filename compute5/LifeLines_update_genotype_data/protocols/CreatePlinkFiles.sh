@@ -12,6 +12,7 @@
 #string tmpProjectDir
 #string doseFile
 #string referenceStudyDir
+#string snp_subset
 
 #Echo parameter values
 echo "studyDir: ${studyDir}"
@@ -25,18 +26,30 @@ echo "tmpKeep: ${tmpKeep}"
 echo "tmpProjectDir: ${tmpProjectDir}"
 echo "doseFile: ${doseFile}"
 echo "referenceStudyDir: ${referenceStudyDir}"
-
+echo "snp_subset: ${snp_subset}"
 
 ##CAN'T WE COMBINE BOTH STEPS INTO A SINGLE PLINK COMMAND??
 
 #Filter and updateIds imputedStudy data
-${plinkBin} \
---noweb \
---file ${imputedStudy} \
---update-ids ${tmpUpdateIds} \
---out ${tmpProjectDir}/~${studyId}_chr${chr} \
---keep ${tmpKeep} \
---recode
+if [ ${snp_subset} == "all" ]
+then
+	${plinkBin} \
+	--noweb \
+	--file ${imputedStudy} \
+	--update-ids ${tmpUpdateIds} \
+	--out ${tmpProjectDir}/~${studyId}_chr${chr} \
+	--keep ${tmpKeep} \
+	--recode
+else
+	${plinkBin} \
+	--noweb \
+	--file ${imputedStudy} \
+	--update-ids ${tmpUpdateIds} \
+	--out ${tmpProjectDir}/~${studyId}_chr${chr} \
+	--extract ${snp_subset}	
+	--keep ${tmpKeep} \
+	--recode
+fi
 
 #Get return code from last program call
 returnCode=$?
