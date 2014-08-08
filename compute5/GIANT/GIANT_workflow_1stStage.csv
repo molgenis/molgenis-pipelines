@@ -1,0 +1,2 @@
+step,protocol,dependencies
+s1_CopyDataPrmToTmp,protocols/CopyDataPrmToTmp.sh,
