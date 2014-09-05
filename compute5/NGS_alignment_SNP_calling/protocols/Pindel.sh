@@ -1,4 +1,4 @@
-#MOLGENIS walltime=23:59:00 mem=6gb ppn=2
+#MOLGENIS walltime=23:59:00 mem=6gb ppn=4
 
 #Parameter mapping
 #string stage
@@ -38,9 +38,9 @@ echo "pindelOutputVcf: ${pindelOutputVcf}"
 makeTmpDir ${pindelOutput}
 tmpPindelOutput=${MC_tmpFile}
 
-if [ ! -d "$pindelVcfDir" ];
+if [ ! -d "${pindelVcfDir}" ];
 	then
-	mkdir ${pindelVcfDir}
+	mkdir -p ${pindelVcfDir}
 	echo "created directory: ${pindelVcfDir}"
 fi
 
@@ -56,14 +56,17 @@ echo "${bamFilePindel} ${targetedInsertSize} ${externalSampleID}" > ${configFile
 
 pindel \
 -f ${indexFile} \
+-T 4
 -i ${configFile} \
 -o ${tmpPindelOutput}
 
 #Cat outputs together. Pindel produces more output for other sorts of SVs,
 #these can't be converted to VCF yet, so are not merged.
 cat ${tmpPindelOutput}_CloseEndMapped \
+${tmpPindelOutput}_BP \
 ${tmpPindelOutput}_D \
 ${tmpPindelOutput}_INV \
+${tmpPindelOutput}_LI \
 ${tmpPindelOutput}_SI \
 ${tmpPindelOutput}_TD \
 > ${tmpPindelOutput}_MERGED
