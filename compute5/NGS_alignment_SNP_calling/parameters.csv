@@ -5,15 +5,16 @@ nodes,1
 ppn,1
 defaultInterpreter,#!/bin/bash
 stage,module load
+targetedInsertSize,200
 checkStage,module list
 WORKDIR,/gcc/
 root,${WORKDIR}
-tempDir,${WORKDIR}/groups/gaf/tmp02/tmp/
+tempDir,${WORKDIR}/groups/gaf/tmp01/tmp/
 resDir,${root}/resources/
 toolDir,${root}/tools/
 scriptDir,${toolDir}/scripts/
 gafHome,${root}/groups/gaf/
-tmpDataDir,${root}/groups/gaf/tmp02/
+tmpDataDir,${root}/groups/gaf/tmp01/
 allRawtmpDataDir,${tmpDataDir}/rawdata/
 allRawNgstmpDataDir,${allRawtmpDataDir}/ngs/
 allRunDemultiplexDir,${tmpDataDir}/projects/${project}/${run}
@@ -45,7 +46,7 @@ MillsGoldStandardIndelsVcfIdx,${MillsGoldStandardIndelsVcf}.idx
 dbSNP137Vcf,${dbSNPDir}/dbsnp_137.b37.vcf
 dbSNP137VcfIdx,${dbSNP137Vcf}.idx
 fastqcVersion,v0.10.1
-bwaVersion,0.7.5a
+bwaVersion,0.7.10
 bwaAlignCores,8
 picardVersion,1.102
 samToBamJar,SamFormatConverter.jar
@@ -69,7 +70,7 @@ generalProjectDir,${tmpDataDir}/projects/
 projectDir,${generalProjectDir}/${project}/${runid}
 projectRawtmpDataDir,${projectDir}/rawdata/ngs/
 projectRawArraytmpDataDir,${projectDir}/rawdata/array/
-intermediateDir,${tempDir}/${project}/${runid}
+intermediateDir,${tempDir}/${project}/${runid}/
 sample,${intermediateDir}/${externalSampleID}
 projectPrefix,${intermediateDir}/${project}
 projectJobsDir,${projectDir}/jobs/
@@ -108,3 +109,18 @@ BQSRCsv,${intermediateDir}/${externalSampleID}.merged.dedup.realigned.bqsr.csv
 collectFinalBamMetricsPrefix,${intermediateDir}/${externalSampleID}.merged.dedup.realigned.bqsr
 projectChrVariantCalls,${projectPrefix}.chr${chr}.variant.calls.vcf
 projectChrVariantCallsIdx,${projectChrVariantCalls}.idx
+projectVariantsMerged,${projectPrefix}.variant.calls.merged.vcf
+projectVariantsMergedSorted,${projectPrefix}.variant.calls.merged.sorted.vcf
+projectSNPsMerged,${projectPrefix}.SNPs.calls.merged.vcf
+projectSNPsMergedFiltered,${projectPrefix}.SNPs.calls.merged.filtered.vcf
+projectIndelsMerged,${projectPrefix}.indels.calls.merged.vcf
+pindelOutput,${sample}.output.pindel
+pindelOutputVcf,${pindelVcfDir}/${externalSampleID}.output.pindel.merged.vcf
+pindelVcfDir,${intermediateDir}/PindelVCF/
+mergeSVspl,${scriptDir}/merge_SVsV3.pl
+sortVCFpl,${scriptDir}/sortVCFbyFai.pl
+indelsMergedUnsortedVcf,${sample}.indels.calls.merged.unsorted.vcf
+indelsMergedSortedVcf,${sample}.indels.calls.merged.sorted.vcf
+snpEffCallsHtml,${projectPrefix}.snpEff.html
+snpEffCallsVcf,${projectPrefix}.snpEff.vcf
+snpEffGenesTxt,${projectPrefix}.snpEff.genes.txt 

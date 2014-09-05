@@ -55,6 +55,7 @@ java -jar -Xmx4g $PICARD_HOME/${markDuplicatesJar} \
 INPUT=${sampleMergedBam} \
 METRICS_FILE=${tmpDedupMetrics} \
 OUTPUT=${tmpDedupBam} \
+REMOVE_DUPLICATES=false \
 CREATE_INDEX=true \
 VALIDATION_STRINGENCY=LENIENT \
 MAX_RECORDS_IN_RAM=4000000 \
