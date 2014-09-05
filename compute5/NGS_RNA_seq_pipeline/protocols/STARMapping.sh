@@ -15,11 +15,9 @@ outputFolder="${intermediateDir}"
 prefix="${externalSampleID}"
 STARindex="${STARindex}"
 seqType="${seqType}"
-#TMPDIR="${intermediateDir}"
 
 
 #load modules JDK,STAR,PICARDTools
-#module load jdk/1.7.0_25
 module load STAR/2.3.1l
 module load picard-tools/1.102
 module list
@@ -138,7 +136,7 @@ else
 	
 fi
 
-java -Xmx40g -Xms40g -jar $PICARD_HOME/SortSam.jar I=${TMPDIR}/${prefix}.Aligned.out.sam O=${outputFolder}/${prefix}___tmp___.Aligned.out.sorted.bam SO=coordinate TMP_DIR=${TMPDIR} CREATE_MD5_FILE=true CREATE_INDEX=true 
+java -Xmx40g -Xms40g -jar $PICARD_HOME/SortSam.jar I=${TMPDIR}/${prefix}.Aligned.out.sam O=${outputFolder}/${prefix}___tmp___.Aligned.out.sorted.bam SO=coordinate TMP_DIR=${TMPDIR} CREATE_MD5_FILE=false CREATE_INDEX=true 
 
 returnCode=$?
 
@@ -152,6 +150,9 @@ then
 		echo "Moving temp file: ${tempFile} to ${finalFile}"
 		mv $tempFile $finalFile
 	done
+
+	cd $outputFolder
+	md5sum $prefix.Aligned.out.sorted.bam > $finalFile.md5
 	
 	cp ${TMPDIR}/${prefix}.Log.out ${outputFolder}/${prefix}.Log.out
 	cp ${TMPDIR}/${prefix}.Log.final.out ${outputFolder}/${prefix}.Log.final.out

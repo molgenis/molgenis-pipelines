@@ -45,14 +45,14 @@ cat > ${intermediateDir}/${project}_QCReport.rhtml <<'_EOF'
 <style type="text/css">
       div.page {
 	page-break-after: always;
-      	padding-top: 20px;
-	padding-left: 20px;
+      	padding-top: 60px;
+	padding-left: 40px;
       }
 </style>
 <body style="font-family: monospace;">
 
 <div class="page" style="text-align:center;">
-<font size="7">
+<font STYLE="font-size: 45pt;">
 <br>
 <br>
 <br>
@@ -61,7 +61,9 @@ cat > ${intermediateDir}/${project}_QCReport.rhtml <<'_EOF'
 <br>
   <b>Next Generation Sequencing report</b>
 </font>
-<font size="5">
+<font STYLE="font-size: 30pt;">
+<br>
+<br>
 <br>
 <br>
   Genome Analysis Facility (GAF), Genomics Coordination Centre (GCC)
@@ -95,7 +97,7 @@ cat > ${intermediateDir}/${project}_QCReport.rhtml <<'_EOF'
 <br>
 <br>
 <br>
-<table align=center STYLE="font-size: 16pt;">
+<table align=center STYLE="font-size: 30pt;">
 	<tr>
 		<td><b>Report</b></td>
 	</tr>
@@ -157,7 +159,7 @@ cat > ${intermediateDir}/${project}_QCReport.rhtml <<'_EOF'
 <h1>Introduction</h1>
 <br>
 <br>
-This report describes a series of statistics about your sequencing data. Together with this report you'll receive alignment files and geneCount tables . If you, in 
+This report describes a series of statistics about your sequencing data. Together with this report you'll receive alignment files and geneCount tables. If you, in 
 addition, also want the raw data, then please notify us via e-mail. In any case we'll delete the raw data, three months after <script language="javascript">
         var month=new Array(12);
         month[0]="January";
@@ -276,7 +278,7 @@ do
     	ROWS=${#LIST[@]}
     	break
     else
-    	echo "<td><img src="images/${LIST[$COUNT]}.GC.png" alt="images/${LIST[$COUNT]}.GC.png" width="400" height="400"></td>"
+    	echo "<td><img src="images/${LIST[$COUNT]}.GC.png" alt="images/${LIST[$COUNT]}.GC.png" width="600" height="600"></td>"
     	COUNT=$COUNT+1
     fi
   done
@@ -312,7 +314,7 @@ do
         ROWS=${#LIST[@]}
         break
     else
-        echo "<td><img src="images/${LIST[$COUNT]}.collectrnaseqmetrics.png" alt="images/${LIST[$COUNT]}.collectrnaseqmetrics.png" width="400" height="400"></td>"
+        echo "<td><img src="images/${LIST[$COUNT]}.collectrnaseqmetrics.png" alt="images/${LIST[$COUNT]}.collectrnaseqmetrics.png" width="700" height="700"></td>"
         COUNT=$COUNT+1
     fi
   done
@@ -355,7 +357,7 @@ then
           ROWS=${#LIST[@]}
           break
       else
-          echo "<td><img src="images/${LIST[$COUNT]}.insertsizemetrics.png" alt="images/${LIST[$COUNT]}.insertsizemetrics.png" width="400" height="400"></td>"
+          echo "<td><img src="images/${LIST[$COUNT]}.insertsizemetrics.png" alt="images/${LIST[$COUNT]}.insertsizemetrics.png" width="700" height="700"></td>"
           COUNT=$COUNT+1
       fi
     done
@@ -368,34 +370,6 @@ fi
 
 end.rcode-->
 
-<div class="page">
-<p>
-<h1>Appendix 2: Genome Analysis Facility Pipeline Exome sequencing</h1>
-<img src="/gcc/tools/scripts/getStatistics_20130819/GAFpipeline.png" alt="/gcc/tools/scripts/getStatistics_20130819/GAFpipeline.png" width="400" height="400" align="right">
-Figure 7 illustrated the basic experimental process of RNA sequencing. The Genomic RNA sample was randomly fragmented using Nebulisation. Then barcoded 
-adapters were ligated to both ends of the resulting fragments, according the standard New England Biolabs protocol. Fragments with an insert size of 220 bp on average 
-were excised using the Caliper XT gel system and the extracted DNA was amplified with PCR.
-The quality of the product was verified on the BioRad Experion instrument. If the quality of the product meets the criteria, the product is multiplexed in an equimolar 
-pool of 4 simular products. After amplification of the enriched products with PCR the quality of the products is verified on the BioRad Experion instrument and Paired End 
-sequenced  on the HiSeq2000 with 100 bp reads. Image Files were processed using standard Illumina basecalling software and 
-the generated reads are ready for downstream processing after demultiplexing.
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-</p>
-</div>
-<div class="page">
-<p>
-<h1>Appendix 3: Bioinformatics pipeline</h1>
-Your samples have been anlayzed with bioinformatics pipeline shown in Figure 8.
-Figure 8: Bioinformatics pipeline. The ovals describe the steps in the pipeline. The arrows indicate the work flow of data between the steps.
-</p>
-</div>
 </div>
 </font>
 </html>
@@ -425,4 +399,4 @@ fi
 
 #convert to pdf
 
-html2pdf --page-size A2 ${projectQcDir}/${project}_QCReport.html ${projectQcDir}/${project}_QCReport.pdf
+html2pdf --page-size A0 ${projectQcDir}/${project}_QCReport.html ${projectQcDir}/${project}_QCReport.pdf

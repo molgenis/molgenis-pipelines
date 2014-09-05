@@ -13,6 +13,9 @@
 
 alloutputsexist "${projectResultsDir}/${project}.zip"
 
+# Change permissions
+
+umask 0007
 
 # Make result directories
 mkdir -p ${projectResultsDir}/alignment
@@ -20,6 +23,7 @@ mkdir -p ${projectResultsDir}/fastqc
 mkdir -p ${projectResultsDir}/expression
 mkdir -p ${projectResultsDir}/expression/perSampleExpression
 mkdir -p ${projectResultsDir}/expression/expressionTable
+mkdir -p ${projectResultsDir}/images
 
 # Copy error, out and finished logs to project jobs directory
 
@@ -56,14 +60,18 @@ cp ${projectJobsDir}/${project}.csv ${projectResultsDir}
 
 	cp ${intermediateDir}/*.htseq.txt ${projectResultsDir}/expression/perSampleExpression
 	cp ${expressionTable} ${projectResultsDir}/expression/expressionTable
+	
+# Copy QC images and report to results directory
 
+	cp ${intermediateDir}/*.collectrnaseqmetrics.png ${projectResultsDir}/images
+	cp ${intermediateDir}/*.GC.png ${projectResultsDir}/images
+	cp ${projectQcDir}/${project}_QCReport.pdf ${projectResultsDir}
 
-
-# Copy QC report to results directory
-
-#cp ${projectQcDir}/${project}_QCReport.pdf ${projectResultsDir}
-
-
+#only available with PE
+	if [ -f "${intermediateDir}/*.insertsizemetrics.pdf" ]
+	then
+		cp ${intermediateDir}/*.insertsizemetrics.pdf ${projectResultsDir}/images
+	fi
 
 # Create zip file for all "small text" files
 
@@ -73,13 +81,9 @@ zip -gr ${projectResultsDir}/${project}.zip fastqc
 zip -g ${projectResultsDir}/${project}.zip ${project}.csv
 zip -gr ${projectResultsDir}/${project}.zip alignment
 zip -gr ${projectResultsDir}/${project}.zip expression
-
-#zip -gr ${projectResultsDir}/fastqc
-#zip -g ${projectResultsDir}/${project}.zip README.pdf
-#zip -g ${projectResultsDir}/${project}.zip ${project}_QCReport.pdf
+zip -g ${projectResultsDir}/${project}.zip ${project}_QCReport.pdf
 
 # Create md5sum for zip file
 
 cd ${projectResultsDir}
-
 md5sum ${project}.zip > ${projectResultsDir}/${project}.zip.md5
