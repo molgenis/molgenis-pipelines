@@ -1,15 +1,17 @@
-#MOLGENIS nodes=1 ppn=1 mem=1gb walltime=03:00:00
+#MOLGENIS nodes=1 ppn=1 mem=15gb walltime=03:00:00
 
 
 #Parameter mapping
 #string seqType
 #string peEnd1BarcodeFqGz
 #string peEnd2BarcodeFqGz
+#string peEnd1BarcodeFq
 #string srBarcodeFastQcZip
 #string srBarcodeFqGz
 #string srBarcodeFq
 #string intermediateDir
 #string BarcodeFastQcFolder
+#string BarcodeFastQcFolderPE
 #string sortedBam
 #string annotationRefFlat
 #string insertsizeMetrics
@@ -66,17 +68,20 @@ then
         ${recreateinsertsizepdfR} \
         --insertSizeMetrics ${insertsizeMetrics} \
         --pdf ${insertsizeMetricspdf}
+
+	#convert pdf to png
+        pdftoppm -png ${insertsizeMetricspdf} > ${insertsizeMetrics}.png
 	
 	#unzip srBarcodeFqGz
-	zcat ${srBarcodeFqGz} > ${srBarcodeFq} 
+	zcat ${peEnd1BarcodeFqGz} > ${peEnd1BarcodeFq} 
 		
 	#Generate a GCpercentage plot  
 	python ${scriptDir}/gentrap_graph_seqgc.py \
-	${srBarcodeFq} \
+	${peEnd1BarcodeFq} \
 	${intermediateDir}/${externalSampleID}.GC.png
 	
 	#clean up 
-	rm ${srBarcodeFq}	
+	rm ${peEnd1BarcodeFq}	
 
 	#Flagstat for reads mapping to the genome.
 	samtools flagstat ${sortedBam} >  ${flagstatMetrics}
@@ -95,13 +100,16 @@ then
 	CHART_OUTPUT=${rnaSeqMetrics}.pdf  \
 	O=${rnaSeqMetrics}	
 
+	#convert pdf to png
+        pdftoppm -png ${rnaSeqMetrics}.pdf > ${rnaSeqMetrics}.png
+
 	# Collect QC data from several QC matricses, and write a tablular output file.
 
 	#add header to qcMatrics
         echo "Sample:	${externalSampleID}" > ${qcMatrics}
 
 	python ${scriptDir}/pull_RNA_Seq_Stats.py \
-	-1 ${BarcodeFastQcFolder}/fastqc_data.txt \
+	-1 ${BarcodeFastQcFolderPE}/fastqc_data.txt \
 	-i ${insertsizeMetrics} \
 	-f ${flagstatMetrics} \
 	-r ${rnaSeqMetrics} \
@@ -140,7 +148,10 @@ then
         STRAND_SPECIFICITY=SECOND_READ_TRANSCRIPTION_STRAND \
         CHART_OUTPUT=${rnaSeqMetrics}.pdf  \
         O=${rnaSeqMetrics}
-
+	
+	#convert pdf to png
+	pdftoppm -png ${rnaSeqMetrics}.pdf > ${rnaSeqMetrics}.png
+	
 	#add header to qcMatrics
 	echo "Sample:	${externalSampleID}" > ${qcMatrics} 
 
