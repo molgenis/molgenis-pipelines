@@ -13,4 +13,5 @@ DetermineBestPredictors21,protocols/DetermineBestPredictors.sh,ChiCorrectionForw
 DetermineNCV13,protocols/DetermineNCV.sh,DetermineBestPredictors13;chromoFocus=chr13;
 DetermineNCV18,protocols/DetermineNCV.sh,DetermineBestPredictors18;chromoFocus=chr18;
 DetermineNCV21,protocols/DetermineNCV.sh,DetermineBestPredictors21;chromoFocus=chr21;
-CopyToResultsDir,protocols/CopyToResultsDir.sh,DetermineNCV13;DetermineNCV18;DetermineNCV21;
+CalculatePPV,protocols/CalculatePPV.sh,DetermineNCV13;DetermineNCV18;DetermineNCV21;
+CopyToResultsDir,protocols/CopyToResultsDir.sh,CalculatePPV;
