@@ -56,7 +56,7 @@ echo "${bamFilePindel} ${targetedInsertSize} ${externalSampleID}" > ${configFile
 
 pindel \
 -f ${indexFile} \
--T 4
+-T 4 \
 -i ${configFile} \
 -o ${tmpPindelOutput}
 
