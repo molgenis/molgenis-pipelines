@@ -5,7 +5,6 @@
 #string checkStage
 #string tempDir
 #string intermediateDir
-#string ProjectVariantCallsVcf
 #string snpEffCallsHtml
 #string snpEffCallsVcf
 #string snpEffGenesTxt
@@ -15,7 +14,6 @@ echo "stage: ${stage}"
 echo "checkStage: ${checkStage}"
 echo "tempDir: ${tempDir}"
 echo "intermediateDir: ${intermediateDir}"
-echo "ProjectVariantCalls: ${ProjectVariantCalls}"
 echo "snpEffCallsHtml: ${snpEffCallsHtml}"
 echo "snpEffCallsVcf: ${snpEffCallsVcf}"
 echo "snpEffGenesTxt: ${snpEffGenesTxt}"
@@ -53,9 +51,9 @@ alloutputsexist \
 
 
 #Load GATK module
-${stage} jdk/1.7.0_25
-${stage} GATK/2.7-4-g6f46d11
-${stage} snpEff/2_0_5
+${stage} jdk/1.7.0_51
+${stage} GATK/3.1-1-g07a4bf8
+${stage} snpEff
 ${checkStage}
 
 
@@ -70,7 +68,7 @@ eff \
 GRCh37.64 \
 -onlyCoding true \
 -stats ${tmpSnpEffCallsHtml} \
-${ProjectVariantCallsVcf} \
+/gcc/groups/gcc/home/rkanninga/ \
 > ${tmpSnpEffCallsVcf}
     echo -e "\nsnpEffAnnotation finished successfully. Moving temp files to final.\n\n"
     mv ${tmpSnpEffCallsHtml} ${snpEffCallsHtml}

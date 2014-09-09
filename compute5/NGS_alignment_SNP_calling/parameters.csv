@@ -115,8 +115,7 @@ projectSNPsMerged,${projectPrefix}.SNPs.calls.merged.vcf
 projectSNPsMergedFiltered,${projectPrefix}.SNPs.calls.merged.filtered.vcf
 projectIndelsMerged,${projectPrefix}.indels.calls.merged.vcf
 pindelOutput,${sample}.output.pindel
-pindelOutputVcf,${pindelVcfDir}/${externalSampleID}.output.pindel.merged.vcf
-pindelVcfDir,${intermediateDir}/PindelVCF/
+pindelOutputVcf,${intermediateDir}/${externalSampleID}.output.pindel.merged.vcf
 mergeSVspl,${scriptDir}/merge_SVsV3.pl
 sortVCFpl,${scriptDir}/sortVCFbyFai.pl
 indelsMergedUnsortedVcf,${sample}.indels.calls.merged.unsorted.vcf
