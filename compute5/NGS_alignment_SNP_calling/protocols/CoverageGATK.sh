@@ -6,13 +6,12 @@
 #string indexFile
 #string tempDir
 #string RVersion
+#string gatkVersion
 #string capturingKit
-#string targetintervals
+#string targetIntervals
 #string intermediateDir
-#string coveragegatk
-
+#string coverageGATK
 #string inputCoverageBam
-
 
 #Echo parameter values
 echo "stage: ${stage}"
@@ -21,19 +20,20 @@ echo "indexFile: ${indexFile}"
 echo "tempDir: ${tempDir}"
 echo "RVersion: ${RVersion}"
 echo "capturingKit: ${capturingKit}"
-eche "targetintervals: ${targetintervals}"
+eche "targetIntervals: ${targetIntervals}"
 echo "intermediateDir: ${intermediateDir}"
 echo "inputCoverageBam: ${inputCoverageBam}"
+echo "gatkVersion: ${gatkVersion}"
 
 #Check if output exists
-alloutputsexist "${coveragegatk}" \
-"${coveragegatk}.sample_cumulative_coverage_counts" \
-"${coveragegatk}.sample_cumulative_coverage_proportions" \
-"${coveragegatk}.sample_interval_statistics" \
-"${coveragegatk}.sample_interval_summary" \
-"${coveragegatk}.sample_statistics" \
-"${coveragegatk}.sample_summary" \
-"${coveragegatk}.cumulative_coverage.pdf"
+alloutputsexist "${coverageGATK}" \
+"${coverageGATK}.sample_cumulative_coverage_counts" \
+"${coverageGATK}.sample_cumulative_coverage_proportions" \
+"${coverageGATK}.sample_interval_statistics" \
+"${coverageGATK}.sample_interval_summary" \
+"${coverageGATK}.sample_statistics" \
+"${coverageGATK}.sample_summary" \
+"${coverageGATK}.cumulative_coverage.pdf"
 
 #Get input files
 getFile ${indexFile}
@@ -41,7 +41,7 @@ getFile ${inputCoverageBam}
 
 if [ ${capturingKit} != "None" ]
 then
-	getFile ${targetintervals}
+	getFile ${targetIntervals}
 fi
 
 #Load GATK module
@@ -63,7 +63,7 @@ then
 	-T DepthOfCoverage \
 	-R ${indexfile} \
 	-I ${inputCoverageBam} \
-	-o ${coveragegatk} \
+	-o ${coverageGATK} \
 	-ct 1 -ct 2 -ct 5 -ct 10 -ct 15 -ct 20 -ct 30 -ct 40 -ct 50
 
 else
@@ -73,8 +73,8 @@ else
 	-T DepthOfCoverage \
 	-R ${indexfile} \
 	-I ${inputCoverageBam} \
-	-o ${coveragegatk} \
-	-L ${targetintervals}
+	-o ${coverageGATK} \
+	-L ${targetIntervals}
 
 fi
 
@@ -82,13 +82,13 @@ fi
 #Create coverage graphs for sample
 
 ${rscript} ${cumcoveragescriptgatk} \
---in ${coveragegatk}.sample_cumulative_coverage_proportions \
---out ${coveragegatk}.cumulative_coverage.pdf \
+--in ${coverageGATK}.sample_cumulative_coverage_proportions \
+--out ${coverageGATK}.cumulative_coverage.pdf \
 --max-depth 100 \
 --title "Cumulative coverage ${externalSampleID}"
 
 
 echo -e "\nCoverageGATK finished succesfull. Moving temp files to final.\n\n"
-mv ${coveragegatk}* ${coveragegatk}/
-putFile "${coveragegatk}*"
+mv ${coverageGATK}* ${coverageGATK}/
+putFile "${coverageGATK}*"
 

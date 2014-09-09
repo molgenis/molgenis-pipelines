@@ -123,3 +123,4 @@ indelsMergedSortedVcf,${sample}.indels.calls.merged.sorted.vcf
 snpEffCallsHtml,${projectPrefix}.snpEff.html
 snpEffCallsVcf,${projectPrefix}.snpEff.vcf
 snpEffGenesTxt,${projectPrefix}.snpEff.genes.txt 
+coverageGATK,${sample}.coverageGATK
