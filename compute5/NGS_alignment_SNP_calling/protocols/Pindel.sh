@@ -10,7 +10,6 @@
 #string targetedInsertSize
 #string bamFilePindelIdx
 #string indexFileID
-#string pindelVcfDir
 #string pindelOutput
 #string pindelOutputVcf
 #list externalSampleID
@@ -32,17 +31,10 @@ echo "indexFile: ${indexFile}"
 echo "intermediateDir: ${intermediateDir}"
 echo "bamFilePindelIdx: ${bamFilePindelIdx}"
 echo "indexFileID: ${indexFileID}"
-echo "pindelVcfDir: ${pindelVcfDir}"
 echo "pindelOutputVcf: ${pindelOutputVcf}"
 
 makeTmpDir ${pindelOutput}
 tmpPindelOutput=${MC_tmpFile}
-
-if [ ! -d "${pindelVcfDir}" ];
-	then
-	mkdir -p ${pindelVcfDir}
-	echo "created directory: ${pindelVcfDir}"
-fi
 
 #make symlink of .bai file to .bam.bai extension (needed for Pindel)
 if [ ! -L ${bamFilePindel}.bai ];

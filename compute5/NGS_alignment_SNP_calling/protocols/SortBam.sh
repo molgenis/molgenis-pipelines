@@ -10,7 +10,6 @@
 #string sortedBam
 #string sortedBamIdx
 
-
 #Echo parameter values
 echo "stage: ${stage}"
 echo "checkStage: ${checkStage}"

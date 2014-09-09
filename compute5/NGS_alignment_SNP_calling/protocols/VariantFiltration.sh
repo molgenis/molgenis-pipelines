@@ -70,7 +70,7 @@ MQ < 40.0 && \
 FS > 60.0 && \
 HaplotypeScore > 13.0 && \
 MQRankSum < -12.5 && \
-ReadPosRankSum < -8.0"
+ReadPosRankSum < -8.0" \
 --genotypeFilterName "FILTQDP"
 
 
