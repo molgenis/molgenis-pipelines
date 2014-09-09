@@ -3,7 +3,6 @@
 #Parameter mapping
 #string stage
 #string checkStage
-#string pindelVcfDir
 #string intermediateDir
 #string project
 #string projectIndelsMerged
@@ -19,15 +18,11 @@ ${checkStage}
 #Echo parameter values
 echo "stage: ${stage}"
 echo "checkStage: ${checkStage}"
-echo "pindelVcfDir: ${pindelVcfDir}"
 
 makeTmpDir ${intermediateDir}
 tmpIntermediateDir=${MC_tmpFile}
 
 #prepare the created vcf's for bcftools: bgzip + tabix to set the correct indexes and make correct format
-
-cd ${pindelVcfDir}
-echo "selected the following vcf's:"
 
 for externalSample in "${externalSampleID[@]}"
 do
@@ -64,7 +59,7 @@ done
 
 for s in "${INPUTS[@]}"
 do
-	bgzip -c ${pindelVcfDir}/${s}.output.pindel.merged.vcf > ${tmpIntermediateDir}/${s}.output.pindel.merged.vcf.gz
+	bgzip -c ${intermediateDir}/${s}.output.pindel.merged.vcf > ${tmpIntermediateDir}/${s}.output.pindel.merged.vcf.gz
         tabix -p vcf ${tmpIntermediateDir}/${s}.output.pindel.merged.vcf.gz
         echo ${tmpIntermediateDir}/${s}; 
 	cp ${tmpIntermediateDir}/${s}.output.pindel.merged.vcf.gz ${vcfTmpDir}
