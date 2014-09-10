@@ -51,7 +51,7 @@ tmpBQSRCsv=${MC_tmpFile}
 
 
 #Analyze covariates (before and after) using GATK. Afterwards generate statistics and graphs and output as csv and pdf respectively
-java -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
+java -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
 $GATK_HOME/${GATKJar} \
 -T AnalyzeCovariates \
 -R ${indexFile} \

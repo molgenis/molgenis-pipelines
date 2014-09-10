@@ -54,13 +54,10 @@ pindel \
 
 #Cat outputs together. Pindel produces more output for other sorts of SVs,
 #these can't be converted to VCF yet, so are not merged.
-cat ${tmpPindelOutput}_CloseEndMapped \
-${tmpPindelOutput}_BP \
+cat \
 ${tmpPindelOutput}_D \
-${tmpPindelOutput}_INV \
 ${tmpPindelOutput}_LI \
 ${tmpPindelOutput}_SI \
-${tmpPindelOutput}_TD \
 > ${tmpPindelOutput}_MERGED
 
 echo "MC_tmpFolder: ${MC_tmpFolder}*"

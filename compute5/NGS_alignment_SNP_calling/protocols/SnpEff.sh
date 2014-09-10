@@ -8,6 +8,7 @@
 #string snpEffCallsHtml
 #string snpEffCallsVcf
 #string snpEffGenesTxt
+#string pindelMergeVcf
 
 #Echo parameter values
 echo "stage: ${stage}"
@@ -43,22 +44,14 @@ array_contains () {
     return $in
 }
 
-#Check if output exists
-alloutputsexist \
-"${snpEffCallsHtml}" \
-"${snpEffCallsVcf}" \
-"${snpEffGenesTxt}"
-
-
 #Load GATK module
 ${stage} jdk/1.7.0_51
 ${stage} GATK/3.1-1-g07a4bf8
 ${stage} snpEff
 ${checkStage}
 
-
 #Run snpEff
-java -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
+java -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
 $SNPEFF_HOME/snpEff.jar \
 eff \
 -v \
@@ -68,9 +61,9 @@ eff \
 GRCh37.64 \
 -onlyCoding true \
 -stats ${tmpSnpEffCallsHtml} \
-/gcc/groups/gcc/home/rkanninga/ \
+${pindelMergeVcf} \
 > ${tmpSnpEffCallsVcf}
-    echo -e "\nsnpEffAnnotation finished successfully. Moving temp files to final.\n\n"
+
     mv ${tmpSnpEffCallsHtml} ${snpEffCallsHtml}
     mv ${tmpSnpEffCallsVcf} ${snpEffCallsVcf}
     mv ${tmpSnpEffGenesTxt} ${snpEffGenesTxt}

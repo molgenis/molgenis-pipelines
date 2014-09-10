@@ -16,7 +16,6 @@
 #string BQSRBamMd5
 #string externalSampleID
 
-
 #Echo parameter values
 echo "stage: ${stage}"
 echo "checkStage: ${checkStage}"
@@ -33,7 +32,6 @@ echo "BQSRBamIdx: ${BQSRBamIdx}"
 echo "BQSRBamMd5: ${BQSRBamMd5}"
 echo "externalSampleID: ${externalSampleID}"
 
-
 sleep 10
 
 #Check if output exists
@@ -41,7 +39,6 @@ alloutputsexist \
 "${BQSRBam}" \
 "${BQSRBamIdx}" \
 "${BQSRBamMd5}"
-
 
 makeTmpDir ${BQSRBam}
 tmpBQSRBam=${MC_tmpFile}
@@ -63,7 +60,7 @@ ${stage} GATK/${GATKVersion}
 ${checkStage}
 
 #Apply GATK BQSR and create output BAM md5sum on the fly
-java -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
+java -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
 $GATK_HOME/${GATKJar} \
 -T PrintReads \
 -R ${indexFile} \
