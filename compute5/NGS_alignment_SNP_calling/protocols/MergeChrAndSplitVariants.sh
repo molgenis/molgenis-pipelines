@@ -27,8 +27,6 @@ echo "projectVariantsMergedSorted: ${projectVariantsMergedSorted}"
 ${stage} tabix/$0.2.6
 ${checkStage}
 
-
-
 makeTmpDir ${projectVariantsMerged}
 tmpProjectVariantsMerged=${MC_tmpFile}
 
@@ -38,10 +36,8 @@ tmpProjectSNPsMerged=${MC_tmpFile}
 makeTmpDir ${projectIndelsMerged}
 tmpProjectIndelsMerged=${MC_tmpFile}
 
-
 makeTmpDir ${projectVariantsMergedSorted}
 tmpProjectVariantsMergedSorted=${MC_tmpFile}
-
 
 #Function to check if array contains value
 array_contains () { 

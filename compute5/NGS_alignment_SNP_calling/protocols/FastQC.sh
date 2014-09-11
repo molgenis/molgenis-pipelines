@@ -10,9 +10,9 @@
 #string checkStage
 #string fastqcVersion
 #string intermediateDir
-#string peEnd1BarcodeFastQcZip
-#string peEnd2BarcodeFastQcZip
-#string srBarcodeFastQcZip
+#string peEnd1BarcodeFastQc
+#string peEnd2BarcodeFastQc
+#string srBarcodeFastQc
 
 #Echo parameter values
 echo "seqType: ${seqType}"
@@ -23,9 +23,9 @@ echo "stage: ${stage}"
 echo "checkStage: ${checkStage}"
 echo "fastqcVersion: ${fastqcVersion}"
 echo "intermediateDir: ${intermediateDir}"
-echo "peEnd1BarcodeFastQcZip: ${peEnd1BarcodeFastQcZip}"
-echo "peEnd2BarcodeFastQcZip: ${peEnd2BarcodeFastQcZip}"
-echo "srBarcodeFastQcZip: ${srBarcodeFastQcZip}"
+echo "peEnd1BarcodeFastQc: ${peEnd1BarcodeFastQc}"
+echo "peEnd2BarcodeFastQc: ${peEnd2BarcodeFastQc}"
+echo "srBarcodeFastQc: ${srBarcodeFastQc}"
 
 sleep 10
 
@@ -33,15 +33,15 @@ sleep 10
 if [ ${seqType} == "PE" ]
 then
         alloutputsexist \
-        "${peEnd1BarcodeFastQcZip}" \
-        "${peEnd2BarcodeFastQcZip}"
+        "${peEnd1BarcodeFastQc}.zip" \
+        "${peEnd2BarcodeFastQc}.zip"
         
 	getFile ${peEnd1BarcodeFqGz}
 	getFile ${peEnd2BarcodeFqGz}
 
 else
         alloutputsexist \
-        "${srBarcodeFastQcZip}"
+        "${srBarcodeFastQc}.zip"
         
 	getFile ${srBarcodeFqGz}
 
@@ -63,14 +63,60 @@ then
 	
 	echo -e "\nFastQC finished succesfull. Moving temp files to final.\n\n"
 	mv ${tmpIntermediateDir}/* ${intermediateDir}
-	putFile "${peEnd1BarcodeFastQcZip}"
-        putFile "${peEnd2BarcodeFastQcZip}"
+	putFile "${peEnd1BarcodeFastQc}.zip"
+        putFile "${peEnd2BarcodeFastQc}.zip"
+
+	#check illumina encoding
+	checkEncoding=`grep Encoding ${peEnd2BarcodeFastQc}/fastqc_data.txt`
+	returncode=`echo $checkEncoding | grep 1.5`
+
+	if [[ ${returncode} == "" ]]
+		then
+        	echo 'encoding is not 1.5, no reEncoding is necessary'
+        	echo $checkEncoding
+	else
+        	echo 'encoding is 1.5.. RE-ENCODING!!'
+        	#make fasta out of the fq.gz file
+        	zcat ${peEnd1BarcodeFqGz} | awk 'NR%4==1{printf ">%s\n", substr($0,2)}NR%4==2{print}' > ${peEnd1BarcodeFqGz}.fa
+        	zcat ${peEnd2BarcodeFqGz} | awk 'NR%4==1{printf ">%s\n", substr($0,2)}NR%4==2{print}' > ${peEnd2BarcodeFqGz}.fa
+
+	        #convert Phreds+64 to Phred+33 (Illumna 1.5 TO Illumina / Sanger 1.9)
+        	sed -e -i '4~4y/@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghi/!"#$%&'\''()*+,-.\/0123456789:;<=>?@ABCDEFGHIJ/' ${peEnd1BarcodeFqGz}.fa
+        	sed -e -i '4~4y/@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghi/!"#$%&'\''()*+,-.\/0123456789:;<=>?@ABCDEFGHIJ/' ${peEnd2BarcodeFqGz}.fa
+        	gzip -c ${peEnd1BarcodeFqGz}
+        	gzip -c ${peEnd2BarcodeFqGz}
+
+	fi
 
 else
+	cd ${srBarcodeFqGz}
+
+	checkEncoding=`grep Encoding fastqc_data.txt`
+
+	returncode=`echo $checkEncoding | grep 1.5`
+
 	fastqc ${srBarcodeFqGz} \
 	-o ${tmpIntermediateDir}
 
 	echo -e "\nFastQC finished succesfull. Moving temp files to final.\n\n"
 	mv ${tmpIntermediateDir}/* ${intermediateDir}
-	putFile "${srBarcodeFastQcZip}"
+	putFile "${srBarcodeFastQc}.zip"
+
+	#check illumina encoding
+        checkEncoding=`grep Encoding ${srBarcodeFqGz}/fastqc_data.txt`
+        returncode=`echo $checkEncoding | grep 1.5`
+
+	if [[ ${returncode} == "" ]]
+	then
+        	echo 'encoding is not 1.5, no reEncoding is necessary'
+        	echo $checkEncoding
+	else
+        	echo 'encoding is 1.5.. RE-ENCODING!!'
+        	#make fasta out of the fq.gz file
+        	zcat ${srBarcodeFqGz} | awk 'NR%4==1{printf ">%s\n", substr($0,2)}NR%4==2{print}' > ${srBarcodeFqGz}.fa
+
+        	#convert Phreds+64 to Phred+33 (Illumna 1.5 TO Illumina / Sanger 1.9)
+        	sed -e -i '4~4y/@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghi/!"#$%&'\''()*+,-.\/0123456789:;<=>?@ABCDEFGHIJ/' ${srBarcodeFqGz}.fa
+        	gzip -c ${srBarcodeFqGz}
+	fi
 fi

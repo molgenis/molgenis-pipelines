@@ -74,7 +74,7 @@ tmpOutputGenerateCovariateTablesTable=${MC_tmpFile}
 #If variable recal is "post" apply the recal.table to calculate improvement in metrics.
 if [ ${inputRecal} == "before" ]
 then
-	java -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
+	java -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
 	$GATK_HOME/${GATKJar} \
 	-T BaseRecalibrator \
 	-R ${indexFile} \
@@ -87,7 +87,7 @@ then
 
 elif [ ${inputRecal} == "post" ]
 then
-	java -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
+	java -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
 	$GATK_HOME/${GATKJar} \
 	-T BaseRecalibrator \
 	-R ${indexFile} \

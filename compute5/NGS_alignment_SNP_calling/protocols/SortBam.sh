@@ -1,4 +1,4 @@
-#MOLGENIS walltime=23:59:00 mem=3gb
+#MOLGENIS walltime=23:59:00 mem=3gb ppn=4
 
 #Parameter mapping
 #string stage
@@ -41,7 +41,7 @@ makeTmpDir ${sortedBamIdx}
 tmpSortedBamIdx=${MC_tmpFile}
 
 #Run picard, sort BAM file and create index on the fly
-java -jar -Xmx3g $PICARD_HOME/${sortSamJar} \
+java -XX:ParallelGCThreads=4 -jar -Xmx3g $PICARD_HOME/${sortSamJar} \
 INPUT=${inputSortBam} \
 OUTPUT=${tmpSortedBam} \
 SORT_ORDER=coordinate \

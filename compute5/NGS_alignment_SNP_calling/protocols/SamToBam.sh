@@ -37,7 +37,7 @@ makeTmpDir ${alignedSam}
 tmpAlignedBam=${MC_tmpFile}
 
 #Run picard, convert SAM to BAM
-java -jar -Xmx3g $PICARD_HOME/${samToBamJar} \
+java -XX:ParallelGCThreads=4 -jar -Xmx3g $PICARD_HOME/${samToBamJar} \
 INPUT=${alignedSam} \
 OUTPUT=${tmpAlignedBam} \
 VALIDATION_STRINGENCY=LENIENT \

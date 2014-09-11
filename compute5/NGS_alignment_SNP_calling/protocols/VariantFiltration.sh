@@ -59,7 +59,7 @@ tmp_projectSNPsMergedFiltered=${MC_tmpFile}
 
 #Run GATK VariantFiltration to filter called SNPs on 
 
-java -Xmx8g -Xms6g -jar $GATK_HOME/${GATKJar} \
+java -XX:ParallelGCThreads=4 -Xmx8g -Xms6g -jar $GATK_HOME/${GATKJar} \
 -T VariantFiltration \
 -R ${indexFile} \
 -o ${tmp_projectSNPsMergedFiltered} \

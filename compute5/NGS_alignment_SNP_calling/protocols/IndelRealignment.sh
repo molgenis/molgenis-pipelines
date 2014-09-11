@@ -67,7 +67,7 @@ ${checkStage}
 
 #Run GATK on knowns only
 #Only use --fix_misencoded_quality_scores to fix misencoded quality scores on the fly (Automatically substracts 31 from Illumina Qscores and writes corrected Qscores away.)
-java -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
+java -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
 $GATK_HOME/${GATKJar} \
 -T IndelRealigner \
 -I ${dedupBam} \
@@ -79,12 +79,6 @@ $GATK_HOME/${GATKJar} \
 --fix_misencoded_quality_scores \
 -LOD 0.4 \
 -o ${tmpRealignedBam}
-
-
-#Get return code from last program call
-returnCode=$?
-
-echo -e "\nreturnCode IndelRealignment: $returnCode\n\n"
 
 echo -e "\nIndelRealignment finished succesfull. Moving temp files to final.\n\n"
 mv ${tmpRealignedBam} ${realignedBam}
