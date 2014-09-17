@@ -76,9 +76,10 @@ $GATK_HOME/${GATKJar} \
 -known ${KGPhase1IndelsVcf} \
 -known ${MillsGoldStandardIndelsVcf} \
 --consensusDeterminationModel KNOWNS_ONLY \
---fix_misencoded_quality_scores \
 -LOD 0.4 \
 -o ${tmpRealignedBam}
+
+
 
 echo -e "\nIndelRealignment finished succesfull. Moving temp files to final.\n\n"
 mv ${tmpRealignedBam} ${realignedBam}
