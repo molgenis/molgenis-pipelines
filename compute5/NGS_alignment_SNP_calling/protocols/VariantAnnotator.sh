@@ -1,0 +1,110 @@
+#MOLGENIS walltime=35:59:00 mem=4gb
+
+#Parameter mapping
+#string stage
+#string checkStage
+#string tempDir
+#string intermediateDir
+#string snpEffCallsHtml
+#string snpEffCallsVcf
+#string snpEffGenesTxt
+#string pindelMergeVcf
+
+#Echo parameter values
+echo "stage: ${stage}"
+echo "checkStage: ${checkStage}"
+echo "tempDir: ${tempDir}"
+echo "intermediateDir: ${intermediateDir}"
+echo "snpEffCallsHtml: ${snpEffCallsHtml}"
+echo "snpEffCallsVcf: ${snpEffCallsVcf}"
+echo "snpEffGenesTxt: ${snpEffGenesTxt}"
+
+sleep 10
+
+makeTmpDir ${snpEffCallsHtml}
+tmpSnpEffCallsHtml=${MC_tmpFile}
+
+makeTmpDir ${snpEffCallsVcf}
+tmpSnpEffCallsVcf=${MC_tmpFile}
+
+makeTmpDir ${snpEffGenesTxt}
+tmpSnpEffGenesTxt=${MC_tmpFile}
+
+#Function to check if array contains value
+array_contains () { 
+    local array="$1[@]"
+    local seeking=$2
+    local in=1
+    for element in "${!array}"; do
+        if [[ $element == $seeking ]]; then
+            in=0
+            break
+        fi
+    done
+    return $in
+}
+
+#Load GATK module
+${stage} jdk/1.7.0_51
+${stage} GATK/3.1-1-g07a4bf8
+${stage} snpEff
+${checkStage}
+
+#Run snpEff
+java -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
+$SNPEFF_HOME/snpEff.jar \
+eff \
+-v \
+-c $SNPEFF_HOME/snpEff.config \
+-i vcf \
+-o vcf \
+GRCh37.64 \
+-onlyCoding true \
+-stats ${tmpSnpEffCallsHtml} \
+${pindelMergeVcf} \
+> ${tmpSnpEffCallsVcf}
+
+    mv ${tmpSnpEffCallsHtml} ${snpEffCallsHtml}
+    mv ${tmpSnpEffCallsVcf} ${snpEffCallsVcf}
+    mv ${tmpSnpEffGenesTxt} ${snpEffGenesTxt}
+
+
+# Annotate
+echo
+echo "Annotate using SnpEff"
+echo "    Input file  : $in"
+echo "    Output file : $eff"
+java -Xmx4G -jar $snpeff -c $HOME/snpEff/snpEff.config -v -o gatk hg19 $in > $eff
+
+# Use GATK
+echo
+echo "Annotating using GATK's VariantAnnotator:"
+echo "    Input file  : $in"
+echo "    Output file : $out"
+
+#echo help
+java -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar $GATK_HOME/GenomeAnalysisTK.jar -T VariantAnnotator -h
+
+java -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
+$GATK_HOME/GenomeAnalysisTK.jar
+    -T VariantAnnotator \
+    -R $index \
+    -A SnpEff \
+    --variant ${inputSnps} \
+    --snpEffFile ${tmpSnpEffCallsVcf} \
+    -L ${INTERVALLIST} \
+    -o $out
+
+
+
+
+
+
+
+
+
+
+
+    putFile "${snpEffCallsHtml}"
+    putFile "${snpEffCallsVcf}"
+    putFile "${snpEffGenesTxt}"
