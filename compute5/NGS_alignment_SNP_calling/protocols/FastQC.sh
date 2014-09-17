@@ -1,4 +1,3 @@
-
 #MOLGENIS nodes=1 ppn=1 mem=1gb walltime=03:00:00
 
 
@@ -43,15 +42,13 @@ then
 	fastqc ${peEnd1BarcodeFqGz} \
 	${peEnd2BarcodeFqGz} \
 	-o ${tmpIntermediateDir}
-	
 	echo -e "\nFastQC finished succesfull. Moving temp files to final.\n\n"
-	mv ${tmpIntermediateDir}/* ${intermediateDir}
+	mv -f ${tmpIntermediateDir}/* ${intermediateDir}
 else
 	fastqc ${srBarcodeFqGz} \
 	-o ${tmpIntermediateDir}
 
 	echo -e "\nFastQC finished succesfull. Moving temp files to final.\n\n"
-	mv ${tmpIntermediateDir}/* ${intermediateDir}
-	putFile "${srBarcodeFastQc}.zip"
+	mv -f ${tmpIntermediateDir}/* ${intermediateDir}
 fi
 

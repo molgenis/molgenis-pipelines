@@ -1,4 +1,4 @@
-queue,gcc
+queue,gaf
 mem,4
 walltime,23:59:00
 nodes,1
@@ -121,7 +121,11 @@ sortVCFpl,${scriptDir}/sortVCFbyFai.pl
 indelsMergedUnsortedVcf,${sample}.indels.calls.merged.unsorted.vcf
 indelsMergedSortedVcf,${sample}.indels.calls.merged.sorted.vcf
 snpEffCallsHtml,${projectPrefix}.snpEff.html
-snpEffCallsVcf,${projectPrefix}.snpEff.vcf
 snpEffGenesTxt,${projectPrefix}.snpEff.genes.txt 
 coverageGATK,${sample}.coverageGATK
 pindelMergeVcf,/gcc/groups/gcc/home/rkanninga/20082109_dyst390.output.pindel.merged.vcf
+indelMergeVcfOutput,/gcc/groups/gcc/home/rkanninga/1404293.output.pindel.merged.vcf
+snpEffIndelsVcf,/gcc/groups/gaf/tmp01/tmp/Testproject/test01/Testproject.snpEff.indels.vcf
+snpEffSnpsVcf,/gcc/groups/gaf/tmp01/tmp/Testproject/test01/Testproject.snpEff.snps.vcf
+variantAnnotatorOutputIndelsVcf,/gcc/groups/gaf/tmp01/tmp/Testproject/test01/Testproject.snpEff.annotated.indels.vcf
+variantAnnotatorOutputSnpsVcf,/gcc/groups/gaf/tmp01/tmp/Testproject/test01/Testproject.snpEff.annotated.snps.vcf
