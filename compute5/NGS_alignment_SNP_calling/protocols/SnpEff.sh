@@ -9,6 +9,7 @@
 #string snpEffCallsVcf
 #string snpEffGenesTxt
 #string pindelMergeVcf
+#string inputVcf
 
 #Echo parameter values
 echo "stage: ${stage}"
@@ -57,16 +58,14 @@ eff \
 -v \
 -c $SNPEFF_HOME/snpEff.config \
 -i vcf \
--o vcf \
-GRCh37.64 \
--onlyCoding true \
+-o gatk \
+GRCh37.69 \
 -stats ${tmpSnpEffCallsHtml} \
-${pindelMergeVcf} \
+${inputVcf} \
 > ${tmpSnpEffCallsVcf}
+
+#${intermediateDir}${project}.indels.calls.mergedAllVcf.vcf \
 
     mv ${tmpSnpEffCallsHtml} ${snpEffCallsHtml}
     mv ${tmpSnpEffCallsVcf} ${snpEffCallsVcf}
     mv ${tmpSnpEffGenesTxt} ${snpEffGenesTxt}
-    putFile "${snpEffCallsHtml}"
-    putFile "${snpEffCallsVcf}"
-    putFile "${snpEffGenesTxt}"

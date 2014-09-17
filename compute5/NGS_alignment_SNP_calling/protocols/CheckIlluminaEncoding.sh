@@ -22,7 +22,7 @@ Lines=(`zcat ${barcodeFqGz} | head -48 | awk 'NR % 4 == 0'`)
 count=1
 for line in  ${Lines[*]}
 do
-	if [[ "$line" =~ [0-9] ]] || [[ "$line" =~ [@A] ]]
+	if [[ "$line" =~ [0-9] ]] || [[ "$line" =~ [\<=\>?] ]]
 	then
 		#check if not contains a character from Illumina 1.5
 		if ! [[ "$line" =~ [P-Z] ]] || ! [[ "$line" =~ [a-g] ]]

@@ -9,6 +9,11 @@
 #string snpEffCallsVcf
 #string snpEffGenesTxt
 #string pindelMergeVcf
+#string indexFile
+#string targetIntervals
+#string variantVcf
+#string snpEffCallsVcf
+#string variantAnnotatorOutputVcf
 
 #Echo parameter values
 echo "stage: ${stage}"
@@ -50,61 +55,18 @@ ${stage} GATK/3.1-1-g07a4bf8
 ${stage} snpEff
 ${checkStage}
 
-#Run snpEff
 java -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
-$SNPEFF_HOME/snpEff.jar \
-eff \
--v \
--c $SNPEFF_HOME/snpEff.config \
--i vcf \
--o vcf \
-GRCh37.64 \
--onlyCoding true \
--stats ${tmpSnpEffCallsHtml} \
-${pindelMergeVcf} \
-> ${tmpSnpEffCallsVcf}
-
-    mv ${tmpSnpEffCallsHtml} ${snpEffCallsHtml}
-    mv ${tmpSnpEffCallsVcf} ${snpEffCallsVcf}
-    mv ${tmpSnpEffGenesTxt} ${snpEffGenesTxt}
-
-
-# Annotate
-echo
-echo "Annotate using SnpEff"
-echo "    Input file  : $in"
-echo "    Output file : $eff"
-java -Xmx4G -jar $snpeff -c $HOME/snpEff/snpEff.config -v -o gatk hg19 $in > $eff
-
-# Use GATK
-echo
-echo "Annotating using GATK's VariantAnnotator:"
-echo "    Input file  : $in"
-echo "    Output file : $out"
-
-#echo help
-java -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar $GATK_HOME/GenomeAnalysisTK.jar -T VariantAnnotator -h
-
-java -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
-$GATK_HOME/GenomeAnalysisTK.jar
-    -T VariantAnnotator \
-    -R $index \
-    -A SnpEff \
-    --variant ${inputSnps} \
-    --snpEffFile ${tmpSnpEffCallsVcf} \
-    -L ${INTERVALLIST} \
-    -o $out
-
-
-
-
-
-
-
-
-
-
-
-    putFile "${snpEffCallsHtml}"
-    putFile "${snpEffCallsVcf}"
-    putFile "${snpEffGenesTxt}"
+$GATK_HOME/GenomeAnalysisTK.jar \
+-T VariantAnnotator \
+-R ${indexFile} \
+-A SnpEff \
+-D /gcc/resources/b37/snp/dbSNP/dbsnp_137.b37.vcf \
+--useAllAnnotations \
+--excludeAnnotation MVLikelihoodRatio \
+--excludeAnnotation TechnologyComposition \
+--excludeAnnotation DepthPerSampleHC \
+--excludeAnnotation StrandBiasBySample \
+--variant ${variantVcf} \
+--snpEffFile ${snpEffCallsVcf} \
+-L ${targetIntervals} \
+-o ${variantAnnotatorOutputVcf}
