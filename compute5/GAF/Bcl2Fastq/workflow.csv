@@ -1,0 +1,5 @@
+step,protocol,parameterMapping
+Bcl2FastQ,protocols/Bcl2FastQ.sh,
+Illumina2GafFastQ,protocols/Illumina2GafFastQ.sh,
+Demultiplex,protocols/Demultiplex.sh,
+CreateFinalReport,protocols/CreateFinalReport.sh,

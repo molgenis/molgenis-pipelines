@@ -2,25 +2,36 @@
 
 #FOREACH project,chr
 
-
-
 declare -a impute2ChunkOutputs=(${ssvQuoted(impute2ChunkOutput)})
 declare -a impute2ChunkOutputInfos=(${ssvQuoted(impute2ChunkOutputInfo)})
 
-inputs ${ssvQuoted(impute2ChunkOutput)}
-inputs ${ssvQuoted(impute2ChunkOutputInfo)}
 chr="${chr}"
 
 outputFolder="${outputFolder}"
 
 <#noparse>
 
-alloutputsexist "${outputFolder}/chr${chr}" "${outputFolder}/chr${chr}_info"
-
 echo "chr: ${chr}"
 echo "outputFolder: ${outputFolder}"
 echo "impute2OutputFiles: ${impute2ChunkOutputs[@]}"
 echo "impute2OutputInfoFiles: ${impute2ChunkOutputInfos[@]}"
+
+alloutputsexist "${outputFolder}/chr${chr}" "${outputFolder}/chr${chr}_info"
+
+for element in ${impute2ChunkOutputs[@]}
+do
+    echo "Impute2 chuck: $element"
+    getFile $element
+    inputs $element
+done
+
+for element in ${impute2ChunkOutputInfos[@]}
+do
+    echo "Impute2 chuck info: $element"
+    getFile $element
+    inputs $element
+done
+
 
 mkdir -p $outputFolder
 
@@ -38,6 +49,7 @@ then
 
 	echo "Impute2 outputs concattenated"
 	mv ${outputFolder}/~chr${chr} ${outputFolder}/chr${chr}
+	putFile ${outputFolder}/chr${chr}
 
 else
 	echo "Failed to cat impute2 outputs to ${outputFolder}/~chr${chr}" >&2
@@ -88,5 +100,6 @@ done
 
 echo "Impute2 output infos concattenated"
 mv ${outputFolder}/~chr${chr}_info ${outputFolder}/chr${chr}_info
+putFile ${outputFolder}/chr${chr}_info
 
 </#noparse>

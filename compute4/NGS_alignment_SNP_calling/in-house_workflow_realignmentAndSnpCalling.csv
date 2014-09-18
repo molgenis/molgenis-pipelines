@@ -18,6 +18,7 @@ AnalyzeCovariates,AnalyzeCovariates,"CovariatesBefore,CovariatesAfter"
 MergeBam,MergeBam,SamSortRecal
 PicardQCrecal,PicardQCrecal,MergeBam
 Coverage,Coverage,MergeBam
+CreateCoverageBedFile,CreateCoverageBedFile,MergeBam
 CoverageGATK,CoverageGATK,MergeBam
 IndelGenotyper,IndelGenotyper,MergeBam
 Pindel,Pindel,MergeBam
@@ -30,4 +31,4 @@ VariantAnnotator,VariantAnnotator,GenomicAnnotator
 VcfToTable,VcfToTable,VariantAnnotator
 ConcordanceCheck,ConcordanceCheck,"MergeBam,UnifiedGenotyper"
 QCReport,QCReport,"PicardQCrecal,Markduplicates,ConcordanceCheck,Coverage,VcfToTable"
-CopyToResultsDir,CopyToResultsDir,"Fastqc,MergeBam,PicardQCrecal,VariantAnnotator,VcfToTable,SvVcfToTable,ConcordanceCheck,QCReport"
+CopyToResultsDir,CopyToResultsDir,"Fastqc,MergeBam,PicardQCrecal,CreateCoverageBedFile,VariantAnnotator,VcfToTable,SvVcfToTable,ConcordanceCheck,QCReport"

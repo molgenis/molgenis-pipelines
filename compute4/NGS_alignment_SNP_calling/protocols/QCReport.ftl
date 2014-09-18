@@ -40,8 +40,9 @@ inputs ${ssvQuoted(dedupmetrics)}
 inputs ${ssvQuoted(sampleconcordancefile)}
 inputs ${qcstatisticscolnames}
 
-export PATH=${R_HOME}/bin:<#noparse>${PATH}</#noparse>
-export R_LIBS=${R_LIBS}
+module load R/2.14.2
+module load graphviz/2.34.0
+module list
 
 # get general sample statistics
 Rscript ${getStatisticsScript} \
@@ -80,7 +81,7 @@ Rscript ${createsnptablescript} \
 
 
 # create workflow figure
-echo "${graph(workflowElements)}" | ${dot} -Tpng > ${workflowpng}
+echo "${graph(workflowElements)}" | dot -Tpng > ${workflowpng}
 
 # save latex template in file
 echo "<#include "QCReportTemplate.tex"/>" > ${qcstatisticstexreport}

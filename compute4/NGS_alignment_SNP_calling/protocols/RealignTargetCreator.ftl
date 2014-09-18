@@ -10,6 +10,9 @@
 
 #MOLGENIS walltime=35:59:00 mem=10
 
+module load GATK/1.0.5069
+module list
+
 inputs "${dedupbam}" 
 inputs "${indexfile}" 
 inputs "${dbsnprod}"
@@ -18,7 +21,7 @@ alloutputsexist \
  "${realignTargets}"
 
 java -Xmx10g -jar -Djava.io.tmpdir=${tempdir} \
-${genomeAnalysisTKjar} \
+$GATK_HOME/GenomeAnalysisTK.jar \
 -l INFO \
 -T RealignerTargetCreator \
 -U ALLOW_UNINDEXED_BAM \

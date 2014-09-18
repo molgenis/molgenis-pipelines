@@ -1,0 +1,2 @@
+step,protocol,parameterMapping
+CreateGafRuns,protocols/CreateGafRuns.sh,

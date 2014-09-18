@@ -1,0 +1,3 @@
+step,protocol,dependencies
+PrepareStudy,protocols/PrepareStudy.sh,
+CreatePlinkFiles,protocols/CreatePlinkFiles.sh,PrepareStudy

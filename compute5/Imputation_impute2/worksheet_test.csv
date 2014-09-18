@@ -1,0 +1,3 @@
+project,knownHapsG,m,h,l,additonalImpute2Param,outputFolder,chr,fromChrPos,toChrPos
+RotterdamTest,${root}/RS/PhasedForImputation/chr${chr}Aligned.haps,${root}/genetic_map/genetic_map_chr${chr}_combined_b37.txt,${root}/gonl4Impute2Reference/chr${chr}.hap.gz,${root}/gonl4Impute2Reference/chr${chr}.legend.gz,"-k_hap 1500 -Ne 20000",${root}/RS/imputationTest,1,1,5000001
+RotterdamTest,${root}/RS/PhasedForImputation/chr${chr}Aligned.haps,${root}/genetic_map/genetic_map_chr${chr}_combined_b37.txt,${root}/gonl4Impute2Reference/chr${chr}.hap.gz,${root}/gonl4Impute2Reference/chr${chr}.legend.gz,"-k_hap 1500 -Ne 20000",${root}/RS/imputationTest,1,5000001,10000001

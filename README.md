@@ -5,6 +5,8 @@
 This repository contains the following pipelines:
 * Alignment
 * Imputation
+* GWAS
+* RNA-seq (Experimental)
 
 In addition it contains protocols that may be re-used between different (versions of a) pipeline(s).
 
@@ -32,4 +34,8 @@ For a 'walkthrough' tutorial on Molgenis Compute, please visit https://github.co
 
 ### Step 2: clone this repo
 	
-	git clone https://github.com/molgenis/molgenis-legacy.git
+	# For read/write access:
+	git clone https://github.com/molgenis/molgenis-pipelines.git
+	# Alternatively to only download the pipelines use:
+	wget https://github.com/molgenis/molgenis-pipelines/archive/master.zip
+	unzip master

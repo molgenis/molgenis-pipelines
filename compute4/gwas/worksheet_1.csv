@@ -1,0 +1,2 @@
+project,studyInputDir,resultDir,genomeBuild,chr,autostart
+projectName,/target/gpfs2/gcc/home/akanterakis/runs/ticket_1252/results,/target/gpfs2/gcc/home/akanterakis/runs/ticket_1559,b37,1,FALSE

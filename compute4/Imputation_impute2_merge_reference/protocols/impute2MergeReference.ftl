@@ -61,12 +61,11 @@ if [ $returnCode -eq 0 ]
 then
 
 	#If there are no SNPs in this bin we will create empty files 
-	if [ ! -f ${tmpOutput}_info ]
+	if [ ! -f ${tmpOutput}.hap ]
 	then
-		
-		touch ${tmpOutput}
-		touch ${tmpOutput}_info
-		touch ${tmpOutput}_info_by_sample
+	
+		touch ${tmpOutput}.hap
+		touch ${tmpOutput}.legend
 	
 	fi
 	

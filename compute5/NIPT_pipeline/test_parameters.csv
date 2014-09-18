@@ -1,0 +1,152 @@
+queue,gcc
+mem,4
+walltime,23:59:00
+nodes,1
+ppn,1
+defaultInterpreter,#!/bin/bash
+stage,module load
+checkStage,module list
+WORKDIR,/gcc/groups/gcc/tmp02/ddeweerd
+root,/gcc/
+tempDir,${WORKDIR}/tmp
+resDir,${root}resources
+toolDir,${root}/tools/
+scriptDir,${WORKDIR}/tools/scripts/
+dataDir,${WORKDIR}
+library,${filePrefix},,,
+runPrefix,${sequencingStartDate}_${sequencer}_${run}_${flowcell}
+allRawDataDir,${dataDir}/rawdata
+allRawNgsDataDir,${allRawDataDir}/ngs
+allRunDemultiplexDir,${dataDir}/runs/
+rawDataDir,${allRawNgsDataDir}/${runPrefix}
+controlSetDir,${WORKDIR}/controlSetDir/
+controlSetFile,${controlSetDir}merged_file/controlSetFile.tsv
+genome,b37,,,
+filePrefix,${runPrefix}_L${lane}
+srInputFile,${rawDataDir}/${filePrefix}.fq.gz
+peEnd1FqGz,${rawDataDir}/${filePrefix}_1.fq.gz,fastq file with left read of sequence,string,
+peEnd2FqGz,${rawDataDir}/${filePrefix}_2.fq.gz,fastq file with right read of sequence,string,
+fastqcVersion,v0.10.1
+bwaVersion,0.7.5a
+picardVersion,1.102
+bedtoolsVersion,2.17.0
+bamutilsExe, bamutils
+samtoolsVersion,0.1.18
+anacondaVersion,1.8.0
+RVersion,3.0.2
+mergeSamFilesJar,MergeSamFiles.jar
+RScript,${scriptDir}CreateBins.R
+RScriptInterChi,${scriptDir}InterChiCorrection.R
+samtoolsExe,samtools
+samToBamJar,SamFormatConverter.jar
+sortSamJar,SortSam.jar
+bamutils,/gcc/groups/gcc/tmp02/ddeweerd/tools/ngsutils-ngsutils-0.5.2b/bin
+markDuplicatesJar,MarkDuplicates.jar
+collectMultipleMetricsJar,CollectMultipleMetrics.jar
+gcBiasMetricsJar,CollectGcBiasMetrics.jar
+hsMetricsJar,CalculateHsMetrics.jar
+bamIndexStatsJar,BamIndexStats.jar
+GATKVersion,2.7-4-g6f46d11
+GATKJar,GenomeAnalysisTK.jar
+bwaAlignCores,8
+SVDir,${resDir}/${genome}/sv/
+SNPDir,${resDir}/${genome}/snp/
+KGSVDir,${SVDir}/1000G/
+KGPhase1IndelsVcf,${KGSVDir}/1000G_phase1.indels.b37.vcf
+KGPhase1IndelsVcfIdx,${KGPhase1IndelsVcf}.idx
+MillsGoldStandardIndelsVcf,${KGSVDir}/Mills_and_1000G_gold_standard.indels.b37.vcf
+MillsGoldStandardIndelsVcfIdx,${MillsGoldStandardIndelsVcf}.idx
+dbSNPDir,${SNPDir}/dbSNP/
+dbSNP137Vcf,${dbSNPDir}/dbsnp_137.b37.vcf
+dbSNP137VcfIdx,${dbSNP137Vcf}.idx
+tmpSortedBam,${intermediateDir}/tmp${filePrefix}_${barcode}.sorted.bam
+tmpSortedBamIdx,${intermediateDir}/tmp${filePrefix}_${barcode}.sorted.bai
+sortedBam,${intermediateDir}/${filePrefix}_${barcode}.sorted.bam
+sortedBamIdx,${intermediateDir}/${filePrefix}_${barcode}.sorted.bai
+indexFileID,human_g1k_v37,,,
+indicesDir,${resDir}/${genome}/indices
+indexFileFastaIndex,${indicesDir}/${indexFileIDtest}.fasta.fai,,,
+indexFileIDtest,human_g1k_v37,Append .chr1 if you want to test only on chr 1,,
+indexFile,${indicesDir}/${indexFileIDtest}.fasta,,,
+generalProjectDir,${dataDir}/projects/
+projectDir,${generalProjectDir}/${project}/${runid},project folder for this insilico run,,
+#projectRawDataDir,${projectDir}/rawdata/ngs/,project specific rawdata directory for (demultiplexed) reads,string,
+projectRawDataDir,${WORKDIR}/rawdata/ngs/${runPrefix},project specific rawdata directory for (demultiplexed) reads,string,
+projectRawArrayDataDir,${projectDir}/rawdata/array/,"Contains project specific rawdata (i.e., Genome Studio files)",string,
+intermediateDir,${tempDir}/${project}/${runid},store intermediate results here; empty at end of project,,
+tmpIntermediateDir,${intermediateDir}/tmp/
+sample,${intermediateDir}/${externalSampleID}
+tmpSampleMergedBam,${intermediateDir}/tmp${externalSampleID}.merged.bam
+tmpSampleMergedBamIdx,${intermediateDir}/tmp${externalSampleID}.merged.bai
+sampleMergedBam,${sample}.merged.bam
+sampleMergedBamIdx,${sample}.merged.bai
+peEnd1Barcode,${projectRawDataDir}/${filePrefix}_${barcode}_1,use these in case of demultiplexed files,,
+peEnd2Barcode,${projectRawDataDir}/${filePrefix}_${barcode}_2,idem,
+#srBarcodeFq,${projectRawDataDir}/${filePrefix}_${barcode}.fq,,,
+srBarcodeFq,${projectRawDataDir}/${filePrefix}_${barcode}.fq,,, 
+intermediatePeEnd1Barcode,${intermediateDir}/${filePrefix}_${barcode}_1,,,
+intermediatePeEnd2Barcode,${intermediateDir}/${filePrefix}_${barcode}_2,,,
+intermediateSrBarcode,${intermediateDir}/${filePrefix}_${barcode},,,
+peEnd1Barcode,${projectRawDataDir}/${filePrefix}_${barcode}_1,use these in case of demultiplexed files,,
+peEnd2Barcode,${projectRawDataDir}/${filePrefix}_${barcode}_2,idem,,
+peEnd1BarcodeFq,${peEnd1Barcode}.fq,,,
+peEnd2BarcodeFq,${peEnd2Barcode}.fq,,,
+tmpDedupBam,${intermediateDir}/tmp${externalSampleID}.merged.dedup.bam
+tmpDedupBamIdx,${intermediateDir}/tmp${externalSampleID}.merged.dedup.bai
+tmpDedupMetrics,${intermediateDir}/tmp${externalSampleID}.merged.dedup.metrics
+dedupBam,${sample}.merged.dedup.bam
+dedupBamIdx,${sample}.merged.dedup.bai
+dedupMetrics,${sample}.merged.dedup.metrics
+tmpCollectMergedDedupBamMetricsPrefix,${intermediateDir}/tmp${externalSampleID}
+collectMergedDedupBamMetricsPrefix,${intermediateDir}/${externalSampleID}
+srBarcodeFq,${projectRawDataDir}/${filePrefix}_${barcode}.fq,,,
+peEnd1BarcodeFqGz,${peEnd1BarcodeFq}.gz,"gziped file, in project raw data dir",,
+peEnd2BarcodeFqGz,${peEnd2BarcodeFq}.gz,,,
+srBarcodeFqGz,${srBarcodeFq}.gz,,,
+peEnd1BarcodeFastQcZip,${intermediatePeEnd1Barcode}.fq_fastqc.zip,(fastqc.ftl),,
+peEnd2BarcodeFastQcZip,${intermediatePeEnd2Barcode}.fq_fastqc.zip,(fastqc.ftl),,
+srBarcodeFastQcZip,${intermediateSrBarcode}.fq_fastqc.zip,(fastqc.ftl),,
+intervalListDir,${resDir}/${genome}/intervals/
+baitIntervals,${intervalListDir}/${capturingKit}_baits_${genome}_${indexFileIDtest}.interval_list
+targetIntervals,${intervalListDir}/${capturingKit}_exons_${genome}_${indexFileIDtest}.interval_list
+indexFile,${indicesDir}/${indexFileIDtest}.fasta,,,
+tmpLeftBwaOut,${intermediateDir}/tmp${filePrefix}_${barcode}.sai
+leftBwaOut,${intermediateDir}/${filePrefix}_${barcode}.sai
+tmpRightBwaOut,${intermediateDir}/tmp${filePrefix}_${barcode}.sai
+rightBwaOut,${intermediateDir}/${filePrefix}_${barcode}.sai
+tmpAlignedSam,${intermediateDir}/tmp${filePrefix}_${barcode}.sam
+alignedSam,${intermediateDir}/${filePrefix}_${barcode}.sam
+tmpAlignedBam,${intermediateDir}/tmp${filePrefix}_${barcode}.bam
+alignedBam,${intermediateDir}/${filePrefix}_${barcode}.bam
+recalBefore,before
+recalPost,post
+tmpBeforeRecalTable,${intermediateDir}/tmp${externalSampleID}.before.recal.table
+beforeRecalTable,${intermediateDir}/${externalSampleID}.before.recal.table
+tmpPostRecalTable,${intermediateDir}/tmp${externalSampleID}.post.recal.table
+postRecalTable,${intermediateDir}/${externalSampleID}.post.recal.table
+tmpBQSRBam,${intermediateDir}/tmp${externalSampleID}.merged.dedup.bqsr.bam
+tmpBQSRBamIdx,${intermediateDir}/tmp${externalSampleID}.merged.dedup.bqsr.bai
+tmpBQSRBamMd5,${tmpBQSRBam}.md5
+BQSRBam,${intermediateDir}/${externalSampleID}.merged.dedup.bqsr.bam
+BQSRBamIdx,${intermediateDir}/${externalSampleID}.merged.dedup.bqsr.bai
+BQSRBamMd5,${BQSRBam}.md5
+tmpTmpBQSRBamMd5,tmpBQSRBamMd5,${intermediateDir}/tmp${externalSampleID}.merged.dedup.bqsr.bam.md5.tmp
+tmpBQSRPdf,${intermediateDir}/tmp${externalSampleID}.merged.dedup.bqsr.pdf
+BQSRPdf,${intermediateDir}/${externalSampleID}.merged.dedup.bqsr.pdf
+tmpBQSRCsv,${intermediateDir}/tmp${externalSampleID}.merged.dedup.bqsr.csv
+BQSRCsv,${intermediateDir}/${externalSampleID}.merged.dedup.bqsr.csv
+tmpCollectFinalBamMetricsPrefix,${intermediateDir}/tmp${externalSampleID}.merged.dedup.bqsr
+collectFinalBamMetricsPrefix,${intermediateDir}/${externalSampleID}.merged.dedup.bqsr
+tmpForwardBins,${intermediateDir}/tmp${externalSampleID}.forward.bins.table.tsv
+forwardBins,${sample}.forward.bins.table.tsv
+tmpReverseBins,${intermediateDir}/tmp${externalSampleID}.reverse.bins.table.tsv
+reverseBins,${sample}.reverse.bins.table.tsv
+tmpBedForward,${intermediateDir}/tmp${externalSampleID}.forward.bed
+tmpBedReverse,${intermediateDir}/tmp${externalSampleID}.reverse.bed
+forward,forward
+reverse,reverse
+bins_50k,/gcc/groups/gcc/tmp02/ddeweerd/tmp/NIPTValidatie/run0/bins.50k.bed
+binsPdfForward,${sample}.bins.forward.pdf
+binsPdfReverse,${sample}.bins.reverse.pdf
+sampleID,${externalSampleID}
+chiIntermediateDir,${intermediateDir}/${sampleID}_Chi_Intermediate/

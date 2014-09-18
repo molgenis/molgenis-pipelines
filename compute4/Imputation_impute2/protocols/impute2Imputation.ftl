@@ -1,4 +1,4 @@
-#MOLGENIS nodes=1 cores=1 mem=4
+#MOLGENIS nodes=1 cores=1 mem=8
 
 known_haps_g="${known_haps_g}"
 m="${m}"
@@ -10,25 +10,22 @@ fromChrPos="${fromChrPos}"
 toChrPos="${toChrPos}"
 imputationIntermediatesFolder="${imputationIntermediatesFolder}"
 impute2Bin="${impute2Bin}"
+aditionalArgs="${additonalImpute2Param}"
+
+${stage} impute/${impute2version}
 
 <#noparse>
 
-startTime=$(date +%s)
+tmpOutput="${imputationIntermediatesFolder}/~chr${chr}_${fromChrPos}-${toChrPos}"
+finalOutput="${imputationIntermediatesFolder}/chr${chr}_${fromChrPos}-${toChrPos}"
 
 echo "known_haps_g: ${known_haps_g}";
 echo "chr: ${chr}"
 echo "fromChrPos: ${fromChrPos}"
 echo "toChrPos: ${toChrPos}"
 echo "interMediFolder: ${imputationIntermediatesFolder}"
-
-tmpOutput="${imputationIntermediatesFolder}/~chr${chr}_${fromChrPos}-${toChrPos}"
-finalOutput="${imputationIntermediatesFolder}/chr${chr}_${fromChrPos}-${toChrPos}"
-
 echo "tmpOutput: ${tmpOutput}"
-
-inputs $m
-inputs $h
-inputs $l
+echo "finalOutput: ${finalOutput}"
 
 alloutputsexist \
 	"${finalOutput}" \
@@ -37,7 +34,73 @@ alloutputsexist \
 	"${finalOutput}_summary" \
 	"${finalOutput}_warnings"
 
+startTime=$(date +%s)
+
+echo "tmpOutput: ${tmpOutput}"
+
+getFile $known_haps_g
+inputs $known_haps_g
+
+getFile $m
+inputs $m
+
+# $h can be multiple files. Here we will check each file and do a getFile, if needed, for each file
+for refH in $h
+do
+	echo "Reference haplotype file: ${refH}"
+	getFile $refH
+	inputs $refH
+done
+
+# $l can be multiple files. Here we will check each file and do a getFile, if needed, for each file
+for refL in $l
+do
+	echo "Reference legend file: ${refL}"
+	getFile $refL
+	inputs $refL
+done
+
+# DECLARE POSSIBLE VALUES FOR additonalImpute2Param HERE
+impute2FileArg[0]="-sample_g_ref"
+impute2FileArg[1]="-exclude_samples_g"
+impute2FileArg[2]="-exclude_snps_g"
+impute2FileArg[3]="-sample_g"
+
+# This function test if element is in array
+# http://stackoverflow.com/questions/3685970/bash-check-if-an-array-contains-a-value
+containsElement () {
+  local e
+  for e in "${@:2}"; do [[ "$e" == "$1" ]] && return 1; done
+  return 0
+}
+
+
+aditionalArgsArray=($aditionalArgs)
+
+# Loop over all aditional args. If arg is encounterd that requeres file then do inputs and getFile on next element
+for (( i=0; i<${#aditionalArgsArray[@]}; i++ ));
+do
+	currentArg=${aditionalArgsArray[$i]}
+	containsElement $currentArg ${impute2FileArg[@]}
+	if [[ $? -eq 1 ]]; 
+	then 
+		
+		i=`expr $i + 1`
+		
+		file=${aditionalArgsArray[$i]}
+		
+		echo "File for this argument: $currentArg will get and is requered for this script to start $file"
+		inputs $file
+		get $file
+		echo "Found additional Impute2 file: $file"
+		
+	fi
+	
+done
+
+
 mkdir -p $imputationIntermediatesFolder
+
 
 $impute2Bin \
 	-known_haps_g $known_haps_g \
@@ -78,7 +141,9 @@ then
 
 	for tempFile in ${tmpOutput}* ; do
 		finalFile=`echo $tempFile | sed -e "s/~//g"`
+		echo "Moving temp file: ${tempFile} to ${finalFile}"
 		mv $tempFile $finalFile
+		putFile $finalFile
 	done
 	
 elif [ `grep "ERROR: There are no type 2 SNPs after applying the command-line settings for this run"  ${tmpOutput}_summary | wc -l | awk '{print $1}'` == 1 ]
@@ -101,7 +166,9 @@ then
 
 	for tempFile in ${tmpOutput}* ; do
 		finalFile=`echo $tempFile | sed -e "s/~//g"`
+		echo "Moving temp file: ${tempFile} to ${finalFile}"
 		mv $tempFile $finalFile
+		putFile $finalFile
 	done
 		
 
