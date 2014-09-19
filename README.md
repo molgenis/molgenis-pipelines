@@ -39,23 +39,3 @@ For a 'walkthrough' tutorial on Molgenis Compute, please visit https://github.co
 	# Alternatively to only download the pipelines use:
 	wget https://github.com/molgenis/molgenis-pipelines/archive/master.zip
 	unzip master
-	
-## How the pipelines are documented
-
-* Each __pipeline__ folder in this repo contains a README.md with its description.
-* __Protocols__ are documented by adding "#DOC its purpose" below the "#MOLGENIS ..." directive.
-* The __parameters.csv__ file contains a 'description column' for each of the parameters.
-* __R-scripts__: The main script always starts with "#!/usr/bin/env Rscript" so that it can be started from command line.
- * Second line in script: "#DOC my purpose is...".
- * Calling it from the command line without parameters provides help:
-  * Example how to run script
-  * Purpose of script
-  * A list of parameters with shorthand and description, e.g.:
-    * --parameter -p indicates ...
-
-### TODO: auto-generate documentation of analysis runs
-Additional advantage is that the Compute software can auto-generate documentation of an analysis we've performed by combining
-* The pipeline's README.md
-* The workflow.csv (graph with 'dot' as we already have)
-* The #DOC's for each of the protocols in workflow.csv (each protocol once)
-* A list of parameters and their values (with short description)
