@@ -16,7 +16,9 @@ if [ -f ${tmpProjectDir}/${studyId}_chr${chr}.bed ]
 then
         #Move other results into results directory
         echo "Moving BED, BIM, FAM and DOSE.GZ plus accompanying md5sums to results directory"
-        mv ${tmpProjectDir}/${studyId}_chr${chr}.bed ${resultDir}/${studyId}_chr${chr}.bed
+	gzip ${tmpProjectDir}/${studyId}_chr${chr}.bed.gz
+        echo "compressed bed file"
+        mv ${tmpProjectDir}/${studyId}_chr${chr}.bed.gz ${resultDir}/${studyId}_chr${chr}.bed.gz
         mv ${tmpProjectDir}/${studyId}_chr${chr}.bim ${resultDir}/${studyId}_chr${chr}.bim
         mv ${tmpProjectDir}/${studyId}_chr${chr}.fam ${resultDir}/${studyId}_chr${chr}.fam
         mv ${tmpProjectDir}/${studyId}_chr${chr}.bed.md5 ${resultDir}/${studyId}_chr${chr}.bed.md5
