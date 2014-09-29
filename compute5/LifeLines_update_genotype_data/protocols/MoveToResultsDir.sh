@@ -12,7 +12,7 @@ echo "tmpProjectDir: ${tmpProjectDir}"
 echo "studyId: ${studyId}"
 echo "chr: ${chr}"
 
-if [ ${empty_snpsubset} == "false" ]
+if [ -f ${tmpProjectDir}/${studyId}_chr${chr}.bed ]
 then
         #Move other results into results directory
         echo "Moving BED, BIM, FAM and DOSE.GZ plus accompanying md5sums to results directory"
@@ -25,7 +25,7 @@ then
         mv ${tmpProjectDir}/${studyId}_chr${chr}.dose.gz ${resultDir}/${studyId}_chr${chr}.dose.gz
         mv ${tmpProjectDir}/${studyId}_chr${chr}.dose.gz.md5 ${resultDir}/${studyId}_chr${chr}.dose.gz.md5
 else
-	 rm ${resultDir}/${studyId}_chr${chr}.dose.gz
+	rm ${resultDir}/${studyId}_chr${chr}.dose.gz
         rm ${resultDir}/${studyId}_chr${chr}.dose.gz.md5
         echo "The snpsubset is empty, nothing to be moved! Removed dose.gz and dose.gz.md5 to not make it to confusing for the researchers"
 fi
