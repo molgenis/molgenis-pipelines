@@ -16,9 +16,15 @@ if [ -f ${tmpProjectDir}/${studyId}_chr${chr}.bed ]
 then
         #Move other results into results directory
         echo "Moving BED, BIM, FAM and DOSE.GZ plus accompanying md5sums to results directory"
-        mv ${tmpProjectDir}/${studyId}_chr${chr}.bed ${resultDir}/${studyId}_chr${chr}.bed
-        mv ${tmpProjectDir}/${studyId}_chr${chr}.bim ${resultDir}/${studyId}_chr${chr}.bim
-        mv ${tmpProjectDir}/${studyId}_chr${chr}.fam ${resultDir}/${studyId}_chr${chr}.fam
+	gzip ${tmpProjectDir}/${studyId}_chr${chr}.bed.gz
+        echo "compressed bed file"
+        mv ${tmpProjectDir}/${studyId}_chr${chr}.bed.gz ${resultDir}/${studyId}_chr${chr}.bed.gz
+	gzip ${tmpProjectDir}/${studyId}_chr${chr}.bim
+        echo "compressed bim file"
+        mv ${tmpProjectDir}/${studyId}_chr${chr}.bim.gz ${resultDir}/${studyId}_chr${chr}.bim.gz
+        gzip ${tmpProjectDir}/${studyId}_chr${chr}.fam   
+        echo "compressed fam file"
+        mv ${tmpProjectDir}/${studyId}_chr${chr}.fam.gz ${resultDir}/${studyId}_chr${chr}.fam.gz
         mv ${tmpProjectDir}/${studyId}_chr${chr}.bed.md5 ${resultDir}/${studyId}_chr${chr}.bed.md5
         mv ${tmpProjectDir}/${studyId}_chr${chr}.bim.md5 ${resultDir}/${studyId}_chr${chr}.bim.md5
         mv ${tmpProjectDir}/${studyId}_chr${chr}.fam.md5 ${resultDir}/${studyId}_chr${chr}.fam.md5
