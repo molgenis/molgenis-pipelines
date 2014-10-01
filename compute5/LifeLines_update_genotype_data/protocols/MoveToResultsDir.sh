@@ -19,8 +19,12 @@ then
 	gzip ${tmpProjectDir}/${studyId}_chr${chr}.bed.gz
         echo "compressed bed file"
         mv ${tmpProjectDir}/${studyId}_chr${chr}.bed.gz ${resultDir}/${studyId}_chr${chr}.bed.gz
-        mv ${tmpProjectDir}/${studyId}_chr${chr}.bim ${resultDir}/${studyId}_chr${chr}.bim
-        mv ${tmpProjectDir}/${studyId}_chr${chr}.fam ${resultDir}/${studyId}_chr${chr}.fam
+	gzip ${tmpProjectDir}/${studyId}_chr${chr}.bim
+        echo "compressed bim file"
+        mv ${tmpProjectDir}/${studyId}_chr${chr}.bim.gz ${resultDir}/${studyId}_chr${chr}.bim.gz
+        gzip ${tmpProjectDir}/${studyId}_chr${chr}.fam   
+        echo "compressed fam file"
+        mv ${tmpProjectDir}/${studyId}_chr${chr}.fam.gz ${resultDir}/${studyId}_chr${chr}.fam.gz
         mv ${tmpProjectDir}/${studyId}_chr${chr}.bed.md5 ${resultDir}/${studyId}_chr${chr}.bed.md5
         mv ${tmpProjectDir}/${studyId}_chr${chr}.bim.md5 ${resultDir}/${studyId}_chr${chr}.bim.md5
         mv ${tmpProjectDir}/${studyId}_chr${chr}.fam.md5 ${resultDir}/${studyId}_chr${chr}.fam.md5
