@@ -1,0 +1,2 @@
+internalId,project,sampleName,samplePrep,sequencer,seqType,sequencerId,flowcellId,run,lane,barcode,reads1FqGz,reads2FqGz
+1,test2,samplePE,000001,illumina,hiseq2500,SN163,BD0WDYACXX,0474,5,ACTGAT,/gcc/groups/oncogenetics/tmp01/resources/head_40000_120830_SN163_0474_BD0WDYACXX_L5_ACTGAT_1.fq.gz,/gcc/groups/oncogenetics/tmp01/resources/head_40000_120830_SN163_0474_BD0WDYACXX_L5_ACTGAT_2.fq.gz
