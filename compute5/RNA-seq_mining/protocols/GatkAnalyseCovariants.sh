@@ -48,7 +48,7 @@ mkdir -p ${analyseCovarsDir}
 #do bsqr for covariable determination then do print reads for valid bsqrbams
 #check the bsqr part and add known variants
 
-java -Xmx4g -jar $GATK_HOME/GenomeAnalysisTK.jar \
+java -Xmx4g -Djava.io.tmpdir=${bsqrDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
  -T BaseRecalibrator\
  -R ${onekgGenomeFasta} \
  -I ${bsqrBam} \
@@ -58,7 +58,7 @@ java -Xmx4g -jar $GATK_HOME/GenomeAnalysisTK.jar \
  -knownSites ${oneKgPhase1IndelsVcf}\
  -nct 8
 
-java -Xmx4g -jar $GATK_HOME/GenomeAnalysisTK.jar \
+java -Xmx4g -Djava.io.tmpdir=${bsqrDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
  -T AnalyzeCovariates \
  -R ${onekgGenomeFasta} \
  -ignoreLMT \

@@ -5,8 +5,8 @@
 #string stage
 #string checkStage
 #string fluxcapacitorVersion
-#string indelRealignmentBam
-#string indelRealignmentBai
+#string markDuplicatesBam
+#string markDuplicatesBai
 #string sampleName
 
 #string fluxcapacitorDir
@@ -22,8 +22,8 @@ ${stage} flux-capacitor/${fluxcapacitorVersion}
 ${checkStage}
 
 getFile ${fluxcapacitorGTF}
-getFile ${indelRealignmentBam}
-getFile ${indelRealignmentBai}
+getFile ${markDuplicatesBam}
+getFile ${markDuplicatesBai}
 
 #psuedo flux-capacitor -force --disable-file-check --coverage-file <COVERAGE_FILE> --keep-sorted MAPPING_FILE --keep-sorted ANNOTATION_FILE -a Homo_sapiens.GRCh37.75.fluxcapacitor.sorted.gtf -i in.bam -o flux.expression.gtf --count-elements SPLICE_JUNCTIONS??
 
@@ -42,7 +42,7 @@ fi
 flux-capacitor \
  --force \
  -a ${fluxcapacitorGTF} \
- -i ${indelRealignmentBam} \
+ -i ${markDuplicatesBam} \
  -m $readDescriptor \
  -r \
  --tmp-dir ${fluxcapacitorDir} \

@@ -9,11 +9,11 @@ MarkDuplicates,protocols/MarkDuplicates.sh,MergeBamFiles
 CollectRnaSeqMetrics,protocols/CollectRnaSeqMetrics.sh,MarkDuplicates
 CollectMultipleMetrics,protocols/CollectMultipleMetrics.sh,MarkDuplicates
 HtseqCount,protocols/HtseqCount.sh,MarkDuplicates
+FluxCapacitor,protocols/FluxCapacitor.sh,MarkDuplicates
 GatkSplitAndTrim,protocols/GatkSplitAndTrim.sh,MarkDuplicates
 #GatkRealignerTargetCreator,protocols/GatkRealignerTargetCreator.sh,GatkSplitAndTrim
 #GatkIndelRealignment,protocols/GatkIndelRealignment.sh,GatkRealignerTargetCreator
 IndelRealignmentKnown,protocols/GatkIndelRealignmentKnown.sh,GatkSplitAndTrim
-FluxCapacitor,protocols/FluxCapacitor.sh,IndelRealignmentKnown
 BSQR,protocols/GatkBSQR.sh,IndelRealignmentKnown
 AnalyseCovariants,protocols/GatkAnalyseCovariants.sh,BSQR
 HaplotypeCaller,protocols/GatkHaplotypeCaller.sh,BSQR

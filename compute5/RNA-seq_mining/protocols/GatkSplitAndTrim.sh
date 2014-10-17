@@ -61,7 +61,7 @@ echo
 echo "## Action to perform in quals: "$qualAction" ##"
 echo
 
-java -Xmx4g -jar $GATK_HOME/GenomeAnalysisTK.jar \
+java -Xmx4g -Djava.io.tmpdir=${splitAndTrimDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
  -T SplitNCigarReads \
  -R ${onekgGenomeFasta} \
  -I ${markDuplicatesBam} \
