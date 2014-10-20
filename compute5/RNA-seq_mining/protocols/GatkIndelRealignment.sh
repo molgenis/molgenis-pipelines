@@ -7,10 +7,10 @@
 #string onekgGenomeFasta
 #string splitAndTrimBam
 #string splitAndTrimBai
+
 #string goldStandardVcf
 #string realignmentIntervals
 #string indelRealignmentDir
-
 #string indelRealignmentBam
 #string indelRealignmentBai
 
@@ -35,7 +35,7 @@ if [ ! -e ${indelRealignmentDir} ]; then
 fi
 
 
-java -Xmx8g -jar $GATK_HOME/GenomeAnalysisTK.jar \
+java -Xmx8g -Djava.io.tmpdir=${indelRealignmentDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
  -T IndelRealigner \
  -R ${onekgGenomeFasta} \
  -I ${splitAndTrimBam} \

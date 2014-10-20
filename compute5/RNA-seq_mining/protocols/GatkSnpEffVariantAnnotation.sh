@@ -125,7 +125,7 @@ fi
 
 #review  --excludeAnnotation MVLikelihoodRatio 
 
-java -Xmx4g -jar $GATK_HOME/GenomeAnalysisTK.jar \
+java -Xmx4g -Djava.io.tmpdir=${annotatorDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
  -T VariantAnnotator \
  -R ${onekgGenomeFasta} \
  --dbsnp ${dbsnpVcf} \
