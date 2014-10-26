@@ -3,16 +3,21 @@
 #list sjdbFileChrStartEnd
 #string projectSjdbFileChrStartEnd
 
-alloutputsexist \
- ${projectSjdbFileChrStartEnd}
+
 
 echo "## "$(date)" ##  $0 Started "
+
+alloutputsexist \
+ ${projectSjdbFileChrStartEnd}
 
 for sjdbFile in "${sjdbFileChrStartEnd[@]}"
 do
 	echo "## "$(date)" ##  getFile= "$sjdbFile
 	getFile $sjdbFile	
 done
+
+set -x
+set -e
 
 files=$(printf '%s ' "${sjdbFileChrStartEnd[@]}")
 echo "files to merge: $files"

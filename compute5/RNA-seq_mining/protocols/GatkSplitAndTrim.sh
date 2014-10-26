@@ -21,13 +21,16 @@ echo "## "$(date)" ##  $0 Started "
 alloutputsexist \
  ${splitAndTrimBam}
 
+getFile ${onekgGenomeFasta}
+getFile ${markDuplicatesBam}
+getFile ${markDuplicatesBai}
+
 ${stage} samtools/${samtoolsVersion}
 ${stage} GATK/${gatkVersion}
 ${checkStage}
 
-getFile ${onekgGenomeFasta}
-getFile ${markDuplicatesBam}
-getFile ${markDuplicatesBai}
+set -x
+set -e
 
 mkdir -p ${splitAndTrimDir}
 

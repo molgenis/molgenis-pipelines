@@ -23,16 +23,20 @@ alloutputsexist \
  ${indelRealignmentBam} \
  ${indelRealignmentBai}
 
-${stage} GATK/${gatkVersion}
-${checkStage}
-
 getFile ${onekgGenomeFasta}
 getFile ${splitAndTrimBam}
 getFile ${splitAndTrimBai}
 
+${stage} GATK/${gatkVersion}
+${checkStage}
+
+set -x
+set -e
+
 if [ ! -e ${indelRealignmentDir} ]; then
 	mkdir -p ${indelRealignmentDir}
 fi
+
 
 
 java -Xmx8g -Djava.io.tmpdir=${indelRealignmentDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \

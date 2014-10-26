@@ -1,4 +1,4 @@
-#MOLGENIS walltime=35:59:00 mem=6gb nodes=1 ppn=1
+#MOLGENIS walltime=23:59:00 mem=6gb nodes=1 ppn=1
 
 #Parameter mapping  #why not string foo,bar? instead of string foo\nstring bar
 #string stage
@@ -30,6 +30,9 @@ getFile ${MergeBamFilesBai}
 
 ${stage} picard-tools/${picardVersion}
 ${checkStage}
+
+set -x
+set -e
 
 mkdir -p ${markDuplicatesDir}
 

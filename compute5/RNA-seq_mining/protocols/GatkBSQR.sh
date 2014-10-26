@@ -31,10 +31,6 @@ alloutputsexist \
  ${bsqrBam} \
  ${bsqrBai}
 
-
-${stage} GATK/${gatkVersion}
-${checkStage}
-
 getFile ${onekgGenomeFasta}
 getFile ${oneKgPhase1IndelsVcf}
 getFile ${oneKgPhase1IndelsVcfIdx}
@@ -44,6 +40,12 @@ getFile ${goldStandardVcf}
 getFile ${goldStandardVcfIdx}
 getFile ${indelRealignmentBam}
 getFile ${indelRealignmentBai}
+
+${stage} GATK/${gatkVersion}
+${checkStage}
+
+set -x
+set -e
 
 mkdir -p ${bsqrDir}
 

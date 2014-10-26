@@ -36,6 +36,9 @@ ${stage} picard-tools/${picardVersion}
 ${stage} R/${RVersion}
 ${checkStage}
 
+set -x
+set -e
+
 #main ceate dir and run programmes
 
 mkdir -p ${collectMultipleMetricsDir}

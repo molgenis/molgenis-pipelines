@@ -6,25 +6,27 @@
 #string starVersion
 #string WORKDIR
 #string intermediateDir
-
-#string gatkVersion
 #string dbsnpVcf
 #string dbsnpVcfIdx
-#string onekgGenomeFasta
-#list bsqrBam
-#list bsqrBai
 
+#string gatkVersion
 #string haplotyperDir
-#string haplotyperVcf
-#string haplotyperVcfIdx
+#string onekgGenomeFasta
+
+#Array reference because it's possible
+#list mergeGvcf
+#list mergeGvcfIdx
+
+#string genotypedVcf
+#string genotypedVcfIdx
 
 echo "## "$(date)" ##  $0 Started "
 
 alloutputsexist \
-"${haplotyperVcf}" \
-"${haplotyperVcfIdx}"
+"${genotypedVcf}" \
+"${genotypedVcfIdx}"
 
-for file in "${bsqrBam[@]}" "${bsqrBai[@]}" "${dbsnpVcf}" "${dbsnpVcfIdx}" "${onekgGenomeFasta}"; do
+for file in "${mergeGvcf[@]}" "${mergeGvcfIdx[@]}" "${onekgGenomeFasta}"; do
 	echo "getFile file='$file'"
 	getFile $file
 done
@@ -36,28 +38,28 @@ ${checkStage}
 set -x
 set -e
 
-#${addOrReplaceGroupsBam} sort unique and print like 'INPUT=file1.bam INPUT=file2.bam '
-bams=($(printf '%s\n' "${bsqrBam[@]}" | sort -u ))
 
-inputs=$(printf ' -I %s ' $(printf '%s\n' ${bams[@]}))
+# sort unique and print like ' --variant file1.vcf --variant file2.vcf '
+gvcfs=($(printf '%s\n' "${mergeGvcf[@]}" | sort -u ))
+
+inputs=$(printf ' --variant %s ' $(printf '%s\n' ${gvcfs[@]}))
 
 mkdir -p ${haplotyperDir}
 
 #pseudo: java -jar GenomeAnalysisTK.jar -T HaplotypeCaller -R ref.fasta -I input.bam -recoverDanglingHeads -dontUseSoftClippedBases -stand_call_conf 20.0 -stand_emit_conf 20.0 -o output.vcf from http://gatkforums.broadinstitute.org/discussion/3891/calling-variants-in-rnaseq
 
 java -Xmx4g -Djava.io.tmpdir=${haplotyperDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
- -T HaplotypeCaller \
+ -T GenotypeGVCFs \
  -R ${onekgGenomeFasta} \
  --dbsnp ${dbsnpVcf}\
+ -o ${genotypedVcf} \
  $inputs \
- -recoverDanglingHeads \
- -dontUseSoftClippedBases \
  -stand_call_conf 10.0 \
  -stand_emit_conf 20.0 \
- -o ${haplotyperVcf} \
- -nct 4
+ -nt 4
 
-putFile ${haplotyperVcf}
-putFile ${haplotyperVcfIdx}
 
-echo "## "$(date)" ##  $0 Done "
+putFile ${genotypedVcf}
+putFile ${genotypedVcfIdx}
+
+echo "## "$(date)" ##  $0 Done "I

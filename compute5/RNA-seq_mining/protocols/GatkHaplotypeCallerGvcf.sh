@@ -1,4 +1,4 @@
-#MOLGENIS walltime=23:59:00 mem=8gb ppn=4
+#MOLGENIS walltime=23:59:00 mem=6gb ppn=2
 
 #Parameter mapping  #why not string foo,bar? instead of string foo\nstring bar
 #string stage
@@ -11,20 +11,21 @@
 #string dbsnpVcf
 #string dbsnpVcfIdx
 #string onekgGenomeFasta
-#list bsqrBam
-#list bsqrBai
+#string indelRealignmentBam
+#string indelRealignmentBai
 
 #string haplotyperDir
-#string haplotyperVcf
-#string haplotyperVcfIdx
+#string haplotyperGvcf
+#string haplotyperGvcfIdx
+
+
+alloutputsexist \
+"${haplotyperGvcf}" \
+"${haplotyperGvcfIdx}"
 
 echo "## "$(date)" ##  $0 Started "
 
-alloutputsexist \
-"${haplotyperVcf}" \
-"${haplotyperVcfIdx}"
-
-for file in "${bsqrBam[@]}" "${bsqrBai[@]}" "${dbsnpVcf}" "${dbsnpVcfIdx}" "${onekgGenomeFasta}"; do
+for file in "${indelRealignmentBam[@]}" "${indelRealignmentBai[@]}" "${dbsnpVcf}" "${dbsnpVcfIdx}" "${onekgGenomeFasta}"; do
 	echo "getFile file='$file'"
 	getFile $file
 done
@@ -33,11 +34,8 @@ done
 ${stage} GATK/${gatkVersion}
 ${checkStage}
 
-set -x
-set -e
-
-#${addOrReplaceGroupsBam} sort unique and print like 'INPUT=file1.bam INPUT=file2.bam '
-bams=($(printf '%s\n' "${bsqrBam[@]}" | sort -u ))
+#sort unique and print like 'INPUT=file1.bam INPUT=file2.bam '
+bams=($(printf '%s\n' "${indelRealignmentBam[@]}" | sort -u ))
 
 inputs=$(printf ' -I %s ' $(printf '%s\n' ${bams[@]}))
 
@@ -54,10 +52,13 @@ java -Xmx4g -Djava.io.tmpdir=${haplotyperDir} -jar $GATK_HOME/GenomeAnalysisTK.j
  -dontUseSoftClippedBases \
  -stand_call_conf 10.0 \
  -stand_emit_conf 20.0 \
- -o ${haplotyperVcf} \
- -nct 4
+ -o ${haplotyperGvcf} \
+ -nct 8 \
+ --emitRefConfidence GVCF \
+ --variant_index_type LINEAR \
+ --variant_index_parameter 128000
 
-putFile ${haplotyperVcf}
-putFile ${haplotyperVcfIdx}
+putFile ${haplotyperGvcf}
+putFile ${haplotyperGvcfIdx}
 
 echo "## "$(date)" ##  $0 Done "
