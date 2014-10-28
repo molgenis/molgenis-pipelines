@@ -1,0 +1,8 @@
+# NGS QC report
+
+> GAF, GCC, UMCG
+> `r str_split(Sys.time(), " ")[[1]][1]`
+
+
+# Appendix Bioinf pipeline
+![pipeline](http://chapmanb.github.io/bcbb/lane_processing.png)
