@@ -1,7 +1,7 @@
 # NGS QC report
 
- |
--|-
+.|.
+---|---
 **By** | GAF, GCC, UMCG
 **On** | `r str_split(Sys.time(), " ")[[1]][1] # get date`
 **Project** | x
