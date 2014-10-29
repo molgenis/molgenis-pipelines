@@ -17,7 +17,8 @@
 #string KGPhase1IndelsVcfIdx
 #string MillsGoldStandardIndelsVcf
 #string MillsGoldStandardIndelsVcfIdx
-
+#string tmpDataDir
+#string project
 
 #Echo parameter values
 echo "stage: ${stage}"

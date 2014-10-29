@@ -17,6 +17,8 @@
 #string library
 #string externalSampleID
 #string alignedSam
+#string tmpDataDir
+#string project
 
 #Echo parameter values
 echo "stage: ${stage}"

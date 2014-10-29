@@ -12,6 +12,9 @@
 #string dedupBam
 #string dedupBamIdx
 #string dedupMetrics
+#string tmpDataDir
+#string project
+
 
 #Echo parameter values
 echo "stage: ${stage}"

@@ -12,6 +12,8 @@
 #list chr
 #list projectChrVariantCalls
 #string projectPrefix
+#string tmpDataDir
+#string project
 
 #Echo parameter values
 echo "stage: ${stage}"
@@ -53,9 +55,6 @@ array_contains () {
     return $in
 }
 
-#Check if output exists
-alloutputsexist "${projectSNPsMerged}"
-alloutputsexist "${projectIndelsMerged}"
 
 #for getVariants in "$chr"
 #do

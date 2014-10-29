@@ -1,6 +1,5 @@
 #MOLGENIS nodes=1 ppn=1 mem=1gb walltime=03:00:00
 
-
 #Parameter mapping
 #string seqType
 #string peEnd1BarcodeFqGz
@@ -13,6 +12,8 @@
 #string peEnd1BarcodeFastQc
 #string peEnd2BarcodeFastQc
 #string srBarcodeFastQc
+#string tmpDataDir
+#string project
 
 #Echo parameter values
 echo "seqType: ${seqType}"

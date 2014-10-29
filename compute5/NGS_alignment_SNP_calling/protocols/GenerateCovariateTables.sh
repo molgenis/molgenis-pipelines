@@ -19,7 +19,8 @@
 #string inputGenerateCovariateTablesBamIdx
 #string inputGenerateCovariateTablesTable
 #string outputGenerateCovariateTablesTable
-
+#string tmpDataDir
+#string project
 
 #Echo parameter values
 echo "stage: ${stage}"

@@ -14,6 +14,8 @@
 #string lane
 #string library
 #string externalSampleID
+#string tmpDataDir
+#string project
 
 #Echo parameter values
 echo "stage: ${stage}"

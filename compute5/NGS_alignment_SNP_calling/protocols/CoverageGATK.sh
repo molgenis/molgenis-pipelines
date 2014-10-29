@@ -12,7 +12,10 @@
 #string targetIntervals
 #string intermediateDir
 #string coverageGATK
+#string cumCoverageScriptGATK
 #string inputCoverageBam
+#string tmpDataDir
+#string project
 
 #Echo parameter values
 echo "stage: ${stage}"
@@ -26,6 +29,7 @@ echo "intermediateDir: ${intermediateDir}"
 echo "inputCoverageBam: ${inputCoverageBam}"
 echo "GATKVersion: ${GATKVersion}"
 echo "GATKJar ${GATKJar}"
+echo "cumCoverageScriptGATK: ${cumCoverageScriptGATK}"
 
 #Check if output exists
 alloutputsexist "${coverageGATK}" \
@@ -62,6 +66,7 @@ then
 
 	java -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${tempDir} -Xmx12g -jar \
 	$GATK_HOME/${GATKJar} \
+	-mte \
 	-T DepthOfCoverage \
 	-R ${indexFile} \
 	-I ${inputCoverageBam} \
@@ -73,9 +78,11 @@ else
 	java -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${tempdir} -Xmx12g -jar \
 	$GATK_HOME/${GATKJar} \
 	-T DepthOfCoverage \
+	-mte \
 	-R ${indexFile} \
 	-I ${inputCoverageBam} \
 	-o ${coverageGATK} \
+	-ct 1 -ct 2 -ct 5 -ct 10 -ct 15 -ct 20 -ct 30 -ct 40 -ct 50 \
 	-L ${targetIntervals}
 
 fi
@@ -83,7 +90,7 @@ fi
 
 #Create coverage graphs for sample
 
-${rscript} ${cumcoveragescriptgatk} \
+Rscript ${cumCoverageScriptGATK} \
 --in ${coverageGATK}.sample_cumulative_coverage_proportions \
 --out ${coverageGATK}.cumulative_coverage.pdf \
 --max-depth 100 \

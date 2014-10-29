@@ -1,4 +1,4 @@
-#MOLGENIS walltime=35:59:00 mem=4gb
+#MOLGENIS walltime=35:59:00 mem=4gb ppn=8
 
 #Parameter mapping
 #string stage
@@ -8,8 +8,9 @@
 #string snpEffCallsHtml
 #string snpEffCallsVcf
 #string snpEffGenesTxt
-#string pindelMergeVcf
 #string inputVcf
+#string tmpDataDir
+#string project
 
 #Echo parameter values
 echo "stage: ${stage}"

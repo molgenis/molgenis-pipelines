@@ -9,6 +9,8 @@
 #string tempDir
 #string intermediateDir
 #string alignedBam
+#string tmpDataDir
+#string project
 
 #Echo parameter values
 echo "stage: ${stage}"

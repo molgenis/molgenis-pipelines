@@ -6,6 +6,8 @@
 #string peEnd2BarcodeFqGz
 #string srBarcodeFqGz
 #string intermediateDir
+#string tmpDataDir
+#string project
 
 #Echo parameter values
 echo "seqType: ${seqType}"

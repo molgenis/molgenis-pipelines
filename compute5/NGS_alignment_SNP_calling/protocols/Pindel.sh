@@ -13,6 +13,8 @@
 #string pindelOutput
 #string pindelOutputVcf
 #list externalSampleID
+#string tmpDataDir
+#string project
 
 #Load Pindel module
 ${stage} pindel/0.2.5a3
