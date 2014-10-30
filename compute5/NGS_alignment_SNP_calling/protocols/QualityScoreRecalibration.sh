@@ -15,6 +15,8 @@
 #string BQSRBamIdx
 #string BQSRBamMd5
 #string externalSampleID
+#string tmpDataDir
+#string project
 
 #Echo parameter values
 echo "stage: ${stage}"

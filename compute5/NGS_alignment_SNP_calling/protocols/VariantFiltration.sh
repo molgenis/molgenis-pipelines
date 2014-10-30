@@ -10,6 +10,9 @@
 #string indexFile
 #string projectSNPsMerged
 #string projectSNPsMergedFiltered
+#string tmpDataDir
+#string project
+
 
 #Echo parameter values
 echo "stage: ${stage}"
@@ -38,9 +41,6 @@ array_contains () {
     return $in
 }
 
-#Check if output exists
-alloutputsexist \
-"${projectSNPsMergedFiltered}"
 
 INPUTS=()
 

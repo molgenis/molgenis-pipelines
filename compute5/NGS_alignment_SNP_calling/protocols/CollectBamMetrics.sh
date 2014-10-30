@@ -14,14 +14,15 @@
 #string indexFile
 #string collectBamMetricsPrefix
 #string tempDir
-#string recreateInsertsizePdfR
+#string recreateInsertSizePdfR
 #string baitIntervals
 #string targetIntervals
 #string RVersion
 #string capturingKit
 #string seqType
 #string intermediateDir
-
+#string tmpDataDir
+#string project
 
 #Echo parameter values
 echo "stage: ${stage}"
@@ -36,7 +37,7 @@ echo "inputCollectBamMetricsBamIdx: ${inputCollectBamMetricsBamIdx}"
 echo "indexFile: ${indexFile}"
 echo "collectBamMetricsPrefix: ${collectBamMetricsPrefix}"
 echo "tempDir: ${tempDir}"
-echo "recreateInsertsizePdfR: ${recreateInsertsizePdfR}"
+echo "recreateInsertSizePdfR: ${recreateInsertSizePdfR}"
 echo "baitIntervals: ${baitIntervals}"
 echo "targetIntervals: ${targetIntervals}"
 echo "RVersion: ${RVersion}"
@@ -65,7 +66,7 @@ alloutputsexist \
 getFile ${inputCollectBamMetricsBam}
 getFile ${inputCollectBamMetricsBamIdx}
 getFile ${indexFile}
-getFile ${recreateInsertsizePdfR}
+getFile ${recreateInsertSizePdfR}
 if [ ${capturingKit} != "None" ]
 then
 	getFile ${baitIntervals}
@@ -138,7 +139,7 @@ TMP_DIR=${tempDir}
 #if [ ${seqType} == "PE" ]
 #then
 	# Overwrite the PDFs that were just created by nicer onces:
-	Rscript ${recreateInsertsizePdfR} \
+	Rscript ${recreateInsertSizePdfR} \
 	--insertSizeMetrics ${inputCollectBamMetricsBam}.insert_size_metrics \
 	--pdf ${inputCollectBamMetricsBam}.insert_size_histogram.pdf
 

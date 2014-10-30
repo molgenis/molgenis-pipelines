@@ -14,6 +14,8 @@
 #string projectChrVariantCalls
 #string projectChrVariantCallsIdx
 #list externalSampleID
+#string tmpDataDir
+#string project
 
 #Echo parameter values
 echo "stage: ${stage}"

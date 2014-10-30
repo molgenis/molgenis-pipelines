@@ -9,6 +9,8 @@
 #string tempDir
 #string sortedBam
 #string sortedBamIdx
+#string tmpDataDir
+#string project
 
 #Echo parameter values
 echo "stage: ${stage}"

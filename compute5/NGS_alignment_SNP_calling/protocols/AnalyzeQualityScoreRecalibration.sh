@@ -13,6 +13,8 @@
 #string BQSRPdf
 #string BQSRCsv
 #string RVersion
+#string tmpDataDir
+#string project
 
 #Echo parameter values
 echo "stage: ${stage}"
