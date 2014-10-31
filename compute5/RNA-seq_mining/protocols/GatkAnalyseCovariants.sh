@@ -23,15 +23,12 @@
 #string bsqrBeforeGrp
 #string bsqrAfterGrp
 #string analyseCovariatesPdf
+
 echo "## "$(date)" ##  $0 Started "
 
 alloutputsexist \
  ${bsqrAfterGrp}
  ${analyseCovariatesPdf} 
-
-${stage} R/${RVersion}
-${stage} GATK/${gatkVersion}
-${checkStage}
 
 getFile ${onekgGenomeFasta}
 getFile ${oneKgPhase1IndelsVcf}
@@ -42,6 +39,13 @@ getFile ${goldStandardVcf}
 getFile ${goldStandardVcfIdx}
 getFile ${bsqrBam}
 getFile ${bsqrBai}
+
+${stage} R/${RVersion}
+${stage} GATK/${gatkVersion}
+${checkStage}
+
+set -x
+set -e
 
 mkdir -p ${analyseCovarsDir}
 

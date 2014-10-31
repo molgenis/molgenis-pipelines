@@ -14,6 +14,9 @@ GatkSplitAndTrim,protocols/GatkSplitAndTrim.sh,MarkDuplicates
 #GatkRealignerTargetCreator,protocols/GatkRealignerTargetCreator.sh,GatkSplitAndTrim
 #GatkIndelRealignment,protocols/GatkIndelRealignment.sh,GatkRealignerTargetCreator
 IndelRealignmentKnown,protocols/GatkIndelRealignmentKnown.sh,GatkSplitAndTrim
+HaplotypeCallerGvcf,protocols/GatkHaplotypeCallerGvcf.sh,IndelRealignmentKnown
+MergeGvcfs,protocols/GatkMergeGvcfs.sh,HaplotypeCallerGvcf
+GenotypeGvcfs,protocols/GatkGenotypeGvcfs.sh,MergeGvcfs
 BSQR,protocols/GatkBSQR.sh,IndelRealignmentKnown
 AnalyseCovariants,protocols/GatkAnalyseCovariants.sh,BSQR
 HaplotypeCaller,protocols/GatkHaplotypeCaller.sh,BSQR

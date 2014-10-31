@@ -30,6 +30,9 @@ for file in "${splitAndTrimBam[@]}" "${splitAndTrimBai[@]}"; do
 	getFile $file
 done
 
+set -x
+set -e
+
 bams=($(printf '%s\n' "${splitAndTrimBam[@]}" | sort -u ))
 inputs=$(printf '-I %s ' $(printf '%s\n' ${bams[@]}))
 

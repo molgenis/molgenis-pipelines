@@ -6,6 +6,11 @@ tmp="tmp01"
 runDir=/gcc/groups/oncogenetics/${tmp}/projects/resourcesRNASeq/Workflow/runs/test
 molgenisBase=/gcc/groups/oncogenetics/prm02/data/mytools/molgenis-compute-core-1.0.0-SNAPSHOT
 
+#copy datafiles to tmp
+#/gcc/groups/oncogenetics/prm02/data/raw/rnaSeqValAnalysis_474/head_40000_120830_SN163_0474_BD0WDYACXX_L5_ACTGAT_1.fq.gz
+#if [ ! -e /gcc/groups/oncogenetics/tmp01/resources/head_40000_120830_SN163_0474_BD0WDYACXX_L5_ACTGAT_1.fq.gz ]; then
+#	cp -v /gcc/groups/oncogenetics/prm02/data/raw/rnaSeqValAnalysis_474/head_40000_120830_SN163_0474_BD0WDYACXX_L5_ACTGAT_* /gcc/groups/oncogenetics/tmp01/resources/
+#fi
 
 echo "Convert parametersheet"
 perl $molgenisBase/workflows/RnaAnalysis/scripts/convertParametersGitToMolgenis.pl parameters.csv > parameters.molgenis.csv

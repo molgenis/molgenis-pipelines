@@ -18,12 +18,15 @@ echo "## "$(date)" ##  $0 Started "
 alloutputsexist \
  ${fluxcapacitorExpressionGTF}
 
-${stage} flux-capacitor/${fluxcapacitorVersion}
-${checkStage}
-
 getFile ${fluxcapacitorGTF}
 getFile ${markDuplicatesBam}
 getFile ${markDuplicatesBai}
+
+${stage} flux-capacitor/${fluxcapacitorVersion}
+${checkStage}
+
+set -x
+set -e
 
 #psuedo flux-capacitor -force --disable-file-check --coverage-file <COVERAGE_FILE> --keep-sorted MAPPING_FILE --keep-sorted ANNOTATION_FILE -a Homo_sapiens.GRCh37.75.fluxcapacitor.sorted.gtf -i in.bam -o flux.expression.gtf --count-elements SPLICE_JUNCTIONS??
 

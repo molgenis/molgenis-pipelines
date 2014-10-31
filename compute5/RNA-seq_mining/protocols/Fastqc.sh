@@ -1,4 +1,4 @@
-#MOLGENIS nodes=1 ppn=1 mem=1gb walltime=03:00:00
+#MOLGENIS nodes=1 ppn=1 mem=1gb walltime=10:00:00
 
 #Parameter mapping  #why not string foo,bar? instead of string foo\nstring bar
 #string stage
@@ -20,6 +20,8 @@ echo -e "test ${reads1FqGz} ${reads2FqGz} 1: $(basename ${reads1FqGz} .gz)${fast
 ${stage} fastqc/${fastqcVersion}
 ${checkStage}
 
+set -x
+set -e
 
 echo "## "$(date)" ##  $0 Started "
 

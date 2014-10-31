@@ -15,17 +15,21 @@
 #string anacondaVersion
 #string htseqCountDir
 #string htseqCountCounts
-echo "## "$(date)" ##  $0 Started "
 
-${stage} anaconda/${anacondaVersion}
-${stage} samtools/${samtoolsVersion}
-${checkStage}
+echo "## "$(date)" ##  $0 Started "
 
 alloutputsexist \
  ${htseqCountCounts}
 
 getFile ${markDuplicatesBam}
 getFile ${markDuplicatesBai}
+
+${stage} anaconda/${anacondaVersion}
+${stage} samtools/${samtoolsVersion}
+${checkStage}
+
+set -x
+set -e
 
 mkdir -p ${htseqCountDir}
 

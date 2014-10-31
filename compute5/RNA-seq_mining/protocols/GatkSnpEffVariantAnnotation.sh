@@ -12,7 +12,7 @@
 #string dbsnpVcfIdx
 #string onekgGenomeFasta
 #list bsqrBam
-#list bsqrBam
+#list bsqrBai
 
 #string haplotyperDir
 #string haplotyperVcf
@@ -65,6 +65,9 @@ done
 ${stage} snpEff/${snpEffVersion}
 ${stage} GATK/${gatkVersion}
 ${checkStage}
+
+set -x
+set -e
 
 #${addOrReplaceGroupsBam} sort unique and print like 'INPUT=file1.bam INPUT=file2.bam '
 bams=($(printf '%s\n' "${bsqrBam[@]}" | sort -u ))

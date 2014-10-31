@@ -32,6 +32,9 @@ done
 ${stage} picard-tools/${picardVersion}
 ${checkStage}
 
+set -x
+set -e
+
 #${addOrReplaceGroupsBam} sort unique and print like 'INPUT=file1.bam INPUT=file2.bam '
 bams=($(printf '%s\n' "${addOrReplaceGroupsBam[@]}" | sort -u ))
 inputs=$(printf 'INPUT=%s ' $(printf '%s\n' ${bams[@]}))
