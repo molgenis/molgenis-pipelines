@@ -39,9 +39,9 @@ Samples|60420|60421|D01_1738|D01_1740|58913|div472|div534|div678|D01_2051|D01_21
  **Number of SNPs for concordance**|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA 
  **Concordance**|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA|NA 
 
-[comment]: <> ```{r echo=FALSE,results='hide'}
-[comment]: <> plot(1:10)
-[comment]: <> ```
+<!--
+![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2-1.png) 
+-->
 
 # Capturing
 Show coverage plots: ${samplecoverageplotpdf}
