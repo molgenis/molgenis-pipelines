@@ -45,12 +45,31 @@ Samples|60420|60421|D01_1738|D01_1740|58913|div472|div534|div678|D01_2051|D01_21
 
 # Capturing
 Show coverage plots: ${samplecoverageplotpdf}
+<figure><figcaption>Fig1:</figcaption>![coverage fig 1](../data/example_coverage_plot1.pdf)</figure>
+<figure><figcaption>Fig2:</figcaption>![coverage](../data/example_coverage_plot2.pdf)</figure>
+<figure><figcaption>Fig3:</figcaption>![coverage](../data/example_coverage_plot3.pdf)</figure>
+<figure><figcaption>Fig4:</figcaption>![coverage](../data/example_coverage_plot4.pdf)</figure>
+<figure><figcaption>Fig5:</figcaption>![coverage](../data/example_coverage_plot5.pdf)</figure>
+<figure><figcaption>Fig6:</figcaption>![coverage](../data/example_coverage_plot6.pdf)</figure>
 
 # bash test
 
 ```
-## hello
+## hello my cool project
 ```
+
+# R can access r-variable
+use r.parameter = "content_of_r.parameter" in R-script that knitr's your .Rmd document!
+DEMO:
+
+```
+## [1] "content_of_r.parameter"
+```
+
+# R can access bash variables
+Use $export project="my cool project"
+DEMO: Variable value is
+ my cool project 
 
 # Appendix Bioinf pipeline
 ![pipeline](http://chapmanb.github.io/bcbb/lane_processing.png)
