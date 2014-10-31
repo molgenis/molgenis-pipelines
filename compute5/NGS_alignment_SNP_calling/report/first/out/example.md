@@ -1,12 +1,13 @@
 # NGS QC report
 
-[TOC]
-
 .|.
 ---|---
 **By** | GAF, GCC, UMCG
 **On** | 2014-10-31
 **Project** | xxxxxxxxxxxxxxxxxxxx
+
+# Statistics
+![plot of chunk unnamed-chunk-1](figure/unnamed-chunk-1-1.png) 
 
 # Capturing
 Show coverage plots: ${samplecoverageplotpdf}
