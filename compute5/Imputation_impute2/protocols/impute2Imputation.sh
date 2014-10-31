@@ -123,6 +123,8 @@ done
 
 mkdir -p ${imputationIntermediatesFolder}
 
+#START OF SAMPLE SPLITTING 
+
 #Create subset of samples to exclude 
 sample_subset_to_exclude=${tmpOutput}.toExclude
 echo "Samples excluded from this run: ${sample_subset_to_exclude}"
@@ -134,6 +136,8 @@ echo "Samples excluded from this run: ${sample_subset_to_exclude}"
 cat ${genotype_aligner_output_sample} | tail -n +3 | head -n `expr ${fromSample} - 1` > ${sample_subset_to_exclude}.part1
 cat ${genotype_aligner_output_sample} | tail -n +3 | tail -n +`expr ${toSample} + 1` > ${sample_subset_to_exclude}.part2
 cat ${sample_subset_to_exclude}.part1 ${sample_subset_to_exclude}.part2 | cut -f 2 -d ' ' > ${sample_subset_to_exclude}
+
+#END OF SAMPLE SPLITTING
 
 #From http://mathgen.stats.ox.ac.uk/impute/impute_v2.html
 #To use pre-phased study data in this example, you would replace the -g file with a -known_haps_g file and add the -use_prephased_g flag to your IMPUTE2 command.
