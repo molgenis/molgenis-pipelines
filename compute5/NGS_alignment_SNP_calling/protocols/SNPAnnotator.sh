@@ -5,15 +5,14 @@
 #string checkStage
 #string tempDir
 #string intermediateDir
-#string snpEffCallsHtml
-#string snpEffCallsVcf
-#string snpEffGenesTxt
+#string snpEffSNPCallsHtml
+#string snpEffSnpsVcf
+#string snpEffSNPGenesTxt
 #string indexFile
 #string targetIntervals
 #string variantVcf
-#string snpEffCallsVcf
 #string variantAnnotatorOutputVcf
-#string externalSampleID
+#list externalSampleID
 #string tmpDataDir
 #string project
 
@@ -22,20 +21,20 @@ echo "stage: ${stage}"
 echo "checkStage: ${checkStage}"
 echo "tempDir: ${tempDir}"
 echo "intermediateDir: ${intermediateDir}"
-echo "snpEffCallsHtml: ${snpEffCallsHtml}"
-echo "snpEffCallsVcf: ${snpEffCallsVcf}"
-echo "snpEffGenesTxt: ${snpEffGenesTxt}"
+echo "snpEffCallsHtml: ${snpEffSNPCallsHtml}"
+echo "snpEffCallsVcf: ${snpEffSnpsVcf}"
+echo "snpEffGenesTxt: ${snpEffSNPGenesTxt}"
 
 sleep 10
 
-makeTmpDir ${snpEffCallsHtml}
-tmpSnpEffCallsHtml=${MC_tmpFile}
+makeTmpDir ${snpEffSNPCallsHtml}
+tmpSnpEffSNPCallsHtml=${MC_tmpFile}
 
-makeTmpDir ${snpEffCallsVcf}
-tmpSnpEffCallsVcf=${MC_tmpFile}
+makeTmpDir ${snpEffSnpsVcf}
+tmpsnpEffSnpsVcf=${MC_tmpFile}
 
-makeTmpDir ${snpEffGenesTxt}
-tmpSnpEffGenesTxt=${MC_tmpFile}
+makeTmpDir ${snpEffSNPGenesTxt}
+tmpSnpEffSNPGenesTxt=${MC_tmpFile}
 
 #Function to check if array contains value
 array_contains () { 
@@ -97,7 +96,7 @@ ${INPUTS[@]} \
 -A SpanningDeletions \
 -D /gcc/resources/b37/snp/dbSNP/dbsnp_137.b37.vcf \
 --variant ${variantVcf} \
---snpEffFile ${snpEffCallsVcf} \
+--snpEffFile ${snpEffSnpsVcf} \
 -L ${targetIntervals} \
 -o ${variantAnnotatorOutputVcf} \
 -nt 8
