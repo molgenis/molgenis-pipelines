@@ -5,7 +5,7 @@
 #Parameter mapping
 #string project
 #string chr
-#string outputFolder
+#string ImputeOutputFolder
 #string samplechunksn
 #list impute2SamplesMerged
 #list impute2SamplesMergedInfo
@@ -15,11 +15,11 @@ declare -a impute2SamplesMerged=(${impute2SamplesMerged[@]})
 declare -a impute2SamplesMergedInfo=(${impute2SamplesMergedInfo[@]})
 
 echo "chr: ${chr}"
-echo "outputFolder: ${outputFolder}"
+echo "ImputeOutputFolder: ${ImputeOutputFolder}"
 echo "impute2SamplesMerged: ${impute2SamplesMerged[@]}"
 echo "impute2SamplesMergedInfo: ${impute2SamplesMergedInfo[@]}"
 
-alloutputsexist "${outputFolder}/chr${chr}" "${outputFolder}/chr${chr}_info"
+alloutputsexist "${ImputeOutputFolder}/chr${chr}" "${ImputeOutputFolder}/chr${chr}_info"
 
 for element in ${impute2SamplesMerged[@]}
 do
@@ -36,12 +36,12 @@ do
 done
 
 
-mkdir -p ${outputFolder}
+mkdir -p ${ImputeOutputFolder}
 
-rm -f ${outputFolder}/~chr${chr}
-rm -f ${outputFolder}/~chr${chr}_info
-rm -f ${outputFolder}/chr${chr}
-rm -f ${outputFolder}/chr${chr}_info
+rm -f ${ImputeOutputFolder}/~chr${chr}
+rm -f ${ImputeOutputFolder}/~chr${chr}_info
+rm -f ${ImputeOutputFolder}/chr${chr}
+rm -f ${ImputeOutputFolder}/chr${chr}_info
 
 
 #Make the array of the files
@@ -59,7 +59,7 @@ done
 
 
 #Concat the actual imputation results
-toExecute="cat ${impute2_samples_merged_files[@]} >> ${outputFolder}/~chr${chr}"
+toExecute="cat ${impute2_samples_merged_files[@]} >> ${ImputeOutputFolder}/~chr${chr}"
 
 echo "Executing command: $toExecute"
 eval ${toExecute}
@@ -69,11 +69,11 @@ if [ $returnCode -eq 0 ]
 then
 
 	echo "Impute2 outputs concattenated"
-	mv ${outputFolder}/~chr${chr} ${outputFolder}/chr${chr}
-	putFile ${outputFolder}/chr${chr}
+	mv ${ImputeOutputFolder}/~chr${chr} ${ImputeOutputFolder}/chr${chr}
+	putFile ${ImputeOutputFolder}/chr${chr}
 
 else
-	echo "Failed to cat impute2 outputs to ${outputFolder}/~chr${chr}" >&2
+	echo "Failed to cat impute2 outputs to ${ImputeOutputFolder}/~chr${chr}" >&2
 	exit -1
 fi
 
@@ -95,12 +95,12 @@ do
 	if [ "$headerSet" == "false" ]
 	then
 		echo "print header from: ${chunkInfoFile}"
-		head -n 1 < $chunkInfoFile >> ${outputFolder}/~chr${chr}_info
+		head -n 1 < $chunkInfoFile >> ${ImputeOutputFolder}/~chr${chr}_info
 		
 		returnCode=$?
 		if [ $returnCode -ne 0 ]
 		then
-			echo "Failed to print header of info file ${chunkInfoFile} to ${outputFolder}/~chr${chr}_info" >&2
+			echo "Failed to print header of info file ${chunkInfoFile} to ${ImputeOutputFolder}/~chr${chr}_info" >&2
 			exit -1
 		fi
 		
@@ -108,17 +108,17 @@ do
 	fi
 	
 	#Cat without header
-	tail -n +2 < $chunkInfoFile >> ${outputFolder}/~chr${chr}_info
+	tail -n +2 < $chunkInfoFile >> ${ImputeOutputFolder}/~chr${chr}_info
 	
 	returnCode=$?
 	if [ $returnCode -ne 0 ]
 	then
-		echo "Failed to append info file ${chunkInfoFile} to ${outputFolder}/~chr${chr}_info" >&2
+		echo "Failed to append info file ${chunkInfoFile} to ${ImputeOutputFolder}/~chr${chr}_info" >&2
 		exit -1
 	fi
 	
 done
 
 echo "Impute2 output infos concattenated"
-mv ${outputFolder}/~chr${chr}_info ${outputFolder}/chr${chr}_info
-putFile ${outputFolder}/chr${chr}_info
+mv ${ImputeOutputFolder}/~chr${chr}_info ${ImputeOutputFolder}/chr${chr}_info
+putFile ${ImputeOutputFolder}/chr${chr}_info

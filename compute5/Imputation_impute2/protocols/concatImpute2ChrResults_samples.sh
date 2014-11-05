@@ -5,7 +5,7 @@
 #Parameter mapping
 #string project
 #string chr
-#string outputFolder
+#string ImputeOutputFolder
 #string imputationIntermediatesFolder
 #string fromChrPos
 #string toChrPos
@@ -27,7 +27,7 @@ declare -a imputation__has__impute2ChunkOutput=(${imputation__has__impute2ChunkO
 
 
 echo "chr: ${chr}"
-echo "outputFolder: ${outputFolder}"
+echo "ImputeOutputFolder: ${ImputeOutputFolder}"
 echo "imputationIntermediatesFolder: ${imputationIntermediatesFolder}"
 echo "imputation__has__impute2ChunkOutput: ${imputation__has__impute2ChunkOutput[@]}"
 echo "imputation__has__impute2ChunkOutputInfo: ${imputation__has__impute2ChunkOutputInfo[@]}"

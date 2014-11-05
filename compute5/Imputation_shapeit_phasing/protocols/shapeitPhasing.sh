@@ -10,14 +10,14 @@
 #string shapeitThreads
 #string chr
 #string additonalShapeitParam
-#string outputFolder
+#string PhaseOutputFolder
 #string stage
 #string shapeitversion
 
 
 
-tmpOutput="${outputFolder}/~chr${chr}"
-finalOutput="${outputFolder}/chr${chr}"
+tmpOutput="${PhaseOutputFolder}/~chr${chr}"
+finalOutput="${PhaseOutputFolder}/chr${chr}"
 
 
 
@@ -34,10 +34,10 @@ echo "studyDataType: ${studyDataType}"
 echo "shapeitThreads: ${shapeitThreads}"
 echo "chr: ${chr}"
 echo "additonalShapeitParam: ${additonalShapeitParam}"
-echo "outputFolder: ${outputFolder}"
+echo "PhaseOutputFolder: ${PhaseOutputFolder}"
 echo "tmpOutput: ${tmpOutput}"
 
-mkdir -p ${outputFolder}
+mkdir -p ${PhaseOutputFolder}
 
 if [ $studyDataType == "PED" ]; then
 	inputVarName="--input-ped"
@@ -54,8 +54,8 @@ fi
 startTime=$(date +%s)
 
 alloutputsexist \
-	"${outputFolder}/chr${chr}.haps" \
-	"${outputFolder}/chr${chr}.sample"
+	"${PhaseOutputFolder}/chr${chr}.haps" \
+	"${PhaseOutputFolder}/chr${chr}.sample"
 
 getFile $m
 inputs $m

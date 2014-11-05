@@ -11,7 +11,7 @@
 #string toChrPos
 #string fromSample
 #string toSample
-#string outputFolder
+#string ImputeOutputFolder
 #string imputationIntermediatesFolder
 #string impute2Bin
 #string stage
@@ -38,7 +38,7 @@ echo "fromSample: ${fromSample}"
 echo "toSample: ${toSample}"
 echo "interMediFolder: ${imputationIntermediatesFolder}"
 echo "tmpOutput: ${tmpOutput}"
-echo "outputFolder: ${outputFolder}"
+echo "ImputeOutputFolder: ${ImputeOutputFolder}"
 echo "finalOutput: ${finalOutput}"
 
 impute2ChunkOutput=${finalOutput}
@@ -53,8 +53,8 @@ alloutputsexist \
 
 startTime=$(date +%s)
 
-genotype_aligner_output_haps=$outputFolder/chr${chr}.haps
-genotype_aligner_output_sample=$outputFolder/chr${chr}.sample
+genotype_aligner_output_haps=$ImputeOutputFolder/chr${chr}.haps
+genotype_aligner_output_sample=$ImputeOutputFolder/chr${chr}.sample
 echo "genotype_aligner_output_haps: ${genotype_aligner_output_haps}"
 echo "genotype_aligner_output_sample: ${genotype_aligner_output_sample}"
 
