@@ -1,0 +1,2 @@
+clusterQueue,mem,walltime,cores,scheduler,defaultInterpreter,jobname,stage,bashrc,tooldir,scriptdir,importscript
+gcc,4,11:59:00,1,PBS,#!/bin/bash,jobname,module load,${root}/gcc.bashrc,${root}/tools,${tooldir}/scripts,${scriptdir}/import.sh,${tooldir}/python_scripts/generate_info.py

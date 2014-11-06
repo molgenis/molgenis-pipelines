@@ -6,9 +6,9 @@
 #Parameter mapping
 #string chr
 #string studyInputDir
-#string outputFolder
-#string outputFolderTmp
-#string outputFolderChrDir
+#string LiftoverOutputFolder
+#string LiftoverOutputFolderTmp
+#string LiftoverOutputFolderChrDir
 #string liftOverChainFile
 #string liftOverUcscBin
 #string plinkBin
@@ -24,9 +24,9 @@ fi
 #Echo parameter values
 echo "chr: ${chr}"
 echo "studyInputDir: ${studyInputDir}"
-echo "outputFolder: ${outputFolder}"
-echo "outputFolderTmp: ${outputFolderTmp}"
-echo "outputFolderChrDir: ${outputFolderChrDir}"
+echo "LiftoverOutputFolder: ${LiftoverOutputFolder}"
+echo "LiftoverOutputFolderTmp: ${LiftoverOutputFolderTmp}"
+echo "LiftoverOutputFolderChrDir: ${LiftoverOutputFolderChrDir}"
 echo "liftOverChainFile: ${liftOverChainFile}"
 echo "liftOverUcscBin: ${liftOverUcscBin}"
 echo "plinkBin: ${plinkBin}"
@@ -36,14 +36,14 @@ startTime=$(date +%s)
 
 #Check if outputs exist
 alloutputsexist \
-	"${outputFolder}/chr${chr}.bed" \
-	"${outputFolder}/chr${chr}.bim" \
-	"${outputFolder}/chr${chr}.fam" 
+	"${LiftoverOutputFolder}/chr${chr}.bed" \
+	"${LiftoverOutputFolder}/chr${chr}.bim" \
+	"${LiftoverOutputFolder}/chr${chr}.fam" 
 
 #Create output directories
-mkdir -p $outputFolder
-#mkdir -p $outputFolderChrDir
-mkdir -p $outputFolderTmp
+mkdir -p $LiftoverOutputFolder
+#mkdir -p $LiftoverOutputFolderChrDir
+mkdir -p $LiftoverOutputFolderTmp
 
 #Retrieve input Files
 inputs $studyInputDir/chr$chr.ped
@@ -52,20 +52,20 @@ getFile $studyInputDir/chr$chr.ped
 getFile $studyInputDir/chr$chr.map
 
 #create bed file based on map file
-awk '{$5=$2;$2=$4;$3=$4+1;$1="chr"$1;print $1,$2,$3,$5}' OFS="\t" $studyInputDir/chr$chr.map > $outputFolderTmp/chr$chr.old.bed
+awk '{$5=$2;$2=$4;$3=$4+1;$1="chr"$1;print $1,$2,$3,$5}' OFS="\t" $studyInputDir/chr$chr.map > $LiftoverOutputFolderTmp/chr$chr.old.bed
 
 #map to b37
 $liftOverUcscBin \
-	-bedPlus=4 $outputFolderTmp/chr$chr.old.bed \
+	-bedPlus=4 $LiftoverOutputFolderTmp/chr$chr.old.bed \
 	$liftOverChainFile \
-	$outputFolderTmp/chr$chr.new.bed \
-	$outputFolderTmp/chr$chr.new.unmapped.txt
+	$LiftoverOutputFolderTmp/chr$chr.new.bed \
+	$LiftoverOutputFolderTmp/chr$chr.new.unmapped.txt
 
 #create list of unmapped snps
-awk '/^[^#]/ {print $4}' $outputFolderTmp/chr$chr.new.unmapped.txt > $outputFolderTmp/chr$chr.new.unmappedSnps.txt
+awk '/^[^#]/ {print $4}' $LiftoverOutputFolderTmp/chr$chr.new.unmapped.txt > $LiftoverOutputFolderTmp/chr$chr.new.unmappedSnps.txt
 
 #create mappings file used by plink
-awk '{print $4, $2}' OFS="\t" $outputFolderTmp/chr$chr.new.bed > $outputFolderTmp/chr$chr.new.Mappings.txt 
+awk '{print $4, $2}' OFS="\t" $LiftoverOutputFolderTmp/chr$chr.new.bed > $LiftoverOutputFolderTmp/chr$chr.new.Mappings.txt 
 
 
 #create new plink data without the unmapped snps                            
@@ -73,9 +73,9 @@ $plinkBin \
 	--noweb \
 	--file $studyInputDir/chr$chr \
 	--recode \
-	--out $outputFolderTmp/chr$chr.unordered \
-	--exclude $outputFolderTmp/chr$chr.new.unmappedSnps.txt \
-	--update-map $outputFolderTmp/chr$chr.new.Mappings.txt                        
+	--out $LiftoverOutputFolderTmp/chr$chr.unordered \
+	--exclude $LiftoverOutputFolderTmp/chr$chr.new.unmappedSnps.txt \
+	--update-map $LiftoverOutputFolderTmp/chr$chr.new.Mappings.txt                        
 
 #Get return code from last program call
 returnCode=$?
@@ -89,10 +89,10 @@ if [ $returnCode -eq 0 ]
 then
 	$plinkBin \
 		--noweb \
-		--file $outputFolderTmp/chr$chr.unordered  \
+		--file $LiftoverOutputFolderTmp/chr$chr.unordered  \
 		--recode \
 		--make-bed \
-		--out $outputFolderTmp/~chr$chr
+		--out $LiftoverOutputFolderTmp/~chr$chr
 
 	#Get return code from last program call
 	returnCode=$?
@@ -104,7 +104,7 @@ then
 	
 	echo -e "\nMoving temp files to final files\n\n"
 
-	for tempFile in $outputFolderTmp/~chr$chr* ; do
+	for tempFile in $LiftoverOutputFolderTmp/~chr$chr* ; do
 		finalFile=`echo $tempFile | sed -e "s/~//g"`
 		echo "Moving temp file: ${tempFile} to ${finalFile}"
 		mv $tempFile $finalFile
@@ -112,7 +112,7 @@ then
 	done
 
 	echo -e "\nMoving resulting files to the final destination\n"
-	mv $outputFolderTmp/chr$chr.{bed,bim,fam} $outputFolder/
+	mv $LiftoverOutputFolderTmp/chr$chr.{bed,bim,fam} $LiftoverOutputFolder/
 
 else
   
