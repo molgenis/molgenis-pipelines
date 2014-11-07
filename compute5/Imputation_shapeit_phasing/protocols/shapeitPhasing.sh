@@ -83,11 +83,12 @@ then
 	#Command successful
 	echo "returnCode ShapeIt2: $?"
 	
-	echo -e "\nMoving temp files to final files\n\n"
+	echo -e "\nCopying temp files to final files\n\n"
 
 	for tempFile in ${tmpOutput}* ; do
 		finalFile=`echo $tempFile | sed -e "s/~//g"`
-		echo "Moving temp file: ${tempFile} to ${finalFile}"
+		finalFile=${PhaseOutputFolder}/$(basename $finalFile)
+		echo "Copying temp file: ${tempFile} to ${finalFile}"
 		cp $tempFile $finalFile
 		putFile $finalFile
 	done

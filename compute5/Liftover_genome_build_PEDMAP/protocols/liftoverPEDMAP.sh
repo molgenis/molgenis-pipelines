@@ -110,7 +110,8 @@ then
 
 	for tempFile in $LiftoverOutputFolderTmp/~chr$chr* ; do
 		finalFile=`echo $tempFile | sed -e "s/~//g"`
-		echo "Moving temp file: ${tempFile} to ${finalFile}"
+		finalFile=${LiftoverOutputFolder}/$(basename $finalFile)
+		echo "Copying temp file: ${tempFile} to ${finalFile}"
 		cp $tempFile $finalFile
 		putFile $finalFile
 	done
