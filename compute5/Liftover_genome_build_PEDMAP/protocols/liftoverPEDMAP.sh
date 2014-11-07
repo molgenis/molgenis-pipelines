@@ -111,12 +111,12 @@ then
 	for tempFile in $LiftoverOutputFolderTmp/~chr$chr* ; do
 		finalFile=`echo $tempFile | sed -e "s/~//g"`
 		echo "Moving temp file: ${tempFile} to ${finalFile}"
-		mv $tempFile $finalFile
+		cp $tempFile $finalFile
 		putFile $finalFile
 	done
 
 	echo -e "\nMoving resulting files to the final destination\n"
-	mv $LiftoverOutputFolderTmp/chr$chr.{bed,bim,fam} $LiftoverOutputFolder/
+	cp $LiftoverOutputFolderTmp/chr$chr.{bed,bim,fam} $LiftoverOutputFolder/
 
 else
   

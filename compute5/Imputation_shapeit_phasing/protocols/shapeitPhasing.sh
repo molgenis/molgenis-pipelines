@@ -13,10 +13,10 @@
 #string PhaseOutputFolder
 #string stage
 #string shapeitversion
+#string PhaseOutputFolderTemp
 
 
-
-tmpOutput="${PhaseOutputFolder}/~chr${chr}"
+tmpOutput="${PhaseOutputFolderTemp}/~chr${chr}"
 finalOutput="${PhaseOutputFolder}/chr${chr}"
 
 
@@ -35,9 +35,11 @@ echo "shapeitThreads: ${shapeitThreads}"
 echo "chr: ${chr}"
 echo "additonalShapeitParam: ${additonalShapeitParam}"
 echo "PhaseOutputFolder: ${PhaseOutputFolder}"
+echo "PhaseOutputFolderTemp: ${PhaseOutputFolderTemp}"
 echo "tmpOutput: ${tmpOutput}"
 
 mkdir -p ${PhaseOutputFolder}
+mkdir -p ${PhaseOutputFolderTemp}
 
 if [ $studyDataType == "PED" ]; then
 	inputVarName="--input-ped"
@@ -86,7 +88,7 @@ then
 	for tempFile in ${tmpOutput}* ; do
 		finalFile=`echo $tempFile | sed -e "s/~//g"`
 		echo "Moving temp file: ${tempFile} to ${finalFile}"
-		mv $tempFile $finalFile
+		cp $tempFile $finalFile
 		putFile $finalFile
 	done
 	

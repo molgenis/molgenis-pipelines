@@ -6,6 +6,7 @@
 #string project
 #string chr
 #string ImputeOutputFolder
+#string ImputeOutputFolderTemp
 #string knownHapsG
 #string genotypeAlignerJar
 #string vcf
@@ -14,6 +15,7 @@
 
 echo "chr: ${chr}"
 echo "ImputeOutputFolder: ${ImputeOutputFolder}"
+echp "ImputeOutputFolderTemp: ${ImputeOutputFolderTemp}"
 echo "knownHapsG: ${knownHapsG}"
 echo "genotypeAlignerJar: ${genotypeAlignerJar}"
 echo "vcf: ${vcf}"
@@ -31,6 +33,7 @@ alloutputsexist \
 	"${sample_output}" 
 
 mkdir -p ${ImputeOutputFolder}
+mkdir -p ${ImputeOutputFolderTemp}
 
 #Mark the start time
 startTime=$(date +%s)
@@ -49,12 +52,12 @@ if ${javaExecutable} -jar ${genotypeAlignerJar} \
 	--ref ${vcf} \
 	--refType ${refType} \
 	--forceChr ${chr} \
-	--output ${ImputeOutputFolder}/~chr${chr} \
+	--output ${ImputeOutputFolderTemp}/~chr${chr} \
 	--outputType SHAPEIT2
 then
-	mv ${ImputeOutputFolder}/~chr${chr}.haps ${ImputeOutputFolder}/chr${chr}.haps
-	mv ${ImputeOutputFolder}/~chr${chr}.sample ${ImputeOutputFolder}/chr${chr}.sample
-	mv ${ImputeOutputFolder}/~chr${chr}.log ${ImputeOutputFolder}/chr${chr}.log
+	cp ${ImputeOutputFolderTemp}/~chr${chr}.haps ${ImputeOutputFolder}/chr${chr}.haps
+	cp ${ImputeOutputFolderTemp}/~chr${chr}.sample ${ImputeOutputFolder}/chr${chr}.sample
+	cp ${ImputeOutputFolderTemp}/~chr${chr}.log ${ImputeOutputFolder}/chr${chr}.log
 
 	putFile ${ImputeOutputFolder}/chr${chr}.haps
 	putFile ${ImputeOutputFolder}/chr${chr}.sample

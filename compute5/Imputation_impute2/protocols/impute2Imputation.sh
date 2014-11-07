@@ -13,6 +13,7 @@
 #string toSample
 #string ImputeOutputFolder
 #string imputationIntermediatesFolder
+#string ImputeOutputFolderTemp
 #string impute2Bin
 #string stage
 #string impute2version
@@ -27,7 +28,7 @@ else
 	echo "Failed: ${stage} impute/${impute2version}"
 fi
 
-tmpOutput="${imputationIntermediatesFolder}/~chr${chr}_${fromChrPos}-${toChrPos}_${fromSample}-${toSample}"
+tmpOutput="${ImputeOutputFolderTemp}/~chr${chr}_${fromChrPos}-${toChrPos}_${fromSample}-${toSample}"
 finalOutput="${imputationIntermediatesFolder}/chr${chr}_${fromChrPos}-${toChrPos}_${fromSample}-${toSample}"
 
 echo "knownHapsG: ${knownHapsG}"
@@ -39,6 +40,7 @@ echo "toSample: ${toSample}"
 echo "interMediFolder: ${imputationIntermediatesFolder}"
 echo "tmpOutput: ${tmpOutput}"
 echo "ImputeOutputFolder: ${ImputeOutputFolder}"
+echo "ImputeOutputFolderTemp: ${ImputeOutputFolderTemp}"
 echo "finalOutput: ${finalOutput}"
 
 impute2ChunkOutput=${finalOutput}
@@ -122,6 +124,7 @@ done
 
 
 mkdir -p ${imputationIntermediatesFolder}
+mkdir -p ${ImputeOutputFolderTemp}
 
 #START OF SAMPLE SPLITTING 
 
@@ -178,7 +181,7 @@ then
 	for tempFile in ${tmpOutput}* ; do
 		finalFile=`echo ${tempFile} | sed -e "s/~//g"`
 		echo "Moving temp file: ${tempFile} to ${finalFile}"
-		mv $tempFile $finalFile
+		cp $tempFile $finalFile
 		putFile $finalFile
 	done
 	
@@ -203,7 +206,7 @@ then
 	for tempFile in ${tmpOutput}* ; do
 		finalFile=`echo $tempFile | sed -e "s/~//g"`
 		echo "Moving temp file: ${tempFile} to ${finalFile}"
-		mv ${tempFile} ${finalFile}
+		cp ${tempFile} ${finalFile}
 		putFile ${finalFile}
 	done
 		
