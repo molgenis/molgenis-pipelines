@@ -1,2 +1,2 @@
 shapeitBin,shapeitGridBin,shapeitversion,shapeitThreads,PhaseOutputFolderTemp
-${tooldir}/Shapeit-${shapeitversion}/shapeit.v2.r644.linux.x86_64,shapeit.v2.r644.linux.x86_64,v2.644,8,PhaseOutputFolder/tmp_{randomUUID}
+${tooldir}/Shapeit-${shapeitversion}/shapeit.v2.r644.linux.x86_64,shapeit.v2.r644.linux.x86_64,v2.644,8,${PhaseOutputFolder}/tmp_${randomUUID}
