@@ -176,11 +176,12 @@ then
 	
 		
 	
-	echo -e "\nMoving temp files to final files\n\n"
+	echo -e "\nCopying temp files to final files\n\n"
 
 	for tempFile in ${tmpOutput}* ; do
 		finalFile=`echo ${tempFile} | sed -e "s/~//g"`
-		echo "Moving temp file: ${tempFile} to ${finalFile}"
+		finalFile=${imputationIntermediatesFolder}/$(basename $finalFile)
+		echo "Copying temp file: ${tempFile} to ${finalFile}"
 		cp $tempFile $finalFile
 		putFile $finalFile
 	done
@@ -201,11 +202,12 @@ then
 		
 	fi
 	
-	echo -e "\nMoving temp files to final files\n\n"
+	echo -e "\nCopying temp files to final files\n\n"
 
 	for tempFile in ${tmpOutput}* ; do
 		finalFile=`echo $tempFile | sed -e "s/~//g"`
-		echo "Moving temp file: ${tempFile} to ${finalFile}"
+		finalFile=${imputationIntermediatesFolder}/$(basename $finalFile)
+		echo "Copyinh temp file: ${tempFile} to ${finalFile}"
 		cp ${tempFile} ${finalFile}
 		putFile ${finalFile}
 	done
