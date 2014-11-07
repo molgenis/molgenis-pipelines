@@ -21,6 +21,10 @@ if hash ${stage} 2>/dev/null; then
 	${stage} plink/${plinkVersion}
 fi
 
+#Make a random temporary folder
+#NEW_UUID=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+#LiftoverOutputFolderTmp=${LiftoverOutputFolderTmp}_${NEW_UUID}
+
 #Echo parameter values
 echo "chr: ${chr}"
 echo "studyInputDir: ${studyInputDir}"
