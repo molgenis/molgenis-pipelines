@@ -1,11 +1,15 @@
+#MOLGENIS walltime=01:00:00 nodes=1 ppn=4 mem=6gb
+
 #string finalReport
 #string sampleConcordanceFile
 #string sample
-#string externalsampleID
+#string externalSampleID
 #string familyList
 #string finalReportTmpDir
 #string arrayTmpMap
+#string arrayMapFile
 #string toolDir
+#string tempDir
 #string resDir
 #string sampleMergedBam
 #string indexFile
@@ -72,7 +76,7 @@ else
 	increase1="false"
 	
 	i=0
-	unset ready
+	ready=""
 	while [ -z $ready ]
 	do
 	    position=`awk '$1 == "'${rs[$i]}'" {print $7}' ${sample}_FinalReport.txt.tmp`
@@ -137,12 +141,12 @@ else
 	#########################################################################
 	
 	##Create .fam, .lgen and .map file from sample_report.txt
-	sed -e '1,10d' ${finalReporttmpdir} | awk '{print "1",$2,"0","0","0","1"}' | uniq > ${sample}.concordance.fam
-	sed -e '1,10d' ${finalReporttmpdir} | awk '{print "1",$2,$1,$3,$4}' | awk -f ${toolDir}/scripts/RecodeFRToZero.awk > ${sample}.concordance.lgen
-	sed -e '1,10d' ${finalReporttmpdir} | awk '{print $6,$1,"0",$7}' OFS="\t" | sort -k1n -k4n | uniq > ${arrayTmpMap}
-	grep -P '^[123456789]' ${arrayTmpMap} | sort -k1n -k4n > ${arraymapfile}
-	grep -P '^[X]\s' ${arrayTmpMap} | sort -k4n >> ${arraymapfile}
-	grep -P '^[Y]\s' ${arrayTmpMap} | sort -k4n >> ${arraymapfile}
+	sed -e '1,10d' ${finalReportTmpDir} | awk '{print "1",$2,"0","0","0","1"}' | uniq > ${sample}.concordance.fam
+	sed -e '1,10d' ${finalReportTmpDir} | awk '{print "1",$2,$1,$3,$4}' | awk -f ${toolDir}/scripts/RecodeFRToZero.awk > ${sample}.concordance.lgen
+	sed -e '1,10d' ${finalReportTmpDir} | awk '{print $6,$1,"0",$7}' OFS="\t" | sort -k1n -k4n | uniq > ${arrayTmpMap}
+	grep -P '^[123456789]' ${arrayTmpMap} | sort -k1n -k4n > ${arrayMapFile}
+	grep -P '^[X]\s' ${arrayTmpMap} | sort -k4n >> ${arrayMapFile}
+	grep -P '^[Y]\s' ${arrayTmpMap} | sort -k4n >> ${arrayMapFile}
 	
 	#?# MD vraagt: wat doen --lfile en --out, en horen die gelijk te zijn?
 	##Create .bed and other files (keep sample from sample_list.txt).
@@ -164,7 +168,7 @@ else
 	plink108 \
 	--recode-vcf \
 	--ped ${sample}.concordance.ped \
-	--map ${arraymapfile} \
+	--map ${arrayMapFile} \
 	--out ${sample}.concordance
 	
 	##Rename plink.vcf to sample.vcf
@@ -211,7 +215,7 @@ else
 		-chain ${resDir}/b36/chainfiles/b36ToHg19.broad.over.chain \
 		-newRef ${resDir}/hg19/indices/human_g1k_v37 \
 		-oldRef ${resDir}/b36/hs_ref_b36 \
-		-tmp ${tempdir} \
+		-tmp ${tempDir} \
 		-out ${sample}.genotypeArray.aligned_to_ref.lifted_over.vcf
 	
 		##Some GATK versions sort header alphabetically, which results in wrong individual genotypes. So cut header from "original" sample.genotype_array.vcf and replace in sample.genotype_array.aligned_to_ref.lifted_over.out
@@ -252,13 +256,13 @@ else
 		${sample}.concordance.q20.dp10.vcf 10 20
 	
 		##Calculate condordance between genotype SNPs and GATK "called SNPs"
-		java -Xmx2g -Djava.io.tmpdir=${tempdir} -jar ${toolDir}/GATK-1.2-1-g33967a4/dist/GenomeAnalysisTK.jar \
+		java -Xmx2g -Djava.io.tmpdir=${tempDir} -jar ${toolDir}/GATK-1.2-1-g33967a4/dist/GenomeAnalysisTK.jar \
 		-T VariantEval \
 		-eval:eval,VCF ${sample}.concordance.q20.dp10.vcf \
 		-comp:comp_immuno,VCF ${sample}.genotypeArray.updated.header.vcf \
 		-o ${sample}.concordance.q20.dp10.eval \
 		-R ${indexFile} \
-		-D:dbSNP,VCF ${dbsnpexsitesafter129vcf} \
+		-D:dbSNP,VCF ${dbSNPExSiteAfter129Vcf} \
 		-EV GenotypeConcordance
 	
 		##Create concordance output file with header
@@ -338,13 +342,13 @@ else
 		${sample}.concordance.q20.dp10.vcf 10 20
 	
 		##Calculate condordance between genotype SNPs and GATK "called SNPs"
-		java -Xmx2g -Djava.io.tmpdir=${tempdir} -jar ${toolDir}/GATK-1.2-1-g33967a4/dist/GenomeAnalysisTK.jar \
+		java -Xmx2g -Djava.io.tmpdir=${tempDir} -jar ${toolDir}/GATK-1.2-1-g33967a4/dist/GenomeAnalysisTK.jar \
 		-T VariantEval \
 		-eval:eval,VCF ${sample}.concordance.q20.dp10.vcf \
 		-comp:comp_immuno,VCF ${sample}.genotypeArray.updated.header.vcf \
 		-o ${sample}.concordance.q20.dp10.eval \
 		-R ${indexFile} \
-		-D:dbSNP,VCF ${dbsnpexsitesafter129vcf} \
+		-D:dbSNP,VCF ${dbSNPExSiteAfter129Vcf} \
 		-EV GenotypeConcordance
 	
 		##Create concordance output file with header
