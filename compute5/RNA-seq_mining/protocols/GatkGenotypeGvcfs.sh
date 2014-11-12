@@ -5,7 +5,7 @@
 #string checkStage
 #string starVersion
 #string WORKDIR
-#string intermediateDir
+#string projectDir
 #string dbsnpVcf
 #string dbsnpVcfIdx
 
