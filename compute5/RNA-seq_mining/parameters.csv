@@ -11,7 +11,7 @@ stage,module load
 checkStage,module list
 WORKDIR,/gcc/
 root,${WORKDIR}
-group,oncogenetics
+group,gcc
 tmp,tmp01
 #tempDir,${WORKDIR}/groups/${group}/${tmp}/tmp/
 #fix
@@ -19,13 +19,13 @@ tmp,tmp01
 resDir,${root}/resources/
 #resDir,${tmpResDir}
 toolDir,${root}/tools/
-intermediateDir,/gcc/groups/${group}/${tmp}/projects/${project}/
+projectDir,/gcc/groups/${group}/${tmp}/projects/${project}/
 #
 ################################################################################
 ##Fastqc
 #
 fastqcVersion,v0.10.1
-fastqcDir,${intermediateDir}/fastqc/
+fastqcDir,${projectDir}/fastqc/
 fastqcZipExt,_fastqc.zip
 singleEndfastqcZip,${fastqcDir}/${internalId}_${sampleName}.fq${fastqcZipExt}
 pairedEndfastqcZip1,${fastqcDir}/${internalId}_${sampleName}_1.fq${fastqcZipExt}
@@ -40,14 +40,14 @@ genomeSpecies,human
 genomeBuild,b37
 genomeGrchBuild,GRCh37
 #starGenomeIndexMain,${resDir}/${genomeBuild}/indices/STAR/
-#starGenomeIndexTmp,${intermediateDir}/${genomeBuild}/indices/STAR/
-#starGenomeIndexTmpSjb,${intermediateDir}/SjbIndex/
+#starGenomeIndexTmp,${projectDir}/${genomeBuild}/indices/STAR/
+#starGenomeIndexTmpSjb,${projectDir}/SjbIndex/
 ensemblVersion,75
 #onekgGgenomeDecoyFasta,${resDir}/${genomeBuild}/indices/human_g1k_v37_decoy.fasta
 onekgGenomeFasta,${resDir}/${genomeBuild}/indices/human_g1k_v37.fasta
 ##/gcc/resources/b37/intervals/Homo_sapiens.GRCh37.71.cut.sorted.gtf make for fluxcapacitor!!! Homo_sapiens.GRCh37.75.cut.sorted.gtf
 genomeEnsembleAnnotationFile,${resDir}/Ensembl/release-${ensemblVersion}/gtf/homo_sapiens/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.gtf
-starAlignmentDir,${intermediateDir}/star/
+starAlignmentDir,${projectDir}/star/
 starAlignmentPassOneDir,${starAlignmentDir}/${internalId}_${sampleName}/alignmentP1/
 sjdbFileChrStartEnd,${starAlignmentPassOneDir}/SJ.out.tab
 sjdbOverhang,255
@@ -63,20 +63,20 @@ starAlignmentPassTwoDir,${starAlignmentDir}/${internalId}_${sampleName}/alignmen
 ##AddOrReplaceGroups
 #
 picardVersion,1.102
-addOrReplaceGroupsDir,${intermediateDir}/addOrReplaceReadGroups/
+addOrReplaceGroupsDir,${projectDir}/addOrReplaceReadGroups/
 addOrReplaceGroupsBam,${addOrReplaceGroupsDir}${internalId}_${sampleName}.bam
 addOrReplaceGroupsBai,${addOrReplaceGroupsDir}${internalId}_${sampleName}.bai
 #
 ################################################################################
 ##MergeBamFiles ?? #note the actual picard programme: MergeSamFiles.jar
-MergeBamFilesDir,${intermediateDir}/MergeBams/
+MergeBamFilesDir,${projectDir}/MergeBams/
 MergeBamFilesBam,${MergeBamFilesDir}${sampleName}.bam
 MergeBamFilesBai,${MergeBamFilesDir}${sampleName}.bai
 #
 ################################################################################
 ##MarkDuplicates
 #
-markDuplicatesDir,${intermediateDir}/markDuplicates/
+markDuplicatesDir,${projectDir}/markDuplicates/
 markDuplicatesBam,${markDuplicatesDir}${sampleName}.bam
 markDuplicatesBai,${markDuplicatesDir}${sampleName}.bai
 markDuplicatesMetrics,${markDuplicatesDir}${sampleName}.metrics.log
@@ -84,7 +84,7 @@ markDuplicatesMetrics,${markDuplicatesDir}${sampleName}.metrics.log
 ################################################################################
 ##CollectRnaSeqMetrics
 #
-collectRnaSeqMetricsDir,${intermediateDir}/collectRnaSeqMetrics/
+collectRnaSeqMetricsDir,${projectDir}/collectRnaSeqMetrics/
 collectRnaSeqMetrics,${collectRnaSeqMetricsDir}${sampleName}.rna_metrics.log
 collectRnaSeqMetricsChart,${collectRnaSeqMetricsDir}${sampleName}.chart.pdf
 
@@ -94,14 +94,14 @@ rRnaIntervalList,${resDir}//picard-tools/Ensembl${ensemblVersion}/${genomeLatSpe
 ################################################################################
 ##CollectMultipleMetrics
 RVersion,3.0.2
-collectMultipleMetricsDir,${intermediateDir}/collectMultipleMetrics/
-collectMultipleMetricsPrefix, ${intermediateDir}/collectMultipleMetrics/${sampleName}.multiplemetrics
+collectMultipleMetricsDir,${projectDir}/collectMultipleMetrics/
+collectMultipleMetricsPrefix, ${projectDir}/collectMultipleMetrics/${sampleName}.multiplemetrics
 #
 ################################################################################
 ##Htseq-count
 #
-htseqCountDir,${intermediateDir}/htseq-count/
-htseqCountCounts,${intermediateDir}/htseq-count/${sampleName}.tsv
+htseqCountDir,${projectDir}/htseq-count/
+htseqCountCounts,${projectDir}/htseq-count/${sampleName}.tsv
 anacondaVersion,1.8.0
 samtoolsVersion,0.1.19
 #
@@ -109,7 +109,7 @@ samtoolsVersion,0.1.19
 #FluxCapacitor
 
 fluxcapacitorVersion,1.6.1
-fluxcapacitorDir,${intermediateDir}/fluxcapacitor/
+fluxcapacitorDir,${projectDir}/fluxcapacitor/
 fluxcapacitorGTF,${resDir}//flux-capacitor/Ensembl${ensemblVersion}/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.fluxcapacitor.sorted.gtf
 fluxcapacitorExpressionGTF,${fluxcapacitorDir}/${sampleName}.${genomeGrchBuild}.${ensemblVersion}.expression.gtf
 
@@ -125,7 +125,7 @@ fluxcapacitorExpressionGTF,${fluxcapacitorDir}/${sampleName}.${genomeGrchBuild}.
 #
 #gatkVersion,3.1-1-g07a4bf8
 gatkVersion,3.2-2-gec30cee
-splitAndTrimDir,${intermediateDir}/splitAndTrim/
+splitAndTrimDir,${projectDir}/splitAndTrim/
 splitAndTrimBam,${splitAndTrimDir}${sampleName}.bam
 splitAndTrimBai,${splitAndTrimDir}${sampleName}.bai
 ################################################################################
@@ -149,7 +149,7 @@ dbsnpVcfIdx,${dbsnpVcf}.idx
 
 #because want to use alternative not local assembling callers on the same data like mutect/varscan etc
 
-indelRealignmentDir,${intermediateDir}/indelRealignment/
+indelRealignmentDir,${projectDir}/indelRealignment/
 realignmentIntervals,${indelRealignmentDir}/realignmentIntervals.list
 
 ################################################################################
@@ -161,7 +161,7 @@ indelRealignmentTargets,${resDir}/${genomeBuild}/intervals/1000G_phase1.indels_M
 
 ##############################################################################
 #BSQR(+PrintReads) default
-bsqrDir,${intermediateDir}/baseQualityScoreRecalibration/
+bsqrDir,${projectDir}/baseQualityScoreRecalibration/
 
 bsqrBam,${bsqrDir}${sampleName}.bam
 bsqrBai,${bsqrDir}${sampleName}.bai
@@ -169,14 +169,14 @@ bsqrBeforeGrp,${bsqrDir}${sampleName}.before.grp
 
 ################################################################################
 #(BSQR+)AnalyseCovariants default
-analyseCovarsDir,${intermediateDir}/CovariantAnalysis/
+analyseCovarsDir,${projectDir}/CovariantAnalysis/
 bsqrAfterGrp,${bsqrDir}${sampleName}.after.grp
 analyseCovariatesPdf,${analyseCovarsDir}/${sampleName}.analysecovariates.pdf
 #stuffs that is missing 
 
 ################################################################################
 #haplotypecaller rna mode "-recoverDanglingHeads -dontUseSoftClippedBases -stand_call_conf 20.0 -stand_emit_conf 20.0" here: http://gatkforums.broadinstitute.org/discussion/3891/best-practices-for-variant-calling-on-rnaseq
-haplotyperDir,${intermediateDir}/haplotypeCaller/
+haplotyperDir,${projectDir}/haplotypeCaller/
 haplotyperRealignmentBam,${haplotyperDir}${sampleName}.bam
 haplotyperRealignmentBai,${haplotyperDir}${sampleName}.bam
 haplotyperVcf,${haplotyperDir}${project}.vcf
@@ -196,7 +196,7 @@ genotypedVcfIdx,${genotypedVcf}.idx
 ################################################################################
 #variant annotation
 
-annotatorDir,${intermediateDir}/VariantAnnotation/
+annotatorDir,${projectDir}/VariantAnnotation/
 snpEffVcf,${annotatorDir}/${project}.snpEff.vcf
 snpEffVcfIdx,${snpEffVcf}.idx
 snpEffVersion,3.6c
@@ -237,7 +237,7 @@ cosmicVcfIdx,${cosmicVcf}.idx
 ################################################################################
 #CreateProjectMd aka CreateProjectMarkdown
 #
-projectMarkdown,${intermediateDir}/${project}.summary.Rmd
+projectMarkdown,${projectDir}/${project}.summary.Rmd
 #
 #
 #test projectsamplesheet

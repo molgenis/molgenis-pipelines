@@ -5,7 +5,7 @@
 #string checkStage
 #string fastqcVersion
 #string WORKDIR
-#string intermediateDir
+#string projectDir
 #string fastqcDir
 #string fastqcZipExt
 #string reads1FqGz

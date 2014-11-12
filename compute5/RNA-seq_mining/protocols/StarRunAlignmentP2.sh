@@ -6,7 +6,7 @@
 #string checkStage
 #string starVersion
 #string WORKDIR
-#string intermediateDir
+#string projectDir
 #string resDir
 #string toolDir
 #string genomeLatSpecies
