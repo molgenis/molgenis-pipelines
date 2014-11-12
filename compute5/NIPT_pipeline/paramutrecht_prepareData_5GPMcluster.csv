@@ -1,0 +1,21 @@
+queue,node1
+mem,4
+walltime,23:59:00
+nodes,1
+ppn,1
+defaultInterpreter,#!/bin/bash
+stage,module load
+checkStage,module list
+jobname,jobname
+WORKDIR,/data/gcc
+root,${WORKDIR}
+bashrc,/gcc/groups/gcc/home/gcc.bashrc
+tempDir,${WORKDIR}/groups/gd/tmp/
+toolDir,${root}/tools/
+scriptDir,${toolDir}/scripts/
+sambamba,${scriptDir}/NIPT/sambamba_v0.4.5
+gccGuestAccount,gcc-guest09@195.169.22.180
+gccGuestAccountFolder,/gcc/groups/gcc-guest/home/gcc-guest09/upload/
+gdHome,${root}/groups/gd/
+tmpDataDir,${root}/groups/gd/tmp01/
+keyName,id_rsa

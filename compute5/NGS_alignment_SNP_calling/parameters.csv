@@ -147,4 +147,5 @@ finalReport,${tmpDataDir}/rawdata/array/1249524_17112008_FinalReport.txt
 familyList,${sample}.familylist.txt
 finalReportTmpDir,${intermediateDir}/${externalSampleID}_FinalReport.txt
 arrayTmpMap,${sample}.concordance.tmp.map
+arrayMapFile,${sample}.concordance.map
 sampleConcordanceFile,${sample}.concordance.ngsVSarray.txt
