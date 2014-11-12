@@ -15,7 +15,7 @@
 
 echo "chr: ${chr}"
 echo "ImputeOutputFolder: ${ImputeOutputFolder}"
-echp "ImputeOutputFolderTemp: ${ImputeOutputFolderTemp}"
+echo "ImputeOutputFolderTemp: ${ImputeOutputFolderTemp}"
 echo "knownHapsG: ${knownHapsG}"
 echo "genotypeAlignerJar: ${genotypeAlignerJar}"
 echo "vcf: ${vcf}"
