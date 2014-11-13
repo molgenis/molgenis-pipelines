@@ -10,14 +10,14 @@
 #string shapeitThreads
 #string chr
 #string additonalShapeitParam
-#string outputFolder
+#string PhaseOutputFolder
 #string stage
 #string shapeitversion
+#string PhaseOutputFolderTemp
 
 
-
-tmpOutput="${outputFolder}/~chr${chr}"
-finalOutput="${outputFolder}/chr${chr}"
+tmpOutput="${PhaseOutputFolderTemp}/~chr${chr}"
+finalOutput="${PhaseOutputFolder}/chr${chr}"
 
 
 
@@ -34,10 +34,12 @@ echo "studyDataType: ${studyDataType}"
 echo "shapeitThreads: ${shapeitThreads}"
 echo "chr: ${chr}"
 echo "additonalShapeitParam: ${additonalShapeitParam}"
-echo "outputFolder: ${outputFolder}"
+echo "PhaseOutputFolder: ${PhaseOutputFolder}"
+echo "PhaseOutputFolderTemp: ${PhaseOutputFolderTemp}"
 echo "tmpOutput: ${tmpOutput}"
 
-mkdir -p ${outputFolder}
+mkdir -p ${PhaseOutputFolder}
+mkdir -p ${PhaseOutputFolderTemp}
 
 if [ $studyDataType == "PED" ]; then
 	inputVarName="--input-ped"
@@ -54,8 +56,8 @@ fi
 startTime=$(date +%s)
 
 alloutputsexist \
-	"${outputFolder}/chr${chr}.haps" \
-	"${outputFolder}/chr${chr}.sample"
+	"${PhaseOutputFolder}/chr${chr}.haps" \
+	"${PhaseOutputFolder}/chr${chr}.sample"
 
 getFile $m
 inputs $m
@@ -81,12 +83,13 @@ then
 	#Command successful
 	echo "returnCode ShapeIt2: $?"
 	
-	echo -e "\nMoving temp files to final files\n\n"
+	echo -e "\nCopying temp files to final files\n\n"
 
 	for tempFile in ${tmpOutput}* ; do
 		finalFile=`echo $tempFile | sed -e "s/~//g"`
-		echo "Moving temp file: ${tempFile} to ${finalFile}"
-		mv $tempFile $finalFile
+		finalFile=${PhaseOutputFolder}/$(basename $finalFile)
+		echo "Copying temp file: ${tempFile} to ${finalFile}"
+		cp $tempFile $finalFile
 		putFile $finalFile
 	done
 	

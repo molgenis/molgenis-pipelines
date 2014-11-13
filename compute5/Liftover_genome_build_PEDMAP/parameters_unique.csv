@@ -1,0 +1,2 @@
+LiftoverOutputFolderChrDir,LiftoverOutputFolderTmp,liftOverUcscBin,liftOverUcscVersion,plinkBin,plinkVersion
+${LiftoverOutputFolder}/chr${chr},${LiftoverOutputFolder}/tmp_${randomUUID}/,${tooldir}/liftOverUcsc-${liftOverUcscVersion}/liftOver,20120905,${tooldir}/plink-${plinkVersion}/plink,1.07-x86_64

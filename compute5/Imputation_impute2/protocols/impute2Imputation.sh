@@ -11,8 +11,9 @@
 #string toChrPos
 #string fromSample
 #string toSample
-#string outputFolder
+#string ImputeOutputFolder
 #string imputationIntermediatesFolder
+#string ImputeOutputFolderTemp
 #string impute2Bin
 #string stage
 #string impute2version
@@ -27,7 +28,7 @@ else
 	echo "Failed: ${stage} impute/${impute2version}"
 fi
 
-tmpOutput="${imputationIntermediatesFolder}/~chr${chr}_${fromChrPos}-${toChrPos}_${fromSample}-${toSample}"
+tmpOutput="${ImputeOutputFolderTemp}/~chr${chr}_${fromChrPos}-${toChrPos}_${fromSample}-${toSample}"
 finalOutput="${imputationIntermediatesFolder}/chr${chr}_${fromChrPos}-${toChrPos}_${fromSample}-${toSample}"
 
 echo "knownHapsG: ${knownHapsG}"
@@ -38,7 +39,8 @@ echo "fromSample: ${fromSample}"
 echo "toSample: ${toSample}"
 echo "interMediFolder: ${imputationIntermediatesFolder}"
 echo "tmpOutput: ${tmpOutput}"
-echo "outputFolder: ${outputFolder}"
+echo "ImputeOutputFolder: ${ImputeOutputFolder}"
+echo "ImputeOutputFolderTemp: ${ImputeOutputFolderTemp}"
 echo "finalOutput: ${finalOutput}"
 
 impute2ChunkOutput=${finalOutput}
@@ -53,8 +55,8 @@ alloutputsexist \
 
 startTime=$(date +%s)
 
-genotype_aligner_output_haps=$outputFolder/chr${chr}.haps
-genotype_aligner_output_sample=$outputFolder/chr${chr}.sample
+genotype_aligner_output_haps=$ImputeOutputFolder/chr${chr}.haps
+genotype_aligner_output_sample=$ImputeOutputFolder/chr${chr}.sample
 echo "genotype_aligner_output_haps: ${genotype_aligner_output_haps}"
 echo "genotype_aligner_output_sample: ${genotype_aligner_output_sample}"
 
@@ -122,6 +124,9 @@ done
 
 
 mkdir -p ${imputationIntermediatesFolder}
+mkdir -p ${ImputeOutputFolderTemp}
+
+#START OF SAMPLE SPLITTING 
 
 #Create subset of samples to exclude 
 sample_subset_to_exclude=${tmpOutput}.toExclude
@@ -134,6 +139,8 @@ echo "Samples excluded from this run: ${sample_subset_to_exclude}"
 cat ${genotype_aligner_output_sample} | tail -n +3 | head -n `expr ${fromSample} - 1` > ${sample_subset_to_exclude}.part1
 cat ${genotype_aligner_output_sample} | tail -n +3 | tail -n +`expr ${toSample} + 1` > ${sample_subset_to_exclude}.part2
 cat ${sample_subset_to_exclude}.part1 ${sample_subset_to_exclude}.part2 | cut -f 2 -d ' ' > ${sample_subset_to_exclude}
+
+#END OF SAMPLE SPLITTING
 
 #From http://mathgen.stats.ox.ac.uk/impute/impute_v2.html
 #To use pre-phased study data in this example, you would replace the -g file with a -known_haps_g file and add the -use_prephased_g flag to your IMPUTE2 command.
@@ -169,12 +176,13 @@ then
 	
 		
 	
-	echo -e "\nMoving temp files to final files\n\n"
+	echo -e "\nCopying temp files to final files\n\n"
 
 	for tempFile in ${tmpOutput}* ; do
 		finalFile=`echo ${tempFile} | sed -e "s/~//g"`
-		echo "Moving temp file: ${tempFile} to ${finalFile}"
-		mv $tempFile $finalFile
+		finalFile=${imputationIntermediatesFolder}/$(basename $finalFile)
+		echo "Copying temp file: ${tempFile} to ${finalFile}"
+		cp $tempFile $finalFile
 		putFile $finalFile
 	done
 	
@@ -194,12 +202,13 @@ then
 		
 	fi
 	
-	echo -e "\nMoving temp files to final files\n\n"
+	echo -e "\nCopying temp files to final files\n\n"
 
 	for tempFile in ${tmpOutput}* ; do
 		finalFile=`echo $tempFile | sed -e "s/~//g"`
-		echo "Moving temp file: ${tempFile} to ${finalFile}"
-		mv ${tempFile} ${finalFile}
+		finalFile=${imputationIntermediatesFolder}/$(basename $finalFile)
+		echo "Copyinh temp file: ${tempFile} to ${finalFile}"
+		cp ${tempFile} ${finalFile}
 		putFile ${finalFile}
 	done
 		
