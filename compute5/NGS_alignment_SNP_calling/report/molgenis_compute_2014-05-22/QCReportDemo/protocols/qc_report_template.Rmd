@@ -1,0 +1,42 @@
+# NGS QC report
+
+.|.
+---|---
+**By** | GAF, GCC, UMCG
+**On** | `r str_split(Sys.time(), " ")[[1]][1] # get date`
+**Project** | `r Sys.getenv("project")`
+
+# Statistics
+```{r echo=FALSE,results='asis'}
+	cat(csv.to.markdown.table.CUSTOM.qc( qc_csv ))
+```
+
+# Capturing
+```{r echo=FALSE, results='asis'}
+	for (i in 1:length(qc_coverage_plot_file)) {
+		showFigure(qc_coverage_plot_file[i], str_c("Coverage plot of ", sample_nr[i]))
+	}
+```
+
+# Appendix Bioinf pipeline
+![pipeline](http://chapmanb.github.io/bcbb/lane_processing.png)
+
+# DEMO OF OTHER FUNCTIONALITY:
+
+## bash test
+```{r test-bash, engine='bash', echo=FALSE}
+	source ${user_env}
+	echo "Global date = ${global_creationDate}"
+```
+
+## R can access r-variable
+```{r echo=F}
+	print(str_c("The current content of r.parameter is: ", r.parameter))
+	print("Now give it value 'pass-over-to-next-code-block!'")
+	r.parameter="pass-over-to-next-code-block!"
+```
+
+```{r echo=F}
+	print("We are now in the next code block! Let's print the value of r.parameter:")
+	print( r.parameter )
+```

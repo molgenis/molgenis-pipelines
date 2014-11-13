@@ -1,0 +1,4 @@
+step,protocol,dependencies
+step1,protocols/step1.sh,in=project
+step2,protocols/step2.sh,wf=workflowName;date=creationDate;strings=step1.out
+step_QC,protocols/QCReport.sh,project=project;sample_nr=sample_nr
