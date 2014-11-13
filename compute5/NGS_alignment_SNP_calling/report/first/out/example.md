@@ -3,8 +3,8 @@
 .|.
 ---|---
 **By** | GAF, GCC, UMCG
-**On** | 2014-10-31
-**Project** | content_of_r.parameter
+**On** | 2014-11-11
+**Project** | `sh $project`
 
 ### Knitr stuff
 echo = FALSE : don't show r-code
@@ -55,7 +55,7 @@ Show coverage plots: ${samplecoverageplotpdf}
 # bash test
 
 ```
-## hello my cool project
+## hello roan
 ```
 
 # R can access r-variable
@@ -66,10 +66,15 @@ DEMO:
 ## [1] "content_of_r.parameter"
 ```
 
+
+```
+## [1] "gerben"
+```
+
 # R can access bash variables
 Use $export project="my cool project"
 DEMO: Variable value is
- my cool project 
+ roan 
 
 # Appendix Bioinf pipeline
 ![pipeline](http://chapmanb.github.io/bcbb/lane_processing.png)

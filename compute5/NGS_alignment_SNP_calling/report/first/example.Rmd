@@ -4,7 +4,7 @@
 ---|---
 **By** | GAF, GCC, UMCG
 **On** | `r str_split(Sys.time(), " ")[[1]][1] # get date`
-**Project** | `r r.parameter`
+**Project** | `sh $project`
 
 ### Knitr stuff
 echo = FALSE : don't show r-code
@@ -38,6 +38,11 @@ echo hello ${project}
 # R can access r-variable
 use r.parameter = "content_of_r.parameter" in R-script that knitr's your .Rmd document!
 DEMO:
+```{r echo=F}
+print( r.parameter )
+r.parameter="gerben"
+```
+
 ```{r echo=F}
 print( r.parameter )
 ```
