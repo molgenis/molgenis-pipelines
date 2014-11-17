@@ -1,0 +1,57 @@
+# NGS QC report
+
+.|.
+---|---
+**By** | GAF, GCC, UMCG
+**On** | `r str_split(Sys.time(), " ")[[1]][1] # get date`
+**Project** | `sh $project`
+
+### Knitr stuff
+echo = FALSE : don't show r-code
+,results='hide' : don't show 'console' results
+
+# Statistics
+```{r echo=FALSE,results='asis'}
+cat(csv.to.markdown.table.CUSTOM.qc('data/SCA_C_QCStatistics.csv'))
+```
+
+<!--
+```{r echo=FALSE,results='hide'}
+plot(1:10)
+```
+-->
+
+# Capturing
+Show coverage plots: ${samplecoverageplotpdf}
+<figure><figcaption>Fig1:</figcaption>![coverage fig 1](../data/example_coverage_plot1.pdf)</figure>
+<figure><figcaption>Fig2:</figcaption>![coverage](../data/example_coverage_plot2.pdf)</figure>
+<figure><figcaption>Fig3:</figcaption>![coverage](../data/example_coverage_plot3.pdf)</figure>
+<figure><figcaption>Fig4:</figcaption>![coverage](../data/example_coverage_plot4.pdf)</figure>
+<figure><figcaption>Fig5:</figcaption>![coverage](../data/example_coverage_plot5.pdf)</figure>
+<figure><figcaption>Fig6:</figcaption>![coverage](../data/example_coverage_plot6.pdf)</figure>
+
+# bash test
+```{r test-bash, engine='bash', echo=FALSE}
+echo hello ${project}
+```
+
+# R can access r-variable
+use r.parameter = "content_of_r.parameter" in R-script that knitr's your .Rmd document!
+DEMO:
+```{r echo=F}
+print( r.parameter )
+r.parameter="gerben"
+```
+
+```{r echo=F}
+print( r.parameter )
+```
+
+# R can access bash variables
+```{r echo=FALSE,results='asis'}
+cat("Use $export project=\"my cool project\"\n")
+cat("DEMO: Variable value is\n", Sys.getenv("project"), "\n")
+```
+
+# Appendix Bioinf pipeline
+![pipeline](http://chapmanb.github.io/bcbb/lane_processing.png)
