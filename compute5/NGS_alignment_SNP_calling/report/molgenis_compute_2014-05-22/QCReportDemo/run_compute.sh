@@ -5,4 +5,4 @@ export ENVIRONMENT_DIR=rundir/
 # create QC-report
 sh rundir/step_QC_0.sh
 
-# open .md file
+# open .md file in e.g. LightPaper or GitHub

@@ -3,7 +3,7 @@
 .|.
 ---|---
 **By** | GAF, GCC, UMCG
-**On** | 2014-11-13
+**On** | 2014-11-14
 **Project** | ProjectNaam
 
 # Statistics
@@ -46,25 +46,50 @@ Samples|60420|60421|D01_1738|D01_1740|58913|div472|div534|div678|D01_2051|D01_21
 
 # DEMO OF OTHER FUNCTIONALITY:
 
-## bash test
+## BASH: Use var's from global environment!
+
+```bash
+	source ${user_env}
+	echo "Global date = ${global_creationDate}"
+```
 
 ```
 ## Global date = today
 ```
 
-## R can access r-variable
+## R: Passing of variables between code blocks!
+
+```r
+	print(str_c("The current content of r.parameter is: ", r.parameter))
+```
 
 ```
 ## [1] "The current content of r.parameter is: content_of_r.parameter"
+```
+
+```r
+	print("Now give it value 'pass-over-to-next-code-block!'")
 ```
 
 ```
 ## [1] "Now give it value 'pass-over-to-next-code-block!'"
 ```
 
+```r
+	r.parameter="pass-over-to-next-code-block!"
+```
+
+
+```r
+	print("We are now in the next code block! Let's print the value of r.parameter:")
+```
 
 ```
 ## [1] "We are now in the next code block! Let's print the value of r.parameter:"
+```
+
+```r
+	print( r.parameter )
 ```
 
 ```

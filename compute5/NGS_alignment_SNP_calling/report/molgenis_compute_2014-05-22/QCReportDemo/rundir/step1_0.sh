@@ -20,7 +20,7 @@ taskId="step1_0"
 
 # Make compute.properties available
 rundir="/Users/mdijkstra/Documents/git/molgenis-pipelines/compute5/NGS_alignment_SNP_calling/report/molgenis_compute_2014-05-22/QCReportDemo/rundir"
-runid="bv8j"
+runid="sePw"
 workflow="./workflow.csv"
 parameters="./parameters.csv,./parameters_qc.properties"
 user="mdijkstra"

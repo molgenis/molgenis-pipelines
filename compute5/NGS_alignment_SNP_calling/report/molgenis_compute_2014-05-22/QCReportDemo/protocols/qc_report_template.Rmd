@@ -23,20 +23,20 @@
 
 # DEMO OF OTHER FUNCTIONALITY:
 
-## bash test
-```{r test-bash, engine='bash', echo=FALSE}
+## BASH: Use var's from global environment!
+```{r test-bash, engine='bash', echo=T}
 	source ${user_env}
 	echo "Global date = ${global_creationDate}"
 ```
 
-## R can access r-variable
-```{r echo=F}
+## R: Passing of variables between code blocks!
+```{r echo=T}
 	print(str_c("The current content of r.parameter is: ", r.parameter))
 	print("Now give it value 'pass-over-to-next-code-block!'")
 	r.parameter="pass-over-to-next-code-block!"
 ```
 
-```{r echo=F}
+```{r echo=T}
 	print("We are now in the next code block! Let's print the value of r.parameter:")
 	print( r.parameter )
 ```

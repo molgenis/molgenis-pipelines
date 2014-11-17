@@ -19,14 +19,10 @@ mkdir  ${qc_output_dir}
 # Does not work:
 	#
 	## First export the user.env for R knitr process
+	## TODO: automate
 	#
 
-	# Although it is possible to export _variables_, unfortunately it isn't possible to export _arrays_ (http://stackoverflow.com/questions/5564418/exporting-an-array-in-bash-script)
-	#	Way to do this for variables: export $(cat ${user_env})
-	# We have them available here, so we can make them R-variables, right away.
-	# TODO: automate
-
-	# NB you can ONLY export variables that are NOT an array
+	# NB you can ONLY export variables that are NOT an array (http://stackoverflow.com/questions/5564418/exporting-an-array-in-bash-script)
 	export user_env
 	export qc_csv
 	export project
