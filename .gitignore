@@ -30,3 +30,6 @@ compute5/NGS_alignment_SNP_calling/report/molgenis_compute_2014-05-22/QCReportDe
 
 # Sample statistics
 SCA_C_QCStatistics.csv
+
+# Also ignore all (generated) *.md files
+*.md
