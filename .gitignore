@@ -27,3 +27,6 @@ worksheet.csv
 # Generated stuff #
 ###################
 compute5/NGS_alignment_SNP_calling/report/molgenis_compute_2014-05-22/QCReportDemo/rundir
+
+# Sample statistics
+compute5/NGS_alignment_SNP_calling/report/molgenis_compute_2014-05-22/QCReportDemo/qcInputFiles/SCA_C_QCStatistics.csv
