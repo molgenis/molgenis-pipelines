@@ -8,6 +8,8 @@ stage,module load
 targetedInsertSize,200
 checkStage,module list
 WORKDIR,/gcc/
+permanentDir,${gafHome}/prm02
+allRawNgsPrmDataDir,${permanentDir}/rawdata/ngs
 root,${WORKDIR}
 tempDir,${WORKDIR}/groups/gaf/tmp01/tmp/
 resDir,${root}/resources/
@@ -72,8 +74,8 @@ peEnd1FqGz,${rawtmpDataDir}/${filePrefix}_1.fq.gz
 peEnd2FqGz,${rawtmpDataDir}/${filePrefix}_2.fq.gz
 generalProjectDir,${tmpDataDir}/projects/
 projectDir,${generalProjectDir}/${project}/${runid}
-projectRawtmpDataDir,${projectDir}/rawdata/ngs/
-projectRawArraytmpDataDir,${projectDir}/rawdata/array/
+projectRawTmpDataDir,${projectDir}/rawdata/ngs/
+projectRawArrayTmpDataDir,${projectDir}/rawdata/array/
 intermediateDir,${tempDir}/${project}/${runid}/
 sample,${intermediateDir}/${externalSampleID}
 projectPrefix,${intermediateDir}/${project}
@@ -82,7 +84,7 @@ projectLogsDir,${projectDir}/logs/
 projectResultsDir,${projectDir}/results/
 projectQcDir,${projectDir}/qc/
 rawFileExt,fq.gz
-rawFile,${projectRawtmpDataDir}/${filePrefix}_${barcode}
+rawFile,${projectRawTmpDataDir}/${filePrefix}_${barcode}
 peEnd1BarcodeFqGz,${rawFile}_1.${rawFileExt}
 peEnd2BarcodeFqGz,${rawFile}_2.${rawFileExt}
 srBarcodeFqGz,${rawFile}.${rawFileExt}
@@ -136,6 +138,10 @@ snpEffSnpsVcf,${projectPrefix}.SNPs.calls.GATK.merged.filtered.snpEff.vcf
 variantAnnotatorOutputIndelsVcf,${intermediateDir}/${externalSampleID}.snpEff.annotated.indels.final.vcf
 variantAnnotatorOutputSnpsVcf,${projectPrefix}.snpEff.annotated.snps.vcf
 vcf2tabpl,${scriptDir}/vcf2tab.pl
+getStatisticsScriptPath,${scriptDir}/getStatistics_20130819
+getStatisticsScript,${getStatisticsScriptPath}/getStatistics.R
+getDedupInfoScript,${scriptDir}/getDedupInfo_23mar2012/getDedupInfo.R
+qcStatisticsColNames,${getStatisticsScriptPath}/NiceColumnNames.csv
 variantAnnotatorOutputIndelsVcfTable,${sample}.snpEff.annotated.indels.final.vcf.table
 variantAnnotatorOutputSnpsVcfTable,${projectPrefix}.snpEff.annotated.snps.final.vcf.table
 indel,Indel
@@ -149,3 +155,14 @@ finalReportTmpDir,${intermediateDir}/${externalSampleID}_FinalReport.txt
 arrayTmpMap,${sample}.concordance.tmp.map
 arrayMapFile,${sample}.concordance.map
 sampleConcordanceFile,${sample}.concordance.ngsVSarray.txt
+qcStatisticsCsv,${projectQcDir}/${project}_QCStatistics.csv
+qcStatisticsTex,${projectQcDir}/${project}_QCStatistics.tex
+qcStatisticsDescription,${projectQcDir}/${project}_qcstatisticsdescription.tex
+qcDedupMetricsOut,${projectQcDir}/${project}_dedupmetrics.txt
+qcBaitSet,${projectQcDir}/projectbaitset.txt
+qcStatisticsTexReport,${projectQcDir}/${project}_QCReport.tex
+qcReportMD,${projectQcDir}/${project}_QCReport.md
+demultiplexStats,${projectQcDir}/${project}_QCStatistics.log.txt
+MCQCReportDir,/gcc/tools/MolgenisCompute/molgenis_compute5/molgenis_compute_2014-05-22/NGS_alignment_SNP_calling/report
+qcReportTemplate,${MCQCReportDir}/qc_report_template.Rmd
+qcHelperFunctionsR,${MCQCReportDir}/knitr_helper_functions.R

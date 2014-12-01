@@ -29,11 +29,11 @@ header="Chromosome\tPosition\tdbSNPid\tReference_allele\tAlternative_allele\tQua
 
 elif [ ${variantType} == "Indel" ]
 then	
-filter="AC,AN,BaseCounts,DP,GC,IndelType,MQ,PindelREF,PindelALT,\
-QD,SNPEFF_AMINO_ACID_CHANGE,SNPEFF_CODON_CHANGE,SNPEFF_EFFECT,\
-SNPEFF_EXON_ID,SNPEFF_FUNCTIONAL_CLASS,SNPEFF_GENE_BIOTYPE,\
-SNPEFF_GENE_NAME,SNPEFF_IMPACT,SNPEFF_TRANSCRIPT_ID,Samples"
-header="Chromosome\tPosition\tdbSNPid\tReference_allele\tAlternative_allele\tQuality\tFilter\tAllele_count\tAllele_number\tBaseCounts_A_C_G_T\tDepth\tGC_content\tIndelType\tMapping_quality\tPindel_reference_allele\tPindel_alternative_allele\tQuality_by_depth\tsnpEff_amino_acid_change\tsnpEff_codon_change\tsnpEff_effect\tsnpEff_exon_ID\tsnpEff_functional_class\tsnpEff_gene_biotype\tsnpEff_gene_name\tsnpEff_impact\tsnpEff_transcript_ID\tSample\tGenotype" 
+filter="AC,AF,AN,BaseCounts,DP,END,HOMLEN,HOMSEQ,MQ,SNPEFF_CODON_CHANGE,\
+SNPEFF_EFFECT,SNPEFF_FUNCTIONAL_CLASS,SNPEFF_GENE_BIOTYPE,\
+SNPEFF_GENE_NAME,SNPEFF_IMPACT,SNPEFF_TRANSCRIPT_ID,SVLEN,SVTYPE,VariantType,Samples"
+
+header="Chromosome\tPosition\tdbSNPid\tReference_allele\tAlternative_allele\tQuality\tFilter\tAC\tAF\tAN\tBaseCounts\tDP\tEND\tHOMLEN\tHOMSEQ\tMQ\tSNPEFF_CODON_CHANGE\tSNPEFF_EFFECT\tSNPEFF_FUNCTIONAL_CLASS\tSNPEFF_GENE_BIOTYPE\tSNPEFF_GENE_NAME\tSNPEFF_IMPACT\tSNPEFF_TRANSCRIPT_ID\tSVLEN\tSVTYPE\tVariantType\tSamples" 
 
 else
 	echo "${variantType} is not a correct variantType"

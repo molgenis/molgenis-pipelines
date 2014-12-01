@@ -6,7 +6,7 @@
 #string project
 #string intermediateDir
 #string projectLogsDir
-#string projectRawtmpDataDir
+#string projectRawTmpDataDir
 #string projectQcDir
 #string projectJobsDir
 #list externalSampleID
@@ -38,7 +38,7 @@ cp ${projectJobsDir}/${project}.csv ${projectResultsDir}
 
 # Create symlinks for all fastq and md5 files to the project results directory
 
-	cp -rs ${projectRawtmpDataDir} ${projectResultsDir}/rawdata
+	cp -rs ${projectRawTmpDataDir} ${projectResultsDir}/rawdata
 	
 # Copy fastQC output to results directory
 
