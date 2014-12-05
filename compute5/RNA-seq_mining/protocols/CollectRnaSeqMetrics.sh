@@ -1,4 +1,4 @@
-#MOLGENIS walltime=23:59:00 mem=4gb nodes=1 ppn=1
+#MOLGENIS walltime=23:59:00 mem=8gb nodes=1 ppn=1
 
 #Parameter mapping  #why not string foo,bar? instead of string foo\nstring bar
 #string stage
@@ -36,7 +36,7 @@ mkdir -p ${collectRnaSeqMetricsDir}
 
 echo "## "$(date)" ##  $0 Started "
 
-java -Xmx4g -jar $PICARD_HOME/CollectRnaSeqMetrics.jar \
+java -Xmx8g -jar $PICARD_HOME/CollectRnaSeqMetrics.jar \
  INPUT=${markDuplicatesBam} \
  OUTPUT=${collectRnaSeqMetrics} \
  CHART_OUTPUT=${collectRnaSeqMetricsChart} \
