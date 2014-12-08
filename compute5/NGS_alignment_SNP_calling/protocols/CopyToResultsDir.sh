@@ -81,8 +81,13 @@ done
 # Copy SNP and SV vcf and tables to results directory
 
 	cp ${intermediateDir}/${project}.snpEff.annotated.snps.dbnsfp.final.vcf ${projectResultsDir}/snps
-	cp ${intermediateDir}/${project}.annotated.indels.final.vcf ${projectResultsDir}/structural_variants
-	cp ${intermediateDir}/${project}.annotated.indels.final.vcf.table ${projectResultsDir}/structural_variants
+
+for sample in "${externalSampleID[@]}"
+do	
+	cp ${intermediateDir}/${sample}.snpEff.annotated.indels.final.vcf ${projectResultsDir}/structural_variants
+	cp ${intermediateDir}/${sample}.snpEff.annotated.indels.final.vcf.table ${projectResultsDir}/structural_variants
+
+done
 
 # print README.txt files
 
@@ -93,11 +98,8 @@ done
 
 # Copy QC report to results directory
 
-#
-### to do
-#
-#cp ${qcdir}/${project}_QCReport.pdf ${projectResultsDir}
-
+cp ${qcdir}/${project}_QCReport.md ${projectResultsDir}
+cp -r ${qcdir}/images ${projectResultsDir}
 
 
 # Create zip file for all "small text" files
@@ -107,10 +109,11 @@ cd ${projectResultsDir}
 
 zip -r ${projectResultsDir}/${project}.zip snps
 zip -gr ${projectResultsDir}/${project}.zip qc
+zip -gr ${projectResultsDir}/${project}.zip images
 zip -gr ${projectResultsDir}/${project}.zip structural_variants
 zip -g ${projectResultsDir}/${project}.zip ${project}.csv
 #zip -g ${projectResultsDir}/${project}.zip README.pdf
-#zip -g ${projectResultsDir}/${project}.zip ${project}_QCReport.pdf
+zip -g ${projectResultsDir}/${project}.zip ${project}_QCReport.md
 
 # Create md5sum for zip file
 
