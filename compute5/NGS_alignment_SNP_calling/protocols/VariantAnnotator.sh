@@ -1,4 +1,4 @@
-#MOLGENIS walltime=35:59:00 mem=4gb ppn=8
+#MOLGENIS walltime=35:59:00 mem=8gb ppn=8
 
 #Parameter mapping
 #string stage
@@ -9,13 +9,18 @@
 #string snpEffCallsVcf
 #string snpEffGenesTxt
 #string indexFile
+#string indexFileFastaIndex
 #string targetIntervals
 #string variantVcf
 #string snpEffCallsVcf
+#string sampleIndelsPindelGATKMergedSortedVcf
+#string snpEffIndelsSortedVcf
+
 #string variantAnnotatorOutputVcf
 #string externalSampleID
 #string tmpDataDir
 #string project
+#string sortVCFpl
 
 #Echo parameter values
 echo "stage: ${stage}"
@@ -72,7 +77,22 @@ ${stage} GATK/3.1-1-g07a4bf8
 ${stage} snpEff/3.6c
 ${checkStage}
 
-java -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
+
+#sort VCf file: ${variantVcf} 
+${sortVCFpl} \
+-fastaIndexFile ${indexFileFastaIndex} \
+-inputVCF ${variantVcf} \
+-outputVCF ${sampleIndelsPindelGATKMergedSortedVcf}
+
+#sort VCf file: ${snpEffCallsVcf}
+${sortVCFpl} \
+-fastaIndexFile ${indexFileFastaIndex} \
+-inputVCF ${snpEffCallsVcf} \
+-outputVCF ${snpEffIndelsSortedVcf}
+
+
+
+java -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${tempDir} -Xmx8g -jar \
 $GATK_HOME/GenomeAnalysisTK.jar \
 -T VariantAnnotator \
 -R ${indexFile} \
@@ -95,9 +115,10 @@ ${INPUTS[@]} \
 -A AlleleBalanceBySample \
 -A DepthPerAlleleBySample \
 -A SpanningDeletions \
+--disable_auto_index_creation_and_locking_when_reading_rods \
 -D /gcc/resources/b37/snp/dbSNP/dbsnp_137.b37.vcf \
---variant ${variantVcf} \
---snpEffFile ${snpEffCallsVcf} \
+--variant ${sampleIndelsPindelGATKMergedSortedVcf} \
+--snpEffFile ${snpEffIndelsSortedVcf} \
 -L ${targetIntervals} \
 -o ${variantAnnotatorOutputVcf} \
 -nt 8

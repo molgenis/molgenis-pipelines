@@ -94,6 +94,7 @@ ${INPUTS[@]} \
 -A AlleleBalanceBySample \
 -A DepthPerAlleleBySample \
 -A SpanningDeletions \
+--disable_auto_index_creation_and_locking_when_reading_rods \
 -D /gcc/resources/b37/snp/dbSNP/dbsnp_137.b37.vcf \
 --variant ${variantVcf} \
 --snpEffFile ${snpEffSnpsVcf} \

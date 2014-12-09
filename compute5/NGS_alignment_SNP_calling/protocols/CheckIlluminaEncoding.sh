@@ -22,51 +22,61 @@ echo ${barcodeFqGz}
 
 Lines=(`zcat ${barcodeFqGz} | head -48 | awk 'NR % 4 == 0'`)
 count=1
+nodecision=0
+numberoflines=0
 for line in  ${Lines[*]}
 do
-	if [[ "$line" =~ [0-9] ]] || [[ "$line" =~ [\<=\>?] ]]
-	then
-		#check if not contains a character from Illumina 1.5
-		if ! [[ "$line" =~ [P-Z] ]] || ! [[ "$line" =~ [a-g] ]]
+	(( numberoflines++ ))
+	if [[ "$line" =~ @ ]] || [[ "$line" =~ [A-J] ]]
+        then
+		(( nodecision++ ))
+	#check for illumina encoding 1.5        
+	elif [[ "$line" =~ [P-Z] ]] || [[ "$line" =~ [a-g] ]]
 		then
-			encoding="1.9"
-			if [[ ${count} -eq 1 ]]
-			then
-                                lastEncoding=${encoding}
-				(( count++ ))
-			fi
-			if ! [ ${encoding} == ${lastEncoding} ]
-			then
-				echo "error, encoding not possible"
-                        	exit 1
-			fi 
-			lastEncoding=${encoding}
-		else
-			echo "error, encoding not possible"
-			exit 1		
-		fi
-	else
-		if [[ "$line" =~ [P-Z] ]] || [[ "$line" =~ [a-g] ]]
-		then
-			encoding="1.5"
-			if [[ ${count} -eq 1 ]]
-			then
-                                lastEncoding=${encoding}
-				(( count++ ))
-                        fi
+        	encoding="1.5"
+	        if [[ ${count} -eq 1 ]]
+        	then
+            	lastEncoding=${encoding}
+            	(( count++ ))
+        	fi
 
-			if ! [ ${encoding} == ${lastEncoding} ]
-                        then
-                                echo "error, encoding not possible"
-                                exit 1
-                        fi
-			lastEncoding=${encoding}
-		else
-			echo "don't know which encoding, check FastQ documentation"
-			exit 1
-		fi
+        	if ! [ ${encoding} == ${lastEncoding} ]
+        	then
+            	echo "error, encoding not possible"
+            	exit 1
+        	fi
+        	lastEncoding=${encoding}
+
+	#check for illumina encoding 1.8/1.9 
+	elif [[ "$line" =~ [0-9] ]] || [[ "$line" =~ [\<=\>?] ]]                        
+     	then
+        	encoding="1.9"
+	        if [[ ${count} -eq 1 ]]
+        	then
+        		lastEncoding=${encoding}
+	        	(( count++ ))
+        	fi
+        	if ! [ ${encoding} == ${lastEncoding} ]
+        	then
+                	echo "error, encoding not possible"
+	                exit 1
+                else
+                    echo "error, encoding not possible"
+                    exit 1          
+                fi   		               
+              	lastEncoding=${encoding}
+     
+	else
+		echo "The encoding is not matching to anything, check FastQ documentation"
+    		exit 1
 	fi
 done
+if [ $nodecision == $numberoflines ] 
+then
+	echo "Within all the lines, no decision was made about the encoding, all the encoding is between A and J. This is then probably an 1.9 encoding sample, so 1.9 is set as encoding"
+	encoding="1.9"
+fi
+
 if [ ${encoding} == "1.9"  ]
 then
 	echo "encoding is Illumina 1.8 - Sanger / Illumina 1.9"

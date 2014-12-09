@@ -17,7 +17,7 @@
 #string project
 
 #Load Pindel module
-${stage} pindel/0.2.5a3
+${stage} pindel/024t
 ${checkStage}
 
 #Check if output exists

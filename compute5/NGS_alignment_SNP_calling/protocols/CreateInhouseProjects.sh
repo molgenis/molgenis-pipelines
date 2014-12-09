@@ -23,7 +23,9 @@
 #string projectLogsDir
 #string intermediateDir
 #string projectResultsDir
+#string chrParameters
 #string projectQcDir
+#string targetBed
 
 #list sequencingStartDate
 #list sequencer
@@ -31,7 +33,6 @@
 #list flowcell
 
 #string mainParameters
-#string chrParameters 
 #string worksheet 
 #string outputdir
 #string workflowpath
@@ -105,6 +106,15 @@ do
  	fi
 done
 
+#
+#Create temporary chromosome list based on chromosomes existing in bedfile
+#
+
+chrParametersList=$ROCKETPOINT/${project}ChrParameters.csv
+echo "chr" > $chrParametersList
+
+awk '{print $1}' ${targetBed} | sort -k 1V,1 -k 2n,2 | uniq >> $chrParametersList
+
 
 cd $ROCKETPOINT
 
@@ -138,5 +148,5 @@ echo pwd
 module load molgenis_compute/v5_20140522
 
 sh ${MC_HOME}/molgenis_compute.sh -p ${mainParameters} \
--p ${chrParameters} -p ${projectJobsDir}/${project}.csv -rundir ${projectJobsDir} \
+-p ${chrParametersList} -p ${projectJobsDir}/${project}.csv -rundir ${projectJobsDir} \
 -w ${workflowpath} -b pbs -g -weave -runid ${runid}

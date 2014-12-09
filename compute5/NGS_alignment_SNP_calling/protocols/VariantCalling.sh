@@ -39,7 +39,7 @@ array_contains () {
     local array="$1[@]"
     local seeking=$2
     local in=1
-    for element in "${array[@]}"; do
+    for element in "${!array-}"; do
         if [[ $element == $seeking ]]; then
             in=0
             break
@@ -47,6 +47,7 @@ array_contains () {
     done
     return $in
 }
+
 
 #Check if output exists
 alloutputsexist \
@@ -58,12 +59,22 @@ INPUTS=()
 getFile indexFile
 getFile dbSNP137Vcf
 getFile dbSNP137VcfIdx
-for externalID in "${externalSampleID[@]}"
+
+#Create string with input BAM files for Picard
+#This check needs to be performed because Compute generates duplicate values in array
+INPUTS=()
+for SampleID in "${externalSampleID[@]}"
+do
+        array_contains INPUTS "$SampleID" || INPUTS+=("$SampleID")    # If bamFile does not exist in array add it
+done
+
+
+for externalID in "${INPUTS[@]}"
 do
   getFile ${intermediateDir}/$externalID.merged.dedup.realigned.bqsr.bam
   getFile ${intermediateDir}/$externalID.merged.dedup.realigned.bqsr.bai
   
-  INPUTS+=("-I ${intermediateDir}/$externalID.merged.dedup.realigned.bqsr.bam")
+  BAMS+=("-I ${intermediateDir}/$externalID.merged.dedup.realigned.bqsr.bam")
 done
 
 #Load GATK module
@@ -81,7 +92,7 @@ java -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
 $GATK_HOME/${GATKJar} \
 -T HaplotypeCaller \
 -R ${indexFile} \
-${INPUTS[@]} \
+${BAMS[@]} \
 --dbsnp ${dbSNP137Vcf} \
 --genotyping_mode DISCOVERY \
 -stand_emit_conf 10 \

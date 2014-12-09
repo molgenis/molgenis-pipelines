@@ -14,6 +14,8 @@
 #string projectPrefix
 #string tmpDataDir
 #string project
+#string sortVCFpl 
+#string indexFileFastaIndex
 
 #Echo parameter values
 echo "stage: ${stage}"
@@ -88,12 +90,22 @@ echo "INFO: split vatiant into SNPs and indels"
 vcftools --vcf ${projectVariantsMergedSorted} --keep-only-indels --out ${tmpProjectIndelsMerged} --recode --recode-INFO-all
 vcftools --vcf ${projectVariantsMergedSorted} --remove-indels --out ${tmpProjectSNPsMerged} --recode --recode-INFO-all
 
-#rename recode.vcf file to SNP and Indel filenames
-mv ${tmpProjectIndelsMerged}.recode.vcf ${tmpProjectIndelsMerged}
-mv ${tmpProjectSNPsMerged}.recode.vcf ${tmpProjectSNPsMerged}
-
 #move tmpFiles to Intermediatefolder
 echo -e "\nMergeChrAndSplitVariants finished succesfull. Moving temp files to final.\n\n"
+
+#sort and rename VCF file 
+${sortVCFpl} \
+-fastaIndexFile ${indexFileFastaIndex} \
+-inputVCF ${tmpProjectIndelsMerged}.recode.vcf \
+-outputVCF ${tmpProjectIndelsMerged}
+
+#sort and rename VCF file
+${sortVCFpl} \
+-fastaIndexFile ${indexFileFastaIndex} \
+-inputVCF ${${tmpProjectSNPsMerged}.recode.vcf \
+-outputVCF ${tmpProjectSNPsMerged}
+
+
 mv ${tmpProjectSNPsMerged} ${projectSNPsMerged}
 mv ${tmpProjectIndelsMerged} ${projectIndelsMerged}
 putFile "${projectSNPsMerged}"
