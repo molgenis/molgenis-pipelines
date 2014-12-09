@@ -33,7 +33,7 @@ module list
 mkdir -p ${projectQcDir}
 mkdir -p ${projectQcDir}/images
 
-cp ${intermediateDir}/${sample}.merged.dedup.realigned.bqsr.bam.insert_size_histogram.pdf ${projectQcDir}/images
+cp ${intermediateDir}/*.merged.dedup.realigned.bqsr.bam.insert_size_histogram.pdf ${projectQcDir}/images
 
 #
 ## Define bash helper function for arrays

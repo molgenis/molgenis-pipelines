@@ -5,6 +5,7 @@
 #string projectResultsDir
 #string project
 #string intermediateDir
+#string projectQcDir
 #string projectLogsDir
 #string projectRawTmpDataDir
 #string projectQcDir
@@ -98,8 +99,8 @@ done
 
 # Copy QC report to results directory
 
-cp ${qcdir}/${project}_QCReport.md ${projectResultsDir}
-cp -r ${qcdir}/images ${projectResultsDir}
+cp ${projectQcDir}/${project}_QCReport.md ${projectResultsDir}
+cp -r ${projectQcDir}/images ${projectResultsDir}
 
 
 # Create zip file for all "small text" files
