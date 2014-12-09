@@ -34,14 +34,6 @@ echo "BQSRBamIdx: ${BQSRBamIdx}"
 echo "BQSRBamMd5: ${BQSRBamMd5}"
 echo "externalSampleID: ${externalSampleID}"
 
-sleep 10
-
-#Check if output exists
-alloutputsexist \
-"${BQSRBam}" \
-"${BQSRBamIdx}" \
-"${BQSRBamMd5}"
-
 makeTmpDir ${BQSRBam}
 tmpBQSRBam=${MC_tmpFile}
 
@@ -50,12 +42,6 @@ tmpBQSRBamIdx=${MC_tmpFile}
 
 makeTmpDir ${BQSRBamMd5}
 tmpBQSRBamMd5=${MC_tmpFile}
-
-#Get realigned BAM file and reference data
-getFile ${realignedBam}
-getFile ${realignedBamIdx}
-getFile ${indexFile}
-getFile ${beforeRecalTable}
 
 #Load GATK module
 ${stage} GATK/${GATKVersion}
@@ -72,14 +58,11 @@ $GATK_HOME/${GATKJar} \
 -nct 8 \
 -o ${tmpBQSRBam}
 
-	#Fix bug in output md5sum creation (echo bqsr bam file name afterwards the md5sum itself, separator are two spaces)
-	cd ${intermediateDir}
-	echo -n "  "${externalSampleID}.merged.dedup.realigned.bqsr.bam >> ${tmpBQSRBamMd5}
+#Fix bug in output md5sum creation (echo bqsr bam file name afterwards the md5sum itself, separator are two spaces)
+cd ${intermediateDir}
+echo -n "  "${externalSampleID}.merged.dedup.realigned.bqsr.bam >> ${tmpBQSRBamMd5}
 
-    echo -e "\nQualityScoreRecalibration finished succesfull. Moving temp files to final.\n\n"
-    mv ${tmpBQSRBam} ${BQSRBam}
-    mv ${tmpBQSRBamIdx} ${BQSRBamIdx}
-    mv ${tmpBQSRBamMd5} ${BQSRBamMd5}
-    putFile "${BQSRBam}"
-    putFile "${BQSRBamIdx}"
-    putFile "${BQSRBamMd5}"
+echo -e "\nQualityScoreRecalibration finished succesfull. Moving temp files to final.\n\n"
+mv ${tmpBQSRBam} ${BQSRBam}
+mv ${tmpBQSRBamIdx} ${BQSRBamIdx}
+mv ${tmpBQSRBamMd5} ${BQSRBamMd5}

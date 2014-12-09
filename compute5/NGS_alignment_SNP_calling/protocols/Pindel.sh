@@ -20,10 +20,6 @@
 ${stage} pindel/024t
 ${checkStage}
 
-#Check if output exists
-alloutputsexist \
-"${pindelOutputVcf}"\
-
 #Echo parameter values
 echo "stage: ${stage}"
 echo "checkStage: ${checkStage}"

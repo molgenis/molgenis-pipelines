@@ -22,12 +22,6 @@ echo "alignedBam: ${alignedBam}"
 echo "tempDir: ${tempDir}"
 echo "intermediateDir: ${intermediateDir}"
 
-sleep 10
-
-#Check if output exists
-alloutputsexist \
-"${alignedBam}"
-
 #Get aligned SAM file
 getFile ${alignedSam}
 
@@ -46,7 +40,6 @@ VALIDATION_STRINGENCY=LENIENT \
 MAX_RECORDS_IN_RAM=2000000 \
 TMP_DIR=${tempDir}
 
-    echo -e "\nSamToBam finished succesfull. Moving temp files to final.\n\n"
-    mv ${tmpAlignedBam} ${alignedBam}
-    putFile "${alignedBam}"
+echo -e "\nSamToBam finished succesfull. Moving temp files to final.\n\n"
+mv ${tmpAlignedBam} ${alignedBam}
 

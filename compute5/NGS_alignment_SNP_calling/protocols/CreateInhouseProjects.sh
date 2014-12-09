@@ -1,20 +1,4 @@
-#!/bin/bash =====================================================
-#
-# $Id$
-# $URL$
-# $LastChangedDate$
-# $LastChangedRevision$
-# $LastChangedBy$
-# $seqType
-# ${projectRawArrayTmpDataDir}
-# ${projectRawTmpDataDir}
-# ${projectJobsDir}
-# ${projectLogsDir}
-# ${intermediateDir}
-# ${projectResultsDir}
-# ${projectQcDir}
-# =====================================================
-#
+#MOLGENIS walltime=01:59:00 mem=4gb
 
 #list seqType
 #string projectRawArrayTmpDataDir
@@ -44,12 +28,6 @@
 #list barcode
 #list lane
 
-#MOLGENIS walltime=00:10:00
-#FOREACH project
-
-#
-# Change permissions.
-#
 umask 0007
 
 module load jdk

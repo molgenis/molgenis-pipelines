@@ -49,10 +49,6 @@ array_contains () {
 }
 
 
-#Check if output exists
-alloutputsexist \
-"${projectChrVariantCalls}"
-
 INPUTS=()
 
 #Get BQSR BAM, idx file and resources
