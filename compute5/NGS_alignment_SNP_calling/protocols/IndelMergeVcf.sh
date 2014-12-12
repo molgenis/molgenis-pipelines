@@ -10,6 +10,8 @@
 #string indexFile
 #string sampleIndelsPindelGATKMerged
 #string targetIntervals
+#string seqType
+
  
 #Load GATK,bcftools,tabix module
 ${stage} GATK/3.2-2-gec30cee
@@ -40,6 +42,8 @@ array_contains () {
 
 echo "running GATK : SelectVariants"
 
+if [ ${seqType} == "PE" ]
+then
 #Select a sample and restrict the output vcf to a set of intervals:
  java -Xmx2g -jar $GATK_HOME/GenomeAnalysisTK.jar \
    -R ${indexFile} \
@@ -73,6 +77,9 @@ tabix -r ${intermediateDir}/${externalSampleID}.header.txt ${tmp_sampleIndelsPin
 gunzip ${tmp_sampleIndelsPindelGATKMerged}.reheadered.tmp.gz
 cat ${tmp_sampleIndelsPindelGATKMerged}.reheadered.tmp >> ${tmp_sampleIndelsPindelGATKMerged}.tmp
 
+mv ${tmp_sampleIndelsPindelGATKMerged}.tmp ${sampleIndelsPindelGATKMerged}
 
-mv ${tmp_sampleIndelsPindelGATKMerged}.tmp ${tmp_sampleIndelsPindelGATKMerged}
-mv ${tmp_sampleIndelsPindelGATKMerged} ${sampleIndelsPindelGATKMerged}
+elif [ ${seqType} == "SR" ]
+then
+	cp ${intermediateDir}/${externalSampleID}.indels.GATK.vcf ${sampleIndelsPindelGATKMerged}
+fi

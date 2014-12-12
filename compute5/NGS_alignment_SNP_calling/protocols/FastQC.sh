@@ -44,12 +44,12 @@ then
 	${peEnd2BarcodeFqGz} \
 	-o ${tmpIntermediateDir}
 	echo -e "\nFastQC finished succesfull. Moving temp files to final.\n\n"
-	mv -f ${tmpIntermediateDir}/* ${intermediateDir}
+	mv -f ${tmpIntermediateDir} ${intermediateDir}
 else
 	fastqc ${srBarcodeFqGz} \
 	-o ${tmpIntermediateDir}
 
 	echo -e "\nFastQC finished succesfull. Moving temp files to final.\n\n"
-	mv -f ${tmpIntermediateDir}/* ${intermediateDir}
+	mv -f ${tmpIntermediateDir} ${intermediateDir}
 fi
 

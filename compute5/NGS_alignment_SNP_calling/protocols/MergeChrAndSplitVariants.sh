@@ -28,7 +28,7 @@ echo "projectIndelsMerged: ${projectIndelsMerged}"
 echo "projectVariantsMergedSorted: ${projectVariantsMergedSorted}"
 
 #Load module BWA
-${stage} tabix/$0.2.6
+${stage} tabix/0.2.6
 ${checkStage}
 
 makeTmpDir ${projectVariantsMerged}
@@ -58,16 +58,10 @@ array_contains () {
 }
 
 
-#for getVariants in "$chr"
-#do
-#  getFile $getVariants
-#done
 
 INPUTS=()
 for c in "${chr[@]}"
 do
-  getFile ${projectPrefix}.chr${c}.variant.calls.vcf
-  getFile ${projectPrefix}.chr${c}.variant.calls.vcf.idx
   INPUTS+=(${projectPrefix}.chr${c}.variant.calls.vcf)
 done
 
@@ -82,10 +76,9 @@ vcf-concat "${INPUTS[@]}" > ${tmpProjectVariantsMerged}
 
 #sort VCF file
 echo "INFO: Sort variants"
-#cat ${tmpProjectVariantsMerged} | vcf-sort --chromosomal-order > ${tmpProjectVariantsMergedSorted}
 cat ${tmpProjectVariantsMerged} | vcf-sort --chromosomal-order > ${projectVariantsMergedSorted}
 
-#split vcriant in SNPS and indels
+#split variant in SNPS and indels
 echo "INFO: split vatiant into SNPs and indels"
 vcftools --vcf ${projectVariantsMergedSorted} --keep-only-indels --out ${tmpProjectIndelsMerged} --recode --recode-INFO-all
 vcftools --vcf ${projectVariantsMergedSorted} --remove-indels --out ${tmpProjectSNPsMerged} --recode --recode-INFO-all
@@ -102,7 +95,7 @@ ${sortVCFpl} \
 #sort and rename VCF file
 ${sortVCFpl} \
 -fastaIndexFile ${indexFileFastaIndex} \
--inputVCF ${${tmpProjectSNPsMerged}.recode.vcf \
+-inputVCF ${tmpProjectSNPsMerged}.recode.vcf \
 -outputVCF ${tmpProjectSNPsMerged}
 
 
@@ -111,6 +104,6 @@ mv ${tmpProjectIndelsMerged} ${projectIndelsMerged}
 putFile "${projectSNPsMerged}"
 putFile "${projectIndelsMerged}"
 
-#prepare the created vcf's for bcftools: bgzip + tabix to set the correct indexes and make correct format
+#prepare the created vcfs for bcftools: bgzip + tabix to set the correct indexes and make correct format
 bgzip -c ${projectIndelsMerged} > ${projectIndelsMerged}.gz
-tabix -p vcf ${projectIndelsMerged}.gz; \
+tabix -p vcf ${projectIndelsMerged}.gz
