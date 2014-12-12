@@ -27,11 +27,8 @@ numberoflines=0
 for line in  ${Lines[*]}
 do
 	(( numberoflines++ ))
-	if [[ "$line" =~ @ ]] || [[ "$line" =~ [A-J] ]]
-        then
-		(( nodecision++ ))
 	#check for illumina encoding 1.5        
-	elif [[ "$line" =~ [P-Z] ]] || [[ "$line" =~ [a-g] ]]
+	if [[ "$line" =~ [P-Z] ]] || [[ "$line" =~ [a-g] ]]
 		then
         	encoding="1.5"
 	        if [[ ${count} -eq 1 ]]
@@ -42,8 +39,10 @@ do
 
         	if ! [ ${encoding} == ${lastEncoding} ]
         	then
-            	echo "error, encoding not possible"
-            	exit 1
+	            	echo "error, encoding not possible"
+			echo "${encoding} is not matching last encoding (${lastEncoding}"
+            		echo "LINE: " $line	
+			exit 1
         	fi
         	lastEncoding=${encoding}
 
@@ -59,13 +58,14 @@ do
         	if ! [ ${encoding} == ${lastEncoding} ]
         	then
                 	echo "error, encoding not possible"
+			echo "${encoding} is not matching last encoding (${lastEncoding}"
+			echo "LINE: " $line
 	                exit 1
-                else
-                    echo "error, encoding not possible"
-                    exit 1          
                 fi   		               
               	lastEncoding=${encoding}
-     
+	elif [[ "$line" =~ @ ]] || [[ "$line" =~ [A-J] ]]
+        	then
+                (( nodecision++ ))     
 	else
 		echo "The encoding is not matching to anything, check FastQ documentation"
     		exit 1
