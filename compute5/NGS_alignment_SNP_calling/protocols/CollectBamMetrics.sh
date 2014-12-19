@@ -45,34 +45,6 @@ echo "capturingKit: ${capturingKit}"
 echo "seqType: ${seqType}"
 echo "intermediateDir: ${intermediateDir}"
 
-
-sleep 10
-
-#Check if output exists
-alloutputsexist \
-"${collectBamMetricsPrefix}.alignment_summary_metrics" \
-"${collectBamMetricsPrefix}.quality_distribution_metrics" \
-"${collectBamMetricsPrefix}.quality_distribution.pdf" \
-"${collectBamMetricsPrefix}.quality_by_cycle_metrics" \
-"${collectBamMetricsPrefix}.quality_by_cycle.pdf" \
-"${collectBamMetricsPrefix}.insert_size_metrics" \
-"${collectBamMetricsPrefix}.insert_size_histogram.pdf" \
-"${collectBamMetricsPrefix}.gc_bias_metrics" \
-"${collectBamMetricsPrefix}.gc_bias_metrics.pdf" \
-"${collectBamMetricsPrefix}.hs_metrics" \
-"${collectBamMetricsPrefix}.bam_index_stats"
-
-#Get input files
-getFile ${inputCollectBamMetricsBam}
-getFile ${inputCollectBamMetricsBamIdx}
-getFile ${indexFile}
-getFile ${recreateInsertSizePdfR}
-if [ ${capturingKit} != "None" ]
-then
-	getFile ${baitIntervals}
-	getFile ${targetIntervals}
-fi
-
 #Load Picard module
 ${stage} picard-tools/${picardVersion}
 
@@ -96,23 +68,18 @@ VALIDATION_STRINGENCY=LENIENT \
 TMP_DIR=${tempDir}
 
     echo -e "\nCollectBamMetrics finished succesfull. Moving temp files to final.\n\n"
-    mv ${tmpCollectBamMetricsPrefix}.alignment_summary_metrics ${collectBamMetricsPrefix}.alignment_summary_metrics
-    mv ${tmpCollectBamMetricsPrefix}.quality_distribution_metrics ${collectBamMetricsPrefix}.quality_distribution_metrics
-    mv ${tmpCollectBamMetricsPrefix}.quality_distribution.pdf ${collectBamMetricsPrefix}.quality_distribution.pdf
-    mv ${tmpCollectBamMetricsPrefix}.quality_by_cycle_metrics ${collectBamMetricsPrefix}.quality_by_cycle_metrics
-    mv ${tmpCollectBamMetricsPrefix}.quality_by_cycle.pdf ${collectBamMetricsPrefix}.quality_by_cycle.pdf
-    putFile "${collectBamMetricsPrefix}.alignment_summary_metrics"
-    putFile "${collectBamMetricsPrefix}.quality_distribution_metrics"
-    putFile "${collectBamMetricsPrefix}.quality_distribution.pdf"
-    putFile "${collectBamMetricsPrefix}.quality_by_cycle_metrics"
-    putFile "${collectBamMetricsPrefix}.quality_by_cycle.pdf"
+    mv ${tmpCollectBamMetricsPrefix}.alignment_summary_metrics ${inputCollectBamMetricsBam}.alignment_summary_metrics
+    mv ${tmpCollectBamMetricsPrefix}.quality_distribution_metrics ${inputCollectBamMetricsBam}.quality_distribution_metrics
+    mv ${tmpCollectBamMetricsPrefix}.quality_distribution.pdf ${inputCollectBamMetricsBam}.quality_distribution.pdf
+    mv ${tmpCollectBamMetricsPrefix}.quality_by_cycle_metrics ${inputCollectBamMetricsBam}.quality_by_cycle_metrics
+    mv ${tmpCollectBamMetricsPrefix}.quality_by_cycle.pdf ${inputCollectBamMetricsBam}.quality_by_cycle.pdf
     
     #If paired-end data *.insert_size_metrics files also need to be moved
     if [ ${seqType} == "PE" ]
 	then
 	echo -e "\nDetected paired-end data, moving all files.\n\n"
-    mv ${tmpCollectBamMetricsPrefix}.insert_size_metrics ${collectBamMetricsPrefix}.insert_size_metrics
-    #mv ${tmpCollectBamMetricsPrefix}.insert_size_histogram.pdf ${collectBamMetricsPrefix}.insert_size_histogram.pdf
+    mv ${tmpCollectBamMetricsPrefix}.insert_size_metrics ${inputCollectBamMetricsBam}.insert_size_metrics
+    mv ${tmpCollectBamMetricsPrefix}.insert_size_histogram.pdf ${inputCollectBamMetricsBam}.insert_size_histogram.pdf
     
     else
     echo -e "\nDetected single read data, no *.insert_size_metrics files to be moved.\n\n"
@@ -129,10 +96,8 @@ VALIDATION_STRINGENCY=LENIENT \
 TMP_DIR=${tempDir}
 
     echo -e "\nGcBiasMetrics finished succesfull. Moving temp files to final.\n\n"
-    mv ${tmpCollectBamMetricsPrefix}.gc_bias_metrics ${collectBamMetricsPrefix}.gc_bias_metrics
-    mv ${tmpCollectBamMetricsPrefix}.gc_bias_metrics.pdf ${collectBamMetricsPrefix}.gc_bias_metrics.pdf
-    putFile "${collectBamMetricsPrefix}.gc_bias_metrics"
-    putFile "${collectBamMetricsPrefix}.gc_bias_metrics.pdf"
+    mv ${tmpCollectBamMetricsPrefix}.gc_bias_metrics ${inputCollectBamMetricsBam}.gc_bias_metrics
+    mv ${tmpCollectBamMetricsPrefix}.gc_bias_metrics.pdf ${inputCollectBamMetricsBam}.gc_bias_metrics.pdf
 
 ######IS THIS STILL NEEDED, IMPROVEMENTS/UPDATES TO BE DONE?#####
 #Create nicer insertsize plots if seqType is PE
@@ -175,8 +140,7 @@ else
 
 fi
 echo -e "\nHsMetrics finished succesfull. Moving temp files to final.\n\n"
-mv ${tmpCollectBamMetricsPrefix}.hs_metrics ${collectBamMetricsPrefix}.hs_metrics
-putFile "${collectBamMetricsPrefix}.hs_metrics"
+mv ${tmpCollectBamMetricsPrefix}.hs_metrics ${inputCollectBamMetricsBam}.hs_metrics
 
 #Run Picard BamIndexStats
 java -jar -Xmx4g $PICARD_HOME/${bamIndexStatsJar} \
@@ -186,5 +150,4 @@ TMP_DIR=${tempDir} \
 > ${tmpCollectBamMetricsPrefix}.bam_index_stats
 
     echo -e "\nBamIndexStats finished succesfull. Moving temp files to final.\n\n"
-    mv ${tmpCollectBamMetricsPrefix}.bam_index_stats ${collectBamMetricsPrefix}.bam_index_stats
-    putFile "${collectBamMetricsPrefix}.bam_index_stats"
+    mv ${tmpCollectBamMetricsPrefix}.bam_index_stats ${inputCollectBamMetricsBam}.bam_index_stats

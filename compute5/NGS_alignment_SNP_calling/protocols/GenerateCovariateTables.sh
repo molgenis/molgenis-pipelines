@@ -42,29 +42,6 @@ echo "inputGenerateCovariateTablesBamIdx: ${inputGenerateCovariateTablesBamIdx}"
 echo "inputGenerateCovariateTablesTable: ${inputGenerateCovariateTablesTable}"
 echo "outputGenerateCovariateTablesTable: ${outputGenerateCovariateTablesTable}"
 
-
-sleep 10
-
-#Check if output exists
-alloutputsexist \
-"${outputGenerateCovariateTablesTable}"
-
-#Get dedupped BAM file and reference data
-getFile ${inputGenerateCovariateTablesBam}
-getFile ${inputGenerateCovariateTablesBamIdx}
-getFile ${indexFile}
-getFile ${KGPhase1IndelsVcf}
-getFile ${KGPhase1IndelsVcfIdx}
-getFile ${MillsGoldStandardIndelsVcf}
-getFile ${MillsGoldStandardIndelsVcfIdx}
-getFile ${dbSNP137Vcf}
-getFile ${dbSNP137VcfIdx}
-if [ ${inputRecal} == "post" ]
-then
-	getFile ${inputGenerateCovariateTablesTable}
-fi
-
-
 #Load GATK module
 ${stage} GATK/${GATKVersion}
 ${checkStage}
@@ -106,4 +83,3 @@ else
 fi
     echo -e "\nGenerateCovariateTables finished succesfull. Moving temp files to final.\n\n"
     mv ${tmpOutputGenerateCovariateTablesTable} ${outputGenerateCovariateTablesTable}
-    putFile "${outputGenerateCovariateTablesTable}"

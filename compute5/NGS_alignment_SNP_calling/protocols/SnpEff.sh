@@ -49,7 +49,7 @@ array_contains () {
 #Load GATK module
 ${stage} jdk/1.7.0_51
 ${stage} GATK/3.1-1-g07a4bf8
-${stage} snpEff
+${stage} snpEff/3.6c
 ${checkStage}
 
 #Run snpEff

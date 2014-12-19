@@ -38,24 +38,6 @@ echo "KGPhase1IndelsVcfIdx: ${KGPhase1IndelsVcfIdx}"
 echo "MillsGoldStandardIndelsVcf: ${MillsGoldStandardIndelsVcf}"
 echo "MillsGoldStandardIndelsVcfIdx: ${MillsGoldStandardIndelsVcfIdx}"
 
-
-sleep 10
-
-#Check if output exists
-alloutputsexist \
-"${realignedBam}" \
-"${realignedBamIdx}"
-
-#Get dedupped BAM file and reference data
-getFile ${dedupBam}
-getFile ${dedupBamIdx}
-getFile ${indexFile}
-getFile ${indelRealignmentTargetIntervals}
-getFile ${KGPhase1IndelsVcf}
-getFile ${KGPhase1IndelsVcfIdx}
-getFile ${MillsGoldStandardIndelsVcf}
-getFile ${MillsGoldStandardIndelsVcfIdx}
-
 makeTmpDir ${realignedBam}
 tmpRealignedBam=${MC_tmpFile}
 
@@ -80,11 +62,7 @@ $GATK_HOME/${GATKJar} \
 -LOD 0.4 \
 -o ${tmpRealignedBam}
 
-
-
 echo -e "\nIndelRealignment finished succesfull. Moving temp files to final.\n\n"
 mv ${tmpRealignedBam} ${realignedBam}
 mv ${tmpRealignedBamIdx} ${realignedBamIdx}
-putFile "${realignedBam}"
-putFile "${realignedBamIdx}"
 

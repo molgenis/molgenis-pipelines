@@ -31,20 +31,6 @@ echo "GATKVersion: ${GATKVersion}"
 echo "GATKJar ${GATKJar}"
 echo "cumCoverageScriptGATK: ${cumCoverageScriptGATK}"
 
-#Check if output exists
-alloutputsexist "${coverageGATK}" \
-"${coverageGATK}.sample_cumulative_coverage_counts" \
-"${coverageGATK}.sample_cumulative_coverage_proportions" \
-"${coverageGATK}.sample_interval_statistics" \
-"${coverageGATK}.sample_interval_summary" \
-"${coverageGATK}.sample_statistics" \
-"${coverageGATK}.sample_summary" \
-"${coverageGATK}.cumulative_coverage.pdf"
-
-#Get input files
-getFile ${indexFile}
-getFile ${inputCoverageBam}
-
 if [ ${capturingKit} != "None" ]
 then
 	getFile ${targetIntervals}
@@ -87,7 +73,6 @@ else
 
 fi
 
-
 #Create coverage graphs for sample
 
 Rscript ${cumCoverageScriptGATK} \
@@ -96,8 +81,6 @@ Rscript ${cumCoverageScriptGATK} \
 --max-depth 100 \
 --title "Cumulative coverage ${externalSampleID}"
 
-
 echo -e "\nCoverageGATK finished succesfull. Moving temp files to final.\n\n"
 #mv ${coverageGATK}* ${coverageGATK}/
-#putFile "${coverageGATK}*"
 

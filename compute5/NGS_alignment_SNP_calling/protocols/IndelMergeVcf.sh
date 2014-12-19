@@ -10,11 +10,15 @@
 #string indexFile
 #string sampleIndelsPindelGATKMerged
 #string targetIntervals
+#string seqType
+#string GATKVersion
+#string BcftoolsVersion
+#string TabixVersion
  
 #Load GATK,bcftools,tabix module
-${stage} GATK/3.2-2-gec30cee
-module load bcftools/0.2.0
-module load tabix/0.2.6
+${stage} GATK/${GATKVersion}
+module load bcftools/${BcftoolsVersion}
+module load tabix/${TabixVersion}
 ${checkStage}
 
 #Echo parameter values
@@ -48,7 +52,8 @@ echo "running GATK : SelectVariants"
    -o ${intermediateDir}/${externalSampleID}.indels.GATK.vcf \
    -L ${targetIntervals} \
    -sn ${externalSampleID}
-
+if [ ${seqType} == "PE" ]
+then
 #gzip and make indexfiles for bcftools
 bgzip -c ${intermediateDir}/${externalSampleID}.indels.GATK.vcf > ${intermediateDir}/${externalSampleID}.indels.GATK.vcf.gz
 bgzip -c ${intermediateDir}/${externalSampleID}.output.pindel.merged.vcf > ${intermediateDir}/${externalSampleID}.output.pindel.merged.vcf.gz
@@ -73,6 +78,9 @@ tabix -r ${intermediateDir}/${externalSampleID}.header.txt ${tmp_sampleIndelsPin
 gunzip ${tmp_sampleIndelsPindelGATKMerged}.reheadered.tmp.gz
 cat ${tmp_sampleIndelsPindelGATKMerged}.reheadered.tmp >> ${tmp_sampleIndelsPindelGATKMerged}.tmp
 
+mv ${tmp_sampleIndelsPindelGATKMerged}.tmp ${sampleIndelsPindelGATKMerged}
 
-mv ${tmp_sampleIndelsPindelGATKMerged}.tmp ${tmp_sampleIndelsPindelGATKMerged}
-mv ${tmp_sampleIndelsPindelGATKMerged} ${sampleIndelsPindelGATKMerged}
+elif [ ${seqType} == "SR" ]
+then
+	cp ${intermediateDir}/${externalSampleID}.indels.GATK.vcf ${sampleIndelsPindelGATKMerged}
+fi

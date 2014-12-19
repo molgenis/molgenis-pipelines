@@ -50,14 +50,45 @@ function bashArrayToString {
 	echo "\"$(printf -- '%s;' "${a[@]}")\""
 }
 
+array_contains () { 
+    local array="$1[@]"
+    local seeking=$2
+    local in=1
+    for element in "${!array-}"; do
+        if [[ $element == $seeking ]]; then
+            in=0
+            break
+        fi
+    done
+    return $in
+}
+
+
+
+#This check needs to be performed because Compute generates duplicate values in array
+INPUTS=()
+for SampleID in "${externalSampleID[@]}"
+do
+        array_contains INPUTS "$SampleID" || INPUTS+=("$SampleID")    # If bamFile does not exist in array add it
+done
+
+#folded only on uniq externalSampleIDs
+for sample in "${INPUTS[@]}"
+do
+
+	sampleHsMetrics+=("${intermediateDir}/${sample}.hs_metrics")
+        sampleAlignmentMetrics+=("${intermediateDir}/${sample}.alignment_summary_metrics")
+        sampleInsertMetrics+=("${intermediateDir}/${sample}.insert_size_metrics")
+	sampleDedupMetrics_folded+=("${intermediateDir}/${sample}.merged.dedup.metrics")
+        sampleConcordance+=("${intermediateDir}/${sample}.concordance.ngsVSarray.txt")
+        sampleInsertSizePDF+=("images/${sample}.merged.dedup.realigned.bqsr.bam.insert_size_histogram.pdf")
+
+done
+
+#unfolded dor dedupMatrics per lane,flowcell.
 for sample in "${externalSampleID[@]}"
 do 
-	sampleHsMetrics+=("${intermediateDir}/${sample}.hs_metrics")
-	sampleAlignmentMetrics+=("${intermediateDir}/${sample}.alignment_summary_metrics")
-	sampleInsertMetrics+=("${intermediateDir}/${sample}.insert_size_metrics")
 	sampleDedupMetrics+=("${intermediateDir}/${sample}.merged.dedup.metrics")
-	sampleConcordance+=("${intermediateDir}/${sample}.concordance.ngsVSarray.txt")
-	sampleInsertSizePDF+=("images/${sample}.merged.dedup.realigned.bqsr.bam.insert_size_histogram.pdf")
 done
 
 
@@ -69,9 +100,9 @@ Rscript ${getStatisticsScript} \
 --hsmetrics $(bashArrayToCSV sampleHsMetrics[@]) \
 --alignment $(bashArrayToCSV sampleAlignmentMetrics[@]) \
 --insertmetrics $(bashArrayToCSV sampleInsertMetrics[@]) \
---dedupmetrics $(bashArrayToCSV sampleDedupMetrics[@]) \
+--dedupmetrics $(bashArrayToCSV sampleDedupMetrics_folded[@]) \
 --concordance $(bashArrayToCSV sampleConcordance[@]) \
---sample $(bashArrayToCSV externalSampleID[@]) \
+--sample $(bashArrayToCSV INPUTS[@]) \
 --colnames ${qcStatisticsColNames} \
 --csvout ${qcStatisticsCsv} \
 --tableout ${qcStatisticsTex} \

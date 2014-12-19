@@ -22,13 +22,6 @@ echo "sortedBam: ${sortedBam}"
 echo "sortedBamIdx: ${sortedBamIdx}"
 echo "tempDir: ${tempDir}"
 
-sleep 10
-
-#Check if output exists
-alloutputsexist \
-"${sortedBam}" \
-"${sortedBamIdx}"
-
 #Get aligned BAM file
 getFile ${inputSortBam}
 
@@ -52,8 +45,6 @@ VALIDATION_STRINGENCY=LENIENT \
 MAX_RECORDS_IN_RAM=2000000 \
 TMP_DIR=${tempDir}
 
-    echo -e "\nSortBam finished succesfull. Moving temp files to final.\n\n"
-    mv ${tmpSortedBam} ${sortedBam}
-    mv ${tmpSortedBamIdx} ${sortedBamIdx}
-    putFile "${sortedBam}"
-    putFile "${sortedBamIdx}"
+echo -e "\nSortBam finished succesfull. Moving temp files to final.\n\n"
+mv ${tmpSortedBam} ${sortedBam}
+mv ${tmpSortedBamIdx} ${sortedBamIdx}

@@ -29,12 +29,6 @@ echo "postRecalTable: ${postRecalTable}"
 echo "BQSRPdf: ${BQSRPdf}"
 echo "BQSRCsv: ${BQSRCsv}"
 
-#Check if output exists
-alloutputsexist \
-"${BQSRPdf}" \
-"${BQSRCsv}"
-
-
 #Get covariate tables and reference data
 getFile ${indexFile}
 getFile ${beforeRecalTable}
@@ -64,5 +58,3 @@ $GATK_HOME/${GATKJar} \
     echo -e "\nAnalyzeQualityScoreRecalibration finished succesfull. Moving temp files to final.\n\n"
     mv ${tmpBQSRPdf} ${BQSRPdf}
     mv ${tmpBQSRCsv} ${BQSRCsv}
-    putFile "${BQSRPdf}"
-    putFile "${BQSRCsv}"
