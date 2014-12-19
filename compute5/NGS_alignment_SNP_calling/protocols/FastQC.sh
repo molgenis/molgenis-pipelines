@@ -39,17 +39,17 @@ tmpIntermediateDir=${MC_tmpFile}
 #If paired-end do fastqc for both ends, else only for one
 if [ ${seqType} == "PE" ]
 then
-	# end1 & end2
 	fastqc ${peEnd1BarcodeFqGz} \
 	${peEnd2BarcodeFqGz} \
 	-o ${tmpIntermediateDir}
 	echo -e "\nFastQC finished succesfull. Moving temp files to final.\n\n"
-	mv -f ${tmpIntermediateDir} ${intermediateDir}
+	rsync -a ${tmpIntermediateDir} ${intermediateDir}
+	rm -rf ${tmpIntermediateDir}
 else
 	fastqc ${srBarcodeFqGz} \
 	-o ${tmpIntermediateDir}
-
 	echo -e "\nFastQC finished succesfull. Moving temp files to final.\n\n"
-	mv -f ${tmpIntermediateDir} ${intermediateDir}
+	rsync -a ${tmpIntermediateDir} ${intermediateDir}
+	rm -rf ${tmpIntermediateDir}
 fi
 

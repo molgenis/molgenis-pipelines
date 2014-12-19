@@ -66,7 +66,7 @@ $SNPEFF_HOME/SnpSift.jar \
 dbnsfp \
 -a \
 -v ${dbNSFP} \
--f Ensembl_geneid,GERP++_RS,Polyphen2_HDIV_pred,Polyphen2_HVAR_pred,SIFT_score,CADD_raw,FATHMM_score,SiPhy_29way_logOdds,phastCons100way_vertebrate,1000Gp1_EUR_AF,ESP6500_EA_AF \
+-f Ensembl_geneid,GERP++_RS,Polyphen2_HDIV_pred,Polyphen2_HVAR_pred,SIFT_score,CADD_raw,CADD_raw_rankscore,CADD_phred,FATHMM_score,SiPhy_29way_logOdds,phastCons100way_vertebrate,1000Gp1_EUR_AF,ESP6500_EA_AF \
 ${variantAnnotatorOutputSnpsVcf} \
 > ${tmpOutputDbNSFPVcf}
 

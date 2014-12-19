@@ -19,6 +19,7 @@
 
 #Load Pindel module
 ${stage} pindel/024t
+${stage} vcftools/0.1.12a
 ${checkStage}
 
 #Echo parameter values
@@ -75,7 +76,12 @@ then
 	-R ${indexFileID} \
 	-d $DATE \
 	--gatk_compatible \
-	-v ${pindelOutputVcf}
+	-v ${pindelOutputVcf}.tmp
+
+#remove variants where StartPosition is > then EndPosition
+perl /gcc/tools/scripts/filterPindelVcf.pl ${pindelOutputVcf}.tmp ${pindelOutputVcf}
+
+
 elif [ ${seqType} == "SR" ] 
 then
 	echo "Pindel step is skipped because it is not Paired End but the seqType="${seqType}

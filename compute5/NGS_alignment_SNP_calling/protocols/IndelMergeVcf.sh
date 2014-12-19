@@ -11,12 +11,14 @@
 #string sampleIndelsPindelGATKMerged
 #string targetIntervals
 #string seqType
-
+#string GATKVersion
+#string BcftoolsVersion
+#string TabixVersion
  
 #Load GATK,bcftools,tabix module
-${stage} GATK/3.2-2-gec30cee
-module load bcftools/0.2.0
-module load tabix/0.2.6
+${stage} GATK/${GATKVersion}
+module load bcftools/${BcftoolsVersion}
+module load tabix/${TabixVersion}
 ${checkStage}
 
 #Echo parameter values
@@ -42,8 +44,6 @@ array_contains () {
 
 echo "running GATK : SelectVariants"
 
-if [ ${seqType} == "PE" ]
-then
 #Select a sample and restrict the output vcf to a set of intervals:
  java -Xmx2g -jar $GATK_HOME/GenomeAnalysisTK.jar \
    -R ${indexFile} \
@@ -52,7 +52,8 @@ then
    -o ${intermediateDir}/${externalSampleID}.indels.GATK.vcf \
    -L ${targetIntervals} \
    -sn ${externalSampleID}
-
+if [ ${seqType} == "PE" ]
+then
 #gzip and make indexfiles for bcftools
 bgzip -c ${intermediateDir}/${externalSampleID}.indels.GATK.vcf > ${intermediateDir}/${externalSampleID}.indels.GATK.vcf.gz
 bgzip -c ${intermediateDir}/${externalSampleID}.output.pindel.merged.vcf > ${intermediateDir}/${externalSampleID}.output.pindel.merged.vcf.gz

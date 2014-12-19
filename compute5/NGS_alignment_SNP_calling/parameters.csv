@@ -55,6 +55,10 @@ fastqcVersion,v0.10.1
 bwaVersion,0.7.10
 bwaAlignCores,8
 picardVersion,1.102
+TabixVersion,0.2.6
+BcftoolsVersion,0.2.0
+SnpEffVersion,3.6c
+JavaVersion,1.7.0_51
 samToBamJar,SamFormatConverter.jar
 sortSamJar,SortSam.jar
 mergeSamFilesJar,MergeSamFiles.jar
@@ -64,9 +68,9 @@ gcBiasMetricsJar,CollectGcBiasMetrics.jar
 hsMetricsJar,CalculateHsMetrics.jar
 bamIndexStatsJar,BamIndexStats.jar
 RVersion,3.0.2
-GATKVersion,2.7-4-g6f46d11
+GATKVersion,3.3-0-g37228af
 GATKJar,GenomeAnalysisTK.jar
-recreateInsertSizePdfR,${scriptDir}/createInsertSizePlot.R
+recreateInsertSizePdfR,${scriptDir}/createInsertSizePlot_c5.R
 cumCoverageScriptGATK,${scriptDir}/plot_cumulative_coverage-1.1.R
 filePrefix,${runPrefix}_L${lane}
 library,${filePrefix}

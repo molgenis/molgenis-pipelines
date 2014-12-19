@@ -5,9 +5,9 @@
 #string checkStage
 #string tempDir
 #string intermediateDir
-#string snpEffSNPCallsHtml
-#string snpEffSnpsVcf
-#string snpEffSNPGenesTxt
+#string snpEffCallsHtml
+#string snpEffCallsVcf
+#string snpEffGenesTxt
 #string inputVcf
 #string tmpDataDir
 #string project
@@ -15,25 +15,26 @@
 #string SnpEffVersion
 #string JavaVersion
 
+
 #Echo parameter values
 echo "stage: ${stage}"
 echo "checkStage: ${checkStage}"
 echo "tempDir: ${tempDir}"
 echo "intermediateDir: ${intermediateDir}"
-echo "snpEffSNPCallsHtml: ${snpEffSNPCallsHtml}"
-echo "snpEffSNPCallsVcf: ${snpEffSnpsVcf}"
-echo "snpEffSNPGenesTxt: ${snpEffSNPGenesTxt}"
+echo "snpEffCallsHtml: ${snpEffCallsHtml}"
+echo "snpEffCallsVcf: ${snpEffCallsVcf}"
+echo "snpEffGenesTxt: ${snpEffGenesTxt}"
 
 sleep 10
 
-makeTmpDir ${snpEffSNPCallsHtml}
-tmpSnpEffSNPCallsHtml=${MC_tmpFile}
+makeTmpDir ${snpEffCallsHtml}
+tmpSnpEffCallsHtml=${MC_tmpFile}
 
-makeTmpDir ${snpEffSnpsVcf}
-tmpsnpEffSnpsVcf=${MC_tmpFile}
+makeTmpDir ${snpEffCallsVcf}
+tmpSnpEffCallsVcf=${MC_tmpFile}
 
-makeTmpDir ${snpEffSNPGenesTxt}
-tmpSnpEffSNPGenesTxt=${MC_tmpFile}
+makeTmpDir ${snpEffGenesTxt}
+tmpSnpEffGenesTxt=${MC_tmpFile}
 
 #Function to check if array contains value
 array_contains () { 
@@ -64,10 +65,12 @@ eff \
 -i vcf \
 -o gatk \
 GRCh37.69 \
--stats ${tmpSnpEffSNPCallsHtml} \
+-stats ${tmpSnpEffCallsHtml} \
 ${inputVcf} \
-> ${tmpsnpEffSnpsVcf}
+> ${tmpSnpEffCallsVcf}
 
-    mv ${tmpSnpEffSNPCallsHtml} ${snpEffSNPCallsHtml}
-    mv ${tmpsnpEffSnpsVcf} ${snpEffSnpsVcf}
-    mv ${tmpSnpEffSNPGenesTxt} ${snpEffSNPGenesTxt}
+#${intermediateDir}${project}.indels.calls.mergedAllVcf.vcf \
+
+    mv ${tmpSnpEffCallsHtml} ${snpEffCallsHtml}
+    mv ${tmpSnpEffCallsVcf} ${snpEffCallsVcf}
+    mv ${tmpSnpEffGenesTxt} ${snpEffGenesTxt}
