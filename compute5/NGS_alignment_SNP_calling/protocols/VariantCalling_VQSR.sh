@@ -11,10 +11,11 @@
 #string baitChrBed
 #string dbSNP137Vcf
 #string dbSNP137VcfIdx
-#string sampleChrVariantCalls
-#string sampleChrVariantCallsIdx
-#string externalSampleID
+#string projectChrVariantCalls
+#string projectChrVariantCallsIdx
+#list externalSampleID
 #string tmpDataDir
+#string project
 
 #Echo parameter values
 echo "stage: ${stage}"
@@ -28,6 +29,8 @@ echo "baitChrBed: ${baitChrBed}"
 echo "dbSNP137Vcf: ${dbSNP137Vcf}"
 echo "dbSNP137VcfIdx: ${dbSNP137VcfIdx}"
 
+echo "projectChrVariantCalls: ${projectChrVariantCalls}"
+echo "projectChrVariantCallsIdx: ${projectChrVariantCallsIdx}"
 
 sleep 10
 
@@ -53,32 +56,49 @@ getFile indexFile
 getFile dbSNP137Vcf
 getFile dbSNP137VcfIdx
 
+#Create string with input BAM files for Picard
+#This check needs to be performed because Compute generates duplicate values in array
+INPUTS=()
+for SampleID in "${externalSampleID[@]}"
+do
+        array_contains INPUTS "$SampleID" || INPUTS+=("$SampleID")    # If bamFile does not exist in array add it
+done
+
+
+for externalID in "${INPUTS[@]}"
+do
+  getFile ${intermediateDir}/$externalID.merged.dedup.realigned.bqsr.bam
+  getFile ${intermediateDir}/$externalID.merged.dedup.realigned.bqsr.bai
+  
+  BAMS+=("-I ${intermediateDir}/$externalID.merged.dedup.realigned.bqsr.bam")
+done
 
 #Load GATK module
 ${stage} GATK/${GATKVersion}
 ${checkStage}
 
-makeTmpDir ${sampleChrVariantCalls}
-tmpSampleChrVariantCalls=${MC_tmpFile}
+makeTmpDir ${projectChrVariantCalls}
+tmpProjectChrVariantCalls=${MC_tmpFile}
 
-makeTmpDir ${sampleChrVariantCallsIdx}
-tmpSampleChrVariantCallsIdx=${MC_tmpFile}
+makeTmpDir ${projectChrVariantCallsIdx}
+tmpProjectChrVariantCallsIdx=${MC_tmpFile}
 
 #Run GATK HaplotypeCaller in DISCOVERY mode to call SNPs and indels
 java -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
 $GATK_HOME/${GATKJar} \
 -T HaplotypeCaller \
 -R ${indexFile} \
--I ${intermediateDir}/${externalSampleID}.merged.dedup.realigned.bqsr.bam \
+${BAMS[@]} \
 --dbsnp ${dbSNP137Vcf} \
 --genotyping_mode DISCOVERY \
 -stand_emit_conf 10 \
 -stand_call_conf 30 \
--o ${tmpSampleChrVariantCalls} \
+-o ${tmpProjectChrVariantCalls} \
 -L ${baitChrBed} \
 -nct 16
 
-echo -e "\nVariantCalling finished succesfull. Moving temp files to final.\n\n"
-mv ${tmpSampleChrVariantCalls} ${sampleChrVariantCalls}
-mv ${tmpSampleChrVariantCallsIdx} ${sampleChrVariantCallsIdx}
-
+    echo -e "\nVariantCalling finished succesfull. Moving temp files to final.\n\n"
+    mv ${tmpProjectChrVariantCalls} ${projectChrVariantCalls}
+    mv ${tmpProjectChrVariantCallsIdx} ${projectChrVariantCallsIdx}
+    putFile "${projectChrVariantCalls}"
+    putFile "${projectChrVariantCallsIdx}"

@@ -58,12 +58,12 @@ done
 
 for sample in "${externalSampleID[@]}"
 do
-	cp ${intermediateDir}/${sample}.alignment_summary_metrics ${projectResultsDir}/qc/statistics
-	cp ${intermediateDir}/${sample}.gc_bias_metrics ${projectResultsDir}/qc/statistics
-	cp ${intermediateDir}/${sample}.quality_by_cycle_metrics ${projectResultsDir}/qc/statistics
-	cp ${intermediateDir}/${sample}.quality_distribution_metrics ${projectResultsDir}/qc/statistics
-	cp ${intermediateDir}/${sample}.hs_metrics ${projectResultsDir}/qc/statistics
-	cp ${intermediateDir}/${sample}.bam_index_stats ${projectResultsDir}/qc/statistics
+	cp ${intermediateDir}/${sample}.merged.dedup.realigned.bqsr.bam.alignment_summary_metrics ${projectResultsDir}/qc/statistics
+	cp ${intermediateDir}/${sample}.merged.dedup.realigned.bqsr.bam.gc_bias_metrics ${projectResultsDir}/qc/statistics
+	cp ${intermediateDir}/${sample}.merged.dedup.realigned.bqsr.bam.quality_by_cycle_metrics ${projectResultsDir}/qc/statistics
+	cp ${intermediateDir}/${sample}.merged.dedup.realigned.bqsr.bam.quality_distribution_metrics ${projectResultsDir}/qc/statistics
+	cp ${intermediateDir}/${sample}.merged.dedup.realigned.bqsr.bam.hs_metrics ${projectResultsDir}/qc/statistics
+	cp ${intermediateDir}/${sample}.merged.dedup.realigned.bqsr.bam.bam_index_stats ${projectResultsDir}/qc/statistics
 	cp ${intermediateDir}/${sample}.merged.dedup.metrics ${projectResultsDir}/qc/statistics
 	cp ${intermediateDir}/${sample}*.pdf ${projectResultsDir}/qc/statistics
 done
@@ -74,7 +74,7 @@ done
         then
 		for sample in "${externalSampleID[@]}"
 		do
-			cp ${intermediateDir}/${sample}.insert_size_metrics ${projectResultsDir}/qc/statistics
+			cp ${intermediateDir}/${sample}.merged.dedup.realigned.bqsr.bam.insert_size_metrics ${projectResultsDir}/qc/statistics
 		done
         fi
 
