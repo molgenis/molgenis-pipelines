@@ -16,7 +16,6 @@
 #string project
 #string sortVCFpl 
 #string indexFileFastaIndex
-#list externalSampleID
 
 #Echo parameter values
 echo "stage: ${stage}"
@@ -58,24 +57,17 @@ array_contains () {
     return $in
 }
 
-#load vcftools
-module load vcftools/0.1.12a
-module list
+
 
 INPUTS=()
 for c in "${chr[@]}"
 do
-	MERG=()
-	for externalID in "${externalSampleID[@]}"
-	do	
-		bgzip -c ${intermediateDir}/${externalID}.chr${c}.variant.calls.vcf > ${intermediateDir}/${externalID}.chr${c}.variant.calls.vcf.gz
-		tabix -p vcf ${intermediateDir}/${externalID}.chr${c}.variant.calls.vcf.gz
-		MERG+=(${intermediateDir}/${externalID}.chr${c}.variant.calls.vcf.gz)		
-	done
-	vcf-merge "${MERG[@]}" > ${projectPrefix}.chr${c}.variant.calls.vcf
-	
-	INPUTS+=(${projectPrefix}.chr${c}.variant.calls.vcf)
+  INPUTS+=(${projectPrefix}.chr${c}.variant.calls.vcf)
 done
+
+#load vcftools
+module load vcftools/0.1.12a
+module list
 
 #Concatenate projectChrVariantCalls to one file
 

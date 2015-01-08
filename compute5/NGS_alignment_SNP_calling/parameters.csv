@@ -121,6 +121,8 @@ BQSRCsv,${intermediateDir}/${externalSampleID}.merged.dedup.realigned.bqsr.csv
 collectFinalBamMetricsPrefix,${intermediateDir}/${externalSampleID}.merged.dedup.realigned.bqsr
 projectChrVariantCalls,${projectPrefix}.chr${chr}.variant.calls.vcf
 projectChrVariantCallsIdx,${projectChrVariantCalls}.idx
+sampleChrVariantCalls,${sample}.chr${chr}.variant.calls.vcf
+sampleChrVariantCallsIdx,${sampleChrVariantCalls}.idx
 projectVariantsMerged,${projectPrefix}.variant.calls.GATK.vcf
 projectVariantsMergedSorted,${projectPrefix}.variant.calls.GATK.sorted.vcf
 projectSNPsMerged,${projectPrefix}.SNPs.calls.GATK.merged.vcf

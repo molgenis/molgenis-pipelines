@@ -76,9 +76,9 @@ done
 for sample in "${INPUTS[@]}"
 do
 
-	sampleHsMetrics+=("${intermediateDir}/${sample}.hs_metrics")
-        sampleAlignmentMetrics+=("${intermediateDir}/${sample}.alignment_summary_metrics")
-        sampleInsertMetrics+=("${intermediateDir}/${sample}.insert_size_metrics")
+	sampleHsMetrics+=("${intermediateDir}/${sample}.merged.dedup.realigned.bqsr.bam.hs_metrics")
+        sampleAlignmentMetrics+=("${intermediateDir}/${sample}.merged.dedup.realigned.bqsr.bam.alignment_summary_metrics")
+        sampleInsertMetrics+=("${intermediateDir}/${sample}.merged.dedup.realigned.bqsr.bam.insert_size_metrics")
 	sampleDedupMetrics_folded+=("${intermediateDir}/${sample}.merged.dedup.metrics")
         sampleConcordance+=("${intermediateDir}/${sample}.concordance.ngsVSarray.txt")
         sampleInsertSizePDF+=("images/${sample}.merged.dedup.realigned.bqsr.bam.insert_size_histogram.pdf")
