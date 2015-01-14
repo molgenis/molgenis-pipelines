@@ -42,12 +42,11 @@ ${checkStage}
 
 
 Rscript ${RScriptChi} \
-${controlSetDir} \
-${binnedSample} \
-${chiIntermediateDir} \
-${bestControlSet} \
-${strand} \
-${sampleID}
+-d ${controlSetDir} \
+-f ${binnedSampleForward} \
+-r ${chiIntermediateDir} \
+-temp ${intermediateDir} \
+-sample ${sampleID}
 
 
 

@@ -91,9 +91,9 @@ then
 	
 	Rscript \
 	${RScript} \
-	${tmpBedForward} \
-	${binsPdfForward} \
-	${tmpForwardBins}
+	--input ${tmpBedForward} \
+	-o ${binsPdfForward} \
+	-p ${tmpForwardBins}
 	
 	rm ${tmpBedForward}	
 	
