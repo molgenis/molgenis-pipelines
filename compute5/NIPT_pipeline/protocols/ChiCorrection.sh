@@ -8,7 +8,8 @@
 #string tempDir
 #string intermediateDir
 #string controlSetDir
-#string binnedSample
+#string binnedSampleForward
+#string binnedSampleReverse
 #string bestControlSet
 #string sampleID
 #string chiIntermediateDir
@@ -42,8 +43,8 @@ ${checkStage}
 Rscript ${RScriptChi} \
 -d ${controlSetDir} \
 -f ${binnedSampleForward} \
--r ${chiIntermediateDir} \
--temp ${intermediateDir} \
+-r ${binnedSampleReverse} \
+-temp ${chiIntermediateDir} \
 -sample ${sampleID}
 
 
