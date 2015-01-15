@@ -10,7 +10,6 @@
 #string controlSetDir
 #string binnedSample
 #string bestControlSet
-#string strand
 #string sampleID
 #string chiIntermediateDir
 
@@ -25,7 +24,6 @@ echo "intermediateDir: ${intermediateDir}"
 echo "controlSetDir: ${controlSetDir}"
 echo "binnedSample: ${binnedSample}"
 echo "bestControlSet: ${bestControlSet}"
-echo "strand: ${strand}" 
 echo "sampleID: ${sampleID}"
 echo "chiIntermediateDir: ${chiIntermediateDir}"
 
