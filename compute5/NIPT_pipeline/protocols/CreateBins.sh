@@ -124,9 +124,9 @@ else
 	
 	Rscript \
 	${RScript} \
-	${tmpBedReverse} \
-	${binsPdfReverse} \
-	${tmpReverseBins}
+	--input ${tmpBedReverse} \
+	-o ${binsPdfReverse} \
+	-p ${tmpReverseBins}
 	
 	rm ${tmpBedReverse}	
 	
