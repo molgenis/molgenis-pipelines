@@ -13,4 +13,4 @@ DetermineNCV13,protocols/DetermineNCV.sh,DetermineBestPredictors13;chromoFocus=c
 DetermineNCV18,protocols/DetermineNCV.sh,DetermineBestPredictors18;chromoFocus=chr18;
 DetermineNCV21,protocols/DetermineNCV.sh,DetermineBestPredictors21;chromoFocus=chr21;
 CalculatePPV,protocols/CalculatePPV.sh,DetermineNCV13;DetermineNCV18;DetermineNCV21;
-CopyToResultsDir,protocols/CopyToResultsDir.sh,CalculatePPV;
+CopyToResultsDir,protocols/CopyToResultsDir.sh,CalculatePPV;DetermineBestControlSet;
