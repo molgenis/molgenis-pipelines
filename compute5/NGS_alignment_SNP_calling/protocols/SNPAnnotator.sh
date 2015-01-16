@@ -9,7 +9,7 @@
 #string snpEffSnpsVcf
 #string snpEffSNPGenesTxt
 #string indexFile
-#string targetIntervals
+#string baitIntervals
 #string variantVcf
 #string variantAnnotatorOutputVcf
 #list externalSampleID
@@ -101,6 +101,6 @@ ${INPUTS[@]} \
 -D /gcc/resources/b37/snp/dbSNP/dbsnp_137.b37.vcf \
 --variant ${variantVcf} \
 --snpEffFile ${snpEffSnpsVcf} \
--L ${targetIntervals} \
+-L ${baitIntervals} \
 -o ${variantAnnotatorOutputVcf} \
 -nt 8

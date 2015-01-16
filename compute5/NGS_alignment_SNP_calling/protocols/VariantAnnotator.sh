@@ -10,7 +10,7 @@
 #string snpEffGenesTxt
 #string indexFile
 #string indexFileFastaIndex
-#string targetIntervals
+#string baitIntervals
 #string variantVcf
 #string snpEffCallsVcf
 #string sampleIndelsPindelGATKMergedSortedVcf
@@ -123,6 +123,6 @@ ${INPUTS[@]} \
 -D /gcc/resources/b37/snp/dbSNP/dbsnp_137.b37.vcf \
 --variant ${sampleIndelsPindelGATKMergedSortedVcf} \
 --snpEffFile ${snpEffIndelsSortedVcf} \
--L ${targetIntervals} \
+-L ${baitIntervals} \
 -o ${variantAnnotatorOutputVcf} \
 -nt 8

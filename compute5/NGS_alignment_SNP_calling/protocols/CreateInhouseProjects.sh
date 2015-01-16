@@ -10,6 +10,7 @@
 #string chrParameters
 #string projectQcDir
 #string baitBed
+#string JavaVersion
 
 #list sequencingStartDate
 #list sequencer
@@ -30,7 +31,7 @@
 
 umask 0007
 
-module load jdk
+module load jdk/${JavaVersion}
 module list
 
 #

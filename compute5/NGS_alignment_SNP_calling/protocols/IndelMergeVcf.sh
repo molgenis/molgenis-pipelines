@@ -9,7 +9,7 @@
 #string externalSampleID
 #string indexFile
 #string sampleIndelsPindelGATKMerged
-#string targetIntervals
+#string baitIntervals
 #string seqType
 #string GATKVersion
 #string BcftoolsVersion
@@ -50,7 +50,7 @@ echo "running GATK : SelectVariants"
    -T SelectVariants \
    --variant ${projectIndelsMerged} \
    -o ${intermediateDir}/${externalSampleID}.indels.GATK.vcf \
-   -L ${targetIntervals} \
+   -L ${baitIntervals} \
    -sn ${externalSampleID}
 if [ ${seqType} == "PE" ]
 then
