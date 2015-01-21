@@ -1,4 +1,4 @@
-#MOLGENIS walltime=23:59:00 mem=6gb ppn=2
+#MOLGENIS walltime=23:59:00 mem=6gb ppn=4
 
 #Parameter mapping  #why not string foo,bar? instead of string foo\nstring bar
 #string stage
@@ -8,6 +8,8 @@
 #string projectDir
 
 #string picardVersion
+
+
 #string addOrReplaceGroupsDir
 #list addOrReplaceGroupsBam
 #list addOrReplaceGroupsBai
@@ -32,6 +34,8 @@ done
 ${stage} picard-tools/${picardVersion}
 ${checkStage}
 
+set -o posix
+
 set -x
 set -e
 
@@ -41,7 +45,7 @@ inputs=$(printf 'INPUT=%s ' $(printf '%s\n' ${bams[@]}))
 
 mkdir -p ${MergeBamFilesDir}
 
-java -jar -Xmx6g $PICARD_HOME/MergeSamFiles.jar \
+java -Xmx6g -XX:ParallelGCThreads=4 -jar $PICARD_HOME/MergeSamFiles.jar \
  $inputs \
  SORT_ORDER=coordinate \
  CREATE_INDEX=true \
