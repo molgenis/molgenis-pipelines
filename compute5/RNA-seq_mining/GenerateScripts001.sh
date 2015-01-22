@@ -5,10 +5,10 @@
 
 workflowdir=$(readlink -f $(dirname $0))
 #ugly way of detecting inheritance
-group=$(ls -alh $workflowdir/| perl -wpe 's/ +/ /g' | cut -f 4 -d " "| tail -n1)
+group=$(ls -alh $(pwd)| perl -wpe 's/ +/ /g' | cut -f 4 -d " "| tail -n1)
 tmp="tmp01"
-projectname="rnaseq/development/rnaGatkHaplotypeCaller/results/test_short/"
-#projectname=$2
+#projectname="rnaseq/development/rnaGatkHaplotypeCaller/results/test_short/"
+projectname=$2
 runDir=/gcc/groups/${group}/${tmp}/projects/$projectname/jobs
 mkdir -p $runDir
 #projectname,/rnaseq/development/rnaGatkHaplotypeCaller/results/$projectname
