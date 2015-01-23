@@ -11,7 +11,7 @@
 echo "chiIntermediateDir: ${chiIntermediateDir}"
 echo "resultDir: ${resultDir}"
 echo "forwardBins: ${forwardBins}"
-echo 'reverseBins: ${reverseBins}
+echo "reverseBins: ${reverseBins}"
 
 
 mkdir -p "${resultDir}/Diagnostiek"
