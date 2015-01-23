@@ -1,4 +1,4 @@
-#MOLGENIS walltime=23:59:00 mem=4gb
+#MOLGENIS walltime=23:59:00 mem=4gb ppn=8
 
 #Parameter mapping
 #string stage
@@ -19,7 +19,8 @@
 #string inputGenerateCovariateTablesBamIdx
 #string inputGenerateCovariateTablesTable
 #string outputGenerateCovariateTablesTable
-
+#string tmpDataDir
+#string project
 
 #Echo parameter values
 echo "stage: ${stage}"
@@ -41,29 +42,6 @@ echo "inputGenerateCovariateTablesBamIdx: ${inputGenerateCovariateTablesBamIdx}"
 echo "inputGenerateCovariateTablesTable: ${inputGenerateCovariateTablesTable}"
 echo "outputGenerateCovariateTablesTable: ${outputGenerateCovariateTablesTable}"
 
-
-sleep 10
-
-#Check if output exists
-alloutputsexist \
-"${outputGenerateCovariateTablesTable}"
-
-#Get dedupped BAM file and reference data
-getFile ${inputGenerateCovariateTablesBam}
-getFile ${inputGenerateCovariateTablesBamIdx}
-getFile ${indexFile}
-getFile ${KGPhase1IndelsVcf}
-getFile ${KGPhase1IndelsVcfIdx}
-getFile ${MillsGoldStandardIndelsVcf}
-getFile ${MillsGoldStandardIndelsVcfIdx}
-getFile ${dbSNP137Vcf}
-getFile ${dbSNP137VcfIdx}
-if [ ${inputRecal} == "post" ]
-then
-	getFile ${inputGenerateCovariateTablesTable}
-fi
-
-
 #Load GATK module
 ${stage} GATK/${GATKVersion}
 ${checkStage}
@@ -74,7 +52,7 @@ tmpOutputGenerateCovariateTablesTable=${MC_tmpFile}
 #If variable recal is "post" apply the recal.table to calculate improvement in metrics.
 if [ ${inputRecal} == "before" ]
 then
-	java -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
+	java -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
 	$GATK_HOME/${GATKJar} \
 	-T BaseRecalibrator \
 	-R ${indexFile} \
@@ -87,7 +65,7 @@ then
 
 elif [ ${inputRecal} == "post" ]
 then
-	java -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
+	java -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
 	$GATK_HOME/${GATKJar} \
 	-T BaseRecalibrator \
 	-R ${indexFile} \
@@ -105,4 +83,3 @@ else
 fi
     echo -e "\nGenerateCovariateTables finished succesfull. Moving temp files to final.\n\n"
     mv ${tmpOutputGenerateCovariateTablesTable} ${outputGenerateCovariateTablesTable}
-    putFile "${outputGenerateCovariateTablesTable}"

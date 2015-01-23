@@ -5,7 +5,8 @@
 #Parameter mapping
 #string project
 #string chr
-#string outputFolder
+#string ImputeOutputFolder
+#string ImputeOutputFolderTemp
 #string knownHapsG
 #string genotypeAlignerJar
 #string vcf
@@ -13,7 +14,8 @@
 #string javaExecutable
 
 echo "chr: ${chr}"
-echo "outputFolder: ${outputFolder}"
+echo "ImputeOutputFolder: ${ImputeOutputFolder}"
+echo "ImputeOutputFolderTemp: ${ImputeOutputFolderTemp}"
 echo "knownHapsG: ${knownHapsG}"
 echo "genotypeAlignerJar: ${genotypeAlignerJar}"
 echo "vcf: ${vcf}"
@@ -23,14 +25,15 @@ echo "javaExecutable: $(javaExecutable)"
 haps_input=${knownHapsG}
 sample_input="${knownHapsG%.haps}.sample"
 basename_input="${knownHapsG%.haps}"
-haps_output=${outputFolder}/chr${chr}.haps
-sample_output=${outputFolder}/chr${chr}.sample
+haps_output=${ImputeOutputFolder}/chr${chr}.haps
+sample_output=${ImputeOutputFolder}/chr${chr}.sample
 
 alloutputsexist \
 	"${haps_output}" \
 	"${sample_output}" 
 
-mkdir -p ${outputFolder}
+mkdir -p ${ImputeOutputFolder}
+mkdir -p ${ImputeOutputFolderTemp}
 
 #Mark the start time
 startTime=$(date +%s)
@@ -49,16 +52,16 @@ if ${javaExecutable} -jar ${genotypeAlignerJar} \
 	--ref ${vcf} \
 	--refType ${refType} \
 	--forceChr ${chr} \
-	--output ${outputFolder}/~chr${chr} \
+	--output ${ImputeOutputFolderTemp}/~chr${chr} \
 	--outputType SHAPEIT2
 then
-	mv ${outputFolder}/~chr${chr}.haps ${outputFolder}/chr${chr}.haps
-	mv ${outputFolder}/~chr${chr}.sample ${outputFolder}/chr${chr}.sample
-	mv ${outputFolder}/~chr${chr}.log ${outputFolder}/chr${chr}.log
+	cp ${ImputeOutputFolderTemp}/~chr${chr}.haps ${ImputeOutputFolder}/chr${chr}.haps
+	cp ${ImputeOutputFolderTemp}/~chr${chr}.sample ${ImputeOutputFolder}/chr${chr}.sample
+	cp ${ImputeOutputFolderTemp}/~chr${chr}.log ${ImputeOutputFolder}/chr${chr}.log
 
-	putFile ${outputFolder}/chr${chr}.haps
-	putFile ${outputFolder}/chr${chr}.sample
-	putFile ${outputFolder}/chr${chr}.log
+	putFile ${ImputeOutputFolder}/chr${chr}.haps
+	putFile ${ImputeOutputFolder}/chr${chr}.sample
+	putFile ${ImputeOutputFolder}/chr${chr}.log
 else
 	exit 1
 fi

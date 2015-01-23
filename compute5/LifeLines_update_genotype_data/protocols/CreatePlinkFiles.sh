@@ -30,8 +30,8 @@ echo "snp_subset: ${snp_subset}"
 
 ##CAN'T WE COMBINE BOTH STEPS INTO A SINGLE PLINK COMMAND??
 
-snpsubset="false"
 empty_snpsubset="false"
+snpsubset="false"
 
 if [ ${snp_subset} != "all" ]
 then

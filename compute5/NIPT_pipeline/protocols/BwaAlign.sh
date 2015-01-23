@@ -1,4 +1,5 @@
 #MOLGENIS walltime=15:00:00 nodes=1 cores=4 mem=6
+#DOC Align reads with BWA
 
 #Parameter mapping
 #string stage

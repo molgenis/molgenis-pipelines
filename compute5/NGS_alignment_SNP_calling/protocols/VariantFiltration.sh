@@ -10,6 +10,9 @@
 #string indexFile
 #string projectSNPsMerged
 #string projectSNPsMergedFiltered
+#string tmpDataDir
+#string project
+
 
 #Echo parameter values
 echo "stage: ${stage}"
@@ -38,9 +41,6 @@ array_contains () {
     return $in
 }
 
-#Check if output exists
-alloutputsexist \
-"${projectSNPsMergedFiltered}"
 
 INPUTS=()
 
@@ -59,7 +59,7 @@ tmp_projectSNPsMergedFiltered=${MC_tmpFile}
 
 #Run GATK VariantFiltration to filter called SNPs on 
 
-java -Xmx8g -Xms6g -jar $GATK_HOME/${GATKJar} \
+java -XX:ParallelGCThreads=4 -Xmx8g -Xms6g -jar $GATK_HOME/${GATKJar} \
 -T VariantFiltration \
 -R ${indexFile} \
 -o ${tmp_projectSNPsMergedFiltered} \
@@ -70,11 +70,10 @@ MQ < 40.0 && \
 FS > 60.0 && \
 HaplotypeScore > 13.0 && \
 MQRankSum < -12.5 && \
-ReadPosRankSum < -8.0"
+ReadPosRankSum < -8.0" \
 --genotypeFilterName "FILTQDP"
 
 
 echo -e "\nVariantFiltering finished succesfull. Moving temp files to final.\n\n"
 mv ${tmp_projectSNPsMergedFiltered} ${projectSNPsMergedFiltered}
-putFile "${projectSNPsMergedFiltered}"
 

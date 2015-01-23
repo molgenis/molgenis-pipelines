@@ -10,6 +10,9 @@
 #string tempDir
 #list inputMergeBam
 #list inputMergeBamIdx
+#string tmpDataDir
+#string project
+
 
 #Echo parameter values
 echo "stage: ${stage}"
@@ -50,11 +53,6 @@ tmpMergedBam=${MC_tmpFile}
 makeTmpDir ${mergedBamIdx}
 tmpMergedBamIdx=${MC_tmpFile}
 
-#Check if output exists
-alloutputsexist \
-"${mergedBam}" \
-"${mergedBamIdx}"
-
 #Get aligned BAM and idx file
 for getBam in "${inputMergeBam[@]}"
 do
@@ -77,7 +75,7 @@ do
 	array_contains INPUTS "INPUT=$bamFile" || INPUTS+=("INPUT=$bamFile")    # If bamFile does not exist in array add it
 done
 
-java -jar -Xmx6g $PICARD_HOME/${mergeSamFilesJar} \
+java -XX:ParallelGCThreads=4 -jar -Xmx6g $PICARD_HOME/${mergeSamFilesJar} \
 ${INPUTS[@]} \
 SORT_ORDER=coordinate \
 CREATE_INDEX=true \

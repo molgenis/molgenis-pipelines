@@ -1,63 +1,90 @@
-#
-# =====================================================
-# $Id$
-# $URL$
-# $LastChangedDate$
-# $LastChangedRevision$
-# $LastChangedBy$
-# =====================================================
-#
+#MOLGENIS walltime=01:59:00 mem=4gb
 
-#MOLGENIS walltime=00:10:00
-#FOREACH project
+#string allRawNgstmpDataDir
+#string allRawNgsPrmDataDir
 
-#
-# Change permissions.
-#
-umask 0007
+#list seqType
+#list sequencingStartDate
+#list sequencer
+#list run
+#list flowcell
+
+#string mainParameters
+#string chrParameters 
+#string worksheet 
+#string outputdir
+#string workflowpath
+
+#list internalSampleID
+#string project
+#string scriptDir
+
+#list barcode
+#list lane
+
+n_elements=${internalSampleID[@]}
+max_index=${#internalSampleID[@]}-1
+
+for ((samplenumber = 0; samplenumber <= max_index; samplenumber++))
+do
+
+	RUNNAME=${sequencingStartDate[samplenumber]}_${sequencer[samplenumber]}_${run[samplenumber]}_${flowcell[samplenumber]}	
+	PRMDATADIR=${allRawNgsPrmDataDir}/${RUNNAME}
+	TMPDATADIR=${allRawNgstmpDataDir}/${RUNNAME}
+
+	if [[ ${seqType[samplenumber]} == "SR" ]]
+	then
+  		mkdir -p ${TMPDATADIR}
+		if [[ ${barcode[samplenumber]} == "None" ]]
+		then
+			rsync -a -r \
+			${PRMDATADIR}/${RUNNAME}_L${lane[samplenumber]}.fq.gz \
+			${TMPDATADIR}/${RUNNAME}_L${lane[samplenumber]}.fq.gz
+			rsync -a -r \
+			${PRMDATADIR}/${RUNNAME}_L${lane[samplenumber]}.fq.gz.md5 \
+			${TMPDATADIR}/${RUNNAME}_L${lane[samplenumber]}.fq.gz.md5
+		else
+			rsync -a -r \
+			${PRMDATADIR}/${RUNNAME}_L${lane[samplenumber]}_${barcode[samplenumber]}.fq.gz \
+			${TMPDATADIR}/${RUNNAME}_L${lane[samplenumber]}_${barcode[samplenumber]}.fq.gz
+			rsync -a -r \
+			${PRMDATADIR}/${RUNNAME}_L${lane[samplenumber]}_${barcode[samplenumber]}.fq.gz.md5 \
+			${TMPDATADIR}/${RUNNAME}_L${lane[samplenumber]}_${barcode[samplenumber]}.fq.gz.md5	
+		fi
+	elif [[ ${seqType[samplenumber]} == "PE" ]]
+	then
+		mkdir -p ${TMPDATADIR}
+		if [[ ${barcode[samplenumber]} == "None" ]]
+    		then
+    		rsync -a -r \
+    			${PRMDATADIR}/${RUNNAME}_L${lane[samplenumber]}_1.fq.gz \
+    			${TMPDATADIR}/${RUNNAME}_L${lane[samplenumber]}_1.fq.gz
+		rsync -a -r \
+			${PRMDATADIR}/${RUNNAME}_L${lane[samplenumber]}_2.fq.gz \
+			${TMPDATADIR}/${RUNNAME}_L${lane[samplenumber]}_2.fq.gz
+		rsync -a -r \
+			${PRMDATADIR}/${RUNNAME}_L${lane[samplenumber]}_1.fq.gz.md5 \
+			${TMPDATADIR}/${RUNNAME}_L${lane[samplenumber]}_1.fq.gz.md5
+        	rsync -a -r \
+        		${PRMDATADIR}/${RUNNAME}_L${lane[samplenumber]}_2.fq.gz.md5 \
+        		${TMPDATADIR}/${RUNNAME}_L${lane[samplenumber]}_2.fq.gz.md5
+		else          
+        	rsync -a -r \
+        		${PRMDATADIR}/${RUNNAME}_L${lane[samplenumber]}_${barcode[samplenumber]}_1.fq.gz \
+        		${TMPDATADIR}/${RUNNAME}_L${lane[samplenumber]}_${barcode[samplenumber]}_1.fq.gz
+        	rsync -a -r \
+        		${PRMDATADIR}/${RUNNAME}_L${lane[samplenumber]}_${barcode[samplenumber]}_2.fq.gz \
+        		${TMPDATADIR}/${RUNNAME}_L${lane[samplenumber]}_${barcode[samplenumber]}_2.fq.gz
+        	rsync -a -r \
+        		${PRMDATADIR}/${RUNNAME}_L${lane[samplenumber]}_${barcode[samplenumber]}_1.fq.gz.md5 \
+        		${TMPDATADIR}/${RUNNAME}_L${lane[samplenumber]}_${barcode[samplenumber]}_1.fq.gz.md5
+        	rsync -a -r \
+        		${PRMDATADIR}/${RUNNAME}_L${lane[samplenumber]}_${barcode[samplenumber]}_2.fq.gz.md5 \
+        		${TMPDATADIR}/${RUNNAME}_L${lane[samplenumber]}_${barcode[samplenumber]}_2.fq.gz.md5
+    		fi
+ 	fi	
+
+done
 
 
-#
-# Copy data from permanent directories to temp
-#
-# For each sequence file (could be multiple per sample):
-#
-
-<#list internalSampleID as sample>
-	<#if seqType[sample_index] == "SR">
-		<#if barcode[sample_index] == "None">
-			mkdir -p ${allRawNgsDataDir}/${runPrefix[sample_index]}
-			cp ${allPrmRawNgsDataDir}/${runPrefix[sample_index]}/${compressedFastqFilenameSR[sample_index]} ${allRawNgsDataDir}/${runPrefix[sample_index]}/${fastqChecksumFilenameSR[sample_index]}
-			cp ${allPrmRawNgsDataDir}/${runPrefix[sample_index]}/${fastqChecksumFilenameSR[sample_index]} ${allPrmRawNgsDataDir}/${runPrefix[sample_index]}/${fastqChecksumFilenameSR[sample_index]}
-			
-			# Also add a symlink for the alignment step:
-			cp ${allPrmRawNgsDataDir}/${runPrefix[sample_index]}/${compressedFastqFilenameSR[sample_index]} ${allRawNgsDataDir}/${runPrefix[sample_index]}/${compressedFastqFilenameSR[sample_index]}
-		<#else>
-			mkdir -p ${allRawNgsDataDir}/${runPrefix[sample_index]}
-			cp ${allPrmRawNgsDataDir}/${runPrefix[sample_index]}/${compressedDemultiplexedSampleFastqFilenameSR[sample_index]} ${allRawNgsDataDir}/${runPrefix[sample_index]}/${compressedDemultiplexedSampleFastqFilenameSR[sample_index]}
-			cp ${allPrmRawNgsDataDir}/${runPrefix[sample_index]}/${demultiplexedSampleFastqChecksumFilenameSR[sample_index]} ${allRawNgsDataDir}/${runPrefix[sample_index]}/${demultiplexedSampleFastqChecksumFilenameSR[sample_index]}
-			
-			# Also add a symlink for the alignment step:
-			cp ${allPrmRawNgsDataDir}/${runPrefix[sample_index]}/${compressedFastqFilenameSR[sample_index]} ${allRawNgsDataDir}/${runPrefix[sample_index]}/${compressedFastqFilenameSR[sample_index]}
-		</#if>
-		
-	<#elseif seqType[sample_index] == "PE">
-		
-		<#if barcode[sample_index] == "None">
-			mkdir -p ${allRawNgsDataDir}/${runPrefix[sample_index]}
-			cp ${allPrmRawNgsDataDir}/${runPrefix[sample_index]}/${compressedFastqFilenamePE1[sample_index]} ${allRawNgsDataDir}/${runPrefix[sample_index]}/${compressedFastqFilenamePE1[sample_index]}
-			cp ${allPrmRawNgsDataDir}/${runPrefix[sample_index]}/${compressedFastqFilenamePE2[sample_index]} ${allRawNgsDataDir}/${runPrefix[sample_index]}/${compressedFastqFilenamePE2[sample_index]}
-			cp ${allPrmRawNgsDataDir}/${runPrefix[sample_index]}/${fastqChecksumFilenamePE1[sample_index]} ${allRawNgsDataDir}/${runPrefix[sample_index]}/${fastqChecksumFilenamePE1[sample_index]}
-			cp ${allPrmRawNgsDataDir}/${runPrefix[sample_index]}/${fastqChecksumFilenamePE2[sample_index]} ${allRawNgsDataDir}/${runPrefix[sample_index]}/${fastqChecksumFilenamePE2[sample_index]}
-		<#else>
-			mkdir -p ${allRawNgsDataDir}/${runPrefix[sample_index]}
-			cp ${allPrmRawNgsDataDir}/${runPrefix[sample_index]}/${compressedDemultiplexedSampleFastqFilenamePE1[sample_index]} ${allRawNgsDataDir}/${runPrefix[sample_index]}/${compressedDemultiplexedSampleFastqFilenamePE1[sample_index]}
-			cp ${allPrmRawNgsDataDir}/${runPrefix[sample_index]}/${compressedDemultiplexedSampleFastqFilenamePE2[sample_index]} ${allRawNgsDataDir}/${runPrefix[sample_index]}/${compressedDemultiplexedSampleFastqFilenamePE2[sample_index]}
-			cp ${allPrmRawNgsDataDir}/${runPrefix[sample_index]}/${demultiplexedSampleFastqChecksumFilenamePE1[sample_index]} ${allRawNgsDataDir}/${runPrefix[sample_index]}/${demultiplexedSampleFastqChecksumFilenamePE1[sample_index]}
-			cp ${allPrmRawNgsDataDir}/${runPrefix[sample_index]}/${demultiplexedSampleFastqChecksumFilenamePE2[sample_index]} ${allRawNgsDataDir}/${runPrefix[sample_index]}/${demultiplexedSampleFastqChecksumFilenamePE2[sample_index]}
-		</#if>
-		
-	</#if>
-	
-</#list>
 

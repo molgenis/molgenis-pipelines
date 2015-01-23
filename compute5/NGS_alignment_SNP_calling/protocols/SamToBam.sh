@@ -9,6 +9,8 @@
 #string tempDir
 #string intermediateDir
 #string alignedBam
+#string tmpDataDir
+#string project
 
 #Echo parameter values
 echo "stage: ${stage}"
@@ -19,12 +21,6 @@ echo "alignedSam: ${alignedSam}"
 echo "alignedBam: ${alignedBam}"
 echo "tempDir: ${tempDir}"
 echo "intermediateDir: ${intermediateDir}"
-
-sleep 10
-
-#Check if output exists
-alloutputsexist \
-"${alignedBam}"
 
 #Get aligned SAM file
 getFile ${alignedSam}
@@ -37,14 +33,13 @@ makeTmpDir ${alignedSam}
 tmpAlignedBam=${MC_tmpFile}
 
 #Run picard, convert SAM to BAM
-java -jar -Xmx3g $PICARD_HOME/${samToBamJar} \
+java -XX:ParallelGCThreads=4 -jar -Xmx3g $PICARD_HOME/${samToBamJar} \
 INPUT=${alignedSam} \
 OUTPUT=${tmpAlignedBam} \
 VALIDATION_STRINGENCY=LENIENT \
 MAX_RECORDS_IN_RAM=2000000 \
 TMP_DIR=${tempDir}
 
-    echo -e "\nSamToBam finished succesfull. Moving temp files to final.\n\n"
-    mv ${tmpAlignedBam} ${alignedBam}
-    putFile "${alignedBam}"
+echo -e "\nSamToBam finished succesfull. Moving temp files to final.\n\n"
+mv ${tmpAlignedBam} ${alignedBam}
 

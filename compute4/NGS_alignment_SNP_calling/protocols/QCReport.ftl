@@ -57,7 +57,8 @@ Rscript ${getStatisticsScript} \
 --tableout ${qcstatisticstex} \
 --descriptionout ${qcstatisticsdescription} \
 --baitsetout ${qcbaitset} \
---qcdedupmetricsout ${qcdedupmetricsout}
+--qcdedupmetricsout ${qcdedupmetricsout} \
+--precise
 
 # get dedup info per flowcell-lane-barcode/sample
 Rscript ${getDedupInfoScript} \

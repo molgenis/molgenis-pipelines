@@ -1,5 +1,4 @@
-#MOLGENIS nodes=1 ppn=1 mem=1gb walltime=03:00:00
-
+#MOLGENIS ppn=2 mem=1gb walltime=03:00:00
 
 #Parameter mapping
 #string seqType
@@ -10,9 +9,11 @@
 #string checkStage
 #string fastqcVersion
 #string intermediateDir
-#string peEnd1BarcodeFastQcZip
-#string peEnd2BarcodeFastQcZip
-#string srBarcodeFastQcZip
+#string peEnd1BarcodeFastQc
+#string peEnd2BarcodeFastQc
+#string srBarcodeFastQc
+#string tmpDataDir
+#string project
 
 #Echo parameter values
 echo "seqType: ${seqType}"
@@ -23,29 +24,11 @@ echo "stage: ${stage}"
 echo "checkStage: ${checkStage}"
 echo "fastqcVersion: ${fastqcVersion}"
 echo "intermediateDir: ${intermediateDir}"
-echo "peEnd1BarcodeFastQcZip: ${peEnd1BarcodeFastQcZip}"
-echo "peEnd2BarcodeFastQcZip: ${peEnd2BarcodeFastQcZip}"
-echo "srBarcodeFastQcZip: ${srBarcodeFastQcZip}"
+echo "peEnd1BarcodeFastQc: ${peEnd1BarcodeFastQc}"
+echo "peEnd2BarcodeFastQc: ${peEnd2BarcodeFastQc}"
+echo "srBarcodeFastQc: ${srBarcodeFastQc}"
 
 sleep 10
-
-#If paired-end then copy 2 files, else only 1
-if [ ${seqType} == "PE" ]
-then
-        alloutputsexist \
-        "${peEnd1BarcodeFastQcZip}" \
-        "${peEnd2BarcodeFastQcZip}"
-        
-	getFile ${peEnd1BarcodeFqGz}
-	getFile ${peEnd2BarcodeFqGz}
-
-else
-        alloutputsexist \
-        "${srBarcodeFastQcZip}"
-        
-	getFile ${srBarcodeFqGz}
-
-fi
 
 #Load module
 ${stage} fastqc/${fastqcVersion}
@@ -56,21 +39,17 @@ tmpIntermediateDir=${MC_tmpFile}
 #If paired-end do fastqc for both ends, else only for one
 if [ ${seqType} == "PE" ]
 then
-	# end1 & end2
 	fastqc ${peEnd1BarcodeFqGz} \
 	${peEnd2BarcodeFqGz} \
 	-o ${tmpIntermediateDir}
-	
 	echo -e "\nFastQC finished succesfull. Moving temp files to final.\n\n"
-	mv ${tmpIntermediateDir}/* ${intermediateDir}
-	putFile "${peEnd1BarcodeFastQcZip}"
-        putFile "${peEnd2BarcodeFastQcZip}"
-
+	rsync -a ${tmpIntermediateDir} ${intermediateDir}
+	rm -rf ${tmpIntermediateDir}
 else
 	fastqc ${srBarcodeFqGz} \
 	-o ${tmpIntermediateDir}
-
 	echo -e "\nFastQC finished succesfull. Moving temp files to final.\n\n"
-	mv ${tmpIntermediateDir}/* ${intermediateDir}
-	putFile "${srBarcodeFastQcZip}"
+	rsync -a ${tmpIntermediateDir} ${intermediateDir}
+	rm -rf ${tmpIntermediateDir}
 fi
+

@@ -1,4 +1,4 @@
-#MOLGENIS walltime=23:59:00 mem=3gb
+#MOLGENIS walltime=23:59:00 mem=3gb ppn=4
 
 #Parameter mapping
 #string stage
@@ -9,7 +9,8 @@
 #string tempDir
 #string sortedBam
 #string sortedBamIdx
-
+#string tmpDataDir
+#string project
 
 #Echo parameter values
 echo "stage: ${stage}"
@@ -20,13 +21,6 @@ echo "inputSortBam: ${inputSortBam}"
 echo "sortedBam: ${sortedBam}"
 echo "sortedBamIdx: ${sortedBamIdx}"
 echo "tempDir: ${tempDir}"
-
-sleep 10
-
-#Check if output exists
-alloutputsexist \
-"${sortedBam}" \
-"${sortedBamIdx}"
 
 #Get aligned BAM file
 getFile ${inputSortBam}
@@ -42,7 +36,7 @@ makeTmpDir ${sortedBamIdx}
 tmpSortedBamIdx=${MC_tmpFile}
 
 #Run picard, sort BAM file and create index on the fly
-java -jar -Xmx3g $PICARD_HOME/${sortSamJar} \
+java -XX:ParallelGCThreads=4 -jar -Xmx3g $PICARD_HOME/${sortSamJar} \
 INPUT=${inputSortBam} \
 OUTPUT=${tmpSortedBam} \
 SORT_ORDER=coordinate \
@@ -51,8 +45,6 @@ VALIDATION_STRINGENCY=LENIENT \
 MAX_RECORDS_IN_RAM=2000000 \
 TMP_DIR=${tempDir}
 
-    echo -e "\nSortBam finished succesfull. Moving temp files to final.\n\n"
-    mv ${tmpSortedBam} ${sortedBam}
-    mv ${tmpSortedBamIdx} ${sortedBamIdx}
-    putFile "${sortedBam}"
-    putFile "${sortedBamIdx}"
+echo -e "\nSortBam finished succesfull. Moving temp files to final.\n\n"
+mv ${tmpSortedBam} ${sortedBam}
+mv ${tmpSortedBamIdx} ${sortedBamIdx}

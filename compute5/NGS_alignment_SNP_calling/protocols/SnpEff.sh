@@ -1,21 +1,22 @@
-#MOLGENIS walltime=35:59:00 mem=4gb
+#MOLGENIS walltime=35:59:00 mem=4gb ppn=8
 
 #Parameter mapping
 #string stage
 #string checkStage
 #string tempDir
 #string intermediateDir
-#string ProjectVariantCallsVcf
 #string snpEffCallsHtml
 #string snpEffCallsVcf
 #string snpEffGenesTxt
+#string inputVcf
+#string tmpDataDir
+#string project
 
 #Echo parameter values
 echo "stage: ${stage}"
 echo "checkStage: ${checkStage}"
 echo "tempDir: ${tempDir}"
 echo "intermediateDir: ${intermediateDir}"
-echo "ProjectVariantCalls: ${ProjectVariantCalls}"
 echo "snpEffCallsHtml: ${snpEffCallsHtml}"
 echo "snpEffCallsVcf: ${snpEffCallsVcf}"
 echo "snpEffGenesTxt: ${snpEffGenesTxt}"
@@ -45,37 +46,27 @@ array_contains () {
     return $in
 }
 
-#Check if output exists
-alloutputsexist \
-"${snpEffCallsHtml}" \
-"${snpEffCallsVcf}" \
-"${snpEffGenesTxt}"
-
-
 #Load GATK module
-${stage} jdk/1.7.0_25
-${stage} GATK/2.7-4-g6f46d11
-${stage} snpEff/2_0_5
+${stage} jdk/1.7.0_51
+${stage} GATK/3.1-1-g07a4bf8
+${stage} snpEff/3.6c
 ${checkStage}
 
-
 #Run snpEff
-java -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
+java -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
 $SNPEFF_HOME/snpEff.jar \
 eff \
 -v \
 -c $SNPEFF_HOME/snpEff.config \
 -i vcf \
--o vcf \
-GRCh37.64 \
--onlyCoding true \
+-o gatk \
+GRCh37.69 \
 -stats ${tmpSnpEffCallsHtml} \
-${ProjectVariantCallsVcf} \
+${inputVcf} \
 > ${tmpSnpEffCallsVcf}
-    echo -e "\nsnpEffAnnotation finished successfully. Moving temp files to final.\n\n"
+
+#${intermediateDir}${project}.indels.calls.mergedAllVcf.vcf \
+
     mv ${tmpSnpEffCallsHtml} ${snpEffCallsHtml}
     mv ${tmpSnpEffCallsVcf} ${snpEffCallsVcf}
     mv ${tmpSnpEffGenesTxt} ${snpEffGenesTxt}
-    putFile "${snpEffCallsHtml}"
-    putFile "${snpEffCallsVcf}"
-    putFile "${snpEffGenesTxt}"

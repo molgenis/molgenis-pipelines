@@ -5,7 +5,8 @@
 #Parameter mapping
 #string project
 #string chr
-#string outputFolder
+#string ImputeOutputFolder
+#string ImputeOutputFolderTemp
 #string imputationIntermediatesFolder
 #string fromChrPos
 #string toChrPos
@@ -27,7 +28,8 @@ declare -a imputation__has__impute2ChunkOutput=(${imputation__has__impute2ChunkO
 
 
 echo "chr: ${chr}"
-echo "outputFolder: ${outputFolder}"
+echo "ImputeOutputFolder: ${ImputeOutputFolder}"
+echo "ImputeOutputFolderTemp: ${ImputeOutputFolderTemp}"
 echo "imputationIntermediatesFolder: ${imputationIntermediatesFolder}"
 echo "imputation__has__impute2ChunkOutput: ${imputation__has__impute2ChunkOutput[@]}"
 echo "imputation__has__impute2ChunkOutputInfo: ${imputation__has__impute2ChunkOutputInfo[@]}"
@@ -52,16 +54,17 @@ do
 done
 
 mkdir -p ${imputationIntermediatesFolder}
+mkdir -p ${ImputeOutputFolderTemp}
 
-rm -f ${imputationIntermediatesFolder}/~chr${chr}_${fromChrPos}-${toChrPos}
+rm -f ${ImputeOutputFolderTemp}/~chr${chr}_${fromChrPos}-${toChrPos}
 rm -f ${imputationIntermediatesFolder}/chr${chr}_${fromChrPos}-${toChrPos}
-rm -f ${imputationIntermediatesFolder}/~chr${chr}_${fromChrPos}-${toChrPos}_info
+rm -f ${ImputeOutputFolderTemp}/~chr${chr}_${fromChrPos}-${toChrPos}_info
 rm -f ${imputationIntermediatesFolder}/chr${chr}_${fromChrPos}-${toChrPos}_info
 
 #Merging chunks
 toExecute="paste -d ' ' <(cut -d ' ' -f 1-5 ${imputation__has__impute2ChunkOutput[0]})"
-concatCommandColumns="cut -d ' ' -f 1-5 ${imputation__has__impute2ChunkOutput[0]} > ${imputationIntermediatesFolder}/~chr${chr}_${fromChrPos}-${toChrPos}.columns"
-concatCommand="paste -d ' ' ${imputationIntermediatesFolder}/~chr${chr}_${fromChrPos}-${toChrPos}.columns "
+concatCommandColumns="cut -d ' ' -f 1-5 ${imputation__has__impute2ChunkOutput[0]} > ${ImputeOutputFolderTemp}/~chr${chr}_${fromChrPos}-${toChrPos}.columns"
+concatCommand="paste -d ' ' ${ImputeOutputFolderTemp}/~chr${chr}_${fromChrPos}-${toChrPos}.columns "
 echo "Running: ${concatCommandColumns}"
 eval ${concatCommandColumns}
 indexVar=0
@@ -69,13 +72,13 @@ for element in ${imputation__has__impute2ChunkOutput[@]}
 do
 	indexVar=`expr $indexVar + 1`
 	toExecute="${toExecute} <( cut -d ' ' -f 6- ${element} )"
-	concatCommandColumns="cut -d ' ' -f 6- ${element} > ${imputationIntermediatesFolder}/~chr${chr}_${fromChrPos}-${toChrPos}.${indexVar}"
+	concatCommandColumns="cut -d ' ' -f 6- ${element} > ${ImputeOutputFolderTemp}/~chr${chr}_${fromChrPos}-${toChrPos}.${indexVar}"
 	echo "Running: ${concatCommandColumns}"
 	eval ${concatCommandColumns}
-	concatCommand="${concatCommand} ${imputationIntermediatesFolder}/~chr${chr}_${fromChrPos}-${toChrPos}.${indexVar} "
+	concatCommand="${concatCommand} ${ImputeOutputFolderTemp}/~chr${chr}_${fromChrPos}-${toChrPos}.${indexVar} "
 done
-toExecute="${toExecute} > ${imputationIntermediatesFolder}/~chr${chr}_${fromChrPos}-${toChrPos}"
-concatCommand="${concatCommand} > ${imputationIntermediatesFolder}/~chr${chr}_${fromChrPos}-${toChrPos}"
+toExecute="${toExecute} > ${ImputeOutputFolderTemp}/~chr${chr}_${fromChrPos}-${toChrPos}"
+concatCommand="${concatCommand} > ${ImputeOutputFolderTemp}/~chr${chr}_${fromChrPos}-${toChrPos}"
 
 # Process substitution is not available in all Unix shells
 #echo "Executing: $toExecute"
@@ -89,21 +92,21 @@ if [ $returnCode -eq 0 ]
 then
 
 	echo "Impute2 outputs concatenated for ${fromChrPos}-${toChrPos}"
-	mv ${imputationIntermediatesFolder}/~chr${chr}_${fromChrPos}-${toChrPos} ${imputationIntermediatesFolder}/chr${chr}_${fromChrPos}-${toChrPos}
+	cp ${ImputeOutputFolderTemp}/~chr${chr}_${fromChrPos}-${toChrPos} ${imputationIntermediatesFolder}/chr${chr}_${fromChrPos}-${toChrPos}
 	putFile ${imputationIntermediatesFolder}/chr${chr}_${fromChrPos}-${toChrPos}
 
 else
-	echo "Failed to cat impute2 outputs to ${imputationIntermediatesFolder}/~chr${chr}_${fromChrPos}-${toChrPos}" >&2
+	echo "Failed to cat impute2 outputs to ${ImputeOutputFolderTemp}/~chr${chr}_${fromChrPos}-${toChrPos}" >&2
 	exit -1
 fi
 
 
 #Merging infos (simple vertical merging)
-#toExecute="paste ${imputation__has__impute2ChunkOutputInfo[@]} > ${imputationIntermediatesFolder}/~chr${chr}_${fromChrPos}-${toChrPos}_info"
+#toExecute="paste ${imputation__has__impute2ChunkOutputInfo[@]} > ${ImputeOutputFolderTemp}/~chr${chr}_${fromChrPos}-${toChrPos}_info"
 #echo "Executing: ${toExecute}"
 #eval ${toExecute}
 
-toExecute="python ${generateInfo} --input_gprobs_filename ${imputationIntermediatesFolder}/chr${chr}_${fromChrPos}-${toChrPos} --output_info_filename ${imputationIntermediatesFolder}/~chr${chr}_${fromChrPos}-${toChrPos}_info"
+toExecute="python ${generateInfo} --input_gprobs_filename ${imputationIntermediatesFolder}/chr${chr}_${fromChrPos}-${toChrPos} --output_info_filename ${ImputeOutputFolderTemp}/~chr${chr}_${fromChrPos}-${toChrPos}_info"
 echo "Executing: ${toExecute}"
 eval ${toExecute}
 
@@ -112,11 +115,11 @@ if [ $returnCode -eq 0 ]
 then
 
         echo "Impute2 infos concatenated for ${fromChrPos}-${toChrPos}"
-        mv ${imputationIntermediatesFolder}/~chr${chr}_${fromChrPos}-${toChrPos}_info ${imputationIntermediatesFolder}/chr${chr}_${fromChrPos}-${toChrPos}_info
+        cp ${ImputeOutputFolderTemp}/~chr${chr}_${fromChrPos}-${toChrPos}_info ${imputationIntermediatesFolder}/chr${chr}_${fromChrPos}-${toChrPos}_info
         putFile ${imputationIntermediatesFolder}/chr${chr}_${fromChrPos}-${toChrPos}_info
 
 else
-        echo "Failed to cat impute2 outputs to ${imputationIntermediatesFolder}/~chr${chr}_${fromChrPos}-${toChrPos}_info" >&2
+        echo "Failed to cat impute2 outputs to ${ImputeOutputFolderTemp}/~chr${chr}_${fromChrPos}-${toChrPos}_info" >&2
         exit -1
 fi
 

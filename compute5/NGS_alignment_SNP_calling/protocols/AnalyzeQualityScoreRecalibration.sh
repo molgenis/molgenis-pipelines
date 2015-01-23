@@ -13,6 +13,8 @@
 #string BQSRPdf
 #string BQSRCsv
 #string RVersion
+#string tmpDataDir
+#string project
 
 #Echo parameter values
 echo "stage: ${stage}"
@@ -26,12 +28,6 @@ echo "beforeRecalTable: ${beforeRecalTable}"
 echo "postRecalTable: ${postRecalTable}"
 echo "BQSRPdf: ${BQSRPdf}"
 echo "BQSRCsv: ${BQSRCsv}"
-
-#Check if output exists
-alloutputsexist \
-"${BQSRPdf}" \
-"${BQSRCsv}"
-
 
 #Get covariate tables and reference data
 getFile ${indexFile}
@@ -51,7 +47,7 @@ tmpBQSRCsv=${MC_tmpFile}
 
 
 #Analyze covariates (before and after) using GATK. Afterwards generate statistics and graphs and output as csv and pdf respectively
-java -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
+java -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
 $GATK_HOME/${GATKJar} \
 -T AnalyzeCovariates \
 -R ${indexFile} \
@@ -62,5 +58,3 @@ $GATK_HOME/${GATKJar} \
     echo -e "\nAnalyzeQualityScoreRecalibration finished succesfull. Moving temp files to final.\n\n"
     mv ${tmpBQSRPdf} ${BQSRPdf}
     mv ${tmpBQSRCsv} ${BQSRCsv}
-    putFile "${BQSRPdf}"
-    putFile "${BQSRCsv}"

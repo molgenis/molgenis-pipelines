@@ -1,0 +1,3 @@
+internalId,project,sampleName,samplePrep,sequencer,seqType,sequencerId,flowcellId,run,lane,barcode,reads1FqGz,reads2FqGz
+1,projectNameHere,samplePE,000001,illumina,hiseq2500,SN163,BD0WDYACXX,0474,5,ACTGAT,/target/gpfs2/gcc/groups/gcc/tmp01/projects/rnaseq/development/rnaGatkHaplotypeCaller/raw/head_40000_120830_SN163_0474_BD0WDYACXX_L5_ACTGAT_1.fq.gz,/gcc/groups/oncogenetics/tmp01/resources/head_40000_120830_SN163_0474_BD0WDYACXX_L5_ACTGAT_2.fq.gz
+2,projectNameHere,sampleSE,000002,illumina,hiseq2500,SN163,BD0WDYACXX,0474,6,NNNNNN,/target/gpfs2/gcc/groups/gcc/tmp01/projects/rnaseq/development/rnaGatkHaplotypeCaller/raw/head_40000_120830_SN163_0474_BD0WDYACXX_L5_ACTGAT_1.fq.gz,

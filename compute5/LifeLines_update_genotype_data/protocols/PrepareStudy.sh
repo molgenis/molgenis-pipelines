@@ -52,10 +52,6 @@ mkdir -p ${validationDir}
 gawk '{OFS="\t"; print 1,$1,1,$2}' ${studyMappingFile} > ${tmpUpdateIds}
 gawk '{OFS="\t"; print 1,$2}' ${studyMappingFile} > ${tmpKeep}
 
-if [[ "${referenceStudyDir}" == *UnimputedPedMap* ]]
-then
-	echo -e "\nDetected UnimputedPedMap in path of referenceStudyDir, meaning this is raw data. Converting PCA files..\n";
-
 	#Convert PCA file
 	python ${convertPcaPy} -s ${tmpUpdateIds} -d ${pcaFile} -o ${outputStudyPcaFile}
 	md5sum ${outputStudyPcaFile} > ${outputStudyPcaFile}.md5
@@ -71,7 +67,6 @@ then
 		echo -e "\n${outputStudyPcaFile}.missing has a size of 0, no missing sample IDs found."
 		mv ${outputStudyPcaFile}.missing ${tmpProjectDir}/${studyId}_PCA.txt.missing
 	fi
-fi
 
 #Check referenceStudyDir parameter to establish which dosage conversion script to use
 if [[ "${referenceStudyDir}" == *BEAGLE* || "${referenceStudyDir}" == *beagle* || "${referenceStudyDir}" == *Beagle* ]]

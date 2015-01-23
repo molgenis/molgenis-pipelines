@@ -11,9 +11,10 @@
 #string baitChrBed
 #string dbSNP137Vcf
 #string dbSNP137VcfIdx
-#string projectChrVariantCalls
-#string projectChrVariantCallsIdx
-#list externalSampleID
+#string sampleChrVariantCalls
+#string sampleChrVariantCallsIdx
+#string externalSampleID
+#string tmpDataDir
 
 #Echo parameter values
 echo "stage: ${stage}"
@@ -27,8 +28,6 @@ echo "baitChrBed: ${baitChrBed}"
 echo "dbSNP137Vcf: ${dbSNP137Vcf}"
 echo "dbSNP137VcfIdx: ${dbSNP137VcfIdx}"
 
-echo "projectChrVariantCalls: ${projectChrVariantCalls}"
-echo "projectChrVariantCallsIdx: ${projectChrVariantCallsIdx}"
 
 sleep 10
 
@@ -37,7 +36,7 @@ array_contains () {
     local array="$1[@]"
     local seeking=$2
     local in=1
-    for element in "${array[@]}"; do
+    for element in "${!array-}"; do
         if [[ $element == $seeking ]]; then
             in=0
             break
@@ -46,9 +45,6 @@ array_contains () {
     return $in
 }
 
-#Check if output exists
-alloutputsexist \
-"${projectChrVariantCalls}"
 
 INPUTS=()
 
@@ -56,43 +52,33 @@ INPUTS=()
 getFile indexFile
 getFile dbSNP137Vcf
 getFile dbSNP137VcfIdx
-for externalID in "${externalSampleID[@]}"
-do
-  getFile ${intermediateDir}/$externalID.merged.dedup.realigned.bqsr.bam
-  getFile ${intermediateDir}/$externalID.merged.dedup.realigned.bqsr.bai
-  
-  INPUTS+=("-I ${intermediateDir}/$externalID.merged.dedup.realigned.bqsr.bam")
-done
 
 
 #Load GATK module
 ${stage} GATK/${GATKVersion}
 ${checkStage}
 
+makeTmpDir ${sampleChrVariantCalls}
+tmpSampleChrVariantCalls=${MC_tmpFile}
 
-makeTmpDir ${projectChrVariantCalls}
-tmpProjectChrVariantCalls=${MC_tmpFile}
-
-makeTmpDir ${projectChrVariantCallsIdx}
-tmpProjectChrVariantCallsIdx=${MC_tmpFile}
+makeTmpDir ${sampleChrVariantCallsIdx}
+tmpSampleChrVariantCallsIdx=${MC_tmpFile}
 
 #Run GATK HaplotypeCaller in DISCOVERY mode to call SNPs and indels
-java -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
+java -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
 $GATK_HOME/${GATKJar} \
 -T HaplotypeCaller \
 -R ${indexFile} \
-${INPUTS[@]} \
+-I ${intermediateDir}/${externalSampleID}.merged.dedup.realigned.bqsr.bam \
 --dbsnp ${dbSNP137Vcf} \
 --genotyping_mode DISCOVERY \
 -stand_emit_conf 10 \
 -stand_call_conf 30 \
--o ${tmpProjectChrVariantCalls} \
+-o ${tmpSampleChrVariantCalls} \
 -L ${baitChrBed} \
 -nct 16
 
-    echo -e "\nVariantCalling finished succesfull. Moving temp files to final.\n\n"
-    mv ${tmpProjectChrVariantCalls} ${projectChrVariantCalls}
-    mv ${tmpProjectChrVariantCallsIdx} ${projectChrVariantCallsIdx}
-    putFile "${projectChrVariantCalls}"
-    putFile "${projectChrVariantCallsIdx}"
+echo -e "\nVariantCalling finished succesfull. Moving temp files to final.\n\n"
+mv ${tmpSampleChrVariantCalls} ${sampleChrVariantCalls}
+mv ${tmpSampleChrVariantCallsIdx} ${sampleChrVariantCallsIdx}
 

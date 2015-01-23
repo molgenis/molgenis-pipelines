@@ -14,6 +14,8 @@
 #string lane
 #string library
 #string externalSampleID
+#string tmpDataDir
+#string project
 
 #Echo parameter values
 echo "stage: ${stage}"
@@ -30,25 +32,6 @@ echo "lane: ${lane}"
 echo "library: ${library}"
 echo "externalSampleID: ${externalSampleID}"
 
-
-sleep 10
-
-#If paired-end then copy 2 files, else only 1
-alloutputsexist \
-"${alignedSam}"
-
-getFile ${indexFile}
-if [ ${seqType} == "PE" ]
-then
-
-	getFile ${peEnd1BarcodeFqGz}
-	getFile ${peEnd2BarcodeFqGz}
-
-else
-
-	getFile ${srBarcodeFqGz}
-
-fi
 
 makeTmpDir ${alignedSam} 
 tmpAlignedSam=${MC_tmpFile}
@@ -87,6 +70,5 @@ else
 
 	echo -e "\nBWA sampe finished succesfull. Moving temp files to final.\n\n"
 	mv ${tmpAlignedSam} ${alignedSam}
-	putFile "${alignedSam}"
 fi
 

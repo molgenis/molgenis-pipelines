@@ -1,0 +1,10 @@
+#
+## convert bash array to R vector
+#
+
+<#noparse>
+function bashArrayToString {
+	declare -a a=("${!1}")
+	echo "\"$(printf -- '%s;' "${a[@]}")\""
+}
+</#noparse>

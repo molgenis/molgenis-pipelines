@@ -12,6 +12,11 @@
 #list chr
 #list projectChrVariantCalls
 #string projectPrefix
+#string tmpDataDir
+#string project
+#string sortVCFpl 
+#string indexFileFastaIndex
+#list externalSampleID
 
 #Echo parameter values
 echo "stage: ${stage}"
@@ -24,10 +29,8 @@ echo "projectIndelsMerged: ${projectIndelsMerged}"
 echo "projectVariantsMergedSorted: ${projectVariantsMergedSorted}"
 
 #Load module BWA
-${stage} tabix/$0.2.6
+${stage} tabix/0.2.6
 ${checkStage}
-
-
 
 makeTmpDir ${projectVariantsMerged}
 tmpProjectVariantsMerged=${MC_tmpFile}
@@ -38,10 +41,8 @@ tmpProjectSNPsMerged=${MC_tmpFile}
 makeTmpDir ${projectIndelsMerged}
 tmpProjectIndelsMerged=${MC_tmpFile}
 
-
 makeTmpDir ${projectVariantsMergedSorted}
 tmpProjectVariantsMergedSorted=${MC_tmpFile}
-
 
 #Function to check if array contains value
 array_contains () { 
@@ -57,26 +58,24 @@ array_contains () {
     return $in
 }
 
-#Check if output exists
-alloutputsexist "${projectSNPsMerged}"
-alloutputsexist "${projectIndelsMerged}"
-
-#for getVariants in "$chr"
-#do
-#  getFile $getVariants
-#done
+#load vcftools
+module load vcftools/0.1.12a
+module list
 
 INPUTS=()
 for c in "${chr[@]}"
 do
-  getFile ${projectPrefix}.chr${c}.variant.calls.vcf
-  getFile ${projectPrefix}.chr${c}.variant.calls.vcf.idx
-  INPUTS+=(${projectPrefix}.chr${c}.variant.calls.vcf)
+	MERG=()
+	for externalID in "${externalSampleID[@]}"
+	do	
+		bgzip -c ${intermediateDir}/${externalID}.chr${c}.variant.calls.vcf > ${intermediateDir}/${externalID}.chr${c}.variant.calls.vcf.gz
+		tabix -p vcf ${intermediateDir}/${externalID}.chr${c}.variant.calls.vcf.gz
+		MERG+=(${intermediateDir}/${externalID}.chr${c}.variant.calls.vcf.gz)		
+	done
+	vcf-merge "${MERG[@]}" > ${projectPrefix}.chr${c}.variant.calls.vcf
+	
+	INPUTS+=(${projectPrefix}.chr${c}.variant.calls.vcf)
 done
-
-#load vcftools
-module load vcftools/0.1.12a
-module list
 
 #Concatenate projectChrVariantCalls to one file
 
@@ -85,25 +84,34 @@ vcf-concat "${INPUTS[@]}" > ${tmpProjectVariantsMerged}
 
 #sort VCF file
 echo "INFO: Sort variants"
-#cat ${tmpProjectVariantsMerged} | vcf-sort --chromosomal-order > ${tmpProjectVariantsMergedSorted}
 cat ${tmpProjectVariantsMerged} | vcf-sort --chromosomal-order > ${projectVariantsMergedSorted}
 
-#split vcriant in SNPS and indels
+#split variant in SNPS and indels
 echo "INFO: split vatiant into SNPs and indels"
 vcftools --vcf ${projectVariantsMergedSorted} --keep-only-indels --out ${tmpProjectIndelsMerged} --recode --recode-INFO-all
 vcftools --vcf ${projectVariantsMergedSorted} --remove-indels --out ${tmpProjectSNPsMerged} --recode --recode-INFO-all
 
-#rename recode.vcf file to SNP and Indel filenames
-mv ${tmpProjectIndelsMerged}.recode.vcf ${tmpProjectIndelsMerged}
-mv ${tmpProjectSNPsMerged}.recode.vcf ${tmpProjectSNPsMerged}
-
 #move tmpFiles to Intermediatefolder
 echo -e "\nMergeChrAndSplitVariants finished succesfull. Moving temp files to final.\n\n"
+
+#sort and rename VCF file 
+${sortVCFpl} \
+-fastaIndexFile ${indexFileFastaIndex} \
+-inputVCF ${tmpProjectIndelsMerged}.recode.vcf \
+-outputVCF ${tmpProjectIndelsMerged}
+
+#sort and rename VCF file
+${sortVCFpl} \
+-fastaIndexFile ${indexFileFastaIndex} \
+-inputVCF ${tmpProjectSNPsMerged}.recode.vcf \
+-outputVCF ${tmpProjectSNPsMerged}
+
+
 mv ${tmpProjectSNPsMerged} ${projectSNPsMerged}
 mv ${tmpProjectIndelsMerged} ${projectIndelsMerged}
 putFile "${projectSNPsMerged}"
 putFile "${projectIndelsMerged}"
 
-#prepare the created vcf's for bcftools: bgzip + tabix to set the correct indexes and make correct format
+#prepare the created vcfs for bcftools: bgzip + tabix to set the correct indexes and make correct format
 bgzip -c ${projectIndelsMerged} > ${projectIndelsMerged}.gz
-tabix -p vcf ${projectIndelsMerged}.gz; \
+tabix -p vcf ${projectIndelsMerged}.gz

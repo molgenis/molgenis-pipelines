@@ -1,0 +1,6 @@
+step,protocol,dependencies
+phasing,../Imputation_shapeit_phasing/protocols/shapeitPhasing.sh,
+alignment,./protocols/alignWithReference.sh,phasing
+imputation,./protocols/impute2Imputation.sh,alignment
+concatResSamples,./protocols/concatImpute2ChrResults_samples.sh,imputation
+concatRes,./protocols/concatImpute2ChrResults.sh,concatResSamples
