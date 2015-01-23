@@ -91,9 +91,9 @@ then
 	
 	Rscript \
 	${RScript} \
-	${tmpBedForward} \
-	${binsPdfForward} \
-	${tmpForwardBins}
+	--input ${tmpBedForward} \
+	-p ${binsPdfForward} \
+	-o ${tmpForwardBins}
 	
 	rm ${tmpBedForward}	
 	
@@ -124,9 +124,9 @@ else
 	
 	Rscript \
 	${RScript} \
-	${tmpBedReverse} \
-	${binsPdfReverse} \
-	${tmpReverseBins}
+	--input ${tmpBedReverse} \
+	-p ${binsPdfReverse} \
+	-o ${tmpReverseBins}
 	
 	rm ${tmpBedReverse}	
 	
