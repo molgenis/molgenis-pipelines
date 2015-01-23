@@ -83,9 +83,9 @@ then
 	echo "encoding is Illumina 1.8 - Sanger / Illumina 1.9"
 else
 	#make fasta out of the fq.gz file
+        gzip -d -c ${barcodeFqGz} > ${barcodeFqGz}.fq
 	mkdir -p ${projectRawTmpDataDir}/IlluminaEncoding1.5
-        mv ${barcodeFqGz}* ${projectRawTmpDataDir}/IlluminaEncoding1.5/
-        gzip -d ${barcodeFqGz} > ${barcodeFqGz}.fq
+        mv ${barcodeFqGz} ${projectRawTmpDataDir}/IlluminaEncoding1.5/
 
         #convert Phreds+64 to Phred+33 (Illumna 1.5 TO Illumina / Sanger 1.9)
         sed -e '4~4y/@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghi/!"#$%&'\''()*+,-.\/0123456789:;<=>?@ABCDEFGHIJ/' ${barcodeFqGz}.fq > ${barcodeFqGz}.fq.encoded
