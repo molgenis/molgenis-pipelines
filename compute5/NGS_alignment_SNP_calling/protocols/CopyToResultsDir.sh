@@ -85,6 +85,8 @@ done
 
 for sample in "${externalSampleID[@]}"
 do	
+	cp ${intermediateDir}/${sample}.snpEff.annotated.snps.dbnsfp.final.vcf ${projectResultsDir}/snps
+	
 	cp ${intermediateDir}/${sample}.snpEff.annotated.indels.final.vcf ${projectResultsDir}/structural_variants
 	cp ${intermediateDir}/${sample}.snpEff.annotated.indels.final.vcf.table ${projectResultsDir}/structural_variants
 
@@ -108,7 +110,7 @@ cp -r ${projectQcDir}/images ${projectResultsDir}
 cd ${projectResultsDir}
 
 
-zip -r ${projectResultsDir}/${project}.zip snps
+zip -gr ${projectResultsDir}/${project}.zip snps
 zip -gr ${projectResultsDir}/${project}.zip qc
 zip -gr ${projectResultsDir}/${project}.zip images
 zip -gr ${projectResultsDir}/${project}.zip structural_variants

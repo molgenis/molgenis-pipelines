@@ -3,8 +3,8 @@
 #Parameter mapping
 #string stage
 #string checkStage
-#string GATKVersion
-#string GATKJar
+#string gatkVersion
+#string gatkJar
 #string tempDir
 #string intermediateDir
 #string indexFile
@@ -25,8 +25,8 @@
 #Echo parameter values
 echo "stage: ${stage}"
 echo "checkStage: ${checkStage}"
-echo "GATKVersion: ${GATKVersion}"
-echo "GATKJar: ${GATKJar}"
+echo "gatkVersion: ${gatkVersion}"
+echo "gatkJar: ${gatkJar}"
 echo "tempDir: ${tempDir}"
 echo "intermediateDir: ${intermediateDir}"
 echo "indexFile: ${indexFile}"
@@ -43,7 +43,7 @@ echo "inputGenerateCovariateTablesTable: ${inputGenerateCovariateTablesTable}"
 echo "outputGenerateCovariateTablesTable: ${outputGenerateCovariateTablesTable}"
 
 #Load GATK module
-${stage} GATK/${GATKVersion}
+${stage} GATK/${gatkVersion}
 ${checkStage}
 
 makeTmpDir ${outputGenerateCovariateTablesTable}
@@ -53,7 +53,7 @@ tmpOutputGenerateCovariateTablesTable=${MC_tmpFile}
 if [ ${inputRecal} == "before" ]
 then
 	java -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
-	$GATK_HOME/${GATKJar} \
+	$GATK_HOME/${gatkJar} \
 	-T BaseRecalibrator \
 	-R ${indexFile} \
 	-I ${inputGenerateCovariateTablesBam} \
@@ -66,7 +66,7 @@ then
 elif [ ${inputRecal} == "post" ]
 then
 	java -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
-	$GATK_HOME/${GATKJar} \
+	$GATK_HOME/${gatkJar} \
 	-T BaseRecalibrator \
 	-R ${indexFile} \
 	-I ${inputGenerateCovariateTablesBam} \

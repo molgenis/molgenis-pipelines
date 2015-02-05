@@ -15,9 +15,9 @@
 #list externalSampleID
 #string tmpDataDir
 #string project
-#string GATKVersion
-#string SnpEffVersion
-#string JavaVersion
+#string gatkVersion
+#string snpEffVersion
+#string javaVersion
 
 #Echo parameter values
 echo "stage: ${stage}"
@@ -69,9 +69,9 @@ done
 
 
 #Load GATK module
-${stage} jdk/${JavaVersion}
-${stage} GATK/${GATKVersion}
-${stage} snpEff/${SnpEffVersion}
+${stage} jdk/${javaVersion}
+${stage} GATK/${gatkVersion}
+${stage} snpEff/${snpEffVersion}
 ${checkStage}
 
 java -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \

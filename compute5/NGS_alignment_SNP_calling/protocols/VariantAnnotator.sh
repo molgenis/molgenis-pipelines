@@ -21,9 +21,9 @@
 #string tmpDataDir
 #string project
 #string sortVCFpl
-#string GATKVersion
-#string SnpEffVersion
-#string JavaVersion
+#string gatkVersion
+#string snpEffVersion
+#string javaVersion
 
 
 #Echo parameter values
@@ -76,9 +76,9 @@ done
 
 
 #Load GATK module
-${stage} jdk/${JavaVersion}
-${stage} GATK/${GATKVersion}
-${stage} snpEff/${SnpEffVersion}
+${stage} jdk/${javaVersion}
+${stage} GATK/${gatkVersion}
+${stage} snpEff/${snpEffVersion}
 ${checkStage}
 
 

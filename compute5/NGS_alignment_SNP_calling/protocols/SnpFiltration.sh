@@ -3,8 +3,8 @@
 #Parameter mapping
 #string stage
 #string checkStage
-#string GATKVersion
-#string GATKJar
+#string gatkVersion
+#string gatkJar
 #string tempDir
 #string intermediateDir
 #string indexFile
@@ -17,8 +17,8 @@
 #Echo parameter values
 echo "stage: ${stage}"
 echo "checkStage: ${checkStage}"
-echo "GATKVersion: ${GATKVersion}"
-echo "GATKJar: ${GATKJar}"
+echo "gatkVersion: ${gatkVersion}"
+echo "gatkJar: ${gatkJar}"
 echo "tempDir: ${tempDir}"
 echo "intermediateDir: ${intermediateDir}"
 echo "indexFile: ${indexFile}"
@@ -50,7 +50,7 @@ getFile ${projectSNPsMerged}
 
 
 #Load GATK module
-${stage} GATK/${GATKVersion}
+${stage} GATK/${gatkVersion}
 ${checkStage}
 
 
@@ -59,7 +59,7 @@ tmp_projectSNPsMergedFiltered=${MC_tmpFile}
 
 #Run GATK VariantFiltration to filter called SNPs on 
 
-java -XX:ParallelGCThreads=4 -Xmx8g -Xms6g -jar $GATK_HOME/${GATKJar} \
+java -XX:ParallelGCThreads=4 -Xmx8g -Xms6g -jar $GATK_HOME/${gatkJar} \
 -T VariantFiltration \
 -R ${indexFile} \
 -o ${tmp_projectSNPsMergedFiltered} \
