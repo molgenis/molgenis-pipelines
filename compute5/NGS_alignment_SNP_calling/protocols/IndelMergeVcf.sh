@@ -8,17 +8,17 @@
 #string projectIndelsMerged
 #string externalSampleID
 #string indexFile
+#string indexFileFastaIndex
 #string sampleIndelsPindelGATKMerged
 #string baitIntervals
 #string seqType
-#string GATKVersion
-#string BcftoolsVersion
-#string TabixVersion
+#string gatkVersion
+#string mergeSVspl
+#string sortVCFpl
+
  
 #Load GATK,bcftools,tabix module
-${stage} GATK/${GATKVersion}
-module load bcftools/${BcftoolsVersion}
-module load tabix/${TabixVersion}
+${stage} GATK/${gatkVersion}
 ${checkStage}
 
 #Echo parameter values
@@ -54,31 +54,25 @@ echo "running GATK : SelectVariants"
    -sn ${externalSampleID}
 if [ ${seqType} == "PE" ]
 then
-#gzip and make indexfiles for bcftools
-bgzip -c ${intermediateDir}/${externalSampleID}.indels.GATK.vcf > ${intermediateDir}/${externalSampleID}.indels.GATK.vcf.gz
-bgzip -c ${intermediateDir}/${externalSampleID}.output.pindel.merged.vcf > ${intermediateDir}/${externalSampleID}.output.pindel.merged.vcf.gz
-tabix -p vcf ${intermediateDir}/${externalSampleID}.indels.GATK.vcf.gz
-tabix -p vcf ${intermediateDir}/${externalSampleID}.output.pindel.merged.vcf.gz
 
-echo "running BCFTools : merge"
-bcftools merge \
-${intermediateDir}/${externalSampleID}.indels.GATK.vcf.gz \
-${intermediateDir}/${externalSampleID}.output.pindel.merged.vcf.gz \
---output-type v > ${tmp_sampleIndelsPindelGATKMerged}
+#Merge Pindel en GATK called indels
 
-#echo header into outputfile, and remove collumn headers
-bcftools view -h ${tmp_sampleIndelsPindelGATKMerged} > ${tmp_sampleIndelsPindelGATKMerged}.tmp
-sed -i '$ d' ${tmp_sampleIndelsPindelGATKMerged}.tmp
+perl ${mergeSVspl} \
+-pindelVCF ${intermediateDir}/${externalSampleID}.output.pindel.merged.vcf \
+-unifiedGenotyperVCF ${intermediateDir}/${externalSampleID}.indels.GATK.vcf \
+-outputVCF ${tmp_sampleIndelsPindelGATKMerged}.UNSORTED
 
-#create new header and replace header of output vcf using tabix
-echo "#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	${externalSampleID}.GATK	${externalSampleID}.PINDEL" > ${intermediateDir}/${externalSampleID}.header.txt
-bgzip -c ${tmp_sampleIndelsPindelGATKMerged} > ${tmp_sampleIndelsPindelGATKMerged}.gz
-tabix -p vcf ${tmp_sampleIndelsPindelGATKMerged}.gz
-tabix -r ${intermediateDir}/${externalSampleID}.header.txt ${tmp_sampleIndelsPindelGATKMerged}.gz >> ${tmp_sampleIndelsPindelGATKMerged}.reheadered.tmp.gz
-gunzip ${tmp_sampleIndelsPindelGATKMerged}.reheadered.tmp.gz
-cat ${tmp_sampleIndelsPindelGATKMerged}.reheadered.tmp >> ${tmp_sampleIndelsPindelGATKMerged}.tmp
+perl ${sortVCFpl} \
+-fastaIndexFile ${indexFileFastaIndex} \
+-inputVCF ${tmp_sampleIndelsPindelGATKMerged}.UNSORTED \
+-outputVCF ${tmp_sampleIndelsPindelGATKMerged}
 
-mv ${tmp_sampleIndelsPindelGATKMerged}.tmp ${sampleIndelsPindelGATKMerged}
+#add header INFO annotation for PindelREF and PindelALT  
+sed -i '10i\##INFO=<ID=PindelREF,Number=1,Type=String,Description="PindelREF">' ${tmp_sampleIndelsPindelGATKMerged}
+sed -i '10i\##INFO=<ID=PindelALT,Number=1,Type=String,Description="PindelALT">' ${tmp_sampleIndelsPindelGATKMerged}
+
+
+mv ${tmp_sampleIndelsPindelGATKMerged} ${sampleIndelsPindelGATKMerged}
 
 elif [ ${seqType} == "SR" ]
 then

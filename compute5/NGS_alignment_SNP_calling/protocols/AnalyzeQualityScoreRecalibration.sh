@@ -3,8 +3,8 @@
 #Parameter mapping
 #string stage
 #string checkStage
-#string GATKVersion
-#string GATKJar
+#string gatkVersion
+#string gatkJar
 #string tempDir
 #string intermediateDir
 #string indexFile
@@ -12,15 +12,15 @@
 #string postRecalTable
 #string BQSRPdf
 #string BQSRCsv
-#string RVersion
+#string rVersion
 #string tmpDataDir
 #string project
 
 #Echo parameter values
 echo "stage: ${stage}"
 echo "checkStage: ${checkStage}"
-echo "GATKVersion: ${GATKVersion}"
-echo "GATKJar: ${GATKJar}"
+echo "gatkVersion: ${gatkVersion}"
+echo "gatkJar: ${gatkJar}"
 echo "tempDir: ${tempDir}"
 echo "intermediateDir: ${intermediateDir}"
 echo "indexFile: ${indexFile}"
@@ -35,8 +35,8 @@ getFile ${beforeRecalTable}
 getFile ${postRecalTable}
 
 #Load GATK module
-${stage} GATK/${GATKVersion}
-${stage} R/${RVersion}
+${stage} GATK/${gatkVersion}
+${stage} R/${rVersion}
 ${checkStage}
 
 makeTmpDir ${BQSRPdf}
@@ -48,7 +48,7 @@ tmpBQSRCsv=${MC_tmpFile}
 
 #Analyze covariates (before and after) using GATK. Afterwards generate statistics and graphs and output as csv and pdf respectively
 java -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
-$GATK_HOME/${GATKJar} \
+$GATK_HOME/${gatkJar} \
 -T AnalyzeCovariates \
 -R ${indexFile} \
 -before ${beforeRecalTable} \

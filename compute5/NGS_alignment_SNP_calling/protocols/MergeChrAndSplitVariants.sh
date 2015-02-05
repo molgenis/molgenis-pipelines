@@ -49,7 +49,7 @@ array_contains () {
     local array="$1[@]"
     local seeking=$2
     local in=1
-    for element in "${array[@]}"; do
+    for element in "${!array-}"; do
         if [[ $element == $seeking ]]; then
             in=0
             break
@@ -62,11 +62,18 @@ array_contains () {
 module load vcftools/0.1.12a
 module list
 
+EXTSAMPLES=()
+for externalID in "${externalSampleID[@]}"
+do
+	array_contains EXTSAMPLES "$externalID" || EXTSAMPLES+=("$externalID")    # If bamFile does not exist in array add it
+done
+
+
 INPUTS=()
 for c in "${chr[@]}"
 do
 	MERG=()
-	for externalID in "${externalSampleID[@]}"
+	for externalID in "${EXTSAMPLES[@]}"
 	do	
 		bgzip -c ${intermediateDir}/${externalID}.chr${c}.variant.calls.vcf > ${intermediateDir}/${externalID}.chr${c}.variant.calls.vcf.gz
 		tabix -p vcf ${intermediateDir}/${externalID}.chr${c}.variant.calls.vcf.gz

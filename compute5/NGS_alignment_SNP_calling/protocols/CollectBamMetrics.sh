@@ -17,7 +17,7 @@
 #string recreateInsertSizePdfR
 #string baitIntervals
 #string targetIntervals
-#string RVersion
+#string rVersion
 #string capturingKit
 #string seqType
 #string intermediateDir
@@ -40,7 +40,7 @@ echo "tempDir: ${tempDir}"
 echo "recreateInsertSizePdfR: ${recreateInsertSizePdfR}"
 echo "baitIntervals: ${baitIntervals}"
 echo "targetIntervals: ${targetIntervals}"
-echo "RVersion: ${RVersion}"
+echo "rVersion: ${rVersion}"
 echo "capturingKit: ${capturingKit}"
 echo "seqType: ${seqType}"
 echo "intermediateDir: ${intermediateDir}"
@@ -49,7 +49,7 @@ echo "intermediateDir: ${intermediateDir}"
 ${stage} picard-tools/${picardVersion}
 
 #Load R module
-${stage} R/${RVersion}
+${stage} R/${rVersion}
 ${checkStage}
 
 makeTmpDir ${collectBamMetricsPrefix}

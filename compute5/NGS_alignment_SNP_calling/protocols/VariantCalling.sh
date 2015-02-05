@@ -3,8 +3,8 @@
 #Parameter mapping
 #string stage
 #string checkStage
-#string GATKVersion
-#string GATKJar
+#string gatkVersion
+#string gatkJar
 #string tempDir
 #string intermediateDir
 #string indexFile
@@ -19,8 +19,8 @@
 #Echo parameter values
 echo "stage: ${stage}"
 echo "checkStage: ${checkStage}"
-echo "GATKVersion: ${GATKVersion}"
-echo "GATKJar: ${GATKJar}"
+echo "gatkVersion: ${gatkVersion}"
+echo "gatkJar: ${gatkJar}"
 echo "tempDir: ${tempDir}"
 echo "intermediateDir: ${intermediateDir}"
 echo "indexFile: ${indexFile}"
@@ -55,7 +55,7 @@ getFile dbSNP137VcfIdx
 
 
 #Load GATK module
-${stage} GATK/${GATKVersion}
+${stage} GATK/${gatkVersion}
 ${checkStage}
 
 makeTmpDir ${sampleChrVariantCalls}
@@ -66,7 +66,7 @@ tmpSampleChrVariantCallsIdx=${MC_tmpFile}
 
 #Run GATK HaplotypeCaller in DISCOVERY mode to call SNPs and indels
 java -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
-$GATK_HOME/${GATKJar} \
+$GATK_HOME/${gatkJar} \
 -T HaplotypeCaller \
 -R ${indexFile} \
 -I ${intermediateDir}/${externalSampleID}.merged.dedup.realigned.bqsr.bam \

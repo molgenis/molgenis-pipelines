@@ -8,12 +8,12 @@
 #string snpEffSNPCallsHtml
 #string snpEffSnpsVcf
 #string snpEffSNPGenesTxt
-#string inputVcf
+#string projectSNPsMergedFiltered
 #string tmpDataDir
 #string project
-#string GATKVersion
-#string SnpEffVersion
-#string JavaVersion
+#string gatkVersion
+#string snpEffVersion
+#string javaVersion
 
 #Echo parameter values
 echo "stage: ${stage}"
@@ -30,7 +30,7 @@ makeTmpDir ${snpEffSNPCallsHtml}
 tmpSnpEffSNPCallsHtml=${MC_tmpFile}
 
 makeTmpDir ${snpEffSnpsVcf}
-tmpsnpEffSnpsVcf=${MC_tmpFile}
+tmpSnpEffSnpsVcf=${MC_tmpFile}
 
 makeTmpDir ${snpEffSNPGenesTxt}
 tmpSnpEffSNPGenesTxt=${MC_tmpFile}
@@ -50,9 +50,9 @@ array_contains () {
 }
 
 #Load GATK module
-${stage} jdk/${JavaVersion}
-${stage} GATK/${GATKVersion}
-${stage} snpEff/${SnpEffVersion}
+${stage} jdk/${javaVersion}
+${stage} GATK/${gatkVersion}
+${stage} snpEff/${snpEffVersion}
 ${checkStage}
 
 #Run snpEff
@@ -63,11 +63,11 @@ eff \
 -c $SNPEFF_HOME/snpEff.config \
 -i vcf \
 -o gatk \
-GRCh37.69 \
+GRCh37.75 \
 -stats ${tmpSnpEffSNPCallsHtml} \
-${inputVcf} \
-> ${tmpsnpEffSnpsVcf}
+${projectSNPsMergedFiltered} \
+> ${tmpSnpEffSnpsVcf}
 
     mv ${tmpSnpEffSNPCallsHtml} ${snpEffSNPCallsHtml}
-    mv ${tmpsnpEffSnpsVcf} ${snpEffSnpsVcf}
+    mv ${tmpSnpEffSnpsVcf} ${snpEffSnpsVcf}
     mv ${tmpSnpEffSNPGenesTxt} ${snpEffSNPGenesTxt}

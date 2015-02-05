@@ -3,8 +3,8 @@
 #Parameter mapping
 #string stage
 #string checkStage
-#string GATKVersion
-#string GATKJar
+#string gatkVersion
+#string gatkJar
 #string dedupBam
 #string dedupBamIdx
 #string tempDir
@@ -23,8 +23,8 @@
 #Echo parameter values
 echo "stage: ${stage}"
 echo "checkStage: ${checkStage}"
-echo "GATKVersion: ${GATKVersion}"
-echo "GATKJar: ${GATKJar}"
+echo "gatkVersion: ${gatkVersion}"
+echo "gatkJar: ${gatkJar}"
 echo "dedupBam: ${dedupBam}"
 echo "dedupBamIdx: ${dedupBamIdx}"
 echo "tempDir: ${tempDir}"
@@ -45,13 +45,13 @@ makeTmpDir ${realignedBamIdx}
 tmpRealignedBamIdx=${MC_tmpFile}
 
 #Load GATK module
-${stage} GATK/${GATKVersion}
+${stage} GATK/${gatkVersion}
 ${checkStage}
 
 #Run GATK on knowns only
 #Only use --fix_misencoded_quality_scores to fix misencoded quality scores on the fly (Automatically substracts 31 from Illumina Qscores and writes corrected Qscores away.)
 java -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
-$GATK_HOME/${GATKJar} \
+$GATK_HOME/${gatkJar} \
 -T IndelRealigner \
 -I ${dedupBam} \
 -R ${indexFile} \

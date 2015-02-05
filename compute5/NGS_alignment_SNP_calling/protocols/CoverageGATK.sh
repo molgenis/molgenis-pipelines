@@ -5,9 +5,9 @@
 #string checkStage
 #string indexFile
 #string tempDir
-#string RVersion
-#string GATKJar
-#string GATKVersion
+#string rVersion
+#string gatkJar
+#string gatkVersion
 #string capturingKit
 #string targetIntervals
 #string intermediateDir
@@ -22,13 +22,13 @@ echo "stage: ${stage}"
 echo "checkStage: ${checkStage}"
 echo "indexFile: ${indexFile}"
 echo "tempDir: ${tempDir}"
-echo "RVersion: ${RVersion}"
+echo "rVersion: ${rVersion}"
 echo "capturingKit: ${capturingKit}"
 echo "targetIntervals: ${targetIntervals}"
 echo "intermediateDir: ${intermediateDir}"
 echo "inputCoverageBam: ${inputCoverageBam}"
-echo "GATKVersion: ${GATKVersion}"
-echo "GATKJar ${GATKJar}"
+echo "gatkVersion: ${gatkVersion}"
+echo "gatkJar ${gatkJar}"
 echo "cumCoverageScriptGATK: ${cumCoverageScriptGATK}"
 
 if [ ${capturingKit} != "None" ]
@@ -37,10 +37,10 @@ then
 fi
 
 #Load GATK module
-${stage} GATK/${GATKVersion}
+${stage} GATK/${gatkVersion}
 	
 #Load R module
-${stage} R/${RVersion}
+${stage} R/${rVersion}
 ${checkStage}
 
 makeTmpDir ${inputCoverageBam}
@@ -51,7 +51,7 @@ if [ ${capturingKit} != "None" ]
 then
 
 	java -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${tempDir} -Xmx12g -jar \
-	$GATK_HOME/${GATKJar} \
+	$GATK_HOME/${gatkJar} \
 	-mte \
 	-T DepthOfCoverage \
 	-R ${indexFile} \
@@ -62,7 +62,7 @@ then
 else
 
 	java -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${tempdir} -Xmx12g -jar \
-	$GATK_HOME/${GATKJar} \
+	$GATK_HOME/${gatkJar} \
 	-T DepthOfCoverage \
 	-mte \
 	-R ${indexFile} \

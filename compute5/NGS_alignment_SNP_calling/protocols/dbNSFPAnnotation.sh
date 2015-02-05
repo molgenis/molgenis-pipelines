@@ -10,6 +10,10 @@
 #string outputDbNSFPVcf
 #string tmpDataDir
 #string project
+#list externalSampleID
+#string javaVersion
+#string snpEffVersion
+#string vcfToolsVersion
 
 #Echo parameter values
 echo "stage: ${stage}"
@@ -53,8 +57,9 @@ array_contains () {
 }
 
 #Load module
-${stage} jdk/1.7.0_51
-${stage} snpEff/3.6c
+${stage} jdk/${javaVersion}
+${stage} snpEff/${snpEffVersion}
+${stage} vcftools/${vcfToolsVersion}
 ${checkStage}
 
 makeTmpDir ${outputDbNSFPVcf}
@@ -70,6 +75,22 @@ dbnsfp \
 ${variantAnnotatorOutputSnpsVcf} \
 > ${tmpOutputDbNSFPVcf}
 
+
+#split snps per sample
+EXTSAMPLES=()
+for externalID in "${externalSampleID[@]}"
+do
+        array_contains EXTSAMPLES "$externalID" || EXTSAMPLES+=("$externalID")    # If bamFile does not exist in array add it
+done
+
+for i in "${EXTSAMPLES[@]}"
+do
+        vcf-subset -c $i ${tmpOutputDbNSFPVcf} > ${MC_tmpFolder}/$i.snpEff.annotated.snps.dbnsfp.final.vcf
+        mv ${MC_tmpFolder}/$i.snpEff.annotated.snps.dbnsfp.final.vcf ${intermediateDir}/$i.snpEff.annotated.snps.dbnsfp.final.vcf
+done
+
+
 echo -e "\ndbNSFPSnpEffAnnotation finished successfully. Moving temp files to final.\n\n"
+
 mv ${tmpOutputDbNSFPVcf} ${outputDbNSFPVcf}
 

@@ -3,8 +3,8 @@
 #Parameter mapping
 #string stage
 #string checkStage
-#string GATKVersion
-#string GATKJar
+#string gatkVersion
+#string gatkJar
 #string tempDir
 #string intermediateDir
 #string indexFile
@@ -21,8 +21,8 @@
 #Echo parameter values
 echo "stage: ${stage}"
 echo "checkStage: ${checkStage}"
-echo "GATKVersion: ${GATKVersion}"
-echo "GATKJar: ${GATKJar}"
+echo "gatkVersion: ${gatkVersion}"
+echo "gatkJar: ${gatkJar}"
 echo "tempDir: ${tempDir}"
 echo "intermediateDir: ${intermediateDir}"
 echo "indexFile: ${indexFile}"
@@ -44,12 +44,12 @@ makeTmpDir ${BQSRBamMd5}
 tmpBQSRBamMd5=${MC_tmpFile}
 
 #Load GATK module
-${stage} GATK/${GATKVersion}
+${stage} GATK/${gatkVersion}
 ${checkStage}
 
 #Apply GATK BQSR and create output BAM md5sum on the fly
 java -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
-$GATK_HOME/${GATKJar} \
+$GATK_HOME/${gatkJar} \
 -T PrintReads \
 -R ${indexFile} \
 -I ${realignedBam} \
