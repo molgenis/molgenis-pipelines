@@ -1,4 +1,4 @@
-queue,gcc
+queue,gaf
 mem,4
 walltime,23:59:00
 nodes,1
@@ -15,6 +15,8 @@ resDir,${root}/resources/
 toolDir,${root}/tools/
 scriptDir,${toolDir}/scripts/
 gafHome,${root}/groups/gaf/
+permanentDir,${gafHome}/prm02
+allRawNgsPrmDataDir,${permanentDir}/rawdata/ngs
 tmpDataDir,${root}/groups/gaf/tmp01/
 allRawtmpDataDir,${tmpDataDir}/rawdata/
 allRawNgstmpDataDir,${allRawtmpDataDir}/ngs/

@@ -10,7 +10,6 @@
 #string scriptDir
 #string expressionFolder 
 #list externalSampleID
-#string capturingKit
 #string GAF_QC_Name
 #string contact
 #string qcMatricsList
