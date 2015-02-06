@@ -10,6 +10,7 @@
 #string projectQcDir
 #string projectJobsDir
 #string expressionTable
+#string annotationGtf
 
 alloutputsexist "${projectResultsDir}/${project}.zip"
 
@@ -60,6 +61,7 @@ cp ${projectJobsDir}/${project}.csv ${projectResultsDir}
 
 	cp ${intermediateDir}/*.htseq.txt ${projectResultsDir}/expression/perSampleExpression
 	cp ${expressionTable} ${projectResultsDir}/expression/expressionTable
+	cp ${annotationGtf} ${projectResultsDir}/expression/
 	
 # Copy QC images and report to results directory
 
