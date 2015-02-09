@@ -1,4 +1,4 @@
-#MOLGENIS walltime=24:00:00 nodes=1 cores=8 mem=40gb
+#MOLGENIS walltime=24:00:00 nodes=1 ppn=8 mem=40gb
 
 #Parameter mapping
 #string leftbarcodefqgz
@@ -136,11 +136,48 @@ else
 	
 fi
 
-java -Xmx40g -Xms40g -jar $PICARD_HOME/SortSam.jar I=${TMPDIR}/${prefix}.Aligned.out.sam O=${outputFolder}/${prefix}___tmp___.Aligned.out.sorted.bam SO=coordinate TMP_DIR=${TMPDIR} CREATE_MD5_FILE=false CREATE_INDEX=true 
+
+# Add readgroup and sort
+# READGROUPLINE="@RG\tID:${lane}\tPL:illumina\tLB:${library}\tSM:${externalSampleID}"
+# RGID=group1 RGLB= lib1 RGPL=illumina RGPU=unit1 RGSM=sample1 
+
+java -Xmx6g -jar $PICARD_HOME/AddOrReplaceReadGroups.jar \
+INPUT=${TMPDIR}/${prefix}.Aligned.out.sam \
+OUTPUT=${outputFolder}/${prefix}___tmp___.Aligned.out.sorted.bam \
+SORT_ORDER=coordinate \
+RGID=${lane} \
+RGLB=${library} \
+RGPL="illumina" \
+RGPU=${sequencer}_${flowcell}_${run}_${lane}_${barcode} \
+RGSM=${externalSampleID} \
+CREATE_INDEX=true \
+MAX_RECORDS_IN_RAM=4000000 \
+TMP_DIR=${TMPDIR}
+
+#java -Xmx40g -Xms40g -jar $PICARD_HOME/SortSam.jar I=${TMPDIR}/${prefix}.Aligned.out.sam O=${outputFolder}/${prefix}___tmp___.Aligned.out.sorted.bam SO=coordinate TMP_DIR=${TMPDIR} CREATE_MD5_FILE=false CREATE_INDEX=true 
 
 returnCode=$?
 
 echo "Picard return code: ${returnCode}"
+
+#
+## FIX READSGROUP
+#
+
+#java -Xmx6g -jar $PICARD_HOME/AddOrReplaceReadGroups.jar \
+#INPUT=${starAlignmentPassTwoDir}/Aligned.out.sam \
+#OUTPUT=${addOrReplaceGroupsBam} \
+#SORT_ORDER=coordinate \
+#RGID=${internalId} \
+#RGLB=${sampleName}_${samplePrep} \
+#RGPL=${sequencer} \
+#RGPU=${seqType}_${sequencerId}_${flowcellId}_${run}_${lane}_${barcode} \
+#RGSM=${sampleName} \
+#RGDT=$(date --rfc-3339=date) \
+#CREATE_INDEX=true \
+#MAX_RECORDS_IN_RAM=4000000 \
+#TMP_DIR=$(dirname ${addOrReplaceGroupsBam})
+
 
 if [ $returnCode -eq 0 ]
 then
