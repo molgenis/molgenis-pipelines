@@ -21,7 +21,7 @@ checkIlluminaEncoding() {
 barcodeFqGz=$1
 echo ${barcodeFqGz}
 
-Lines=(`zcat ${barcodeFqGz} | head -48 | awk 'NR % 4 == 0'`)
+Lines=(`zcat ${barcodeFqGz} | head -96 | awk 'NR % 4 == 0'`)
 count=1
 nodecision=0
 numberoflines=0
@@ -68,8 +68,7 @@ do
         	then
                 (( nodecision++ ))     
 	else
-		echo "The encoding is not matching to anything, check FastQ documentation"
-    		exit 1
+		echo "The encoding is not matching to anything, check FastQ documentation (count=$count)"
 	fi
 done
 if [ $nodecision == $numberoflines ] 
