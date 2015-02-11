@@ -7,6 +7,15 @@
 #string externalSampleID
 #string STARindex
 #string seqType
+#string jdkVersion
+#string sequencer 
+#string library
+#string flowcell
+#string run
+#string barcode
+#string lane
+#string picardVersion
+#string starVersion
 
 #Echo parameter values
 fastq1="${leftbarcodefqgz}"
@@ -18,8 +27,9 @@ seqType="${seqType}"
 
 
 #load modules JDK,STAR,PICARDTools
-module load STAR/2.3.1l
-module load picard-tools/1.102
+module load jdk/${jdkVersion}
+module load STAR/${starVersion}
+module load picard-tools/${picardVersion}
 module list
 
 hostname
@@ -27,8 +37,6 @@ hostname
 echo -e "fastq1=${fastq1}\nfastq2=${fastq2}\noutputFolder=${outputFolder}\nprefix=${prefix}\nSTARindex=${STARindex}"
 
 mkdir -p ${outputFolder}
-
-alloutputsexist ${outputFolder}/${prefix}Aligned.out.sorted.bam
 
 # Check md5sum
 if [ -a ${fastq1}.md5 ]
@@ -72,7 +80,6 @@ else
 fi
 
 echo "readLength=$readLength"
-
 
 
 #if [ ${#fastq2} -eq 0 ]; 
@@ -159,25 +166,6 @@ TMP_DIR=${TMPDIR}
 returnCode=$?
 
 echo "Picard return code: ${returnCode}"
-
-#
-## FIX READSGROUP
-#
-
-#java -Xmx6g -jar $PICARD_HOME/AddOrReplaceReadGroups.jar \
-#INPUT=${starAlignmentPassTwoDir}/Aligned.out.sam \
-#OUTPUT=${addOrReplaceGroupsBam} \
-#SORT_ORDER=coordinate \
-#RGID=${internalId} \
-#RGLB=${sampleName}_${samplePrep} \
-#RGPL=${sequencer} \
-#RGPU=${seqType}_${sequencerId}_${flowcellId}_${run}_${lane}_${barcode} \
-#RGSM=${sampleName} \
-#RGDT=$(date --rfc-3339=date) \
-#CREATE_INDEX=true \
-#MAX_RECORDS_IN_RAM=4000000 \
-#TMP_DIR=$(dirname ${addOrReplaceGroupsBam})
-
 
 if [ $returnCode -eq 0 ]
 then

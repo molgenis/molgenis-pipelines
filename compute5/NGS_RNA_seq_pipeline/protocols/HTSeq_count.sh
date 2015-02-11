@@ -6,6 +6,8 @@
 #string annotationGtf
 #string txtExpression
 #string externalSampleID
+#string pythonVersion
+#string samtoolsVersion
 
 #Echo parameter values
 sortedBam="${sortedBam}"
@@ -15,10 +17,8 @@ txtExpression="${txtExpression}"
 
 echo -e "sortedBam=${sortedBam}\nannotationGtf=${annotationGtf}\ntxtExpression=${txtExpression}"
 
-alloutputsexist ${txtExpression}
-
-module load Python/2.7.5
-module load samtools/0.1.18
+module load Python/${pythonVersion}
+module load samtools/${samtoolsVersion}
 module list
 
 echo "Sorting bam file by name"

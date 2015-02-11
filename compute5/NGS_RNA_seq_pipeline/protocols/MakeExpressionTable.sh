@@ -5,6 +5,7 @@
 #string geneAnnotationTxt
 #string expressionTable
 #string project
+#string jdkVersion
 #list externalSampleID
 
 mkdir -p ${expressionFolder}
@@ -17,7 +18,7 @@ do
 	echo -e "${sample}\t$expressionFolder/${sample}.htseq.txt" >> ${expressionFolder}/fileList.txt
 done 
 
-module load jdk
+module load jdk/${jdkVersion}
 module list
 
 if java \

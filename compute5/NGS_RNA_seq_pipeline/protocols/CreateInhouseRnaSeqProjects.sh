@@ -1,20 +1,4 @@
 #!/bin/bash =====================================================
-#
-# $Id$
-# $URL$
-# $LastChangedDate$
-# $LastChangedRevision$
-# $LastChangedBy$
-# $seqType
-# ${projectRawArraytmpDataDir}
-# ${projectRawtmpDataDir}
-# ${projectJobsDir}
-# ${projectLogsDir}
-# ${intermediateDir}
-# ${projectResultsDir}
-# ${projectQcDir}
-# =====================================================
-#
 
 #list seqType
 #string projectRawArraytmpDataDir
@@ -24,7 +8,7 @@
 #string intermediateDir
 #string projectResultsDir
 #string projectQcDir
-
+#string jdkVersion
 #list sequencingStartDate
 #list sequencer
 #list run
@@ -50,7 +34,7 @@
 #
 umask 0007
 
-module load jdk
+module load jdk/jdkVersion
 module load molgenis_compute/v5_20140522
 module list
 

@@ -9,6 +9,16 @@ checkStage,module list
 jobname,jobname
 WORKDIR,/gcc/
 root,${WORKDIR}
+jdkVersion,1.7.0_51
+fastqcVersion,v0.10.1
+pythonVersion,2.7.5
+samtoolsVersion,0.1.19
+RVersion,3.0.2
+wkhtmltopdfVersion,0.11.0
+picardVersion,1.102
+anacondaVersion,1.8.0
+htseqVersion,0.5.4
+starVersion,2.3.1l
 bashrc,/gcc/groups/gcc/home/gcc.bashrc
 tempDir,${WORKDIR}/groups/gaf/tmp01/tmp/
 resDir,${root}/resources/
