@@ -12,6 +12,8 @@
 #string projectJobsDir
 #list externalSampleID
 #list chr
+#string pindelOutputVcf
+
 
 # Change permissions
 
@@ -89,7 +91,7 @@ do
 	
 	cp ${intermediateDir}/${sample}.snpEff.annotated.indels.final.vcf ${projectResultsDir}/structural_variants
 	cp ${intermediateDir}/${sample}.snpEff.annotated.indels.final.vcf.table ${projectResultsDir}/structural_variants
-
+	cp ${intermediateDir}/${sample}.output.pindel.merged.vcf ${projectResultsDir}/structural_variants
 done
 
 # print README.txt files

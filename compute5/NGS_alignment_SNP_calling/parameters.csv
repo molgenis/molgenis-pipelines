@@ -174,6 +174,6 @@ qcBaitSet,${projectQcDir}/projectbaitset.txt
 qcStatisticsTexReport,${projectQcDir}/${project}_QCReport.tex
 qcReportMD,${projectQcDir}/${project}_QCReport.md
 demultiplexStats,${projectQcDir}/${project}_QCStatistics.log.txt
-MCQCReportDir,/gcc/tools/MolgenisCompute/molgenis_compute5/molgenis_compute_2014-05-22/NGS_alignment_SNP_calling/report
+MCQCReportDir,/gcc/tools/NGS_DNA-2.0/report
 qcReportTemplate,${MCQCReportDir}/qc_report_template.Rmd
 qcHelperFunctionsR,${MCQCReportDir}/knitr_helper_functions.R
