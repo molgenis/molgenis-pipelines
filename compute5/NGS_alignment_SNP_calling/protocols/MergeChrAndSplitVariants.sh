@@ -70,20 +70,37 @@ done
 
 
 INPUTS=()
+
 for c in "${chr[@]}"
 do
-	MERG=()
-	for externalID in "${EXTSAMPLES[@]}"
-	do	
-		bgzip -c ${intermediateDir}/${externalID}.chr${c}.variant.calls.vcf > ${intermediateDir}/${externalID}.chr${c}.variant.calls.vcf.gz
-		tabix -p vcf ${intermediateDir}/${externalID}.chr${c}.variant.calls.vcf.gz
-		MERG+=(${intermediateDir}/${externalID}.chr${c}.variant.calls.vcf.gz)		
-	done
-	vcf-merge "${MERG[@]}" > ${projectPrefix}.chr${c}.variant.calls.vcf
-	
-	INPUTS+=(${projectPrefix}.chr${c}.variant.calls.vcf)
+        MERG=()
+
+        for externalID in "${EXTSAMPLES[@]}"
+        do
+                if [ $c == "Y" ]
+                then
+                        count=`grep -v '^#' ${intermediateDir}/${externalID}.chr${c}.variant.calls.vcf  | wc -l`
+                        if [ count == 0  ]
+                        then
+                                echo "Chromosome Y has no variant calls"
+                        else
+                                bgzip -c ${intermediateDir}/${externalID}.chr${c}.variant.calls.vcf > ${intermediateDir}/${externalID}.chr${c}.variant.calls.vcf.gz
+                                tabix -p vcf ${intermediateDir}/${externalID}.chr${c}.variant.calls.vcf.gz
+                                MERG+=(${intermediateDir}/${externalID}.chr${c}.variant.calls.vcf.gz)
+                        fi
+		else
+        	        bgzip -c /gcc//groups/gaf/tmp01/tmp//5GPM_1502/test01//${externalID}.chr${c}.variant.calls.vcf > /gcc//groups/gaf/tmp01/tmp//5GPM_1502/test01//${externalID}.chr${c}.variant.calls.vcf.gz
+                	tabix -p vcf /gcc//groups/gaf/tmp01/tmp//5GPM_1502/test01//${externalID}.chr${c}.variant.calls.vcf.gz
+                	MERG+=(/gcc//groups/gaf/tmp01/tmp//5GPM_1502/test01//${externalID}.chr${c}.variant.calls.vcf.gz)
+                fi
+        done
+
+        vcf-merge "${MERG[@]}" > ${projectPrefix}.chr${c}.variant.calls.vcf
+        INPUTS+=(${projectPrefix}.chr${c}.variant.calls.vcf)
+
 done
 
+	
 #Concatenate projectChrVariantCalls to one file
 
 echo "INFO: Concatenate projectChrVariantCalls to one file"
