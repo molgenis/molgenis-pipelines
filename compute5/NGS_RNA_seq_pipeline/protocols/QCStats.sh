@@ -25,28 +25,17 @@
 #string dupStatMetrics
 #string starLogFile
 #string externalSampleID
+#string pythonVersion
+#string picardVersion
+#string anacondaVersion
+#string samtoolsVersion
 
-sleep 10
-
-#If paired-end then copy 2 files, else only 1
-if [ ${seqType} == "PE" ]
-then
-                
-	getFile ${peEnd1BarcodeFqGz}
-	getFile ${peEnd2BarcodeFqGz}
-
-elif [ ${seqType} == "SR" ]
-then
-        
-	getFile ${srBarcodeFqGz}
-
-fi
 
 #Load module
-module load picard-tools/1.102
-module load Python/2.7.5
-module load anaconda/1.8.0
-module load samtools/0.1.19
+module load picard-tools/${picardVersion}
+module load Python/${pythonVersion}
+module load anaconda/${anacondaVersion}
+module load samtools/${samtoolsVersion}
 module list
 
 makeTmpDir ${intermediateDir}

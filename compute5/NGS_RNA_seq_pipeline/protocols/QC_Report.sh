@@ -15,6 +15,15 @@
 #string qcMatricsList
 #string gcPlotList
 #string seqType
+#string RVersion
+#string wkhtmltopdfVersion
+#string fastqcVersion
+#string samtoolsVersion
+#string picardVersion
+#string anacondaVersion
+#string starVersion
+#string htseqVersion
+#string genome
 
 #genarate qcMatricsList
 
@@ -158,8 +167,10 @@ cat > ${intermediateDir}/${project}_QCReport.rhtml <<'_EOF'
 <h1>Introduction</h1>
 <br>
 <br>
-This report describes a series of statistics about your sequencing data. Together with this report you'll receive alignment files and geneCount tables. If you, in 
-addition, also want the raw data, then please notify us via e-mail. In any case we'll delete the raw data, three months after <script language="javascript">
+This report describes a series of statistics about your sequencing data. Together with this 
+report you'll receive alignment files and geneCount tables. If you, in addition, also want 
+the raw data, then please notify us via e-mail. In any case we'll delete the raw data, 
+three months after <script language="javascript">
         var month=new Array(12);
         month[0]="January";
         month[1]="February";
@@ -179,6 +190,49 @@ addition, also want the raw data, then please notify us via e-mail. In any case 
         var year = currentTime.getFullYear()
   document.write(month + " " + day + ", " + year)
 </script>
+
+Description of the RNA Isolation, Sample Preparation and sequencing and different steps used in the RNA analysis pipeline
+
+RNA Isolation, Sample Preparation and sequencing
+Initial quality check of and RNA quantification of the samples was performed by capillary
+electrophoresis using the LabChip GX (Perkin Elmer). Non-degraded RNA-samples were
+selected for subsequent sequencing analysis.
+Sequence libraries were generated using the TruSeq RNA sample preparation kits (Illumina)
+using the Sciclone NGS Liquid Handler (Perkin Elmer). In case of contamination of adapter-
+duplexes an extra purification of the libraries was performed with the automated agarose
+gel separation system Labchip XT (PerkinElmer). The obtained cDNA fragment libraries were
+sequenced on an Illumina HiSeq2500 using default parameters (single read 1x50bp or Paired
+End 2 x 100 bp) in pools of multiple samples.
+
+Gene expression quantification
+The trimmed fastQ files where aligned to build ${genome} human reference genome using STAR
+${starVersion} [1] allowing for 2 mismatches. Before gene quantification
+SAMtools ${samtoolsVersion} [2] was used to sort the aligned reads.
+The gene level quantification was performed by HTSeq ${htseqVersion} [3] using --mode=union
+--stranded=no and, Ensembl version 71 was used as gene annotation database which is included
+ in folder expression/.
+
+Calculate QC metrics on raw and aligned data
+Quality control (QC) metrics are calculated for the raw sequencing data. This is done using
+the tool FastQC ${fastqcVersion} [4]. QC metrics are calculated for the aligned reads using
+Picard-tools ${picardVersion} [5] CollectRnaSeqMetrics, MarkDuplicates, CollectInsertSize-
+Metrics and SAMtools ${samtoolsVersion} flagstat.
+
+These QC metrics form the basis in this  final QC report. 
+
+
+1. Dobin A, Davis C a, Schlesinger F, Drenkow J, Zaleski C, Jha S, Batut P, Chaisson M,
+Gingeras TR: STAR: ultrafast universal RNA-seq aligner. Bioinformatics 2013, 29:15–21.
+2. Li H, Handsaker B, Wysoker A, Fennell T, Ruan J, Homer N, Marth G, Abecasis G, Durbin R,
+Subgroup 1000 Genome Project Data Processing: The Sequence Alignment/Map format and SAMtools.
+Bioinforma 2009, 25 (16):2078–2079.
+3. Anders S, Pyl PT, Huber W: HTSeq – A Python framework to work with high-throughput sequencing data
+HTSeq – A Python framework to work with high-throughput sequencing data. 2014:0–5.
+4. Andrews, S. (2010). FastQC a Quality Control Tool for High Throughput Sequence Data [Online].
+Available online at: http://www.bioinformatics.babraham.ac.uk/projects/fastqc/ ${samtoolsVersion}
+5. Picard Sourceforge Web site. http://picard.sourceforge.net/ ${picardVersion}
+
+
 </p>
 </div>
 </div>
@@ -374,8 +428,8 @@ end.rcode-->
 </html>
 _EOF
 
-module load R
-module load wkhtmltopdf/0.11.0
+module load R/${RVersion}
+module load wkhtmltopdf/${wkhtmltopdfVersion}
 module list
 
 echo "generate QC report."

@@ -10,6 +10,7 @@
 #string peEnd1BarcodeFastQcZip
 #string peEnd2BarcodeFastQcZip
 #string srBarcodeFastQcZip
+#string fastqcVersion
 
 #Echo parameter values
 echo "seqType: ${seqType}"
@@ -21,29 +22,10 @@ echo "peEnd1BarcodeFastQcZip: ${peEnd1BarcodeFastQcZip}"
 echo "peEnd2BarcodeFastQcZip: ${peEnd2BarcodeFastQcZip}"
 echo "srBarcodeFastQcZip: ${srBarcodeFastQcZip}"
 
-sleep 10
-
-#If paired-end then copy 2 files, else only 1
-if [ ${seqType} == "PE" ]
-then
-        alloutputsexist \
-        "${peEnd1BarcodeFastQcZip}" \
-        "${peEnd2BarcodeFastQcZip}"
-        
-	getFile ${peEnd1BarcodeFqGz}
-	getFile ${peEnd2BarcodeFqGz}
-
-else
-        alloutputsexist \
-        "${srBarcodeFastQcZip}"
-        
-	getFile ${srBarcodeFqGz}
-
-fi
-
 #Load module
-module load fastqc/v0.10.1
+module load fastqc/${fastqcVersion}
 module list
+
 makeTmpDir ${intermediateDir}
 tmpIntermediateDir=${MC_tmpFile}
 
@@ -66,5 +48,4 @@ else
 
 	echo -e "\nFastQC finished succesfull. Moving temp files to final.\n\n"
 	mv ${tmpIntermediateDir}/* ${intermediateDir}
-	putFile "${srBarcodeFastQcZip}"
 fi
