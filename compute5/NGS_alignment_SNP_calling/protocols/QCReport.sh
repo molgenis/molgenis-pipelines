@@ -24,7 +24,7 @@
 #string intermediateDir
 
 module load R/3.0.2
-module load molgenis_compute/v5_20140522
+module load NGS_DNA/2.0
 module list
 
 #

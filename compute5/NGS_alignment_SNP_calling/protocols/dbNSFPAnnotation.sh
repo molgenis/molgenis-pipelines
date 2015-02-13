@@ -85,10 +85,9 @@ done
 
 for i in "${EXTSAMPLES[@]}"
 do
-        vcf-subset -c $i ${tmpOutputDbNSFPVcf} > ${MC_tmpFolder}/$i.snpEff.annotated.snps.dbnsfp.final.vcf
-        mv ${MC_tmpFolder}/$i.snpEff.annotated.snps.dbnsfp.final.vcf ${intermediateDir}/$i.snpEff.annotated.snps.dbnsfp.final.vcf
+	vcf-subset -c $i ${tmpOutputDbNSFPVcf} > ${MC_tmpFolder}/$i.snpEff.annotated.snps.dbnsfp.final.vcf
+	mv ${MC_tmpFolder}/$i.snpEff.annotated.snps.dbnsfp.final.vcf ${intermediateDir}/$i.snpEff.annotated.snps.dbnsfp.final.vcf
 done
-
 
 echo -e "\ndbNSFPSnpEffAnnotation finished successfully. Moving temp files to final.\n\n"
 
