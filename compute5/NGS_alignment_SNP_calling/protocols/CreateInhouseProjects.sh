@@ -122,7 +122,8 @@ fi
 echo "before run second rocket"
 echo pwd
 
-module load molgenis_compute/v5_20140522
+module load molgenis-compute/v5_20150211
+module list
 
 sh ${MC_HOME}/molgenis_compute.sh -p ${mainParameters} \
 -p ${chrParametersList} -p ${projectJobsDir}/${project}.csv -rundir ${projectJobsDir} \

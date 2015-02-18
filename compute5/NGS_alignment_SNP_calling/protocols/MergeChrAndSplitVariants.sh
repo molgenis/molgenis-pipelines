@@ -95,8 +95,8 @@ do
                 fi
         done
 
-        vcf-merge "${MERG[@]}" > ${projectPrefix}.chr${c}.variant.calls.vcf
-        INPUTS+=(${projectPrefix}.chr${c}.variant.calls.vcf)
+        vcf-merge "${MERG[@]}" > ${projectPrefix}.variant.calls.vcf
+        INPUTS+=(${projectPrefix}.variant.calls.vcf)
 
 done
 
