@@ -12,8 +12,6 @@
 #string projectJobsDir
 #list externalSampleID
 #list chr
-#string pindelOutputVcf
-
 
 # Change permissions
 
