@@ -70,6 +70,7 @@ gcBiasMetricsJar,CollectGcBiasMetrics.jar
 hsMetricsJar,CalculateHsMetrics.jar
 bamIndexStatsJar,BamIndexStats.jar
 rVersion,3.0.2
+NGS_5GPMVersion,2.1
 gatkVersion,3.3-0-g37228af
 gatkJar,GenomeAnalysisTK.jar
 recreateInsertSizePdfR,${scriptDir}/createInsertSizePlot_c5.R
@@ -179,3 +180,6 @@ demultiplexStats,${projectQcDir}/${project}_QCStatistics.log.txt
 MCQCReportDir,/gcc/tools/NGS_5GPM-2.1/report
 qcReportTemplate,${MCQCReportDir}/qc_report_template.Rmd
 qcHelperFunctionsR,${MCQCReportDir}/knitr_helper_functions.R
+checkSexMeanCoverage,${sample}.checkSex.filter.meancoverage.txt
+baitIntervals_nonAutoChrX,${intermediateDir}/${capturingKit}_baits_${genome}_${indexFileIDtest}.nonAutosomalChrX.interval_list
+whichSex,${sample}.chosenSex.txt

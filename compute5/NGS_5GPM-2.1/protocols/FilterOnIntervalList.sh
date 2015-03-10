@@ -1,7 +1,6 @@
 #MOLGENIS walltime=23:59:00 mem=3gb ppn=4
 
 #string baitBed
-#string sortedBam
 #string intervalsSortedBam
 #string fileWithIndexId
 #string sortSamJar

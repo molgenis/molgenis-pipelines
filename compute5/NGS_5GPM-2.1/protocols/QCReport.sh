@@ -22,11 +22,11 @@
 #string demultiplexStats
 #string arrayDir
 #string intermediateDir
-#string NGS_DNAVersion
+#string NGS_5GPMVersion
 #string rVersion
 
 module load R/${rVersion}
-module load NGS_DNA/${NGS_DNAVersion}
+module load NGS_5GPM/${NGS_5GPMVersion}
 module list
 
 #
