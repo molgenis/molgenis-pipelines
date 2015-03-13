@@ -73,3 +73,4 @@ awk '{
 		print "Unknown" 
 	}
 }' ${checkSexMeanCoverage} >> ${whichSex}
+chmod -R g+rwX $intermediateDir

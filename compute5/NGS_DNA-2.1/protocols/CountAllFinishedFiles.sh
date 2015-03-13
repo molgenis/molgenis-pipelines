@@ -1,5 +1,6 @@
 #MOLGENIS walltime=00:01:00 mem=1gb
 #string projectJobsDir
+#string intermediateDir
 
 cd $projectJobsDir
 
@@ -25,3 +26,4 @@ else
 	done
 fi
 	
+chmod -R g+rwX $intermediateDir

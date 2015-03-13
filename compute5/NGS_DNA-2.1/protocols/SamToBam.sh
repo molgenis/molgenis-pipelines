@@ -43,3 +43,4 @@ TMP_DIR=${tempDir}
 echo -e "\nSamToBam finished succesfull. Moving temp files to final.\n\n"
 mv ${tmpAlignedBam} ${alignedBam}
 
+chmod -R g+rwX $intermediateDir

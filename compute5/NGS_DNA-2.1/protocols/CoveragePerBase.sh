@@ -25,3 +25,4 @@ paste ${targetIntervalsPerBase} ${sample}.samtools.coveragePerBase_withoutHeader
 echo -e "chr\tstart\tstop\tgene\tcoverage" > ${sample}.coveragePerBase.txt
 
 awk -v OFS='\t' '{print $1,$2,$3,$5,$7}' ${sample}.combined_bedfile_and_samtoolsoutput.txt >> ${sample}.coveragePerBase.txt
+chmod -R g+rwX $intermediateDir

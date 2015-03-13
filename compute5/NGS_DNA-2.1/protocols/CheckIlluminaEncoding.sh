@@ -109,3 +109,4 @@ else
 	echo "SeqType unknown"
 	exit 1
 fi
+chmod -R g+rwX $intermediateDir

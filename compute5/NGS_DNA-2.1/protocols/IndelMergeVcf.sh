@@ -78,3 +78,4 @@ elif [ ${seqType} == "SR" ]
 then
 	cp ${intermediateDir}/${externalSampleID}.indels.GATK.vcf ${sampleIndelsPindelGATKMerged}
 fi
+chmod -R g+rwX $intermediateDir

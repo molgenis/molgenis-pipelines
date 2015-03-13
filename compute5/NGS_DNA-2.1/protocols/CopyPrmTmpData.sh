@@ -2,23 +2,20 @@
 
 #string allRawNgstmpDataDir
 #string allRawNgsPrmDataDir
-
 #list seqType
 #list sequencingStartDate
 #list sequencer
 #list run
 #list flowcell
-
 #string mainParameters
 #string chrParameters 
 #string worksheet 
 #string outputdir
 #string workflowpath
-
 #list internalSampleID
 #string project
 #string scriptDir
-
+#string intermediateDir
 #list barcode
 #list lane
 
@@ -88,3 +85,4 @@ done
 
 
 
+chmod -R g+rwX $intermediateDir

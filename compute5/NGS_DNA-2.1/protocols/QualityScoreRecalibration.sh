@@ -66,3 +66,4 @@ echo -e "\nQualityScoreRecalibration finished succesfull. Moving temp files to f
 mv ${tmpBQSRBam} ${BQSRBam}
 mv ${tmpBQSRBamIdx} ${BQSRBamIdx}
 mv ${tmpBQSRBamMd5} ${BQSRBamMd5}
+chmod -R g+rwX $intermediateDir

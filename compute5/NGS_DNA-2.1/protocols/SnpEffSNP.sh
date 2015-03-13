@@ -71,3 +71,4 @@ ${projectSNPsMergedFiltered} \
     mv ${tmpSnpEffSNPCallsHtml} ${snpEffSNPCallsHtml}
     mv ${tmpSnpEffSnpsVcf} ${snpEffSnpsVcf}
     mv ${tmpSnpEffSNPGenesTxt} ${snpEffSNPGenesTxt}
+chmod -R g+rwX $intermediateDir

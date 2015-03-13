@@ -128,3 +128,4 @@ module list
 sh ${MC_HOME}/molgenis_compute.sh -p ${mainParameters} \
 -p ${chrParametersList} -p ${projectJobsDir}/${project}.csv -rundir ${projectJobsDir} \
 -w ${workflowpath} -b pbs -g -weave -runid ${runid}
+chmod -R g+rwX $intermediateDir

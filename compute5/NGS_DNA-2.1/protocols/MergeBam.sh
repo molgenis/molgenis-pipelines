@@ -12,7 +12,7 @@
 #list inputMergeBamIdx
 #string tmpDataDir
 #string project
-
+#string intermediateDir
 
 #Echo parameter values
 echo "stage: ${stage}"
@@ -90,3 +90,4 @@ mv ${tmpMergedBam} ${mergedBam}
 mv ${tmpMergedBamIdx} ${mergedBamIdx}
 putFile "${mergedBam}"
 putFile "${mergedBamIdx}"
+chmod -R g+rwX $intermediateDir

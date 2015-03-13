@@ -104,3 +104,4 @@ fi
 echo -e "\nVariantCalling finished succesfull. Moving temp files to final.\n\n"
 mv ${tmpSampleChrVariantCalls} ${sampleChrVariantCalls}
 mv ${tmpSampleChrVariantCallsIdx} ${sampleChrVariantCallsIdx}
+chmod -R g+rwX $intermediateDir

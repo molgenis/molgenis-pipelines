@@ -66,3 +66,4 @@ echo -e "\nIndelRealignment finished succesfull. Moving temp files to final.\n\n
 mv ${tmpRealignedBam} ${realignedBam}
 mv ${tmpRealignedBamIdx} ${realignedBamIdx}
 
+chmod -R g+rwX $intermediateDir

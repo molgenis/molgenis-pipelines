@@ -104,3 +104,4 @@ ${INPUTS[@]} \
 -L ${baitIntervals} \
 -o ${variantAnnotatorOutputVcf} \
 -nt 8
+chmod -R g+rwX $intermediateDir

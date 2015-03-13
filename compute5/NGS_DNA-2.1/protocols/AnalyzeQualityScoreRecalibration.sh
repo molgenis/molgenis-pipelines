@@ -58,3 +58,4 @@ $GATK_HOME/${gatkJar} \
     echo -e "\nAnalyzeQualityScoreRecalibration finished succesfull. Moving temp files to final.\n\n"
     mv ${tmpBQSRPdf} ${BQSRPdf}
     mv ${tmpBQSRCsv} ${BQSRCsv}
+chmod -R g+rwX $intermediateDir

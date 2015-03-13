@@ -7,6 +7,8 @@
 #string variantType
 #string tmpDataDir
 #string project
+#string intermediateDir
+
 
 #Echo parameter values
 echo "vcf2tabpl: ${vcf2tabpl}"
@@ -33,3 +35,4 @@ echo -e ${header} > ${tmpvariantsFinalVcfTable}.tmp
 sed '2,$!d' ${tmpvariantsFinalVcfTable} >> ${tmpvariantsFinalVcfTable}.tmp
 
 mv ${tmpvariantsFinalVcfTable}.tmp ${variantsFinalVcfTable}
+chmod -R g+rwX $intermediateDir

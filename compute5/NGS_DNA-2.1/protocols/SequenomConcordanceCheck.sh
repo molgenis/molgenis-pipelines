@@ -16,7 +16,6 @@
 #string indexFile
 #string dbSNPExSiteAfter129Vcf
 #string sequenomReport
-#string intermediateDir
 #string sequenomInfo
 
 #
@@ -126,7 +125,7 @@ then
 		-fo ${sample}.genotypeArray.fasta -tab
 		
 		##Align vcf to reference AND DO NOT FLIP STRANDS!!! (genotype data is already in forward-forward format) If flipping is needed use "-f" command before sample.genotype_array.vcf
-		perl ${toolDir}/scripts/align-vcf-to-ref.pl \
+		perl ${toolDir}/scripts/align-vcf-to-ref.pl -f \
 		${sample}.genotypeArray.vcf \
 		${sample}.genotypeArray.fasta \
 		${sample}.genotypeArray.aligned_to_ref.vcf \
@@ -205,3 +204,4 @@ then
  		echo "ERROR: one of the probe in the array file has an unexpected position. Therefore, we are not able to tell which build was used." 
 	fi
 fi
+chmod -R g+rwX $intermediateDir

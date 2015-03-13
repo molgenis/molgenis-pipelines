@@ -11,6 +11,7 @@
 #string sortedBamIdx
 #string tmpDataDir
 #string project
+#string intermediateDir
 
 #Echo parameter values
 echo "stage: ${stage}"
@@ -48,3 +49,4 @@ TMP_DIR=${tempDir}
 echo -e "\nSortBam finished succesfull. Moving temp files to final.\n\n"
 mv ${tmpSortedBam} ${sortedBam}
 mv ${tmpSortedBamIdx} ${sortedBamIdx}
+chmod -R g+rwX $intermediateDir
