@@ -157,3 +157,4 @@ R --slave <<RSCRIPT
 	knit(qcReportTemplate,qcReportMD)
 	
 RSCRIPT
+chmod -R g+rwX $intermediateDir

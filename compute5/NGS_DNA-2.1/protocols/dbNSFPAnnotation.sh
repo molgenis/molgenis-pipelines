@@ -93,3 +93,4 @@ echo -e "\ndbNSFPSnpEffAnnotation finished successfully. Moving temp files to fi
 
 mv ${tmpOutputDbNSFPVcf} ${outputDbNSFPVcf}
 
+chmod -R g+rwX $intermediateDir

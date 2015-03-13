@@ -26,3 +26,4 @@ else
 	done
 fi
 	
+chmod -R g+rwX $intermediateDir

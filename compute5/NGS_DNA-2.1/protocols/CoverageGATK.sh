@@ -84,3 +84,4 @@ Rscript ${cumCoverageScriptGATK} \
 echo -e "\nCoverageGATK finished succesfull. Moving temp files to final.\n\n"
 #mv ${coverageGATK}* ${coverageGATK}/
 
+chmod -R g+rwX $intermediateDir

@@ -24,3 +24,4 @@ VALIDATION_STRINGENCY=LENIENT \
 MAX_RECORDS_IN_RAM=2000000 \
 TMP_DIR=${tempDir}
 
+chmod -R g+rwX $intermediateDir

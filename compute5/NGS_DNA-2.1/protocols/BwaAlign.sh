@@ -73,3 +73,4 @@ else
 	mv ${tmpAlignedSam} ${alignedSam}
 fi
 
+chmod -R g+rwX $intermediateDir

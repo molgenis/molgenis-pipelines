@@ -90,3 +90,4 @@ mv ${tmpMergedBam} ${mergedBam}
 mv ${tmpMergedBamIdx} ${mergedBamIdx}
 putFile "${mergedBam}"
 putFile "${mergedBamIdx}"
+chmod -R g+rwX $intermediateDir

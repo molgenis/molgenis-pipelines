@@ -83,3 +83,4 @@ else
 fi
     echo -e "\nGenerateCovariateTables finished succesfull. Moving temp files to final.\n\n"
     mv ${tmpOutputGenerateCovariateTablesTable} ${outputGenerateCovariateTablesTable}
+chmod -R g+rwX $intermediateDir

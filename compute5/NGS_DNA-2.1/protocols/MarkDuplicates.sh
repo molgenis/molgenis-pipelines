@@ -61,3 +61,4 @@ echo -e "\nMarkDuplicates finished succesfull. Moving temp files to final.\n\n"
 mv ${tmpDedupBam} ${dedupBam}
 mv ${tmpDedupBamIdx} ${dedupBamIdx}
 mv ${tmpDedupMetrics} ${dedupMetrics}
+chmod -R g+rwX $intermediateDir

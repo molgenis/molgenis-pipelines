@@ -204,3 +204,4 @@ then
  		echo "ERROR: one of the probe in the array file has an unexpected position. Therefore, we are not able to tell which build was used." 
 	fi
 fi
+chmod -R g+rwX $intermediateDir

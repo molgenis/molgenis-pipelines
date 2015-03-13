@@ -77,3 +77,4 @@ ReadPosRankSum < -8.0" \
 echo -e "\nVariantFiltering finished succesfull. Moving temp files to final.\n\n"
 mv ${tmp_projectSNPsMergedFiltered} ${projectSNPsMergedFiltered}
 
+chmod -R g+rwX $intermediateDir

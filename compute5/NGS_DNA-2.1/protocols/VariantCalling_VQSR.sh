@@ -102,3 +102,4 @@ ${BAMS[@]} \
     mv ${tmpProjectChrVariantCallsIdx} ${projectChrVariantCallsIdx}
     putFile "${projectChrVariantCalls}"
     putFile "${projectChrVariantCallsIdx}"
+chmod -R g+rwX $intermediateDir

@@ -86,3 +86,4 @@ elif [ ${seqType} == "SR" ]
 then
 	echo "Pindel step is skipped because it is not Paired End but the seqType="${seqType}
 fi
+chmod -R g+rwX $intermediateDir

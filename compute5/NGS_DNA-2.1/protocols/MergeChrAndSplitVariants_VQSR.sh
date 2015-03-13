@@ -107,3 +107,4 @@ putFile "${projectIndelsMerged}"
 #prepare the created vcfs for bcftools: bgzip + tabix to set the correct indexes and make correct format
 bgzip -c ${projectIndelsMerged} > ${projectIndelsMerged}.gz
 tabix -p vcf ${projectIndelsMerged}.gz
+chmod -R g+rwX $intermediateDir

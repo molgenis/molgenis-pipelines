@@ -53,3 +53,4 @@ else
 	rm -rf ${tmpIntermediateDir}
 fi
 
+chmod -R g+rwX $intermediateDir

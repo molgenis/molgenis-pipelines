@@ -132,3 +132,4 @@ md5sum ${project}.zip > ${projectResultsDir}/${project}.zip.md5
 # add u+rwx,g+r+w rights for GAF group
 
 chmod -R u+rwX,g+rwX ${projectResultsDir}
+chmod -R g+rwX $intermediateDir

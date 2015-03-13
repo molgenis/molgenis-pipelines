@@ -74,3 +74,4 @@ ${sampleIndelsPindelGATKMerged} \
     mv ${tmpSnpEffCallsHtml} ${snpEffCallsHtml}
     mv ${tmpSnpEffIndelsVcf} ${snpEffIndelsVcf}
     mv ${tmpSnpEffGenesTxt} ${snpEffGenesTxt}
+chmod -R g+rwX $intermediateDir

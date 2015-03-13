@@ -85,3 +85,4 @@ done
 
 
 
+chmod -R g+rwX $intermediateDir

@@ -151,3 +151,4 @@ TMP_DIR=${tempDir} \
 
     echo -e "\nBamIndexStats finished succesfull. Moving temp files to final.\n\n"
     mv ${tmpCollectBamMetricsPrefix}.bam_index_stats ${inputCollectBamMetricsBam}.bam_index_stats
+chmod -R g+rwX $intermediateDir

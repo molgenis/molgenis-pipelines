@@ -34,3 +34,4 @@ echo -e ${header} > ${tmpvariantsFinalVcfTable}
 sed '2,$!d' ${tmpvariantsFinalVcfTable}.tmp >> ${tmpvariantsFinalVcfTable}
 
 mv ${tmpvariantsFinalVcfTable} ${variantsFinalVcfTable}
+chmod -R g+rwX $intermediateDir
