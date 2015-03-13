@@ -1,4 +1,5 @@
 queue,gaf
+queueDataStaging,putTheNameOfTheDataStagingQueueHere
 mem,4
 walltime,23:59:00
 nodes,1
