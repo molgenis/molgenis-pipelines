@@ -5,7 +5,7 @@
 #string intervalsSortedBam
 #string fileWithIndexId
 #string sortSamJar
-
+#string intermediateDir
 
 module load samtools
 module load picard-tools

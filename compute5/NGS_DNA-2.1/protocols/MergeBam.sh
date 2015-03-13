@@ -12,7 +12,7 @@
 #list inputMergeBamIdx
 #string tmpDataDir
 #string project
-
+#string intermediateDir
 
 #Echo parameter values
 echo "stage: ${stage}"

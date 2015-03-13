@@ -7,6 +7,8 @@
 #string variantType
 #string tmpDataDir
 #string project
+#string intermediateDir
+
 
 #Echo parameter values
 echo "vcf2tabpl: ${vcf2tabpl}"
