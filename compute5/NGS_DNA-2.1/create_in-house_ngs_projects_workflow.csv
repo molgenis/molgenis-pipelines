@@ -1,3 +1,0 @@
-step,protocol,dependencies
-CopyPrmTmpData,protocols/CopyPrmTmpData.sh,queue=queueDataStaging
-CreateInhouseProjects,protocols/CreateInhouseProjects.sh,
