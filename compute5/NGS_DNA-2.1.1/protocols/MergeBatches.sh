@@ -66,11 +66,8 @@ ${sortVCFpl} \
 -outputVCF ${tmpProjectVariantsMergedSorted}
 
 mv ${tmpProjectVariantsMergedSorted} ${projectVariantsMergedSorted}
-
+echo "mv ${tmpProjectVariantsMergedSorted} ${projectVariantsMergedSorted}"
 
 #prepare the created vcfs for bcftools: bgzip + tabix to set the correct indexes and make correct format
 #bgzip -c ${projectIndelsMerged} > ${projectIndelsMerged}.gz
 #tabix -p vcf ${projectIndelsMerged}.gz
-
-#move tmpFiles to Intermediatefolder
-echo -e "\nMergeChrAndSplitVariants finished succesfull. Moving temp files to final.\n\n"

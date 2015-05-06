@@ -83,16 +83,6 @@ do
  	fi
 done
 
-#
-#Create temporary chromosome list based on chromosomes existing in bedfile
-#
-
-#chrParametersList=$ROCKETPOINT/${project}ChrParameters.csv
-#echo "chr" > $chrParametersList
-
-#awk '{print $1}' ${baitBed} | sort -k 1V,1 -k 2n,2 | uniq >> $chrParametersList
-
-
 cd $ROCKETPOINT
 
 echo "before splitting"

@@ -11,12 +11,12 @@
 #string baitBatchBed
 #string dbSNP137Vcf
 #string dbSNP137VcfIdx
-#string projectChrVariantCalls
-#string projectChrVariantCallsIdx
-#string projectChrVariantCallsMaleNONPAR
-#string projectChrVariantCallsMaleNONPARIdx
-#string projectChrVariantCallsFemale
-#string projectChrVariantCallsFemaleIdx
+#string projectBatchVariantCalls
+#string projectBatchVariantCallsIdx
+#string projectBatchVariantCallsMaleNONPAR
+#string projectBatchVariantCallsMaleNONPARIdx
+#string projectBatchVariantCallsFemale
+#string projectBatchVariantCallsFemaleIdx
 #string tmpDataDir
 #list externalSampleID
 
@@ -40,22 +40,22 @@ array_contains () {
 ${stage} GATK/${gatkVersion}
 ${checkStage}
 
-makeTmpDir ${projectChrVariantCalls}
-tmpProjectChrVariantCalls=${MC_tmpFile}
+makeTmpDir ${projectBatchVariantCalls}
+tmpProjectBatchVariantCalls=${MC_tmpFile}
 
-makeTmpDir ${projectChrVariantCallsIdx}
-tmpProjectChrVariantCallsIdx=${MC_tmpFile}
-makeTmpDir ${projectChrVariantCallsMaleNONPAR}
-tmpProjectChrVariantCallsMaleNONPAR=${MC_tmpFile}
+makeTmpDir ${projectBatchVariantCallsIdx}
+tmpProjectBatchVariantCallsIdx=${MC_tmpFile}
+makeTmpDir ${projectBatchVariantCallsMaleNONPAR}
+tmpProjectBatchVariantCallsMaleNONPAR=${MC_tmpFile}
 
-makeTmpDir ${projectChrVariantCallsMaleNONPARIdx}
-tmpProjectChrVariantCallsMaleNONPARIdx=${MC_tmpFile} 
+makeTmpDir ${projectBatchVariantCallsMaleNONPARIdx}
+tmpProjectBatchVariantCallsMaleNONPARIdx=${MC_tmpFile} 
 
-makeTmpDir ${projectChrVariantCallsFemale}
-tmpProjectChrVariantCallsFemale=${MC_tmpFile}
+makeTmpDir ${projectBatchVariantCallsFemale}
+tmpProjectBatchVariantCallsFemale=${MC_tmpFile}
 
-makeTmpDir ${projectChrVariantCallsFemaleIdx}
-tmpProjectChrVariantCallsFemaleIdx=${MC_tmpFile}
+makeTmpDir ${projectBatchVariantCallsFemaleIdx}
+tmpProjectBatchVariantCallsFemaleIdx=${MC_tmpFile}
 
 MALE_BAMS=()
 BAMS=()
@@ -94,7 +94,7 @@ then
 		--genotyping_mode DISCOVERY \
 		-stand_emit_conf 10 \
 		-stand_call_conf 30 \
-		-o ${tmpProjectChrVariantCallsMaleNONPAR} \
+		-o ${tmpProjectBatchVariantCallsMaleNONPAR} \
 		-L ${baitBatchBed} \
 		-ploidy 1 \
 		-nct 8
@@ -112,7 +112,7 @@ then
        		--genotyping_mode DISCOVERY \
        		-stand_emit_conf 10 \
         	-stand_call_conf 30 \
-        	-o ${tmpProjectChrVariantCallsFemale} \
+        	-o ${tmpProjectBatchVariantCallsFemale} \
         	-L ${baitBatchBed} \
         	-ploidy 2 \
         	-nct 8	
@@ -124,7 +124,6 @@ then
         then
                 echo "There are no males!"
         else
-		echo "it is a male, diploid for PAR regions on chrX"
         	#Run GATK HaplotypeCaller in DISCOVERY mode to call SNPs and indels
         	java -XX:ParallelGCThreads=16 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
         	$GATK_HOME/${gatkJar} \
@@ -135,7 +134,7 @@ then
         	--genotyping_mode DISCOVERY \
         	-stand_emit_conf 10 \
         	-stand_call_conf 30 \
-        	-o ${tmpProjectChrVariantCalls} \
+        	-o ${tmpProjectBatchVariantCalls} \
         	-L ${baitBatchBed} \
         	-ploidy 1 \
         	-nct 8
@@ -152,7 +151,7 @@ else
 	--genotyping_mode DISCOVERY \
 	-stand_emit_conf 10 \
 	-stand_call_conf 30 \
-	-o ${tmpProjectChrVariantCalls} \
+	-o ${tmpProjectBatchVariantCalls} \
 	-L ${baitBatchBed} \
 	-ploidy 2 \
 	-nct 8 
@@ -160,35 +159,35 @@ fi
 
 if [[ $baitBatchBed == *"X"* ]]
 then
-	if [ -f ${tmpProjectChrVariantCallsMaleNONPAR} ] && [ -f  ${tmpProjectChrVariantCallsFemale} ]
+	if [ -f ${tmpProjectBatchVariantCallsMaleNONPAR} ] && [ -f  ${tmpProjectBatchVariantCallsFemale} ]
 	then
 		echo "combine male and female chrX"
 		java -Xmx2g -jar ${GATK_HOME}/GenomeAnalysisTK.jar \
 		-R ${indexFile} \
    		-T CombineVariants \
 		-setKey null \
-   		--variant ${tmpProjectChrVariantCallsMaleNONPAR} \
-   		--variant ${tmpProjectChrVariantCallsFemale} \
-		-o ${tmpProjectChrVariantCalls}
+   		--variant ${tmpProjectBatchVariantCallsMaleNONPAR} \
+   		--variant ${tmpProjectBatchVariantCallsFemale} \
+		-o ${tmpProjectBatchVariantCalls}
 
-	elif [ ! -f ${tmpProjectChrVariantCallsMaleNONPAR} ]  
+	elif [ ! -f ${tmpProjectBatchVariantCallsMaleNONPAR} ]  
 	then
 		echo "There are no males"
-		tmpProjectChrVariantCalls=${tmpProjectChrVariantCallsFemale}
-		tmpProjectChrVariantCallsIdx=${tmpProjectChrVariantCallsFemaleIdx}
-	elif [ ! -f ${tmpProjectChrVariantCallsFemale} ]
+		tmpProjectBatchVariantCalls=${tmpProjectBatchVariantCallsFemale}
+		tmpProjectBatchVariantCallsIdx=${tmpProjectBatchVariantCallsFemaleIdx}
+	elif [ ! -f ${tmpProjectBatchVariantCallsFemale} ]
         then
 		echo "There are no females!"
-                tmpProjectChrVariantCalls=${tmpProjectChrVariantCallsMaleNONPAR}
-		tmpProjectChrVariantCallsIdx=${tmpProjectChrVariantCallsMaleNONPARIdx}
+                tmpProjectBatchVariantCalls=${tmpProjectBatchVariantCallsMaleNONPAR}
+		tmpProjectBatchVariantCallsIdx=${tmpProjectBatchVariantCallsMaleNONPARIdx}
 	else
 		echo "oops, something is going wrong!"
 	fi
 fi
 
 echo -e "\nVariantCalling finished succesfull. Moving temp files to final.\n\n"
-if [ -f ${tmpProjectChrVariantCalls} ]
+if [ -f ${tmpProjectBatchVariantCalls} ]
 then
-        mv ${tmpProjectChrVariantCalls} ${projectChrVariantCalls}
-        mv ${tmpProjectChrVariantCallsIdx} ${projectChrVariantCallsIdx}
+        mv ${tmpProjectBatchVariantCalls} ${projectBatchVariantCalls}
+        mv ${tmpProjectBatchVariantCallsIdx} ${projectBatchVariantCallsIdx}
 fi

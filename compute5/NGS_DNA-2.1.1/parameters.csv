@@ -124,12 +124,12 @@ BQSRBamMd5,${BQSRBam}.md5
 BQSRPdf,${intermediateDir}/${externalSampleID}.merged.dedup.realigned.bqsr.pdf
 BQSRCsv,${intermediateDir}/${externalSampleID}.merged.dedup.realigned.bqsr.csv
 collectFinalBamMetricsPrefix,${intermediateDir}/${externalSampleID}.merged.dedup.realigned.bqsr
-projectChrVariantCalls,${projectPrefix}.batch-${batchID}.variant.calls.vcf
-projectChrVariantCallsIdx,${projectChrVariantCalls}.idx
-projectChrVariantCallsFemale,${projectPrefix}.batch-${batchID}.chrX.female.variant.calls.vcf
-projectChrVariantCallsFemaleIdx,${projectChrVariantCallsFemale}.idx
-projectChrVariantCallsMaleNONPAR,${projectPrefix}.batch-${batchID}.chrX.male.NONPAR.variant.calls.vcf
-projectChrVariantCallsMaleNONPARIdx,${projectChrVariantCallsMaleNONPAR}.idx
+projectBatchVariantCalls,${projectPrefix}.batch-${batchID}.variant.calls.vcf
+projectBatchVariantCallsIdx,${projectBatchVariantCalls}.idx
+projectBatchVariantCallsFemale,${projectPrefix}.batch-${batchID}.chrX.female.variant.calls.vcf
+projectBatchVariantCallsFemaleIdx,${projectBatchVariantCallsFemale}.idx
+projectBatchVariantCallsMaleNONPAR,${projectPrefix}.batch-${batchID}.chrX.male.NONPAR.variant.calls.vcf
+projectBatchVariantCallsMaleNONPARIdx,${projectBatchVariantCallsMaleNONPAR}.idx
 projectVariantsMerged,${projectPrefix}.variant.calls.GATK.vcf
 projectVariantsMergedSorted,${projectPrefix}.variant.calls.GATK.sorted.vcf
 projectVariantsMergedSortedSorted,${projectPrefix}.variant.calls.GATK.sorted.sorted.vcf
@@ -189,4 +189,3 @@ targetIntervalsPerBase,${intervalListDir}/${capturingKit}_baits_${genome}_${inde
 checkSexMeanCoverage,${sample}.checkSex.filter.meancoverage.txt
 baitIntervals_nonAutoChrX,${intermediateDir}/${capturingKit}_baits_${genome}_${indexFileIDtest}.nonAutosomalChrX.interval_list
 whichSex,${sample}.chosenSex.txt
-chrXNonPar,${sample}.chrX.nonpar.bed
