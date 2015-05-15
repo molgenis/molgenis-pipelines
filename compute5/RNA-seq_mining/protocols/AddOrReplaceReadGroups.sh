@@ -1,4 +1,4 @@
-#MOLGENIS walltime=23:59:00 mem=6gb nodes=1 ppn=1
+#MOLGENIS walltime=23:59:00 mem=6gb nodes=1 ppn=4
 
 #Parameter mapping  #why not string foo,bar? instead of string foo\nstring bar
 #string stage
@@ -43,7 +43,7 @@ mkdir -p ${addOrReplaceGroupsDir}
 
 echo "## "$(date)" Start $0"
 
-java -Xmx6g -jar $PICARD_HOME/AddOrReplaceReadGroups.jar \
+java -Xmx6g -XX:ParallelGCThreads=4 -jar $PICARD_HOME/AddOrReplaceReadGroups.jar\
  INPUT=${starAlignmentPassTwoDir}/Aligned.out.sam \
  OUTPUT=${addOrReplaceGroupsBam} \
  SORT_ORDER=coordinate \

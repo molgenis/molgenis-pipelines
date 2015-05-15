@@ -1,4 +1,4 @@
-#MOLGENIS nodes=1 ppn=1 mem=4gb walltime=23:59:00
+#MOLGENIS nodes=1 ppn=1 mem=6gb walltime=23:59:00
 
 #Parameter mapping  #why not string foo,bar? instead of string foo\nstring bar
 #string stage

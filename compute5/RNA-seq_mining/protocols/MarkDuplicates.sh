@@ -1,4 +1,4 @@
-#MOLGENIS walltime=23:59:00 mem=6gb nodes=1 ppn=1
+#MOLGENIS walltime=23:59:00 mem=6gb nodes=1 ppn=4
 
 #Parameter mapping  #why not string foo,bar? instead of string foo\nstring bar
 #string stage
@@ -36,7 +36,7 @@ set -e
 
 mkdir -p ${markDuplicatesDir}
 
-java -Xmx6g -jar $PICARD_HOME/MarkDuplicates.jar \
+java -Xmx6g -XX:ParallelGCThreads=4 -jar $PICARD_HOME/MarkDuplicates.jar \
  INPUT=${MergeBamFilesBam} \
  OUTPUT=${markDuplicatesBam} \
  CREATE_INDEX=true \

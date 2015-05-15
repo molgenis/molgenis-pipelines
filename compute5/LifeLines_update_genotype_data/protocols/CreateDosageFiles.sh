@@ -10,6 +10,7 @@
 #string resultDir
 #string tmpUpdateIds
 #string tmpProjectDir
+#string snp_subset
 
 #Echo parameter values
 echo "studyDir: ${studyDir}"
@@ -32,6 +33,7 @@ else
 	CONVERTDOSEPY="${convertDosePy}"
 fi
 
+snpsubset="false"
 
 #Convert dosage files
 python $CONVERTDOSEPY \
@@ -39,7 +41,23 @@ python $CONVERTDOSEPY \
 --doseFile ${doseFile} \
 --outFile ${tmpProjectDir}/${studyId}_chr${chr}.dose
 
-gzip ${tmpProjectDir}/${studyId}_chr${chr}.dose -c > ${tmpProjectDir}/~${studyId}_chr${chr}.dose.gz
+if [ ${snp_subset} != "all" ]
+then
+        snpsubset="true"
+fi
+
+if [ ${snpsubset} == "true" ]
+then
+	while read line
+	do
+	grep -m 1 $line ${tmpProjectDir}/${studyId}_chr${chr}.dose >> ${tmpProjectDir}/${studyId}_chr${chr}.subset.dose
+	done<${snp_subset}
+
+	gzip ${tmpProjectDir}/${studyId}_chr${chr}.subset.dose -c > ${tmpProjectDir}/~${studyId}_chr${chr}.dose.gz
+else
+	echo "not a subset"
+	gzip ${tmpProjectDir}/${studyId}_chr${chr}.dose -c > ${tmpProjectDir}/~${studyId}_chr${chr}.dose.gz
+fi
 
 #Get return code from last program call
 returnCode=$?
