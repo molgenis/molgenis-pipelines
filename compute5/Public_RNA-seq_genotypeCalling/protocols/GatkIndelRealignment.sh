@@ -1,4 +1,4 @@
-#MOLGENIS nodes=1 ppn=4 mem=8gb walltime=23:59:00
+#MOLGENIS nodes=1 ppn=2 mem=8gb walltime=23:59:00
 
 #Parameter mapping  #why not string foo,bar? instead of string foo\nstring bar
 #string stage
@@ -36,7 +36,7 @@ fi
 
 
 
-java -Xmx8g -Djava.io.tmpdir=${indelRealignmentDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
+java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${indelRealignmentDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
  -T IndelRealigner \
  -R ${onekgGenomeFasta} \
  -I ${splitAndTrimBam} \

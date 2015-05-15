@@ -1,4 +1,4 @@
-#MOLGENIS walltime=23:59:00 mem=10mb ppn=2
+#MOLGENIS walltime=23:59:00 mem=1gb ppn=1
 
 #list sjdbFileChrStartEnd
 #string projectSjdbFileChrStartEnd

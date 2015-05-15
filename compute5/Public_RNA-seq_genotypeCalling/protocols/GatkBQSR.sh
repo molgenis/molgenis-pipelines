@@ -57,15 +57,15 @@ java -Xmx4g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${bsqrDir} -jar $GATK_HOME/
  -knownSites ${dbsnpVcf} \
  -knownSites ${goldStandardVcf}\
  -knownSites ${oneKgPhase1IndelsVcf}\
- -nct 8
+ -nct 2
 
-java -Xmx4g -Djava.io.tmpdir=${bsqrDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
+java -Xmx4g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${bsqrDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
  -T PrintReads \
  -R ${onekgGenomeFasta} \
  -I ${indelRealignmentBam} \
  -o ${bsqrBam} \
  -BQSR ${bsqrBeforeGrp} \
- -nct 8 
+ -nct 82
 
 putFile ${bsqrBam}
 putFile ${bsqrBai}
