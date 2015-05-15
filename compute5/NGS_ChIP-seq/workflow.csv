@@ -1,0 +1,3 @@
+step,protocol,dependencies
+FastQC,protocols/FastQC.sh,
+BwaAlign,protocols/BwaAlign.sh,

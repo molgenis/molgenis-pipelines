@@ -1,0 +1,30 @@
+queue,devel
+mem,4
+walltime,23:59:00
+nodes,1
+ppn,1
+defaultInterpreter,#!/bin/bash
+stage,module load
+checkStage,module list
+WORKDIR,/gcc/
+root,${WORKDIR}
+tempDir,${WORKDIR}/groups/gaf/tmp02/tmp/
+resDir,${root}/resources/
+toolDir,${root}/tools/
+scriptDir,${toolDir}/scripts/
+gafHome,${root}/groups/gaf/
+tmpDataDir,${root}/groups/gaf/tmp02/
+allRawtmpDataDir,${tmpDataDir}/rawdata/
+allRawNgstmpDataDir,${allRawtmpDataDir}/ngs/
+allRunDemultiplexDir,${tmpDataDir}/projects/${project}/${run}
+runPrefix,${sequencingStartDate}_${sequencer}_${run}_${flowcell}
+runJobsDir,${allRunDemultiplexDir}/${runPrefix}/jobs/
+runResultsDir,${allRunDemultiplexDir}/${runPrefix}/results/
+rawtmpDataDir,${allRawNgstmpDataDir}/${runPrefix}
+arrayDir,${allRawtmpDataDir}/array
+genome,b37
+indexFileID,human_g1k_v37
+indicesDir,${resDir}/${genome}/indices/
+indexFileFastaIndex,${indicesDir}/${indexFileIDtest}.fasta.fai
+indexFileIDtest,human_g1k_v37
+indexFile,${indicesDir}/${indexFileID}.fasta
