@@ -1,4 +1,4 @@
-#MOLGENIS walltime=23:59:00 nodes=1 mem=40gb ppn=8
+#MOLGENIS walltime=23:59:00 nodes=1 mem=6gb ppn=4
 
 #string stage
 #string checkStage
@@ -9,23 +9,47 @@
 #string internalId
 #string genotypeHarminzerOutput
 #string genotypeHarmonizerDir
+#string uniqueID
+#string jdkVersion
 
-echo "## "$(date)" Start $0"
+set -u
+set -e
+
+function returnTest {
+  return $1
+}
+
+getFile ${unifiedGenotyperDir}${uniqueID}.raw.vcf.gz
 
 #Load modules
-${stage} jdk
+${stage} jdk/${jdkVersion}
 
 #check modules
 ${checkStage}
 
 mkdir -p ${genotypeHarmonizerDir}
 
-java -Xmx6g -XX:ParallelGCThreads=4 -jar ${genotypeHarmonizerToolDir}GenotypeHarmonizer.jar -i ${unifiedGenotyperDir}${internalId}_${sampleName}.raw.vcf.gz -o ${genotypeHarminzerOutput} -I VCF -O PLINK_BED
+echo "## "$(date)" Start $0"
 
+java -Xmx6g -XX:ParallelGCThreads=4 -jar ${genotypeHarmonizerToolDir}GenotypeHarmonizer.jar \
+  -i ${unifiedGenotyperDir}${uniqueID}.raw.vcf.gz \
+  -o ${genotypeHarminzerOutput} \
+  -I VCF \
+  -O PLINK_BED
 
-if [ ! -z "$PBS_JOBID" ]; then
-   echo "## "$(date)" Collecting PBS job statistics"
-   qstat -f $PBS_JOBID
-fi
+putFile ${genotypeHarminzerOutput}${uniqueID}.fam
+putFile ${genotypeHarminzerOutput}${uniqueID}.log
+putFile ${genotypeHarminzerOutput}${uniqueID}.bed
+putFile ${genotypeHarminzerOutput}${uniqueID}.bim
 
 echo "## "$(date)" ##  $0 Done "
+
+if returnTest \
+  0;
+then
+  echo "returncode: $?";
+  echo "succes moving files";
+else
+  echo "returncode: $?";
+  echo "fail";
+fi

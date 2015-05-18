@@ -6,3 +6,5 @@ GatkUnifiedGenotyper,protocols/GatkUnifiedGenotyper.sh,SamToSortedBam
 VerifyBamID,protocols/VerifyBamID.sh,GatkUnifiedGenotyper
 GenotypeHarmonizer,protocols/GenotypeHarmonizer.sh,GatkUnifiedGenotyper
 CombineBedFiles,protocols/CombineBedFiles.sh,GenotypeHarmonizer
+CollectRnaSeqMetrics,protocols/CollectRnaSeqMetrics.sh,SamToSortedBam
+CollectMultipleMetrics,CollectMultipleMetrics.sh,SamToSortedBam

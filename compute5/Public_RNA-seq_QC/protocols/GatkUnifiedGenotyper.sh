@@ -1,10 +1,10 @@
-#MOLGENIS walltime=23:59:00 nodes=1 mem=40gb ppn=8
+#MOLGENIS walltime=23:59:00 nodes=1 mem=8gb ppn=4
 
 #string stage
 #string checkStage
 #string onekgGenomeFasta
 #string gatkVersion
-#list sortedBams
+#list sortedBam
 #string sampleName
 #string unifiedGenotyperDir
 #string internalId
@@ -13,29 +13,64 @@
 #string testIntervalList
 #string tabixToolDir
 #string rawVCF
+#string uniqueID
 
-echo "## "$(date)" Start $0"
+set -u
+set -e
+
+function returnTest {
+  return $1
+}
+
+getFile ${dbsnpVcf}
+getFile ${onekgGenomeFasta}
+for file in "${sortedBam[@]}"; do
+  echo "getFile file='$file'"
+  getFile $file
+done
 
 #Load modules
-${stage} jdk
+${stage} jdk/{jdk-version}
+${stage} tabix/{tabix-version}
 
 #check modules
 ${checkStage}
 
 mkdir -p ${unifiedGenotyperDir}
 
-#print like '-I=file1.bam -I=file2.bam '
-inputs=$(printf ' -I %s ' $(printf '%s\n' ${sortedBams[@]}))
+echo "## "$(date)" Start $0"
 
-java -Xmx10g -jar ${toolDir}GATK-${gatkVersion}/GenomeAnalysisTK.jar -R ${onekgGenomeFasta} -T UnifiedGenotyper $inputs -L ${testIntervalList} --dbsnp ${dbsnpVcf} -o ${rawVCF} -U ALLOW_N_CIGAR_READS -rf ReassignMappingQuality -DMQ 60
+#print like '-I=file1.bam -I=file2.bam '
+inputs=$(printf ' -I %s ' $(printf '%s\n' ${sortedBam[@]}))
+
+java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}GATK-${gatkVersion}/GenomeAnalysisTK.jar \
+  -R ${onekgGenomeFasta} \
+  -T UnifiedGenotyper \
+  $inputs \
+  -L ${testIntervalList} \
+  --dbsnp ${dbsnpVcf} \
+  -o ${rawVCF} \
+  -U ALLOW_N_CIGAR_READS \
+  -rf ReassignMappingQuality \
+  -DMQ 60
 
 # have to gzip for GenomeHarnomizer use later
-${tabixToolDir}bgzip -c ${unifiedGenotyperDir}${internalId}_${sampleName}.raw.vcf > ${unifiedGenotyperDir}${internalId}_${sampleName}.raw.vcf.gz
-${tabixToolDir}tabix -p vcf ${unifiedGenotyperDir}${internalId}_${sampleName}.raw.vcf.gz
+tabix bgzip -c ${unifiedGenotyperDir}${uniqueID}.raw.vcf > ${unifiedGenotyperDir}${uniqueID}.raw.vcf.gz
+tabix -p vcf ${unifiedGenotyperDir}${uniqueID}.raw.vcf.gz
 
-if [ ! -z "$PBS_JOBID" ]; then
-echo "## "$(date)" Collecting PBS job statistics"
-qstat -f $PBS_JOBID
-fi
+putFile ${unifiedGenotyperDir}${uniqueID}.raw.vcf.gz
+putFile ${unifiedGenotyperDir}${uniqueID}.raw.vcf.gz.gz
+putFile ${unifiedGenotyperDir}${uniqueID}.raw.vcf.gz.tbi
+putFile ${unifiedGenotyperDir}${uniqueID}.raw.vcf.gz.idx
 
 echo "## "$(date)" ##  $0 Done "
+
+if returnTest \
+0;
+then
+  echo "returncode: $?";
+  echo "succes moving files";
+else
+  echo "returncode: $?";
+  echo "fail";
+fi

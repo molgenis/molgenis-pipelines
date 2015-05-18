@@ -1,4 +1,4 @@
-#MOLGENIS walltime=23:59:00 nodes=1 mem=40gb ppn=8
+#MOLGENIS walltime=23:59:00 nodes=1 mem=6gb ppn=4
 
 #string stage
 #string checkStage
@@ -10,27 +10,48 @@
 #string toolDir
 #string hisatAlignmentDir
 #string sortedBamDir
-#string sortedBams
-#string sortedBais
+#string sortedBam
+#string sortedBai
+#string uniqueID
+#string jdkVersion
 
-echo "## "$(date)" Start $0"
+set -u
+set -e
+
+function returnTest {
+  return $1
+}
+
+getFile ${hisatAlignmentDir}${uniqueID}.sam
 
 #Load modules
-${stage} jdk
+${stage} jdk/${jdkVersion}
 
 #check modules
 ${checkStage}
 
 mkdir -p ${sortedBamDir}
 
-java -Xmx6g -XX:ParallelGCThreads=4 -jar ${toolDir}picard-tools-${picardVersion}/SortSam.jar INPUT=${hisatAlignmentDir}${internalId}_${sampleName}.sam OUTPUT=${sortedBams} SO=coordinate CREATE_INDEX=true
+echo "## "$(date)" Start $0"
 
-putFile ${sortedBams}
-putFile ${sortedBais}
+java -Xmx6g -XX:ParallelGCThreads=4 -jar ${toolDir}picard-tools-${picardVersion}/SortSam.jar \
+  INPUT=${hisatAlignmentDir}${uniqueID}.sam \
+  OUTPUT=${sortedBam} \
+  SO=coordinate \
+  CREATE_INDEX=true
 
-if [ ! -z "$PBS_JOBID" ]; then
-   echo "## "$(date)" Collecting PBS job statistics"
-   qstat -f $PBS_JOBID
-fi
+putFile ${sortedBam}
+putFile ${sortedBai}
+
 
 echo "## "$(date)" ##  $0 Done "
+
+if returnTest \
+  0;
+then
+  echo "returncode: $?";
+  echo "succes moving files";
+else
+  echo "returncode: $?";
+  echo "fail";
+fi

@@ -9,23 +9,47 @@
 #string internalId
 #string platform
 #string hisatAlignmentDir
+#string hisatVersion
+#string uniqueID
 
-echo "## "$(date)" Start $0"
+set -u
+set -e
+
+function returnTest {
+  return $1
+}
+
+getFile ${hisatAlignmentDir}${uniqueID}.sam
+getFile ${reads1FqGz}
 
 #Load modules
-${stage} hisat
+${stage} hisat/${hisatVersion}
 
 #check modules
 ${checkStage}
 
 mkdir -p ${hisatAlignmentDir}
 
-hisat -x ${referenceGenome} -S ${hisatAlignmentDir}${internalId}_${sampleName}.sam -U ${reads1FqGz} -p $nTreads --rg-id ${internalId} --rg PL:${platform} --rg PU:${sampleName}_${internalId}_${internalId} --rg LB:${sampleName}_${internalId} --rg SM:${sampleName}
+echo "## "$(date)" Start $0"
 
+hisat -x ${referenceGenome} \
+  -S ${hisatAlignmentDir}${uniqueID}.sam \
+  -U ${reads1FqGz}
+  -p $nTreads
+  --rg-id ${internalId}
+  --rg PL:${platform}
+  --rg PU:${sampleName}_${internalId}_${internalId}
+  --rg LB:${sampleName}_${internalId}
+  --rg SM:${sampleName}
 
-if [ ! -z "$PBS_JOBID" ]; then
-   echo "## "$(date)" Collecting PBS job statistics"
-   qstat -f $PBS_JOBID
+# putfile
+
+if returnTest \
+  0;
+then
+  echo "returncode: $?";
+  echo "succes moving files";
+else
+  echo "returncode: $?";
+  echo "fail";
 fi
-
-echo "## "$(date)" ##  $0 Done "
