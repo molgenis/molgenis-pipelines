@@ -1,0 +1,8 @@
+step,protocol,dependencies
+Fastqc,protocols/Fastqc.sh,
+HisatAlignment,protocols/HisatAlignment.sh,
+SamToSortedBam,protocols/SamToSortedBam.sh,HisatAlignment
+GatkUnifiedGenotyper,protocols/GatkUnifiedGenotyper.sh,SamToSortedBam
+VerifyBamID,protocols/VerifyBamID.sh,GatkUnifiedGenotyper
+GenotypeHarmonizer,protocols/GenotypeHarmonizer.sh,GatkUnifiedGenotyper
+CombineBedFiles,protocols/CombineBedFiles.sh,GenotypeHarmonizer
