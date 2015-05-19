@@ -3,7 +3,6 @@
 #string stage
 #string checkStage
 #string toolDir
-#string genotypeHarmonizerToolDir
 #string sampleName
 #string unifiedGenotyperDir
 #string internalId
@@ -11,6 +10,7 @@
 #string genotypeHarmonizerDir
 #string uniqueID
 #string jdkVersion
+#string GenotypeHarmonizerVersion
 
 set -u
 set -e
@@ -31,16 +31,16 @@ mkdir -p ${genotypeHarmonizerDir}
 
 echo "## "$(date)" Start $0"
 
-java -Xmx6g -XX:ParallelGCThreads=4 -jar ${genotypeHarmonizerToolDir}GenotypeHarmonizer.jar \
+java -Xmx6g -XX:ParallelGCThreads=4 -jar ${toolDir}GenotypeHarmonizer-${GenotypeHarmonizerVersion}/GenotypeHarmonizer.jar \
   -i ${unifiedGenotyperDir}${uniqueID}.raw.vcf.gz \
   -o ${genotypeHarminzerOutput} \
   -I VCF \
   -O PLINK_BED
 
-putFile ${genotypeHarminzerOutput}${uniqueID}.fam
-putFile ${genotypeHarminzerOutput}${uniqueID}.log
-putFile ${genotypeHarminzerOutput}${uniqueID}.bed
-putFile ${genotypeHarminzerOutput}${uniqueID}.bim
+putFile ${genotypeHarminzerOutput}.fam
+putFile ${genotypeHarminzerOutput}.log
+putFile ${genotypeHarminzerOutput}.bed
+putFile ${genotypeHarminzerOutput}.bim
 
 echo "## "$(date)" ##  $0 Done "
 

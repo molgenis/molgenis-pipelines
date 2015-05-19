@@ -11,9 +11,10 @@
 #string dbsnpVcf
 #string toolDir
 #string testIntervalList
-#string tabixToolDir
 #string rawVCF
 #string uniqueID
+#string jdkVersion
+#string tabixVersion
 
 set -u
 set -e
@@ -30,8 +31,8 @@ for file in "${sortedBam[@]}"; do
 done
 
 #Load modules
-${stage} jdk/{jdk-version}
-${stage} tabix/{tabix-version}
+${stage} jdk/${jdkVersion}
+${stage} tabix/${tabixVersion}
 
 #check modules
 ${checkStage}
@@ -55,14 +56,14 @@ java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}GATK-${gatkVersion}/GenomeAna
   -DMQ 60
 
 # have to gzip for GenomeHarnomizer use later
-tabix bgzip -c ${unifiedGenotyperDir}${uniqueID}.raw.vcf > ${unifiedGenotyperDir}${uniqueID}.raw.vcf.gz
+bgzip -c ${unifiedGenotyperDir}${uniqueID}.raw.vcf > ${unifiedGenotyperDir}${uniqueID}.raw.vcf.gz
 tabix -p vcf ${unifiedGenotyperDir}${uniqueID}.raw.vcf.gz
 
+putFile ${unifiedGenotyperDir}${uniqueID}.raw.vcf
 putFile ${unifiedGenotyperDir}${uniqueID}.raw.vcf.gz
-putFile ${unifiedGenotyperDir}${uniqueID}.raw.vcf.gz.gz
 putFile ${unifiedGenotyperDir}${uniqueID}.raw.vcf.gz.tbi
 putFile ${unifiedGenotyperDir}${uniqueID}.raw.vcf.gz.idx
-
+echo "after putfile"
 echo "## "$(date)" ##  $0 Done "
 
 if returnTest \

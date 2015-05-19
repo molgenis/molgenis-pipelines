@@ -34,12 +34,12 @@ echo "## "$(date)" Start $0"
 
 hisat -x ${referenceGenome} \
   -S ${hisatAlignmentDir}${uniqueID}.sam \
-  -U ${reads1FqGz}
-  -p $nTreads
-  --rg-id ${internalId}
-  --rg PL:${platform}
-  --rg PU:${sampleName}_${internalId}_${internalId}
-  --rg LB:${sampleName}_${internalId}
+  -U ${reads1FqGz} \
+  -p $nTreads \
+  --rg-id ${internalId} \
+  --rg PL:${platform} \
+  --rg PU:${sampleName}_${internalId}_${internalId} \
+  --rg LB:${sampleName}_${internalId} \
   --rg SM:${sampleName}
 
 # putfile
