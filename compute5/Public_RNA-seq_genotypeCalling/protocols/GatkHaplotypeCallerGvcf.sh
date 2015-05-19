@@ -44,7 +44,6 @@ java -Xmx10g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${haplotyperDir} -jar $GAT
  -R ${onekgGenomeFasta} \
  --dbsnp ${dbsnpVcf}\
  $inputs \
- -recoverDanglingHeads \
  -dontUseSoftClippedBases \
  -stand_call_conf 10.0 \
  -stand_emit_conf 20.0 \
