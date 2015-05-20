@@ -8,17 +8,18 @@
 #string collectMultipleMetricsDir
 #string collectMultipleMetricsPrefix
 #string onekgGenomeFasta
-#string markDuplicatesBam
-#string markDuplicatesBai
+#string sortedBam
+#string sortedBai
 
+set -u
+set -e
 
+function returnTest {
+  return $1
+}
 
-echo "## "$(date)" Start $0"
-
-#echo  ${collectMultipleMetricsPrefix} 
-
-getFile ${markDuplicatesBam}
-getFile ${markDuplicatesBai}
+getFile ${sortedBam}
+getFile ${sortedBai}
 getFile ${onekgGenomeFasta}
 
 
@@ -27,12 +28,9 @@ ${stage} picard-tools/${picardVersion}
 ${stage} R/${RVersion}
 ${checkStage}
 
-set -x
-set -e
-
-#main ceate dir and run programmes
-
 mkdir -p ${collectMultipleMetricsDir}
+
+echo "## "$(date)" Start $0"
 
 insertSizeMetrics=""
 if [ ${#reads2FqGz} -ne 0 ]; then
@@ -41,7 +39,7 @@ fi
 
 #Run Picard CollectAlignmentSummaryMetrics, CollectInsertSizeMetrics, QualityScoreDistribution and MeanQualityByCycle
 java -jar -Xmx4g -XX:ParallelGCThreads=4 $PICARD_HOME/CollectMultipleMetrics.jar \
- I=${markDuplicatesBam} \
+ I=${sortedBam} \
  O=${collectMultipleMetricsPrefix} \
  R=${onekgGenomeFasta} \
  PROGRAM=CollectAlignmentSummaryMetrics \
@@ -52,20 +50,25 @@ java -jar -Xmx4g -XX:ParallelGCThreads=4 $PICARD_HOME/CollectMultipleMetrics.jar
 
 #VALIDATION_STRINGENCY=LENIENT \
 
-putFile  ${collectMultipleMetricsPrefix}.alignment_summary_metrics 
+putFile ${collectMultipleMetricsPrefix}.alignment_summary_metrics 
 putFile ${collectMultipleMetricsPrefix}.quality_by_cycle_metrics 
 putFile ${collectMultipleMetricsPrefix}.quality_by_cycle.pdf 
 putFile ${collectMultipleMetricsPrefix}.quality_distribution_metrics 
 putFile ${collectMultipleMetricsPrefix}.quality_distribution.pdf
 
 if [ ${#reads2FqGz} -ne 0 ]; then
-	putFile ${collectMultipleMetricsPrefix}.insert_size_histogram.pdf
-	putFile ${collectMultipleMetricsPrefix}.insert_size_metrics 
-fi
-
-if [ ! -z "$PBS_JOBID" ]; then
-	echo "## "$(date)" Collecting PBS job statistics"
-	qstat -f $PBS_JOBID
+  putFile ${collectMultipleMetricsPrefix}.insert_size_histogram.pdf
+  putFile ${collectMultipleMetricsPrefix}.insert_size_metrics
 fi
 
 echo "## "$(date)" ##  $0 Done "
+
+if returnTest \
+  0;
+then
+  echo "returncode: $?";
+  echo "succes moving files";
+else
+  echo "returncode: $?";
+  echo "fail";
+fi
