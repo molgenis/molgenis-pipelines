@@ -1,16 +1,12 @@
 #MOLGENIS walltime=23:59:00 mem=8gb nodes=1 ppn=4
 
-#Parameter mapping  #why not string foo,bar? instead of string foo\nstring bar
 #string stage
 #string checkStage
-#string starVersion
 #string WORKDIR
 #string projectDir
-
 #string picardVersion
-
-#string markDuplicatesBam
-#string markDuplicatesBai
+#string sortedBam
+#string sortedBai
 #string collectRnaSeqMetricsDir
 #string collectRnaSeqMetrics
 #string collectRnaSeqMetricsChart
@@ -18,23 +14,25 @@
 #string rRnaIntervalList
 #string onekgGenomeFasta
 
+set -u
+set -e
 
+function returnTest {
+  return $1
+}
 
-getFile ${markDuplicatesBam}
-getFile ${markDuplicatesBai}
+getFile ${sortedBam}
+getFile ${sortedBai}
 
 ${stage} picard-tools/${picardVersion}
 ${checkStage}
-
-set -x
-set -e
 
 mkdir -p ${collectRnaSeqMetricsDir}
 
 echo "## "$(date)" ##  $0 Started "
 
 java -Xmx8g -XX:ParallelGCThreads=4 -jar $PICARD_HOME/CollectRnaSeqMetrics.jar \
- INPUT=${markDuplicatesBam} \
+ INPUT=${sortedBam} \
  OUTPUT=${collectRnaSeqMetrics} \
  CHART_OUTPUT=${collectRnaSeqMetricsChart} \
  METRIC_ACCUMULATION_LEVEL=SAMPLE \
@@ -49,9 +47,16 @@ java -Xmx8g -XX:ParallelGCThreads=4 -jar $PICARD_HOME/CollectRnaSeqMetrics.jar \
 putFile ${collectRnaSeqMetrics}
 putFile ${collectRnaSeqMetricsChart}
 
-if [ ! -z "$PBS_JOBID" ]; then
-	echo "## "$(date)" Collecting PBS job statistics"
-	qstat -f $PBS_JOBID
-fi
+
 
 echo "## "$(date)" ##  $0 Done "
+
+if returnTest \
+  0;
+then
+  echo "returncode: $?";
+  echo "succes moving files";
+else
+  echo "returncode: $?";
+  echo "fail";
+fi
