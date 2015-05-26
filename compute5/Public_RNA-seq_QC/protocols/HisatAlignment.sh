@@ -23,9 +23,10 @@ getFile ${reads1FqGz}
 fastaFiles=${reads1FqGz}
 if ! [ ${#reads2FqGz} -eq 0 ]; then
    getFile ${reads2FqGz}
-   fastaFiles+=",${reads2FqGz}"
+   input="-1 ${reads1FqGz} -2 ${reads2FqGz}"
    echo "Paired end alignment of ${fastaFiles}"
 else
+   input="-U ${reads1FqGz}"
    echo "Single end alignment ${fastaFiles}"
 fi
 
@@ -40,7 +41,7 @@ mkdir -p ${hisatAlignmentDir}
 echo "## "$(date)" Start $0"
 hisat -x ${referenceGenome} \
   -S ${hisatAlignmentDir}${uniqueID}.sam \
-  -U ${fastaFiles} \
+  ${input}\
   -p $nTreads \
   --rg-id ${internalId} \
   --rg PL:${platform} \
