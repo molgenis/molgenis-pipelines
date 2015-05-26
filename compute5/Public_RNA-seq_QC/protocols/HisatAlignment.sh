@@ -1,4 +1,4 @@
-#MOLGENIS walltime=23:59:00 nodes=1 mem=40gb ppn=8
+#MOLGENIS walltime=23:59:00 nodes=1 mem=10gb ppn=8
 
 #string stage
 #string checkStage
@@ -19,7 +19,6 @@ function returnTest {
   return $1
 }
 
-getFile ${hisatAlignmentDir}${uniqueID}.sam
 getFile ${reads1FqGz}
 
 #Load modules
@@ -42,7 +41,7 @@ hisat -x ${referenceGenome} \
   --rg LB:${sampleName}_${internalId} \
   --rg SM:${sampleName}
 
-# putfile
+putFile ${hisatAlignmentDir}${uniqueID}.sam
 
 if returnTest \
   0;
