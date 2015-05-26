@@ -8,9 +8,9 @@
 #string tempDir
 #string intermediateDir
 #string controlSetDir
-#string binnedSample
+#string binnedSampleForward
+#string binnedSampleReverse
 #string bestControlSet
-#string strand
 #string sampleID
 #string chiIntermediateDir
 
@@ -25,7 +25,6 @@ echo "intermediateDir: ${intermediateDir}"
 echo "controlSetDir: ${controlSetDir}"
 echo "binnedSample: ${binnedSample}"
 echo "bestControlSet: ${bestControlSet}"
-echo "strand: ${strand}" 
 echo "sampleID: ${sampleID}"
 echo "chiIntermediateDir: ${chiIntermediateDir}"
 
@@ -42,12 +41,11 @@ ${checkStage}
 
 
 Rscript ${RScriptChi} \
-${controlSetDir} \
-${binnedSample} \
-${chiIntermediateDir} \
-${bestControlSet} \
-${strand} \
-${sampleID}
+-d ${controlSetDir} \
+-f ${binnedSampleForward} \
+-r ${binnedSampleReverse} \
+-temp ${chiIntermediateDir} \
+-sample ${sampleID}
 
 
 

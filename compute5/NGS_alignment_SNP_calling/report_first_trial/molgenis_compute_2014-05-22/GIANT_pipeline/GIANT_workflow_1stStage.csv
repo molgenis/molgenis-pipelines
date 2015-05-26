@@ -1,3 +1,0 @@
-step,protocol,dependencies
-s1_CopyDataPrmToTmp,protocols/CopyDataPrmToTmp.sh,
-s2_RunCompute,protocols/RunCompute.sh,s1_CopyDataPrmToTmp

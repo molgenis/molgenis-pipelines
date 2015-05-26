@@ -1,0 +1,3 @@
+internalId,project,sampleName,reads1FqGz,reads2FqGz
+ID_01,sample_project,sample01,sample1_reads1.fq.gz,sample1_reads2.fq.gz
+ID_02,sample_project,sample02,sample2_reads2.fq.gz,sample2_reads2.fq.gz

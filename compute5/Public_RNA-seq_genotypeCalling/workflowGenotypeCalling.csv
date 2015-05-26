@@ -1,0 +1,15 @@
+step,protocol,dependencies
+Fastqc,protocols/Fastqc.sh,
+StarRunAlignmentP1,protocols/StarRunAlignmentP1.sh,
+StarRunAlignmentP2,protocols/StarRunAlignmentP2.sh,StarRunAlignmentP1
+AddOrReplaceReadGroups,protocols/AddOrReplaceReadGroups.sh,StarRunAlignmentP2
+MergeBamFiles,protocols/MergeBamFiles.sh,AddOrReplaceReadGroups
+MarkDuplicates,protocols/MarkDuplicates.sh,MergeBamFiles
+CollectRnaSeqMetrics,protocols/CollectRnaSeqMetrics.sh,MarkDuplicates
+CollectMultipleMetrics,protocols/CollectMultipleMetrics.sh,MarkDuplicates
+GatkSplitAndTrim,protocols/GatkSplitAndTrim.sh,MarkDuplicates
+IndelRealignmentKnown,protocols/GatkIndelRealignmentKnown.sh,GatkSplitAndTrim
+BQSR,protocols/GatkBQSR.sh,IndelRealignmentKnown
+AnalyseCovariates,protocols/GatkAnalyseCovariates.sh,BQSR
+HaplotypeCallerGvcf,protocols/GatkHaplotypeCallerGvcf.sh,BQSR
+MergeGvcfs,protocols/GatkMergeGvcfs.sh,HaplotypeCallerGvcf
