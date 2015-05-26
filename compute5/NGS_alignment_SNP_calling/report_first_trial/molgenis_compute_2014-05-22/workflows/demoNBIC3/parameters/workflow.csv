@@ -1,0 +1,3 @@
+step,protocol,dependencies
+step1assessRisk,assessRisk.sh,sample=sample;glucose=glucose;workflowConstant=workflowConstant
+step2report,report.sh,dis=disease;sample=sample;glucose=glucose;risk=step1assessRisk.risk;workflowConstant=workflowConstant

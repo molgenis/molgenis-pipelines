@@ -1,0 +1,4 @@
+project,prefix,postfix,combination
+project1,prefix1,postfix1,${prefix}${postfix}
+project1,prefix2,postfix2,${prefix}${postfix}
+project1,prefix3,postfix3,${prefix}${postfix}

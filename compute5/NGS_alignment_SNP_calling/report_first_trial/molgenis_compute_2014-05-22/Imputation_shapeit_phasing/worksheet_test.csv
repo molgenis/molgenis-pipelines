@@ -1,0 +1,3 @@
+project,m,outputFolder,chr,studyData,studyDataType
+phasetest,/gcc/tools/imputation-0.9.1/molgenis_imputation/resources/genetic_map_chrX_combined_b37.txt,/target/gpfs2/gcc/home/akanterakis/runs/ticket_1744/Imputation_shapeit_phasing_results/,1,/target/gpfs2/gcc/home/akanterakis/runs/ticket_1744/Liftover_genome_build_PEDMAP_liftover_results/chr1/chr${chr}.ped 
+/target/gpfs2/gcc/home/akanterakis/runs/ticket_1744/Liftover_genome_build_PEDMAP_liftover_results/chr1/chr${chr}.map,PED

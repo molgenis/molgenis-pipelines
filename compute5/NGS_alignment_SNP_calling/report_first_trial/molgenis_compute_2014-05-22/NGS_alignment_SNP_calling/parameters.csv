@@ -147,9 +147,4 @@ finalReport,${tmpDataDir}/rawdata/array/1249524_17112008_FinalReport.txt
 familyList,${sample}.familylist.txt
 finalReportTmpDir,${intermediateDir}/${externalSampleID}_FinalReport.txt
 arrayTmpMap,${sample}.concordance.tmp.map
-arrayMapFile,${sample}.concordance.map
 sampleConcordanceFile,${sample}.concordance.ngsVSarray.txt
-qcStatisticsCsv,${projectQcDir}/${project}_QCStatistics.csv
-MCQCReportDir,${MC_HOME}/NGS_alignment_SNP_calling/report/
-qcReportTemplate,${MCQCReportDir}qc_report_template.Rmd
-qcHelperFunctionsR,${MCQCReportDir}knitr_helper_functions.R

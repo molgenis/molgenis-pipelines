@@ -1,0 +1,31 @@
+#MOLGENIS walltime=01:59:00 mem=4gb
+
+#Parameter mapping
+#string GIANT_workDir
+#string stage
+#string GIANT_workDir_originalFiles
+#string pseudo
+
+echo "GIANT_workDir: ${GIANT_workDir}"
+echo "$GIANT_workDir_originalFiles: {GIANT_workDir_originalFiles}"
+echo "pseudo: ${pseudo}"
+
+
+${stage} molgenis_compute/v5_20140522
+${stage} anaconda
+${stage} imputation
+
+mkdir -p ${GIANT_workDir}/imputation
+cp -r $IMPUTATION_HOME/molgenis_imputation/tools ${GIANT_workDir}/imputation/
+cp -r $IMPUTATION_HOME/molgenis_imputation/molgenis-compute ${GIANT_workDir}/imputation/
+
+python $IMPUTATION_HOME/molgenis-impute.py \
+--study ${GIANT_workDir}/finalResults/ \
+--chromosomes X \
+--installation_dir ${GIANT_workDir}/imputation \
+--reference_dir ${GIANT_workDir_originalFiles}/reference/ \
+--reference ${pseudo} \
+--backend pbs \
+--nosubmit \
+--action phase \
+--output ${GIANT_workDir}/phasing 

@@ -1,0 +1,12 @@
+# NGS QC report
+
+.|.
+---|---
+**By** | GAF, GCC, UMCG
+**On** | `r str_split(Sys.time(), " ")[[1]][1] # get date`
+**Project** | `r Sys.getenv("project")`
+
+# Statistics
+```{r echo=FALSE,results='asis'}
+	cat(csv.to.markdown.table.CUSTOM.qc( qc_csv ))
+```

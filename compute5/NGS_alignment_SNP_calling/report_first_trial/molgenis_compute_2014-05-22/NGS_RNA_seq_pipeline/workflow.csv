@@ -1,0 +1,8 @@
+step,protocol,dependencies
+s00_FastQC,protocols/FastQC.sh,
+s01_STARMapping,protocols/STARMapping.sh,
+s02_QCstats,protocols/QCstats.sh,s01_STARMapping
+s03_HTSeq_count,protocols/HTSeq_count.sh,s01_STARMapping
+s04_MakeExpressionTable,protocols/MakeExpressionTable.sh,s03_HTSeq_count
+s05_QC_Report,protocols/QC_Report.sh,s04_MakeExpressionTable;s02_QCstats
+s06_CopyToResultsDir,protocols/CopyToResultsDir.sh,s04_MakeExpressionTable;s00_FastQC;s02_QCstats

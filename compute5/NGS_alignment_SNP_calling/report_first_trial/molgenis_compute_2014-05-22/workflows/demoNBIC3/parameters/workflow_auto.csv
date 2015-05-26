@@ -1,0 +1,3 @@
+step,protocol,dependencies
+step1assessRisk,assessRisk.sh,
+step2report,report.sh,dis=disease;risk=step1assessRisk.risk
