@@ -1,10 +1,11 @@
-#MOLGENIS walltime=23:59:00 nodes=1 mem=40gb ppn=8
+#MOLGENIS walltime=23:59:00 nodes=1 mem=10gb ppn=8
 
 #string stage
 #string checkStage
 #string referenceGenome
 #string sampleName
 #string reads1FqGz
+#string reads2FqGz
 #string nTreads
 #string internalId
 #string platform
@@ -18,9 +19,16 @@ set -e
 function returnTest {
   return $1
 }
-
-getFile ${hisatAlignmentDir}${uniqueID}.sam
 getFile ${reads1FqGz}
+fastaFiles=${reads1FqGz}
+if ! [ ${#reads2FqGz} -eq 0 ]; then
+   getFile ${reads2FqGz}
+   input="-1 ${reads1FqGz} -2 ${reads2FqGz}"
+   echo "Paired end alignment of ${fastaFiles}"
+else
+   input="-U ${reads1FqGz}"
+   echo "Single end alignment ${fastaFiles}"
+fi
 
 #Load modules
 ${stage} hisat/${hisatVersion}
@@ -31,10 +39,9 @@ ${checkStage}
 mkdir -p ${hisatAlignmentDir}
 
 echo "## "$(date)" Start $0"
-
 hisat -x ${referenceGenome} \
   -S ${hisatAlignmentDir}${uniqueID}.sam \
-  -U ${reads1FqGz} \
+  ${input}\
   -p $nTreads \
   --rg-id ${internalId} \
   --rg PL:${platform} \
@@ -42,7 +49,7 @@ hisat -x ${referenceGenome} \
   --rg LB:${sampleName}_${internalId} \
   --rg SM:${sampleName}
 
-# putfile
+putFile ${hisatAlignmentDir}${uniqueID}.sam
 
 if returnTest \
   0;
