@@ -1,4 +1,4 @@
-#MOLGENIS walltime=23:59:00 mem=10gb ppn=8
+#MOLGENIS walltime=23:59:00 mem=12gb ppn=2
 
 #Parameter mapping  #why not string foo,bar? instead of string foo\nstring bar
 #string stage
@@ -37,7 +37,7 @@ inputs=$(printf ' -I %s ' $(printf '%s\n' ${bams[@]}))
 
 mkdir -p ${haplotyperDir}
 
-java -Xmx10g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${haplotyperDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
+java -Xmx12g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${haplotyperDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
  -T HaplotypeCaller \
  -R ${onekgGenomeFasta} \
  --dbsnp ${dbsnpVcf}\
@@ -46,7 +46,6 @@ java -Xmx10g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${haplotyperDir} -jar $GAT
  -stand_call_conf 10.0 \
  -stand_emit_conf 20.0 \
  -o ${haplotyperGvcf} \
- -nct 8 \
  --emitRefConfidence GVCF
 
 putFile ${haplotyperGvcf}
