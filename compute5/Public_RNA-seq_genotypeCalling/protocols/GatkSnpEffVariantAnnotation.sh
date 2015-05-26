@@ -114,7 +114,7 @@ mkdir -p ${annotatorDir}
 
 
 if [ ! -e ${snpEffVcf} ] || [ ! -s ${snpEffVcf} ]; then 
-	java -Xmx4g -jar  $SNPEFF_HOME/snpEff.jar \
+	java -Xmx6g -XX:ParallelGCThreads=2 -jar  $SNPEFF_HOME/snpEff.jar \
 	 -c $SNPEFF_HOME/snpEff.config \
 	 -stats ${snpEffStats} \
          -v -o gatk \
@@ -125,7 +125,7 @@ fi
 
 #review  --excludeAnnotation MVLikelihoodRatio 
 
-java -Xmx4g -Djava.io.tmpdir=${annotatorDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
+java -Xmx6g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${annotatorDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
  -T VariantAnnotator \
  -R ${onekgGenomeFasta} \
  --dbsnp ${dbsnpVcf} \

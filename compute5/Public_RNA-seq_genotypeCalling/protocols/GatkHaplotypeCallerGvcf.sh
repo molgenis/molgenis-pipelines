@@ -1,4 +1,4 @@
-#MOLGENIS walltime=23:59:00 mem=10gb ppn=2
+#MOLGENIS walltime=23:59:00 mem=12gb ppn=2
 
 #Parameter mapping  #why not string foo,bar? instead of string foo\nstring bar
 #string stage
@@ -37,22 +37,16 @@ inputs=$(printf ' -I %s ' $(printf '%s\n' ${bams[@]}))
 
 mkdir -p ${haplotyperDir}
 
-#pseudo: java -jar GenomeAnalysisTK.jar -T HaplotypeCaller -R ref.fasta -I input.bam -recoverDanglingHeads -dontUseSoftClippedBases -stand_call_conf 20.0 -stand_emit_conf 20.0 -o output.vcf from http://gatkforums.broadinstitute.org/discussion/3891/calling-variants-in-rnaseq
-
-java -Xmx10g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${haplotyperDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
+java -Xmx12g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${haplotyperDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
  -T HaplotypeCaller \
  -R ${onekgGenomeFasta} \
  --dbsnp ${dbsnpVcf}\
  $inputs \
- -recoverDanglingHeads \
  -dontUseSoftClippedBases \
  -stand_call_conf 10.0 \
  -stand_emit_conf 20.0 \
  -o ${haplotyperGvcf} \
- -nct 8 \
- --emitRefConfidence GVCF \
- --variant_index_type LINEAR \
- --variant_index_parameter 128000
+ --emitRefConfidence GVCF
 
 putFile ${haplotyperGvcf}
 putFile ${haplotyperGvcfIdx}
