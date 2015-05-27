@@ -167,6 +167,11 @@ arrayTmpMap,${sample}.concordance.tmp.map
 arrayMapFile,${sample}.concordance.map
 sampleConcordanceFile,${sample}.concordance.ngsVSarray.txt
 qcStatisticsCsv,${projectQcDir}/${project}_QCStatistics.csv
+<<<<<<< HEAD:compute5/NGS_alignment_SNP_calling/parameters.csv
+MCQCReportDir,${MC_HOME}/NGS_alignment_SNP_calling/report/
+qcReportTemplate,${MCQCReportDir}qc_report_template.Rmd
+qcHelperFunctionsR,${MCQCReportDir}knitr_helper_functions.R
+=======
 qcStatisticsTex,${projectQcDir}/${project}_QCStatistics.tex
 qcStatisticsDescription,${projectQcDir}/${project}_qcstatisticsdescription.tex
 qcDedupMetricsOut,${projectQcDir}/${project}_dedupmetrics.txt
@@ -177,3 +182,4 @@ demultiplexStats,${projectQcDir}/${project}_QCStatistics.log.txt
 MCQCReportDir,/gcc/tools/NGS_DNA-2.0/report
 qcReportTemplate,${MCQCReportDir}/qc_report_template.Rmd
 qcHelperFunctionsR,${MCQCReportDir}/knitr_helper_functions.R
+>>>>>>> f149859900d44d78a561edc757cca8f2ca2b5424:compute5/NGS_DNA-2.0/parameters.csv

@@ -1,7 +1,8 @@
 step,protocol,dependencies
-s00_CheckIlluminaEncoding,protocols/CheckIlluminaEncoding.sh,
-s01_FastQC,protocols/FastQC.sh,s00_CheckIlluminaEncoding
-s02_BwaAlign,protocols/BwaAlign.sh,s00_CheckIlluminaEncoding
+s00a_SpikePhiX,protocols/SpikePhiX.sh,
+s00b_CheckIlluminaEncoding,protocols/CheckIlluminaEncoding.sh,s00a_SpikePhiX
+s01_FastQC,protocols/FastQC.sh,s00b_CheckIlluminaEncoding
+s02_BwaAlign,protocols/BwaAlign.sh,s00b_CheckIlluminaEncoding
 s03_SamToBam,protocols/SamToBam.sh,s02_BwaAlign
 s04_SortBam,protocols/SortBam.sh,s03_SamToBam;inputSortBam=alignedBam;sortedBam=alignedSortedBam;sortedBamIdx=alignedSortedBamIdx
 s05_MergeBam,protocols/MergeBam.sh,s04_SortBam;inputMergeBam=alignedSortedBam;inputMergeBamIdx=alignedSortedBamIdx;mergedBam=sampleMergedBam;mergedBamIdx=sampleMergedBamIdx
@@ -22,6 +23,7 @@ s18b_IndelFiltration,protocols/IndelFiltration.sh,s17_SplitIndelsAndSNPs
 s19_dbNSFPAnnotation,protocols/dbNSFPAnnotation.sh,s16_VariantAnnotator
 s20_MergeIndelsAndSnps,protocols/MergeIndelsAndSnps.sh,s18b_IndelFiltration;s19_dbNSFPAnnotation
 s21_VcfToTable,protocols/VcfToTable.sh,s20_MergeIndelsAndSnps
-s22_QCReport,protocols/QCReport.sh,s09_SequenomConcordanceCheck;s21_VcfToTable
-s23_CountAllFinishedFiles,protocols/CountAllFinishedFiles.sh,s22_QCReport
+s22a_InSilicoConcordance,protocols/InSilicoConcordance.sh,s13_VariantCalling;s21_VcfToTable
+s22b_QCReport,protocols/QCReport.sh,s09_SequenomConcordanceCheck;s21_VcfToTable;s22a_InSilicoConcordance
+s23_CountAllFinishedFiles,protocols/CountAllFinishedFiles.sh,s22b_QCReport
 s24_CopyToResultsDir,protocols/CopyToResultsDir.sh,s23_CountAllFinishedFiles
