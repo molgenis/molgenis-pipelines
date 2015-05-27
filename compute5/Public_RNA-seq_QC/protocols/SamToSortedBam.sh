@@ -38,7 +38,8 @@ java -Xmx6g -XX:ParallelGCThreads=4 -jar ${toolDir}picard-tools-${picardVersion}
   INPUT=${hisatAlignmentDir}${uniqueID}.sam \
   OUTPUT=${sortedBam} \
   SO=coordinate \
-  CREATE_INDEX=true
+  CREATE_INDEX=true \
+  TMP_DIR=${sortedBamDir}
 
 putFile ${sortedBam}
 putFile ${sortedBai}
