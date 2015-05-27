@@ -19,9 +19,6 @@
 set -u
 set -e
 
-function returnTest {
-  return $1
-}
 
 getFile ${dbsnpVcf}
 getFile ${onekgGenomeFasta}
@@ -44,7 +41,7 @@ echo "## "$(date)" Start $0"
 #print like '-I=file1.bam -I=file2.bam '
 inputs=$(printf ' -I %s ' $(printf '%s\n' ${sortedBam[@]}))
 
-java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}GATK-${gatkVersion}/GenomeAnalysisTK.jar \
+if java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}GATK-${gatkVersion}/GenomeAnalysisTK.jar \
   -R ${onekgGenomeFasta} \
   -T UnifiedGenotyper \
   $inputs \
@@ -55,23 +52,21 @@ java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}GATK-${gatkVersion}/GenomeAna
   -rf ReassignMappingQuality \
   -DMQ 60
 
-# have to gzip for GenomeHarnomizer use later
-bgzip -c ${unifiedGenotyperDir}${uniqueID}.raw.vcf > ${unifiedGenotyperDir}${uniqueID}.raw.vcf.gz
-tabix -p vcf ${unifiedGenotyperDir}${uniqueID}.raw.vcf.gz
+ # have to gzip for GenometypeHarnomizer use later
+ bgzip -c ${unifiedGenotyperDir}${uniqueID}.raw.vcf > ${unifiedGenotyperDir}${uniqueID}.raw.vcf.gz
+ tabix -p vcf ${unifiedGenotyperDir}${uniqueID}.raw.vcf.gz
 
-putFile ${unifiedGenotyperDir}${uniqueID}.raw.vcf
-putFile ${unifiedGenotyperDir}${uniqueID}.raw.vcf.gz
-putFile ${unifiedGenotyperDir}${uniqueID}.raw.vcf.gz.tbi
-putFile ${unifiedGenotyperDir}${uniqueID}.raw.vcf.gz.idx
-echo "after putfile"
-echo "## "$(date)" ##  $0 Done "
-
-if returnTest \
-0;
 then
-  echo "returncode: $?";
-  echo "succes moving files";
+ echo "returncode: $?"; 
+
+ putFile ${unifiedGenotyperDir}${uniqueID}.raw.vcf
+ putFile ${unifiedGenotyperDir}${uniqueID}.raw.vcf.gz
+ putFile ${unifiedGenotyperDir}${uniqueID}.raw.vcf.gz.tbi
+ putFile ${unifiedGenotyperDir}${uniqueID}.raw.vcf.gz.idx
+ echo "succes moving files";
 else
-  echo "returncode: $?";
-  echo "fail";
+ echo "returncode: $?";
+ echo "fail";
 fi
+
+echo "## "$(date)" ##  $0 Done "

@@ -14,9 +14,6 @@
 set -u
 set -e
 
-function returnTest {
-  return $1
-}
 
 getFile ${unifiedGenotyperDir}${uniqueID}.raw.vcf
 getFile ${sortedBam}
@@ -32,25 +29,23 @@ mkdir -p ${verifyBamIdDir}
 
 echo "## "$(date)" Start $0"
 
-verifyBamID \
+if verifyBamID \
   --vcf ${unifiedGenotyperDir}${uniqueID}.raw.vcf \
   --bam ${sortedBam} \
   --out ${verifyBamIdDir}${uniqueID}
 
-putFile ${verifyBamIdDir}${uniqueID}.depthRG
-putFile ${verifyBamIdDir}${uniqueID}.depthSM
-putFile ${verifyBamIdDir}${uniqueID}.log
-putFile ${verifyBamIdDir}${uniqueID}.selfRG
-putFile ${verifyBamIdDir}${uniqueID}.selfSM
+then
+ echo "returncode: $?"; 
+ putFile ${verifyBamIdDir}${uniqueID}.depthRG
+ putFile ${verifyBamIdDir}${uniqueID}.depthSM
+ putFile ${verifyBamIdDir}${uniqueID}.log
+ putFile ${verifyBamIdDir}${uniqueID}.selfRG
+ putFile ${verifyBamIdDir}${uniqueID}.selfSM
+
+ echo "succes moving files";
+else
+ echo "returncode: $?";
+ echo "fail";
+fi
 
 echo "## "$(date)" ##  $0 Done "
-
-if returnTest \
-  0;
-then
-  echo "returncode: $?";
-  echo "succes moving files";
-else
-  echo "returncode: $?";
-  echo "fail";
-fi
