@@ -40,14 +40,22 @@ mkdir -p ${haplotyperDir}
 
 #pseudo: java -jar GenomeAnalysisTK.jar -T HaplotypeCaller -R ref.fasta -I input.bam -recoverDanglingHeads -dontUseSoftClippedBases -stand_call_conf 20.0 -stand_emit_conf 20.0 -o output.vcf from http://gatkforums.broadinstitute.org/discussion/3891/calling-variants-in-rnaseq
 
-java -Xmx30g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${haplotyperDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
+if java -Xmx30g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${haplotyperDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
  -T CombineGVCFs \
  -R ${onekgGenomeFasta} \
  -o ${mergeGvcf} \
  $inputs 
 
+then
+ echo "returncode: $?"; 
 
-putFile ${mergeGvcf}
-putFile ${mergeGvcf}
+ putFile ${mergeGvcf}
+ putFile ${mergeGvcf}
+
+ echo "succes moving files";
+else
+ echo "returncode: $?";
+ echo "fail";
+fi
 
 echo "## "$(date)" ##  $0 Done "

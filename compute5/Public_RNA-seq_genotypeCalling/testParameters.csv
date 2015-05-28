@@ -55,14 +55,8 @@ rRnaIntervalList,${resDir}//picard-tools/Ensembl${ensemblVersion}/${genomeLatSpe
 RVersion,3.0.2
 collectMultipleMetricsDir,${projectDir}/collectMultipleMetrics/
 collectMultipleMetricsPrefix, ${projectDir}/collectMultipleMetrics/${sampleName}.multiplemetrics
-htseqCountDir,${projectDir}/htseq-count/
-htseqCountCounts,${projectDir}/htseq-count/${sampleName}.tsv
 anacondaVersion,1.8.0
 samtoolsVersion,0.1.19
-fluxcapacitorVersion,1.6.1
-fluxcapacitorDir,${projectDir}/fluxcapacitor/
-fluxcapacitorGTF,${resDir}//flux-capacitor/Ensembl${ensemblVersion}/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.fluxcapacitor.sorted.gtf
-fluxcapacitorExpressionGTF,${fluxcapacitorDir}/${sampleName}.${genomeGrchBuild}.${ensemblVersion}.expression.gtf
 gatkVersion,3.4-0-g7e26428
 splitAndTrimDir,${projectDir}/splitAndTrim/
 splitAndTrimBam,${splitAndTrimDir}${sampleName}.bam

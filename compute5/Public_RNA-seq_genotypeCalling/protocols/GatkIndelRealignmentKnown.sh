@@ -44,7 +44,7 @@ if [ ! -e ${indelRealignmentDir} ]; then
 fi
 
 
-java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${indelRealignmentDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
+if java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${indelRealignmentDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
  -T IndelRealigner \
  -R ${onekgGenomeFasta} \
  -I ${splitAndTrimBam} \
@@ -56,7 +56,16 @@ java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${indelRealignmentDir} -jar
  --consensusDeterminationModel KNOWNS_ONLY \
  --LODThresholdForCleaning 0.4 \
 
-putFile ${indelRealignmentBam}
-putFile ${indelRealignmentBai}
+then
+ echo "returncode: $?"; 
+
+ putFile ${indelRealignmentBam}
+ putFile ${indelRealignmentBai}
+
+ echo "succes moving files";
+else
+ echo "returncode: $?";
+ echo "fail";
+fi
 
 echo "## "$(date)" ##  $0 Done "
