@@ -11,6 +11,7 @@
 #string uniqueID
 #string jdkVersion
 #string variantEvalDir
+#string evalGrp
 
 set -u
 set -e
@@ -34,10 +35,10 @@ echo "## "$(date)" ##  $0 Started "
 java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}GATK-${gatkVersion}/GenomeAnalysisTK.jar \
 -T VariantEval \
 -R ${onekgGenomeFasta} \
--o ${variantEvalDir}${uniqueID}.eval.grp \
+-o ${evalGrp} \
 --eval:set1 ${rawVCF} \
 
-putFile ${${variantEvalDir}${uniqueID}.eval.grp
+putFile ${evalGrp}
 
 echo "## "$(date)" ##  $0 Done "
 

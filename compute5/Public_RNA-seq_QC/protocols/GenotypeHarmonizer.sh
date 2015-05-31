@@ -11,6 +11,7 @@
 #string uniqueID
 #string jdkVersion
 #string GenotypeHarmonizerVersion
+#string rawVCF
 
 set -u
 set -e
@@ -19,7 +20,7 @@ function returnTest {
   return $1
 }
 
-getFile ${unifiedGenotyperDir}${uniqueID}.raw.vcf.gz
+getFile ${rawVCF}.gz
 
 #Load modules
 ${stage} jdk/${jdkVersion}
@@ -32,7 +33,7 @@ mkdir -p ${genotypeHarmonizerDir}
 echo "## "$(date)" Start $0"
 
 java -Xmx6g -XX:ParallelGCThreads=4 -jar ${toolDir}GenotypeHarmonizer-${GenotypeHarmonizerVersion}/GenotypeHarmonizer.jar \
-  -i ${unifiedGenotyperDir}${uniqueID}.raw.vcf.gz \
+-i ${rawVCF}.gz \
   -o ${genotypeHarminzerOutput} \
   -I VCF \
   -O PLINK_BED

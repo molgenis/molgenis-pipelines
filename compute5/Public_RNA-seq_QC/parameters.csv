@@ -50,6 +50,7 @@ genomeEnsembleAnnotationFile,${resDir}/Ensembl/release-${ensemblVersion}/gtf/hom
 sortedBam,${sortedBamDir}${uniqueID}.bam
 sortedBai,${sortedBamDir}${uniqueID}.bai
 rawVCF,${unifiedGenotyperDir}${uniqueID}.raw.vcf
+evalGrp,${variantEvalDir}${uniqueID}.eval.grp
 genotypeHarminzerOutput,${genotypeHarmonizerDir}/${uniqueID}
 mergeBamFilesDir,${projectDir}/mergeBams/
 mergeBamFilesBam,${mergeBamFilesDir}${sampleName}.bam

@@ -56,13 +56,13 @@ java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}GATK-${gatkVersion}/GenomeAna
   -DMQ 60
 
 # have to gzip for GenomeHarnomizer use later
-bgzip -c ${unifiedGenotyperDir}${uniqueID}.raw.vcf > ${unifiedGenotyperDir}${uniqueID}.raw.vcf.gz
-tabix -p vcf ${unifiedGenotyperDir}${uniqueID}.raw.vcf.gz
+bgzip -c ${rawVCF} > ${rawVCF}.gz
+tabix -p vcf ${rawVCF}.gz
 
-putFile ${unifiedGenotyperDir}${uniqueID}.raw.vcf
-putFile ${unifiedGenotyperDir}${uniqueID}.raw.vcf.gz
-putFile ${unifiedGenotyperDir}${uniqueID}.raw.vcf.gz.tbi
-putFile ${unifiedGenotyperDir}${uniqueID}.raw.vcf.gz.idx
+putFile ${rawVCF}
+putFile ${rawVCF}.gz
+putFile ${rawVCF}.gz.tbi
+putFile ${rawVCF}.gz.idx
 echo "after putfile"
 echo "## "$(date)" ##  $0 Done "
 
