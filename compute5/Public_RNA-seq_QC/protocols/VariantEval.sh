@@ -19,6 +19,8 @@ function returnTest {
   return $1
 }
 
+getFile ${rawVCF}
+
 #Load modules
 ${stage} jdk/${jdkVersion}
 
@@ -34,6 +36,8 @@ java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}GATK-${gatkVersion}/GenomeAna
 -R ${onekgGenomeFasta} \
 -o ${variantEvalDir}${uniqueID}.eval.grp \
 --eval:set1 ${rawVCF} \
+
+putFile ${${variantEvalDir}${uniqueID}.eval.grp
 
 echo "## "$(date)" ##  $0 Done "
 
