@@ -39,6 +39,7 @@ genotypeHarmonizerDir,${projectDir}/genotypeHarmonizer/
 combinedBEDDir,${projectDir}/combinedBED/
 unifiedGenotyperHaplotypeDir,${projectDir}/haploTyper/
 unifiedGenotyperDir,${projectDir}/unifiedGenotype/
+variantEvalDir,${projectDir}/variantEval/
 hisatVersion,0.1.5-beta-Linux_x86_64
 referenceGenome,/gcc/resources/${genomeBuild}/indices/hisat-${hisatVersion}/human_g1k_v${human_g1k_vers}
 hisatAlignmentDir,${projectDir}/hisat/
