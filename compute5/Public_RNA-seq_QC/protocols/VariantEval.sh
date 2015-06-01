@@ -16,10 +16,6 @@
 set -u
 set -e
 
-function returnTest {
-  return $1
-}
-
 getFile ${rawVCF}
 
 #Load modules
@@ -32,22 +28,21 @@ mkdir -p ${variantEvalDir}
 
 echo "## "$(date)" ##  $0 Started "
 
-java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}GATK-${gatkVersion}/GenomeAnalysisTK.jar \
--T VariantEval \
--R ${onekgGenomeFasta} \
--o ${evalGrp} \
---eval:set1 ${rawVCF} \
+if java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}GATK-${gatkVersion}/
+   GenomeAnalysisTK.jar \
+   -T VariantEval \
+   -R ${onekgGenomeFasta} \
+   -o ${evalGrp} \
+   --eval:set1 ${rawVCF} \
 
-putFile ${evalGrp}
-
-echo "## "$(date)" ##  $0 Done "
-
-if returnTest \
-  0;
 then
   echo "returncode: $?";
-  echo "succes moving files";
+  putFile ${evalGrp}
+  echo "succes moving file";
+
 else
   echo "returncode: $?";
   echo "fail";
 fi
+
+echo "## "$(date)" ##  $0 Done "
