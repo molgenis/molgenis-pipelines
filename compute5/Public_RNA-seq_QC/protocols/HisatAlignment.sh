@@ -16,9 +16,7 @@
 set -u
 set -e
 
-function returnTest {
-  return $1
-}
+
 getFile ${reads1FqGz}
 fastaFiles=${reads1FqGz}
 if ! [ ${#reads2FqGz} -eq 0 ]; then
@@ -39,7 +37,8 @@ ${checkStage}
 mkdir -p ${hisatAlignmentDir}
 
 echo "## "$(date)" Start $0"
-hisat -x ${referenceGenome} \
+
+if hisat -x ${referenceGenome} \
   -S ${hisatAlignmentDir}${uniqueID}.sam \
   ${input}\
   -p $nTreads \
@@ -49,14 +48,14 @@ hisat -x ${referenceGenome} \
   --rg LB:${sampleName}_${internalId} \
   --rg SM:${sampleName}
 
-putFile ${hisatAlignmentDir}${uniqueID}.sam
-
-if returnTest \
-  0;
 then
-  echo "returncode: $?";
-  echo "succes moving files";
+ echo "returncode: $?"; 
+ putFile ${hisatAlignmentDir}${uniqueID}.sam
+
+ echo "succes moving files";
 else
-  echo "returncode: $?";
-  echo "fail";
+ echo "returncode: $?";
+ echo "fail";
 fi
+
+echo "## "$(date)" ##  $0 Done "

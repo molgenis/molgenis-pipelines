@@ -17,9 +17,6 @@
 set -u
 set -e
 
-function returnTest {
-  return $1
-}
 
 getFile ${sortedBam}
 getFile ${sortedBai}
@@ -31,7 +28,7 @@ mkdir -p ${collectRnaSeqMetricsDir}
 
 echo "## "$(date)" ##  $0 Started "
 
-java -Xmx8g -XX:ParallelGCThreads=4 -jar $PICARD_HOME/CollectRnaSeqMetrics.jar \
+if java -Xmx8g -XX:ParallelGCThreads=4 -jar $PICARD_HOME/CollectRnaSeqMetrics.jar \
  INPUT=${sortedBam} \
  OUTPUT=${collectRnaSeqMetrics} \
  CHART_OUTPUT=${collectRnaSeqMetricsChart} \
@@ -41,22 +38,18 @@ java -Xmx8g -XX:ParallelGCThreads=4 -jar $PICARD_HOME/CollectRnaSeqMetrics.jar \
  REF_FLAT=${genesRefFlat} \
  RIBOSOMAL_INTERVALS=${rRnaIntervalList} \
  STRAND_SPECIFICITY=NONE \
- TMP_DIR=${collectRnaSeqMetricsDir} \
- 
+ TMP_DIR=${collectRnaSeqMetricsDir}
 
-putFile ${collectRnaSeqMetrics}
-putFile ${collectRnaSeqMetricsChart}
+then
+ echo "returncode: $?"; 
 
+ putFile ${collectRnaSeqMetrics}
+ putFile ${collectRnaSeqMetricsChart}
 
+ echo "succes moving files";
+else
+ echo "returncode: $?";
+ echo "fail";
+fi
 
 echo "## "$(date)" ##  $0 Done "
-
-if returnTest \
-  0;
-then
-  echo "returncode: $?";
-  echo "succes moving files";
-else
-  echo "returncode: $?";
-  echo "fail";
-fi

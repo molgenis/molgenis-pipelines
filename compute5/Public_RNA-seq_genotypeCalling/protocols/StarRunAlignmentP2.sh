@@ -122,6 +122,7 @@ mkdir -p ${starAlignmentPassTwoTmpDir}
 
 cd ${starAlignmentPassTwoTmpDir}
 
+if
 if [ ${#reads2FqGz} -eq 0 ]; then 
 	
 	cd ${starAlignmentPassTwoDir}
@@ -151,20 +152,26 @@ else
 fi
 cd $OLDPWD
 
+then
+ echo "returncode: $?"; 
+
 #remove starindexdir
-ls -alh $starIndexDir
-echo
-du -h $starIndexDir
-echo "## "$(date)" ## Removing starindexdir:"$starIndexDir" because ~27 gb" 
-rm -rv $starIndexDir
+ ls -alh $starIndexDir
+ echo
+ du -h $starIndexDir
+ echo "## "$(date)" ## Removing starindexdir:"$starIndexDir" because ~27 gb" 
+ rm -rv $starIndexDir
 
-putFile ${starAlignmentPassTwoDir}/Aligned.out.sam
-putFile ${starAlignmentPassTwoDir}/Log.final.out
-putFile ${starAlignmentPassTwoDir}/Log.out
-putFile ${starAlignmentPassTwoDir}/Log.progress.out
-putFile ${starAlignmentPassTwoDir}/SJ.out.tab
+ putFile ${starAlignmentPassTwoDir}/Aligned.out.sam
+ putFile ${starAlignmentPassTwoDir}/Log.final.out
+ putFile ${starAlignmentPassTwoDir}/Log.out
+ putFile ${starAlignmentPassTwoDir}/Log.progress.out
+ putFile ${starAlignmentPassTwoDir}/SJ.out.tab
 
-
+ echo "succes moving files";
+else
+ echo "returncode: $?";
+ echo "fail";
+fi
 
 echo "## "$(date)" ##  $0 Started "
-

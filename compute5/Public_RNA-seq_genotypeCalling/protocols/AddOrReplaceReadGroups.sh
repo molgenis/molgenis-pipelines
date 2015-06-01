@@ -33,7 +33,7 @@ mkdir -p ${addOrReplaceGroupsDir}
 
 echo "## "$(date)" Start $0"
 
-java -Xmx6g -XX:ParallelGCThreads=4 -jar $PICARD_HOME/AddOrReplaceReadGroups.jar \
+if java -Xmx6g -XX:ParallelGCThreads=4 -jar $PICARD_HOME/AddOrReplaceReadGroups.jar \
  INPUT=${starAlignmentPassTwoDir}/Aligned.out.sam \
  OUTPUT=${addOrReplaceGroupsBam} \
  SORT_ORDER=coordinate \
@@ -47,14 +47,20 @@ java -Xmx6g -XX:ParallelGCThreads=4 -jar $PICARD_HOME/AddOrReplaceReadGroups.jar
  MAX_RECORDS_IN_RAM=4000000 \
  TMP_DIR=${addOrReplaceGroupsDir} \
 
+then
+ echo "returncode: $?"; 
 
+ putFile ${addOrReplaceGroupsBam}
+ putFile ${addOrReplaceGroupsBai}
 
-putFile ${addOrReplaceGroupsBam}
-putFile ${addOrReplaceGroupsBai}
-
-if [ ! -z "$PBS_JOBID" ]; then
-	echo "## "$(date)" Collecting PBS job statistics"
-	qstat -f $PBS_JOBID
+ echo "succes moving files";
+else
+ echo "returncode: $?";
+ echo "fail";
 fi
+
+echo "## "$(date)" ##  $0 Done "
+
+
 
 echo "## "$(date)" ##  $0 Done "

@@ -11,9 +11,6 @@
 set -u
 set -e
 
-function returnTest {
-  return $1
-}
 
 getFile ${genotypeHarminzerOutput}
 
@@ -33,23 +30,25 @@ echo "$(printf '%s.bed %s.bim %s.fam\n' $(printf '%s\n' ${genotypeHarminzerOutpu
 sed '1d' ${combinedBEDDir}combinedFiles.txt.tmp > ${combinedBEDDir}combinedFiles.txt
 rm ${combinedBEDDir}combinedFiles.txt.tmp
 
-plink --bfile ${genotypeHarminzerOutput[0]} --merge-list ${combinedBEDDir}combinedFiles.txt --make-bed --out ${combinedBEDDir}combinedFiles
+if plink \
+--bfile ${genotypeHarminzerOutput[0]} \
+--merge-list ${combinedBEDDir}combinedFiles.txt \
+--make-bed \
+--out ${combinedBEDDir}combinedFiles
 
-putFile ${combinedBEDDir}combinedFiles.txt
-putFile ${combinedBEDDir}combinedFiles.log
-putFile ${combinedBEDDir}combinedFiles.bed
-putFile ${combinedBEDDir}combinedFiles.bim
-putFile ${combinedBEDDir}combinedFiles.fam
-putFile ${combinedBEDDir}combinedFiles.nosex
+then
+ echo "returncode: $?";
+ putFile ${combinedBEDDir}combinedFiles.txt
+ putFile ${combinedBEDDir}combinedFiles.log
+ putFile ${combinedBEDDir}combinedFiles.bed
+ putFile ${combinedBEDDir}combinedFiles.bim
+ putFile ${combinedBEDDir}combinedFiles.fam
+ putFile ${combinedBEDDir}combinedFiles.nosex
+
+ echo "succes moving files";
+else
+ echo "returncode: $?";
+ echo "fail";
+fi
 
 echo "## "$(date)" ##  $0 Done "
-
-if returnTest \
-  0;
-then
-  echo "returncode: $?";
-  echo "succes moving files";
-else
-  echo "returncode: $?";
-  echo "fail";
-fi

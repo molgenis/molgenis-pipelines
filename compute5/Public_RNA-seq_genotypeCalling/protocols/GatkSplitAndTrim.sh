@@ -13,9 +13,6 @@
 #string splitAndTrimBai
 #string splitAndTrimDir
 
-#pseudo from gatk forum (link: http://gatkforums.broadinstitute.org/discussion/3891/best-practices-for-variant-calling-on-rnaseq):
-#java -jar GenomeAnalysisTK.jar -T SplitNCigarReads -R ref.fasta -I dedupped.bam -o split.bam -rf ReassignOneMappingQuality -RMQF 255 -RMQT 60 -U ALLOW_N_CIGAR_READS
-
 echo "## "$(date)" ##  $0 Started "
 
 
@@ -62,7 +59,7 @@ echo
 echo "## Action to perform in quals: "$qualAction" ##"
 echo
 
-java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${splitAndTrimDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
+if java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${splitAndTrimDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
  -T SplitNCigarReads \
  -R ${onekgGenomeFasta} \
  -I ${markDuplicatesBam} \
@@ -73,7 +70,16 @@ java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${splitAndTrimDir} -jar $GA
  -U ALLOW_N_CIGAR_READS \
  $qualAction
 
-putFile ${splitAndTrimBam}
-putFile ${splitAndTrimBai}
+then
+ echo "returncode: $?"; 
+
+ putFile ${splitAndTrimBam}
+ putFile ${splitAndTrimBai}
+
+ echo "succes moving files";
+else
+ echo "returncode: $?";
+ echo "fail";
+fi
 
 echo "## "$(date)" ##  $0 Done "

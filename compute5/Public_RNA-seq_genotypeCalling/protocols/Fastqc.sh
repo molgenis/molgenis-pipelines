@@ -38,16 +38,28 @@ if [ ${#reads2FqGz} -eq 0 ]; then
 	##################################################################
 	echo
 	echo "## "$(date)" reads1FqGz"
-	fastqc --noextract ${reads1FqGz} --outdir ${fastqcDir}
-	echo
-	cp -v ${fastqcDir}/$(basename ${reads1FqGz} .gz)${fastqcZipExt} ${singleEndfastqcZip}
+	if fastqc \
+	--noextract ${reads1FqGz} \
+	--outdir ${fastqcDir}
+	
+	then
+ 	  echo "returncode: $?"; 
+	
+	  echo
+	  cp -v ${fastqcDir}/$(basename ${reads1FqGz} .gz)${fastqcZipExt} ${singleEndfastqcZip}
 
 	##################################################################
 	
-	cd $OLDPWD
+	  cd $OLDPWD
 
-	putFile ${fastqcDir}/$(basename ${reads1FqGz} .gz)${fastqcZipExt}
-	putFile ${singleEndfastqcZip}
+	  putFile ${fastqcDir}/$(basename ${reads1FqGz} .gz)${fastqcZipExt}
+	  putFile ${singleEndfastqcZip}
+	
+	  echo "succes moving files";
+	else
+ 	  echo "returncode: $?";
+ 	  echo "fail";
+	fi
 
 else
 	echo "## "$(date)" Started paired end fastqc"
@@ -62,28 +74,39 @@ else
 	##################################################################
 	echo
 	echo "## "$(date)" reads1FqGz"
-	fastqc --noextract ${reads1FqGz} --outdir ${fastqcDir}
+	fastqc \
+	--noextract ${reads1FqGz} \
+	--outdir ${fastqcDir}
 	
 	cp -v ${fastqcDir}/$(basename ${reads1FqGz} .gz)${fastqcZipExt} ${pairedEndfastqcZip1}
 	echo
 	echo "## "$(date)" reads2FqGz"
-	fastqc --noextract ${reads2FqGz} --outdir ${fastqcDir}
-	echo
-	cp -v ${fastqcDir}/$(basename ${reads2FqGz} .gz)${fastqcZipExt} ${pairedEndfastqcZip2}
+	
+	
+	if fastqc \
+	--noextract ${reads2FqGz} \
+	--outdir ${fastqcDir}
+	
+	then
+ 	  echo "returncode: $?"; 
+	
+	  echo
+	  cp -v ${fastqcDir}/$(basename ${reads2FqGz} .gz)${fastqcZipExt} ${pairedEndfastqcZip2}
 
 	##################################################################
-	cd $OLDPWD
+	  cd $OLDPWD
 		
-	putFile ${fastqcDir}/$(basename ${reads1FqGz} .gz)${fastqcZipExt}
-	putFile ${fastqcDir}/$(basename ${reads2FqGz} .gz)${fastqcZipExt}
-	putFile ${pairedEndfastqcZip1}
-	putFile ${pairedEndfastqcZip2}
+	  putFile ${fastqcDir}/$(basename ${reads1FqGz} .gz)${fastqcZipExt}
+	  putFile ${fastqcDir}/$(basename ${reads2FqGz} .gz)${fastqcZipExt}
+	  putFile ${pairedEndfastqcZip1}
+	  putFile ${pairedEndfastqcZip2}
 	
-fi
-
-if [ ! -z "$PBS_JOBID" ]; then
-	echo "## "$(date)" Collecting PBS job statistics"
-	qstat -f $PBS_JOBID
+	  echo "succes moving files";
+	else
+ 	  echo "returncode: $?";
+ 	  echo "fail";
+	fi
+	
 fi
 
 echo "## "$(date)" ##  $0 Done "

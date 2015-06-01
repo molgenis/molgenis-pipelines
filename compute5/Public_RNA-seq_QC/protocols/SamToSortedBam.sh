@@ -18,9 +18,6 @@
 set -u
 set -e
 
-function returnTest {
-  return $1
-}
 
 getFile ${hisatAlignmentDir}${uniqueID}.sam
 
@@ -34,25 +31,23 @@ mkdir -p ${sortedBamDir}
 
 echo "## "$(date)" Start $0"
 
-java -Xmx6g -XX:ParallelGCThreads=4 -jar ${toolDir}picard-tools-${picardVersion}/SortSam.jar \
+if java -Xmx6g -XX:ParallelGCThreads=4 -jar ${toolDir}picard-tools-${picardVersion}/SortSam.jar \
   INPUT=${hisatAlignmentDir}${uniqueID}.sam \
   OUTPUT=${sortedBam} \
   SO=coordinate \
   CREATE_INDEX=true \
   TMP_DIR=${sortedBamDir}
 
-putFile ${sortedBam}
-putFile ${sortedBai}
+then
+ echo "returncode: $?"; 
+ putFile ${sortedBam}
+ putFile ${sortedBai}
 
+ echo "succes moving files";
+else
+ echo "returncode: $?";
+ echo "fail";
+fi
 
 echo "## "$(date)" ##  $0 Done "
 
-if returnTest \
-  0;
-then
-  echo "returncode: $?";
-  echo "succes moving files";
-else
-  echo "returncode: $?";
-  echo "fail";
-fi

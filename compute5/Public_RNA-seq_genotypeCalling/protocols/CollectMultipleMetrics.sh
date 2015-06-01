@@ -40,7 +40,7 @@ if [ ${#reads2FqGz} -ne 0 ]; then
 fi
 
 #Run Picard CollectAlignmentSummaryMetrics, CollectInsertSizeMetrics, QualityScoreDistribution and MeanQualityByCycle
-java -jar -Xmx4g -XX:ParallelGCThreads=4 $PICARD_HOME/CollectMultipleMetrics.jar \
+if java -jar -Xmx4g -XX:ParallelGCThreads=4 $PICARD_HOME/CollectMultipleMetrics.jar \
  I=${markDuplicatesBam} \
  O=${collectMultipleMetricsPrefix} \
  R=${onekgGenomeFasta} \
@@ -52,20 +52,24 @@ java -jar -Xmx4g -XX:ParallelGCThreads=4 $PICARD_HOME/CollectMultipleMetrics.jar
 
 #VALIDATION_STRINGENCY=LENIENT \
 
-putFile  ${collectMultipleMetricsPrefix}.alignment_summary_metrics 
-putFile ${collectMultipleMetricsPrefix}.quality_by_cycle_metrics 
-putFile ${collectMultipleMetricsPrefix}.quality_by_cycle.pdf 
-putFile ${collectMultipleMetricsPrefix}.quality_distribution_metrics 
-putFile ${collectMultipleMetricsPrefix}.quality_distribution.pdf
+then
+ echo "returncode: $?"; 
 
-if [ ${#reads2FqGz} -ne 0 ]; then
+ putFile  ${collectMultipleMetricsPrefix}.alignment_summary_metrics 
+ putFile ${collectMultipleMetricsPrefix}.quality_by_cycle_metrics 
+ putFile ${collectMultipleMetricsPrefix}.quality_by_cycle.pdf 
+ putFile ${collectMultipleMetricsPrefix}.quality_distribution_metrics 
+ putFile ${collectMultipleMetricsPrefix}.quality_distribution.pdf
+
+ if [ ${#reads2FqGz} -ne 0 ]; then
 	putFile ${collectMultipleMetricsPrefix}.insert_size_histogram.pdf
 	putFile ${collectMultipleMetricsPrefix}.insert_size_metrics 
-fi
+ fi
 
-if [ ! -z "$PBS_JOBID" ]; then
-	echo "## "$(date)" Collecting PBS job statistics"
-	qstat -f $PBS_JOBID
+ echo "succes moving files";
+else
+ echo "returncode: $?";
+ echo "fail";
 fi
 
 echo "## "$(date)" ##  $0 Done "

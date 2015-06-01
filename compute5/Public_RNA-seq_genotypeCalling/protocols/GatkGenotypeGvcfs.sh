@@ -43,7 +43,7 @@ inputs=$(printf ' --variant %s ' $(printf '%s\n' ${gvcfs[@]}))
 
 mkdir -p ${haplotyperDir}
 
-java -Xmx4g -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${haplotyperDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
+if java -Xmx4g -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${haplotyperDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
  -T GenotypeGVCFs \
  -R ${onekgGenomeFasta} \
  --dbsnp ${dbsnpVcf}\
@@ -53,8 +53,16 @@ java -Xmx4g -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${haplotyperDir} -jar $GATK
  -stand_emit_conf 20.0 \
  -nt 4
 
+then
+ echo "returncode: $?"; 
+ 
+ putFile ${genotypedVcf}
+ putFile ${genotypedVcfIdx}
 
-putFile ${genotypedVcf}
-putFile ${genotypedVcfIdx}
+ echo "succes moving files";
+else
+ echo "returncode: $?";
+ echo "fail";
+fi
 
 echo "## "$(date)" ##  $0 Done "I

@@ -108,6 +108,7 @@ STAR \
 
 cd ${starAlignmentPassOneTmpDir}
 
+if
 if [ ${#reads2FqGz} -eq 0 ]; then 
 
 	echo "## "$(date)" ## Single-end Alignment"
@@ -133,27 +134,26 @@ else
 fi
 cd $OLDPWD
 
+then
+ echo "returncode: $?"; 
+
 #remove starindexdir
-ls -alh $starIndexDir
-echo
-du -h $starIndexDir
-echo "## "$(date)" ## Removing starindexdir:"$starIndexDir" because ~27 gb" 
-rm -rv $starIndexDir
+ ls -alh $starIndexDir
+ echo
+ du -h $starIndexDir
+ echo "## "$(date)" ## Removing starindexdir:"$starIndexDir" because ~27 gb" 
+ rm -rv $starIndexDir
 
+ putFile ${starAlignmentPassOneDir}/Aligned.out.sam
+ putFile ${starAlignmentPassOneDir}/Log.final.out
+ putFile ${starAlignmentPassOneDir}/Log.out
+ putFile ${starAlignmentPassOneDir}/Log.progress.out
+ putFile ${sjdbFileChrStartEnd} 
 
-
-putFile ${starAlignmentPassOneDir}/Aligned.out.sam
-putFile ${starAlignmentPassOneDir}/Log.final.out
-putFile ${starAlignmentPassOneDir}/Log.out
-putFile ${starAlignmentPassOneDir}/Log.progress.out
-putFile ${sjdbFileChrStartEnd} 
-#aka ${starAlignmentPassOneDir}/SJ.out.tab
-
-#filter awk '{if($5>0 && $1 != "M" && $1 != "MT" ){print $0}}' ${sjdbFileChrStartEnd} ?
+ echo "succes moving files";
+else
+ echo "returncode: $?";
+ echo "fail";
+fi
 
 echo "## "$(date)" ##  $0 Done "
-
-if [ ! -z "$PBS_JOBID" ]; then
-	echo "## "$(date)" collecting PBS job statistics"
-	qstat -f $PBS_JOBID
-fi

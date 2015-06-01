@@ -41,7 +41,7 @@ inputs=$(printf 'INPUT=%s ' $(printf '%s\n' ${bams[@]}))
 
 mkdir -p ${mergeBamFilesDir}
 
-java -jar -XX:ParallelGCThreads=4 -Xmx6g $PICARD_HOME/MergeSamFiles.jar \
+if java -jar -XX:ParallelGCThreads=4 -Xmx6g $PICARD_HOME/MergeSamFiles.jar \
  $inputs \
  SORT_ORDER=coordinate \
  CREATE_INDEX=true \
@@ -52,12 +52,16 @@ java -jar -XX:ParallelGCThreads=4 -Xmx6g $PICARD_HOME/MergeSamFiles.jar \
 
 # VALIDATION_STRINGENCY=LENIENT \
 
-putFile ${mergeBamFilesBam}
-putFile ${mergeBamFilesBai}
+then
+ echo "returncode: $?"; 
 
-if [ ! -z "$PBS_JOBID" ]; then
-	echo "## "$(date)" Collecting PBS job statistics"
-	qstat -f $PBS_JOBID
+ putFile ${mergeBamFilesBam}
+ putFile ${mergeBamFilesBai}
+
+ echo "succes moving files";
+else
+ echo "returncode: $?";
+ echo "fail";
 fi
 
 echo "## "$(date)" ##  $0 Done "

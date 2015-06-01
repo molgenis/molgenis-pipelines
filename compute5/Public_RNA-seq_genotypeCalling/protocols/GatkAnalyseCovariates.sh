@@ -60,7 +60,7 @@ java -Xmx4g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${bsqrDir} -jar $GATK_HOME/
  -knownSites ${oneKgPhase1IndelsVcf}\
  -nct 2
 
-java -Xmx4g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${bsqrDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
+if java -Xmx4g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${bsqrDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
  -T AnalyzeCovariates \
  -R ${onekgGenomeFasta} \
  -ignoreLMT \
@@ -68,7 +68,16 @@ java -Xmx4g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${bsqrDir} -jar $GATK_HOME/
  -after ${bsqrAfterGrp} \
  -plots ${analyseCovariatesPdf} \
 
-putFile ${bsqrAfterGrp}
-putFile ${analyseCovariatesPdf}
+then
+ echo "returncode: $?"; 
+ 
+ putFile ${bsqrAfterGrp}
+ putFile ${analyseCovariatesPdf}
+
+ echo "succes moving files";
+else
+ echo "returncode: $?";
+ echo "fail";
+fi
 
 echo "## "$(date)" ##  $0 Done "

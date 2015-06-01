@@ -16,9 +16,6 @@
 set -u
 set -e
 
-function returnTest {
-  return $1
-}
 
 getFile ${rawVCF}.gz
 
@@ -33,24 +30,24 @@ mkdir -p ${genotypeHarmonizerDir}
 echo "## "$(date)" Start $0"
 
 java -Xmx6g -XX:ParallelGCThreads=4 -jar ${toolDir}GenotypeHarmonizer-${GenotypeHarmonizerVersion}/GenotypeHarmonizer.jar \
--i ${rawVCF}.gz \
-  -o ${genotypeHarminzerOutput} \
-  -I VCF \
-  -O PLINK_BED
+ -i ${rawVCF}.gz \
+ -o ${genotypeHarminzerOutput} \
+ -I VCF \
+ -O PLINK_BED
 
-putFile ${genotypeHarminzerOutput}.fam
-putFile ${genotypeHarminzerOutput}.log
-putFile ${genotypeHarminzerOutput}.bed
-putFile ${genotypeHarminzerOutput}.bim
+then
+ echo "returncode: $?"; 
+ 
+ putFile ${genotypeHarminzerOutput}.fam
+ putFile ${genotypeHarminzerOutput}.log
+ putFile ${genotypeHarminzerOutput}.bed
+ putFile ${genotypeHarminzerOutput}.bim
+
+ echo "succes moving files";
+else
+ echo "returncode: $?";
+ echo "fail";
+fi
 
 echo "## "$(date)" ##  $0 Done "
 
-if returnTest \
-  0;
-then
-  echo "returncode: $?";
-  echo "succes moving files";
-else
-  echo "returncode: $?";
-  echo "fail";
-fi

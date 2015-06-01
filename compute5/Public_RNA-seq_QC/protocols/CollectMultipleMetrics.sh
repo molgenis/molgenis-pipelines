@@ -14,9 +14,6 @@
 set -u
 set -e
 
-function returnTest {
-  return $1
-}
 
 getFile ${sortedBam}
 getFile ${sortedBai}
@@ -38,7 +35,7 @@ if [ ${#reads2FqGz} -ne 0 ]; then
 fi
 
 #Run Picard CollectAlignmentSummaryMetrics, CollectInsertSizeMetrics, QualityScoreDistribution and MeanQualityByCycle
-java -jar -Xmx4g -XX:ParallelGCThreads=4 $PICARD_HOME/CollectMultipleMetrics.jar \
+if java -jar -Xmx4g -XX:ParallelGCThreads=4 $PICARD_HOME/CollectMultipleMetrics.jar \
  I=${sortedBam} \
  O=${collectMultipleMetricsPrefix} \
  R=${onekgGenomeFasta} \
@@ -47,28 +44,28 @@ java -jar -Xmx4g -XX:ParallelGCThreads=4 $PICARD_HOME/CollectMultipleMetrics.jar
  PROGRAM=MeanQualityByCycle \
  $insertSizeMetrics \
  TMP_DIR=${collectMultipleMetricsDir}
+ 
+ #VALIDATION_STRINGENCY=LENIENT \
+ 
+then
+ echo "returncode: $?";
+  
+ putFile ${collectMultipleMetricsPrefix}.alignment_summary_metrics 
+ putFile ${collectMultipleMetricsPrefix}.quality_by_cycle_metrics 
+ putFile ${collectMultipleMetricsPrefix}.quality_by_cycle.pdf 
+ putFile ${collectMultipleMetricsPrefix}.quality_distribution_metrics 
+ putFile ${collectMultipleMetricsPrefix}.quality_distribution.pdf
 
-#VALIDATION_STRINGENCY=LENIENT \
-
-putFile ${collectMultipleMetricsPrefix}.alignment_summary_metrics 
-putFile ${collectMultipleMetricsPrefix}.quality_by_cycle_metrics 
-putFile ${collectMultipleMetricsPrefix}.quality_by_cycle.pdf 
-putFile ${collectMultipleMetricsPrefix}.quality_distribution_metrics 
-putFile ${collectMultipleMetricsPrefix}.quality_distribution.pdf
-
-if [ ${#reads2FqGz} -ne 0 ]; then
-  putFile ${collectMultipleMetricsPrefix}.insert_size_histogram.pdf
-  putFile ${collectMultipleMetricsPrefix}.insert_size_metrics
+ if [ ${#reads2FqGz} -ne 0 ]; then
+   putFile ${collectMultipleMetricsPrefix}.insert_size_histogram.pdf
+   putFile ${collectMultipleMetricsPrefix}.insert_size_metrics
+ fi
+  
+ echo "succes moving files";
+else
+ echo "returncode: $?";
+ echo "fail";
 fi
+
 
 echo "## "$(date)" ##  $0 Done "
-
-if returnTest \
-  0;
-then
-  echo "returncode: $?";
-  echo "succes moving files";
-else
-  echo "returncode: $?";
-  echo "fail";
-fi

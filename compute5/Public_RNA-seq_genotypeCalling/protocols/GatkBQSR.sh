@@ -59,7 +59,7 @@ java -Xmx4g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${bsqrDir} -jar $GATK_HOME/
  -knownSites ${oneKgPhase1IndelsVcf}\
  -nct 2
 
-java -Xmx4g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${bsqrDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
+if java -Xmx4g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${bsqrDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
  -T PrintReads \
  -R ${onekgGenomeFasta} \
  -I ${indelRealignmentBam} \
@@ -67,8 +67,17 @@ java -Xmx4g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${bsqrDir} -jar $GATK_HOME/
  -BQSR ${bsqrBeforeGrp} \
  -nct 82
 
-putFile ${bsqrBam}
-putFile ${bsqrBai}
-putFile ${bsqrBeforeGrp}
+then
+ echo "returncode: $?"; 
+
+ putFile ${bsqrBam}
+ putFile ${bsqrBai}
+ putFile ${bsqrBeforeGrp}
+
+ echo "succes moving files";
+else
+ echo "returncode: $?";
+ echo "fail";
+fi
 
 echo "## "$(date)" ##  $0 Done "

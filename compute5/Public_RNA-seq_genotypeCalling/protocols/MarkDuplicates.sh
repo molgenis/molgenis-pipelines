@@ -32,7 +32,7 @@ set -e
 
 mkdir -p ${markDuplicatesDir}
 
-java -Xmx6g -XX:ParallelGCThreads=4 -jar $PICARD_HOME/MarkDuplicates.jar \
+if java -Xmx6g -XX:ParallelGCThreads=4 -jar $PICARD_HOME/MarkDuplicates.jar \
  INPUT=${mergeBamFilesBam} \
  OUTPUT=${markDuplicatesBam} \
  CREATE_INDEX=true \
@@ -42,13 +42,17 @@ java -Xmx6g -XX:ParallelGCThreads=4 -jar $PICARD_HOME/MarkDuplicates.jar \
 
 #REMOVE_DUPLICATES=true \?
 
-putFile ${markDuplicatesBam}
-putFile ${markDuplicatesBai}
-putFile ${markDuplicatesMetrics}
+then
+ echo "returncode: $?"; 
 
-if [ ! -z "$PBS_JOBID" ]; then
-	echo "## "$(date)" Collecting PBS job statistics"
-	qstat -f $PBS_JOBID
+ putFile ${markDuplicatesBam}
+ putFile ${markDuplicatesBai}
+ putFile ${markDuplicatesMetrics}
+
+ echo "succes moving files";
+else
+ echo "returncode: $?";
+ echo "fail";
 fi
 
 echo "## "$(date)" ##  $0 Done "

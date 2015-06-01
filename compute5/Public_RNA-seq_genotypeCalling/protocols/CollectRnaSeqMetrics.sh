@@ -33,7 +33,7 @@ mkdir -p ${collectRnaSeqMetricsDir}
 
 echo "## "$(date)" ##  $0 Started "
 
-java -Xmx8g -XX:ParallelGCThreads=4 -jar $PICARD_HOME/CollectRnaSeqMetrics.jar \
+if java -Xmx8g -XX:ParallelGCThreads=4 -jar $PICARD_HOME/CollectRnaSeqMetrics.jar \
  INPUT=${markDuplicatesBam} \
  OUTPUT=${collectRnaSeqMetrics} \
  CHART_OUTPUT=${collectRnaSeqMetricsChart} \
@@ -45,13 +45,15 @@ java -Xmx8g -XX:ParallelGCThreads=4 -jar $PICARD_HOME/CollectRnaSeqMetrics.jar \
  STRAND_SPECIFICITY=NONE \
  TMP_DIR=${collectRnaSeqMetricsDir} \
  
+then
+ echo "returncode: $?"; 
+ 
+ putFile ${collectRnaSeqMetrics}
+ putFile ${collectRnaSeqMetricsChart}
 
-putFile ${collectRnaSeqMetrics}
-putFile ${collectRnaSeqMetricsChart}
-
-if [ ! -z "$PBS_JOBID" ]; then
-	echo "## "$(date)" Collecting PBS job statistics"
-	qstat -f $PBS_JOBID
+ echo "succes moving files";
+else
+ echo "returncode: $?";
+ echo "fail";
 fi
-
 echo "## "$(date)" ##  $0 Done "

@@ -37,7 +37,7 @@ inputs=$(printf ' -I %s ' $(printf '%s\n' ${bams[@]}))
 
 mkdir -p ${haplotyperDir}
 
-java -Xmx12g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${haplotyperDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
+if java -Xmx12g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${haplotyperDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
  -T HaplotypeCaller \
  -R ${onekgGenomeFasta} \
  --dbsnp ${dbsnpVcf}\
@@ -48,7 +48,16 @@ java -Xmx12g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${haplotyperDir} -jar $GAT
  -o ${haplotyperGvcf} \
  --emitRefConfidence GVCF
 
-putFile ${haplotyperGvcf}
-putFile ${haplotyperGvcfIdx}
+then
+ echo "returncode: $?"; 
+
+ putFile ${haplotyperGvcf}
+ putFile ${haplotyperGvcfIdx}
+
+ echo "succes moving files";
+else
+ echo "returncode: $?";
+ echo "fail";
+fi
 
 echo "## "$(date)" ##  $0 Done "

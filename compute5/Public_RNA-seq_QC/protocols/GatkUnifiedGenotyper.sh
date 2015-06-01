@@ -19,9 +19,6 @@
 set -u
 set -e
 
-function returnTest {
-  return $1
-}
 
 getFile ${dbsnpVcf}
 getFile ${onekgGenomeFasta}
@@ -44,7 +41,7 @@ echo "## "$(date)" Start $0"
 #print like '-I=file1.bam -I=file2.bam '
 inputs=$(printf ' -I %s ' $(printf '%s\n' ${sortedBam[@]}))
 
-java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}GATK-${gatkVersion}/GenomeAnalysisTK.jar \
+if java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}GATK-${gatkVersion}/GenomeAnalysisTK.jar \
   -R ${onekgGenomeFasta} \
   -T UnifiedGenotyper \
   $inputs \
@@ -59,19 +56,17 @@ java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}GATK-${gatkVersion}/GenomeAna
 bgzip -c ${rawVCF} > ${rawVCF}.gz
 tabix -p vcf ${rawVCF}.gz
 
-putFile ${rawVCF}
-putFile ${rawVCF}.gz
-putFile ${rawVCF}.gz.tbi
-putFile ${rawVCF}.gz.idx
-echo "after putfile"
-echo "## "$(date)" ##  $0 Done "
-
-if returnTest \
-0;
 then
-  echo "returncode: $?";
-  echo "succes moving files";
+ echo "returncode: $?"; 
+
+ putFile ${rawVCF}
+ putFile ${rawVCF}.gz
+ putFile ${rawVCF}.gz.tbi
+ putFile ${rawVCF}.gz.idx
+ echo "succes moving files";
 else
-  echo "returncode: $?";
-  echo "fail";
+ echo "returncode: $?";
+ echo "fail";
 fi
+
+echo "## "$(date)" ##  $0 Done "
