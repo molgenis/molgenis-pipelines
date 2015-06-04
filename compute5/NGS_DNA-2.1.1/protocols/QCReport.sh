@@ -24,6 +24,7 @@
 #string intermediateDir
 #string NGS_DNAVersion
 #string rVersion
+#string inSilicoConcordanceFile
 
 module load R/${rVersion}
 module list
@@ -121,8 +122,6 @@ Rscript ${getDedupInfoScript} \
 --paired TRUE \
 --qcdedupmetricsout ${qcDedupMetricsOut}
 
-
-
 #
 ## Run R script to knitr your report
 #
@@ -133,6 +132,7 @@ Rscript ${getDedupInfoScript} \
 	export project
 	export qcBaitSet
 	export qcDedupMetricsOut
+	export inSilicoConcordanceFile
 
 R --slave <<RSCRIPT
 	library(knitr)
@@ -149,6 +149,7 @@ R --slave <<RSCRIPT
 	qcDedupMetricsOut	= '${qcDedupMetricsOut}'
         externalSampleID        = stringToVector($(bashArrayToString externalSampleID[@]))	
 	sampleInsertSizePDF	= stringToVector($(bashArrayToString sampleInsertSizePDF[@]))	
+	inSilicoConcordanceFile	= '${inSilicoConcordanceFile}'
 
 	setwd(projectQcDir) # because figs need to be next to output
 

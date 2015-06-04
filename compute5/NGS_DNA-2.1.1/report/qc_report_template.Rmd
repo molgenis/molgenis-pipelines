@@ -71,3 +71,7 @@ The following figures show the insert size distribution per sample. Insert refer
         showFigure(sampleInsertSizePDF[i], paste("Coverage plot of", externalSampleID[i]))
     }
 ```
+
+```{r engine='bash', echo=F}
+        cat ${inSilicoConcordanceFile}
+```

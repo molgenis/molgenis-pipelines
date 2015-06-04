@@ -44,6 +44,13 @@ mkdir -p ${projectResultsDir}
 mkdir -p ${projectQcDir}
 
 ROCKETPOINT=`pwd`
+
+if [ ! -f ${ROCKETPOINT}/CopyPrmTmpData_0.sh.finished ]
+then
+	echo "${ROCKETPOINT}/CopyPrmTmpData_0.sh is not finished!!"
+	exit 1
+fi
+
 cd ${projectRawTmpDataDir}
 
 #
@@ -51,6 +58,7 @@ cd ${projectRawTmpDataDir}
 #
 # For each sequence file (could be multiple per sample):
 #
+
 
 n_elements=${internalSampleID[@]}
 max_index=${#internalSampleID[@]}-1
