@@ -49,7 +49,7 @@ INPUTS=()
 for b in "${batchID[@]}"
 do
 	
-	INPUTS+=("--variant ${projectPrefix}.batch-${b}.variant.calls.vcf")
+	array_contains INPUTS "--variant ${projectPrefix}.batch-${b}.variant.calls.vcf" || INPUTS+=("--variant ${projectPrefix}.batch-${b}.variant.calls.vcf")
 		
 done
 
