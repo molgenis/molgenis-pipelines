@@ -20,6 +20,7 @@
 #string projectChrVariantCallsFemale
 #string projectChrVariantCallsFemaleIdx
 #string projectVariantsMaleMerged
+#string projectPrefix
 #list externalSampleID
 #string tmpDataDir
 
@@ -133,22 +134,28 @@ then
 		-L ${intermediateDir}/chrX.nonpar.bed \
 		-ploidy 1 \
 		-nct 16
+		if [ -f ${intermediateDir}/chrX.par.bed ]
+		then
+			echo "X (male): PAR REGIONS"
+		        #Run GATK HaplotypeCaller in DISCOVERY mode to call SNPs and indels
+		        java -XX:ParallelGCThreads=16 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
+       			$GATK_HOME/${gatkJar} \
+        		-T HaplotypeCaller \
+        		-R ${indexFile} \
+       			${MALE_BAMS[@]} \
+        		--dbsnp ${dbSNP137Vcf} \
+        		--genotyping_mode DISCOVERY \
+        		-stand_emit_conf 10 \
+        		-stand_call_conf 30 \
+        		-o ${tmpProjectChrVariantCallsMalePAR} \
+        		-L ${intermediateDir}/chrX.par.bed \
+  			-ploidy 2 \
+       			-nct 16
+		else
+		
+			echo "No X (male): PAR REGIONS"				
 
-		echo "X (male): PAR REGIONS"
-	        #Run GATK HaplotypeCaller in DISCOVERY mode to call SNPs and indels
-	        java -XX:ParallelGCThreads=16 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
-       		$GATK_HOME/${gatkJar} \
-        	-T HaplotypeCaller \
-        	-R ${indexFile} \
-       		${MALE_BAMS[@]} \
-        	--dbsnp ${dbSNP137Vcf} \
-        	--genotyping_mode DISCOVERY \
-        	-stand_emit_conf 10 \
-        	-stand_call_conf 30 \
-        	-o ${tmpProjectChrVariantCallsMalePAR} \
-        	-L ${intermediateDir}/chrX.par.bed \
-  		-ploidy 2 \
-       		-nct 16
+		fi
 	fi
 	if [[ ${#BAMS[@]} > 0 ]]
 	then
@@ -226,17 +233,26 @@ then
 		mv ${tmpProjectChrVariantCallsMaleNONPAR} ${projectChrVariantCallsMaleNONPAR}
 		mv ${tmpProjectChrVariantCallsMaleNONPARIdx} ${projectChrVariantCallsMaleNONPARIdx}
 
-		mv ${tmpProjectChrVariantCallsMalePAR} ${projectChrVariantCallsMalePAR}
-		mv ${tmpProjectChrVariantCallsMalePARIdx} ${projectChrVariantCallsMalePARIdx}
+		
+		if [ -f ${tmpProjectChrVariantCallsMalePAR} ]
+		then
 
-		java -cp ${GATK_HOME}/GenomeAnalysisTK.jar org.broadinstitute.gatk.tools.CatVariants \
-	        -R ${indexFile} \
-       		--variant ${projectChrVariantCallsMaleNONPAR} \
-        	--variant ${projectChrVariantCallsMalePAR} \
-        	-out ${tmpProjectVariantsMaleMerged} \
-        	-assumeSorted
+			mv ${tmpProjectChrVariantCallsMalePAR} ${projectChrVariantCallsMalePAR}
+			mv ${tmpProjectChrVariantCallsMalePARIdx} ${projectChrVariantCallsMalePARIdx}
 
-		mv ${tmpProjectVariantsMaleMerged} ${projectVariantsMaleMerged}
+			java -cp ${GATK_HOME}/GenomeAnalysisTK.jar org.broadinstitute.gatk.tools.CatVariants \
+	                -R ${indexFile} \
+       	         	--variant ${projectChrVariantCallsMaleNONPAR} \
+                	--variant ${projectChrVariantCallsMalePAR} \
+                	-out ${tmpProjectVariantsMaleMerged} \
+                	-assumeSorted
+
+			mv ${tmpProjectVariantsMaleMerged} ${projectVariantsMaleMerged}
+		
+		else 
+			mv ${projectChrVariantCallsMaleNONPAR} ${projectVariantsMaleMerged}
+		fi
+	
 	fi
 	
 	if [ ${#BAMS[@]} == 0 ]
@@ -252,6 +268,7 @@ then
 		java -Xmx2g -jar ${GATK_HOME}/GenomeAnalysisTK.jar \
 		-R ${indexFile} \
    		-T CombineVariants \
+		-setKey null \
    		--variant ${projectVariantsMaleMerged} \
    		--variant ${projectChrVariantCallsFemale} \
    		-o ${projectPrefix}.chrX.variant.calls.vcf
