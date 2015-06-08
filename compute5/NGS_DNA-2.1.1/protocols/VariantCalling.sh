@@ -1,4 +1,4 @@
-#MOLGENIS walltime=23:59:00 mem=4gb ppn=8
+#MOLGENIS walltime=23:59:00 mem=8gb ppn=2
 
 #Parameter mapping
 #string stage
@@ -69,7 +69,7 @@ for externalID in "${INPUTS[@]}"
 do
 	
 	sex=$(less ${intermediateDir}/${externalID}.chosenSex.txt | awk 'NR==2')
-	if [[ $baitBatchBed == *"X"* ]] && [ ${sex} == "Male" ]
+	if [[ $baitBatchBed == *batch-[0-9]*X.bed ]] && [ ${sex} == "Male" ]
 	then	
 		MALE_BAMS+=("-I ${intermediateDir}/$externalID.merged.dedup.realigned.bam")
 	else
@@ -78,14 +78,14 @@ do
 done
 
 
-if [[ ${baitBatchBed} == *"X"* ]]
+if [[ ${baitBatchBed} == *batch-[0-9]*X.bed ]]
 then
 
 	if [[ ${#MALE_BAMS[@]} > 0 ]]
 	then
 		echo "X (male): NON AUTOSOMAL REGION"	
 		#Run GATK HaplotypeCaller in DISCOVERY mode to call SNPs and indels
-		java -XX:ParallelGCThreads=16 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
+		java -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
 		$GATK_HOME/${gatkJar} \
 		-T HaplotypeCaller \
 		-R ${indexFile} \
@@ -97,13 +97,13 @@ then
 		-o ${tmpProjectBatchVariantCallsMaleNONPAR} \
 		-L ${baitBatchBed} \
 		-ploidy 1 \
-		-nct 8
+		-nct 2
 	fi
 	if [[ ${#BAMS[@]} > 0 ]]
 	then
 		echo "X (female)"
 		#Run GATK HaplotypeCaller in DISCOVERY mode to call SNPs and indels
-        	java -XX:ParallelGCThreads=16 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
+        	java -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
         	$GATK_HOME/${gatkJar} \
         	-T HaplotypeCaller \
         	-R ${indexFile} \
@@ -115,9 +115,9 @@ then
         	-o ${tmpProjectBatchVariantCallsFemale} \
         	-L ${baitBatchBed} \
         	-ploidy 2 \
-        	-nct 8	
+        	-nct 2	
 	fi
-elif [[ $baitBatchBed == *"Y"* ]]
+elif [[ $baitBatchBed == *batch-[0-9]*Y.bed ]]
 then
 	echo "Y"
 	if [ ${#BAMS[@]} == 0 ]
@@ -125,7 +125,7 @@ then
                 echo "There are no males!"
         else
         	#Run GATK HaplotypeCaller in DISCOVERY mode to call SNPs and indels
-        	java -XX:ParallelGCThreads=16 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
+        	java -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
         	$GATK_HOME/${gatkJar} \
         	-T HaplotypeCaller \
         	-R ${indexFile} \
@@ -137,12 +137,12 @@ then
         	-o ${tmpProjectBatchVariantCalls} \
         	-L ${baitBatchBed} \
         	-ploidy 1 \
-        	-nct 8
+        	-nct 2
 	fi
 else
 	echo "Autosomal"
 	#Run GATK HaplotypeCaller in DISCOVERY mode to call SNPs and indels
-	java -XX:ParallelGCThreads=16 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
+	java -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
 	$GATK_HOME/${gatkJar} \
 	-T HaplotypeCaller \
 	-R ${indexFile} \
@@ -154,10 +154,10 @@ else
 	-o ${tmpProjectBatchVariantCalls} \
 	-L ${baitBatchBed} \
 	-ploidy 2 \
-	-nct 8 
+	-nct 2 
 fi
 
-if [[ $baitBatchBed == *"X"* ]]
+if [[ $baitBatchBed == *batch-[0-9]*X.bed ]]
 then
 	if [ -f ${tmpProjectBatchVariantCallsMaleNONPAR} ] && [ -f  ${tmpProjectBatchVariantCallsFemale} ]
 	then

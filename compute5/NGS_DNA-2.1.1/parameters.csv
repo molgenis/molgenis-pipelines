@@ -185,13 +185,12 @@ qcReportTemplate,${MCQCReportDir}/qc_report_template.Rmd
 qcHelperFunctionsR,${MCQCReportDir}/knitr_helper_functions.R
 sequenomReport,${tmpDataDir}/rawdata/array/${project}_Sequenom_Report.txt
 sequenomInfo,${sequenomDir}/Sequonome_SNPinfo.txt
-targetIntervalsPerBase,${intervalListDir}/${capturingKit}_baits_${genome}_${indexFileID}.uniq.per_base.bed
+targetIntervalsPerBase,${intervalListDir}/${capturingKit}_baits_${indexFileID}.uniq.per_base.bed
 checkSexMeanCoverage,${sample}.checkSex.filter.meancoverage.txt
 baitIntervals_nonAutoChrX,${intermediateDir}/${capturingKit}_baits_${genome}_${indexFileID}.nonAutosomalChrX.interval_list
 whichSex,${sample}.chosenSex.txt
 humanPhiXdir,/gcc/resources/inSilicoData/
-detectedPhiXVariantsSample,${sample}.chrNC_001422.1.variant.calls.vcf
-simulatedPhiXVariantsSample,${humanPhiXdir}/InSilicoData.chrNC_001422.1.variant.calls.vcf
+simulatedPhiXVariants,${humanPhiXdir}/InSilicoData.chrNC_001422.1.variant.calls.vcf
 inSilicoConcordanceFile,${intermediateDir}/inSilicoConcordance.txt
 phiXPrefix,150504_WGSIM_9999_ZZZZZZZZXX
 phiXEnd1Gz,${humanPhiXdir}/${phiXPrefix}/${phiXPrefix}_L9_ZZZZZZ_1.${rawFileExt}

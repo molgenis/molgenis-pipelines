@@ -24,7 +24,7 @@ mkdir -p ${projectResultsDir}/alignment/
 mkdir -p ${projectResultsDir}/coverage/
 mkdir -p ${projectResultsDir}/qc/statistics/
 mkdir -p ${projectResultsDir}/variants/
-mkdir -p ${projectResultsDir}/Pindel/
+#mkdir -p ${projectResultsDir}/Pindel/
 
 # Copy error, out and finished logs to project jobs directory
 
@@ -91,7 +91,7 @@ do
 	
 	if [ ${seqType} == "PE" ]
 	then
-		cp ${intermediateDir}/${sample}.output.pindel.merged.vcf ${projectResultsDir}/Pindel/
+#		cp ${intermediateDir}/${sample}.output.pindel.merged.vcf ${projectResultsDir}/Pindel/
 	fi
 done
 
@@ -112,17 +112,15 @@ cp -r ${projectQcDir}/images ${projectResultsDir}
 
 cd ${projectResultsDir}
 
-COVPERBASE=`ls ${projectResultsDir}/coverage/*.coveragePerBase.txt | wc -l`
-
 zip -gr ${projectResultsDir}/${project}.zip variants
 zip -gr ${projectResultsDir}/${project}.zip qc
 zip -gr ${projectResultsDir}/${project}.zip images
 zip -g ${projectResultsDir}/${project}.zip ${project}.csv
 #zip -g ${projectResultsDir}/${project}.zip README.pdf
 zip -g ${projectResultsDir}/${project}.zip ${project}_QCReport.md
-if [ $COVPERBASE > 0 ]
+if [ -f ${intermediateDir}/*.coveragePerBase.txt  ]
 then
-        zip -gr ${projectResultsDir}/${project}.zip ${projectResultsDir}/coverage/*.coveragePerBase.txt
+	zip -gr ${projectResultsDir}/${project}.zip ${projectResultsDir}/coverage/*.coveragePerBase.txt
 fi
 
 

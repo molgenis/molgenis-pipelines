@@ -100,7 +100,6 @@ ${INPUTS[@]} \
 -A Coverage \
 -A FisherStrand \
 -A LikelihoodRankSumTest \
--A HaplotypeScore \
 -A MappingQualityRankSumTest \
 -A MappingQualityZeroBySample \
 -A ReadPosRankSumTest \
