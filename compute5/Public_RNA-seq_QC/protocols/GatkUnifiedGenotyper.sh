@@ -26,7 +26,6 @@ for file in "${sortedBam[@]}"; do
 done
 
 #Load modules
-#${stage} jdk/${jdkVersion}
 ${stage} tabix/${tabixVersion}
 
 #check modules

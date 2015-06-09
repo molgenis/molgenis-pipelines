@@ -18,7 +18,6 @@
 getFile ${rawVCF}.gz
 
 #Load modules
-#${stage} jdk/${jdkVersion}
 
 #check modules
 ${checkStage}
