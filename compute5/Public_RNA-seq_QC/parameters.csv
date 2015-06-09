@@ -18,7 +18,7 @@ uniqueID,${sampleName}_${internalId}
 platform,ILLUMINA
 human_g1k_vers,37
 ensemblVersion,75
-picardVersion,1.102
+picardVersion,1.102-Java-1.7.0_80
 genotypeIOVersion,1.0.2
 verifyBamVersion,1.1.1
 genotypeHarmonizerVersion,1.4.9
