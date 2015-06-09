@@ -17,7 +17,7 @@
 getFile ${sortedBam}
 getFile ${sortedBai}
 
-${stage} picard-tools/${picardVersion}
+${stage} picard/${picardVersion}
 ${checkStage}
 
 mkdir -p ${collectRnaSeqMetricsDir}

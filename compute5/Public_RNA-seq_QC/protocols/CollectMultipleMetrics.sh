@@ -19,7 +19,7 @@ getFile ${onekgGenomeFasta}
 
 
 #load modules
-${stage} picard-tools/${picardVersion}
+${stage} picard/${picardVersion}
 ${stage} R/${RVersion}
 ${checkStage}
 
