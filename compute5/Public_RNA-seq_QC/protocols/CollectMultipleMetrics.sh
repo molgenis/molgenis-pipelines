@@ -10,7 +10,7 @@
 #string onekgGenomeFasta
 #string sortedBam
 #string sortedBai
-
+#string toolDir
 
 
 getFile ${sortedBam}
@@ -33,7 +33,7 @@ if [ ${#reads2FqGz} -ne 0 ]; then
 fi
 
 #Run Picard CollectAlignmentSummaryMetrics, CollectInsertSizeMetrics, QualityScoreDistribution and MeanQualityByCycle
-if java -jar -Xmx4g -XX:ParallelGCThreads=4 $PICARD_HOME/CollectMultipleMetrics.jar \
+if java -jar -Xmx4g -XX:ParallelGCThreads=4 ${toolDir}picard/${picardVersion}/CollectMultipleMetrics.jar \
  I=${sortedBam} \
  O=${collectMultipleMetricsPrefix} \
  R=${onekgGenomeFasta} \

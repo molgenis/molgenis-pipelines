@@ -25,7 +25,7 @@ mkdir -p ${variantEvalDir}
 
 echo "## "$(date)" ##  $0 Started "
 
-if java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}GATK/${gatkVersion}GenomeAnalysisTK.jar \
+if java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
    -T VariantEval \
    -R ${onekgGenomeFasta} \
    -o ${evalGrp} \
