@@ -12,7 +12,7 @@ root,${WORKDIR}
 group,umcg-wijmenga
 tmp,tmp04
 resDir,${root}/${group}/${tmp}/resources/
-toolDir,apps/software/
+toolDir,/apps/software/
 projectDir,${root}/${group}/${tmp}/projects/${project}/
 uniqueID,${sampleName}_${internalId}
 platform,ILLUMINA

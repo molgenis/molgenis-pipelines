@@ -29,7 +29,7 @@ mkdir -p ${sortedBamDir}
 
 echo "## "$(date)" Start $0"
 
-if java -Xmx6g -XX:ParallelGCThreads=4 -jar ${toolDir}picard-tools-${picardVersion}/SortSam.jar \
+if java -Xmx6g -XX:ParallelGCThreads=4 -jar ${toolDir}picard/${picardVersion}/SortSam.jar \
   INPUT=${hisatAlignmentDir}${uniqueID}.sam \
   OUTPUT=${sortedBam} \
   SO=coordinate \
