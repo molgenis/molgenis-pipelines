@@ -39,7 +39,7 @@ echo "## "$(date)" Start $0"
 #print like '-I=file1.bam -I=file2.bam '
 inputs=$(printf ' -I %s ' $(printf '%s\n' ${sortedBam[@]}))
 
-if java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}GATK-${gatkVersion}/GenomeAnalysisTK.jar \
+if java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}GATK//${gatkVersion}/GenomeAnalysisTK.jar \
   -R ${onekgGenomeFasta} \
   -T UnifiedGenotyper \
   $inputs \
