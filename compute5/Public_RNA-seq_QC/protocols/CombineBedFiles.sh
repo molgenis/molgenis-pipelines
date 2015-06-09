@@ -8,8 +8,6 @@
 #string plinkVersion
 #string genotypeHarmonizerDir
 
-set -u
-set -e
 
 
 getFile ${genotypeHarminzerOutput}

@@ -16,8 +16,6 @@
 #string jdkVersion
 #string tabixVersion
 
-set -u
-set -e
 
 
 getFile ${dbsnpVcf}
@@ -28,7 +26,7 @@ for file in "${sortedBam[@]}"; do
 done
 
 #Load modules
-${stage} jdk/${jdkVersion}
+#${stage} jdk/${jdkVersion}
 ${stage} tabix/${tabixVersion}
 
 #check modules
@@ -57,8 +55,7 @@ bgzip -c ${rawVCF} > ${rawVCF}.gz
 tabix -p vcf ${rawVCF}.gz
 
 then
- echo "returncode: $?"; 
-
+ echo "returncode: $?";
  putFile ${rawVCF}
  putFile ${rawVCF}.gz
  putFile ${rawVCF}.gz.tbi

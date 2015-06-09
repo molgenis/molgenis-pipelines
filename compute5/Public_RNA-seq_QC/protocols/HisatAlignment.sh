@@ -13,13 +13,11 @@
 #string hisatVersion
 #string uniqueID
 
-set -u
-set -e
 
 
 getFile ${reads1FqGz}
 fastaFiles=${reads1FqGz}
-if ! [ ${#reads2FqGz} -eq 0 ]; then
+if ! [ ${#reads2FqGz} q 0 ]; then
    getFile ${reads2FqGz}
    input="-1 ${reads1FqGz} -2 ${reads2FqGz}"
    echo "Paired end alignment of ${fastaFiles}"
@@ -49,8 +47,7 @@ if hisat -x ${referenceGenomeHisat} \
   --rg SM:${sampleName}
 
 then
- echo "returncode: $?"; 
- putFile ${hisatAlignmentDir}${uniqueID}.sam
+ echo "returncode: $?"; putFile ${hisatAlignmentDir}${uniqueID}.sam
 
  echo "succes moving files";
 else

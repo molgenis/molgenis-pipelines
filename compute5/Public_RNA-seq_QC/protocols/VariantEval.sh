@@ -13,13 +13,11 @@
 #string variantEvalDir
 #string evalGrp
 
-set -u
-set -e
 
 getFile ${rawVCF}
 
 #Load modules
-${stage} jdk/${jdkVersion}
+#${stage} jdk/${jdkVersion}
 
 #check modules
 ${checkStage}
@@ -33,7 +31,7 @@ if java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}GATK-${gatkVersion}/
    -T VariantEval \
    -R ${onekgGenomeFasta} \
    -o ${evalGrp} \
-   --eval:set1 ${rawVCF} \
+   -val:1 ${rawVCF} \
 
 then
   echo "returncode: $?";

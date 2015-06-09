@@ -13,14 +13,12 @@
 #string GenotypeHarmonizerVersion
 #string rawVCF
 
-set -u
-set -e
 
 
 getFile ${rawVCF}.gz
 
 #Load modules
-${stage} jdk/${jdkVersion}
+#${stage} jdk/${jdkVersion}
 
 #check modules
 ${checkStage}
@@ -36,9 +34,7 @@ if java -Xmx6g -XX:ParallelGCThreads=4 -jar ${toolDir}GenotypeHarmonizer-${Genot
  -O PLINK_BED
 
 then
- echo "returncode: $?"; 
- 
- putFile ${genotypeHarminzerOutput}.fam
+ echo "returncode: $?"; putFile ${genotypeHarminzerOutput}.fam
  putFile ${genotypeHarminzerOutput}.log
  putFile ${genotypeHarminzerOutput}.bed
  putFile ${genotypeHarminzerOutput}.bim

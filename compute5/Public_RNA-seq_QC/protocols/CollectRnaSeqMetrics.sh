@@ -14,8 +14,6 @@
 #string rRnaIntervalList
 #string onekgGenomeFasta
 
-set -u
-set -e
 
 
 getFile ${sortedBam}
@@ -41,8 +39,7 @@ if java -Xmx8g -XX:ParallelGCThreads=4 -jar $PICARD_HOME/CollectRnaSeqMetrics.ja
  TMP_DIR=${collectRnaSeqMetricsDir}
 
 then
- echo "returncode: $?"; 
-
+ echo "returncode: $?";
  putFile ${collectRnaSeqMetrics}
  putFile ${collectRnaSeqMetricsChart}
 
