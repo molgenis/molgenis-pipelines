@@ -29,7 +29,7 @@ if java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}GATK/${gatkVersion}/Genome
    -T VariantEval \
    -R ${onekgGenomeFasta} \
    -o ${evalGrp} \
-   -val:1 ${rawVCF} \
+   --eval ${rawVCF} \
 
 then
   echo "returncode: $?";
