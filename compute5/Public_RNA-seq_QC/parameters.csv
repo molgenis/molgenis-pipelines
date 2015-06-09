@@ -41,7 +41,7 @@ combinedBEDDir,${projectDir}/combinedBED/
 unifiedGenotyperHaplotypeDir,${projectDir}/haploTyper/
 unifiedGenotyperDir,${projectDir}/unifiedGenotype/
 variantEvalDir,${projectDir}/variantEval/
-referenceGenome,${resDir}/${genomeBuild}/indices/hisat-${hisatVersion}/human_g1k_v${human_g1k_vers}
+referenceGenomeHisat,${resDir}/${genomeBuild}/indices/hisat-${hisatVersion}/human_g1k_v${human_g1k_vers}
 hisatAlignmentDir,${projectDir}/hisat/
 sortedBamDir,${projectDir}/sortedBam/
 testIntervalList,${resDir}/b37/intervals/ALL.wgs.phase3_shapeit2_mvncall_integrated_v5.20130502.sites.MAF_0.05.SNPs_only.recode.annotated.EXON_only.interval_list

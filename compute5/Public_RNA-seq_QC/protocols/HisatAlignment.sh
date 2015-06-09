@@ -2,7 +2,7 @@
 
 #string stage
 #string checkStage
-#string referenceGenome
+#string referenceGenomeHisat
 #string sampleName
 #string reads1FqGz
 #string reads2FqGz
@@ -38,7 +38,7 @@ mkdir -p ${hisatAlignmentDir}
 
 echo "## "$(date)" Start $0"
 
-if hisat -x ${referenceGenome} \
+if hisat -x ${referenceGenomeHisat} \
   -S ${hisatAlignmentDir}${uniqueID}.sam \
   ${input}\
   -p $nTreads \
