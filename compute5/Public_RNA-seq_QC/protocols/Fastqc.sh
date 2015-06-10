@@ -11,9 +11,6 @@
 #string reads1FqGz
 #string reads2FqGz
 #string sampleName
-#string singleEndfastqcZip
-#string pairedEndfastqcZip1
-#string pairedEndfastqcZip2
 
 echo -e "test ${reads1FqGz} ${reads2FqGz} 1: $(basename ${reads1FqGz} .gz)${fastqcZipExt} \n2: $(basename ${reads2FqGz} .gz)${fastqcZipExt} "
 
@@ -40,16 +37,26 @@ if [ ${#reads2FqGz} -eq 0 ]; then
 	##################################################################
 	echo
 	echo "## "$(date)" reads1FqGz"
-	fastqc --noextract ${reads1FqGz} --outdir ${fastqcDir}
-	echo
-	cp -v ${fastqcDir}/$(basename ${reads1FqGz} .gz)${fastqcZipExt} ${singleEndfastqcZip}
+	if fastqc --noextract ${reads1FqGz} --outdir ${fastqcDir}
+	  echo
+	  cp -v ${fastqcDir}/$(basename ${reads1FqGz} .gz)${fastqcZipExt} ${singleEndfastqcZip}
 
-	##################################################################
+	  ##################################################################
 	
-	cd $OLDPWD
+	  cd $OLDPWD
 
-	putFile ${fastqcDir}/$(basename ${reads1FqGz} .gz)${fastqcZipExt}
-	putFile ${singleEndfastqcZip}
+	  putFile ${fastqcDir}/$(basename ${reads1FqGz} .gz)${fastqcZipExt}
+	  putFile ${singleEndfastqcZip}
+    then
+      echo "returncode: $?";
+      putFile ${collectRnaSeqMetrics}
+      putFile ${collectRnaSeqMetricsChart}
+      echo "succes moving files";
+    else
+      echo "returncode: $?";
+      echo "fail";
+    fi
+
 
 else
 	echo "## "$(date)" Started paired end fastqc"
@@ -69,28 +76,33 @@ else
 	##################################################################
 	echo
 	echo "## "$(date)" reads1FqGz"
-	fastqc --noextract ${reads1FqGz} --outdir ${fastqcDir}
+	if fastqc --noextract ${reads1FqGz} --outdir ${fastqcDir}
 	
-	cp -v ${fastqcDir}/$(basename ${reads1FqGz} .gz)${fastqcZipExt} ${pairedEndfastqcZip1}
-	echo
-	echo "## "$(date)" reads2FqGz"
-	fastqc --noextract ${reads2FqGz} --outdir ${fastqcDir}
-	echo
-	cp -v ${fastqcDir}/$(basename ${reads2FqGz} .gz)${fastqcZipExt} ${pairedEndfastqcZip2}
+	  cp -v ${fastqcDir}/$(basename ${reads1FqGz} .gz)${fastqcZipExt} ${pairedEndfastqcZip1}
+	  echo
+	  echo "## "$(date)" reads2FqGz"
+	  fastqc --noextract ${reads2FqGz} --outdir ${fastqcDir}
+	  echo
+	  cp -v ${fastqcDir}/$(basename ${reads2FqGz} .gz)${fastqcZipExt} ${pairedEndfastqcZip2}
 
-	##################################################################
-	cd $OLDPWD
+	  ##################################################################
+	  cd $OLDPWD
 		
-	putFile ${fastqcDir}/$(basename ${reads1FqGz} .gz)${fastqcZipExt}
-	putFile ${fastqcDir}/$(basename ${reads2FqGz} .gz)${fastqcZipExt}
-	putFile ${pairedEndfastqcZip1}
-	putFile ${pairedEndfastqcZip2}
-	
+	  putFile ${fastqcDir}/$(basename ${reads1FqGz} .gz)${fastqcZipExt}
+	  putFile ${fastqcDir}/$(basename ${reads2FqGz} .gz)${fastqcZipExt}
+	  putFile ${pairedEndfastqcZip1}
+	  putFile ${pairedEndfastqcZip2}
+    then
+      echo "returncode: $?";
+      putFile ${collectRnaSeqMetrics}
+      putFile ${collectRnaSeqMetricsChart}
+
+      echo "succes moving files";
+    else
+      echo "returncode: $?";
+      echo "fail";
+    fi
 fi
 
-if [ ! -z "$PBS_JOBID" ]; then
-	echo "## "$(date)" Collecting PBS job statistics"
-	qstat -f $PBS_JOBID
-fi
 
 echo "## "$(date)" ##  $0 Done "
