@@ -8,6 +8,8 @@
 #string projectDir
 #string fastqcDir
 #string fastqcZipExt
+#string pairedEndfastqcZip1
+#string pairedEndfastqcZip2
 #string reads1FqGz
 #string reads2FqGz
 #string sampleName
