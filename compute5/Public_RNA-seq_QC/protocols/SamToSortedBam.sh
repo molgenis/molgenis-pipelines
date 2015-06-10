@@ -20,7 +20,6 @@
 getFile ${hisatAlignmentDir}${uniqueID}.sam
 
 #Load modules
-#${stage} jdk/${jdkVersion}
 
 #check modules
 ${checkStage}
