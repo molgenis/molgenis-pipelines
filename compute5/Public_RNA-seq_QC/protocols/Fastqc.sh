@@ -14,7 +14,7 @@
 
 echo -e "test ${reads1FqGz} ${reads2FqGz} 1: $(basename ${reads1FqGz} .gz)${fastqcZipExt} \n2: $(basename ${reads2FqGz} .gz)${fastqcZipExt} "
 
-${stage} fastqc/${fastqcVersion}
+${stage} FastQC/${fastqcVersion}
 ${checkStage}
 
 set -x
