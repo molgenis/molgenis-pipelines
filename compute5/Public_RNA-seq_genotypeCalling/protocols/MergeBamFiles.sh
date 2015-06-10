@@ -16,7 +16,7 @@
 #string mergeBamFilesDir
 #string mergeBamFilesBam
 #string mergeBamFilesBai
-
+#string toolDir
 
 
 echo "## "$(date)" ##  $0 Started "
@@ -41,7 +41,7 @@ inputs=$(printf 'INPUT=%s ' $(printf '%s\n' ${bams[@]}))
 
 mkdir -p ${mergeBamFilesDir}
 
-if java -jar -XX:ParallelGCThreads=4 -Xmx6g $PICARD_HOME/MergeSamFiles.jar \
+if java -jar -XX:ParallelGCThreads=4 -Xmx6g ${toolDir}picard/${picardVersion}/MergeSamFiles.jar \
  $inputs \
  SORT_ORDER=coordinate \
  CREATE_INDEX=true \

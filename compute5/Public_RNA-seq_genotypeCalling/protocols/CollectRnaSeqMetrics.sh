@@ -6,9 +6,7 @@
 #string starVersion
 #string WORKDIR
 #string projectDir
-
 #string picardVersion
-
 #string markDuplicatesBam
 #string markDuplicatesBai
 #string collectRnaSeqMetricsDir
@@ -17,13 +15,13 @@
 #string genesRefFlat
 #string rRnaIntervalList
 #string onekgGenomeFasta
-
+#string toolDir
 
 
 getFile ${markDuplicatesBam}
 getFile ${markDuplicatesBai}
 
-${stage} picard-tools/${picardVersion}
+${stage} picard/${picardVersion}
 ${checkStage}
 
 set -x
@@ -33,7 +31,7 @@ mkdir -p ${collectRnaSeqMetricsDir}
 
 echo "## "$(date)" ##  $0 Started "
 
-if java -Xmx8g -XX:ParallelGCThreads=4 -jar $PICARD_HOME/CollectRnaSeqMetrics.jar \
+if java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}picard/${picardVersion}/CollectRnaSeqMetrics.jar \
  INPUT=${markDuplicatesBam} \
  OUTPUT=${collectRnaSeqMetrics} \
  CHART_OUTPUT=${collectRnaSeqMetricsChart} \
