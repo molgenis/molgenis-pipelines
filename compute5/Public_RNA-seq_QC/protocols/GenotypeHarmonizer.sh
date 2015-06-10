@@ -18,7 +18,6 @@
 getFile ${rawVCF}.gz
 
 #Load modules
-#${stage} jdk/${jdkVersion}
 
 #check modules
 ${checkStage}
@@ -27,7 +26,7 @@ mkdir -p ${genotypeHarmonizerDir}
 
 echo "## "$(date)" Start $0"
 
-if java -Xmx6g -XX:ParallelGCThreads=4 -jar ${toolDir}GenotypeHarmonizer-${GenotypeHarmonizerVersion}/GenotypeHarmonizer.jar \
+if java -Xmx6g -XX:ParallelGCThreads=4 -jar ${toolDir}GenotypeHarmonizer/${GenotypeHarmonizerVersion}/GenotypeHarmonizer.jar \
  -i ${rawVCF}.gz \
  -o ${genotypeHarminzerOutput} \
  -I VCF \
