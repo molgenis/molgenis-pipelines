@@ -27,7 +27,7 @@ for file in "${addOrReplaceGroupsBam[@]}" "${addOrReplaceGroupsBai[@]}"; do
 done
 
 #Load Picard module
-${stage} picard-tools/${picardVersion}
+${stage} picard/${picardVersion}
 ${checkStage}
 
 set -o posix
