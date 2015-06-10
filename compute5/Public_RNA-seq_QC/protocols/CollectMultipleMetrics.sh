@@ -10,9 +10,7 @@
 #string onekgGenomeFasta
 #string sortedBam
 #string sortedBai
-
-set -u
-set -e
+#string toolDir
 
 
 getFile ${sortedBam}
@@ -21,7 +19,7 @@ getFile ${onekgGenomeFasta}
 
 
 #load modules
-${stage} picard-tools/${picardVersion}
+${stage} picard/${picardVersion}
 ${stage} R/${RVersion}
 ${checkStage}
 
@@ -35,7 +33,7 @@ if [ ${#reads2FqGz} -ne 0 ]; then
 fi
 
 #Run Picard CollectAlignmentSummaryMetrics, CollectInsertSizeMetrics, QualityScoreDistribution and MeanQualityByCycle
-if java -jar -Xmx4g -XX:ParallelGCThreads=4 $PICARD_HOME/CollectMultipleMetrics.jar \
+if java -jar -Xmx4g -XX:ParallelGCThreads=4 ${toolDir}picard/${picardVersion}/CollectMultipleMetrics.jar \
  I=${sortedBam} \
  O=${collectMultipleMetricsPrefix} \
  R=${onekgGenomeFasta} \
@@ -44,24 +42,16 @@ if java -jar -Xmx4g -XX:ParallelGCThreads=4 $PICARD_HOME/CollectMultipleMetrics.
  PROGRAM=MeanQualityByCycle \
  $insertSizeMetrics \
  TMP_DIR=${collectMultipleMetricsDir}
- 
  #VALIDATION_STRINGENCY=LENIENT \
- 
 then
  echo "returncode: $?";
-  
- putFile ${collectMultipleMetricsPrefix}.alignment_summary_metrics 
- putFile ${collectMultipleMetricsPrefix}.quality_by_cycle_metrics 
- putFile ${collectMultipleMetricsPrefix}.quality_by_cycle.pdf 
- putFile ${collectMultipleMetricsPrefix}.quality_distribution_metrics 
- putFile ${collectMultipleMetricsPrefix}.quality_distribution.pdf
+  putFile ${collectMultipleMetricsPrefix}.alignment_summary_metrics putFile ${collectMultipleMetricsPrefix}.quality_by_cycle_metrics putFile ${collectMultipleMetricsPrefix}.quality_by_cycle.pdf putFile ${collectMultipleMetricsPrefix}.quality_distribution_metrics putFile ${collectMultipleMetricsPrefix}.quality_distribution.pdf
 
  if [ ${#reads2FqGz} -ne 0 ]; then
    putFile ${collectMultipleMetricsPrefix}.insert_size_histogram.pdf
    putFile ${collectMultipleMetricsPrefix}.insert_size_metrics
  fi
-  
- echo "succes moving files";
+  echo "succes moving files";
 else
  echo "returncode: $?";
  echo "fail";

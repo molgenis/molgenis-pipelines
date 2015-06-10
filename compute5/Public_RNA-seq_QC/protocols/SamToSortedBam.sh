@@ -15,14 +15,11 @@
 #string uniqueID
 #string jdkVersion
 
-set -u
-set -e
 
 
 getFile ${hisatAlignmentDir}${uniqueID}.sam
 
 #Load modules
-${stage} jdk/${jdkVersion}
 
 #check modules
 ${checkStage}
@@ -31,7 +28,7 @@ mkdir -p ${sortedBamDir}
 
 echo "## "$(date)" Start $0"
 
-if java -Xmx6g -XX:ParallelGCThreads=4 -jar ${toolDir}picard-tools-${picardVersion}/SortSam.jar \
+if java -Xmx6g -XX:ParallelGCThreads=4 -jar ${toolDir}picard/${picardVersion}/SortSam.jar \
   INPUT=${hisatAlignmentDir}${uniqueID}.sam \
   OUTPUT=${sortedBam} \
   SO=coordinate \
@@ -39,8 +36,7 @@ if java -Xmx6g -XX:ParallelGCThreads=4 -jar ${toolDir}picard-tools-${picardVersi
   TMP_DIR=${sortedBamDir}
 
 then
- echo "returncode: $?"; 
- putFile ${sortedBam}
+ echo "returncode: $?"; putFile ${sortedBam}
  putFile ${sortedBai}
 
  echo "succes moving files";

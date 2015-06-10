@@ -8,13 +8,11 @@
 #string plinkVersion
 #string genotypeHarmonizerDir
 
-set -u
-set -e
 
 
 getFile ${genotypeHarminzerOutput}
 
-${stage} plink/${plinkVersion}
+${stage} PLINK/${plinkVersion}
 ${checkStage}
 
 mkdir -p ${combinedBEDDir}

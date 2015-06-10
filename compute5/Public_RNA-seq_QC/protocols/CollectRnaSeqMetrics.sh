@@ -2,8 +2,6 @@
 
 #string stage
 #string checkStage
-#string WORKDIR
-#string projectDir
 #string picardVersion
 #string sortedBam
 #string sortedBai
@@ -13,22 +11,20 @@
 #string genesRefFlat
 #string rRnaIntervalList
 #string onekgGenomeFasta
-
-set -u
-set -e
+#string toolDir
 
 
 getFile ${sortedBam}
 getFile ${sortedBai}
 
-${stage} picard-tools/${picardVersion}
+${stage} picard/${picardVersion}
 ${checkStage}
 
 mkdir -p ${collectRnaSeqMetricsDir}
 
 echo "## "$(date)" ##  $0 Started "
 
-if java -Xmx8g -XX:ParallelGCThreads=4 -jar $PICARD_HOME/CollectRnaSeqMetrics.jar \
+if java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}picard/${picardVersion}/CollectRnaSeqMetrics.jar \
  INPUT=${sortedBam} \
  OUTPUT=${collectRnaSeqMetrics} \
  CHART_OUTPUT=${collectRnaSeqMetricsChart} \
@@ -41,8 +37,7 @@ if java -Xmx8g -XX:ParallelGCThreads=4 -jar $PICARD_HOME/CollectRnaSeqMetrics.ja
  TMP_DIR=${collectRnaSeqMetricsDir}
 
 then
- echo "returncode: $?"; 
-
+ echo "returncode: $?";
  putFile ${collectRnaSeqMetrics}
  putFile ${collectRnaSeqMetricsChart}
 

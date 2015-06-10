@@ -11,8 +11,6 @@
 #string stage
 #string checkStage
 
-set -u
-set -e
 
 
 getFile ${unifiedGenotyperDir}${uniqueID}.raw.vcf
@@ -35,8 +33,7 @@ if verifyBamID \
   --out ${verifyBamIdDir}${uniqueID}
 
 then
- echo "returncode: $?"; 
- putFile ${verifyBamIdDir}${uniqueID}.depthRG
+ echo "returncode: $?"; putFile ${verifyBamIdDir}${uniqueID}.depthRG
  putFile ${verifyBamIdDir}${uniqueID}.depthSM
  putFile ${verifyBamIdDir}${uniqueID}.log
  putFile ${verifyBamIdDir}${uniqueID}.selfRG

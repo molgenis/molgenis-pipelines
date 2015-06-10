@@ -16,8 +16,6 @@
 #string jdkVersion
 #string tabixVersion
 
-set -u
-set -e
 
 
 getFile ${dbsnpVcf}
@@ -28,7 +26,6 @@ for file in "${sortedBam[@]}"; do
 done
 
 #Load modules
-${stage} jdk/${jdkVersion}
 ${stage} tabix/${tabixVersion}
 
 #check modules
@@ -41,7 +38,7 @@ echo "## "$(date)" Start $0"
 #print like '-I=file1.bam -I=file2.bam '
 inputs=$(printf ' -I %s ' $(printf '%s\n' ${sortedBam[@]}))
 
-if java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}GATK-${gatkVersion}/GenomeAnalysisTK.jar \
+if java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}GATK//${gatkVersion}/GenomeAnalysisTK.jar \
   -R ${onekgGenomeFasta} \
   -T UnifiedGenotyper \
   $inputs \
@@ -57,8 +54,7 @@ bgzip -c ${rawVCF} > ${rawVCF}.gz
 tabix -p vcf ${rawVCF}.gz
 
 then
- echo "returncode: $?"; 
-
+ echo "returncode: $?";
  putFile ${rawVCF}
  putFile ${rawVCF}.gz
  putFile ${rawVCF}.gz.tbi
