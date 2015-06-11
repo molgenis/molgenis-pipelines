@@ -75,119 +75,125 @@ do
 	else
 		BAMS+=("-I ${intermediateDir}/$externalID.merged.dedup.realigned.bam")
 	fi
-done
+done	
 
+baitBatchLength=`cat ${baitBatchBed} | wc -l`
 
-if [[ ${baitBatchBed} == *batch-[0-9]*X.bed ]]
+if [ ${baitBatchLength} == 0 ]
 then
-
-	if [[ ${#MALE_BAMS[@]} > 0 ]]
+	echo "skipped ${baitBatchBed}, because the batch is empty"  
+else
+	if [[ ${baitBatchBed} == *batch-[0-9]*X.bed ]]
 	then
-		echo "X (male): NON AUTOSOMAL REGION"	
+
+		if [[ ${#MALE_BAMS[@]} > 0 ]]
+		then
+			echo "X (male): NON AUTOSOMAL REGION"	
+			#Run GATK HaplotypeCaller in DISCOVERY mode to call SNPs and indels
+			java -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
+			$GATK_HOME/${gatkJar} \
+			-T HaplotypeCaller \
+			-R ${indexFile} \
+			${MALE_BAMS[@]} \
+			--dbsnp ${dbSNP137Vcf} \
+			--genotyping_mode DISCOVERY \
+			-stand_emit_conf 10 \
+			-stand_call_conf 30 \
+			-o ${tmpProjectBatchVariantCallsMaleNONPAR} \
+			-L ${baitBatchBed} \
+			-ploidy 1 \
+			-nct 2
+		fi
+		if [[ ${#BAMS[@]} > 0 ]]
+		then
+			echo "X (female)"
+			#Run GATK HaplotypeCaller in DISCOVERY mode to call SNPs and indels
+        		java -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
+        		$GATK_HOME/${gatkJar} \
+        		-T HaplotypeCaller \
+        		-R ${indexFile} \
+        		${BAMS[@]} \
+	        	--dbsnp ${dbSNP137Vcf} \
+       			--genotyping_mode DISCOVERY \
+       			-stand_emit_conf 10 \
+        		-stand_call_conf 30 \
+        		-o ${tmpProjectBatchVariantCallsFemale} \
+        		-L ${baitBatchBed} \
+        		-ploidy 2 \
+        		-nct 2	
+		fi
+	elif [[ $baitBatchBed == *batch-[0-9]*Y.bed ]]
+	then
+		echo "Y"
+		if [ ${#BAMS[@]} == 0 ]
+        	then
+        	        echo "There are no males!"
+        	else
+        		#Run GATK HaplotypeCaller in DISCOVERY mode to call SNPs and indels
+        		java -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
+        		$GATK_HOME/${gatkJar} \
+        		-T HaplotypeCaller \
+        		-R ${indexFile} \
+        		${BAMS[@]} \
+        		--dbsnp ${dbSNP137Vcf} \
+        		--genotyping_mode DISCOVERY \
+        		-stand_emit_conf 10 \
+        		-stand_call_conf 30 \
+        		-o ${tmpProjectBatchVariantCalls} \
+        		-L ${baitBatchBed} \
+        		-ploidy 1 \
+        		-nct 2
+		fi
+	else
+		echo "Autosomal"
 		#Run GATK HaplotypeCaller in DISCOVERY mode to call SNPs and indels
 		java -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
 		$GATK_HOME/${gatkJar} \
 		-T HaplotypeCaller \
 		-R ${indexFile} \
-		${MALE_BAMS[@]} \
+		${BAMS[@]} \
 		--dbsnp ${dbSNP137Vcf} \
 		--genotyping_mode DISCOVERY \
 		-stand_emit_conf 10 \
 		-stand_call_conf 30 \
-		-o ${tmpProjectBatchVariantCallsMaleNONPAR} \
+		-o ${tmpProjectBatchVariantCalls} \
 		-L ${baitBatchBed} \
-		-ploidy 1 \
-		-nct 2
+		-ploidy 2 \
+		-nct 2 
 	fi
-	if [[ ${#BAMS[@]} > 0 ]]
+
+	if [[ $baitBatchBed == *batch-[0-9]*X.bed ]]
 	then
-		echo "X (female)"
-		#Run GATK HaplotypeCaller in DISCOVERY mode to call SNPs and indels
-        	java -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
-        	$GATK_HOME/${gatkJar} \
-        	-T HaplotypeCaller \
-        	-R ${indexFile} \
-        	${BAMS[@]} \
-	        --dbsnp ${dbSNP137Vcf} \
-       		--genotyping_mode DISCOVERY \
-       		-stand_emit_conf 10 \
-        	-stand_call_conf 30 \
-        	-o ${tmpProjectBatchVariantCallsFemale} \
-        	-L ${baitBatchBed} \
-        	-ploidy 2 \
-        	-nct 2	
+		if [ -f ${tmpProjectBatchVariantCallsMaleNONPAR} ] && [ -f  ${tmpProjectBatchVariantCallsFemale} ]
+		then
+			echo "combine male and female chrX"
+			java -Xmx2g -jar ${GATK_HOME}/GenomeAnalysisTK.jar \
+			-R ${indexFile} \
+   			-T CombineVariants \
+			-setKey null \
+   			--variant ${tmpProjectBatchVariantCallsMaleNONPAR} \
+   			--variant ${tmpProjectBatchVariantCallsFemale} \
+			-o ${tmpProjectBatchVariantCalls}
+
+		elif [ ! -f ${tmpProjectBatchVariantCallsMaleNONPAR} ]  
+		then
+			echo "There are no males"
+			tmpProjectBatchVariantCalls=${tmpProjectBatchVariantCallsFemale}
+			tmpProjectBatchVariantCallsIdx=${tmpProjectBatchVariantCallsFemaleIdx}
+		elif [ ! -f ${tmpProjectBatchVariantCallsFemale} ]
+        	then
+			echo "There are no females!"
+                	tmpProjectBatchVariantCalls=${tmpProjectBatchVariantCallsMaleNONPAR}
+			tmpProjectBatchVariantCallsIdx=${tmpProjectBatchVariantCallsMaleNONPARIdx}
+		else
+			echo "oops, something is going wrong!"
+		fi
 	fi
-elif [[ $baitBatchBed == *batch-[0-9]*Y.bed ]]
-then
-	echo "Y"
-	if [ ${#BAMS[@]} == 0 ]
-        then
-                echo "There are no males!"
-        else
-        	#Run GATK HaplotypeCaller in DISCOVERY mode to call SNPs and indels
-        	java -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
-        	$GATK_HOME/${gatkJar} \
-        	-T HaplotypeCaller \
-        	-R ${indexFile} \
-        	${BAMS[@]} \
-        	--dbsnp ${dbSNP137Vcf} \
-        	--genotyping_mode DISCOVERY \
-        	-stand_emit_conf 10 \
-        	-stand_call_conf 30 \
-        	-o ${tmpProjectBatchVariantCalls} \
-        	-L ${baitBatchBed} \
-        	-ploidy 1 \
-        	-nct 2
-	fi
-else
-	echo "Autosomal"
-	#Run GATK HaplotypeCaller in DISCOVERY mode to call SNPs and indels
-	java -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
-	$GATK_HOME/${gatkJar} \
-	-T HaplotypeCaller \
-	-R ${indexFile} \
-	${BAMS[@]} \
-	--dbsnp ${dbSNP137Vcf} \
-	--genotyping_mode DISCOVERY \
-	-stand_emit_conf 10 \
-	-stand_call_conf 30 \
-	-o ${tmpProjectBatchVariantCalls} \
-	-L ${baitBatchBed} \
-	-ploidy 2 \
-	-nct 2 
+
+	echo -e "\nVariantCalling finished succesfull. Moving temp files to final.\n\n"
+	if [ -f ${tmpProjectBatchVariantCalls} ]
+	then
+        	mv ${tmpProjectBatchVariantCalls} ${projectBatchVariantCalls}
+        	mv ${tmpProjectBatchVariantCallsIdx} ${projectBatchVariantCallsIdx}
 fi
-
-if [[ $baitBatchBed == *batch-[0-9]*X.bed ]]
-then
-	if [ -f ${tmpProjectBatchVariantCallsMaleNONPAR} ] && [ -f  ${tmpProjectBatchVariantCallsFemale} ]
-	then
-		echo "combine male and female chrX"
-		java -Xmx2g -jar ${GATK_HOME}/GenomeAnalysisTK.jar \
-		-R ${indexFile} \
-   		-T CombineVariants \
-		-setKey null \
-   		--variant ${tmpProjectBatchVariantCallsMaleNONPAR} \
-   		--variant ${tmpProjectBatchVariantCallsFemale} \
-		-o ${tmpProjectBatchVariantCalls}
-
-	elif [ ! -f ${tmpProjectBatchVariantCallsMaleNONPAR} ]  
-	then
-		echo "There are no males"
-		tmpProjectBatchVariantCalls=${tmpProjectBatchVariantCallsFemale}
-		tmpProjectBatchVariantCallsIdx=${tmpProjectBatchVariantCallsFemaleIdx}
-	elif [ ! -f ${tmpProjectBatchVariantCallsFemale} ]
-        then
-		echo "There are no females!"
-                tmpProjectBatchVariantCalls=${tmpProjectBatchVariantCallsMaleNONPAR}
-		tmpProjectBatchVariantCallsIdx=${tmpProjectBatchVariantCallsMaleNONPARIdx}
-	else
-		echo "oops, something is going wrong!"
-	fi
-fi
-
-echo -e "\nVariantCalling finished succesfull. Moving temp files to final.\n\n"
-if [ -f ${tmpProjectBatchVariantCalls} ]
-then
-        mv ${tmpProjectBatchVariantCalls} ${projectBatchVariantCalls}
-        mv ${tmpProjectBatchVariantCallsIdx} ${projectBatchVariantCallsIdx}
 fi
