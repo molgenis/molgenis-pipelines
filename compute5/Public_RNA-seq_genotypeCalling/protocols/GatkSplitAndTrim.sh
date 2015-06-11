@@ -12,6 +12,7 @@
 #string splitAndTrimBam
 #string splitAndTrimBai
 #string splitAndTrimDir
+#string toolDir
 
 echo "## "$(date)" ##  $0 Started "
 
@@ -59,7 +60,7 @@ echo
 echo "## Action to perform in quals: "$qualAction" ##"
 echo
 
-if java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${splitAndTrimDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
+if java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${splitAndTrimDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
  -T SplitNCigarReads \
  -R ${onekgGenomeFasta} \
  -I ${markDuplicatesBam} \

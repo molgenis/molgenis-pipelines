@@ -14,9 +14,10 @@ WORKDIR,/groups/
 root,${WORKDIR}
 group,umcg-wijmenga
 tmp,tmp04
-resDir,${root}/resources/
+resDir,/groups/umcg-wijmenga/tmp04/resources/
 toolDir,/apps/software/
 projectDir,${root}/${group}/${tmp}/projects/${project}/
+uniqueID,${sampleName}_${internalId}
 ########################################################################
 ## Software and data versions/builds/paths
 #
@@ -65,22 +66,22 @@ regulation_NHEKBin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_NHEK.bin
 ## FastQC
 fastqcDir,${projectDir}/fastqc/
 fastqcZipExt,_fastqc.zip
-singleEndfastqcZip,${fastqcDir}/${sampleName}_${internalId}.fq${fastqcZipExt}
-pairedEndfastqcZip1,${fastqcDir}/${sampleName}_${internalId}_1.fq${fastqcZipExt}
-pairedEndfastqcZip2,${fastqcDir}/${sampleName}_${internalId}_2.fq${fastqcZipExt}
+singleEndfastqcZip,${fastqcDir}/${uniqueID}.fq${fastqcZipExt}
+pairedEndfastqcZip1,${fastqcDir}/${uniqueID}_1.fq${fastqcZipExt}
+pairedEndfastqcZip2,${fastqcDir}/${uniqueID}_2.fq${fastqcZipExt}
 ## STAR
 starAlignmentDir,${projectDir}/star/
-starAlignmentPassOneDir,${starAlignmentDir}/${sampleName}_${internalId}/alignmentP1/
-starAlignmentPassOneTmpDir,${starAlignmentDir}/${sampleName}_${internalId}_tmp/alignmentP1/
+starAlignmentPassOneDir,${starAlignmentDir}/${uniqueID}/alignmentP1/
+starAlignmentPassOneTmpDir,${starAlignmentDir}/${uniqueID}_tmp/alignmentP1/
 sjdbFileChrStartEnd,${starAlignmentPassOneDir}/SJ.out.tab
 sjdbOverhang,255
 sjdbFileChrStartEnd,${starAlignmentPassOneDir}/SJ.out.tab
-starAlignmentPassTwoDir,${starAlignmentDir}/${sampleName}_${internalId}/alignmentP2/
-starAlignmentPassTwoTmpDir,${starAlignmentDir}/${sampleName}_${internalId}_tmp/alignmentP2/
+starAlignmentPassTwoDir,${starAlignmentDir}/${uniqueID}/alignmentP2/
+starAlignmentPassTwoTmpDir,${starAlignmentDir}/${uniqueID}_tmp/alignmentP2/
 ## addOrReplaceGroups
 addOrReplaceGroupsDir,${projectDir}/addOrReplaceReadGroups/
-addOrReplaceGroupsBam,${addOrReplaceGroupsDir}${sampleName}_${internalId}.bam
-addOrReplaceGroupsBai,${addOrReplaceGroupsDir}${sampleName}_${internalId}.bai
+addOrReplaceGroupsBam,${addOrReplaceGroupsDir}${uniqueID}.bam
+addOrReplaceGroupsBai,${addOrReplaceGroupsDir}${uniqueID}.bai
 ## mergeBam
 mergeBamFilesDir,${projectDir}/mergeBams/
 mergeBamFilesBam,${mergeBamFilesDir}${sampleName}.bam
@@ -133,6 +134,8 @@ snpEffVcf,${annotatorDir}/${project}.snpEff.vcf
 snpEffVcfIdx,${snpEffVcf}.idx
 snpEffVersion,3.6c
 snpEffStats,${annotatorDir}/${project}.snpEff.summary.html
+## Hisat
+hisatAlignmentDir,${projectDir}/hisat/
 ## ?
 motifBin,/gcc/resources/snpEff/3.6c/GRCh37.75/motif.bin
 nextProtBin,/gcc/resources/snpEff/3.6c/GRCh37.75/nextProt.bin

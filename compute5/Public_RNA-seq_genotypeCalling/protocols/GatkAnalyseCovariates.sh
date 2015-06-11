@@ -23,6 +23,7 @@
 #string bsqrBeforeGrp
 #string bsqrAfterGrp
 #string analyseCovariatesPdf
+#string toolDir
 
 echo "## "$(date)" ##  $0 Started "
 
@@ -37,7 +38,6 @@ getFile ${goldStandardVcf}
 getFile ${goldStandardVcfIdx}
 getFile ${bsqrBam}
 getFile ${bsqrBai}
-
 ${stage} R/${RVersion}
 ${stage} GATK/${gatkVersion}
 ${checkStage}
@@ -50,7 +50,7 @@ mkdir -p ${analyseCovarsDir}
 #do bsqr for covariable determination then do print reads for valid bsqrbams
 #check the bsqr part and add known variants
 
-java -Xmx4g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${bsqrDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
+java -Xmx4g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${bsqrDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
  -T BaseRecalibrator\
  -R ${onekgGenomeFasta} \
  -I ${bsqrBam} \
@@ -60,7 +60,7 @@ java -Xmx4g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${bsqrDir} -jar $GATK_HOME/
  -knownSites ${oneKgPhase1IndelsVcf}\
  -nct 2
 
-if java -Xmx4g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${bsqrDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
+if java -Xmx4g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${bsqrDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
  -T AnalyzeCovariates \
  -R ${onekgGenomeFasta} \
  -ignoreLMT \

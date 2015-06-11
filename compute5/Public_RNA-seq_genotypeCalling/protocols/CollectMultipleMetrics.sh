@@ -10,7 +10,7 @@
 #string onekgGenomeFasta
 #string markDuplicatesBam
 #string markDuplicatesBai
-
+#string toolDir
 
 
 echo "## "$(date)" Start $0"
@@ -23,7 +23,7 @@ getFile ${onekgGenomeFasta}
 
 
 #load modules
-${stage} picard-tools/${picardVersion}
+${stage} picard/${picardVersion}
 ${stage} R/${RVersion}
 ${checkStage}
 
@@ -40,7 +40,7 @@ if [ ${#reads2FqGz} -ne 0 ]; then
 fi
 
 #Run Picard CollectAlignmentSummaryMetrics, CollectInsertSizeMetrics, QualityScoreDistribution and MeanQualityByCycle
-if java -jar -Xmx4g -XX:ParallelGCThreads=4 $PICARD_HOME/CollectMultipleMetrics.jar \
+if java -jar -Xmx4g -XX:ParallelGCThreads=4 ${toolDir}picard/${picardVersion}//CollectMultipleMetrics.jar \
  I=${markDuplicatesBam} \
  O=${collectMultipleMetricsPrefix} \
  R=${onekgGenomeFasta} \

@@ -14,7 +14,7 @@ WORKDIR,/groups/
 root,${WORKDIR}
 group,umcg-wijmenga
 tmp,tmp04
-resDir,${root}/resources/
+resDir,/groups/umcg-wijmenga/tmp04/resources/
 toolDir,/apps/software/
 projectDir,${root}/${group}/${tmp}/projects/${project}/
 uniqueID,${sampleName}_${internalId}

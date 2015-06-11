@@ -12,12 +12,13 @@
 #string rRnaIntervalList
 #string onekgGenomeFasta
 #string toolDir
-
+#string RVersion
 
 getFile ${sortedBam}
 getFile ${sortedBai}
 
 ${stage} picard/${picardVersion}
+${stage} R/${RVersion}
 ${checkStage}
 
 mkdir -p ${collectRnaSeqMetricsDir}

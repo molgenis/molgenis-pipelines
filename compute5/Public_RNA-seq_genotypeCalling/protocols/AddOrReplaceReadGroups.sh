@@ -6,24 +6,21 @@
 #string starVersion
 #string WORKDIR
 #string projectDir
-
 #string picardVersion
-#string starAlignmentPassTwoDir
 #string sampleName
 #string internalId
-
-
 #string addOrReplaceGroupsDir
 #string addOrReplaceGroupsBam
 #string addOrReplaceGroupsBai
-
-
+#string hisatAlignmentDir
+#string uniqueID
+#string toolDir
 
 echo "## "$(date)" ##  $0 Started "
 
-getFile ${starAlignmentPassTwoDir}/Aligned.out.sam
+getFile ${hisatAlignmentDir}${uniqueID}.sam
 
-${stage} picard-tools/${picardVersion}
+${stage} picard/${picardVersion}
 ${checkStage}
 
 set -x
@@ -33,12 +30,12 @@ mkdir -p ${addOrReplaceGroupsDir}
 
 echo "## "$(date)" Start $0"
 
-if java -Xmx6g -XX:ParallelGCThreads=4 -jar $PICARD_HOME/AddOrReplaceReadGroups.jar \
- INPUT=${starAlignmentPassTwoDir}/Aligned.out.sam \
+if java -Xmx6g -XX:ParallelGCThreads=4 -jar ${toolDir}picard/${picardVersion}/AddOrReplaceReadGroups.jar \
+ INPUT=${hisatAlignmentDir}${uniqueID}.sam \
  OUTPUT=${addOrReplaceGroupsBam} \
  SORT_ORDER=coordinate \
  RGID=${internalId} \
- RGLB=${sampleName}_${internalId} \
+ RGLB=${uniqueID} \
  RGPL=ILLUMINA \
  RGPU=${sampleName}_${internalId}_${internalId} \
  RGSM=${sampleName} \
