@@ -48,9 +48,10 @@ INPUTS=()
 
 for b in "${batchID[@]}"
 do
-	
-	array_contains INPUTS "--variant ${projectPrefix}.batch-${b}.variant.calls.vcf" || INPUTS+=("--variant ${projectPrefix}.batch-${b}.variant.calls.vcf")
-		
+	if [ -f ${projectPrefix}.batch-${b}.variant.calls.vcf ]
+	then	
+		array_contains INPUTS "--variant ${projectPrefix}.batch-${b}.variant.calls.vcf" || INPUTS+=("--variant ${projectPrefix}.batch-${b}.variant.calls.vcf")
+	fi	
 done
 
 java -cp ${GATK_HOME}/GenomeAnalysisTK.jar org.broadinstitute.gatk.tools.CatVariants \
