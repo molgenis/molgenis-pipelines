@@ -18,6 +18,7 @@
 getFile ${rawVCF}.gz
 
 #Load modules
+${stage} GenotypeHarmonizer/${GenotypeHarmonizerVersion}
 
 #check modules
 ${checkStage}

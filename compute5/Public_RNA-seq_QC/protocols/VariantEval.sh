@@ -17,6 +17,7 @@
 getFile ${rawVCF}
 
 #Load modules
+${stage} GATK/${gatkVersion}
 
 #check modules
 ${checkStage}

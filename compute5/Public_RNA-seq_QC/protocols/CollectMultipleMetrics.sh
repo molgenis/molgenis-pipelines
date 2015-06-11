@@ -21,6 +21,8 @@ getFile ${onekgGenomeFasta}
 #load modules
 ${stage} picard/${picardVersion}
 ${stage} R/${RVersion}
+
+#Check modules
 ${checkStage}
 
 mkdir -p ${collectMultipleMetricsDir}

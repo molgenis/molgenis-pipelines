@@ -12,7 +12,10 @@
 
 getFile ${genotypeHarminzerOutput}
 
+#Load module
 ${stage} PLINK/${plinkVersion}
+
+#Check staging of module
 ${checkStage}
 
 mkdir -p ${combinedBEDDir}

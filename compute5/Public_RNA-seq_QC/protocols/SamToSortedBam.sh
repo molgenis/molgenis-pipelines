@@ -20,6 +20,7 @@
 getFile ${hisatAlignmentDir}${uniqueID}.sam
 
 #Load modules
+${stage} picard/${picardVersion}
 
 #check modules
 ${checkStage}

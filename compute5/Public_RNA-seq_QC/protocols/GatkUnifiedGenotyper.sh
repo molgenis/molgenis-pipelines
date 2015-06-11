@@ -26,6 +26,7 @@ for file in "${sortedBam[@]}"; do
 done
 
 #Load modules
+${stage} GATK/${gatkVersion}
 ${stage} tabix/${tabixVersion}
 
 #check modules

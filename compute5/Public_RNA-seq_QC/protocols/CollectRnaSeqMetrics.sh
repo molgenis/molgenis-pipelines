@@ -17,8 +17,11 @@
 getFile ${sortedBam}
 getFile ${sortedBai}
 
+#Load module
 ${stage} picard/${picardVersion}
 ${stage} R/${RVersion}
+
+#Check modules
 ${checkStage}
 
 mkdir -p ${collectRnaSeqMetricsDir}
