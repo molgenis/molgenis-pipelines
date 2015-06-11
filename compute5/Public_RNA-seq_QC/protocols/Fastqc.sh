@@ -46,13 +46,10 @@ if [ ${#reads2FqGz} -eq 0 ]; then
 	  ##################################################################
 	
 	  cd $OLDPWD
-
-	  putFile ${fastqcDir}/$(basename ${reads1FqGz} .gz)${fastqcZipExt}
-	  putFile ${singleEndfastqcZip}
     then
       echo "returncode: $?";
-      putFile ${collectRnaSeqMetrics}
-      putFile ${collectRnaSeqMetricsChart}
+      putFile ${fastqcDir}/$(basename ${reads1FqGz} .gz)${fastqcZipExt}
+      putFile ${singleEndfastqcZip}
       echo "succes moving files";
     else
       echo "returncode: $?";
@@ -89,15 +86,13 @@ else
 
 	  ##################################################################
 	  cd $OLDPWD
-		
-	  putFile ${fastqcDir}/$(basename ${reads1FqGz} .gz)${fastqcZipExt}
-	  putFile ${fastqcDir}/$(basename ${reads2FqGz} .gz)${fastqcZipExt}
-	  putFile ${pairedEndfastqcZip1}
-	  putFile ${pairedEndfastqcZip2}
+
     then
       echo "returncode: $?";
-      putFile ${collectRnaSeqMetrics}
-      putFile ${collectRnaSeqMetricsChart}
+      putFile ${fastqcDir}/$(basename ${reads1FqGz} .gz)${fastqcZipExt}
+      putFile ${fastqcDir}/$(basename ${reads2FqGz} .gz)${fastqcZipExt}
+      putFile ${pairedEndfastqcZip1}
+      putFile ${pairedEndfastqcZip2}
 
       echo "succes moving files";
     else
