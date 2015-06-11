@@ -31,7 +31,7 @@ plinkVersion,1.07-x86_64
 jdkVersion,1.8.0_25
 verifyBamIDVersion,1.1.2-goolf-1.7.20
 GenotypeHarmonizerVersion,1.4.14
-gatkVersion,3.3-0-Java-1.7.0_80 
+gatkVersion,3.4-0-Java-1.7.0_80 
 hisatVersion,0.1.5-beta-goolf-1.7.20
 fastqcVersion,0.11.3-Java-1.7.0_80  
 genomeBuild,b37
