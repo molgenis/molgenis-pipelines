@@ -51,8 +51,6 @@ java -XX:ParallelGCThreads=4 -Xmx8g -Xms6g -jar $GATK_HOME/${gatkJar} \
 --filterName "filterMQ" \
 --filterExpression "FS > 60.0" \
 --filterName "filterFS" \
---filterExpression "HaplotypeScore > 13.0" \
---filterName "filterHaplotypeScore" \
 --filterExpression "MQRankSum < -12.5" \
 --filterName "filterMQRankSum" \
 --filterExpression "ReadPosRankSum < -8.0" \
