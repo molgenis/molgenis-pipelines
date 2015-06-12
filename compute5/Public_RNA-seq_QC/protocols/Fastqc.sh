@@ -1,6 +1,5 @@
 #MOLGENIS nodes=1 ppn=1 mem=1gb walltime=10:00:00
 
-#Parameter mapping  #why not string foo,bar? instead of string foo\nstring bar
 #string stage
 #string checkStage
 #string fastqcVersion
@@ -19,7 +18,6 @@ echo -e "test ${reads1FqGz} ${reads2FqGz} 1: $(basename ${reads1FqGz} .gz)${fast
 ${stage} FastQC/${fastqcVersion}
 ${checkStage}
 
-set -x
 set -e
 
 echo "## "$(date)" ##  $0 Started "
@@ -46,13 +44,10 @@ if [ ${#reads2FqGz} -eq 0 ]; then
 	  ##################################################################
 	
 	  cd $OLDPWD
-
-	  putFile ${fastqcDir}/$(basename ${reads1FqGz} .gz)${fastqcZipExt}
-	  putFile ${singleEndfastqcZip}
     then
       echo "returncode: $?";
-      putFile ${collectRnaSeqMetrics}
-      putFile ${collectRnaSeqMetricsChart}
+      putFile ${fastqcDir}/$(basename ${reads1FqGz} .gz)${fastqcZipExt}
+      putFile ${singleEndfastqcZip}
       echo "succes moving files";
     else
       echo "returncode: $?";
@@ -89,15 +84,13 @@ else
 
 	  ##################################################################
 	  cd $OLDPWD
-		
-	  putFile ${fastqcDir}/$(basename ${reads1FqGz} .gz)${fastqcZipExt}
-	  putFile ${fastqcDir}/$(basename ${reads2FqGz} .gz)${fastqcZipExt}
-	  putFile ${pairedEndfastqcZip1}
-	  putFile ${pairedEndfastqcZip2}
+
     then
       echo "returncode: $?";
-      putFile ${collectRnaSeqMetrics}
-      putFile ${collectRnaSeqMetricsChart}
+      putFile ${fastqcDir}/$(basename ${reads1FqGz} .gz)${fastqcZipExt}
+      putFile ${fastqcDir}/$(basename ${reads2FqGz} .gz)${fastqcZipExt}
+      putFile ${pairedEndfastqcZip1}
+      putFile ${pairedEndfastqcZip2}
 
       echo "succes moving files";
     else

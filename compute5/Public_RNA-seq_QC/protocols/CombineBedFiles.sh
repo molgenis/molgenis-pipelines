@@ -10,7 +10,10 @@
 
 
 
-getFile ${genotypeHarminzerOutput}
+getFile ${genotypeHarminzerOutput}.bed
+getFile ${genotypeHarminzerOutput}.bim
+getFile ${genotypeHarminzerOutput}.fam
+getFile ${genotypeHarminzerOutput}.log
 
 #Load module
 ${stage} PLINK/${plinkVersion}
