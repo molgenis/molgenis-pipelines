@@ -43,9 +43,6 @@ ${stage} STAR/${starVersion}
 #check modules
 ${checkStage}
 
-set -x
-set -e
-
 
 #read length parameters on the fly
 

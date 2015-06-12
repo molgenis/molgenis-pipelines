@@ -42,9 +42,6 @@ ${stage} R/${RVersion}
 ${stage} GATK/${gatkVersion}
 ${checkStage}
 
-set -x
-set -e
-
 mkdir -p ${analyseCovarsDir}
 
 #do bsqr for covariable determination then do print reads for valid bsqrbams
