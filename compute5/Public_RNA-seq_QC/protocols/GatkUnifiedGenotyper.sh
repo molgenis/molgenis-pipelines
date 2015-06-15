@@ -59,7 +59,7 @@ then
  putFile ${rawVCF}
  putFile ${rawVCF}.gz
  putFile ${rawVCF}.gz.tbi
- putFile ${rawVCF}.gz.idx
+ putFile ${rawVCF}.idx
  echo "succes moving files";
 else
  echo "returncode: $?";
