@@ -37,8 +37,6 @@ getFile ${goldStandardVcf}
 getFile ${oneKgPhase1IndelsVcfIdx}
 getFile ${goldStandardVcfIdx}
 
-set -x
-set -e
 
 if [ ! -e ${indelRealignmentDir} ]; then
 	mkdir -p ${indelRealignmentDir}

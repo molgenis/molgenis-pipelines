@@ -24,8 +24,6 @@ getFile ${markDuplicatesBai}
 ${stage} picard/${picardVersion}
 ${checkStage}
 
-set -x
-set -e
 
 mkdir -p ${collectRnaSeqMetricsDir}
 

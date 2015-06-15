@@ -23,7 +23,6 @@ getFile ${hisatAlignmentDir}${uniqueID}.sam
 ${stage} picard/${picardVersion}
 ${checkStage}
 
-set -x
 set -e
 
 mkdir -p ${addOrReplaceGroupsDir}
