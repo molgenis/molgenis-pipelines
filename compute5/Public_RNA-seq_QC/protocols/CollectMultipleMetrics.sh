@@ -20,12 +20,11 @@ getFile ${onekgGenomeFasta}
 
 #load modules
 ${stage} picard/${picardVersion}
-${stage} R/${RVersion}
 
 #Check modules
 ${checkStage}
 
-mkdir -p ${collectMultipleMetricsDir}
+mkdir -p ${collectMultipleMetricsDir}_QC
 
 echo "## "$(date)" Start $0"
 
@@ -43,11 +42,15 @@ if java -jar -Xmx4g -XX:ParallelGCThreads=4 ${toolDir}picard/${picardVersion}/Co
  PROGRAM=QualityScoreDistribution \
  PROGRAM=MeanQualityByCycle \
  $insertSizeMetrics \
- TMP_DIR=${collectMultipleMetricsDir}
- #VALIDATION_STRINGENCY=LENIENT \
+ TMP_DIR=${collectMultipleMetricsDir} \
+ l=DEBUG
 then
  echo "returncode: $?";
-  putFile ${collectMultipleMetricsPrefix}.alignment_summary_metrics putFile ${collectMultipleMetricsPrefix}.quality_by_cycle_metrics putFile ${collectMultipleMetricsPrefix}.quality_by_cycle.pdf putFile ${collectMultipleMetricsPrefix}.quality_distribution_metrics putFile ${collectMultipleMetricsPrefix}.quality_distribution.pdf
+ putFile ${collectMultipleMetricsPrefix}.alignment_summary_metrics
+ putFile ${collectMultipleMetricsPrefix}.quality_by_cycle_metrics
+ putFile ${collectMultipleMetricsPrefix}.quality_by_cycle.pdf
+ putFile ${collectMultipleMetricsPrefix}.quality_distribution_metrics
+ putFile ${collectMultipleMetricsPrefix}.quality_distribution.pdf
 
  if [ ${#reads2FqGz} -ne 0 ]; then
    putFile ${collectMultipleMetricsPrefix}.insert_size_histogram.pdf

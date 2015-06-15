@@ -46,6 +46,8 @@ if java -Xmx12g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${haplotyperDir} -jar $
  -stand_call_conf 10.0 \
  -stand_emit_conf 20.0 \
  -o ${haplotyperGvcf} \
+ -variant_index_type LINEAR \
+ -variant_index_parameter 128000 \
  --emitRefConfidence GVCF
 
 then

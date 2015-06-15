@@ -21,7 +21,7 @@ getFile ${onekgGenomeFasta}
 getFile ${markDuplicatesBam}
 getFile ${markDuplicatesBai}
 
-${stage} samtools/${samtoolsVersion}
+${stage} SAMtools/${samtoolsVersion}
 ${stage} GATK/${gatkVersion}
 ${checkStage}
 
