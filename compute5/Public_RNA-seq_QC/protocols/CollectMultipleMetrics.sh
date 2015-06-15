@@ -42,8 +42,7 @@ if java -jar -Xmx4g -XX:ParallelGCThreads=4 ${toolDir}picard/${picardVersion}/Co
  PROGRAM=QualityScoreDistribution \
  PROGRAM=MeanQualityByCycle \
  $insertSizeMetrics \
- TMP_DIR=${collectMultipleMetricsDir} \
- l=DEBUG.
+ TMP_DIR=${collectMultipleMetricsDir}
 then
  echo "returncode: $?";
  putFile ${collectMultipleMetricsPrefix}.alignment_summary_metrics
