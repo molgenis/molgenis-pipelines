@@ -53,8 +53,8 @@ java -Xmx4g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${bsqrDir} -jar ${toolDir}G
  -I ${bsqrBam} \
  -o ${bsqrAfterGrp} \
  -knownSites ${dbsnpVcf} \
- -knownSites ${goldStandardVcf}\
- -knownSites ${oneKgPhase1IndelsVcf}\
+ -knownSites ${goldStandardVcf} \
+ -knownSites ${oneKgPhase1IndelsVcf} \
  -nct 2
 
 if java -Xmx4g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${bsqrDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
@@ -63,7 +63,7 @@ if java -Xmx4g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${bsqrDir} -jar ${toolDi
  -ignoreLMT \
  -before ${bsqrBeforeGrp} \
  -after ${bsqrAfterGrp} \
- -plots ${analyseCovariatesPdf} \
+ -plots ${analyseCovariatesPdf}
 
 then
  echo "returncode: $?"; 

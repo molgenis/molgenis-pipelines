@@ -88,19 +88,9 @@ do
 	then
 		cp ${intermediateDir}/${sample}.coveragePerBase.txt ${projectResultsDir}/coverage/
 	fi
-	
-	if [ ${seqType} == "PE" ]
-	then
-#		cp ${intermediateDir}/${sample}.output.pindel.merged.vcf ${projectResultsDir}/Pindel/
-	fi
 done
 
 # print README.txt files
-
-#
-## to do
-#
-
 
 # Copy QC report to results directory
 
