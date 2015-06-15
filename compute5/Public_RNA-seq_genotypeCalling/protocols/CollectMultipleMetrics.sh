@@ -24,7 +24,6 @@ getFile ${onekgGenomeFasta}
 
 #load modules
 ${stage} picard/${picardVersion}
-${stage} R/${RVersion}
 ${checkStage}
 
 
