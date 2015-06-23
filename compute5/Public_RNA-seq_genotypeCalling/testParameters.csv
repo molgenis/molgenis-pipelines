@@ -24,7 +24,7 @@ uniqueID,${sampleName}_${internalId}
 fastqcVersion,0.11.3-Java-1.7.0_80
 starVersion,2.3.1l
 cosmicVersion,v70
-RVersion,3.1.2-goolf-1.7.20
+RVersion,3.2.0-goolf-1.7.20-Java-1.7.0_80
 anacondaVersion,1.8.0-Linux-x86_64
 samtoolsVersion,0.1.19-goolf-1.7.20
 gatkVersion,3.4-0-Java-1.7.0_80 
@@ -116,6 +116,7 @@ bsqrBeforeGrp,${bsqrDir}${sampleName}.before.grp
 analyseCovarsDir,${projectDir}/covariateAnalysis/
 bsqrAfterGrp,${bsqrDir}${sampleName}.after.grp
 analyseCovariatesPdf,${analyseCovarsDir}/${sampleName}.analysecovariates.pdf
+analyseCovariatesIntermediateCsv,${analyseCovarsDir}/${sampleName}.intermediate.csv
 ## HaplotypeCaller
 haplotyperDir,${projectDir}/haplotypeCaller/
 haplotyperRealignmentBam,${haplotyperDir}${sampleName}.bam
