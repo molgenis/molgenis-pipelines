@@ -17,13 +17,13 @@
 
 getFile ${reads1FqGz}
 fastaFiles=${reads1FqGz}
-if ! [ ${#reads2FqGz} q 0 ]; then
+if [ ${#reads2FqGz} -eq 0 ]; then
+   input="-U ${reads1FqGz}"
+   echo "Single end alignment ${fastaFiles}"
+else
    getFile ${reads2FqGz}
    input="-1 ${reads1FqGz} -2 ${reads2FqGz}"
    echo "Paired end alignment of ${fastaFiles}"
-else
-   input="-U ${reads1FqGz}"
-   echo "Single end alignment ${fastaFiles}"
 fi
 
 #Load modules
