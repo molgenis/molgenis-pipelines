@@ -49,6 +49,9 @@ if hisat -x ${referenceGenomeHisat} \
 
 then
   samtools view -b -q 10 ${hisatAlignmentDir}${uniqueID}.sam > ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.sam
+  samtools flagstat ${hisatAlignmentDir}${uniqueID}.sam > ${hisatAlignmentDir}${uniqueID}_alignment.log
+  samtools flagstat ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.sam > ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.alignment.log
+
 
   echo "returncode: $?"; putFile ${hisatAlignmentDir}${uniqueID}.sam
   echo "returncode: $?"; putFile ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.sam
