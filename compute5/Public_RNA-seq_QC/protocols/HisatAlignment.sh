@@ -12,8 +12,8 @@
 #string hisatAlignmentDir
 #string hisatVersion
 #string uniqueID
-
-
+#string samtoolsVersion
+#string readQuality
 
 getFile ${reads1FqGz}
 fastaFiles=${reads1FqGz}
@@ -28,6 +28,7 @@ fi
 
 #Load modules
 ${stage} hisat/${hisatVersion}
+${stage} SAMtools/${samtoolsVersion}
 
 #check modules
 ${checkStage}
@@ -47,7 +48,10 @@ if hisat -x ${referenceGenomeHisat} \
   --rg SM:${sampleName}
 
 then
- echo "returncode: $?"; putFile ${hisatAlignmentDir}${uniqueID}.sam
+  samtools view -b -q 10 ${hisatAlignmentDir}${uniqueID}.sam > ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.sam
+
+  echo "returncode: $?"; putFile ${hisatAlignmentDir}${uniqueID}.sam
+  echo "returncode: $?"; putFile ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.sam
 
  echo "succes moving files";
 else
