@@ -55,8 +55,10 @@ then
 
   echo "returncode: $?"; putFile ${hisatAlignmentDir}${uniqueID}.sam
   echo "returncode: $?"; putFile ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.bam
+  putFile ${hisatAlignmentDir}${uniqueID}_alignment.log
+  putfile ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.alignment.log
 
- echo "succes moving files";
+  echo "succes moving files";
 else
  echo "returncode: $?";
  echo "fail";
