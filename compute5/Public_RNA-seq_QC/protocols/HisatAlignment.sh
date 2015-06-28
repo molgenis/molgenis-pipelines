@@ -19,11 +19,11 @@ getFile ${reads1FqGz}
 fastaFiles=${reads1FqGz}
 if [ ${#reads2FqGz} -eq 0 ]; then
    input="-U ${reads1FqGz}"
-   echo "Single end alignment ${fastaFiles}"
+   echo "Single end alignment of ${reads1FqGz}"
 else
    getFile ${reads2FqGz}
    input="-1 ${reads1FqGz} -2 ${reads2FqGz}"
-   echo "Paired end alignment of ${fastaFiles}"
+   echo "Paired end alignment of ${reads1FqGz} and ${reads2FqGz}"
 fi
 
 #Load modules
@@ -48,13 +48,13 @@ if hisat -x ${referenceGenomeHisat} \
   --rg SM:${sampleName}
 
 then
-  samtools view -b -q 10 ${hisatAlignmentDir}${uniqueID}.sam > ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.sam
+  samtools view -h -b -q ${readQuality} ${hisatAlignmentDir}${uniqueID}.sam > ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.bam
   samtools flagstat ${hisatAlignmentDir}${uniqueID}.sam > ${hisatAlignmentDir}${uniqueID}_alignment.log
-  samtools flagstat ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.sam > ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.alignment.log
+  samtools flagstat ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.bam > ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.alignment.log
 
 
   echo "returncode: $?"; putFile ${hisatAlignmentDir}${uniqueID}.sam
-  echo "returncode: $?"; putFile ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.sam
+  echo "returncode: $?"; putFile ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.bam
 
  echo "succes moving files";
 else
