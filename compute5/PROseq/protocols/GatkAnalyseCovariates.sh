@@ -1,4 +1,4 @@
-#MOLGENIS nodes=1 ppn=8 mem=8Gb walltime=23:59:00
+#MOLGENIS nodes=1 ppn=2 mem=4gb walltime=23:59:00
 
 #Parameter mapping  #why not string foo,bar? instead of string foo\nstring bar
 #string stage
@@ -23,8 +23,6 @@
 #string bsqrBeforeGrp
 #string bsqrAfterGrp
 #string analyseCovariatesPdf
-#string toolDir
-#string analyseCovariatesIntermediateCsv
 
 echo "## "$(date)" ##  $0 Started "
 
@@ -39,34 +37,36 @@ getFile ${goldStandardVcf}
 getFile ${goldStandardVcfIdx}
 getFile ${bsqrBam}
 getFile ${bsqrBai}
+
 ${stage} R/${RVersion}
 ${stage} GATK/${gatkVersion}
 ${checkStage}
+
+set -x
+set -e
 
 mkdir -p ${analyseCovarsDir}
 
 #do bsqr for covariable determination then do print reads for valid bsqrbams
 #check the bsqr part and add known variants
 
-java -Xmx4g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${bsqrDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
+java -Xmx4g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${bsqrDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
  -T BaseRecalibrator\
  -R ${onekgGenomeFasta} \
  -I ${bsqrBam} \
  -o ${bsqrAfterGrp} \
  -knownSites ${dbsnpVcf} \
- -knownSites ${goldStandardVcf} \
- -knownSites ${oneKgPhase1IndelsVcf} \
+ -knownSites ${goldStandardVcf}\
+ -knownSites ${oneKgPhase1IndelsVcf}\
  -nct 2
 
-if java -Xmx4g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${bsqrDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
+if java -Xmx4g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${bsqrDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
  -T AnalyzeCovariates \
  -R ${onekgGenomeFasta} \
  -ignoreLMT \
  -before ${bsqrBeforeGrp} \
  -after ${bsqrAfterGrp} \
- -l DEBUG \
- -csv ${analyseCovariatesIntermediateCsv} \
- -plots ${analyseCovariatesPdf}
+ -plots ${analyseCovariatesPdf} \
 
 then
  echo "returncode: $?"; 

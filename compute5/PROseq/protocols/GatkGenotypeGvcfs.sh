@@ -19,7 +19,6 @@
 
 #string genotypedVcf
 #string genotypedVcfIdx
-#string toolDir
 
 echo "## "$(date)" ##  $0 Started "
 
@@ -33,6 +32,9 @@ done
 ${stage} GATK/${gatkVersion}
 ${checkStage}
 
+set -x
+set -e
+
 
 # sort unique and print like ' --variant file1.vcf --variant file2.vcf '
 gvcfs=($(printf '%s\n' "${mergeGvcf[@]}" | sort -u ))
@@ -41,7 +43,7 @@ inputs=$(printf ' --variant %s ' $(printf '%s\n' ${gvcfs[@]}))
 
 mkdir -p ${haplotyperDir}
 
-if java -Xmx4g -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${haplotyperDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
+if java -Xmx4g -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${haplotyperDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
  -T GenotypeGVCFs \
  -R ${onekgGenomeFasta} \
  --dbsnp ${dbsnpVcf}\

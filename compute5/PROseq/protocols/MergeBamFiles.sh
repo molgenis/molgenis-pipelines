@@ -16,7 +16,7 @@
 #string mergeBamFilesDir
 #string mergeBamFilesBam
 #string mergeBamFilesBai
-#string toolDir
+
 
 
 echo "## "$(date)" ##  $0 Started "
@@ -27,10 +27,13 @@ for file in "${addOrReplaceGroupsBam[@]}" "${addOrReplaceGroupsBai[@]}"; do
 done
 
 #Load Picard module
-${stage} picard/${picardVersion}
+${stage} picard-tools/${picardVersion}
 ${checkStage}
 
 set -o posix
+
+set -x
+set -e
 
 #${addOrReplaceGroupsBam} sort unique and print like 'INPUT=file1.bam INPUT=file2.bam '
 bams=($(printf '%s\n' "${addOrReplaceGroupsBam[@]}" | sort -u ))
@@ -38,7 +41,7 @@ inputs=$(printf 'INPUT=%s ' $(printf '%s\n' ${bams[@]}))
 
 mkdir -p ${mergeBamFilesDir}
 
-if java -jar -XX:ParallelGCThreads=4 -Xmx6g ${toolDir}picard/${picardVersion}/MergeSamFiles.jar \
+if java -jar -XX:ParallelGCThreads=4 -Xmx6g $PICARD_HOME/MergeSamFiles.jar \
  $inputs \
  SORT_ORDER=coordinate \
  CREATE_INDEX=true \

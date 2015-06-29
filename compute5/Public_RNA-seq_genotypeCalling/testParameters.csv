@@ -1,66 +1,43 @@
-queue,benchmark
+########################################################################
+## General parameters for SLURM settings and cluster directory paths
+#
+queue,ll
 mem,4
 walltime,23:59:00
 nodes,1
 ppn,1
+nTreads,8
 defaultInterpreter,#!/bin/bash
 stage,module load
 checkStage,module list
-WORKDIR,/gcc/
+WORKDIR,/groups/
 root,${WORKDIR}
-group,gcc
-tmp,tmp01
-resDir,${root}/resources/
-toolDir,${root}/tools/
-projectDir,/gcc/groups/${group}/${tmp}/projects/${project}/
-fastqcVersion,v0.10.1
-fastqcDir,${projectDir}/fastqc/
-fastqcZipExt,_fastqc.zip
-singleEndfastqcZip,${fastqcDir}/${sampleName}_${internalId}.fq${fastqcZipExt}
-pairedEndfastqcZip1,${fastqcDir}/${sampleName}_${internalId}_1.fq${fastqcZipExt}
-pairedEndfastqcZip2,${fastqcDir}/${sampleName}_${internalId}_2.fq${fastqcZipExt}
-nTreads,8
+group,umcg-wijmenga
+tmp,tmp04
+resDir,/groups/umcg-wijmenga/tmp04/resources/
+toolDir,/apps/software/
+projectDir,${root}/${group}/${tmp}/projects/${project}/
+uniqueID,${sampleName}_${internalId}
+########################################################################
+## Software and data versions/builds/paths
+#
+fastqcVersion,0.11.3-Java-1.7.0_80
 starVersion,2.3.1l
-genomeLatSpecies,Homo_sapiens
-genomeSpecies,human
+cosmicVersion,v70
+RVersion,3.2.0-goolf-1.7.20-Java-1.7.0_80
+anacondaVersion,1.8.0-Linux-x86_64
+samtoolsVersion,0.1.19-goolf-1.7.20
+gatkVersion,3.4-0-Java-1.7.0_80 
+picardVersion,1.102-Java-1.7.0_80
+ensemblVersion,75
 genomeBuild,b37
 genomeGrchBuild,GRCh37
-ensemblVersion,75
+genomeLatSpecies,Homo_sapiens
+genomeSpecies,human
 onekgGenomeFasta,${resDir}/${genomeBuild}/indices/human_g1k_v37.fasta
 genomeEnsembleAnnotationFile,${resDir}/Ensembl/release-${ensemblVersion}/gtf/homo_sapiens/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.gtf
-starAlignmentDir,${projectDir}/star/
-starAlignmentPassOneDir,${starAlignmentDir}/${sampleName}_${internalId}/alignmentP1/
-starAlignmentPassOneTmpDir,${starAlignmentDir}/${sampleName}_${internalId}_tmp/alignmentP1/
-sjdbFileChrStartEnd,${starAlignmentPassOneDir}/SJ.out.tab
-sjdbOverhang,255
-sjdbFileChrStartEnd,${starAlignmentPassOneDir}/SJ.out.tab
-starAlignmentPassTwoDir,${starAlignmentDir}/${sampleName}_${internalId}/alignmentP2/
-starAlignmentPassTwoTmpDir,${starAlignmentDir}/${sampleName}_${internalId}_tmp/alignmentP2/
-picardVersion,1.102
-addOrReplaceGroupsDir,${projectDir}/addOrReplaceReadGroups/
-addOrReplaceGroupsBam,${addOrReplaceGroupsDir}${sampleName}_${internalId}.bam
-addOrReplaceGroupsBai,${addOrReplaceGroupsDir}${sampleName}_${internalId}.bai
-mergeBamFilesDir,${projectDir}/mergeBams/
-mergeBamFilesBam,${mergeBamFilesDir}${sampleName}.bam
-mergeBamFilesBai,${mergeBamFilesDir}${sampleName}.bai
-markDuplicatesDir,${projectDir}/markDuplicates/
-markDuplicatesBam,${markDuplicatesDir}${sampleName}.bam
-markDuplicatesBai,${markDuplicatesDir}${sampleName}.bai
-markDuplicatesMetrics,${markDuplicatesDir}${sampleName}.metrics.log
-collectRnaSeqMetricsDir,${projectDir}/collectRnaSeqMetrics/
-collectRnaSeqMetrics,${collectRnaSeqMetricsDir}${sampleName}.rna_metrics.log
-collectRnaSeqMetricsChart,${collectRnaSeqMetricsDir}${sampleName}.chart.pdf
-genesRefFlat,${resDir}/picard-tools/Ensembl${ensemblVersion}/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.refflat
+genesRefFlat,${resDir}/Ensembl/release-${ensemblVersion}/gtf/homo_sapiens/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.refflat
 rRnaIntervalList,${resDir}//picard-tools/Ensembl${ensemblVersion}/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.rrna.interval_list
-RVersion,3.0.2
-collectMultipleMetricsDir,${projectDir}/collectMultipleMetrics/
-collectMultipleMetricsPrefix, ${projectDir}/collectMultipleMetrics/${sampleName}.multiplemetrics
-anacondaVersion,1.8.0
-samtoolsVersion,0.1.19
-gatkVersion,3.4-0-g7e26428
-splitAndTrimDir,${projectDir}/splitAndTrim/
-splitAndTrimBam,${splitAndTrimDir}${sampleName}.bam
-splitAndTrimBai,${splitAndTrimDir}${sampleName}.bai
 goldStandardVcf,${resDir}/${genomeBuild}/sv/1000G/Mills_and_1000G_gold_standard.indels.b37.vcf
 goldStandardVcfIdx,${goldStandardVcf}.idx
 oneKgPhase1SnpsVcf,${resDir}/${genomeBuild}/snp/1000G/1000G_phase1.snps.high_confidence.b37.vcf
@@ -69,37 +46,6 @@ oneKgPhase1IndelsVcf,${resDir}/${genomeBuild}/sv/1000G/1000G_phase1.indels.b37.v
 oneKgPhase1IndelsVcfIdx,${oneKgPhase1IndelsVcf}.idx
 dbsnpVcf,${resDir}/${genomeBuild}/snp/dbSNP/dbsnp_138.b37.vcf
 dbsnpVcfIdx,${dbsnpVcf}.idx
-indelRealignmentDir,${projectDir}/indelRealignment/
-realignmentIntervals,${indelRealignmentDir}/realignmentIntervals.list
-indelRealignmentBam,${indelRealignmentDir}${sampleName}.bam
-indelRealignmentBai,${indelRealignmentDir}${sampleName}.bai
-indelRealignmentTargets,${resDir}/${genomeBuild}/intervals/1000G_phase1.indels_Mills_and_1000G_gold_standard.indels.b37.human_g1k_v37.intervals
-bsqrDir,${projectDir}/baseQualityScoreRecalibration/
-bsqrBam,${bsqrDir}${sampleName}.bam
-bsqrBai,${bsqrDir}${sampleName}.bai
-bsqrBeforeGrp,${bsqrDir}${sampleName}.before.grp
-analyseCovarsDir,${projectDir}/covariateAnalysis/
-bsqrAfterGrp,${bsqrDir}${sampleName}.after.grp
-analyseCovariatesPdf,${analyseCovarsDir}/${sampleName}.analysecovariates.pdf
-haplotyperDir,${projectDir}/haplotypeCaller/
-haplotyperRealignmentBam,${haplotyperDir}${sampleName}.bam
-haplotyperRealignmentBai,${haplotyperDir}${sampleName}.bam
-haplotyperVcf,${haplotyperDir}${project}.vcf
-haplotyperVcfIdx,${haplotyperVcf}.idx
-haplotyperGvcf,${haplotyperDir}${sampleName}.g.vcf
-haplotyperGvcfIdx,${haplotyperGvcf}.idx
-mergeGvcf,${haplotyperDir}${project}.g.vcf
-mergeGvcfIdx,${mergeGvcf}.idx
-genotypedVcf,${haplotyperDir}${project}.gg.vcf
-genotypedVcfIdx,${genotypedVcf}.idx
-annotatorDir,${projectDir}/VariantAnnotation/
-snpEffVcf,${annotatorDir}/${project}.snpEff.vcf
-snpEffVcfIdx,${snpEffVcf}.idx
-snpEffVersion,3.6c
-snpEffStats,${annotatorDir}/${project}.snpEff.summary.html
-motifBin,/gcc/resources/snpEff/3.6c/GRCh37.75/motif.bin
-nextProtBin,/gcc/resources/snpEff/3.6c/GRCh37.75/nextProt.bin
-pwmsBin,/gcc/resources/snpEff/3.6c/GRCh37.75/pwms.bin
 regulation_CD4Bin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_CD4.bin
 regulation_GM06990Bin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_GM06990.bin
 regulation_GM12878Bin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_GM12878.bin
@@ -114,13 +60,93 @@ regulation_K562bBin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_K562b.bin
 regulation_K562Bin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_K562.bin
 regulation_NHABin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_NH-A.bin
 regulation_NHEKBin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_NHEK.bin
+########################################################################
+## Specific tools paths
+#
+## FastQC
+fastqcDir,${projectDir}/fastqc/
+fastqcZipExt,_fastqc.zip
+singleEndfastqcZip,${fastqcDir}/${uniqueID}.fq${fastqcZipExt}
+pairedEndfastqcZip1,${fastqcDir}/${uniqueID}_1.fq${fastqcZipExt}
+pairedEndfastqcZip2,${fastqcDir}/${uniqueID}_2.fq${fastqcZipExt}
+## STAR
+starAlignmentDir,${projectDir}/star/
+starAlignmentPassOneDir,${starAlignmentDir}/${uniqueID}/alignmentP1/
+starAlignmentPassOneTmpDir,${starAlignmentDir}/${uniqueID}_tmp/alignmentP1/
+sjdbFileChrStartEnd,${starAlignmentPassOneDir}/SJ.out.tab
+sjdbOverhang,255
+sjdbFileChrStartEnd,${starAlignmentPassOneDir}/SJ.out.tab
+starAlignmentPassTwoDir,${starAlignmentDir}/${uniqueID}/alignmentP2/
+starAlignmentPassTwoTmpDir,${starAlignmentDir}/${uniqueID}_tmp/alignmentP2/
+## addOrReplaceGroups
+addOrReplaceGroupsDir,${projectDir}/addOrReplaceReadGroups/
+addOrReplaceGroupsBam,${addOrReplaceGroupsDir}${uniqueID}.bam
+addOrReplaceGroupsBai,${addOrReplaceGroupsDir}${uniqueID}.bai
+## mergeBam
+mergeBamFilesDir,${projectDir}/mergeBams/
+mergeBamFilesBam,${mergeBamFilesDir}${sampleName}.bam
+mergeBamFilesBai,${mergeBamFilesDir}${sampleName}.bai
+## markDuplicates
+markDuplicatesDir,${projectDir}/markDuplicates/
+markDuplicatesBam,${markDuplicatesDir}${sampleName}.bam
+markDuplicatesBai,${markDuplicatesDir}${sampleName}.bai
+markDuplicatesMetrics,${markDuplicatesDir}${sampleName}.metrics.log
+## collectRNASeqMetrics
+collectRnaSeqMetricsDir,${projectDir}/collectRnaSeqMetrics/
+collectRnaSeqMetrics,${collectRnaSeqMetricsDir}${sampleName}.rna_metrics.log
+collectRnaSeqMetricsChart,${collectRnaSeqMetricsDir}${sampleName}.chart.pdf
+## collectMultipleMetrics
+collectMultipleMetricsDir,${projectDir}/collectMultipleMetrics/
+collectMultipleMetricsPrefix, ${projectDir}/collectMultipleMetrics/${sampleName}.multiplemetrics
+## splitAndTrim
+splitAndTrimDir,${projectDir}/splitAndTrim/
+splitAndTrimBam,${splitAndTrimDir}${sampleName}.bam
+splitAndTrimBai,${splitAndTrimDir}${sampleName}.bai
+## indelRealignment
+indelRealignmentDir,${projectDir}/indelRealignment/
+realignmentIntervals,${indelRealignmentDir}/realignmentIntervals.list
+indelRealignmentBam,${indelRealignmentDir}${sampleName}.bam
+indelRealignmentBai,${indelRealignmentDir}${sampleName}.bai
+indelRealignmentTargets,${resDir}/${genomeBuild}/intervals/1000G_phase1.indels_Mills_and_1000G_gold_standard.indels.b37.human_g1k_v37.intervals
+## BQSR
+bsqrDir,${projectDir}/baseQualityScoreRecalibration/
+bsqrBam,${bsqrDir}${sampleName}.bam
+bsqrBai,${bsqrDir}${sampleName}.bai
+bsqrBeforeGrp,${bsqrDir}${sampleName}.before.grp
+analyseCovarsDir,${projectDir}/covariateAnalysis/
+bsqrAfterGrp,${bsqrDir}${sampleName}.after.grp
+analyseCovariatesPdf,${analyseCovarsDir}/${sampleName}.analysecovariates.pdf
+analyseCovariatesIntermediateCsv,${analyseCovarsDir}/${sampleName}.intermediate.csv
+## HaplotypeCaller
+haplotyperDir,${projectDir}/haplotypeCaller/
+haplotyperRealignmentBam,${haplotyperDir}${sampleName}.bam
+haplotyperRealignmentBai,${haplotyperDir}${sampleName}.bam
+haplotyperVcf,${haplotyperDir}${project}.vcf
+haplotyperVcfIdx,${haplotyperVcf}.idx
+haplotyperGvcf,${haplotyperDir}${sampleName}.g.vcf
+haplotyperGvcfIdx,${haplotyperGvcf}.idx
+mergeGvcf,${haplotyperDir}${project}.g.vcf
+mergeGvcfIdx,${mergeGvcf}.idx
+genotypedVcf,${haplotyperDir}${project}.gg.vcf
+genotypedVcfIdx,${genotypedVcf}.idx
+annotatorDir,${projectDir}/VariantAnnotation/
+## snpEff
+snpEffVcf,${annotatorDir}/${project}.snpEff.vcf
+snpEffVcfIdx,${snpEffVcf}.idx
+snpEffVersion,3.6c
+snpEffStats,${annotatorDir}/${project}.snpEff.summary.html
+## Hisat
+hisatAlignmentDir,${projectDir}/hisat/
+## ?
+motifBin,/gcc/resources/snpEff/3.6c/GRCh37.75/motif.bin
+nextProtBin,/gcc/resources/snpEff/3.6c/GRCh37.75/nextProt.bin
+pwmsBin,/gcc/resources/snpEff/3.6c/GRCh37.75/pwms.bin
 snpEffectPredictorBin,/gcc/resources/snpEff/3.6c/GRCh37.75/snpEffectPredictor.bin
 annotVcf,${annotatorDir}/${project}.annot.vcf
 annotVcfIdx,${annotVcf}.idx
 oneKgP1wgsVcf,${resDir}/
 oneKgP1wgsVcfIdx,${resDir}/
 cosmicDir,${resDir}/Cosmic/
-cosmicVersion,v70
 cosmicVcf,${cosmicDir}/${cosmicVersion}/CosmicCodingMuts.ensembl.vcf
 cosmicVcfIdx,${cosmicVcf}.idx
 projectMarkdown,${projectDir}/${project}.summary.Rmd

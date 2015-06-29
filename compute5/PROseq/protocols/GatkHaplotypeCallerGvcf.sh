@@ -17,7 +17,7 @@
 #string haplotyperDir
 #string haplotyperGvcf
 #string haplotyperGvcfIdx
-#string toolDir
+
 
 echo "## "$(date)" ##  $0 Started "
 
@@ -37,7 +37,7 @@ inputs=$(printf ' -I %s ' $(printf '%s\n' ${bams[@]}))
 
 mkdir -p ${haplotyperDir}
 
-if java -Xmx12g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${haplotyperDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
+if java -Xmx12g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${haplotyperDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
  -T HaplotypeCaller \
  -R ${onekgGenomeFasta} \
  --dbsnp ${dbsnpVcf}\
@@ -46,8 +46,6 @@ if java -Xmx12g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${haplotyperDir} -jar $
  -stand_call_conf 10.0 \
  -stand_emit_conf 20.0 \
  -o ${haplotyperGvcf} \
- -variant_index_type LINEAR \
- -variant_index_parameter 128000 \
  --emitRefConfidence GVCF
 
 then

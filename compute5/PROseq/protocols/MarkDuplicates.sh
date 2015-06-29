@@ -16,7 +16,7 @@
 #string markDuplicatesBam
 #string markDuplicatesBai
 #string markDuplicatesMetrics
-#string toolDir
+
 
 echo "## "$(date)" ##  $0 Started "
 
@@ -24,12 +24,15 @@ echo "## "$(date)" ##  $0 Started "
 getFile ${mergeBamFilesBam}
 getFile ${mergeBamFilesBai}
 
-${stage} picard/${picardVersion}
+${stage} picard-tools/${picardVersion}
 ${checkStage}
+
+set -x
+set -e
 
 mkdir -p ${markDuplicatesDir}
 
-if java -Xmx6g -XX:ParallelGCThreads=4 -jar ${toolDir}picard/${picardVersion}/MarkDuplicates.jar \
+if java -Xmx6g -XX:ParallelGCThreads=4 -jar $PICARD_HOME/MarkDuplicates.jar \
  INPUT=${mergeBamFilesBam} \
  OUTPUT=${markDuplicatesBam} \
  CREATE_INDEX=true \

@@ -1,4 +1,7 @@
-queue,devel
+########################################################################
+## General parameters for SLURM settings and cluster directory paths
+#
+queue,ll
 mem,4
 walltime,23:59:00
 nodes,1
@@ -7,58 +10,78 @@ nTreads,8
 defaultInterpreter,#!/bin/bash
 stage,module load
 checkStage,module list
-WORKDIR,/gcc/
+WORKDIR,/groups/
 root,${WORKDIR}
-group,wijmenga
-tmp,tmp01
-resDir,${root}/resources/
-toolDir,${root}/tools/
-projectDir,/gcc/groups/${group}/${tmp}/projects/${project}/
+group,umcg-wijmenga
+tmp,tmp04
+resDir,/groups/umcg-wijmenga/tmp04/resources/
+toolDir,/apps/software/
+projectDir,${root}/${group}/${tmp}/projects/${project}/
 uniqueID,${sampleName}_${internalId}
 platform,ILLUMINA
-human_g1k_vers,37
-ensemblVersion,75
-picardVersion,1.102
+########################################################################
+## Software and data versions/builds
+#
+picardVersion,1.102-Java-1.7.0_80
 genotypeIOVersion,1.0.2
 verifyBamVersion,1.1.1
 genotypeHarmonizerVersion,1.4.9
-tabixVersion,0.2.6
+tabixVersion,0.2.6-goolf-1.7.20
 plinkVersion,1.07-x86_64
 jdkVersion,1.8.0_25
-verifyBamIDVersion,1.1.2
-GenotypeHarmonizerVersion,1.4.9
-gatkVersion,3.3-0-g37228af
+verifyBamIDVersion,1.1.2-goolf-1.7.20
+GenotypeHarmonizerVersion,1.4.14
+gatkVersion,3.4-0-Java-1.7.0_80 
+hisatVersion,0.1.5-beta-goolf-1.7.20
+fastqcVersion,0.11.3-Java-1.7.0_80  
 genomeBuild,b37
 genomeGrchBuild,GRCh37
+human_g1k_vers,37
+ensemblVersion,75
+RVersion,3.1.2-goolf-1.7.20
 genomeLatSpecies,Homo_sapiens
-collectMultipleMetricsDir,${projectDir}/collectMultipleMetrics/
-collectMultipleMetricsPrefix,${projectDir}/collectMultipleMetrics/${sampleName}.multiplemetrics
-verifyBamIdDir,${projectDir}/verifyBamID/
-genotypeIODir,${projectDir}/genotypeIO/
-genotypeHarmonizerDir,${projectDir}/genotypeHarmonizer/
-combinedBEDDir,${projectDir}/combinedBED/
-unifiedGenotyperHaplotypeDir,${projectDir}/haploTyper/
-unifiedGenotyperDir,${projectDir}/unifiedGenotype/
-variantEvalDir,${projectDir}/variantEval/
-hisatVersion,0.1.5-beta-Linux_x86_64
-referenceGenome,/gcc/resources/${genomeBuild}/indices/hisat-${hisatVersion}/human_g1k_v${human_g1k_vers}
-hisatAlignmentDir,${projectDir}/hisat/
-sortedBamDir,${projectDir}/sortedBam/
-testIntervalList,${resDir}/b37/intervals/ALL.wgs.phase3_shapeit2_mvncall_integrated_v5.20130502.sites.MAF_0.05.SNPs_only.recode.annotated.EXON_only.interval_list
+dbsnpVcf,${resDir}/${genomeBuild}/snp/dbSNP/dbsnp_138.b37.vcf
 onekgGenomeFasta,${resDir}/${genomeBuild}/indices/human_g1k_v${human_g1k_vers}.fasta
 genomeEnsembleAnnotationFile,${resDir}/Ensembl/release-${ensemblVersion}/gtf/homo_sapiens/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.gtf
-sortedBam,${sortedBamDir}${uniqueID}.bam
-sortedBai,${sortedBamDir}${uniqueID}.bai
-rawVCF,${unifiedGenotyperDir}${uniqueID}.raw.vcf
-evalGrp,${variantEvalDir}${uniqueID}.eval.grp
-genotypeHarminzerOutput,${genotypeHarmonizerDir}/${uniqueID}
-mergeBamFilesDir,${projectDir}/mergeBams/
-mergeBamFilesBam,${mergeBamFilesDir}${sampleName}.bam
-mergeBamFilesBai,${mergeBamFilesDir}${sampleName}.bai
+testIntervalList,${resDir}/b37/intervals/ALL.wgs.phase3_shapeit2_mvncall_integrated_v5.20130502.sites.MAF_0.05.SNPs_only.recode.annotated.EXON_only.interval_list
+########################################################################
+## Specific tools paths
+#
+## FastQC
+fastqcDir,${projectDir}/fastqc/
+fastqcZipExt,_fastqc.zip
+singleEndfastqcZip,${fastqcDir}/${internalId}_${sampleName}.fq${fastqcZipExt}
+pairedEndfastqcZip1,${fastqcDir}/${internalId}_${sampleName}_1.fq${fastqcZipExt}
+pairedEndfastqcZip2,${fastqcDir}/${internalId}_${sampleName}_2.fq${fastqcZipExt}
+## CollectMultipleMetrics
+collectMultipleMetricsDir,${projectDir}/collectMultipleMetrics/
+collectMultipleMetricsPrefix,${projectDir}/collectMultipleMetrics/${sampleName}.multiplemetrics
+## CollectRnaSeqMetrics
 collectRnaSeqMetricsDir,${projectDir}/collectRnaSeqMetrics/
 collectRnaSeqMetrics,${collectRnaSeqMetricsDir}${sampleName}.rna_metrics.log
 collectRnaSeqMetricsChart,${collectRnaSeqMetricsDir}${sampleName}.chart.pdf
+## veryifyBamID
+verifyBamIdDir,${projectDir}/verifyBamID/
+## GenotypeHarmonizer + GenotypeIO
+genotypeIODir,${projectDir}/genotypeIO/
+genotypeHarmonizerDir,${projectDir}/genotypeHarmonizer/
+genotypeHarminzerOutput,${genotypeHarmonizerDir}/${uniqueID}
+## CombineBED
+combinedBEDDir,${projectDir}/combinedBED/
+## Unified Genotype/Haplotype callers
+unifiedGenotyperHaplotypeDir,${projectDir}/haploTyper/
+unifiedGenotyperDir,${projectDir}/unifiedGenotype/
+rawVCF,${unifiedGenotyperDir}${uniqueID}.raw.vcf
+## variantEval
+variantEvalDir,${projectDir}/variantEval/
+evalGrp,${variantEvalDir}${uniqueID}.eval.grp
+## Hisat
+referenceGenomeHisat,${resDir}/${genomeBuild}/indices/hisat-${hisatVersion}/human_g1k_v${human_g1k_vers}
+hisatAlignmentDir,${projectDir}/hisat/
+## SortBam
+sortedBamDir,${projectDir}/sortedBam/
+sortedBam,${sortedBamDir}${uniqueID}.bam
+sortedBai,${sortedBamDir}${uniqueID}.bai
+## ?
 rRnaIntervalList,${resDir}//picard-tools/Ensembl${ensemblVersion}/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.rrna.interval_list
-RVersion,3.0.2
 genesRefFlat,${resDir}/picard-tools/Ensembl${ensemblVersion}/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.refflat
-dbsnpVcf,${resDir}/${genomeBuild}/snp/dbSNP/dbsnp_138.b37.vcf

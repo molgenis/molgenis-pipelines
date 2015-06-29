@@ -14,7 +14,6 @@
 #string haplotyperDir
 #string mergeGvcf
 #string mergeGvcfIdx
-#string toolDir
 
 echo "## "$(date)" ##  $0 Started "
 
@@ -29,6 +28,9 @@ done
 ${stage} GATK/${gatkVersion}
 ${checkStage}
 
+set -x
+set -e
+
 #sort unique and print like 'INPUT=file1.bam INPUT=file2.bam '
 gvcfs=($(printf '%s\n' "${haplotyperGvcf[@]}" | sort -u ))
 
@@ -38,7 +40,7 @@ mkdir -p ${haplotyperDir}
 
 #pseudo: java -jar GenomeAnalysisTK.jar -T HaplotypeCaller -R ref.fasta -I input.bam -recoverDanglingHeads -dontUseSoftClippedBases -stand_call_conf 20.0 -stand_emit_conf 20.0 -o output.vcf from http://gatkforums.broadinstitute.org/discussion/3891/calling-variants-in-rnaseq
 
-if java -Xmx30g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${haplotyperDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
+if java -Xmx30g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${haplotyperDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
  -T CombineGVCFs \
  -R ${onekgGenomeFasta} \
  -o ${mergeGvcf} \

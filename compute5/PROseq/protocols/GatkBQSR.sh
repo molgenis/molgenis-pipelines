@@ -21,7 +21,6 @@
 #string bsqrBam
 #string bsqrBai
 #string bsqrBeforeGrp
-#string toolDir
 
 #pseudo from gatk forum (link: http://gatkforums.broadinstitute.org/discussion/3891/best-practices-for-variant-calling-on-rnaseq):
 #java -jar GenomeAnalysisTK.jar -T SplitNCigarReads -R ref.fasta -I dedupped.bam -o split.bam -rf ReassignOneMappingQuality -RMQF 255 -RMQT 60 -U ALLOW_N_CIGAR_READS
@@ -42,13 +41,15 @@ getFile ${indelRealignmentBai}
 ${stage} GATK/${gatkVersion}
 ${checkStage}
 
+set -x
+set -e
 
 mkdir -p ${bsqrDir}
 
 #do bsqr for covariable determination then do print reads for valid bsqrbams
 #check the bsqr part and add known variants
 
-java -Xmx4g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${bsqrDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
+java -Xmx4g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${bsqrDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
  -T BaseRecalibrator\
  -R ${onekgGenomeFasta} \
  -I ${indelRealignmentBam} \
@@ -58,7 +59,7 @@ java -Xmx4g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${bsqrDir} -jar ${toolDir}G
  -knownSites ${oneKgPhase1IndelsVcf}\
  -nct 2
 
-if java -Xmx4g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${bsqrDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
+if java -Xmx4g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${bsqrDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
  -T PrintReads \
  -R ${onekgGenomeFasta} \
  -I ${indelRealignmentBam} \

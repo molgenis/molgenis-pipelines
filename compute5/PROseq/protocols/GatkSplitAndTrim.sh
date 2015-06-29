@@ -12,7 +12,6 @@
 #string splitAndTrimBam
 #string splitAndTrimBai
 #string splitAndTrimDir
-#string toolDir
 
 echo "## "$(date)" ##  $0 Started "
 
@@ -21,9 +20,12 @@ getFile ${onekgGenomeFasta}
 getFile ${markDuplicatesBam}
 getFile ${markDuplicatesBai}
 
-${stage} SAMtools/${samtoolsVersion}
+${stage} samtools/${samtoolsVersion}
 ${stage} GATK/${gatkVersion}
 ${checkStage}
+
+set -x
+set -e
 
 mkdir -p ${splitAndTrimDir}
 
@@ -57,7 +59,7 @@ echo
 echo "## Action to perform in quals: "$qualAction" ##"
 echo
 
-if java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${splitAndTrimDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
+if java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${splitAndTrimDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
  -T SplitNCigarReads \
  -R ${onekgGenomeFasta} \
  -I ${markDuplicatesBam} \
