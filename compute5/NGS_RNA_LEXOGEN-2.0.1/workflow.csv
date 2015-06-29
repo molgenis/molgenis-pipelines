@@ -1,0 +1,9 @@
+step,protocol,dependencies
+s00_TrimReads,protocols/TrimReads.sh,
+s01_FastQC,protocols/FastQC.sh,s00_TrimReads
+s02_BowtieMapping,protocols/BowtieMapping.sh,s00_TrimReads
+s03_QCStats,protocols/QCStats.sh,s02_BowtieMapping
+s04_HTSeq_count,protocols/HTSeq_count.sh,s02_BowtieMapping
+s05_MakeExpressionTable,protocols/MakeExpressionTable.sh,s04_HTSeq_count
+s06_QC_Report,protocols/QC_Report.sh,s05_MakeExpressionTable;s03_QCStats
+s07_CopyToResultsDir,protocols/CopyToResultsDir.sh,s05_MakeExpressionTable;s01_FastQC;s03_QCStats;s06_QC_Report
