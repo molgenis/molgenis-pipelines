@@ -14,6 +14,7 @@
 #string sortedBai
 #string uniqueID
 #string jdkVersion
+#string readQuality
 
 
 
@@ -37,6 +38,7 @@ if java -Xmx6g -XX:ParallelGCThreads=4 -jar ${toolDir}picard/${picardVersion}/So
   TMP_DIR=${sortedBamDir}
 
 then
+ rm ${hisatAlignmentDir}${uniqueID}.sam
  echo "returncode: $?"; putFile ${sortedBam}
  putFile ${sortedBai}
 
