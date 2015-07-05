@@ -18,7 +18,7 @@
 
 
 
-getFile ${hisatAlignmentDir}${uniqueID}.sam
+getFile ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.bam
 
 #Load modules
 ${stage} picard/${picardVersion}
@@ -38,7 +38,6 @@ if java -Xmx6g -XX:ParallelGCThreads=4 -jar ${toolDir}picard/${picardVersion}/So
   TMP_DIR=${sortedBamDir}
 
 then
- rm ${hisatAlignmentDir}${uniqueID}.sam
  echo "returncode: $?"; putFile ${sortedBam}
  putFile ${sortedBai}
 
