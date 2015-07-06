@@ -79,6 +79,7 @@ sjdbFileChrStartEnd,${starAlignmentPassOneDir}/SJ.out.tab
 starAlignmentPassTwoDir,${starAlignmentDir}/${uniqueID}/alignmentP2/
 starAlignmentPassTwoTmpDir,${starAlignmentDir}/${uniqueID}_tmp/alignmentP2/
 ## addOrReplaceGroups
+sortedBamDir,${projectDir}/sortedBam/
 addOrReplaceGroupsDir,${projectDir}/addOrReplaceReadGroups/
 addOrReplaceGroupsBam,${addOrReplaceGroupsDir}${uniqueID}.bam
 addOrReplaceGroupsBai,${addOrReplaceGroupsDir}${uniqueID}.bai
@@ -137,6 +138,7 @@ snpEffVersion,3.6c
 snpEffStats,${annotatorDir}/${project}.snpEff.summary.html
 ## Hisat
 hisatAlignmentDir,${projectDir}/hisat/
+readQuality,1
 ## ?
 motifBin,/gcc/resources/snpEff/3.6c/GRCh37.75/motif.bin
 nextProtBin,/gcc/resources/snpEff/3.6c/GRCh37.75/nextProt.bin

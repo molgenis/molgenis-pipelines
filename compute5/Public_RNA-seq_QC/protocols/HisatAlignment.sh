@@ -1,4 +1,4 @@
-#MOLGENIS nodes=1 ppn=1 mem=1gb walltime=10:00:00
+#MOLGENIS nodes=1 ppn=8 mem=8gb walltime=10:00:00
 
 #string stage
 #string checkStage
@@ -14,7 +14,6 @@
 #string uniqueID
 #string samtoolsVersion
 #string readQuality
-echo "test"
 getFile ${reads1FqGz}
 if [ ${#reads2FqGz} -eq 0 ]; then
    input="-U ${reads1FqGz}"

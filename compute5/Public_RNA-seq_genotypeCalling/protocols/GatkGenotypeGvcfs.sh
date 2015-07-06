@@ -1,6 +1,5 @@
 #MOLGENIS walltime=23:59:00 mem=4gb ppn=4
 
-#Parameter mapping  #why not string foo,bar? instead of string foo\nstring bar
 #string stage
 #string checkStage
 #string starVersion
@@ -12,10 +11,7 @@
 #string gatkVersion
 #string haplotyperDir
 #string onekgGenomeFasta
-
-#Array reference because it's possible
-#list mergeGvcf
-#list mergeGvcfIdx
+#list mergeGvcf, mergeGvcfIdx
 
 #string genotypedVcf
 #string genotypedVcfIdx
