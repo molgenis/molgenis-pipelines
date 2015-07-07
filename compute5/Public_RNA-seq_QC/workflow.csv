@@ -1,11 +1,11 @@
 step,protocol,dependencies
 HisatAlignment,protocols/HisatAlignment.sh,
-FastQC,protocols/Fastqc.sh,HisatAlignment
-SamToSortedBam,protocols/SamToSortedBam.sh,HisatAlignment
-GatkUnifiedGenotyper,protocols/GatkUnifiedGenotyper.sh,SamToSortedBam
+FastQC,protocols/Fastqc.sh,
+SortBam,protocols/SortBam.sh,HisatAlignment
+GatkUnifiedGenotyper,protocols/GatkUnifiedGenotyper.sh,SortBam
 VerifyBamID,protocols/VerifyBamID.sh,GatkUnifiedGenotyper
 VariantEval,protocols/VariantEval.sh,GatkUnifiedGenotyper
 GenotypeHarmonizer,protocols/GenotypeHarmonizer.sh,GatkUnifiedGenotyper
 CombineBedFiles,protocols/CombineBedFiles.sh,GenotypeHarmonizer
-CollectRnaSeqMetrics,protocols/CollectRnaSeqMetrics.sh,SamToSortedBam
-CollectMultipleMetrics,protocols/CollectMultipleMetrics.sh,SamToSortedBam
+CollectRnaSeqMetrics,protocols/CollectRnaSeqMetrics.sh,SortBam
+CollectMultipleMetrics,protocols/CollectMultipleMetrics.sh,SortBam

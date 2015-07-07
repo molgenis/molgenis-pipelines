@@ -1,6 +1,5 @@
-#MOLGENIS walltime=23:59:00 mem=6gb nodes=1 ppn=4
+#MOLGENIS walltime=23:59:00 mem=6gb nodes=1 ppn=8
 
-#Parameter mapping  #why not string foo,bar? instead of string foo\nstring bar
 #string stage
 #string checkStage
 #string starVersion
@@ -12,13 +11,14 @@
 #string addOrReplaceGroupsDir
 #string addOrReplaceGroupsBam
 #string addOrReplaceGroupsBai
-#string hisatAlignmentDir
+#string sortedBamDir
 #string uniqueID
 #string toolDir
+#string readQuality
 
 echo "## "$(date)" ##  $0 Started "
 
-getFile ${hisatAlignmentDir}${uniqueID}.sam
+getFile ${sortedBamDir}${uniqueID}.bam
 
 ${stage} picard/${picardVersion}
 ${checkStage}
@@ -29,8 +29,8 @@ mkdir -p ${addOrReplaceGroupsDir}
 
 echo "## "$(date)" Start $0"
 
-if java -Xmx6g -XX:ParallelGCThreads=4 -jar ${toolDir}picard/${picardVersion}/AddOrReplaceReadGroups.jar \
- INPUT=${hisatAlignmentDir}${uniqueID}.sam \
+if java -Xmx6g -XX:ParallelGCThreads=8 -jar ${toolDir}picard/${picardVersion}/AddOrReplaceReadGroups.jar \
+ INPUT=${sortedBamDir}${uniqueID}.bam \
  OUTPUT=${addOrReplaceGroupsBam} \
  SORT_ORDER=coordinate \
  RGID=${internalId} \

@@ -26,7 +26,7 @@ starVersion,2.3.1l
 cosmicVersion,v70
 RVersion,3.2.0-goolf-1.7.20-Java-1.7.0_80
 anacondaVersion,1.8.0-Linux-x86_64
-samtoolsVersion,0.1.19-goolf-1.7.20
+samtoolsVersion,1.2-goolf-1.7.20
 gatkVersion,3.4-0-Java-1.7.0_80 
 picardVersion,1.102-Java-1.7.0_80
 ensemblVersion,75
@@ -79,6 +79,7 @@ sjdbFileChrStartEnd,${starAlignmentPassOneDir}/SJ.out.tab
 starAlignmentPassTwoDir,${starAlignmentDir}/${uniqueID}/alignmentP2/
 starAlignmentPassTwoTmpDir,${starAlignmentDir}/${uniqueID}_tmp/alignmentP2/
 ## addOrReplaceGroups
+sortedBamDir,${projectDir}/sortedBam/
 addOrReplaceGroupsDir,${projectDir}/addOrReplaceReadGroups/
 addOrReplaceGroupsBam,${addOrReplaceGroupsDir}${uniqueID}.bam
 addOrReplaceGroupsBai,${addOrReplaceGroupsDir}${uniqueID}.bai
@@ -137,6 +138,7 @@ snpEffVersion,3.6c
 snpEffStats,${annotatorDir}/${project}.snpEff.summary.html
 ## Hisat
 hisatAlignmentDir,${projectDir}/hisat/
+readQuality,1
 ## ?
 motifBin,/gcc/resources/snpEff/3.6c/GRCh37.75/motif.bin
 nextProtBin,/gcc/resources/snpEff/3.6c/GRCh37.75/nextProt.bin

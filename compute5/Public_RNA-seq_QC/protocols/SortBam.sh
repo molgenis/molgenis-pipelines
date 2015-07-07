@@ -14,10 +14,11 @@
 #string sortedBai
 #string uniqueID
 #string jdkVersion
+#string readQuality
 
 
 
-getFile ${hisatAlignmentDir}${uniqueID}.sam
+getFile ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.bam
 
 #Load modules
 ${stage} picard/${picardVersion}
@@ -30,7 +31,7 @@ mkdir -p ${sortedBamDir}
 echo "## "$(date)" Start $0"
 
 if java -Xmx6g -XX:ParallelGCThreads=4 -jar ${toolDir}picard/${picardVersion}/SortSam.jar \
-  INPUT=${hisatAlignmentDir}${uniqueID}.sam \
+  INPUT=${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.bam \
   OUTPUT=${sortedBam} \
   SO=coordinate \
   CREATE_INDEX=true \
