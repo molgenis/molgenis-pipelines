@@ -45,14 +45,13 @@ if hisat -x ${referenceGenomeHisat} \
   --rg LB:${sampleName}_${internalId} \
   --rg SM:${sampleName}
 then
+  >&2 echo "Remove MQ<1 reads and convert .sam to .bam"
   samtools view -h -b -q ${readQuality} ${hisatAlignmentDir}${uniqueID}.sam > ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.bam
-  samtools flagstat ${hisatAlignmentDir}${uniqueID}.sam > ${hisatAlignmentDir}${uniqueID}_alignment.log
+  echo "remove .sam file"
   rm ${hisatAlignmentDir}${uniqueID}.sam
-  samtools flagstat ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.bam > ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.alignment.log
-
+  echo "flagstat MQ filtered .bam file:"
+  >&2 samtools flagstat ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.bam
   echo "returncode: $?"; putFile ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.bam
-  putFile ${hisatAlignmentDir}${uniqueID}_alignment.log
-  putFile ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.alignment.log
 
   echo "succes moving files";
 else
