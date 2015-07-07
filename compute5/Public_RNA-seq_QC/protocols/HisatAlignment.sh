@@ -12,7 +12,6 @@
 #string hisatAlignmentDir
 #string hisatVersion
 #string uniqueID
-#string samtoolsVersion
 #string readQuality
 getFile ${reads1FqGz}
 if [ ${#reads2FqGz} -eq 0 ]; then
@@ -26,7 +25,6 @@ fi
 
 #Load modules
 ${stage} hisat/${hisatVersion}
-${stage} SAMtools/${samtoolsVersion}
 
 #check modules
 ${checkStage}
@@ -36,23 +34,17 @@ mkdir -p ${hisatAlignmentDir}
 echo "## "$(date)" Start $0"
 
 if hisat -x ${referenceGenomeHisat} \
-  -S ${hisatAlignmentDir}${uniqueID}.sam \
   ${input}\
   -p ${nTreads} \
   --rg-id ${internalId} \
   --rg PL:${platform} \
   --rg PU:${sampleName}_${internalId}_${internalId} \
   --rg LB:${sampleName}_${internalId} \
-  --rg SM:${sampleName}
+  --rg SM:${sampleName} | \
+  samtools view -h -b -q ${readQuality} - > ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.bam
 then
-  >&2 echo "Remove MQ<1 reads and convert .sam to .bam"
-  samtools view -h -b -q ${readQuality} ${hisatAlignmentDir}${uniqueID}.sam > ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.bam
-  echo "remove .sam file"
-  rm ${hisatAlignmentDir}${uniqueID}.sam
-  echo "flagstat MQ filtered .bam file:"
-  >&2 samtools flagstat ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.bam
+  >&2 echo "Reads where filtered with MQ < 1."
   echo "returncode: $?"; putFile ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.bam
-
   echo "succes moving files";
 else
  echo "returncode: $?";
