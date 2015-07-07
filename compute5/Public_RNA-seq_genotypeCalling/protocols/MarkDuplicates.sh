@@ -36,12 +36,8 @@ if java -Xmx6g -XX:ParallelGCThreads=4 -jar ${toolDir}picard/${picardVersion}/Ma
  MAX_RECORDS_IN_RAM=4000000 \
  TMP_DIR=${markDuplicatesDir} \
  METRICS_FILE=${markDuplicatesMetrics}
-
-#REMOVE_DUPLICATES=true \?
-
 then
  echo "returncode: $?"; 
-
  putFile ${markDuplicatesBam}
  putFile ${markDuplicatesBai}
  putFile ${markDuplicatesMetrics}

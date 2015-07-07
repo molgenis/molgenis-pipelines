@@ -5,7 +5,7 @@ queue,ll
 mem,4
 walltime,23:59:00
 nodes,1
-ppn,1
+ppn,8
 nTreads,8
 defaultInterpreter,#!/bin/bash
 stage,module load
@@ -22,6 +22,7 @@ platform,ILLUMINA
 ########################################################################
 ## Software and data versions/builds
 #
+cutadaptVersion,1.8.1-goolf-1.7.20-Python-2.7.9
 picardVersion,1.102-Java-1.7.0_80
 genotypeIOVersion,1.0.2
 verifyBamVersion,1.1.1
@@ -84,6 +85,8 @@ readQuality,1
 sortedBamDir,${projectDir}/sortedBam/
 sortedBam,${sortedBamDir}${uniqueID}.bam
 sortedBai,${sortedBamDir}${uniqueID}.bai
+## cutadapt
+adapterFile,${toolDir}/FastQC/${fastqcVersion}/Configuration/contaminant_list.txt
 ## ?
 rRnaIntervalList,${resDir}//picard-tools/Ensembl${ensemblVersion}/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.rrna.interval_list
 genesRefFlat,${resDir}/picard-tools/Ensembl${ensemblVersion}/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.refflat
