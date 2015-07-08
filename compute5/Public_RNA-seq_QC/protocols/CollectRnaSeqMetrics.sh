@@ -26,7 +26,7 @@ ${checkStage}
 
 mkdir -p ${collectRnaSeqMetricsDir}
 
-echo "## "$(date)" ##  $0 Started "
+echo "## "$(date)" Start $0"
 
 if java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}picard/${picardVersion}/CollectRnaSeqMetrics.jar \
  INPUT=${sortedBam} \

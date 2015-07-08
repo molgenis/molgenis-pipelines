@@ -1,4 +1,5 @@
 step,protocol,dependencies
+TrimAdapters,protocols/TrimAdapters.sh,
 HisatAlignment,protocols/HisatAlignment.sh,
 FastQC,protocols/Fastqc.sh,
 SortBam,protocols/SortBam.sh,HisatAlignment

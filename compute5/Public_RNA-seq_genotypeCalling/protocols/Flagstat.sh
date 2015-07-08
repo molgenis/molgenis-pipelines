@@ -4,7 +4,7 @@
 #string flagstatFile
 #string markDuplicatesBam
 #string samtoolsVersion
-
+#string flagstatDir
 
 
 echo "## "$(date)" Start $0"

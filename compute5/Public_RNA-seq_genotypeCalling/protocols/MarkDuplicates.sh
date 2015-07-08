@@ -18,7 +18,7 @@
 #string markDuplicatesMetrics
 #string toolDir
 
-echo "## "$(date)" ##  $0 Started "
+echo "## "$(date)" Start $0"
 
 
 getFile ${mergeBamFilesBam}

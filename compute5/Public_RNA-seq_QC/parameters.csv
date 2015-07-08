@@ -67,7 +67,7 @@ verifyBamIdDir,${projectDir}/verifyBamID/
 ## GenotypeHarmonizer + GenotypeIO
 genotypeIODir,${projectDir}/genotypeIO/
 genotypeHarmonizerDir,${projectDir}/genotypeHarmonizer/
-genotypeHarminzerOutput,${genotypeHarmonizerDir}/${uniqueID}
+genotypeHarmonizerOutput,${genotypeHarmonizerDir}/${uniqueID}
 ## CombineBED
 combinedBEDDir,${projectDir}/combinedBED/
 ## Unified Genotype/Haplotype callers
@@ -86,7 +86,8 @@ sortedBamDir,${projectDir}/sortedBam/
 sortedBam,${sortedBamDir}${uniqueID}.bam
 sortedBai,${sortedBamDir}${uniqueID}.bai
 ## cutadapt
-adapterFile,${toolDir}/FastQC/${fastqcVersion}/Configuration/contaminant_list.txt
+adapterDir,${projectDir}/fastqAdapterFiltered/
+contaminantFile,${toolDir}/FastQC/${fastqcVersion}/Configuration/contaminant_list.txt
 ## ?
 rRnaIntervalList,${resDir}//picard-tools/Ensembl${ensemblVersion}/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.rrna.interval_list
 genesRefFlat,${resDir}/picard-tools/Ensembl${ensemblVersion}/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.refflat

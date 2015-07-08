@@ -24,7 +24,7 @@ ${checkStage}
 
 mkdir -p ${variantEvalDir}
 
-echo "## "$(date)" ##  $0 Started "
+echo "## "$(date)" Start $0"
 
 if java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
    -T VariantEval \

@@ -3,17 +3,17 @@
 #string stage
 #string checkStage
 #string projectDir
-#list genotypeHarminzerOutput
+#list genotypeHarmonizerOutput
 #string combinedBEDDir
 #string plinkVersion
 #string genotypeHarmonizerDir
 
 
 
-getFile ${genotypeHarminzerOutput}.bed
-getFile ${genotypeHarminzerOutput}.bim
-getFile ${genotypeHarminzerOutput}.fam
-getFile ${genotypeHarminzerOutput}.log
+getFile ${genotypeHarmonizerOutput}.bed
+getFile ${genotypeHarmonizerOutput}.bim
+getFile ${genotypeHarmonizerOutput}.fam
+getFile ${genotypeHarmonizerOutput}.log
 
 #Load module
 ${stage} PLINK/${plinkVersion}
@@ -24,7 +24,7 @@ ${checkStage}
 mkdir -p ${combinedBEDDir}
 
 
-echo "## "$(date)" ##  $0 Started "
+echo "## "$(date)" Start $0"
 
 {
 echo "$(printf '%s.bed %s.bim %s.fam\n' $(printf '%s\n' ${genotypeHarminzerOutput[@]}) $(printf '%s\n' ${genotypeHarminzerOutput[@]}) $(printf '%s\n' ${genotypeHarminzerOutput[@]}))"
@@ -35,10 +35,10 @@ sed '1d' ${combinedBEDDir}combinedFiles.txt.tmp > ${combinedBEDDir}combinedFiles
 rm ${combinedBEDDir}combinedFiles.txt.tmp
 
 if plink \
---bfile ${genotypeHarminzerOutput[0]} \
---merge-list ${combinedBEDDir}combinedFiles.txt \
---make-bed \
---out ${combinedBEDDir}combinedFiles
+ --bfile ${genotypeHarmonizerOutput[0]} \
+ --merge-list ${combinedBEDDir}combinedFiles.txt \
+ --make-bed \
+ --out ${combinedBEDDir}combinedFiles
 
 then
  echo "returncode: $?";
@@ -51,8 +51,31 @@ then
 
  echo "succes moving files";
 else
- echo "returncode: $?";
- echo "fail";
+ # got to remove mssnps before trying to merge again
+ for file in "${genotypeHarmonizerOutput[@]}"; do
+  plink \
+   --bfile ${file} \
+   --exclude ${combinedBEDDir}combinedFiles.missnp > ${file}
+ done
+
+ if plink \
+  --bfile ${genotypeHarmonizerOutput[0]} \
+  --merge-list ${combinedBEDDir}combinedFiles.txt \
+  --make-bed \
+  --out ${combinedBEDDir}combinedFiles_remove_missnps
+
+ then
+  echo "returncode: $?";
+  putFile ${combinedBEDDir}combinedFiles_remove_missnps.txt
+  putFile ${combinedBEDDir}combinedFiles_remove_missnps.log
+  putFile ${combinedBEDDir}combinedFiles_remove_missnps.bed
+  putFile ${combinedBEDDir}combinedFiles_remove_missnps.bim
+  putFile ${combinedBEDDir}combinedFiles_remove_missnps.fam
+  putFile ${combinedBEDDir}combinedFiles_remove_missnps.nosex
+ else
+  echo "returncode: $?";
+  echo "fail";
+ fi
 fi
 
 echo "## "$(date)" ##  $0 Done "

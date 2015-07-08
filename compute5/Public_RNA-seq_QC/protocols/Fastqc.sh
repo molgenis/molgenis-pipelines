@@ -20,7 +20,7 @@ ${checkStage}
 
 set -e
 
-echo "## "$(date)" ##  $0 Started "
+echo "## "$(date)" Start $0"
 
 if [ ${#reads2FqGz} -eq 0 ]; then
 	

@@ -19,7 +19,7 @@
 #string haplotyperGvcfIdx
 #string toolDir
 
-echo "## "$(date)" ##  $0 Started "
+echo "## "$(date)" Start $0"
 
 for file in "${indelRealignmentBam[@]}" "${indelRealignmentBai[@]}" "${dbsnpVcf}" "${dbsnpVcfIdx}" "${onekgGenomeFasta}"; do
 	echo "getFile file='$file'"

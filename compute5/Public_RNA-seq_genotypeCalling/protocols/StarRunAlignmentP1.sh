@@ -29,7 +29,7 @@
 #echo $stage
 
 
-echo "## "$(date)" ##  $0 Started "
+echo "## "$(date)" Start $0"
 
 
 #getFile functions

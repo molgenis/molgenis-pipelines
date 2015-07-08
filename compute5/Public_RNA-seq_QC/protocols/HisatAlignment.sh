@@ -13,6 +13,8 @@
 #string hisatVersion
 #string uniqueID
 #string readQuality
+#string samtoolsVersion
+
 getFile ${reads1FqGz}
 if [ ${#reads2FqGz} -eq 0 ]; then
    input="-U ${reads1FqGz}"
@@ -25,6 +27,7 @@ fi
 
 #Load modules
 ${stage} hisat/${hisatVersion}
+${stage} SAMtools/${samtoolsVersion}
 
 #check modules
 ${checkStage}
