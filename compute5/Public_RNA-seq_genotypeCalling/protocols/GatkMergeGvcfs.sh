@@ -8,8 +8,7 @@
 #string projectDir
 #string onekgGenomeFasta
 #string gatkVersion
-#list haplotyperGvcf
-#list haplotyperGvcfIdx
+#list haplotyperGvcf, haplotyperGvcfIdx
 
 #string haplotyperDir
 #string mergeGvcf
