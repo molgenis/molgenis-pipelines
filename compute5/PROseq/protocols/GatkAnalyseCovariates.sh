@@ -24,7 +24,7 @@
 #string bsqrAfterGrp
 #string analyseCovariatesPdf
 
-echo "## "$(date)" ##  $0 Started "
+echo "## "$(date)" Start $0"
 
 
 
