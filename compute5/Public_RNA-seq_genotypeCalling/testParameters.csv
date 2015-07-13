@@ -141,7 +141,7 @@ hisatAlignmentDir,${projectDir}/hisat/
 readQuality,1
 ## Flagstat
 flagstatDir,${projectDir}/flagStat
-flagstatFile,${flagstatDir}${sampleName}.flagstat
+flagstatFile,${flagstatDir}/${sampleName}.flagstat
 ## ?
 motifBin,/gcc/resources/snpEff/3.6c/GRCh37.75/motif.bin
 nextProtBin,/gcc/resources/snpEff/3.6c/GRCh37.75/nextProt.bin

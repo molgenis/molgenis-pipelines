@@ -3,7 +3,6 @@
 #Parameter mapping  #why not string foo,bar? instead of string foo\nstring bar
 #string stage
 #string checkStage
-#string starVersion
 #string WORKDIR
 #string projectDir
 

@@ -11,7 +11,7 @@
 #string sampleName
 
 
-${stage} rRNAdust/${fastqcVersion}
+${stage} rRNAdust/${rRNAdustVersion}
 ${checkStage}
 
 set -e
