@@ -15,7 +15,7 @@
 #string mergeGvcf
 #string mergeGvcfIdx
 
-echo "## "$(date)" ##  $0 Started "
+echo "## "$(date)" Start $0"
 
 
 

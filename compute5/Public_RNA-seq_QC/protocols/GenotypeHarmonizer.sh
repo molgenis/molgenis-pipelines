@@ -6,7 +6,7 @@
 #string sampleName
 #string unifiedGenotyperDir
 #string internalId
-#string genotypeHarminzerOutput
+#string genotypeHarmonizerOutput
 #string genotypeHarmonizerDir
 #string uniqueID
 #string jdkVersion
@@ -29,15 +29,15 @@ echo "## "$(date)" Start $0"
 
 if java -Xmx6g -XX:ParallelGCThreads=4 -jar ${toolDir}GenotypeHarmonizer/${GenotypeHarmonizerVersion}/GenotypeHarmonizer.jar \
  -i ${rawVCF}.gz \
- -o ${genotypeHarminzerOutput} \
+ -o ${genotypeHarmonizerOutput} \
  -I VCF \
  -O PLINK_BED
 
 then
- echo "returncode: $?"; putFile ${genotypeHarminzerOutput}.fam
- putFile ${genotypeHarminzerOutput}.log
- putFile ${genotypeHarminzerOutput}.bed
- putFile ${genotypeHarminzerOutput}.bim
+ echo "returncode: $?"; putFile ${genotypeHarmonizerOutput}.fam
+ putFile ${genotypeHarmonizerOutput}.log
+ putFile ${genotypeHarmonizerOutput}.bed
+ putFile ${genotypeHarmonizerOutput}.bim
 
  echo "succes moving files";
 else

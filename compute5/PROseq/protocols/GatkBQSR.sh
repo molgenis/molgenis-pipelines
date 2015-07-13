@@ -25,7 +25,7 @@
 #pseudo from gatk forum (link: http://gatkforums.broadinstitute.org/discussion/3891/best-practices-for-variant-calling-on-rnaseq):
 #java -jar GenomeAnalysisTK.jar -T SplitNCigarReads -R ref.fasta -I dedupped.bam -o split.bam -rf ReassignOneMappingQuality -RMQF 255 -RMQT 60 -U ALLOW_N_CIGAR_READS
 
-echo "## "$(date)" ##  $0 Started "
+echo "## "$(date)" Start $0"
 
 
 getFile ${onekgGenomeFasta}

@@ -22,6 +22,7 @@ platform,ILLUMINA
 ########################################################################
 ## Software and data versions/builds
 #
+rRNAdustVersion,1.02-goolf-1.7.20
 cutadaptVersion,1.8.1-goolf-1.7.20-Python-2.7.9
 picardVersion,1.102-Java-1.7.0_80
 genotypeIOVersion,1.0.2
@@ -88,6 +89,9 @@ sortedBai,${sortedBamDir}${uniqueID}.bai
 ## cutadapt
 adapterDir,${projectDir}/fastqAdapterFiltered/
 contaminantFile,${toolDir}/FastQC/${fastqcVersion}/Configuration/contaminant_list.txt
+## rRNAdust
+rRNAfilteredDir,${projectDir}/fastQrRNAfiltered/
+rRNArefSeq,${resDir}/human_rRNA/U13369.1.fasta
 ## ?
 rRnaIntervalList,${resDir}//picard-tools/Ensembl${ensemblVersion}/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.rrna.interval_list
 genesRefFlat,${resDir}/picard-tools/Ensembl${ensemblVersion}/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.refflat

@@ -19,7 +19,7 @@
 #string toolDir
 
 
-echo "## "$(date)" ##  $0 Started "
+echo "## "$(date)" Start $0"
 
 for file in "${addOrReplaceGroupsBam[@]}" "${addOrReplaceGroupsBai[@]}"; do
 	echo "getFile file='$file'"

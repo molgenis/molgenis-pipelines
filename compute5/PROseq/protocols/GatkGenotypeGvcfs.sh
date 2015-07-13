@@ -20,7 +20,7 @@
 #string genotypedVcf
 #string genotypedVcfIdx
 
-echo "## "$(date)" ##  $0 Started "
+echo "## "$(date)" Start $0"
 
 
 for file in "${mergeGvcf[@]}" "${mergeGvcfIdx[@]}" "${onekgGenomeFasta}"; do

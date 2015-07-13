@@ -32,7 +32,7 @@
 ## echo declared strings
 #echo $stage
 
-echo "## "$(date)" ##  $0 Started "
+echo "## "$(date)" Start $0"
 
 
 

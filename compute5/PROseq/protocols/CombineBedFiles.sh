@@ -24,7 +24,7 @@ ${checkStage}
 mkdir -p ${combinedBEDDir}
 
 
-echo "## "$(date)" ##  $0 Started "
+echo "## "$(date)" Start $0"
 
 {
 echo "$(printf '%s.bed %s.bim %s.fam\n' $(printf '%s\n' ${genotypeHarminzerOutput[@]}) $(printf '%s\n' ${genotypeHarminzerOutput[@]}) $(printf '%s\n' ${genotypeHarminzerOutput[@]}))"

@@ -8,15 +8,14 @@
 #string projectDir
 #string onekgGenomeFasta
 #string gatkVersion
-#list haplotyperGvcf
-#list haplotyperGvcfIdx
+#list haplotyperGvcf, haplotyperGvcfIdx
 
 #string haplotyperDir
 #string mergeGvcf
 #string mergeGvcfIdx
 #string toolDir
 
-echo "## "$(date)" ##  $0 Started "
+echo "## "$(date)" Start $0"
 
 
 

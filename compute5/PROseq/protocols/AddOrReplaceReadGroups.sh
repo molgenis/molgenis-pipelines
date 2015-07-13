@@ -19,7 +19,7 @@
 
 
 
-echo "## "$(date)" ##  $0 Started "
+echo "## "$(date)" Start $0"
 
 getFile ${starAlignmentPassTwoDir}/Aligned.out.sam
 
@@ -58,9 +58,5 @@ else
  echo "returncode: $?";
  echo "fail";
 fi
-
-echo "## "$(date)" ##  $0 Done "
-
-
 
 echo "## "$(date)" ##  $0 Done "

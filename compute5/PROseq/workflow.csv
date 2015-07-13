@@ -1,7 +1,8 @@
 step,protocol,dependencies
 Fastqc,protocols/Fastqc.sh,
-BAW,protocols/BAW.sh,
-AddOrReplaceReadGroups,protocols/AddOrReplaceReadGroups.sh,BAW
+RemoveRRna,protocols/RemoveRRna.sh,
+HisatAlignment,protocols/HisatAlignment.sh,RemoveRRna
+AddOrReplaceReadGroups,protocols/AddOrReplaceReadGroups.sh,HisatAlignment
 MergeBamFiles,protocols/MergeBamFiles.sh,AddOrReplaceReadGroups
 MarkDuplicates,protocols/MarkDuplicates.sh,MergeBamFiles
 CollectRnaSeqMetrics,protocols/CollectRnaSeqMetrics.sh,MarkDuplicates
