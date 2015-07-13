@@ -9,8 +9,6 @@
 
 echo "## "$(date)" Start $0"
 
-#echo  ${collectMultipleMetricsPrefix} 
-
 getFile ${markDuplicatesBam}
 
 #load modules
