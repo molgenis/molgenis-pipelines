@@ -17,7 +17,6 @@
 #string readQuality
 
 
-
 getFile ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.bam
 
 #Load modules
