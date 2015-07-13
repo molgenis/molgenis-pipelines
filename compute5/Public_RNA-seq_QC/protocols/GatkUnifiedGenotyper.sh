@@ -50,7 +50,7 @@ if java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}GATK//${gatkVersion}/Genom
   -rf ReassignMappingQuality \
   -DMQ 60
 
-# have to gzip for GenomeHarnomizer use later
+# have to gzip for GenometypeHarmonizer usage later
 bgzip -c ${rawVCF} > ${rawVCF}.gz
 tabix -p vcf ${rawVCF}.gz
 
