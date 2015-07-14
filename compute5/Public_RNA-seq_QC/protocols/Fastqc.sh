@@ -18,8 +18,6 @@ echo -e "test ${reads1FqGz} ${reads2FqGz} 1: $(basename ${reads1FqGz} .gz)${fast
 ${stage} FastQC/${fastqcVersion}
 ${checkStage}
 
-set -e
-
 echo "## "$(date)" Start $0"
 
 if [ ${#reads2FqGz} -eq 0 ]; then
