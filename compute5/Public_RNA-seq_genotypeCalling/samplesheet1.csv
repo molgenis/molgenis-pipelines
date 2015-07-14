@@ -1,3 +1,3 @@
-internalId,project,sampleName,sortedBamFile
+internalId,project,sampleName,reads1FqGz,reads2FqGz,sortedBamFile
 ID_01,sample_project,sample01,${sampleName}_${internalId}.bam
 ID_02,sample_project,sample02,${sampleName}_${internalId}.bam
