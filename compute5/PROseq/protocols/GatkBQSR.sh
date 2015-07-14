@@ -41,9 +41,6 @@ getFile ${indelRealignmentBai}
 ${stage} GATK/${gatkVersion}
 ${checkStage}
 
-set -x
-set -e
-
 mkdir -p ${bsqrDir}
 
 #do bsqr for covariable determination then do print reads for valid bsqrbams

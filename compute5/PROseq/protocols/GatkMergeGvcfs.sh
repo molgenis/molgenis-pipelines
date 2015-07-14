@@ -27,9 +27,6 @@ done
 ${stage} GATK/${gatkVersion}
 ${checkStage}
 
-set -x
-set -e
-
 #sort unique and print like 'INPUT=file1.bam INPUT=file2.bam '
 gvcfs=($(printf '%s\n' "${haplotyperGvcf[@]}" | sort -u ))
 

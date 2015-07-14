@@ -1,4 +1,4 @@
-#MOLGENIS nodes=1 ppn=8 mem=1gb walltime=10:00:00
+#MOLGENIS nodes=1 ppn=10 mem=8gb walltime=10:00:00
 
 #string stage
 #string checkStage
@@ -9,29 +9,41 @@
 #string reads1FqGz
 #string reads2FqGz
 #string sampleName
+#string rRNArefSeq
 
+#getFile ${reads1FqGz}
 
 ${stage} rRNAdust/${rRNAdustVersion}
 ${checkStage}
 
-set -e
-
 echo "## "$(date)" ##  $0 Started "
 
-
-if rRNAdust ${rRNArefSeq}  ${reads1FqGz} -e 2 > ${rRNAfilteredDir}/${reads1FqGz##*/}
- if [ ${#reads2FqGz} -eq 1 ]; then
-  rRNAdust ${rRNArefSeq}  ${reads2FqGz} -e 2 > ${rRNAfilteredDir}/${reads2FqGz##*/}
- fi
+mkdir -p ${rRNAfilteredDir}
+echo ${rRNAfilteredDir}/${reads1FqGz##*/} 
+if rRNAdust ${rRNArefSeq}  ${reads1FqGz} > ${rRNAfilteredDir}/${reads1FqGz##*/}
 then
- echo "returncode: $?";
- putFile ${rRNAfilteredDir}/${reads1FqGz##*/}
- putFile ${rRNAfilteredDir}/${reads2FqGz##*/}
- echo "succes moving files";
+    if [ ${#reads2FqGz} -eq 1 ];
+    then
+        echo 'paired end'
+        if rRNAdust ${rRNArefSeq}  ${reads2FqGz} > ${rRNAfilteredDir}/${reads2FqGz##*/}
+        then
+            echo "returncode: 0";
+            #putFile ${rRNAfilteredDir}/${reads1FqGz##*/}
+            #putFile ${rRNAfilteredDir}/${reads2FqGz##*/}
+            echo "succes moving files";
+        else
+            echo "returncode: $?";
+            echo "fail";
+        fi
+    else
+        echo "returncode: 0";
+        echo ${rRNAfilteredDir}/${reads1FqGz##*/}
+        #putFile ${rRNAfilteredDir}/${reads1FqGz##*/}
+        echo "succes moving files";
+    fi
 else
- echo "returncode: $?";
- echo "fail";
- fi
+    echo "returncode: $?";
+    echo "fail";
 fi
 
 echo "## "$(date)" ##  $0 Done "

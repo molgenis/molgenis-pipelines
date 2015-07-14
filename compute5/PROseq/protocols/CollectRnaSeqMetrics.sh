@@ -14,8 +14,8 @@
 #string toolDir
 #string RVersion
 
-getFile ${sortedBam}
-getFile ${sortedBai}
+#getFile ${sortedBam}
+#getFile ${sortedBai}
 
 #Load module
 ${stage} picard/${picardVersion}
@@ -42,8 +42,8 @@ if java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}picard/${picardVersion}/Co
 
 then
  echo "returncode: $?";
- putFile ${collectRnaSeqMetrics}
- putFile ${collectRnaSeqMetricsChart}
+#putFile ${collectRnaSeqMetrics}
+# putFile ${collectRnaSeqMetricsChart}
 
  echo "succes moving files";
 else

@@ -1,6 +1,6 @@
 step,protocol,dependencies
-Fastqc,protocols/Fastqc.sh,
 RemoveRRna,protocols/RemoveRRna.sh,
+Fastqc,protocols/Fastqc.sh,
 HisatAlignment,protocols/HisatAlignment.sh,RemoveRRna
 AddOrReplaceReadGroups,protocols/AddOrReplaceReadGroups.sh,HisatAlignment
 MergeBamFiles,protocols/MergeBamFiles.sh,AddOrReplaceReadGroups

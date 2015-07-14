@@ -10,10 +10,10 @@
 
 
 
-getFile ${genotypeHarminzerOutput}.bed
-getFile ${genotypeHarminzerOutput}.bim
-getFile ${genotypeHarminzerOutput}.fam
-getFile ${genotypeHarminzerOutput}.log
+#getFile ${genotypeHarminzerOutput}.bed
+#getFile ${genotypeHarminzerOutput}.bim
+#getFile ${genotypeHarminzerOutput}.fam
+#getFile ${genotypeHarminzerOutput}.log
 
 #Load module
 ${stage} PLINK/${plinkVersion}
@@ -42,12 +42,12 @@ if plink \
 
 then
  echo "returncode: $?";
- putFile ${combinedBEDDir}combinedFiles.txt
- putFile ${combinedBEDDir}combinedFiles.log
- putFile ${combinedBEDDir}combinedFiles.bed
- putFile ${combinedBEDDir}combinedFiles.bim
- putFile ${combinedBEDDir}combinedFiles.fam
- putFile ${combinedBEDDir}combinedFiles.nosex
+#putFile ${combinedBEDDir}combinedFiles.txt
+# putFile ${combinedBEDDir}combinedFiles.log
+# putFile ${combinedBEDDir}combinedFiles.bed
+# putFile ${combinedBEDDir}combinedFiles.bim
+# putFile ${combinedBEDDir}combinedFiles.fam
+# putFile ${combinedBEDDir}combinedFiles.nosex
 
  echo "succes moving files";
 else
