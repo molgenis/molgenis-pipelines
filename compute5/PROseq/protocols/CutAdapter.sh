@@ -9,13 +9,14 @@
 #string reads1FqGz
 #string reads2FqGz
 #string sampleName
+#string cutadaptFile
 
 ${stage} cutadapt/${cutadaptVersion}
 ${checkStage}
 
 echo "## "$(date)" Start $0"
 mkdir -p ${cutadaptDir}
-cutadapt reads1FqGz <command>
+cutadapt -a AATGATACGGCGACCACCGAGATCTACACTCGTCGGCAGCGTCAGATGTG -a CAAGCAGAAGACGGCATACGAGATTCGCCTTAGTCTCGTGGGCTCGGAGATGT -a CAAGCAGAAGACGGCATACGAGATCTAGTACGGTCTCGTGGGCTCGGAGATGT -a CAAGCAGAAGACGGCATACGAGATGCTCAGGAGTCTCGTGGGCTCGGAGATGT -a CAAGCAGAAGACGGCATACGAGATAGGAGTCCGTCTCGTGGGCTCGGAGATGT reads1FqGz > ${cutadaptFile}
 
 if [ ${#reads2FqGz} -eq 0 ]; then
 	echo "## "$(date)" Single end cutadapt of ${reads1FqGz}"
