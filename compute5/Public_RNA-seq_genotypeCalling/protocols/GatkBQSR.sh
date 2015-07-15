@@ -63,7 +63,7 @@ if java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${bsqrDir} -jar ${toolDi
  -I ${indelRealignmentBam} \
  -o ${bsqrBam} \
  -BQSR ${bsqrBeforeGrp} \
- -nct 82
+ -nct 2
 
 then
  echo "returncode: $?"; 
