@@ -79,7 +79,6 @@ sjdbFileChrStartEnd,${starAlignmentPassOneDir}/SJ.out.tab
 starAlignmentPassTwoDir,${starAlignmentDir}/${uniqueID}/alignmentP2/
 starAlignmentPassTwoTmpDir,${starAlignmentDir}/${uniqueID}_tmp/alignmentP2/
 ## addOrReplaceGroups
-sortedBamDir,${projectDir}/sortedBam/
 addOrReplaceGroupsDir,${projectDir}/addOrReplaceReadGroups/
 addOrReplaceGroupsBam,${addOrReplaceGroupsDir}${uniqueID}.bam
 addOrReplaceGroupsBai,${addOrReplaceGroupsDir}${uniqueID}.bai

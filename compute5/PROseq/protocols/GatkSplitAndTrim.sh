@@ -24,9 +24,6 @@ ${stage} samtools/${samtoolsVersion}
 ${stage} GATK/${gatkVersion}
 ${checkStage}
 
-set -x
-set -e
-
 mkdir -p ${splitAndTrimDir}
 
 #it botches on base quality scores use --allow_potentially_misencoded_quality_scores / the tool is not paralel with nt/nct

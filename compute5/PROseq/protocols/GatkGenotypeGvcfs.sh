@@ -31,10 +31,6 @@ done
 ${stage} GATK/${gatkVersion}
 ${checkStage}
 
-set -x
-set -e
-
-
 # sort unique and print like ' --variant file1.vcf --variant file2.vcf '
 gvcfs=($(printf '%s\n' "${mergeGvcf[@]}" | sort -u ))
 

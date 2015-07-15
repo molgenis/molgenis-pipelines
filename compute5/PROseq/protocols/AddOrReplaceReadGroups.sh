@@ -19,13 +19,10 @@
 
 echo "## "$(date)" Start $0"
 
-getFile ${starAlignmentPassTwoDir}/Aligned.out.sam
+#getFile ${starAlignmentPassTwoDir}/Aligned.out.sam
 
 ${stage} picard-tools/${picardVersion}
 ${checkStage}
-
-set -x
-set -e
 
 mkdir -p ${addOrReplaceGroupsDir}
 
@@ -47,10 +44,8 @@ if java -Xmx6g -XX:ParallelGCThreads=4 -jar $PICARD_HOME/AddOrReplaceReadGroups.
 
 then
  echo "returncode: $?"; 
-
- putFile ${addOrReplaceGroupsBam}
- putFile ${addOrReplaceGroupsBai}
-
+#putFile ${addOrReplaceGroupsBam}
+#putFile ${addOrReplaceGroupsBai}
  echo "succes moving files";
 else
  echo "returncode: $?";

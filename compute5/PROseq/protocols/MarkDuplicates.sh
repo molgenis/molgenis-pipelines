@@ -26,9 +26,6 @@ getFile ${mergeBamFilesBai}
 ${stage} picard-tools/${picardVersion}
 ${checkStage}
 
-set -x
-set -e
-
 mkdir -p ${markDuplicatesDir}
 
 if java -Xmx6g -XX:ParallelGCThreads=4 -jar $PICARD_HOME/MarkDuplicates.jar \

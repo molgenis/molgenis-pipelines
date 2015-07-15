@@ -11,14 +11,13 @@
 #string addOrReplaceGroupsDir
 #string addOrReplaceGroupsBam
 #string addOrReplaceGroupsBai
-#string sortedBamDir
 #string sortedBamFile
 #string toolDir
 #string readQuality
 
 echo "## "$(date)" ##  $0 Started "
 
-getFile ${sortedBamDir}/${sortedBamFile}
+getFile ${sortedBamFile}
 
 ${stage} picard/${picardVersion}
 ${checkStage}
@@ -28,7 +27,7 @@ mkdir -p ${addOrReplaceGroupsDir}
 echo "## "$(date)" Start $0"
 
 if java -Xmx6g -XX:ParallelGCThreads=8 -jar ${toolDir}picard/${picardVersion}/AddOrReplaceReadGroups.jar \
- INPUT=${sortedBamDir}/${sortedBamFile} \
+ INPUT=${sortedBamFile} \
  OUTPUT=${addOrReplaceGroupsBam} \
  SORT_ORDER=coordinate \
  RGID=${internalId} \
