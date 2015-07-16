@@ -1,14 +1,11 @@
 #MOLGENIS walltime=23:59:00 mem=6gb ppn=4
 
-#Parameter mapping  #why not string foo,bar? instead of string foo\nstring bar
 #string stage
 #string checkStage
 #string WORKDIR
 #string projectDir
 
 #string picardVersion
-
-
 #string addOrReplaceGroupsDir
 #list addOrReplaceGroupsBam, addOrReplaceGroupsBai
 

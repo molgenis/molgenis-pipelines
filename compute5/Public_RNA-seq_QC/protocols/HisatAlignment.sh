@@ -27,7 +27,6 @@ fi
 
 #Load modules
 ${stage} hisat/${hisatVersion}
-${stage} SAMtools/${samtoolsVersion}
 
 #check modules
 ${checkStage}
@@ -43,11 +42,11 @@ if hisat -x ${referenceGenomeHisat} \
   --rg PL:${platform} \
   --rg PU:${sampleName}_${internalId}_${internalId} \
   --rg LB:${sampleName}_${internalId} \
-  --rg SM:${sampleName} | \
-  samtools view -h -b -q ${readQuality} - > ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.bam
+  --rg SM:${sampleName} \
+  -S ${hisatAlignmentDir}${uniqueID}.sam
 then
   >&2 echo "Reads where filtered with MQ < 1."
-  echo "returncode: $?"; putFile ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.bam
+  echo "returncode: $?"; putFile ${hisatAlignmentDir}${uniqueID}.sam
   echo "succes moving files";
 else
  echo "returncode: $?";
