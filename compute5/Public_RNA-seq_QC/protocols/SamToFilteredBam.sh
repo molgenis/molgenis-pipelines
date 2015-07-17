@@ -25,10 +25,10 @@ ${checkStage}
 
 echo "## "$(date)" Start $0"
 
-  samtools view -h -b -q ${readQuality} ${hisatAlignmentDir}${uniqueID}.sam > ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.bam
-  rm ${hisatAlignmentDir}${uniqueID}.sam
+if samtools view -h -b -q ${readQuality} ${hisatAlignmentDir}${uniqueID}.sam > ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.bam
 then
   >&2 echo "Reads where filtered with MQ < 1."
+  rm ${hisatAlignmentDir}${uniqueID}.sam
   echo "returncode: $?"; putFile ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.bam
   echo "succes moving files";
 else

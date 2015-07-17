@@ -14,6 +14,7 @@
 #string sortedBamFile
 #string toolDir
 #string readQuality
+#string uniqueID
 
 echo "## "$(date)" ##  $0 Started "
 
