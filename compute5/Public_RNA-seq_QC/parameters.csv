@@ -53,15 +53,15 @@ testIntervalList,${resDir}/b37/intervals/ALL.wgs.phase3_shapeit2_mvncall_integra
 fastqcDir,${projectDir}/fastqc/
 fastqcZipExt,_fastqc.zip
 singleEndfastqcZip,${fastqcDir}/${internalId}_${sampleName}.fq${fastqcZipExt}
-pairedEndfastqcZip1,${fastqcDir}/${internalId}_${sampleName}_1.fq${fastqcZipExt}
-pairedEndfastqcZip2,${fastqcDir}/${internalId}_${sampleName}_2.fq${fastqcZipExt}
+pairedEndfastqcZip1,${fastqcDir}/${uniqueID}_1.fq${fastqcZipExt}
+pairedEndfastqcZip2,${fastqcDir}/${uniqueID}_2.fq${fastqcZipExt}
 ## CollectMultipleMetrics
 collectMultipleMetricsDir,${projectDir}/collectMultipleMetrics/
-collectMultipleMetricsPrefix,${projectDir}/collectMultipleMetrics/${sampleName}.multiplemetrics
+collectMultipleMetricsPrefix,${projectDir}/collectMultipleMetrics/${uniqueID}.multiplemetrics
 ## CollectRnaSeqMetrics
 collectRnaSeqMetricsDir,${projectDir}/collectRnaSeqMetrics/
-collectRnaSeqMetrics,${collectRnaSeqMetricsDir}${sampleName}.rna_metrics.log
-collectRnaSeqMetricsChart,${collectRnaSeqMetricsDir}${sampleName}.chart.pdf
+collectRnaSeqMetrics,${collectRnaSeqMetricsDir}${uniqueID}.rna_metrics.log
+collectRnaSeqMetricsChart,${collectRnaSeqMetricsDir}${uniqueID}.chart.pdf
 ## veryifyBamID
 verifyBamIdDir,${projectDir}/verifyBamID/
 ## GenotypeHarmonizer + GenotypeIO
