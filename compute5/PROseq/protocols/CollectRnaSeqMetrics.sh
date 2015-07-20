@@ -1,5 +1,10 @@
 #MOLGENIS walltime=23:59:00 mem=8gb nodes=1 ppn=4
 
+### variables to help adding to database (have to use weave)
+#string internalId
+#string sampleName
+#string project
+###
 #string stage
 #string checkStage
 #string picardVersion
@@ -13,7 +18,6 @@
 #string onekgGenomeFasta
 #string toolDir
 #string RVersion
-
 #getFile ${sortedBam}
 #getFile ${sortedBai}
 
@@ -27,6 +31,7 @@ ${checkStage}
 mkdir -p ${collectRnaSeqMetricsDir}
 
 echo "## "$(date)" Start $0"
+echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
 if java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}picard/${picardVersion}/CollectRnaSeqMetrics.jar \
  INPUT=${sortedBam} \

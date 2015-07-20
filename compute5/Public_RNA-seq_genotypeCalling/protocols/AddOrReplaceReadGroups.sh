@@ -1,22 +1,26 @@
 #MOLGENIS walltime=23:59:00 mem=6gb nodes=1 ppn=8
 
+### variables to help adding to database (have to use weave)
+#string internalId
+#string sampleName
+#string project
+###
 #string stage
 #string checkStage
 #string starVersion
 #string WORKDIR
 #string projectDir
 #string picardVersion
-#string sampleName
-#string internalId
 #string addOrReplaceGroupsDir
 #string addOrReplaceGroupsBam
 #string addOrReplaceGroupsBai
 #string sortedBamFile
 #string toolDir
 #string readQuality
+#string uniqueID
 
 echo "## "$(date)" ##  $0 Started "
-
+echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 getFile ${sortedBamFile}
 
 ${stage} picard/${picardVersion}

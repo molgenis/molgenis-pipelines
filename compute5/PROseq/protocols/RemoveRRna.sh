@@ -1,5 +1,10 @@
 #MOLGENIS nodes=1 ppn=10 mem=8gb walltime=10:00:00
 
+### variables to help adding to database (have to use weave)
+#string internalId
+#string sampleName
+#string project
+###
 #string stage
 #string checkStage
 #string rRNAdustVersion
@@ -8,7 +13,6 @@
 #string rRNAfilteredDir
 #string reads1FqGz
 #string reads2FqGz
-#string sampleName
 #string rRNArefSeq
 
 #getFile ${reads1FqGz}
@@ -17,6 +21,7 @@ ${stage} rRNAdust/${rRNAdustVersion}
 ${checkStage}
 
 echo "## "$(date)" ##  $0 Started "
+echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
 mkdir -p ${rRNAfilteredDir}
 echo ${rRNAfilteredDir}/${reads1FqGz##*/} 

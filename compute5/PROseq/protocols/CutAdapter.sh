@@ -1,5 +1,10 @@
 #MOLGENIS nodes=1 ppn=1 mem=1gb walltime=10:00:00
 
+### variables to help adding to database (have to use weave)
+#string internalId
+#string sampleName
+#string project
+###
 #string stage
 #string checkStage
 #string cutadaptVersion
@@ -9,13 +14,16 @@
 #string reads1FqGz
 #string reads2FqGz
 #string sampleName
+#string cutadaptFile
 
 ${stage} cutadapt/${cutadaptVersion}
 ${checkStage}
 
 echo "## "$(date)" Start $0"
+echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
+
 mkdir -p ${cutadaptDir}
-cutadapt reads1FqGz <command>
+cutadapt -a AATGATACGGCGACCACCGAGATCTACACTCGTCGGCAGCGTCAGATGTG -a CAAGCAGAAGACGGCATACGAGATTCGCCTTAGTCTCGTGGGCTCGGAGATGT -a CAAGCAGAAGACGGCATACGAGATCTAGTACGGTCTCGTGGGCTCGGAGATGT -a CAAGCAGAAGACGGCATACGAGATGCTCAGGAGTCTCGTGGGCTCGGAGATGT -a CAAGCAGAAGACGGCATACGAGATAGGAGTCCGTCTCGTGGGCTCGGAGATGT reads1FqGz > ${cutadaptFile}
 
 if [ ${#reads2FqGz} -eq 0 ]; then
 	echo "## "$(date)" Single end cutadapt of ${reads1FqGz}"

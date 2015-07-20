@@ -1,5 +1,10 @@
 #MOLGENIS walltime=23:59:00 nodes=1 mem=8gb ppn=4
 
+### variables to help adding to database (have to use weave)
+#string internalId
+#string sampleName
+#string project
+###
 #string stage
 #string checkStage
 #string onekgGenomeFasta
@@ -35,6 +40,7 @@ ${checkStage}
 mkdir -p ${unifiedGenotyperDir}
 
 echo "## "$(date)" Start $0"
+echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
 #print like '-I=file1.bam -I=file2.bam '
 inputs=$(printf ' -I %s ' $(printf '%s\n' ${sortedBam[@]}))

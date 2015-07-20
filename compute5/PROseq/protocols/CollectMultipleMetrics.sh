@@ -1,5 +1,10 @@
 #MOLGENIS walltime=23:59:00 mem=4gb nodes=1 ppn=4
 
+### variables to help adding to database (have to use weave)
+#string internalId
+#string sampleName
+#string project
+###
 #string stage
 #string checkStage
 #string picardVersion
@@ -11,8 +16,6 @@
 #string sortedBam
 #string sortedBai
 #string toolDir
-
-
 #getFile ${sortedBam}
 #getFile ${sortedBai}
 #getFile ${onekgGenomeFasta}
@@ -27,6 +30,7 @@ ${checkStage}
 mkdir -p ${collectMultipleMetricsDir}_QC
 
 echo "## "$(date)" Start $0"
+echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
 insertSizeMetrics=""
 if [ ${#reads2FqGz} -ne 0 ]; then

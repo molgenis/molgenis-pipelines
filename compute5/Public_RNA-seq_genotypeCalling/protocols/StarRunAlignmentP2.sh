@@ -1,7 +1,11 @@
 #MOLGENIS walltime=23:59:00 nodes=1 mem=40gb ppn=8
 
 
-#Parameter mapping  #why not string foo,bar? instead of string foo\nstring bar
+### variables to help adding to database (have to use weave)
+#string internalId
+#string sampleName
+#string project
+###
 #string stage
 #string checkStage
 #string starVersion
@@ -29,12 +33,8 @@
 
 ## onekgGgenomeDecoyFasta
 
-## echo declared strings
-#echo $stage
-
 echo "## "$(date)" Start $0"
-
-
+echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
 #getFile functions
 

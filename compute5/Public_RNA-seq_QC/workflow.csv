@@ -1,7 +1,8 @@
 step,protocol,dependencies
 HisatAlignment,protocols/HisatAlignment.sh,
+SamToFilteredBam,protocols/SamToFilteredBam.sh,HisatAlignment
 FastQC,protocols/Fastqc.sh,
-SortBam,protocols/SortBam.sh,HisatAlignment
+SortBam,protocols/SortBam.sh,SamToFilteredBam
 GatkUnifiedGenotyper,protocols/GatkUnifiedGenotyper.sh,SortBam
 VerifyBamID,protocols/VerifyBamID.sh,GatkUnifiedGenotyper
 VariantEval,protocols/VariantEval.sh,GatkUnifiedGenotyper

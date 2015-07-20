@@ -1,5 +1,10 @@
 #MOLGENIS walltime=23:59:00 mem=4gb ppn=4
 
+### variables to help adding to database (have to use weave)
+#string internalId
+#string sampleName
+#string project
+###
 #string stage
 #string checkStage
 #string starVersion
@@ -18,7 +23,7 @@
 #string toolDir
 
 echo "## "$(date)" Start $0"
-
+echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
 for file in "${mergeGvcf[@]}" "${mergeGvcfIdx[@]}" "${onekgGenomeFasta}"; do
 	echo "getFile file='$file'"

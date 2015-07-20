@@ -1,13 +1,16 @@
 #MOLGENIS nodes=1 ppn=8 mem=8gb walltime=10:00:00
 
+### variables to help adding to database (have to use weave)
+#string internalId
+#string sampleName
+#string project
+###
 #string stage
 #string checkStage
 #string referenceGenomeHisat
-#string sampleName
 #string reads1FqGz
 #string reads2FqGz
 #string nTreads
-#string internalId
 #string platform
 #string hisatAlignmentDir
 #string hisatVersion
@@ -27,7 +30,6 @@ fi
 
 #Load modules
 ${stage} hisat/${hisatVersion}
-${stage} SAMtools/${samtoolsVersion}
 
 #check modules
 ${checkStage}
@@ -35,6 +37,7 @@ ${checkStage}
 mkdir -p ${hisatAlignmentDir}
 
 echo "## "$(date)" Start $0"
+echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
 if hisat -x ${referenceGenomeHisat} \
   ${input}\
@@ -43,11 +46,11 @@ if hisat -x ${referenceGenomeHisat} \
   --rg PL:${platform} \
   --rg PU:${sampleName}_${internalId}_${internalId} \
   --rg LB:${sampleName}_${internalId} \
-  --rg SM:${sampleName} | \
-  samtools view -h -b -q ${readQuality} - > ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.bam
+  --rg SM:${sampleName} \
+  -S ${hisatAlignmentDir}${uniqueID}.sam
 then
   >&2 echo "Reads where filtered with MQ < 1."
-  echo "returncode: $?"; putFile ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.bam
+  echo "returncode: $?"; putFile ${hisatAlignmentDir}${uniqueID}.sam
   echo "succes moving files";
 else
  echo "returncode: $?";

@@ -1,6 +1,10 @@
 #MOLGENIS walltime=23:59:00 mem=8gb nodes=1 ppn=4
 
-#Parameter mapping  #why not string foo,bar? instead of string foo\nstring bar
+### variables to help adding to database (have to use weave)
+#string internalId
+#string sampleName
+#string project
+###
 #string stage
 #string checkStage
 #string starVersion
@@ -28,6 +32,7 @@ ${checkStage}
 mkdir -p ${collectRnaSeqMetricsDir}
 
 echo "## "$(date)" ##  $0 Started "
+echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
 if java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}picard/${picardVersion}/CollectRnaSeqMetrics.jar \
  INPUT=${markDuplicatesBam} \
