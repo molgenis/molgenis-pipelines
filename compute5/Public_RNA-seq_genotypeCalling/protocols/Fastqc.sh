@@ -19,13 +19,13 @@
 #string pairedEndfastqcZip2
 
 echo -e "test ${reads1FqGz} ${reads2FqGz} 1: $(basename ${reads1FqGz} .gz)${fastqcZipExt} \n2: $(basename ${reads2FqGz} .gz)${fastqcZipExt} "
+echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
 ${stage} fastqc/${fastqcVersion}
 ${checkStage}
 
 
 echo "## "$(date)" ##  $0 Started "
-echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
 if [ ${#reads2FqGz} -eq 0 ]; then
 	
@@ -56,7 +56,9 @@ if [ ${#reads2FqGz} -eq 0 ]; then
 
 	  putFile ${fastqcDir}/$(basename ${reads1FqGz} .fastq.gz)${fastqcZipExt}
 	  putFile ${singleEndfastqcZip}
-	
+      echo "md5sums"
+      echo "${fastqcDir}/$(basename ${reads1FqGz} .fastq.gz)${fastqcZipExt} - md5sum ${fastqcDir}/$(basename ${reads1FqGz} .fastq.gz)${fastqcZipExt}"
+      echo "${pairedEndfastqcZip1} - md5sum ${pairedEndfastqcZip1}"
 	  echo "succes moving files";
 	else
  	  echo "returncode: $?";
@@ -102,7 +104,12 @@ else
 	  putFile ${fastqcDir}/$(basename ${reads2FqGz} .fastq.gz)${fastqcZipExt}
 	  putFile ${pairedEndfastqcZip1}
 	  putFile ${pairedEndfastqcZip2}
-	
+      echo "md5sums"
+      echo "${fastqcDir}/$(basename ${reads1FqGz} .fastq.gz)${fastqcZipExt} - 
+ md5sum ${fastqcDir}/$(basename ${reads1FqGz} .fastq.gz)${fastqcZipExt}
+      echo "${fastqcDir}/$(basename ${reads2FqGz} .fastq.gz)${fastqcZipExt} - " md5sum ${fastqcDir}/$(basename ${reads2FqGz} .fastq.gz)${fastqcZipExt}
+      echo "${pairedEndfastqcZip1} - " md5sum ${pairedEndfastqcZip1}
+      echo "${pairedEndfastqcZip2} - " md5sum ${pairedEndfastqcZip2}
 	  echo "succes moving files";
 	else
  	  echo "returncode: $?";

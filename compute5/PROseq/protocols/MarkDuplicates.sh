@@ -41,7 +41,10 @@ if java -Xmx6g -XX:ParallelGCThreads=4 -jar $PICARD_HOME/MarkDuplicates.jar \
 
 then
  echo "returncode: $?"; 
-
+ echo "md5sums"
+ echo "${markDuplicatesBam} - " md5sum ${markDuplicatesBam}
+ echo "${markDuplicatesBai} - " md5sum ${markDuplicatesBai}
+ echo "${markDuplicatesMetrics} - " md5sum ${markDuplicatesMetrics}
  putFile ${markDuplicatesBam}
  putFile ${markDuplicatesBai}
  putFile ${markDuplicatesMetrics}

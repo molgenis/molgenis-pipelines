@@ -42,7 +42,11 @@ then
  putFile ${genotypeHarmonizerOutput}.log
  putFile ${genotypeHarmonizerOutput}.bed
  putFile ${genotypeHarmonizerOutput}.bim
-
+ echo "md5sums"
+ echo "${genotypeHarmonizerOutput}.log - " md5sum ${genotypeHarmonizerOutput}.fam
+ echo "${genotypeHarmonizerOutput}.log - " md5sum ${genotypeHarmonizerOutput}.log
+ echo "${genotypeHarmonizerOutput}.bed - " md5sum ${genotypeHarmonizerOutput}.bed
+ echo "${genotypeHarmonizerOutput}.bim - " md5sum ${genotypeHarmonizerOutput}.bim
  echo "succes moving files";
 else
  echo "returncode: $?";

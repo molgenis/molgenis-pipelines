@@ -51,6 +51,9 @@ if hisat -x ${referenceGenomeHisat} \
 then
   >&2 echo "Reads where filtered with MQ < 1."
   echo "returncode: $?"; putFile ${hisatAlignmentDir}${uniqueID}.sam
+echo "md5sums"
+echo "${hisatAlignmentDir}${uniqueID}.sam - " md5sum ${hisatAlignmentDir}${uniqueID}.sam
+echo "${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.bam - " md5sum ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.bam
   echo "succes moving files";
 else
  echo "returncode: $?";

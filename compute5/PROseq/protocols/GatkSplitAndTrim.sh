@@ -72,7 +72,9 @@ if java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${splitAndTrimDir} -jar 
 
 then
  echo "returncode: $?"; 
-
+ echo "md5sums"
+ echo "${splitAndTrimBam} - " md5sum ${splitAndTrimBam}
+ echo "${splitAndTrimBai} - " md5sum ${splitAndTrimBai}
  putFile ${splitAndTrimBam}
  putFile ${splitAndTrimBai}
 

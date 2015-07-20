@@ -20,7 +20,7 @@
 #string readQuality
 
 
-getFile ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.bam
+getFile ${filteredBamDir}${uniqueID}_qual_${readQuality}.bam
 
 #Load modules
 ${stage} picard/${picardVersion}
@@ -43,7 +43,9 @@ if java -Xmx6g -XX:ParallelGCThreads=4 -jar ${toolDir}picard/${picardVersion}/So
 then
  echo "returncode: $?"; putFile ${sortedBam}
  putFile ${sortedBai}
-
+echo "md5sums"
+echo "${sortedBam} - " md5sum ${sortedBam}
+echo "${sortedBai} - " md5sum ${sortedBai}
  echo "succes moving files";
 else
  echo "returncode: $?";

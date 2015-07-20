@@ -77,7 +77,9 @@ then
 
  putFile ${splitAndTrimBam}
  putFile ${splitAndTrimBai}
-
+echo "md5sums"
+echo "${splitAndTrimBam} - " md5sum ${splitAndTrimBam}
+echo "${splitAndTrimBai} - " md5sum ${splitAndTrimBai}
  echo "succes moving files";
 else
  echo "returncode: $?";

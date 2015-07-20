@@ -73,7 +73,10 @@ then
  putFile ${bsqrBam}
  putFile ${bsqrBai}
  putFile ${bsqrBeforeGrp}
-
+ echo "md5sums"
+ echo "${bsqrBam} - " md5sum ${bsqrBam}
+ echo "${bsqrBai} - " md5sum ${bsqrBai}
+ echo "${bsqrBeforeGrp} - " md5sum ${bsqrBeforeGrp}
  echo "succes moving files";
 else
  echo "returncode: $?";

@@ -45,6 +45,13 @@ if plink \
 
 then
  echo "returncode: $?";
+echo "md5sums"
+echo "${combinedBEDDir}combinedFiles.txt - " md5sum ${combinedBEDDir}combinedFiles.txt
+echo "${combinedBEDDir}combinedFiles.log - " md5sum ${combinedBEDDir}combinedFiles.log
+echo "${combinedBEDDir}combinedFiles.bed - " md5sum ${combinedBEDDir}combinedFiles.bed
+echo "${combinedBEDDir}combinedFiles.bim - " md5sum ${combinedBEDDir}combinedFiles.bim
+echo "${combinedBEDDir}combinedFiles.fam - " md5sum ${combinedBEDDir}combinedFiles.fam
+echo "${combinedBEDDir}combinedFiles.nosex - " md5sum ${combinedBEDDir}combinedFiles.nosex
 #putFile ${combinedBEDDir}combinedFiles.txt
 # putFile ${combinedBEDDir}combinedFiles.log
 # putFile ${combinedBEDDir}combinedFiles.bed

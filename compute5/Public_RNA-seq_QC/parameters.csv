@@ -81,6 +81,8 @@ evalGrp,${variantEvalDir}${uniqueID}.eval.grp
 referenceGenomeHisat,${resDir}/${genomeBuild}/indices/hisat-${hisatVersion}/human_g1k_v${human_g1k_vers}
 hisatAlignmentDir,${projectDir}/hisat/
 readQuality,1
+filteredBamDir,${projectDir}/filteredBam/
+unfilteredBamDir,${projectDir}/unfilteredBam/
 ## SortBam
 sortedBamDir,${projectDir}/sortedBam/
 sortedBam,${sortedBamDir}${uniqueID}.bam

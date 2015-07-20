@@ -58,7 +58,9 @@ then
 
  putFile ${haplotyperGvcf}
  putFile ${haplotyperGvcfIdx}
-
+echo "md5sums"
+echo "${haplotyperGvcf} - " md5sum ${haplotyperGvcf}
+echo "${haplotyperGvcfIdx} - " md5sum ${haplotyperGvcfIdx}
  echo "succes moving files";
 else
  echo "returncode: $?";

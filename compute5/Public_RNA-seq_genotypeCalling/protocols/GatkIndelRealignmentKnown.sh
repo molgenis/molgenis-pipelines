@@ -62,8 +62,10 @@ then
 
  putFile ${indelRealignmentBam}
  putFile ${indelRealignmentBai}
-
- echo "succes moving files";
+echo "md5sums"
+echo "${indelRealignmentBam} - " md5sum ${indelRealignmentBam}
+echo "${indelRealignmentBai} - " md5sum ${indelRealignmentBai}
+echo "succes moving files";
 else
  echo "returncode: $?";
  echo "fail";
