@@ -1,5 +1,10 @@
 #MOLGENIS nodes=1 ppn=1 mem=1gb walltime=10:00:00
 
+### variables to help adding to database (have to use weave)
+#string internalId
+#string sampleName
+#string project
+###
 #string stage
 #string checkStage
 #string cutadaptVersion
@@ -15,6 +20,8 @@ ${stage} cutadapt/${cutadaptVersion}
 ${checkStage}
 
 echo "## "$(date)" Start $0"
+echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
+
 mkdir -p ${cutadaptDir}
 cutadapt -a AATGATACGGCGACCACCGAGATCTACACTCGTCGGCAGCGTCAGATGTG -a CAAGCAGAAGACGGCATACGAGATTCGCCTTAGTCTCGTGGGCTCGGAGATGT -a CAAGCAGAAGACGGCATACGAGATCTAGTACGGTCTCGTGGGCTCGGAGATGT -a CAAGCAGAAGACGGCATACGAGATGCTCAGGAGTCTCGTGGGCTCGGAGATGT -a CAAGCAGAAGACGGCATACGAGATAGGAGTCCGTCTCGTGGGCTCGGAGATGT reads1FqGz > ${cutadaptFile}
 

@@ -1,6 +1,11 @@
 #MOLGENIS walltime=23:59:00 mem=30gb ppn=2
 ################################^advised 45 gb for 300 files so 30 for 200 files?
-#Parameter mapping  #why not string foo,bar? instead of string foo\nstring bar
+
+### variables to help adding to database (have to use weave)
+#string internalId
+#string sampleName
+#string project
+###
 #string stage
 #string checkStage
 #string starVersion
@@ -16,8 +21,7 @@
 #string toolDir
 
 echo "## "$(date)" Start $0"
-
-
+echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
 for file in "${haplotyperGvcf[@]}" "${haplotyperGvcfIdx[@]}" "${onekgGenomeFasta}"; do
 	echo "getFile file='$file'"

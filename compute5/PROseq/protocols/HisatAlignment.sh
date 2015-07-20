@@ -1,13 +1,16 @@
 #MOLGENIS nodes=1 ppn=8 mem=8gb walltime=10:00:00
 
+### variables to help adding to database (have to use weave)
+#string internalId
+#string sampleName
+#string project
+###
 #string stage
 #string checkStage
 #string referenceGenomeHisat
-#string sampleName
 #string reads1FqGz
 #string reads2FqGz
 #string nTreads
-#string internalId
 #string platform
 #string hisatAlignmentDir
 #string hisatVersion
@@ -35,6 +38,7 @@ ${checkStage}
 mkdir -p ${hisatAlignmentDir}
 
 echo "## "$(date)" Start $0"
+echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
 if hisat -x ${referenceGenomeHisat} \
   ${input}\

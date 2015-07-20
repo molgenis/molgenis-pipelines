@@ -1,24 +1,24 @@
 #MOLGENIS nodes=1 ppn=8 mem=8Gb walltime=23:59:00
 
-#Parameter mapping  #why not string foo,bar? instead of string foo\nstring bar
+### variables to help adding to database (have to use weave)
+#string internalId
+#string sampleName
+#string project
+###
 #string stage
 #string checkStage
 #string RVersion
 #string gatkVersion
 #string onekgGenomeFasta
-
 #string goldStandardVcf
 #string goldStandardVcfIdx
 #string oneKgPhase1IndelsVcf
 #string oneKgPhase1IndelsVcfIdx
-
 #string dbsnpVcf
 #string dbsnpVcfIdx
-
 #string bsqrDir
 #string bsqrBam
 #string bsqrBai
-
 #string analyseCovarsDir
 #string bsqrBeforeGrp
 #string bsqrAfterGrp
@@ -27,7 +27,7 @@
 #string analyseCovariatesIntermediateCsv
 
 echo "## "$(date)" Start $0"
-
+echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
 
 getFile ${onekgGenomeFasta}

@@ -1,9 +1,12 @@
 #MOLGENIS walltime=23:59:00 nodes=1 mem=4gb ppn=1
 
-#string verifyBamIdDir
-#string unifiedGenotyperDir
+### variables to help adding to database (have to use weave)
 #string internalId
 #string sampleName
+#string project
+###
+#string verifyBamIdDir
+#string unifiedGenotyperDir
 #string sortedBam
 #string sortedBai
 #string uniqueID
@@ -26,6 +29,7 @@ ${checkStage}
 mkdir -p ${verifyBamIdDir}
 
 echo "## "$(date)" Start $0"
+echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
 if verifyBamID \
   --vcf ${unifiedGenotyperDir}${uniqueID}.raw.vcf \

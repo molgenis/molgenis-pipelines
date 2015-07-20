@@ -1,6 +1,10 @@
 #MOLGENIS nodes=1 ppn=1 mem=1gb walltime=10:00:00
 
-#Parameter mapping  #why not string foo,bar? instead of string foo\nstring bar
+### variables to help adding to database (have to use weave)
+#string internalId
+#string sampleName
+#string project
+###
 #string stage
 #string checkStage
 #string fastqcVersion
@@ -10,7 +14,6 @@
 #string fastqcZipExt
 #string reads1FqGz
 #string reads2FqGz
-#string sampleName
 #string singleEndfastqcZip
 #string pairedEndfastqcZip1
 #string pairedEndfastqcZip2
@@ -22,6 +25,7 @@ ${checkStage}
 
 
 echo "## "$(date)" ##  $0 Started "
+echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
 if [ ${#reads2FqGz} -eq 0 ]; then
 	
@@ -44,13 +48,13 @@ if [ ${#reads2FqGz} -eq 0 ]; then
  	  echo "returncode: $?"; 
 	
 	  echo
-	  cp -v ${fastqcDir}/$(basename ${reads1FqGz} .gz)${fastqcZipExt} ${singleEndfastqcZip}
+	  cp -v ${fastqcDir}/$(basename ${reads1FqGz} .fastq.gz)${fastqcZipExt} ${singleEndfastqcZip}
 
 	##################################################################
 	
 	  cd $OLDPWD
 
-	  putFile ${fastqcDir}/$(basename ${reads1FqGz} .gz)${fastqcZipExt}
+	  putFile ${fastqcDir}/$(basename ${reads1FqGz} .fastq.gz)${fastqcZipExt}
 	  putFile ${singleEndfastqcZip}
 	
 	  echo "succes moving files";
@@ -76,7 +80,7 @@ else
 	--noextract ${reads1FqGz} \
 	--outdir ${fastqcDir}
 	
-	cp -v ${fastqcDir}/$(basename ${reads1FqGz} .gz)${fastqcZipExt} ${pairedEndfastqcZip1}
+	cp -v ${fastqcDir}/$(basename ${reads1FqGz} .fastq.gz)${fastqcZipExt} ${pairedEndfastqcZip1}
 	echo
 	echo "## "$(date)" reads2FqGz"
 	
@@ -89,13 +93,13 @@ else
  	  echo "returncode: $?"; 
 	
 	  echo
-	  cp -v ${fastqcDir}/$(basename ${reads2FqGz} .gz)${fastqcZipExt} ${pairedEndfastqcZip2}
+	  cp -v ${fastqcDir}/$(basename ${reads2FqGz} .fastq.gz)${fastqcZipExt} ${pairedEndfastqcZip2}
 
 	##################################################################
 	  cd $OLDPWD
 		
-	  putFile ${fastqcDir}/$(basename ${reads1FqGz} .gz)${fastqcZipExt}
-	  putFile ${fastqcDir}/$(basename ${reads2FqGz} .gz)${fastqcZipExt}
+	  putFile ${fastqcDir}/$(basename ${reads1FqGz} .fastq.gz)${fastqcZipExt}
+	  putFile ${fastqcDir}/$(basename ${reads2FqGz} .fastq.gz)${fastqcZipExt}
 	  putFile ${pairedEndfastqcZip1}
 	  putFile ${pairedEndfastqcZip2}
 	

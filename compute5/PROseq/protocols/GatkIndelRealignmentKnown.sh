@@ -1,6 +1,10 @@
 #MOLGENIS nodes=1 ppn=2 mem=8gb walltime=23:59:00
 
-#Parameter mapping  #why not string foo,bar? instead of string foo\nstring bar
+### variables to help adding to database (have to use weave)
+#string internalId
+#string sampleName
+#string project
+###
 #string stage
 #string checkStage
 #string gatkVersion
@@ -10,10 +14,8 @@
 #string goldStandardVcfIdx
 #string oneKgPhase1IndelsVcf
 #string oneKgPhase1IndelsVcfIdx
-
 #string splitAndTrimBam
 #string splitAndTrimBai
-
 #string indelRealignmentDir
 #string indelRealignmentBam
 #string indelRealignmentBai
@@ -22,7 +24,7 @@
 #java -Xmx4g -jar GenomeAnalysisTK.jar -T IndelRealigner -R ref.fa -I input.bam -targetIntervals intervalListFromRTC.intervals -o realignedBam.bam [-known /path/to/indels.vcf] -U ALLOW_N_CIGAR_READS --allow_potentially_misencoded_quality_scores
 
 echo "## "$(date)" Start $0"
-
+echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
 ${stage} GATK/${gatkVersion}
 ${checkStage}
