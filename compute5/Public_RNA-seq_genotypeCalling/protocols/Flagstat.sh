@@ -30,6 +30,8 @@ if samtools flagstat ${markDuplicatesBam} > ${flagstatFile}
 then
  echo "returncode: $?"; 
  putFile  ${flagstatFile}
+ echo "md5sums"
+ md5sum ${flagstatFile}
  echo "succes moving files";
 else
  echo "returncode: $?";

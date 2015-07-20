@@ -55,12 +55,12 @@ then
  putFile ${combinedBEDDir}combinedFiles.fam
  putFile ${combinedBEDDir}combinedFiles.nosex
 echo "md5sums"
-echo "${combinedBEDDir}combinedFiles.txt - " md5sum ${combinedBEDDir}combinedFiles.txt
-echo "${combinedBEDDir}combinedFiles.log - " md5sum ${combinedBEDDir}combinedFiles.log
-echo "${combinedBEDDir}combinedFiles.bed - " md5sum ${combinedBEDDir}combinedFiles.bed
-echo "${combinedBEDDir}combinedFiles.bim - " md5sum ${combinedBEDDir}combinedFiles.bim
-echo "${combinedBEDDir}combinedFiles.fam - " md5sum ${combinedBEDDir}combinedFiles.fam
-echo "${combinedBEDDir}combinedFiles.nosex - " md5sum ${combinedBEDDir}combinedFiles.nosex
+md5sum ${combinedBEDDir}combinedFiles.txt
+md5sum ${combinedBEDDir}combinedFiles.log
+md5sum ${combinedBEDDir}combinedFiles.bed
+md5sum ${combinedBEDDir}combinedFiles.bim
+md5sum ${combinedBEDDir}combinedFiles.fam
+md5sum ${combinedBEDDir}combinedFiles.nosex
  echo "succes moving files";
 else
  # got to remove mssnps before trying to merge again
@@ -85,12 +85,12 @@ else
   putFile ${combinedBEDDir}combinedFiles_remove_missnps.fam
   putFile ${combinedBEDDir}combinedFiles_remove_missnps.nosex
 echo "md5sums"
-echo "${combinedBEDDir}combinedFiles.txt - " md5sum ${combinedBEDDir}combinedFiles.txt
-echo "${combinedBEDDir}combinedFiles.log - " md5sum ${combinedBEDDir}combinedFiles.log
-echo "${combinedBEDDir}combinedFiles.bed - " md5sum ${combinedBEDDir}combinedFiles.bed
-echo "${combinedBEDDir}combinedFiles.bim - " md5sum ${combinedBEDDir}combinedFiles.bim
-echo "${combinedBEDDir}combinedFiles.fam - " md5sum ${combinedBEDDir}combinedFiles.fam
-echo "${combinedBEDDir}combinedFiles.nosex - " md5sum ${combinedBEDDir}combinedFiles.nosex
+md5sum ${combinedBEDDir}combinedFiles.txt
+md5sum ${combinedBEDDir}combinedFiles.log
+md5sum ${combinedBEDDir}combinedFiles.bed
+md5sum ${combinedBEDDir}combinedFiles.bim
+md5sum ${combinedBEDDir}combinedFiles.fam
+md5sum ${combinedBEDDir}combinedFiles.nosex
  else
   echo "returncode: $?";
   echo "fail";

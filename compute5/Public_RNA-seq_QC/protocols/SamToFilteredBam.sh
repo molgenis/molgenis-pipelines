@@ -18,7 +18,7 @@
 #string filteredBamDir
 #string unfilteredBamDir
 
-getFile ${hisatAlignmentDir}${uniqueID}.sam}
+getFile ${hisatAlignmentDir}${uniqueID}.sam
 
 #Load modules
 ${stage} SAMtools/${samtoolsVersion}
@@ -32,14 +32,15 @@ echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}
 mkdir -p ${filteredBamDir}
 mkdir -p ${unfilteredBamDir}
 
-if samtools view -h -b -q ${readQuality} ${hisatAlignmentDir}${uniqueID}.sam > ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.bam
+if samtools view -h -b -q ${readQuality} ${hisatAlignmentDir}${uniqueID}.sam > ${filteredBamDir}${uniqueID}_qual_${readQuality}.bam
 then
    samtools view -h -b ${hisatAlignmentDir}${uniqueID}.sam > ${unfilteredBamDir}${uniqueID}_qual_${readQuality}.bam
   >&2 echo "Reads where filtered with MQ < 1."
   rm ${hisatAlignmentDir}${uniqueID}.sam
   echo "returncode: $?"; putFile ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.bam
-echo "md5sums"
-echo "${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.bam - " md5sum ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.bam
+  echo "md5sums"
+  md5sum ${filteredBamDir}${uniqueID}_qual_${readQuality}.bam
+  md5sum ${unfilteredBamDir}${uniqueID}_qual_${readQuality}.bam
   echo "succes moving files";
 else
  echo "returncode: $?";

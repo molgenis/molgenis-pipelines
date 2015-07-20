@@ -38,8 +38,8 @@ else
 	
     then
       echo "md5sums"
-      echo "${cutadaptFile} - " md5sum ${cutadaptFile}
-      echo "${cutadaptFile} - " md5sum ${cutadaptFile}
+      md5sum ${cutadaptFile}
+      md5sum ${cutadaptFile}
       echo "returncode: $?";
     else
       echo "returncode: $?";

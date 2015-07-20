@@ -53,8 +53,8 @@ then
  putFile ${mergeBamFilesBam}
  putFile ${mergeBamFilesBai}
  echo "md5sums"
- echo "${mergeBamFilesBam} - " md5sum ${mergeBamFilesBam}
- echo "${mergeBamFilesBai} - " md5sum ${mergeBamFilesBai}
+ md5sum ${mergeBamFilesBam}
+ md5sum ${mergeBamFilesBai}
  echo "succes moving files";
 else
  echo "returncode: $?";

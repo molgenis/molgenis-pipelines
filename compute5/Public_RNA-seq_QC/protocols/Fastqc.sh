@@ -105,10 +105,10 @@ else
 	  putFile ${pairedEndfastqcZip1}
 	  putFile ${pairedEndfastqcZip2}
       echo "md5sums"
-      echo "${fastqcDir}/$(basename ${reads1FqGz} .fastq.gz)${fastqcZipExt} - " md5sum ${fastqcDir}/$(basename ${reads1FqGz} .fastq.gz)${fastqcZipExt}
-      echo "${fastqcDir}/$(basename ${reads2FqGz} .fastq.gz)${fastqcZipExt} - " md5sum ${fastqcDir}/$(basename ${reads2FqGz} .fastq.gz)${fastqcZipExt}
-      echo "${pairedEndfastqcZip1} - " md5sum ${pairedEndfastqcZip1}
-      echo "${pairedEndfastqcZip2} - " md5sum ${pairedEndfastqcZip2}
+      md5sum ${fastqcDir}/$(basename ${reads1FqGz} .fastq.gz)${fastqcZipExt}
+      md5sum ${fastqcDir}/$(basename ${reads2FqGz} .fastq.gz)${fastqcZipExt}
+      md5sum ${pairedEndfastqcZip1}
+      md5sum ${pairedEndfastqcZip2}
 	  echo "succes moving files";
 	else
  	  echo "returncode: $?";

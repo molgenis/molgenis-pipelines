@@ -43,11 +43,11 @@ then
  putFile ${verifyBamIdDir}${uniqueID}.selfRG
  putFile ${verifyBamIdDir}${uniqueID}.selfSM
  echo "md5sums"
- echo "${verifyBamIdDir}${uniqueID}.depthRG - " md5sum ${verifyBamIdDir}${uniqueID}.depthRGM
- echo "${verifyBamIdDir}${uniqueID}.depthSM - " md5sum ${verifyBamIdDir}${uniqueID}.depthSM
- echo "${verifyBamIdDir}${uniqueID}.log - " md5sum ${verifyBamIdDir}${uniqueID}.log
- echo "${verifyBamIdDir}${uniqueID}.selfRG - " md5sum ${verifyBamIdDir}${uniqueID}.selfRG
- echo "${verifyBamIdDir}${uniqueID}.selfSM - "md5sum ${verifyBamIdDir}${uniqueID}.selfSM
+ md5sum ${verifyBamIdDir}${uniqueID}.depthRGM
+ md5sum ${verifyBamIdDir}${uniqueID}.depthSM
+ md5sum ${verifyBamIdDir}${uniqueID}.log
+ md5sum ${verifyBamIdDir}${uniqueID}.selfRG
+ md5sum ${verifyBamIdDir}${uniqueID}.selfSM
  echo "succes moving files";
 else
  echo "returncode: $?";

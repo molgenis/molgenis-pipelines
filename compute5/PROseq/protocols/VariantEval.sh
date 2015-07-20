@@ -40,7 +40,7 @@ then
   echo "returncode: $?";
   putFile ${evalGrp}
   echo "md5sums"
-  echo "${evalGrp} - " md5sum ${evalGrp}
+  md5sum ${evalGrp}
   echo "succes moving file";
 
 else

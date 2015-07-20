@@ -57,12 +57,12 @@ then
  putFile ${collectMultipleMetricsPrefix}.quality_distribution_metrics
  putFile ${collectMultipleMetricsPrefix}.quality_distribution.pdf
 echo "md5sums"
-echo "${collectMultipleMetricsPrefix} - md5sum ${collectMultipleMetricsPrefix}"
-echo "${collectMultipleMetricsPrefix}.alignment_summary_metrics - " md5sum ${collectMultipleMetricsPrefix}.alignment_summary_metrics
-echo "${collectMultipleMetricsPrefix}.quality_by_cycle_metrics - " md5sum ${collectMultipleMetricsPrefix}.quality_by_cycle_metrics
-echo "${collectMultipleMetricsPrefix}.quality_by_cycle.pdf - " md5sum ${collectMultipleMetricsPrefix}.quality_by_cycle.pdf
-echo "${collectMultipleMetricsPrefix}.quality_distribution_metrics - " md5sum ${collectMultipleMetricsPrefix}.quality_distribution_metrics
-echo "${collectMultipleMetricsPrefix}.quality_distribution.pdf - " md5sum ${collectMultipleMetricsPrefix}.quality_distribution.pdf
+md5sum ${collectMultipleMetricsPrefix}
+md5sum ${collectMultipleMetricsPrefix}.alignment_summary_metrics
+md5sum ${collectMultipleMetricsPrefix}.quality_by_cycle_metrics
+md5sum ${collectMultipleMetricsPrefix}.quality_by_cycle.pdf
+md5sum ${collectMultipleMetricsPrefix}.quality_distribution_metrics
+md5sum ${collectMultipleMetricsPrefix}.quality_distribution.pdf
  if [ ${#reads2FqGz} -ne 0 ]; then
    putFile ${collectMultipleMetricsPrefix}.insert_size_histogram.pdf
    putFile ${collectMultipleMetricsPrefix}.insert_size_metrics

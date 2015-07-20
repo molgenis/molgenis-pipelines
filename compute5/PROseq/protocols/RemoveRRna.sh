@@ -34,8 +34,8 @@ then
         then
             echo "returncode: 0";
             echo "md5sums"
-            echo "${rRNAfilteredDir}/${reads1FqGz##*/} - " md5sum ${rRNAfilteredDir}/${reads1FqGz##*/}
-            echo "${rRNAfilteredDir}/${reads2FqGz##*/} - " md5sum ${rRNAfilteredDir}/${reads2FqGz##*/}
+            md5sum ${rRNAfilteredDir}/${reads1FqGz##*/}
+            md5sum ${rRNAfilteredDir}/${reads2FqGz##*/}
             #putFile ${rRNAfilteredDir}/${reads1FqGz##*/}
             #putFile ${rRNAfilteredDir}/${reads2FqGz##*/}
             echo "succes moving files";
@@ -47,7 +47,7 @@ then
         echo "returncode: 0";
         echo ${rRNAfilteredDir}/${reads1FqGz##*/}
         echo "md5sums"
-        echo "${rRNAfilteredDir}/${reads1FqGz##*/} - " md5sum ${rRNAfilteredDir}/${reads1FqGz##*/}
+        md5sum ${rRNAfilteredDir}/${reads1FqGz##*/}
         #putFile ${rRNAfilteredDir}/${reads1FqGz##*/}
         echo "succes moving files";
     fi

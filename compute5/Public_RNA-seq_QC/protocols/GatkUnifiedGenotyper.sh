@@ -67,10 +67,10 @@ then
  putFile ${rawVCF}.gz.tbi
  putFile ${rawVCF}.idx
 echo "md5sums"
-echo "${rawVCF} - " md5sum ${rawVCF}
-echo "${rawVCF}.gz - " md5sum ${rawVCF}.gz
-echo "${rawVCF}.gz.tbi - " md5sum ${rawVCF}.gz.tbi
-echo "${rawVCF}.idx - " md5sum ${rawVCF}.idx
+md5sum ${rawVCF}
+md5sum ${rawVCF}.gz
+md5sum ${rawVCF}.gz.tbi
+md5sum ${rawVCF}.idx
  echo "succes moving files";
 else
  echo "returncode: $?";

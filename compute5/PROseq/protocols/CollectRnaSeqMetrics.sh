@@ -48,8 +48,8 @@ if java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}picard/${picardVersion}/Co
 then
  echo "returncode: $?";
 echo "md5sums"
-echo "${collectRnaSeqMetrics} - " md5sum ${collectRnaSeqMetrics}
-echo "${collectRnaSeqMetricsChart} - " md5sum ${collectRnaSeqMetricsChart}
+md5sum ${collectRnaSeqMetrics}
+md5sum ${collectRnaSeqMetricsChart}
 #putFile ${collectRnaSeqMetrics}
 # putFile ${collectRnaSeqMetricsChart}
 

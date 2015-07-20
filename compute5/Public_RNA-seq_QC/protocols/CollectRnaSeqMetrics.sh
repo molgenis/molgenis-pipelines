@@ -51,8 +51,8 @@ then
  putFile ${collectRnaSeqMetrics}
  putFile ${collectRnaSeqMetricsChart}
 echo "md5sums"
-echo "${collectRnaSeqMetrics} - " md5sum ${collectRnaSeqMetrics}
-echo "${collectRnaSeqMetricsChart} - " md5sum ${collectRnaSeqMetricsChart}
+md5sum ${collectRnaSeqMetrics}
+md5sum ${collectRnaSeqMetricsChart}
  echo "succes moving files";
 else
  echo "returncode: $?";

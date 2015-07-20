@@ -44,8 +44,8 @@ then
  echo "returncode: $?"; putFile ${sortedBam}
  putFile ${sortedBai}
 echo "md5sums"
-echo "${sortedBam} - " md5sum ${sortedBam}
-echo "${sortedBai} - " md5sum ${sortedBai}
+md5sum ${sortedBam}
+md5sum ${sortedBai}
  echo "succes moving files";
 else
  echo "returncode: $?";

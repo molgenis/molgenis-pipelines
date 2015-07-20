@@ -74,8 +74,8 @@ then
  putFile ${bsqrAfterGrp}
  putFile ${analyseCovariatesPdf}
  echo "md5sums"
- echo "${bsqrAfterGrp} - " md5sum ${bsqrAfterGrp}
- echo "${analyseCovariatesPdf} - " md5sum ${analyseCovariatesPdf}
+ md5sum ${bsqrAfterGrp}
+ md5sum ${analyseCovariatesPdf}
  echo "succes moving files";
 else
  echo "returncode: $?";

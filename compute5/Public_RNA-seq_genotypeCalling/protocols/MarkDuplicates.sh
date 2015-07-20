@@ -46,9 +46,9 @@ then
  putFile ${markDuplicatesBai}
  putFile ${markDuplicatesMetrics}
 echo "md5sums"
-echo "${markDuplicatesBam} - " md5sum ${markDuplicatesBam}
-echo "${markDuplicatesBai} - " md5sum ${markDuplicatesBai}
-echo "${markDuplicatesMetrics} - " md5sum ${markDuplicatesMetrics}
+md5sum ${markDuplicatesBam}
+md5sum ${markDuplicatesBai}
+md5sum ${markDuplicatesMetrics}
  echo "succes moving files";
 else
  echo "returncode: $?";

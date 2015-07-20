@@ -48,7 +48,7 @@ then
  echo "returncode: $?";
  putFile ${mergeGvcf}
  echo "md5sums"
- echo "${mergeGvcf} - " md5sum ${mergeGvcf}
+ md5sum ${mergeGvcf}
  echo "succes moving files";
 else
  echo "returncode: $?";
