@@ -10,13 +10,9 @@
 #string starVersion
 #string WORKDIR
 #string projectDir
-
 #string picardVersion
-
-
 #string addOrReplaceGroupsDir
-#list addOrReplaceGroupsBam, addOrReplaceGroupsBai
-
+#list addOrReplaceGroupsBam
 #string mergeBamFilesDir
 #string mergeBamFilesBam
 #string mergeBamFilesBai
@@ -26,8 +22,9 @@
 echo "## "$(date)" Start $0"
 echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
-for file in "${addOrReplaceGroupsBam[@]}" "${addOrReplaceGroupsBai[@]}"; do
-	echo "getFile file='$file'"
+#for file in "${addOrReplaceGroupsBam[@]}" "${addOrReplaceGroupsBai[@]}"; do
+for file in "${addOrReplaceGroupsBam[@]}"; do
+    echo "getFile file='$file'"
 	getFile $file
 done
 

@@ -16,7 +16,7 @@
 #string gatkVersion
 #string haplotyperDir
 #string onekgGenomeFasta
-#list mergeGvcf, mergeGvcfIdx
+#list mergeGvcf
 
 #string genotypedVcf
 #string genotypedVcfIdx
@@ -25,8 +25,9 @@
 echo "## "$(date)" Start $0"
 echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
-for file in "${mergeGvcf[@]}" "${mergeGvcfIdx[@]}" "${onekgGenomeFasta}"; do
-	echo "getFile file='$file'"
+#for file in "${mergeGvcf[@]}" "${mergeGvcfIdx[@]}" "${onekgGenomeFasta}"; do
+for file in "${mergeGvcf[@]}" "${onekgGenomeFasta}"; do
+    echo "getFile file='$file'"
 	getFile $file
 done
 

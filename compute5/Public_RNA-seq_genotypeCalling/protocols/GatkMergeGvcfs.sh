@@ -13,7 +13,7 @@
 #string projectDir
 #string onekgGenomeFasta
 #string gatkVersion
-#list haplotyperGvcf, haplotyperGvcfIdx
+#list haplotyperGvcf
 
 #string haplotyperDir
 #string mergeGvcf
@@ -23,7 +23,7 @@
 echo "## "$(date)" Start $0"
 echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
-for file in "${haplotyperGvcf[@]}" "${haplotyperGvcfIdx[@]}" "${onekgGenomeFasta}"; do
+for file in "${haplotyperGvcf[@]}" "${onekgGenomeFasta}"; do
 	echo "getFile file='$file'"
 	getFile $file
 done

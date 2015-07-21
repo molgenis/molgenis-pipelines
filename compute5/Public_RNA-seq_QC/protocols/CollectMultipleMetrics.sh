@@ -68,8 +68,8 @@ md5sum ${collectMultipleMetricsPrefix}.quality_by_cycle.pdf
 md5sum ${collectMultipleMetricsPrefix}.quality_distribution_metrics
 md5sum ${collectMultipleMetricsPrefix}.quality_distribution.pdf
  if [ ${#reads2FqGz} -ne 0 ]; then
-   echo "${collectMultipleMetricsPrefix}.insert_size_histogram.pdf - " md5sum ${collectMultipleMetricsPrefix}.insert_size_histogram.pdf
-   echo "${collectMultipleMetricsPrefix}.insert_size_metrics - " md5sum ${collectMultipleMetricsPrefix}.insert_size_metrics
+   md5sum ${collectMultipleMetricsPrefix}.insert_size_histogram.pdf
+   md5sum ${collectMultipleMetricsPrefix}.insert_size_metrics
 fi
   echo "succes moving files";
 else
