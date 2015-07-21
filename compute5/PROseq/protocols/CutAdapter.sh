@@ -39,7 +39,6 @@ else
     then
       echo "md5sums"
       md5sum ${cutadaptFile}
-      md5sum ${cutadaptFile}
       echo "returncode: $?";
     else
       echo "returncode: $?";

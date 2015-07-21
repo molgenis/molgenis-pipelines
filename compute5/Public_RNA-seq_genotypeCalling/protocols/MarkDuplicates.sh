@@ -45,9 +45,6 @@ then
  putFile ${markDuplicatesBam}
  putFile ${markDuplicatesBai}
  putFile ${markDuplicatesMetrics}
-echo "md5sums"
-md5sum ${markDuplicatesBam}
-md5sum ${markDuplicatesBai}
 md5sum ${markDuplicatesMetrics}
  echo "succes moving files";
 else

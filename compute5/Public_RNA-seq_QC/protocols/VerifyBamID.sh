@@ -42,8 +42,8 @@ then
  putFile ${verifyBamIdDir}${uniqueID}.log
  putFile ${verifyBamIdDir}${uniqueID}.selfRG
  putFile ${verifyBamIdDir}${uniqueID}.selfSM
- echo "md5sums"
- md5sum ${verifyBamIdDir}${uniqueID}.depthRGM
+ echo "md5sums begin"
+ md5sum ${verifyBamIdDir}${uniqueID}.depthRG
  md5sum ${verifyBamIdDir}${uniqueID}.depthSM
  md5sum ${verifyBamIdDir}${uniqueID}.log
  md5sum ${verifyBamIdDir}${uniqueID}.selfRG

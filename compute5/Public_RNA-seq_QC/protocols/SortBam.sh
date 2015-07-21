@@ -43,9 +43,6 @@ if java -Xmx6g -XX:ParallelGCThreads=4 -jar ${toolDir}picard/${picardVersion}/So
 then
  echo "returncode: $?"; putFile ${sortedBam}
  putFile ${sortedBai}
-echo "md5sums"
-md5sum ${sortedBam}
-md5sum ${sortedBai}
  echo "succes moving files";
 else
  echo "returncode: $?";

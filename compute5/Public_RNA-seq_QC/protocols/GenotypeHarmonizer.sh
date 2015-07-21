@@ -45,8 +45,6 @@ then
  echo "md5sums"
 md5sum ${genotypeHarmonizerOutput}.fam
 md5sum ${genotypeHarmonizerOutput}.log
-md5sum ${genotypeHarmonizerOutput}.bed
-md5sum ${genotypeHarmonizerOutput}.bim
  echo "succes moving files";
 else
  echo "returncode: $?";

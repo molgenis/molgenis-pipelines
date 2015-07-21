@@ -45,9 +45,6 @@ then
  echo "returncode: $?"; 
 #putFile ${addOrReplaceGroupsBam}
 #putFile ${addOrReplaceGroupsBai}
- echo "md5sums"
- md5sum ${addOrReplaceGroupsBam}
- md5sum ${addOrReplaceGroupsBai}
  echo "succes moving files";
 else
  echo "returncode: $?";

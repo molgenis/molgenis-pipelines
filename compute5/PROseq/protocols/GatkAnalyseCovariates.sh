@@ -70,7 +70,6 @@ then
  putFile ${bsqrAfterGrp}
  putFile ${analyseCovariatesPdf}
  echo "md5sums"
- md5sum ${bsqrAfterGrp}
  md5sum ${analyseCovariatesPdf}
  echo "succes moving files";
 else

@@ -48,8 +48,6 @@ then
 echo "md5sums"
 md5sum ${combinedBEDDir}combinedFiles.txt
 md5sum ${combinedBEDDir}combinedFiles.log
-md5sum ${combinedBEDDir}combinedFiles.bed
-md5sum ${combinedBEDDir}combinedFiles.bim
 md5sum ${combinedBEDDir}combinedFiles.fam
 md5sum ${combinedBEDDir}combinedFiles.nosex
 #putFile ${combinedBEDDir}combinedFiles.txt
