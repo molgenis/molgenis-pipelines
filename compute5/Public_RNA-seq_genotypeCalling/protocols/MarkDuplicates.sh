@@ -1,4 +1,4 @@
-#MOLGENIS walltime=23:59:00 mem=6gb nodes=1 ppn=4
+#MOLGENIS walltime=23:59:00 mem=6gb nodes=1 ppn=8
 
 ### variables to help adding to database (have to use weave)
 #string internalId
@@ -33,7 +33,7 @@ ${checkStage}
 
 mkdir -p ${markDuplicatesDir}
 
-if java -Xmx6g -XX:ParallelGCThreads=4 -jar ${toolDir}picard/${picardVersion}/MarkDuplicates.jar \
+if java -Xmx6g -XX:ParallelGCThreads=8 -jar ${toolDir}picard/${picardVersion}/MarkDuplicates.jar \
  INPUT=${mergeBamFilesBam} \
  OUTPUT=${markDuplicatesBam} \
  CREATE_INDEX=true \

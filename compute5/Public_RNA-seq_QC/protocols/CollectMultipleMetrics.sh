@@ -29,7 +29,7 @@ ${stage} picard/${picardVersion}
 #Check modules
 ${checkStage}
 
-mkdir -p ${collectMultipleMetricsDir}_QC
+mkdir -p ${collectMultipleMetricsDir}
 
 echo "## "$(date)" Start $0"
 echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"

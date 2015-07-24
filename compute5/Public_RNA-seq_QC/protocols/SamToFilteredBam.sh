@@ -37,7 +37,7 @@ then
    samtools view -h -b ${hisatAlignmentDir}${uniqueID}.sam > ${unfilteredBamDir}${uniqueID}_qual_${readQuality}.bam
   >&2 echo "Reads where filtered with MQ < 1."
   rm ${hisatAlignmentDir}${uniqueID}.sam
-  echo "returncode: $?"; putFile ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.bam
+  echo "returncode: $?"; putFile ${filteredBamDir}${uniqueID}_qual_${readQuality}.bam
   echo "succes moving files";
 else
  echo "returncode: $?";

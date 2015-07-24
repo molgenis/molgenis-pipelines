@@ -1,4 +1,4 @@
-#MOLGENIS nodes=1 ppn=2 mem=8gb walltime=23:59:00
+#MOLGENIS nodes=1 ppn=8 mem=8gb walltime=23:59:00
 
 ### variables to help adding to database (have to use weave)
 #string internalId
@@ -45,7 +45,7 @@ if [ ! -e ${indelRealignmentDir} ]; then
 fi
 
 
-if java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${indelRealignmentDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
+if java -Xmx8g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${indelRealignmentDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
  -T IndelRealigner \
  -R ${onekgGenomeFasta} \
  -I ${splitAndTrimBam} \

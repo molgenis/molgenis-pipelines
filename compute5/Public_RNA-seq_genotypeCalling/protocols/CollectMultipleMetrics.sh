@@ -1,4 +1,4 @@
-#MOLGENIS walltime=23:59:00 mem=4gb nodes=1 ppn=4
+#MOLGENIS walltime=23:59:00 mem=8gb nodes=1 ppn=4
 
 ### variables to help adding to database (have to use weave)
 #string internalId
@@ -43,7 +43,7 @@ if [ ${#reads2FqGz} -ne 0 ]; then
 fi
 
 #Run Picard CollectAlignmentSummaryMetrics, CollectInsertSizeMetrics, QualityScoreDistribution and MeanQualityByCycle
-if java -jar -Xmx4g -XX:ParallelGCThreads=4 ${toolDir}picard/${picardVersion}//CollectMultipleMetrics.jar \
+if java -jar -Xmx4g -XX:ParallelGCThreads=8 ${toolDir}picard/${picardVersion}//CollectMultipleMetrics.jar \
  I=${markDuplicatesBam} \
  O=${collectMultipleMetricsPrefix} \
  R=${onekgGenomeFasta} \

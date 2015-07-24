@@ -56,10 +56,10 @@ singleEndfastqcZip,${fastqcDir}/${internalId}_${sampleName}.fq${fastqcZipExt}
 pairedEndfastqcZip1,${fastqcDir}/${uniqueID}_1.fq${fastqcZipExt}
 pairedEndfastqcZip2,${fastqcDir}/${uniqueID}_2.fq${fastqcZipExt}
 ## CollectMultipleMetrics
-collectMultipleMetricsDir,${projectDir}/collectMultipleMetrics/
-collectMultipleMetricsPrefix,${projectDir}/collectMultipleMetrics/${uniqueID}.multiplemetrics
+collectMultipleMetricsDir,${projectDir}/collectMultipleMetrics_QC/
+collectMultipleMetricsPrefix,${collectMultipleMetricsDir}/${uniqueID}.multiplemetrics
 ## CollectRnaSeqMetrics
-collectRnaSeqMetricsDir,${projectDir}/collectRnaSeqMetrics/
+collectRnaSeqMetricsDir,${projectDir}/collectRnaSeqMetrics_QC/
 collectRnaSeqMetrics,${collectRnaSeqMetricsDir}${uniqueID}.rna_metrics.log
 collectRnaSeqMetricsChart,${collectRnaSeqMetricsDir}${uniqueID}.chart.pdf
 ## veryifyBamID
@@ -67,7 +67,7 @@ verifyBamIdDir,${projectDir}/verifyBamID/
 ## GenotypeHarmonizer + GenotypeIO
 genotypeIODir,${projectDir}/genotypeIO/
 genotypeHarmonizerDir,${projectDir}/genotypeHarmonizer/
-genotypeHarmonizerOutput,${genotypeHarmonizerDir}/${uniqueID}
+genotypeHarmonizerOutput,${genotypeHarmonizerDir}/${project}
 ## CombineBED
 combinedBEDDir,${projectDir}/combinedBED/
 ## Unified Genotype/Haplotype callers

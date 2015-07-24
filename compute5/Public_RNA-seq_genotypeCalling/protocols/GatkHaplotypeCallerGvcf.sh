@@ -1,4 +1,4 @@
-#MOLGENIS walltime=23:59:00 mem=12gb ppn=2
+#MOLGENIS walltime=23:59:00 mem=12gb ppn=8
 
 ### variables to help adding to database (have to use weave)
 #string internalId
@@ -14,8 +14,7 @@
 #string dbsnpVcf
 #string dbsnpVcfIdx
 #string onekgGenomeFasta
-#string indelRealignmentBam
-#string indelRealignmentBai
+#list indelRealignmentBam
 #string haplotyperDir
 #string haplotyperGvcf
 #string haplotyperGvcfIdx
@@ -24,7 +23,8 @@
 echo "## "$(date)" Start $0"
 echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
-for file in "${indelRealignmentBam[@]}" "${indelRealignmentBai[@]}" "${dbsnpVcf}" "${dbsnpVcfIdx}" "${onekgGenomeFasta}"; do
+for file in "${indelRealignmentBam[@]}" "${dbsnpVcf}" "${dbsnpVcfIdx}" "${onekgGenomeFasta}"; do
+#for file in "${indelRealignmentBam[@]}" "${indelRealignmentBai[@]}" "${dbsnpVcf}" "${dbsnpVcfIdx}" "${onekgGenomeFasta}"; do
 	echo "getFile file='$file'"
 	getFile $file
 done
@@ -40,7 +40,7 @@ inputs=$(printf ' -I %s ' $(printf '%s\n' ${bams[@]}))
 
 mkdir -p ${haplotyperDir}
 
-if java -Xmx12g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${haplotyperDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
+if java -Xmx12g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${haplotyperDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
  -T HaplotypeCaller \
  -R ${onekgGenomeFasta} \
  --dbsnp ${dbsnpVcf}\

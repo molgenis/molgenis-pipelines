@@ -1,8 +1,6 @@
-#MOLGENIS walltime=23:59:00 mem=4gb ppn=4
+#MOLGENIS walltime=23:59:00 mem=8gb ppn=8
 
 ### variables to help adding to database (have to use weave)
-#string internalId
-#string sampleName
 #string project
 ###
 #string stage
@@ -23,7 +21,6 @@
 #string toolDir
 
 echo "## "$(date)" Start $0"
-echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
 #for file in "${mergeGvcf[@]}" "${mergeGvcfIdx[@]}" "${onekgGenomeFasta}"; do
 for file in "${mergeGvcf[@]}" "${onekgGenomeFasta}"; do
@@ -43,7 +40,7 @@ inputs=$(printf ' --variant %s ' $(printf '%s\n' ${gvcfs[@]}))
 
 mkdir -p ${haplotyperDir}
 
-if java -Xmx4g -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${haplotyperDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
+if java -Xmx4g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${haplotyperDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
  -T GenotypeGVCFs \
  -R ${onekgGenomeFasta} \
  --dbsnp ${dbsnpVcf}\

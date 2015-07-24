@@ -1,4 +1,4 @@
-#MOLGENIS nodes=1 ppn=2 mem=8gb walltime=23:59:00
+#MOLGENIS nodes=1 ppn=8 mem=8gb walltime=23:59:00
 
 ### variables to help adding to database (have to use weave)
 #string internalId
@@ -61,7 +61,7 @@ echo
 echo "## Action to perform in quals: "$qualAction" ##"
 echo
 
-if java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${splitAndTrimDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
+if java -Xmx8g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${splitAndTrimDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
  -T SplitNCigarReads \
  -R ${onekgGenomeFasta} \
  -I ${markDuplicatesBam} \
