@@ -13,6 +13,7 @@
 #string kallistoVersion
 #string uniqueID
 #string kallistoIndex
+#string fragmentLength
 
 getFile ${reads1FqGz}
 
@@ -31,7 +32,7 @@ if [ ${#reads2FqGz} -eq 0 ]; then
   echo "Single end kallisto of ${reads1FqGz}"
   if kallisto quant \
     -i ${kallistoIndex} \
-    -o ${kallistoDir}/SRP034691/SRS518677/SRR1057370_200 \
+    -o ${kallistoDir}/SRP034691/SRS518677/SRR1057370_${fragmentLength} \
     --single \
     -l 200 \
     ${reads1FqGz}
