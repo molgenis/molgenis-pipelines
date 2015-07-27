@@ -1,0 +1,33 @@
+########################################################################
+## General parameters for SLURM settings and cluster directory paths
+#
+queue,ll
+mem,4
+walltime,23:59:00
+nodes,1
+ppn,8
+nTreads,8
+defaultInterpreter,#!/bin/bash
+stage,module load
+checkStage,module list
+WORKDIR,/groups/
+root,${WORKDIR}
+group,umcg-wijmenga
+tmp,tmp04
+resDir,/groups/umcg-wijmenga/tmp04/resources/
+toolDir,/apps/software/
+projectDir,${root}/${group}/${tmp}/projects/${project}/
+uniqueID,${sampleName}_${internalId}
+platform,ILLUMINA
+########################################################################
+## Software and data versions/builds
+#
+kallistoVersion,0.42.2.1-goolf-1.7.20
+########################################################################
+## Specific tools paths
+#
+## Kallisto
+kallistoIndex,/groups/umcg-pub/tmp04/public-rna-seq/kallisto/hg19.v75.cdna.all.idx
+internalIdArray,(${internalId//_/ })
+kallistoDir,${projectDir}/${arrIN[1]}/${arrIN[2]/${arrIN[3]}}
+fragmentLength,200
