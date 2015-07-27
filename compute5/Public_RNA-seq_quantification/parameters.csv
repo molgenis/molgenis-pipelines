@@ -22,6 +22,6 @@ kallistoVersion,0.42.2.1-goolf-1.7.20
 ## Specific tools paths
 #
 ## Kallisto
-kallistoIndex,/groups/umcg-wijmenga/tmp04/resources/kallisto/transcripts.idx
+kallistoIndex,/groups/umcg-pub/tmp04/public-rna-seq/kallisto/hg19.v75.cdna.all.42.2.idx
 kallistoDir,${projectDir}/kallisto/
 fragmentLength,200
