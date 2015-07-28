@@ -3,6 +3,7 @@ mem,4
 walltime,23:59:00
 nodes,1
 ppn,1
+computeVersion,v5_20150211
 defaultInterpreter,#!/bin/bash
 stage,module load
 targetedInsertSize,200
@@ -11,7 +12,7 @@ WORKDIR,/gcc/
 permanentDir,${gafHome}/prm02
 allRawNgsPrmDataDir,${permanentDir}/rawdata/ngs
 root,${WORKDIR}
-tempDir,${WORKDIR}/groups/gaf/tmp01/tmp/
+tempDir,${WORKDIR}/groups/gaf/tmp01/tmp
 resDir,${root}/resources/
 toolDir,${root}/tools/
 scriptDir,${toolDir}/scripts/

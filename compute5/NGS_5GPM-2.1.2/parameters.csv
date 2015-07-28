@@ -5,19 +5,18 @@ nodes,1
 ppn,1
 defaultInterpreter,#!/bin/bash
 stage,module load
-computeVersion,v5_20150211
 targetedInsertSize,200
 checkStage,module list
 WORKDIR,/gcc/
 permanentDir,${gafHome}/prm02
 allRawNgsPrmDataDir,${permanentDir}/rawdata/ngs
 root,${WORKDIR}
-tempDir,${WORKDIR}/groups/gaf/tmp03/tmp
+tempDir,${WORKDIR}/groups/gaf/tmp01/tmp
 resDir,${root}/resources/
 toolDir,${root}/tools/
 scriptDir,${toolDir}/scripts/
 gafHome,${root}/groups/gaf/
-tmpDataDir,${root}/groups/gaf/tmp03/
+tmpDataDir,${root}/groups/gaf/tmp01/
 allRawtmpDataDir,${tmpDataDir}/rawdata/
 allRawNgstmpDataDir,${allRawtmpDataDir}/ngs/
 allRunDemultiplexDir,${tmpDataDir}/projects/${project}/${run}
@@ -198,3 +197,6 @@ inSilicoConcordanceFile,${intermediateDir}/inSilicoConcordance.txt
 phiXPrefix,150504_WGSIM_9999_ZZZZZZZZXX
 phiXEnd1Gz,${humanPhiXdir}/${phiXPrefix}/${phiXPrefix}_L9_ZZZZZZ_1.${rawFileExt}
 phiXEnd2Gz,${humanPhiXdir}/${phiXPrefix}/${phiXPrefix}_L9_ZZZZZZ_2.${rawFileExt}
+intervalsSortedBam,${fileWithIndexId}.sorted.intervals.bam
+intervalsSortedBamIdx,${fileWithIndexId}.sorted.intervals.bam.id
+bed5GPM,${intervalListDir}/Agilent_SureSelect_Inherited_Disease_V1_S0684402_UMCG_and_CGD_2014-03-12_baits_${indexFileID}.bed

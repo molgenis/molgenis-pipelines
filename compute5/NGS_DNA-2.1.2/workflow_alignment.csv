@@ -1,0 +1,10 @@
+step,protocol,dependencies
+s01_SpikePhiX,protocols/SpikePhiX.sh,
+s02_CheckIlluminaEncoding,protocols/CheckIlluminaEncoding.sh,s01_SpikePhiX
+s03_FastQC,protocols/FastQC.sh,s02_CheckIlluminaEncoding
+s04_BwaAlign,protocols/BwaAlign.sh,s02_CheckIlluminaEncoding
+s05_SamToBam,protocols/SamToBam.sh,s04_BwaAlign
+s06_SortBam,protocols/SortBam.sh,s05_SamToBam;inputSortBam=alignedBam;sortedBam=alignedSortedBam;sortedBamIdx=alignedSortedBamIdx
+s07_MergeBam,protocols/MergeBam.sh,s06_SortBam;inputMergeBam=alignedSortedBam;inputMergeBamIdx=alignedSortedBamIdx;mergedBam=sampleMergedBam;mergedBamIdx=sampleMergedBamIdx
+s08_MarkDuplicates,protocols/MarkDuplicates.sh,s07_MergeBam
+s10_IndelRealignment,protocols/IndelRealignment.sh,s08_MarkDuplicates

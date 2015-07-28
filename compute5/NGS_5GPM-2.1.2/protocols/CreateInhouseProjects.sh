@@ -10,7 +10,6 @@
 #string batchIDList
 #string projectQcDir
 #string baitBed
-#string computeVersion
 
 #list sequencingStartDate
 #list sequencer
@@ -120,7 +119,7 @@ fi
 echo "before run second rocket"
 echo pwd
 
-module load molgenis-compute/${computeVersion}
+module load molgenis-compute/v5_20150211
 module list
 
 sh ${MC_HOME}/molgenis_compute.sh -p ${mainParameters} \

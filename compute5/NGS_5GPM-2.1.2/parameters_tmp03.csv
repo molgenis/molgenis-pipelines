@@ -1,18 +1,17 @@
-queue,gaf
+queue,devel
 mem,4
 walltime,23:59:00
 nodes,1
 ppn,1
 defaultInterpreter,#!/bin/bash
 stage,module load
-computeVersion,v5_20150211
 targetedInsertSize,200
 checkStage,module list
 WORKDIR,/gcc/
 permanentDir,${gafHome}/prm02
 allRawNgsPrmDataDir,${permanentDir}/rawdata/ngs
 root,${WORKDIR}
-tempDir,${WORKDIR}/groups/gaf/tmp03/tmp
+tempDir,${WORKDIR}/groups/gaf/tmp03/tmp/
 resDir,${root}/resources/
 toolDir,${root}/tools/
 scriptDir,${toolDir}/scripts/
@@ -55,7 +54,7 @@ dbSNPExSiteAfter129VcfIdx,${dbSNPExSiteAfter129Vcf}.idx
 dbNSFP,${resDir}/dbNSFP/dbNSFP2.4.txt.gz
 bwaAlignCores,8
 fastqcVersion,v0.10.1
-bwaVersion,0.7.12
+bwaVersion,0.7.10
 tabixVersion,0.2.6
 picardVersion,1.102
 tabixVersion,0.2.6
@@ -80,9 +79,9 @@ recreateInsertSizePdfR,${scriptDir}/createInsertSizePlot_c5.R
 cumCoverageScriptGATK,${scriptDir}/plot_cumulative_coverage-1.1.R
 filePrefix,${runPrefix}_L${lane}
 library,${filePrefix}
-srInputFile,${rawtmpDataDir}/${filePrefix}_${barcode}.fq.gz
-peEnd1FqGz,${rawtmpDataDir}/${filePrefix}_${barcode}_1.fq.gz
-peEnd2FqGz,${rawtmpDataDir}/${filePrefix}_${barcode}_2.fq.gz
+srInputFile,${rawtmpDataDir}/${filePrefix}.fq.gz
+peEnd1FqGz,${rawtmpDataDir}/${filePrefix}_1.fq.gz
+peEnd2FqGz,${rawtmpDataDir}/${filePrefix}_2.fq.gz
 generalProjectDir,${tmpDataDir}/projects/
 projectDir,${generalProjectDir}/${project}/${runid}
 projectRawTmpDataDir,${projectDir}/rawdata/ngs/
@@ -125,14 +124,12 @@ BQSRBamMd5,${BQSRBam}.md5
 BQSRPdf,${intermediateDir}/${externalSampleID}.merged.dedup.realigned.bqsr.pdf
 BQSRCsv,${intermediateDir}/${externalSampleID}.merged.dedup.realigned.bqsr.csv
 collectFinalBamMetricsPrefix,${intermediateDir}/${externalSampleID}.merged.dedup.realigned.bqsr
-sampleBatchVariantCalls,${sample}.batch-${batchID}.variant.calls.g.vcf
-sampleBatchVariantCallsIdx,${sampleBatchVariantCalls}.idx
-sampleBatchVariantCallsFemale,${sample}.batch-${batchID}.chrX.female.variant.calls.g.vcf
-sampleBatchVariantCallsFemaleIdx,${sampleBatchVariantCallsFemale}.idx
-sampleBatchVariantCallsMaleNONPAR,${sample}.batch-${batchID}.chrX.male.NONPAR.variant.calls.g.vcf
-sampleBatchVariantCallsMaleNONPARIdx,${sampleBatchVariantCallsMaleNONPAR}.idx
-projectBatchCombinedVariantCalls,${projectPrefix}.batch-${batchID}.variant.calls.combined.g.vcf
-projectBatchCombinedGenotypedVariantCalls,${projectPrefix}.batch-${batchID}.variant.calls.combined.genotyped.vcf
+projectBatchVariantCalls,${projectPrefix}.batch-${batchID}.variant.calls.vcf
+projectBatchVariantCallsIdx,${projectBatchVariantCalls}.idx
+projectBatchVariantCallsFemale,${projectPrefix}.batch-${batchID}.chrX.female.variant.calls.vcf
+projectBatchVariantCallsFemaleIdx,${projectBatchVariantCallsFemale}.idx
+projectBatchVariantCallsMaleNONPAR,${projectPrefix}.batch-${batchID}.chrX.male.NONPAR.variant.calls.vcf
+projectBatchVariantCallsMaleNONPARIdx,${projectBatchVariantCallsMaleNONPAR}.idx
 projectVariantsMerged,${projectPrefix}.variant.calls.GATK.vcf
 projectVariantsMergedSorted,${projectPrefix}.variant.calls.GATK.sorted.vcf
 projectVariantsMergedSortedSorted,${projectPrefix}.variant.calls.GATK.sorted.sorted.vcf
