@@ -1,13 +1,13 @@
 #!/bin/bash
 module load jdk/1.7.0_51
-NGS_DNA_HOME="/gcc/tools/NGS_DNA-2.1.1/"
+NGS_DNA_HOME="/gcc/tools/NGS_5GPM-2.1.2"
 module load molgenis-compute/v5_20150211
 module list
 
 PROJECT=projectXX
 TMPDIR=tmp01
 RUNID=runXX
-## For small batchsize (50) leave BATCH empty, else choose _WGS (500 batches) or _exome (200 batches)
+## For small batchsize (25) leave BATCH empty, else choose _WGS or _exome (100 batches) 
 BATCH=""
 
 if [ -f .compute.properties ];
