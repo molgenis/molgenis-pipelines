@@ -34,7 +34,7 @@ mkdir -p ${unfilteredBamDir}
 
 if samtools view -h -b -q ${readQuality} ${hisatAlignmentDir}${uniqueID}.sam > ${filteredBamDir}${uniqueID}_qual_${readQuality}.bam
 then
-   samtools view -h -b ${hisatAlignmentDir}${uniqueID}.sam > ${unfilteredBamDir}${uniqueID}_qual_${readQuality}.bam
+   samtools view -h -b ${hisatAlignmentDir}${uniqueID}.sam > ${unfilteredBamDir}${uniqueID}.bam
   >&2 echo "Reads where filtered with MQ < 1."
   rm ${hisatAlignmentDir}${uniqueID}.sam
   echo "returncode: $?"; putFile ${filteredBamDir}${uniqueID}_qual_${readQuality}.bam

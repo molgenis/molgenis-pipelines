@@ -18,6 +18,10 @@
 #string pairedEndfastqcZip1
 #string pairedEndfastqcZip2
 
+
+#### NOT UP TO DATE SEE QC PIPELNE ####
+
+
 echo -e "test ${reads1FqGz} ${reads2FqGz} 1: $(basename ${reads1FqGz} .gz)${fastqcZipExt} \n2: $(basename ${reads2FqGz} .gz)${fastqcZipExt} "
 echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
@@ -53,11 +57,11 @@ if [ ${#reads2FqGz} -eq 0 ]; then
 	##################################################################
 	
 	  cd $OLDPWD
-
 	  putFile ${fastqcDir}/$(basename ${reads1FqGz} .fastq.gz)${fastqcZipExt}
 	  putFile ${singleEndfastqcZip}
-      echo "md5sums"
-      md5sum ${pairedEndfastqcZip1}
+      cd ${fastqcDir}
+      md5sum ${pairedEndfastqcZip1} > ${pairedEndfastqcZip1}.md5
+      cd -
 	  echo "succes moving files";
 	else
  	  echo "returncode: $?";
@@ -101,9 +105,10 @@ else
 		
 	  putFile ${pairedEndfastqcZip1}
 	  putFile ${pairedEndfastqcZip2}
-      echo "md5sums"
-      md5sum ${pairedEndfastqcZip1}
-      md5sum ${pairedEndfastqcZip2}
+      cd ${fastqcDir}
+      md5sum ${pairedEndfastqcZip1} > ${pairedEndfastqcZip1}.md5
+      md5sum ${pairedEndfastqcZip2} > ${pairedEndfastqcZip2}.md5
+      cd -
 	  echo "succes moving files";
 	else
  	  echo "returncode: $?";

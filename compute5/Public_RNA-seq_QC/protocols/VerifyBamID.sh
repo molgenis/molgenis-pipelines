@@ -42,13 +42,14 @@ then
  putFile ${verifyBamIdDir}${uniqueID}.log
  putFile ${verifyBamIdDir}${uniqueID}.selfRG
  putFile ${verifyBamIdDir}${uniqueID}.selfSM
- echo "md5sums begin"
- md5sum ${verifyBamIdDir}${uniqueID}.depthRG
- md5sum ${verifyBamIdDir}${uniqueID}.depthSM
- md5sum ${verifyBamIdDir}${uniqueID}.log
- md5sum ${verifyBamIdDir}${uniqueID}.selfRG
- md5sum ${verifyBamIdDir}${uniqueID}.selfSM
- echo "succes moving files";
+cd ${verifyBamIdDir}
+ md5sum $(basename ${verifyBamIdDir}${uniqueID}.depthSM) > $(basename ${verifyBamIdDir}${uniqueID}).depthSM.md5
+ md5sum $(basename ${verifyBamIdDir}${uniqueID}).log > $(basename ${verifyBamIdDir}${uniqueID}).log.md5
+ md5sum $(basename ${verifyBamIdDir}${uniqueID}).selfRG > $(basename ${verifyBamIdDir}${uniqueID}).selfRG.md5
+ md5sum $(basename ${verifyBamIdDir}${uniqueID}).selfSM > $(basename ${verifyBamIdDir}${uniqueID}).selfSM.md5
+ md5sum $(basename ${verifyBamIdDir}${uniqueID}).depthRG > $(basename ${verifyBamIdDir}${uniqueID}).depthRG.md5
+ cd -
+echo "succes moving files";
 else
  echo "returncode: $?";
  echo "fail";

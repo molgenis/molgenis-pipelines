@@ -48,8 +48,9 @@ then
  echo "returncode: $?"; 
 
  putFile ${mergeGvcf}
-echo "md5sums"
-md5sum ${mergeGvcf}
+cd ${haplotyperDir}
+md5sum $(basename ${mergeGvcf})> $(basename ${mergeGvcf})
+ cd -
  echo "succes moving files";
 else
  echo "returncode: $?";

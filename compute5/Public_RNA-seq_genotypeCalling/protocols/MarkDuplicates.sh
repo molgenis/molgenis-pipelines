@@ -45,7 +45,9 @@ then
  putFile ${markDuplicatesBam}
  putFile ${markDuplicatesBai}
  putFile ${markDuplicatesMetrics}
-md5sum ${markDuplicatesMetrics}
+cd ${markDuplicatesDir}
+ md5sum ${markDuplicatesMetrics} > ${markDuplicatesMetrics}.md5
+cd -
  echo "succes moving files";
 else
  echo "returncode: $?";

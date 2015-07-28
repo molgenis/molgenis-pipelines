@@ -63,19 +63,20 @@ then
  putFile ${collectMultipleMetricsPrefix}.quality_by_cycle.pdf 
  putFile ${collectMultipleMetricsPrefix}.quality_distribution_metrics 
  putFile ${collectMultipleMetricsPrefix}.quality_distribution.pdf
- echo "md5sums"
-md5sum ${collectMultipleMetricsPrefix}.quality_distribution_metrics
-md5sum ${collectMultipleMetricsPrefix}.alignment_summary_metrics
-md5sum ${collectMultipleMetricsPrefix}.quality_by_cycle_metrics
-md5sum ${collectMultipleMetricsPrefix}.quality_by_cycle.pdf
-md5sum ${collectMultipleMetricsPrefix}.quality_distribution.pdf
+ cd ${collectMultipleMetricsDir}
+bname=$(basename ${collectMultipleMetricsPrefix})
+ md5sum ${bname}.quality_distribution_metrics > ${bname}.quality_distribution_metrics.md5
+md5sum ${bname}.alignment_summary_metrics > ${bname}.alignment_summary_metrics.md5
+md5sum ${bname}.quality_by_cycle_metrics > ${bname}.quality_by_cycle_metrics.md5
+md5sum ${bname}.quality_by_cycle.pdf > ${bname}.quality_by_cycle.pdf.md5
+md5sum ${bname}.quality_distribution.pdf > ${bname}.quality_distribution.pdf.md5
  if [ ${#reads2FqGz} -ne 0 ]; then
 	putFile ${collectMultipleMetricsPrefix}.insert_size_histogram.pdf
 	putFile ${collectMultipleMetricsPrefix}.insert_size_metrics
-    md5sum ${collectMultipleMetricsPrefix}.insert_size_histogram.pdf
-    md5sum ${collectMultipleMetricsPrefix}.insert_size_metrics
+    md5sum ${bname}.insert_size_histogram.pdf > ${bname}.insert_size_histogram.pdf.md5
+    md5sum ${bname}.insert_size_metrics > ${bname}.insert_size_metrics.md5
  fi
-
+ cd -
  echo "succes moving files";
 else
  echo "returncode: $?";

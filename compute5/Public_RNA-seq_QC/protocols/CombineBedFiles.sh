@@ -84,11 +84,12 @@ else
   putFile ${combinedBEDDir}combinedFiles_remove_missnps.bim
   putFile ${combinedBEDDir}combinedFiles_remove_missnps.fam
   putFile ${combinedBEDDir}combinedFiles_remove_missnps.nosex
-echo "md5sums"
-md5sum ${combinedBEDDir}combinedFiles.txt
-md5sum ${combinedBEDDir}combinedFiles.log
-md5sum ${combinedBEDDir}combinedFiles.fam
-md5sum ${combinedBEDDir}combinedFiles.nosex
+cd ${combinedBEDDir}
+md5sum $(basename ${combinedBEDDir}).txt > $(basename ${mergeGvcf}).txt.md5
+md5sum $(basename ${combinedBEDDir}).log > $(basename ${mergeGvcf}).log.md5
+md5sum $(basename ${combinedBEDDir}).fam > $(basename ${mergeGvcf}).fam.md5
+md5sum $(basename ${combinedBEDDir}).nosex > $(basename ${mergeGvcf}).nosex.md5
+cd -
 echo "succes moving files";
  else
   echo "returncode: $?";
