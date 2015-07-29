@@ -1,4 +1,4 @@
-#MOLGENIS nodes=1 ppn=2 mem=8gb walltime=23:59:00
+#MOLGENIS nodes=1 ppn=8 mem=16gb walltime=23:59:00
 
 ### variables to help adding to database (have to use weave)
 #string internalId
@@ -49,7 +49,7 @@ mkdir -p ${bsqrDir}
 #do bsqr for covariable determination then do print reads for valid bsqrbams
 #check the bsqr part and add known variants
 
-java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${bsqrDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
+java -Xmx8g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${bsqrDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
  -T BaseRecalibrator\
  -R ${onekgGenomeFasta} \
  -I ${indelRealignmentBam} \
@@ -59,7 +59,7 @@ java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${bsqrDir} -jar ${toolDir}G
  -knownSites ${oneKgPhase1IndelsVcf}\
  -nct 2
 
-if java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${bsqrDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
+if java -Xmx8g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${bsqrDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
  -T PrintReads \
  -R ${onekgGenomeFasta} \
  -I ${indelRealignmentBam} \
@@ -73,7 +73,6 @@ then
  putFile ${bsqrBam}
  putFile ${bsqrBai}
  putFile ${bsqrBeforeGrp}
-
  echo "succes moving files";
 else
  echo "returncode: $?";

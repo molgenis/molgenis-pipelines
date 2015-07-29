@@ -45,11 +45,10 @@ if java -Xmx30g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${haplotyperDir} -jar $
  $inputs 
 
 then
- echo "returncode: $?"; 
-
+ echo "returncode: $?";
  putFile ${mergeGvcf}
- putFile ${mergeGvcf}
-
+ echo "md5sums"
+ md5sum ${mergeGvcf}
  echo "succes moving files";
 else
  echo "returncode: $?";

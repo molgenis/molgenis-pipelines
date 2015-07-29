@@ -11,7 +11,7 @@
 #string platform
 #string picardVersion
 #string toolDir
-#string hisatAlignmentDir
+#string filteredBamDir
 #string sortedBamDir
 #string sortedBam
 #string sortedBai
@@ -20,7 +20,7 @@
 #string readQuality
 
 
-getFile ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.bam
+getFile ${filteredBamDir}${uniqueID}_qual_${readQuality}.bam
 
 #Load modules
 ${stage} picard/${picardVersion}
@@ -34,7 +34,7 @@ echo "## "$(date)" Start $0"
 echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
 if java -Xmx6g -XX:ParallelGCThreads=4 -jar ${toolDir}picard/${picardVersion}/SortSam.jar \
-  INPUT=${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.bam \
+  INPUT=${filteredBamDir}${uniqueID}_qual_${readQuality}.bam \
   OUTPUT=${sortedBam} \
   SO=coordinate \
   CREATE_INDEX=true \
@@ -43,7 +43,6 @@ if java -Xmx6g -XX:ParallelGCThreads=4 -jar ${toolDir}picard/${picardVersion}/So
 then
  echo "returncode: $?"; putFile ${sortedBam}
  putFile ${sortedBai}
-
  echo "succes moving files";
 else
  echo "returncode: $?";
