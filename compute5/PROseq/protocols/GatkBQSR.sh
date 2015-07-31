@@ -71,7 +71,6 @@ then
  putFile ${bsqrBam}
  putFile ${bsqrBai}
  putFile ${bsqrBeforeGrp}
-
  echo "succes moving files";
 else
  echo "returncode: $?";

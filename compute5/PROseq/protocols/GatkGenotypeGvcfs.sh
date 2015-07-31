@@ -53,7 +53,6 @@ then
  
  putFile ${genotypedVcf}
  putFile ${genotypedVcfIdx}
-
  echo "succes moving files";
 else
  echo "returncode: $?";

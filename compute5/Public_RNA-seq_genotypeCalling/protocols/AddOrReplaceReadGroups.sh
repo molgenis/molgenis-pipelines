@@ -49,7 +49,6 @@ then
 
  putFile ${addOrReplaceGroupsBam}
  putFile ${addOrReplaceGroupsBai}
-
  echo "succes moving files";
 else
  echo "returncode: $?";

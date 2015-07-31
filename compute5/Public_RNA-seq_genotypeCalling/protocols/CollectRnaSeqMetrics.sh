@@ -48,11 +48,13 @@ if java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}picard/${picardVersion}/Co
  
 then
  echo "returncode: $?"; 
- 
+ cd collectRnaSeqMetricsDir
  putFile ${collectRnaSeqMetrics}
  putFile ${collectRnaSeqMetricsChart}
-
+  md5sum $(basename ${collectRnaSeqMetrics}) > $(basename ${collectRnaSeqMetrics}).md5
+ md5sum $(basename ${collectRnaSeqMetricsChart}) > $(basename ${collectRnaSeqMetricsChart}).md5
  echo "succes moving files";
+ cd -
 else
  echo "returncode: $?";
  echo "fail";

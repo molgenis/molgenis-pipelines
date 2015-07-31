@@ -52,7 +52,6 @@ then
 
  putFile ${mergeBamFilesBam}
  putFile ${mergeBamFilesBai}
-
  echo "succes moving files";
 else
  echo "returncode: $?";

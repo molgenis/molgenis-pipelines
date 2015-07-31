@@ -60,7 +60,6 @@ then
 
  putFile ${indelRealignmentBam}
  putFile ${indelRealignmentBai}
-
  echo "succes moving files";
 else
  echo "returncode: $?";

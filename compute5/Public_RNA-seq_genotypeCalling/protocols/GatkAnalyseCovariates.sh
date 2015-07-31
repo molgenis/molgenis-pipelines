@@ -73,7 +73,6 @@ then
  
  putFile ${bsqrAfterGrp}
  putFile ${analyseCovariatesPdf}
-
  echo "succes moving files";
 else
  echo "returncode: $?";

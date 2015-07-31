@@ -38,6 +38,12 @@ if verifyBamID \
 
 then
  echo "returncode: $?"; putFile ${verifyBamIdDir}${uniqueID}.depthRG
+ echo "md5sums"
+ md5sum ${verifyBamIdDir}${uniqueID}.depthRGM
+ md5sum ${verifyBamIdDir}${uniqueID}.depthSM
+ md5sum ${verifyBamIdDir}${uniqueID}.log
+ md5sum ${verifyBamIdDir}${uniqueID}.selfRG
+ md5sum ${verifyBamIdDir}${uniqueID}.selfSM
  putFile ${verifyBamIdDir}${uniqueID}.depthSM
  putFile ${verifyBamIdDir}${uniqueID}.log
  putFile ${verifyBamIdDir}${uniqueID}.selfRG
