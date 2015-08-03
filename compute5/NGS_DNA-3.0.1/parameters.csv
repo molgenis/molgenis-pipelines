@@ -10,13 +10,17 @@ stage,module load
 targetedInsertSize,200
 checkStage,module list
 
+### This hardcoded path is necessary, because there is no module available and in the QCReport it needs to know what the root is of the NGS_DNA pipeline ###
+pathToNGSBetaVersion,/groups/umcg-gaf/tmp04/rkanninga/software/pipelines/molgenis-pipelines/compute5/NGS_DNA-3.0.1/
+
 ### Tool versions ####
 bwaVersion,BWA/0.7.12-goolf-1.7.20
 computeVersion,v15.04.1-Java-1.7.0_80
-dbNSFPVersion,2.9
+dbNSFPVersion,2.7
 fastqcVersion,FastQC/0.11.3-Java-1.7.0_80
 gatkVersion,GATK/3.4-0-Java-1.7.0_80 
 javaVersion,Java/1.7.0_80
+ngsDNAVersion,NGS_DNA/3.0.1-Molgenis-Compute-v15.04.1-Java-1.7.0_80
 picardVersion,picard/1.130-Java-1.7.0_80
 rVersion,R/3.2.1-goolf-1.7.20
 samtoolsVersion,SAMtools/1.2-goolf-1.7.20
@@ -151,7 +155,7 @@ snpEffCallsHtml,${projectPrefix}.snpEff.calls.html
 snpEffGenesTxt,${projectPrefix}.snpEff.calls.genes.txt
 snpEffCallsVcf,${projectPrefix}.calls.snpEff.vcf
 snpEffCallsSortedVcf,${projectPrefix}.calls.snpEff.sorted.vcf
-dbNSFP,${dbNSFPDir}/${dbNSFPVersion}/${dbNSFPVersion}.txt.gz
+dbNSFP,${dbNSFPDir}/${dbNSFPVersion}/dbNSFP${dbNSFPVersion}.txt.gz
 dbNSFPSampleVcf,${sample}.snpEff.annotated.snps.dbnsfp.vcf
 variantAnnotatorOutputVcf,${projectPrefix}.snpEff.annotated.vcf
 variantAnnotatorSampleOutputIndelsVcf,${sample}.snpEff.annotated.indels.vcf

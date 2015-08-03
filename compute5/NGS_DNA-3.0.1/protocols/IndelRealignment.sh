@@ -32,7 +32,7 @@ ${checkStage}
 #Run GATK on knowns only
 #Only use --fix_misencoded_quality_scores to fix misencoded quality scores on the fly (Automatically substracts 31 from Illumina Qscores and writes corrected Qscores away.)
 java -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
-$EBROOT${gatkJar} \
+${EBROOTGATK}/${gatkJar} \
 -T IndelRealigner \
 -I ${dedupBam} \
 -R ${indexFile} \

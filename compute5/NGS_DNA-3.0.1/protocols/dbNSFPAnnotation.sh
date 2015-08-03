@@ -15,7 +15,7 @@
 
 
 #optional annotation columns 
-###Build 37 -->  dbnsfp 2.9
+###Build 37 -->  dbnsfp 2.7
 #chr,pos(1-coor),ref,alt,aaref,aaalt,hg18_pos(1-coor),genename,Uniprot_acc,Uniprot_id,Uniprot_aapos,
 #Interpro_domain,cds_strand,refcodon,SLR_test_statistic,codonpos,fold-degenerate,Ancestral_allele,
 #Ensembl_geneid,Ensembl_transcriptid,aapos,aapos_SIFT,aapos_FATHMM,SIFT_score,SIFT_converted_rankscore,
@@ -83,10 +83,12 @@ java -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
 ${EBROOTSNPEFF}/SnpSift.jar \
 dbnsfp \
 -a \
--v ${dbNSFP} \
+-db ${dbNSFP} \
+-v \
 -f Ensembl_geneid,GERP++_RS,Polyphen2_HDIV_pred,Polyphen2_HVAR_pred,SIFT_score,CADD_raw,CADD_raw_rankscore,CADD_phred,FATHMM_score,SiPhy_29way_logOdds,phastCons100way_vertebrate,1000Gp1_EUR_AF,ESP6500_EA_AF \
 ${variantAnnotatorSampleOutputSnpsFilteredVcf} > ${tmpDbNSFPSampleVcf}
 
 mv ${tmpDbNSFPSampleVcf} ${dbNSFPSampleVcf}
+echo "mv ${tmpDbNSFPSampleVcf} ${dbNSFPSampleVcf}"
 
 

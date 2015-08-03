@@ -1,3 +1,4 @@
+#MOLGENIS walltime=23:59:00 mem=4gb ppn=1
 # worksheet params:
 #string project
 #list externalSampleID
@@ -20,9 +21,22 @@
 #string intermediateDir
 #string rVersion
 #string inSilicoConcordanceFile
+#string pathToNGSBetaVersion
+#string ngsDNAVersion
 
-module load R/${rVersion}
+module load ${rVersion}
 module load ngs-utils
+
+module av | tee ${intermediateDir}/modules.txt
+
+ngsmodule=`fgrep ${ngsDNAVersion} ${intermediateDir}/modules.txt | wc -l`
+if [ ${ngsmodule} -eq 0 ]
+then
+    	EBROOTNGS_DNA=${pathToNGSBetaVersion}
+else
+    	module load ${ngsDNAVersion}
+fi
+
 #
 ## Initialize
 #
@@ -38,7 +52,7 @@ cp ${intermediateDir}/*.merged.dedup.realigned.bam.insert_size_histogram.pdf ${p
 function bashArrayToCSV {
         declare -a a=("${!1}")
         result="$(printf -- '%s,' "${a[@]}")"
-        echo ${result:0:${#result}-1}        
+        echo ${result:0:${#result}-1}
 }
 
 function bashArrayToString {
@@ -92,7 +106,7 @@ done
 ## Gather QC statistics
 #
 # get general sample statistics
-Rscript ${getStatisticsScript} \
+Rscript ${EBROOTNGSMINUTILS}/getStatistics/${getStatisticsScript} \
 --hsmetrics $(bashArrayToCSV sampleHsMetrics[@]) \
 --alignment $(bashArrayToCSV sampleAlignmentMetrics[@]) \
 --insertmetrics $(bashArrayToCSV sampleInsertMetrics[@]) \
@@ -107,17 +121,8 @@ Rscript ${getStatisticsScript} \
 --qcdedupmetricsout ${qcDedupMetricsOut} \
 --precise
 
-# get dedup info per flowcell-lane-barcode/sample
-Rscript ${getDedupInfoScript} \
---dedupmetrics $(bashArrayToCSV sampleDedupMetrics[@]) \
---flowcell $(bashArrayToCSV flowcell[@]) \
---lane $(bashArrayToCSV lane[@]) \
---sample $(bashArrayToCSV externalSampleID[@]) \
---paired TRUE \
---qcdedupmetricsout ${qcDedupMetricsOut}
-
-qcReportTemplate=${EBROOTNGS_DNA}/report/knitr_helper_functions.R
-qcHelperFunctionsR=${EBROOTNGS_DNA}/report/qc_report_template.Rmd
+qcReportTemplate=${EBROOTNGS_DNA}/report/qc_report_template.Rmd
+qcHelperFunctionsR=${EBROOTNGS_DNA}/report/knitr_helper_functions.R
 
 #
 ## Run R script to knitr your report
@@ -136,22 +141,22 @@ R --slave <<RSCRIPT
 
 	# load helpers
 	source('${qcHelperFunctionsR}')
-	
+
 	# Keep template human-readable
 	qcStatisticsCsv		= '${qcStatisticsCsv}'
-	qcBaitSet 		= '${qcBaitSet}'		
+	qcBaitSet 		= '${qcBaitSet}'
 	projectQcDir		= '${projectQcDir}'
 	qcReportTemplate	= '${qcReportTemplate}'
 	qcReportMD		= '${qcReportMD}'
 	qcDedupMetricsOut	= '${qcDedupMetricsOut}'
-        externalSampleID        = stringToVector($(bashArrayToString externalSampleID[@]))	
-	sampleInsertSizePDF	= stringToVector($(bashArrayToString sampleInsertSizePDF[@]))	
+        externalSampleID        = stringToVector($(bashArrayToString externalSampleID[@]))
+	sampleInsertSizePDF	= stringToVector($(bashArrayToString sampleInsertSizePDF[@]))
 	inSilicoConcordanceFile	= '${inSilicoConcordanceFile}'
 
 	setwd(projectQcDir) # because figs need to be next to output
 
 	# knitr template
 	knit(qcReportTemplate,qcReportMD)
-	
+
 RSCRIPT
 

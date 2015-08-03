@@ -11,6 +11,7 @@
 makeTmpDir ${variantsFinalProjectVcfTable}
 tmpVariantsFinalProjectVcfTable=${MC_tmpFile}
 module load ngs-utils
+module list
 
 #Function to check if array contains value
 array_contains () {
@@ -41,7 +42,7 @@ do
 	tmpVcfTable=${vcfTable}.tmp
 
 	####Transform VCF file into tabular file####
-	perl ${vcf2Table} \
+	${vcf2Table} \
 	-vcf ${intermediateDir}/${externalID}.final.vcf \
 	-output ${tmpVcfTable} \
 	-filter ${filter} \
@@ -54,7 +55,7 @@ done
 ALLSAMPLESINONE=`echo ${AS%?}`
 
 ####Transform VCF file into tabular file####
-perl ${vcf2Table} \
+${vcf2Table} \
 -vcf ${projectPrefix}.final.vcf \
 -output ${tmpVariantsFinalProjectVcfTable} \
 -filter ${filter} \
