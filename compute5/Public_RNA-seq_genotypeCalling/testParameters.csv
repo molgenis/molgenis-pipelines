@@ -24,7 +24,7 @@ uniqueID,${sampleName}_${internalId}
 fastqcVersion,0.11.3-Java-1.7.0_80
 starVersion,2.3.1l
 cosmicVersion,v70
-RVersion,3.2.0-goolf-1.7.20-Java-1.7.0_80
+RVersion,3.2.1-goolf-1.7.20-Java-1.7.0_80
 anacondaVersion,1.8.0-Linux-x86_64
 samtoolsVersion,1.2-goolf-1.7.20
 gatkVersion,3.4-0-Java-1.7.0_80 
@@ -101,7 +101,7 @@ collectMultipleMetricsPrefix, ${collectMultipleMetricsDir}/{uniqueID}.multipleme
 ## splitAndTrim
 splitAndTrimDir,${projectDir}/splitAndTrim/
 splitAndTrimBam,${splitAndTrimDir}${sampleName}.bam
-splitAndTrimBai,${splitAndTrimDir}${sampleName}.bai
+splitAndTrimBai,${splirversiotAndTrimDir}${sampleName}.bai
 ## indelRealignment
 indelRealignmentDir,${projectDir}/indelRealignment/
 realignmentIntervals,${indelRealignmentDir}/realignmentIntervals.list
