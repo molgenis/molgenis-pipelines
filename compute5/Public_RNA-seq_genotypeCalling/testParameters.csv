@@ -101,7 +101,7 @@ collectMultipleMetricsPrefix, ${collectMultipleMetricsDir}/{uniqueID}.multipleme
 ## splitAndTrim
 splitAndTrimDir,${projectDir}/splitAndTrim/
 splitAndTrimBam,${splitAndTrimDir}${sampleName}.bam
-splitAndTrimBai,${splirversiotAndTrimDir}${sampleName}.bai
+splitAndTrimBai,${splitAndTrimDir}${sampleName}.bai
 ## indelRealignment
 indelRealignmentDir,${projectDir}/indelRealignment/
 realignmentIntervals,${indelRealignmentDir}/realignmentIntervals.list

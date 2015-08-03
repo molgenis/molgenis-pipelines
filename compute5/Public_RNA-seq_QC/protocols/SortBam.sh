@@ -20,7 +20,7 @@
 #string readQuality
 #string filteredBam
 
-getFile ${filteredBamDir}${uniqueID}_qual_${readQuality}.bam
+getFile ${filteredBam}
 
 #Load modules
 ${stage} picard/${picardVersion}
