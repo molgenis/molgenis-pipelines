@@ -33,12 +33,12 @@ echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}
 mkdir -p ${filteredBamDir}
 mkdir -p ${unfilteredBamDir}
 
-if sed '/NH:i:[^1]/d' ./${hisatAlignmentDir}${uniqueID}.sam > samtools view -h -b - > ${filteredBam}
+if sed '/NH:i:[^1]/d' ${hisatAlignmentDir}${uniqueID}.sam | samtools view -h -b - > ${filteredBam}
 then
    samtools view -h -b ${hisatAlignmentDir}${uniqueID}.sam > ${unfilteredBamDir}${uniqueID}.bam
   >&2 echo "Reads with flag NH:i:[2+] where filtered out (only leaving `unique` mapping reads)."
   rm ${hisatAlignmentDir}${uniqueID}.sam
-  echo "returncode: $?"; putFile ${filteredBamDir}${uniqueID}_qual_${readQuality}.bam
+  echo "returncode: $?"; putFile ${filteredBam}
   echo "succes moving files";
 else
  echo "returncode: $?";
