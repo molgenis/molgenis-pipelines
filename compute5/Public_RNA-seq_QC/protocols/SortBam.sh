@@ -18,9 +18,9 @@
 #string uniqueID
 #string jdkVersion
 #string readQuality
+#string filteredBam
 
-
-getFile ${filteredBamDir}${uniqueID}_qual_${readQuality}.bam
+getFile ${filteredBam}
 
 #Load modules
 ${stage} picard/${picardVersion}
@@ -34,7 +34,7 @@ echo "## "$(date)" Start $0"
 echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
 if java -Xmx6g -XX:ParallelGCThreads=4 -jar ${toolDir}picard/${picardVersion}/SortSam.jar \
-  INPUT=${filteredBamDir}${uniqueID}_qual_${readQuality}.bam \
+  INPUT=${filteredBam} \
   OUTPUT=${sortedBam} \
   SO=coordinate \
   CREATE_INDEX=true \

@@ -39,7 +39,7 @@ genomeBuild,b37
 genomeGrchBuild,GRCh37
 human_g1k_vers,37
 ensemblVersion,75
-RVersion,3.1.2-goolf-1.7.20
+RVersion,3.2.1-goolf-1.7.20
 samtoolsVersion,1.2-goolf-1.7.20
 genomeLatSpecies,Homo_sapiens
 dbsnpVcf,${resDir}/${genomeBuild}/snp/dbSNP/dbsnp_138.b37.vcf
@@ -82,6 +82,7 @@ referenceGenomeHisat,${resDir}/${genomeBuild}/indices/hisat-${hisatVersion}/huma
 hisatAlignmentDir,${projectDir}/hisat/
 readQuality,1
 filteredBamDir,${projectDir}/filteredBam/
+filteredBam,${filteredBamDir}/${uniqueID}_unique_mapping_only.bam
 unfilteredBamDir,${projectDir}/unfilteredBam/
 ## SortBam
 sortedBamDir,${projectDir}/sortedBam/
