@@ -26,16 +26,7 @@
 
 module load ${rVersion}
 module load ngs-utils
-
-module av | tee ${intermediateDir}/modules.txt
-
-ngsmodule=`fgrep ${ngsDNAVersion} ${intermediateDir}/modules.txt | wc -l`
-if [ ${ngsmodule} -eq 0 ]
-then
-    	EBROOTNGS_DNA=${pathToNGSBetaVersion}
-else
-    	module load ${ngsDNAVersion}
-fi
+module load ${ngsDNAVersion}
 
 #
 ## Initialize
