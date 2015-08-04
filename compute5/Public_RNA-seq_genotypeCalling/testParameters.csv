@@ -2,11 +2,6 @@
 ## General parameters for SLURM settings and cluster directory paths
 #
 queue,ll
-mem,4
-walltime,23:59:00
-nodes,1
-ppn,1
-nTreads,8
 defaultInterpreter,#!/bin/bash
 stage,module load
 checkStage,module list
