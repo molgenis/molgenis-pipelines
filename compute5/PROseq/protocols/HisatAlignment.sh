@@ -10,7 +10,6 @@
 #string referenceGenomeHisat
 #string reads1FqGz
 #string reads2FqGz
-#string nTreads
 #string platform
 #string hisatAlignmentDir
 #string hisatVersion
@@ -42,7 +41,7 @@ echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}
 
 if hisat -x ${referenceGenomeHisat} \
   ${input}\
-  -p ${nTreads} \
+  -p 8 \
   --rg-id ${internalId} \
   --rg PL:${platform} \
   --rg PU:${sampleName}_${internalId}_${internalId} \

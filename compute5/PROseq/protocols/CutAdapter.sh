@@ -13,8 +13,10 @@
 #string cutadaptDir
 #string reads1FqGz
 #string reads2FqGz
-#string sampleName
-#string cutadaptFile
+#string singleEndCutAdapt
+#string pairedEndCutAdapt1
+#string pairedEndCutAdapt2
+#string adapters
 
 ${stage} cutadapt/${cutadaptVersion}
 ${checkStage}
@@ -23,22 +25,23 @@ echo "## "$(date)" Start $0"
 echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
 mkdir -p ${cutadaptDir}
-cutadapt -a AATGATACGGCGACCACCGAGATCTACACTCGTCGGCAGCGTCAGATGTG -a CAAGCAGAAGACGGCATACGAGATTCGCCTTAGTCTCGTGGGCTCGGAGATGT -a CAAGCAGAAGACGGCATACGAGATCTAGTACGGTCTCGTGGGCTCGGAGATGT -a CAAGCAGAAGACGGCATACGAGATGCTCAGGAGTCTCGTGGGCTCGGAGATGT -a CAAGCAGAAGACGGCATACGAGATAGGAGTCCGTCTCGTGGGCTCGGAGATGT reads1FqGz > ${cutadaptFile}
-
 if [ ${#reads2FqGz} -eq 0 ]; then
 	echo "## "$(date)" Single end cutadapt of ${reads1FqGz}"
+    adaptInput=$(awk -F',' '$1 == "${sampleName}" {print $2 " " $3}' ${adapters})
+  if cutadapt --minimum-length 20 -o ${singleEndCutAdapt} ${adaptInput} ${reads1FqGz};
     then
+      cp ${adapters} ${cutadaptDir}
       echo "returncode: $?";
     else
       echo "returncode: $?";
       echo "fail";
     fi
 else
+    adaptInput=$(awk -F',' '$1 == "${sampleName}" {print $2 " " $3 " " $4 " " $5}' ${adapters})
 	echo "## "$(date)" Paired end cutadapt of ${reads1FqGz} and ${reads2FqGz}"
-	
+  if cutadapt ${adaptInput} --minimum-length 20 -o ${pairedEndCutAdapt1} -p ${pairedEndCutAdapt2} ${reads1FqGz} ${reads2FqGz}
     then
-      echo "md5sums"
-      md5sum ${cutadaptFile}
+      cp ${adapters} ${cutadaptDir}
       echo "returncode: $?";
     else
       echo "returncode: $?";
