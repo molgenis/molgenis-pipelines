@@ -16,21 +16,25 @@
 
 #optional annotation columns 
 ###Build 37 -->  dbnsfp 2.7
-#chr,pos(1-coor),ref,alt,aaref,aaalt,hg18_pos(1-coor),genename,Uniprot_acc,Uniprot_id,Uniprot_aapos,
-#Interpro_domain,cds_strand,refcodon,SLR_test_statistic,codonpos,fold-degenerate,Ancestral_allele,
-#Ensembl_geneid,Ensembl_transcriptid,aapos,aapos_SIFT,aapos_FATHMM,SIFT_score,SIFT_converted_rankscore,
-#SIFT_pred,Polyphen2_HDIV_score,Polyphen2_HDIV_rankscore,Polyphen2_HDIV_pred,Polyphen2_HVAR_score,
-#Polyphen2_HVAR_rankscore,Polyphen2_HVAR_pred,LRT_score,LRT_converted_rankscore,LRT_pred,
-#MutationTaster_score,MutationTaster_converted_rankscore,MutationTaster_pred,MutationAssessor_score,
+#chr,pos(1-coor),ref,alt,aaref,aaalt,rs_dbSNP141,hg18_pos(1-coor),hg38_chr,hg38_pos,
+#genename,Uniprot_acc,Uniprot_id,Uniprot_aapos,Interpro_domain,cds_strand,refcodon,
+#SLR_test_statistic,codonpos,fold-degenerate,Ancestral_allele,Ensembl_geneid,Ensembl_transcriptid,
+#aapos,aapos_SIFT,aapos_FATHMM,SIFT_score,SIFT_converted_rankscore,SIFT_pred,Polyphen2_HDIV_score,
+#Polyphen2_HDIV_rankscore,Polyphen2_HDIV_prePolyphen2_HVAR_score,Polyphen2_HVAR_rankscore,
+#Polyphen2_HVAR_pred,LRT_score,LRT_converted_rankscore,LRT_pred,MutationTaster_score,
+#MutationTaster_converted_rankscore,MutationTaster_pred,MutationAssessor_score,
 #MutationAssessor_rankscore,MutationAssessor_pred,FATHMM_score,FATHMM_rankscore,FATHMM_pred,
-#RadialSVM_score,RadialSVM_rankscore,RadialSVM_pred,LR_score,LR_rankscore,LR_pred,Reliability_index,
-#CADD_raw,CADD_raw_rankscore,CADD_phred,GERP++_NR,GERP++_RS,GERP++_RS_rankscore,phyloP46way_primate,
-#phyloP46way_primate_rankscore,phyloP46way_placental,phyloP46way_placental_rankscore,
-#phyloP100way_vertebrate,phyloP100way_vertebrate_rankscore,phastCons46way_primate,phastCons46way_primate_rankscore,
+#RadialSVM_score,RadialSVM_rankscore,RadialSVM_pred,LR_score,LR_rankscore,LR_pred,
+#Reliability_index,VEST3_score,VEST3_rankscore,CADD_raw,CADD_raw_rankscore,CADD_phred,
+#GERP++_NR,GERP++_RS,GERP++_RS_rankscore,phyloP46way_primate,phyloP46way_primate_rankscore,
+#phyloP46way_placental,phyloP46way_placental_rankscore,phyloP100way_vertebrate,
+#phyloP100way_vertebrate_rankscore,phastCons46way_primate,phastCons46way_primate_rankscore,
 #phastCons46way_placental,phastCons46way_placental_rankscore,phastCons100way_vertebrate,
-#phastCons100way_vertebrate_rankscore,SiPhy_29way_pi,SiPhy_29way_logOdds,SiPhy_29way_logOdds_rankscore,LRT_Omega,
-#UniSNP_ids,1000Gp1_AC,1000Gp1_AF,1000Gp1_AFR_AC,1000Gp1_AFR_AF,1000Gp1_EUR_AC,1000Gp1_EUR_AF,1000Gp1_AMR_AC,
-#1000Gp1_AMR_AF,1000Gp1_ASN_AC,1000Gp1_ASN_AF,ESP6500_AA_AF,ESP6500_EA_AF
+#phastCons100way_vertebrate_rankscore,SiPhy_29way_pi,SiPhy_29way_logOdds,
+#SiPhy_29way_logOdds_rankscore,LRT_Omega,UniSNP_ids,1000Gp1_AC,1000Gp1_AF,1000Gp1_AFR_AC,
+#1000Gp1_AFR_AF,1000Gp1_EUR_AC,1000Gp1_EUR_AF,1000Gp1_AMR_AC,1000Gp1_AMR_AF,1000Gp1_ASN_AC,
+#1000Gp1_ASN_AF,ESP6500_AA_AF,ESP6500_EA_AF ,ARIC5606_AA_AC,ARIC5606_AA_AF,ARIC5606_EA_AC,
+#ARIC5606_EA_AF,clinvar_rs,clinvar_clnsig,clinvar_trait
 
 #### Build 38 --> dbnsfp v3 and higher ####
 ##chr,pos(1-based),ref,alt,aaref,aaalt,rs_dbSNP142,hg19_chr,hg19_pos(1-based),hg18_chr,hg18_pos(1-based),
@@ -88,7 +92,16 @@ dbnsfp \
 -f Ensembl_geneid,GERP++_RS,Polyphen2_HDIV_pred,Polyphen2_HVAR_pred,SIFT_score,CADD_raw,CADD_raw_rankscore,CADD_phred,FATHMM_score,SiPhy_29way_logOdds,phastCons100way_vertebrate,1000Gp1_EUR_AF,ESP6500_EA_AF \
 ${variantAnnotatorSampleOutputSnpsFilteredVcf} > ${tmpDbNSFPSampleVcf}
 
-mv ${tmpDbNSFPSampleVcf} ${dbNSFPSampleVcf}
-echo "mv ${tmpDbNSFPSampleVcf} ${dbNSFPSampleVcf}"
+FIRSTLINE=`head -1 ${tmpDbNSFPSampleVcf}`
+
+if [[ $FIRSTLINE == *"hg38"* ]]
+then
+	sed '1d' ${tmpDbNSFPSampleVcf} > ${dbNSFPSampleVcf}
+	echo "removed first line of ${tmpDbNSFPSampleVcf} and moved file to ${dbNSFPSampleVcf}"
+else
+	mv ${tmpDbNSFPSampleVcf} ${dbNSFPSampleVcf}
+	echo "mv ${tmpDbNSFPSampleVcf} ${dbNSFPSampleVcf}"
+
+fi
 
 
