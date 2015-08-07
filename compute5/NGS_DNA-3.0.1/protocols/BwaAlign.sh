@@ -1,4 +1,4 @@
-#MOLGENIS walltime=20:00:00 nodes=1 ppn=8 mem=8gb
+#MOLGENIS walltime=20:00:00 nodes=1 ppn=8 mem=10gb
 
 #Parameter mapping
 #string stage
