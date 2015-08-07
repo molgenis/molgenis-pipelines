@@ -103,8 +103,10 @@ cp -r ${projectQcDir}/images ${projectResultsDir}
 echo "Copied QC report to results directory (9/11)"
 
 # Create zip file for all "small text" files
-
+CURRENT_DIR=`pwd`
 cd ${projectResultsDir}
+
+cd ${CURRENT_DIR}
 
 zip -gr ${projectResultsDir}/${project}.zip variants
 zip -gr ${projectResultsDir}/${project}.zip qc
@@ -119,8 +121,6 @@ fi
 echo "Made zip file: ${projectResultsDir}/${project}.zip (10/11)"
 
 # Create md5sum for zip file
-
-cd ${projectResultsDir}
 
 md5sum ${project}.zip > ${projectResultsDir}/${project}.zip.md5
 echo "Made md5 file for ${projectResultsDir}/${project}.zip (11/11)"
