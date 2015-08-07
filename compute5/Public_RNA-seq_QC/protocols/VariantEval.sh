@@ -39,8 +39,10 @@ if java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}GATK/${gatkVersion}/Genome
 then
   echo "returncode: $?";
   putFile ${evalGrp}
+cd ${variantEvalDir}
+md5sum $(basename ${evalGrp}) > $(basename ${evalGrp}).md5
   echo "succes moving file";
-
+cd -
 else
   echo "returncode: $?";
   echo "fail";

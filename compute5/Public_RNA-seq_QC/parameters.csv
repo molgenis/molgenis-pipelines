@@ -2,11 +2,6 @@
 ## General parameters for SLURM settings and cluster directory paths
 #
 queue,ll
-mem,4
-walltime,23:59:00
-nodes,1
-ppn,8
-nTreads,8
 defaultInterpreter,#!/bin/bash
 stage,module load
 checkStage,module list
@@ -33,13 +28,13 @@ jdkVersion,1.8.0_25
 verifyBamIDVersion,1.1.2-goolf-1.7.20
 GenotypeHarmonizerVersion,1.4.14
 gatkVersion,3.4-0-Java-1.7.0_80 
-hisatVersion,0.1.5-beta-goolf-1.7.20
+hisatVersion,0.1.6-beta-goolf-1.7.20
 fastqcVersion,0.11.3-Java-1.7.0_80  
 genomeBuild,b37
 genomeGrchBuild,GRCh37
 human_g1k_vers,37
 ensemblVersion,75
-RVersion,3.1.2-goolf-1.7.20
+RVersion,3.2.1-goolf-1.7.20
 samtoolsVersion,1.2-goolf-1.7.20
 genomeLatSpecies,Homo_sapiens
 dbsnpVcf,${resDir}/${genomeBuild}/snp/dbSNP/dbsnp_138.b37.vcf
@@ -53,21 +48,21 @@ testIntervalList,${resDir}/b37/intervals/ALL.wgs.phase3_shapeit2_mvncall_integra
 fastqcDir,${projectDir}/fastqc/
 fastqcZipExt,_fastqc.zip
 singleEndfastqcZip,${fastqcDir}/${internalId}_${sampleName}.fq${fastqcZipExt}
-pairedEndfastqcZip1,${fastqcDir}/${internalId}_${sampleName}_1.fq${fastqcZipExt}
-pairedEndfastqcZip2,${fastqcDir}/${internalId}_${sampleName}_2.fq${fastqcZipExt}
+pairedEndfastqcZip1,${fastqcDir}/${uniqueID}_1.fq${fastqcZipExt}
+pairedEndfastqcZip2,${fastqcDir}/${uniqueID}_2.fq${fastqcZipExt}
 ## CollectMultipleMetrics
-collectMultipleMetricsDir,${projectDir}/collectMultipleMetrics/
-collectMultipleMetricsPrefix,${projectDir}/collectMultipleMetrics/${sampleName}.multiplemetrics
+collectMultipleMetricsDir,${projectDir}/collectMultipleMetrics_QC/
+collectMultipleMetricsPrefix,${collectMultipleMetricsDir}/${uniqueID}.multiplemetrics
 ## CollectRnaSeqMetrics
-collectRnaSeqMetricsDir,${projectDir}/collectRnaSeqMetrics/
-collectRnaSeqMetrics,${collectRnaSeqMetricsDir}${sampleName}.rna_metrics.log
-collectRnaSeqMetricsChart,${collectRnaSeqMetricsDir}${sampleName}.chart.pdf
+collectRnaSeqMetricsDir,${projectDir}/collectRnaSeqMetrics_QC/
+collectRnaSeqMetrics,${collectRnaSeqMetricsDir}${uniqueID}.rna_metrics.log
+collectRnaSeqMetricsChart,${collectRnaSeqMetricsDir}${uniqueID}.chart.pdf
 ## veryifyBamID
 verifyBamIdDir,${projectDir}/verifyBamID/
 ## GenotypeHarmonizer + GenotypeIO
 genotypeIODir,${projectDir}/genotypeIO/
 genotypeHarmonizerDir,${projectDir}/genotypeHarmonizer/
-genotypeHarmonizerOutput,${genotypeHarmonizerDir}/${uniqueID}
+genotypeHarmonizerOutput,${genotypeHarmonizerDir}/${project}
 ## CombineBED
 combinedBEDDir,${projectDir}/combinedBED/
 ## Unified Genotype/Haplotype callers
@@ -81,6 +76,9 @@ evalGrp,${variantEvalDir}${uniqueID}.eval.grp
 referenceGenomeHisat,${resDir}/${genomeBuild}/indices/hisat-${hisatVersion}/human_g1k_v${human_g1k_vers}
 hisatAlignmentDir,${projectDir}/hisat/
 readQuality,1
+filteredBamDir,${projectDir}/filteredBam/
+filteredBam,${filteredBamDir}/${uniqueID}_unique_mapping_only.bam
+unfilteredBamDir,${projectDir}/unfilteredBam/
 ## SortBam
 sortedBamDir,${projectDir}/sortedBam/
 sortedBam,${sortedBamDir}${uniqueID}.bam

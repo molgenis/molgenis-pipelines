@@ -54,7 +54,13 @@ then
  putFile ${combinedBEDDir}combinedFiles.bim
  putFile ${combinedBEDDir}combinedFiles.fam
  putFile ${combinedBEDDir}combinedFiles.nosex
-
+echo "md5sums"
+md5sum ${combinedBEDDir}combinedFiles.txt
+md5sum ${combinedBEDDir}combinedFiles.log
+md5sum ${combinedBEDDir}combinedFiles.bed
+md5sum ${combinedBEDDir}combinedFiles.bim
+md5sum ${combinedBEDDir}combinedFiles.fam
+md5sum ${combinedBEDDir}combinedFiles.nosex
  echo "succes moving files";
 else
  # got to remove mssnps before trying to merge again
@@ -78,6 +84,13 @@ else
   putFile ${combinedBEDDir}combinedFiles_remove_missnps.bim
   putFile ${combinedBEDDir}combinedFiles_remove_missnps.fam
   putFile ${combinedBEDDir}combinedFiles_remove_missnps.nosex
+cd ${combinedBEDDir}
+md5sum $(basename ${combinedBEDDir}).txt > $(basename ${mergeGvcf}).txt.md5
+md5sum $(basename ${combinedBEDDir}).log > $(basename ${mergeGvcf}).log.md5
+md5sum $(basename ${combinedBEDDir}).fam > $(basename ${mergeGvcf}).fam.md5
+md5sum $(basename ${combinedBEDDir}).nosex > $(basename ${mergeGvcf}).nosex.md5
+cd -
+echo "succes moving files";
  else
   echo "returncode: $?";
   echo "fail";

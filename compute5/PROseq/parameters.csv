@@ -40,7 +40,7 @@ genomeBuild,b37
 genomeGrchBuild,GRCh37
 human_g1k_vers,37
 ensemblVersion,75
-RVersion,3.1.2-goolf-1.7.20
+RVersion,3.2.1-goolf-1.7.20
 samtoolsVersion,1.2-goolf-1.7.20
 genomeLatSpecies,Homo_sapiens
 dbsnpVcf,${resDir}/${genomeBuild}/snp/dbSNP/dbsnp_138.b37.vcf
@@ -75,16 +75,16 @@ markDuplicatesMetrics,${markDuplicatesDir}${sampleName}.metrics.log
 ## FastQC
 fastqcDir,${projectDir}/fastqc/
 fastqcZipExt,_fastqc.zip
-singleEndfastqcZip,${fastqcDir}/${internalId}_${sampleName}.fq${fastqcZipExt}
-pairedEndfastqcZip1,${fastqcDir}/${internalId}_${sampleName}_1.fq${fastqcZipExt}
-pairedEndfastqcZip2,${fastqcDir}/${internalId}_${sampleName}_2.fq${fastqcZipExt}
+singleEndfastqcZip,${fastqcDir}/${uniqueID}.fq${fastqcZipExt}
+pairedEndfastqcZip1,${fastqcDir}/${uniqueID}_1.fq${fastqcZipExt}
+pairedEndfastqcZip2,${fastqcDir}/${uniqueID}_2.fq${fastqcZipExt}
 ## CollectMultipleMetrics
 collectMultipleMetricsDir,${projectDir}/collectMultipleMetrics/
-collectMultipleMetricsPrefix,${projectDir}/collectMultipleMetrics/${sampleName}.multiplemetrics
+collectMultipleMetricsPrefix,${projectDir}/collectMultipleMetrics/${uniqueID}.multiplemetrics
 ## CollectRnaSeqMetrics
 collectRnaSeqMetricsDir,${projectDir}/collectRnaSeqMetrics/
-collectRnaSeqMetrics,${collectRnaSeqMetricsDir}${sampleName}.rna_metrics.log
-collectRnaSeqMetricsChart,${collectRnaSeqMetricsDir}${sampleName}.chart.pdf
+collectRnaSeqMetrics,${collectRnaSeqMetricsDir}${uniqueID}.rna_metrics.log
+collectRnaSeqMetricsChart,${collectRnaSeqMetricsDir}${uniqueID}.chart.pdf
 ## veryifyBamID
 verifyBamIdDir,${projectDir}/verifyBamID/
 ## GenotypeHarmonizer + GenotypeIO

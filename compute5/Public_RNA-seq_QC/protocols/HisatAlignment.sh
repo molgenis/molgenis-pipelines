@@ -1,4 +1,4 @@
-#MOLGENIS nodes=1 ppn=8 mem=8gb walltime=10:00:00
+#MOLGENIS nodes=1 ppn=8 mem=8gb walltime=01:00:00
 
 ### variables to help adding to database (have to use weave)
 #string internalId
@@ -41,7 +41,7 @@ echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}
 
 if hisat -x ${referenceGenomeHisat} \
   ${input}\
-  -p ${nTreads} \
+  -p 8\
   --rg-id ${internalId} \
   --rg PL:${platform} \
   --rg PU:${sampleName}_${internalId}_${internalId} \
@@ -49,7 +49,6 @@ if hisat -x ${referenceGenomeHisat} \
   --rg SM:${sampleName} \
   -S ${hisatAlignmentDir}${uniqueID}.sam
 then
-  >&2 echo "Reads where filtered with MQ < 1."
   echo "returncode: $?"; putFile ${hisatAlignmentDir}${uniqueID}.sam
   echo "succes moving files";
 else

@@ -1,4 +1,4 @@
-#MOLGENIS nodes=1 ppn=8 mem=8gb walltime=10:00:00
+#MOLGENIS nodes=1 ppn=1 mem=8gb walltime=10:00:00
 
 ### variables to help adding to database (have to use weave)
 #string internalId
@@ -10,15 +10,16 @@
 #string referenceGenomeHisat
 #string reads1FqGz
 #string reads2FqGz
-#string nTreads
 #string platform
 #string hisatAlignmentDir
-#string hisatVersion
 #string uniqueID
 #string readQuality
 #string samtoolsVersion
+#string filteredBamDir
+#string unfilteredBamDir
+#string filteredBam
 
-getFile ${hisatAlignmentDir}${uniqueID}.sam}
+getFile ${hisatAlignmentDir}${uniqueID}.sam
 
 #Load modules
 ${stage} SAMtools/${samtoolsVersion}
@@ -29,11 +30,15 @@ ${checkStage}
 echo "## "$(date)" Start $0"
 echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
-if samtools view -h -b -q ${readQuality} ${hisatAlignmentDir}${uniqueID}.sam > ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.bam
+mkdir -p ${filteredBamDir}
+mkdir -p ${unfilteredBamDir}
+
+if sed '/NH:i:[^1]/d' ${hisatAlignmentDir}${uniqueID}.sam | samtools view -h -b - > ${filteredBam}
 then
-  >&2 echo "Reads where filtered with MQ < 1."
+   samtools view -h -b ${hisatAlignmentDir}${uniqueID}.sam > ${unfilteredBamDir}${uniqueID}.bam
+  >&2 echo "Reads with flag NH:i:[2+] where filtered out (only leaving 'unique' mapping reads)."
   rm ${hisatAlignmentDir}${uniqueID}.sam
-  echo "returncode: $?"; putFile ${hisatAlignmentDir}${uniqueID}_qual_${readQuality}.bam
+  echo "returncode: $?"; putFile ${filteredBam}
   echo "succes moving files";
 else
  echo "returncode: $?";

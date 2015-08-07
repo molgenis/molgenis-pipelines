@@ -2,11 +2,6 @@
 ## General parameters for SLURM settings and cluster directory paths
 #
 queue,ll
-mem,4
-walltime,23:59:00
-nodes,1
-ppn,1
-nTreads,8
 defaultInterpreter,#!/bin/bash
 stage,module load
 checkStage,module list
@@ -24,7 +19,7 @@ uniqueID,${sampleName}_${internalId}
 fastqcVersion,0.11.3-Java-1.7.0_80
 starVersion,2.3.1l
 cosmicVersion,v70
-RVersion,3.2.0-goolf-1.7.20-Java-1.7.0_80
+RVersion,3.2.1-goolf-1.7.20-Java-1.7.0_80
 anacondaVersion,1.8.0-Linux-x86_64
 samtoolsVersion,1.2-goolf-1.7.20
 gatkVersion,3.4-0-Java-1.7.0_80 
@@ -64,7 +59,7 @@ regulation_NHEKBin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_NHEK.bin
 ## Specific tools paths
 #
 ## FastQC
-fastqcDir,${projectDir}/fastqc/
+fastqcDir,${projectDir}/fastqc_genotypeCalling/
 fastqcZipExt,_fastqc.zip
 singleEndfastqcZip,${fastqcDir}/${uniqueID}.fq${fastqcZipExt}
 pairedEndfastqcZip1,${fastqcDir}/${uniqueID}_1.fq${fastqcZipExt}
@@ -92,12 +87,12 @@ markDuplicatesBam,${markDuplicatesDir}${sampleName}.bam
 markDuplicatesBai,${markDuplicatesDir}${sampleName}.bai
 markDuplicatesMetrics,${markDuplicatesDir}${sampleName}.metrics.log
 ## collectRNASeqMetrics
-collectRnaSeqMetricsDir,${projectDir}/collectRnaSeqMetrics/
-collectRnaSeqMetrics,${collectRnaSeqMetricsDir}${sampleName}.rna_metrics.log
-collectRnaSeqMetricsChart,${collectRnaSeqMetricsDir}${sampleName}.chart.pdf
+collectRnaSeqMetricsDir,${projectDir}/collectRnaSeqMetrics_genotypeCalling/
+collectRnaSeqMetrics,${collectRnaSeqMetricsDir}${uniqueID}.rna_metrics.log
+collectRnaSeqMetricsChart,${collectRnaSeqMetricsDir}${uniqueID}.chart.pdf
 ## collectMultipleMetrics
-collectMultipleMetricsDir,${projectDir}/collectMultipleMetrics/
-collectMultipleMetricsPrefix, ${projectDir}/collectMultipleMetrics/${sampleName}.multiplemetrics
+collectMultipleMetricsDir,${projectDir}/collectMultipleMetrics_genotypeCalling/
+collectMultipleMetricsPrefix, ${collectMultipleMetricsDir}/{uniqueID}.multiplemetrics
 ## splitAndTrim
 splitAndTrimDir,${projectDir}/splitAndTrim/
 splitAndTrimBam,${splitAndTrimDir}${sampleName}.bam

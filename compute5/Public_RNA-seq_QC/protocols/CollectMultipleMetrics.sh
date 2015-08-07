@@ -29,7 +29,7 @@ ${stage} picard/${picardVersion}
 #Check modules
 ${checkStage}
 
-mkdir -p ${collectMultipleMetricsDir}_QC
+mkdir -p ${collectMultipleMetricsDir}
 
 echo "## "$(date)" Start $0"
 echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
@@ -40,6 +40,16 @@ if [ ${#reads2FqGz} -ne 0 ]; then
 fi
 
 #Run Picard CollectAlignmentSummaryMetrics, CollectInsertSizeMetrics, QualityScoreDistribution and MeanQualityByCycle
+
+echo java -jar -Xmx4g -XX:ParallelGCThreads=4 ${toolDir}picard/${picardVersion}/CollectMultipleMetrics.jar \
+        I=${sortedBam} \
+        O=${collectMultipleMetricsPrefix} \
+        R=${onekgGenomeFasta} \
+        PROGRAM=CollectAlignmentSummaryMetrics \
+        PROGRAM=QualityScoreDistribution \
+        PROGRAM=MeanQualityByCycle \
+        $insertSizeMetrics \
+        TMP_DIR=${collectMultipleMetricsDir}
 if java -jar -Xmx4g -XX:ParallelGCThreads=4 ${toolDir}picard/${picardVersion}/CollectMultipleMetrics.jar \
  I=${sortedBam} \
  O=${collectMultipleMetricsPrefix} \
@@ -56,11 +66,22 @@ then
  putFile ${collectMultipleMetricsPrefix}.quality_by_cycle.pdf
  putFile ${collectMultipleMetricsPrefix}.quality_distribution_metrics
  putFile ${collectMultipleMetricsPrefix}.quality_distribution.pdf
-
- if [ ${#reads2FqGz} -ne 0 ]; then
-   putFile ${collectMultipleMetricsPrefix}.insert_size_histogram.pdf
-   putFile ${collectMultipleMetricsPrefix}.insert_size_metrics
- fi
+if [ ${#reads2FqGz} -ne 0 ]; then
+ putFile ${collectMultipleMetricsPrefix}.insert_size_histogram.pdf
+ putFile ${collectMultipleMetricsPrefix}.insert_size_metrics
+fi
+cd ${collectMultipleMetricsDir}
+bname=$(basename ${collectMultipleMetricsPrefix})
+md5sum ${bname}.quality_distribution_metrics > ${bname}.quality_distribution_metrics.md5
+md5sum ${bname}.alignment_summary_metrics > ${bname}.alignment_summary_metrics.md5
+md5sum ${bname}.quality_by_cycle_metrics > ${bname}.quality_by_cycle_metrics.md5
+md5sum ${bname}.quality_by_cycle.pdf > ${bname}.quality_by_cycle.pdf.md5
+md5sum ${bname}.quality_distribution.pdf > ${bname}.quality_distribution.pdf.md5
+if [ ${#reads2FqGz} -ne 0 ]; then
+    md5sum ${bname}.insert_size_histogram.pdf > ${bname}.insert_size_histogram.pdf.md5
+    md5sum ${bname}.insert_size_metrics > ${bname}.insert_size_metrics.md5
+fi
+  cd -
   echo "succes moving files";
 else
  echo "returncode: $?";

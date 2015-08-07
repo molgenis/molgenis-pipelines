@@ -37,6 +37,8 @@ else
 	echo "## "$(date)" Paired end cutadapt of ${reads1FqGz} and ${reads2FqGz}"
 	
     then
+      echo "md5sums"
+      md5sum ${cutadaptFile}
       echo "returncode: $?";
     else
       echo "returncode: $?";
