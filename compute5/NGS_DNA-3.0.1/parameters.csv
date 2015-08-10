@@ -1,6 +1,3 @@
-queue,ll
-tmpName,tmp04
-prmName,prm02
 mem,4
 walltime,23:59:00
 nodes,1
@@ -30,8 +27,6 @@ gatkJar,GenomeAnalysisTK.jar
 picardJar,picard.jar
 
 ##### GENERAL DIRECTORIES #####
-root,/apps/
-workDir,/groups/umcg-gaf/
 dataDir,${root}/data/
 softwareDir,${root}/software/
 sourcesDir,${root}/sources/
