@@ -3,3 +3,5 @@ CutAdapter,protocols/CutAdapter.sh,
 ReverseComplement,protocols/ReverseComplement.sh,CutAdapter,
 RemoveRRna,protocols/RemoveRRna.sh,ReverseComplement
 HisatAlignment,protocols/HisatAlignment.sh,ReverseComplement
+SamToFilteredBam,protocols/SamToFilteredBam.sh,HisatAlignment
+SortBam,protocols/SortBam.sh,SamToFilteredBam

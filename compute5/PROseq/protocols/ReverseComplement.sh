@@ -28,9 +28,10 @@ mkdir -p ${reverseComplementDir}
 
 if [ ${#reads2FqGz} -eq 0 ];
 then
-  echo 'singe end'
+  echo 'single end'
   if fastx_reverse_complement -i ${singleEndCutAdapt} -o ${singleEndRC}
   then
+      echo "returncode: $?";
       echo "succes moving files";
   else
       echo "returncode: $?";
