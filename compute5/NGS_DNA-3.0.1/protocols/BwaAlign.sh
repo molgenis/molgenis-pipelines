@@ -1,4 +1,4 @@
-#MOLGENIS walltime=20:00:00 nodes=1 ppn=8 mem=12gb
+#MOLGENIS walltime=20:00:00 nodes=1 ppn=8 mem=10gb
 
 #Parameter mapping
 #string stage
@@ -12,36 +12,20 @@
 #string srBarcodeFqGz
 #string alignedSam
 #string lane
-#string library
 #string externalSampleID
 #string tmpDataDir
 #string project
 #string intermediateDir
-
-#Echo parameter values
-echo "stage: ${stage}"
-echo "checkStage: ${checkStage}"
-echo "seqType: ${seqType}"
-echo "bwaVersion: ${bwaVersion}"
-echo "indexFile: ${indexFile}"
-echo "bwaAlignCores: ${bwaAlignCores}"
-echo "peEnd1BarcodeFqGz: ${peEnd1BarcodeFqGz}"
-echo "peEnd2BarcodeFqGz: ${peEnd2BarcodeFqGz}"
-echo "srBarcodeFqGz: ${srBarcodeFqGz}"
-echo "alignedSam: ${alignedSam}"
-echo "lane: ${lane}"
-echo "library: ${library}"
-echo "externalSampleID: ${externalSampleID}"
-
+#string filePrefix
 
 makeTmpDir ${alignedSam} 
 tmpAlignedSam=${MC_tmpFile}
 
 #Load module BWA
-${stage} bwa/${bwaVersion}
+${stage} ${bwaVersion}
 ${checkStage}
 
-READGROUPLINE="@RG\tID:${lane}\tPL:illumina\tLB:${library}\tSM:${externalSampleID}"
+READGROUPLINE="@RG\tID:${lane}\tPL:illumina\tLB:${filePrefix}\tSM:${externalSampleID}"
 
 #If paired-end use two fq files as input, else only one
 if [ ${seqType} == "PE" ]
@@ -58,7 +42,6 @@ then
 
 	echo -e "\nBWA sampe finished succesfull. Moving temp files to final.\n\n"
 	mv ${tmpAlignedSam} ${alignedSam}
-	putFile "${alignedSam}"
 else
     #Run BWA for single-read
     bwa mem \

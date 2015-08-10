@@ -1,7 +1,5 @@
 #!/bin/bash
-module load jdk/1.7.0_51
-NGS_DNA_HOME="/gcc/tools/NGS_DNA-2.1.1/"
-module load molgenis-compute/v5_20150211
+module load NGS_DNA/2.1.2
 module list
 
 PROJECT=projectXX
