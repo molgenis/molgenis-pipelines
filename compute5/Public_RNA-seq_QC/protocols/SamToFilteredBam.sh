@@ -13,7 +13,6 @@
 #string platform
 #string hisatAlignmentDir
 #string uniqueID
-#string readQuality
 #string samtoolsVersion
 #string filteredBamDir
 #string unfilteredBamDir

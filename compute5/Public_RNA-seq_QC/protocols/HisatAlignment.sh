@@ -14,7 +14,6 @@
 #string hisatAlignmentDir
 #string hisatVersion
 #string uniqueID
-#string readQuality
 #string samtoolsVersion
 
 getFile ${reads1FqGz}
