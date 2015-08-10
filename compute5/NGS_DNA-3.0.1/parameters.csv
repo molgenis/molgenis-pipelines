@@ -1,6 +1,3 @@
-queue,ll
-tmpName,tmp04
-prmName,prm02
 mem,4
 walltime,23:59:00
 nodes,1
@@ -18,7 +15,7 @@ bwaVersion,BWA/0.7.12-goolf-1.7.20
 computeVersion,v15.04.1-Java-1.7.0_80
 dbNSFPVersion,2.7
 fastqcVersion,FastQC/0.11.3-Java-1.7.0_80
-gatkVersion,GATK/3.4-0-Java-1.7.0_80 
+gatkVersion,GATK/3.4-46-Java-1.7.0_80 
 javaVersion,Java/1.7.0_80
 ngsDNAVersion,NGS_DNA/3.0.1-Molgenis-Compute-v15.04.1-Java-1.7.0_80
 picardVersion,picard/1.130-Java-1.7.0_80
@@ -30,8 +27,6 @@ gatkJar,GenomeAnalysisTK.jar
 picardJar,picard.jar
 
 ##### GENERAL DIRECTORIES #####
-root,/apps/
-workDir,/groups/umcg-gaf/
 dataDir,${root}/data/
 softwareDir,${root}/software/
 sourcesDir,${root}/sources/

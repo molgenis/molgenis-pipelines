@@ -1,39 +1,46 @@
 #!/bin/bash
 
-module load NGS_DNA-3.0.1-Molgenis-Compute-v15.04.1-Java-1.7.0_80
+module load NGS_DNA/3.0.1-Molgenis-Compute-v15.04.1-Java-1.7.0_80
 module list
 
+ENVIRONMENT_PARAMETERS=parameters_XX.csv
 PROJECT=projectXX
-TMPDIR=tmp04
+TMPDIR=tmpXX
+WORKDIR="/groups/umcg-gaf/${TMPDIR}"
 RUNID=runXX
-## For small batchsize (50) leave BATCH empty, else choose _wgs or _exome (100 batches) 
+## For small batchsize (25) leave BATCH empty, else choose _wgs or _exome (100 batches) 
 BATCH=""
 
-GAF="/groups/umcg-gaf/"
+
 
 if [ -f .compute.properties ];
 then
      rm .compute.properties
 fi
 
-if [ -f ${GAF}/${TMPDIR}/generatedscripts/${PROJECT}/out.csv  ];
+if [ -f ${WORKDIR}/generatedscripts/${PROJECT}/out.csv  ];
 then
-    	rm -rf ${GAF}/${TMPDIR}/generatedscripts/${PROJECT}/out.csv
+    	rm -rf ${WORKDIR}/generatedscripts/${PROJECT}/out.csv
 fi
 
-perl ${EBROOTNGS_DNA}/convertParametersGitToMolgenis.pl ${NGS_DNA_HOME}/parameters.csv > \
-${GAF}/${TMPDIR}/generatedscripts/${PROJECT}/out.csv
+perl ${EBROOTNGS_DNA}/convertParametersGitToMolgenis.pl ${EBROOTNGS_DNA}/parameters.csv > \
+${GAF}/generatedscripts/${PROJECT}/out.csv
+
+perl ${EBROOTNGS_DNA}/convertParametersGitToMolgenis.pl ${EBROOTNGS_DNA}/${ENVIRONMENT_PARAMETERS} > \
+${GAF}/generatedscripts/${PROJECT}/environment_parameters.csv
 
 sh $EBROOTMOLGENISMINCOMPUTE/molgenis_compute.sh \
--p ${GAF}/${TMPDIR}/generatedscripts/${PROJECT}/out.csv \
--p $NGS_DNA_HOME/batchIDList${BATCH}.csv \
--p ${GAF}/${TMPDIR}/generatedscripts/${PROJECT}/${PROJECT}.csv \
--w $NGS_DNA_HOME/create_in-house_ngs_projects_workflow.csv \
--rundir ${GAF}/${TMPDIR}/generatedscripts/${PROJECT}/scripts \
+-p ${WORKDIR}/generatedscripts/${PROJECT}/out.csv \
+-p ${WORKDIR}/generatedscripts/${PROJECT}/environment_parameters.csv \
+-p ${EBROOTNGS_DNA}/batchIDList${BATCH}.csv \
+-p ${WORKDIR}/generatedscripts/${PROJECT}/${PROJECT}.csv \
+-w ${EBROOTNGS_DNA}/create_in-house_ngs_projects_workflow.csv \
+-rundir ${WORKDIR}/generatedscripts/${PROJECT}/scripts \
 --runid ${RUNID} \
 -o "workflowpath=${EBROOTNGS_DNA}/workflow.csv;\
-outputdir=scripts/jobs;mainParameters=${GAF}/${TMPDIR}/generatedscripts/${PROJECT}/out.csv;\
+outputdir=scripts/jobs;mainParameters=${WORKDIR}/generatedscripts/${PROJECT}/out.csv;\
+environment_parameters=${WORKDIR}/generatedscripts/${PROJECT}/environment_parameters.csv;\
 batchIDList=${EBROOTNGS_DNA}/batchIDList${BATCH}.csv;\
-worksheet=${GAF}/${TMPDIR}/generatedscripts/${PROJECT}/${PROJECT}.csv" \
+worksheet=${WORKDIR}/generatedscripts/${PROJECT}/${PROJECT}.csv" \
 -weave \
 --generate
