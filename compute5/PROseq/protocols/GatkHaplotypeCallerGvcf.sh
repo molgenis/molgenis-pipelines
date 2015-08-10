@@ -1,4 +1,4 @@
-#MOLGENIS walltime=23:59:00 mem=12gb ppn=2
+#MOLGENIS walltime=23:59:00 mem=12gb ppn=8
 
 ### variables to help adding to database (have to use weave)
 #string internalId
@@ -7,23 +7,24 @@
 ###
 #string stage
 #string checkStage
+#string starVersion
 #string WORKDIR
 #string projectDir
 #string gatkVersion
 #string dbsnpVcf
 #string dbsnpVcfIdx
 #string onekgGenomeFasta
-#string indelRealignmentBam
-#string indelRealignmentBai
+#list indelRealignmentBam
 #string haplotyperDir
 #string haplotyperGvcf
 #string haplotyperGvcfIdx
-
+#string toolDir
 
 echo "## "$(date)" Start $0"
 echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
-for file in "${indelRealignmentBam[@]}" "${indelRealignmentBai[@]}" "${dbsnpVcf}" "${dbsnpVcfIdx}" "${onekgGenomeFasta}"; do
+for file in "${indelRealignmentBam[@]}" "${dbsnpVcf}" "${dbsnpVcfIdx}" "${onekgGenomeFasta}"; do
+#for file in "${indelRealignmentBam[@]}" "${indelRealignmentBai[@]}" "${dbsnpVcf}" "${dbsnpVcfIdx}" "${onekgGenomeFasta}"; do
 	echo "getFile file='$file'"
 	getFile $file
 done
@@ -39,7 +40,7 @@ inputs=$(printf ' -I %s ' $(printf '%s\n' ${bams[@]}))
 
 mkdir -p ${haplotyperDir}
 
-if java -Xmx12g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${haplotyperDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
+if java -Xmx12g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${haplotyperDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
  -T HaplotypeCaller \
  -R ${onekgGenomeFasta} \
  --dbsnp ${dbsnpVcf}\
@@ -48,6 +49,8 @@ if java -Xmx12g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${haplotyperDir} -jar $
  -stand_call_conf 10.0 \
  -stand_emit_conf 20.0 \
  -o ${haplotyperGvcf} \
+ -variant_index_type LINEAR \
+ -variant_index_parameter 128000 \
  --emitRefConfidence GVCF
 
 then
@@ -55,9 +58,6 @@ then
 
  putFile ${haplotyperGvcf}
  putFile ${haplotyperGvcfIdx}
- echo "md5sums"
- md5sum ${haplotyperGvcf}
- md5sum ${haplotyperGvcfIdx}
  echo "succes moving files";
 else
  echo "returncode: $?";

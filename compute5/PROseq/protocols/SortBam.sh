@@ -16,7 +16,6 @@
 #string sortedBai
 #string uniqueID
 #string jdkVersion
-#string readQuality
 #string filteredBam
 
 getFile ${filteredBam}

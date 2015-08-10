@@ -1,4 +1,4 @@
-#MOLGENIS nodes=1 ppn=8 mem=8gb walltime=01:00:00
+#MOLGENIS nodes=1 ppn=8 mem=8gb walltime=03:00:00
 
 ### variables to help adding to database (have to use weave)
 #string internalId
@@ -10,7 +10,6 @@
 #string referenceGenomeHisat
 #string reads1FqGz
 #string reads2FqGz
-#string nTreads
 #string platform
 #string hisatAlignmentDir
 #string hisatVersion

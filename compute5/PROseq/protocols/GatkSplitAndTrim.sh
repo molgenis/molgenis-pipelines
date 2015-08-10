@@ -1,4 +1,4 @@
-#MOLGENIS nodes=1 ppn=2 mem=8gb walltime=23:59:00
+#MOLGENIS nodes=1 ppn=8 mem=8gb walltime=23:59:00
 
 ### variables to help adding to database (have to use weave)
 #string internalId
@@ -12,9 +12,11 @@
 #string markDuplicatesBam
 #string markDuplicatesBai
 #string onekgGenomeFasta
+
 #string splitAndTrimBam
 #string splitAndTrimBai
 #string splitAndTrimDir
+#string toolDir
 
 echo "## "$(date)" Start $0"
 echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
@@ -23,7 +25,7 @@ getFile ${onekgGenomeFasta}
 getFile ${markDuplicatesBam}
 getFile ${markDuplicatesBai}
 
-${stage} samtools/${samtoolsVersion}
+${stage} SAMtools/${samtoolsVersion}
 ${stage} GATK/${gatkVersion}
 ${checkStage}
 
@@ -59,7 +61,7 @@ echo
 echo "## Action to perform in quals: "$qualAction" ##"
 echo
 
-if java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${splitAndTrimDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
+if java -Xmx8g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${splitAndTrimDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
  -T SplitNCigarReads \
  -R ${onekgGenomeFasta} \
  -I ${markDuplicatesBam} \
@@ -72,6 +74,9 @@ if java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${splitAndTrimDir} -jar 
 
 then
  echo "returncode: $?"; 
+
+ putFile ${splitAndTrimBam}
+ putFile ${splitAndTrimBai}
  echo "succes moving files";
 else
  echo "returncode: $?";

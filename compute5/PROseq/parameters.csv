@@ -2,11 +2,6 @@
 ## General parameters for SLURM settings and cluster directory paths
 #
 queue,ll
-mem,4
-walltime,23:59:00
-nodes,1
-ppn,8
-nTreads,8
 defaultInterpreter,#!/bin/bash
 stage,module load
 checkStage,module list
@@ -22,6 +17,8 @@ platform,ILLUMINA
 ########################################################################
 ## Software and data versions/builds
 #
+gawkVersion,4.1.0-goolf-1.7.20
+fastxVersion,0.0.14-goolf-1.7.20
 rRNAdustVersion,1.02-goolf-1.7.20
 cutadaptVersion,1.8.1-goolf-1.7.20-Python-2.7.9
 picardVersion,1.102-Java-1.7.0_80
@@ -34,7 +31,7 @@ jdkVersion,1.8.0_25
 verifyBamIDVersion,1.1.2-goolf-1.7.20
 GenotypeHarmonizerVersion,1.4.14
 gatkVersion,3.4-0-Java-1.7.0_80 
-hisatVersion,0.1.5-beta-goolf-1.7.20
+hisatVersion,0.1.6-beta-goolf-1.7.20
 fastqcVersion,0.11.3-Java-1.7.0_80  
 genomeBuild,b37
 genomeGrchBuild,GRCh37
@@ -103,17 +100,26 @@ evalGrp,${variantEvalDir}${uniqueID}.eval.grp
 ## Hisat
 referenceGenomeHisat,${resDir}/${genomeBuild}/indices/hisat-${hisatVersion}/human_g1k_v${human_g1k_vers}
 hisatAlignmentDir,${projectDir}/hisat/
-readQuality,1
+filteredBamDir,${projectDir}/filteredBam/
+filteredBam,${filteredBamDir}/${uniqueID}_unique_mapping_only.bam
+unfilteredBamDir,${projectDir}/unfilteredBam/
 ## SortBam
 sortedBamDir,${projectDir}/sortedBam/
 sortedBam,${sortedBamDir}${uniqueID}.bam
 sortedBai,${sortedBamDir}${uniqueID}.bai
 ## cutadapt
-adapterDir,${projectDir}/fastqAdapterFiltered/
-contaminantFile,${toolDir}/FastQC/${fastqcVersion}/Configuration/contaminant_list.txt
+cutadaptDir,${projectDir}/fastq_AdapterFiltered/
+singleEndCutAdapt,${cutadaptDir}/${uniqueID}_adapter_cut.fastq
+pairedEndCutAdapt1,${cutadaptDir}/${uniqueID}_adapter_cut_1.fastq
+pairedEndCutAdapt2,${cutadaptDir}/${uniqueID}_adapter_cut_2.fastq
+cutadaptFile,${cutadaptDir}/${uniqueID}_adapter_cut.fastq
+adapters,/groups/umcg-wijmenga/tmp04/umcg-ndeklein/data/PROseq/adapters.txt
 ## rRNAdust
-rRNAfilteredDir,${projectDir}/fastQrRNAfiltered/
-rRNArefSeq,${resDir}/human_rRNA/U13369.1.fasta
+rRNAfilteredDir,${projectDir}/fastq_rRNAfiltered/
+rRNArefSeq,${resDir}/human_rRNA/U13369.1
+singleEndRRna,${rRNAfilteredDir}/${uniqueID}_rRNA_filtered.fastq
+pairedEndRRna1,${rRNAfilteredDir}/${uniqueID}_rRNA_filtered_1.fastq
+pairedEndRRna2,${rRNAfilteredDir}/${uniqueID}_rRNA_filtered_2.fast
 ## splitAndTrim
 splitAndTrimDir,${projectDir}/splitAndTrim/
 splitAndTrimBam,${splitAndTrimDir}${sampleName}.bam
@@ -146,6 +152,11 @@ mergeGvcfIdx,${mergeGvcf}.idx
 genotypedVcf,${haplotyperDir}${project}.gg.vcf
 genotypedVcfIdx,${genotypedVcf}.idx
 annotatorDir,${projectDir}/VariantAnnotation/
+## ReverseComplement
+reverseComplementDir,${projectDir}/fastq_reverseComplement/
+singleEndRC,${reverseComplementDir}/${uniqueID}_reverse_complement.fastq
+pairedEndRC1,${reverseComplementDir}/${uniqueID}_reverse_complement_1.fastq
+pairedEndRC2,${reverseComplementDir}/${uniqueID}_reverse_complement_2.fastq
 ## ?
 rRnaIntervalList,${resDir}//picard-tools/Ensembl${ensemblVersion}/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.rrna.interval_list
 genesRefFlat,${resDir}/picard-tools/Ensembl${ensemblVersion}/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.refflat

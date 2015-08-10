@@ -1,26 +1,26 @@
-#MOLGENIS walltime=23:59:00 mem=30gb ppn=2
+#MOLGENIS walltime=8-23:59:59 mem=30gb ppn=8
 ################################^advised 45 gb for 300 files so 30 for 200 files?
 
 ### variables to help adding to database (have to use weave)
-#string internalId
-#string sampleName
 #string project
 ###
 #string stage
 #string checkStage
+#string starVersion
 #string WORKDIR
 #string projectDir
 #string onekgGenomeFasta
 #string gatkVersion
-#list haplotyperGvcf, haplotyperGvcfIdx
+#list haplotyperGvcf
+
 #string haplotyperDir
 #string mergeGvcf
 #string mergeGvcfIdx
+#string toolDir
 
 echo "## "$(date)" Start $0"
-echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
-for file in "${haplotyperGvcf[@]}" "${haplotyperGvcfIdx[@]}" "${onekgGenomeFasta}"; do
+for file in "${haplotyperGvcf[@]}" "${onekgGenomeFasta}"; do
 	echo "getFile file='$file'"
 	getFile $file
 done
@@ -38,17 +38,19 @@ mkdir -p ${haplotyperDir}
 
 #pseudo: java -jar GenomeAnalysisTK.jar -T HaplotypeCaller -R ref.fasta -I input.bam -recoverDanglingHeads -dontUseSoftClippedBases -stand_call_conf 20.0 -stand_emit_conf 20.0 -o output.vcf from http://gatkforums.broadinstitute.org/discussion/3891/calling-variants-in-rnaseq
 
-if java -Xmx30g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${haplotyperDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
+if java -Xmx30g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${haplotyperDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
  -T CombineGVCFs \
  -R ${onekgGenomeFasta} \
  -o ${mergeGvcf} \
  $inputs 
 
 then
- echo "returncode: $?";
+ echo "returncode: $?"; 
+
  putFile ${mergeGvcf}
- echo "md5sums"
- md5sum ${mergeGvcf}
+cd ${haplotyperDir}
+md5sum $(basename ${mergeGvcf})> $(basename ${mergeGvcf})
+ cd -
  echo "succes moving files";
 else
  echo "returncode: $?";
