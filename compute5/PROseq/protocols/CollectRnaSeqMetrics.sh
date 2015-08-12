@@ -18,8 +18,9 @@
 #string onekgGenomeFasta
 #string toolDir
 #string RVersion
-#getFile ${sortedBam}
-#getFile ${sortedBai}
+
+getFile ${sortedBam}
+getFile ${sortedBai}
 
 #Load module
 ${stage} picard/${picardVersion}
@@ -47,12 +48,12 @@ if java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}picard/${picardVersion}/Co
 
 then
  echo "returncode: $?";
-echo "md5sums"
-md5sum ${collectRnaSeqMetrics}
-md5sum ${collectRnaSeqMetricsChart}
-#putFile ${collectRnaSeqMetrics}
-# putFile ${collectRnaSeqMetricsChart}
-
+ putFile ${collectRnaSeqMetrics}
+ putFile ${collectRnaSeqMetricsChart}
+cd ${collectRnaSeqMetricsDir}
+md5sum ${collectRnaSeqMetrics} > ${collectRnaSeqMetrics}.md5
+md5sum ${collectRnaSeqMetricsChart} > ${collectRnaSeqMetricsChart}.md5
+cd -
  echo "succes moving files";
 else
  echo "returncode: $?";

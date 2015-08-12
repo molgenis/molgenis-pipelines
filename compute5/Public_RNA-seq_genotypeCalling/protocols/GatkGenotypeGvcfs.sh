@@ -1,4 +1,4 @@
-#MOLGENIS walltime=23:59:00 mem=8gb ppn=8
+#MOLGENIS walltime=10-23:59:00 mem=8gb ppn=16
 
 ### variables to help adding to database (have to use weave)
 #string project
@@ -40,7 +40,7 @@ inputs=$(printf ' --variant %s ' $(printf '%s\n' ${gvcfs[@]}))
 
 mkdir -p ${haplotyperDir}
 
-if java -Xmx4g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${haplotyperDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
+if java -Xmx4g -XX:ParallelGCThreads=16 -Djava.io.tmpdir=${haplotyperDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
  -T GenotypeGVCFs \
  -R ${onekgGenomeFasta} \
  --dbsnp ${dbsnpVcf}\

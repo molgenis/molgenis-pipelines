@@ -8,8 +8,6 @@
 #string stage
 #string checkStage
 #string referenceGenomeHisat
-#string reads1FqGz
-#string reads2FqGz
 #string platform
 #string hisatAlignmentDir
 #string uniqueID

@@ -56,9 +56,10 @@ if [ ${#reads2FqGz} -eq 0 ]; then
 
 	  putFile ${fastqcDir}/$(basename ${reads1FqGz} .fastq.gz)${fastqcZipExt}
 	  putFile ${singleEndfastqcZip}
-      echo "md5sums"
-      md5sum ${pairedEndfastqcZip1}
-	  echo "succes moving files";
+      cd ${fastqcDir}
+      md5sum $(basename ${pairedEndfastqcZip1}) > $(basename ${pairedEndfastqcZip1}).md5
+      cd -
+      echo "succes moving files";
 	else
  	  echo "returncode: $?";
  	  echo "fail";
@@ -103,9 +104,10 @@ else
 	  putFile ${fastqcDir}/$(basename ${reads2FqGz} .fastq.gz)${fastqcZipExt}
 	  putFile ${pairedEndfastqcZip1}
 	  putFile ${pairedEndfastqcZip2}
-      echo "md5sums"
-      md5sum ${pairedEndfastqcZip1}
-      md5sum ${pairedEndfastqcZip2}
+      cd ${fastqcDir}
+      md5sum $(basename ${pairedEndfastqcZip1}) > $(basename ${pairedEndfastqcZip1}).md5
+      md5sum $(basename ${pairedEndfastqcZip2}) > $(basename ${pairedEndfastqcZip2}).md5
+      cd -
 	  echo "succes moving files";
 	else
  	  echo "returncode: $?";

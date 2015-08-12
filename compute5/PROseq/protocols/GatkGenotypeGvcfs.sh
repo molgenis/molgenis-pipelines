@@ -1,35 +1,37 @@
-#MOLGENIS walltime=23:59:00 mem=4gb ppn=4
+#MOLGENIS walltime=10-23:59:00 mem=8gb ppn=16
 
 ### variables to help adding to database (have to use weave)
-#string internalId
-#string sampleName
 #string project
 ###
 #string stage
 #string checkStage
+#string starVersion
 #string WORKDIR
 #string projectDir
 #string dbsnpVcf
 #string dbsnpVcfIdx
+
 #string gatkVersion
 #string haplotyperDir
 #string onekgGenomeFasta
-#Array reference because it's possible
-#list mergeGvcf, mergeGvcfIdx
+#list mergeGvcf
+
 #string genotypedVcf
 #string genotypedVcfIdx
+#string toolDir
 
 echo "## "$(date)" Start $0"
-echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
-for file in "${mergeGvcf[@]}" "${mergeGvcfIdx[@]}" "${onekgGenomeFasta}"; do
-	echo "getFile file='$file'"
+#for file in "${mergeGvcf[@]}" "${mergeGvcfIdx[@]}" "${onekgGenomeFasta}"; do
+for file in "${mergeGvcf[@]}" "${onekgGenomeFasta}"; do
+    echo "getFile file='$file'"
 	getFile $file
 done
 
 #Load gatk module
 ${stage} GATK/${gatkVersion}
 ${checkStage}
+
 
 # sort unique and print like ' --variant file1.vcf --variant file2.vcf '
 gvcfs=($(printf '%s\n' "${mergeGvcf[@]}" | sort -u ))
@@ -38,7 +40,7 @@ inputs=$(printf ' --variant %s ' $(printf '%s\n' ${gvcfs[@]}))
 
 mkdir -p ${haplotyperDir}
 
-if java -Xmx4g -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${haplotyperDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
+if java -Xmx4g -XX:ParallelGCThreads=16 -Djava.io.tmpdir=${haplotyperDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
  -T GenotypeGVCFs \
  -R ${onekgGenomeFasta} \
  --dbsnp ${dbsnpVcf}\

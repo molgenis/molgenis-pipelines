@@ -75,7 +75,6 @@ evalGrp,${variantEvalDir}${uniqueID}.eval.grp
 ## Hisat
 referenceGenomeHisat,${resDir}/${genomeBuild}/indices/hisat-${hisatVersion}/human_g1k_v${human_g1k_vers}
 hisatAlignmentDir,${projectDir}/hisat/
-readQuality,1
 filteredBamDir,${projectDir}/filteredBam/
 filteredBam,${filteredBamDir}/${uniqueID}_unique_mapping_only.bam
 unfilteredBamDir,${projectDir}/unfilteredBam/

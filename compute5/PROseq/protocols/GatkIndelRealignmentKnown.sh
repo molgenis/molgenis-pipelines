@@ -1,4 +1,4 @@
-#MOLGENIS nodes=1 ppn=2 mem=8gb walltime=23:59:00
+#MOLGENIS nodes=1 ppn=8 mem=8gb walltime=23:59:00
 
 ### variables to help adding to database (have to use weave)
 #string internalId
@@ -19,6 +19,7 @@
 #string indelRealignmentDir
 #string indelRealignmentBam
 #string indelRealignmentBai
+#string toolDir
 
 #pseudo from gatk forum (link: http://www.broadinstitute.org/gatk/gatkdocs/org_broadinstitute_sting_gatk_walkers_indels_IndelRealigner):
 #java -Xmx4g -jar GenomeAnalysisTK.jar -T IndelRealigner -R ref.fa -I input.bam -targetIntervals intervalListFromRTC.intervals -o realignedBam.bam [-known /path/to/indels.vcf] -U ALLOW_N_CIGAR_READS --allow_potentially_misencoded_quality_scores
@@ -38,12 +39,13 @@ getFile ${goldStandardVcf}
 getFile ${oneKgPhase1IndelsVcfIdx}
 getFile ${goldStandardVcfIdx}
 
+
 if [ ! -e ${indelRealignmentDir} ]; then
 	mkdir -p ${indelRealignmentDir}
 fi
 
 
-if java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${indelRealignmentDir} -jar $GATK_HOME/GenomeAnalysisTK.jar \
+if java -Xmx8g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${indelRealignmentDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
  -T IndelRealigner \
  -R ${onekgGenomeFasta} \
  -I ${splitAndTrimBam} \
@@ -60,7 +62,7 @@ then
 
  putFile ${indelRealignmentBam}
  putFile ${indelRealignmentBai}
- echo "succes moving files";
+echo "succes moving files";
 else
  echo "returncode: $?";
  echo "fail";
