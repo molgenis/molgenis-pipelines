@@ -31,7 +31,7 @@ then
  echo "returncode: $?"; 
  putFile  ${flagstatFile}
  cd ${flagstatDir}
-md5sum $(basename ${flagstatFile}) > $(basename ${flagstatFile})
+md5sum $(basename ${flagstatFile}) > $(basename ${flagstatFile}).md5
  cd -
  echo "succes moving files";
 else

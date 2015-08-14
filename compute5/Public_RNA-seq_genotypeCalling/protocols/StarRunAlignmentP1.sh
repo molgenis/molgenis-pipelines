@@ -7,7 +7,7 @@
 ###
 #string stage
 #string checkStage
-#string starVersion
+
 #string WORKDIR
 #string projectDir
 #string resDir
