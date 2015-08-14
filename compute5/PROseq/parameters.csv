@@ -69,6 +69,9 @@ markDuplicatesDir,${projectDir}/markDuplicates/
 markDuplicatesBam,${markDuplicatesDir}${sampleName}.bam
 markDuplicatesBai,${markDuplicatesDir}${sampleName}.bai
 markDuplicatesMetrics,${markDuplicatesDir}${sampleName}.metrics.log
+## Flagstat
+flagstatDir,${projectDir}/flagStat
+flagstatFile,${flagstatDir}/${sampleName}.flagstat
 ## FastQC
 fastqcDir,${projectDir}/fastqc/
 fastqcZipExt,_fastqc.zip

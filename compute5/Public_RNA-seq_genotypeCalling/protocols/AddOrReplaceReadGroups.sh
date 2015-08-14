@@ -7,7 +7,7 @@
 ###
 #string stage
 #string checkStage
-#string starVersion
+
 #string WORKDIR
 #string projectDir
 #string picardVersion
@@ -16,7 +16,6 @@
 #string addOrReplaceGroupsBai
 #string sortedBamFile
 #string toolDir
-#string readQuality
 #string uniqueID
 
 echo "## "$(date)" ##  $0 Started "

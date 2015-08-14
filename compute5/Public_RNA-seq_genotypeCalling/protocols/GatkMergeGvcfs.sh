@@ -6,7 +6,7 @@
 ###
 #string stage
 #string checkStage
-#string starVersion
+
 #string WORKDIR
 #string projectDir
 #string onekgGenomeFasta
@@ -49,7 +49,7 @@ then
 
  putFile ${mergeGvcf}
 cd ${haplotyperDir}
-md5sum $(basename ${mergeGvcf})> $(basename ${mergeGvcf})
+md5sum $(basename ${mergeGvcf})> $(basename ${mergeGvcf}).md5sum
  cd -
  echo "succes moving files";
 else
