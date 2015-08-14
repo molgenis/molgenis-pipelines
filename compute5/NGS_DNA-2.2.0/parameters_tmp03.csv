@@ -195,3 +195,7 @@ inSilicoConcordanceFile,${intermediateDir}/inSilicoConcordance.txt
 phiXPrefix,150504_WGSIM_9999_ZZZZZZZZXX
 phiXEnd1Gz,${humanPhiXdir}/${phiXPrefix}/${phiXPrefix}_L9_ZZZZZZ_1.${rawFileExt}
 phiXEnd2Gz,${humanPhiXdir}/${phiXPrefix}/${phiXPrefix}_L9_ZZZZZZ_2.${rawFileExt}
+dellyTypeDEL,DEL
+dellyTypeDUP,DUP
+dellyTypeINV,INV
+dellyTypeTRA,TRA
