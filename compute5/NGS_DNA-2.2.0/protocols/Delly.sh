@@ -2,7 +2,18 @@
 #string project
 #string indexFile
 #string intermediateDir
+#string dellyType
 #list realignedBam
+
+# Echo parameter values
+echo "project: ${project}"
+echo "indexFile: ${indexFile}"
+echo "intermediateDir: ${intermediateDir}"
+echo "dellyType: ${dellyType}"
+echo "realignedBam: ${realignedBam}"
+
+module load delly/v0.6.7
+module list
 
 #Function to check if array contains value
 array_contains () {
@@ -20,16 +31,13 @@ array_contains () {
 
 UNIQUEBAMS=()
 
-module load delly/v0.6.7
 
 for bamFile in "${realignedBam[@]}"
 do
         array_contains UNIQUEBAMS "$bamFile" || UNIQUEBAMS+=("$bamFile")    # If bamFile does not exist in array add it
 done
 
-echo "size of the UNIQUEBAMS: ${#UNIQUEBAMS[@]}"
+echo "Size of the UNIQUEBAMS: ${#UNIQUEBAMS[@]}"
 echo "Delly is saving output in: ${intermediateDir}/${project}.delly.vcf"
 
-delly -t DEL -x human.hg19.excl.tsv -o ${intermediateDir}/${project}.delly.vcf -g ${indexFile} ${UNIQUEBAMS[@]}
-
-
+delly -t ${dellyType} -x human.hg19.excl.tsv -o ${intermediateDir}/${project}.delly.vcf -g ${indexFile} ${UNIQUEBAMS[@]}
