@@ -31,7 +31,7 @@ ${checkStage}
 mkdir -p ${collectRnaSeqMetricsDir}
 
 echo "## "$(date)" ##  $0 Started "
-echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
+
 
 if java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}picard/${picardVersion}/CollectRnaSeqMetrics.jar \
  INPUT=${markDuplicatesBam} \
