@@ -19,7 +19,7 @@
 
 
 echo "## "$(date)" Start $0"
-echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
+
 
 #for file in "${addOrReplaceGroupsBam[@]}" "${addOrReplaceGroupsBai[@]}"; do
 for file in "${addOrReplaceGroupsBam[@]}"; do
