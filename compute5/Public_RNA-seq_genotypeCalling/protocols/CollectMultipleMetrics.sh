@@ -8,7 +8,7 @@
 #string checkStage
 #string picardVersion
 #string RVersion
-#string reads2FqGz
+#list reads2FqGz
 #string collectMultipleMetricsDir
 #string collectMultipleMetricsPrefix
 #string onekgGenomeFasta
