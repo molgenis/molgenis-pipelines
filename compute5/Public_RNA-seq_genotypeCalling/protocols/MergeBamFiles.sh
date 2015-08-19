@@ -3,7 +3,6 @@
 ### variables to help adding to database (have to use weave)
 #string project
 #string sampleName
-#string internalId
 ###
 #string stage
 #string checkStage
