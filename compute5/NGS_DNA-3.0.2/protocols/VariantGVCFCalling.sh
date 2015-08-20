@@ -30,7 +30,7 @@ array_contains () {
     local seeking=$2
     local in=1
     for element in "${!array-}"; do
-        if [[ $element == $seeking ]]; then
+        if [[ "$element" == "$seeking" ]]; then
             in=0
             break
         fi
@@ -75,14 +75,14 @@ baitBatchLength=`cat ${capturedBatchBed} | wc -l`
 bams=($(printf '%s\n' "${realignedBam[@]}" | sort -u ))
 inputs=$(printf ' -I %s ' $(printf '%s\n' ${bams[@]}))
 
-if [ ${baitBatchLength} == 0 ]
+if [ ${baitBatchLength} -eq 0 ]
 then
 	echo "skipped ${capturedBatchBed}, because the batch is empty"  
 else
 	if [[ ${capturedBatchBed} == *batch-[0-9]*X.bed ]]
 	then
 
-		if [ ${sex} == "Male" ]
+		if [ "${sex}" == "Male" ]
 		then
 			echo "X (male): NON AUTOSOMAL REGION"
 			java -Xmx12g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${tempDir} -jar \
@@ -98,7 +98,7 @@ else
 			-L ${capturedBatchBed} \
 			--emitRefConfidence GVCF \
 			-ploidy 1
-		elif [ ${sex} == "Female" ]
+		elif [ "${sex}" == "Female" ]
 		then
 			echo "X (female)"
 			#Run GATK HaplotypeCaller in DISCOVERY mode to call SNPs and indels
@@ -116,13 +116,13 @@ else
         		--emitRefConfidence GVCF \
 			-ploidy 2 
 		fi
-	elif [[ $capturedBatchBed == *batch-[0-9]*Y.bed ]]
+	elif [[ "${capturedBatchBed}" == *batch-[0-9]*Y.bed ]]
 	then
 		echo "Y"
-		if [ ${sex} == "Female" ]
+		if [ "${sex}" == "Female" ]
         	then
         	        echo "This sample is not a male, chromosome Y skipped!"
-        	elif [ ${sex} == "Male" ]
+        	elif [ "${sex}" == "Male" ]
 		then
 			java -Xmx12g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${tempDir} -jar \
                         ${EBROOTGATK}/${gatkJar} \
@@ -155,9 +155,9 @@ else
                 -ploidy 2
 	fi
 
-	if [[ $capturedBatchBed == *batch-[0-9]*X.bed ]]
+	if [[ "${capturedBatchBed}" == *batch-[0-9]*X.bed ]]
 	then
-		if [ -f ${tmpSampleBatchVariantCallsMaleNONPAR} ] && [ -f  ${tmpSampleBatchVariantCallsFemale} ]
+		if [ -f "${tmpSampleBatchVariantCallsMaleNONPAR}" ] && [ -f  "${tmpSampleBatchVariantCallsFemale}" ]
 		then
 			echo "combine male and female chrX"
 			java -Xmx2g -jar ${EBROOTGATK}/${gatkJar} \
@@ -168,12 +168,12 @@ else
    			--variant ${tmpSampleBatchVariantCallsFemale} \
 			-o ${tmpSampleBatchVariantCalls}
 
-		elif [ ! -f ${tmpSampleBatchVariantCallsMaleNONPAR} ]  
+		elif [ ! -f "${tmpSampleBatchVariantCallsMaleNONPAR}" ]  
 		then
 			echo "There are no males"
 			tmpSampleBatchVariantCalls=${tmpSampleBatchVariantCallsFemale}
 			tmpSampleBatchVariantCallsIdx=${tmpSampleBatchVariantCallsFemaleIdx}
-		elif [ ! -f ${tmpSampleBatchVariantCallsFemale} ]
+		elif [ ! -f "${tmpSampleBatchVariantCallsFemale}" ]
         	then
 			echo "There are no females!"
                 	tmpSampleBatchVariantCalls=${tmpSampleBatchVariantCallsMaleNONPAR}
@@ -184,7 +184,7 @@ else
 	fi
 
 	echo -e "\nVariantCalling finished succesfull. Moving temp files to final.\n\n"
-	if [ -f ${tmpSampleBatchVariantCalls} ]
+	if [ -f "${tmpSampleBatchVariantCalls}" ]
 	then
         	mv ${tmpSampleBatchVariantCalls} ${sampleBatchVariantCalls}
         	mv ${tmpSampleBatchVariantCallsIdx} ${sampleBatchVariantCallsIdx}

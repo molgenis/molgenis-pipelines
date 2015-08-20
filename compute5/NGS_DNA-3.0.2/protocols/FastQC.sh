@@ -21,7 +21,7 @@ makeTmpDir ${intermediateDir}
 tmpIntermediateDir=${MC_tmpFile}
 
 #If paired-end do fastqc for both ends, else only for one
-if [ ${seqType} == "PE" ]
+if [ "${seqType}" == "PE" ]
 then
 	fastqc ${peEnd1BarcodeFqGz} \
 	${peEnd2BarcodeFqGz} \

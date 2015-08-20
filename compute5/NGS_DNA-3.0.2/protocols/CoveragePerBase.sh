@@ -15,7 +15,7 @@
 sleep 5
 module load ${gatkVersion}
 
-if [ $GCC_Analysis == "diagnostiek" ] || [ $GCC_Analysis == "diagnostics" ]
+if [ "${GCC_Analysis}" == "diagnostiek" ] || [ "${GCC_Analysis}" == "diagnostics" ]
 then
 	if [ -f ${capturedIntervalsPerBase} ]
 	then

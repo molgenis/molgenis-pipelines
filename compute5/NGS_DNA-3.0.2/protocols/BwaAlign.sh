@@ -28,7 +28,7 @@ ${checkStage}
 READGROUPLINE="@RG\tID:${lane}\tPL:illumina\tLB:${filePrefix}\tSM:${externalSampleID}"
 
 #If paired-end use two fq files as input, else only one
-if [ ${seqType} == "PE" ]
+if [ "${seqType}" == "PE" ]
 then
     #Run BWA for paired-end
     bwa mem \

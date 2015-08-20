@@ -12,7 +12,7 @@ countShScripts=$(($countShScripts-3))
 
 rm -f ${projectJobsDir}/${taskId}_INCORRECT
 
-if (( $countShScripts == $countFinishedFiles ))
+if [ "${countShScripts}" == "$countFinishedFiles" ]
 then	
 	echo "all files are finished" > ${projectJobsDir}/${taskId}_CORRECT
 else
