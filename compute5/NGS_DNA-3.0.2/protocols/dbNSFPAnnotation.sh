@@ -66,7 +66,7 @@ array_contains () {
     local seeking=$2
     local in=1
     for element in "${!array-}"; do
-        if [[ $element == $seeking ]]; then
+        if [[ "$element" == "$seeking" ]]; then
             in=0
             break
         fi
@@ -94,7 +94,7 @@ ${variantAnnotatorSampleOutputSnpsFilteredVcf} > ${tmpDbNSFPSampleVcf}
 
 FIRSTLINE=`head -1 ${tmpDbNSFPSampleVcf}`
 
-if [[ $FIRSTLINE == *"hg38"* ]]
+if [[ "$FIRSTLINE" == *"hg38"* ]]
 then
 	sed '1d' ${tmpDbNSFPSampleVcf} > ${dbNSFPSampleVcf}
 	echo "removed first line of ${tmpDbNSFPSampleVcf} and moved file to ${dbNSFPSampleVcf}"

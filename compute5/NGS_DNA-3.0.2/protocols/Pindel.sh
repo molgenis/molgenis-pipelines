@@ -35,7 +35,7 @@ configFile=${intermediateDir}/${externalSampleID}.pindel.config.txt
 
 
 echo "${bamFilePindel} ${targetedInsertSize} ${externalSampleID}" > ${configFile}
-if [ ${seqType} == "PE" ]
+if [ "${seqType}" == "PE" ]
 then
 	pindel \
 	-f ${indexFile} \
@@ -71,7 +71,7 @@ then
 perl /gcc/tools/scripts/filterPindelVcf.pl ${pindelOutputVcf}.tmp ${pindelOutputVcf}
 
 
-elif [ ${seqType} == "SR" ] 
+elif [ "${seqType}" == "SR" ] 
 then
 	echo "Pindel step is skipped because it is not Paired End but the seqType="${seqType}
 fi

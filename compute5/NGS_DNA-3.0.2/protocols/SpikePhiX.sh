@@ -20,11 +20,11 @@ then
 	echo "Skip this step! PhiX was already spiked in!"
 	exit 0
 else
-	if [ ${seqType} == "SR" ]
+	if [ "${seqType}" == "SR" ]
 	then
 		echo "Spike phiX not implemented yet for Single Read"
 		exit 1
-	elif [ $seqType == "PE" ]
+	elif [ "${seqType}" == "PE" ]
 	then
 		echo "Append phiX reads"
 		cat ${peEnd1BarcodeFqGz} ${phiXEnd1Gz} > ${peEnd1BarcodeFqGz}.tmp

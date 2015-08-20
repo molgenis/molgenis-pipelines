@@ -106,7 +106,7 @@ else
 	sed -e 's/chr//' ${sample}.genotypeArray.vcf | awk '{OFS="\t"; if (!/^#/){print $1,$2-1,$2}}' \
 	> ${sample}.genotypeArray.bed
 	
-if [ $build == "build37" ]
+if [ "${build}" == "build37" ]
 then
 		###################################
 	#Sequonomfile is on build 37
@@ -193,11 +193,11 @@ then
 		--comp comp_immuno \
 		--header >> ${sampleConcordanceFile}		
 	fi
-	if [ $build == "N/A" ]
+	if [ "${build}" == "N/A" ]
 	then
  		echo "ERROR: unsure which build was used. None of the probes we checked was found in the array file."
  	fi
- 	if [ $build == "ERROR" ]
+ 	if [ "${build}" == "ERROR" ]
  	then
  		echo "ERROR: one of the probe in the array file has an unexpected position. Therefore, we are not able to tell which build was used." 
 	fi

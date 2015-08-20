@@ -56,7 +56,7 @@ TMP_DIR=${tempDir}
     mv ${tmpCollectBamMetricsPrefix}.quality_by_cycle.pdf ${inputCollectBamMetricsBam}.quality_by_cycle.pdf
 
     #If paired-end data *.insert_size_metrics files also need to be moved
-    if [ ${seqType} == "PE" ]
+    if [ "${seqType}" == "PE" ]
 	then
 	echo -e "\nDetected paired-end data, moving all files.\n\n"
     mv ${tmpCollectBamMetricsPrefix}.insert_size_metrics ${inputCollectBamMetricsBam}.insert_size_metrics
@@ -82,7 +82,7 @@ TMP_DIR=${tempDir}
 
 ######IS THIS STILL NEEDED, IMPROVEMENTS/UPDATES TO BE DONE?#####
 #Create nicer insertsize plots if seqType is PE
-#if [ ${seqType} == "PE" ]
+#if [ "${seqType}" == "PE" ]
 #then
 	# Overwrite the PDFs that were just created by nicer onces:
 	${recreateInsertSizePdfR} \
@@ -99,7 +99,7 @@ TMP_DIR=${tempDir}
 #####THIS "FAKE" FILE SHOULDN'T BE NEEDED, PLEASE FIX IN NEXT PIPELINE VERSION#####
 
 #Run Picard HsMetrics if capturingKit was used
-if [ ${capturingKit} != "None" ]
+if [ "${capturingKit}" != "None" ]
 then
 	java -jar -Xmx4g ${EBROOTPICARD}/${picardJar} ${hsMetricsJar} \
 	INPUT=${inputCollectBamMetricsBam} \

@@ -33,7 +33,7 @@ do
             	count=$(( count++ ))
         	fi
 
-        	if ! [ ${encoding} == ${lastEncoding} ]
+        	if ! [ "${encoding}" == "${lastEncoding}" ]
         	then
 	            	echo "error, encoding not possible"
 			echo "${encoding} is not matching last encoding (${lastEncoding}"
@@ -51,14 +51,14 @@ do
         		lastEncoding=${encoding}
 	        	count=$(( count++ ))
         	fi
-        	if ! [ ${encoding} == ${lastEncoding} ]
+        	if ! [ "${encoding}" == "${lastEncoding}" ]
         	then
                 	echo "error, encoding not possible"
 			echo "${encoding} is not matching last encoding (${lastEncoding}"
 			echo "LINE: " $line
 	                exit 1
                 fi
-              	lastEncoding=${encoding}
+              	lastEncoding="${encoding}"
 	elif [[ "$line" =~ @ ]] || [[ "$line" =~ [A-J] ]]
         	then
                 nodecision=$(( nodecision++ ))
@@ -66,13 +66,13 @@ do
 		echo "The encoding is not matching to anything, check FastQ documentation (count=$count)"
 	fi
 done
-if [ $nodecision == $numberoflines ]
+if [ "${nodecision}" == "${numberoflines}" ]
 then
 	echo "Within all the lines, no decision was made about the encoding, all the encoding is between A and J. This is then probably an 1.9 encoding sample, so 1.9 is set as encoding"
 	encoding="1.9"
 fi
 
-if [ ${encoding} == "1.9"  ]
+if [ "${encoding}" == "1.9"  ]
 then
 	echo "encoding is Illumina 1.8 - Sanger / Illumina 1.9"
 else
@@ -92,11 +92,11 @@ fi
 #check illumina encoding using function checkIlluminaEncoding()
 
 #If paired-end do fastqc for both ends, else only for one
-if [ ${seqType} == "SR" ]
+if [ "${seqType}" == "SR" ]
 then
         checkIlluminaEncoding ${srBarcodeFqGz}
 
-elif [ $seqType == "PE" ]
+elif [ "${seqType}" == "PE" ]
 then
         checkIlluminaEncoding ${peEnd1BarcodeFqGz}
         checkIlluminaEncoding ${peEnd2BarcodeFqGz}
