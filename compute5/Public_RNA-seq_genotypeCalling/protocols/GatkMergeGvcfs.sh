@@ -1,4 +1,4 @@
-#MOLGENIS walltime=8-23:59:59 mem=30gb ppn=8
+#MOLGENIS walltime=8-23:59:59 mem=32gb ppn=8
 ################################^advised 45 gb for 300 files so 30 for 200 files?
 
 ### variables to help adding to database (have to use weave)
