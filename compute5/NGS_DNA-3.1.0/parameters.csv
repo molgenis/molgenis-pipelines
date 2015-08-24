@@ -11,6 +11,7 @@ checkStage,module list
 bwaVersion,BWA/0.7.12-goolf-1.7.20
 computeVersion,v15.04.1-Java-1.7.0_80
 dbNSFPVersion,2.7
+dellyVersion,v0.6.7
 fastqcVersion,FastQC/0.11.3-Java-1.7.0_80
 gatkVersion,GATK/3.4-0-Java-1.7.0_80 
 javaVersion,Java/1.7.0_80

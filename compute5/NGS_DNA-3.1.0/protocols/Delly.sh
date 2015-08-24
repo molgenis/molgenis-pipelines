@@ -2,17 +2,11 @@
 #string project
 #string indexFile
 #string intermediateDir
+#string dellyVersion
 #string dellyType
 #list realignedBam
 
-# Echo parameter values
-echo "project: ${project}"
-echo "indexFile: ${indexFile}"
-echo "intermediateDir: ${intermediateDir}"
-echo "dellyType: ${dellyType}"
-echo "realignedBam: ${realignedBam}"
-
-module load delly/v0.6.7
+module load delly/${dellyVersion}
 module list
 
 #Function to check if array contains value
