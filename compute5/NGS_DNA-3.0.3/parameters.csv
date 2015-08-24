@@ -7,9 +7,6 @@ stage,module load
 targetedInsertSize,200
 checkStage,module list
 
-### This hardcoded path is necessary, because there is no module available and in the QCReport it needs to know what the root is of the NGS_DNA pipeline ###
-pathToNGSBetaVersion,/groups/umcg-gaf/tmp04/rkanninga/software/pipelines/molgenis-pipelines/compute5/NGS_DNA-3.0.1/
-
 ### Tool versions ####
 bwaVersion,BWA/0.7.12-goolf-1.7.20
 computeVersion,v15.04.1-Java-1.7.0_80
@@ -21,7 +18,7 @@ ngsDNAVersion,NGS_DNA/3.0.1-Molgenis-Compute-v15.04.1-Java-1.7.0_80
 picardVersion,picard/1.130-Java-1.7.0_80
 rVersion,R/3.2.1-goolf-1.7.20
 samtoolsVersion,SAMtools/1.2-goolf-1.7.20
-snpEffVersion,snpEff/4.1d-Java-1.7.0_80
+snpEffVersion,snpEff/4.1g-Java-1.7.0_80
 tabixVersion,tabix/0.2.6-goolf-1.7.20
 gatkJar,GenomeAnalysisTK.jar
 picardJar,picard.jar
