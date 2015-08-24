@@ -57,7 +57,7 @@ if [ ${#reads2FqGz} -eq 0 ]; then
 	  putFile ${fastqcDir}/$(basename ${reads1FqGz} .fastq.gz)${fastqcZipExt}
 	  putFile ${singleEndfastqcZip}
       cd ${fastqcDir}
-      md5sum $(basename ${pairedEndfastqcZip1}) > $(basename ${pairedEndfastqcZip1}).md5
+      md5sum $(basename ${singleEndfastqcZip}) > $(basename ${singleEndfastqcZip}).md5
       cd -
       echo "succes moving files";
 	else

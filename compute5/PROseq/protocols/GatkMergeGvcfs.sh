@@ -49,7 +49,7 @@ then
 
  putFile ${mergeGvcf}
 cd ${haplotyperDir}
-md5sum $(basename ${mergeGvcf})> $(basename ${mergeGvcf})
+md5sum $(basename ${mergeGvcf})> $(basename ${mergeGvcf}).md5
  cd -
  echo "succes moving files";
 else
