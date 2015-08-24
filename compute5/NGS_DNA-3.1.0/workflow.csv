@@ -4,10 +4,9 @@ s02_CheckIlluminaEncoding,protocols/CheckIlluminaEncoding.sh,s01_SpikePhiX
 s03_FastQC,protocols/FastQC.sh,s02_CheckIlluminaEncoding
 s04_BwaAlign,protocols/BwaAlign.sh,s02_CheckIlluminaEncoding
 s05_SamToBam,protocols/SamToBam.sh,s04_BwaAlign
-s06_SortBam,protocols/SortBam.sh,s05_SamToBam;inputSortBam=alignedBam;sortedBam=alignedSortedBam;sortedBamIdx=alignedSortedBamIdx
-s07_MergeBam,protocols/MergeBam.sh,s06_SortBam;inputMergeBam=alignedSortedBam;inputMergeBamIdx=alignedSortedBamIdx;mergedBam=sampleMergedBam;mergedBamIdx=sampleMergedBamIdx
+s06_SortBam,protocols/SortBam.sh,s05_SamToBam
+s07_MergeBam,protocols/MergeBam.sh,s06_SortBam
 s08_MarkDuplicates,protocols/MarkDuplicates.sh,s07_MergeBam
-s09_Pindel,protocols/Pindel.sh,s08_MarkDuplicates;bamFilePindel=sampleMergedBam;bamFilePindelIdx=sampleMergedBamIdx
 s10_IndelRealignment,protocols/IndelRealignment.sh,s08_MarkDuplicates
 s11a_MakeRealignedBamMd5,protocols/MakeRealignedBamMd5.sh,s10_IndelRealignment
 s12_Delly_DEL,protocols/Delly.sh,s10_IndelRealignment;dellyType=dellyTypeDEL
