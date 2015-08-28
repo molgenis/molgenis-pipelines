@@ -94,7 +94,7 @@ else
 			-dontUseSoftClippedBases \
 			-stand_call_conf 10.0 \
 			-stand_emit_conf 20.0 \
-			-o ${tmpSampleBatchVariantCallsMaleNONPAR} \
+			-o ${tmpSampleBatchVariantCalls} \
 			-L ${capturedBatchBed} \
 			--emitRefConfidence GVCF \
 			-ploidy 1
@@ -111,7 +111,7 @@ else
 	        	--dbsnp ${dbSNP137Vcf} \
        			-stand_emit_conf 20.0 \
         		-stand_call_conf 10.0 \
-        		-o ${tmpSampleBatchVariantCallsFemale} \
+        		-o ${tmpSampleBatchVariantCalls} \
         		-L ${capturedBatchBed} \
         		--emitRefConfidence GVCF \
 			-ploidy 2 
@@ -133,7 +133,7 @@ else
                         -dontUseSoftClippedBases \
                         -stand_call_conf 10.0 \
                         -stand_emit_conf 20.0 \
-                        -o ${tmpSampleBatchVariantCallsMaleNONPAR} \
+                        -o ${tmpSampleBatchVariantCalls} \
                         -L ${capturedBatchBed} \
                         --emitRefConfidence GVCF \
                         -ploidy 1
@@ -153,34 +153,6 @@ else
                 -L ${capturedBatchBed} \
 		--emitRefConfidence GVCF \
                 -ploidy 2
-	fi
-
-	if [[ "${capturedBatchBed}" == *batch-[0-9]*X.bed ]]
-	then
-		if [ -f "${tmpSampleBatchVariantCallsMaleNONPAR}" ] && [ -f  "${tmpSampleBatchVariantCallsFemale}" ]
-		then
-			echo "combine male and female chrX"
-			java -Xmx2g -jar ${EBROOTGATK}/${gatkJar} \
-   			-T CombineGVCFs \
-			-R ${indexFile} \
-			-setKey null \
-   			--variant ${tmpSampleBatchVariantCallsMaleNONPAR} \
-   			--variant ${tmpSampleBatchVariantCallsFemale} \
-			-o ${tmpSampleBatchVariantCalls}
-
-		elif [ ! -f "${tmpSampleBatchVariantCallsMaleNONPAR}" ]  
-		then
-			echo "There are no males"
-			tmpSampleBatchVariantCalls=${tmpSampleBatchVariantCallsFemale}
-			tmpSampleBatchVariantCallsIdx=${tmpSampleBatchVariantCallsFemaleIdx}
-		elif [ ! -f "${tmpSampleBatchVariantCallsFemale}" ]
-        	then
-			echo "There are no females!"
-                	tmpSampleBatchVariantCalls=${tmpSampleBatchVariantCallsMaleNONPAR}
- 			tmpSampleBatchVariantCallsIdx=${tmpSampleBatchVariantCallsMaleNONPARIdx}
-		else
-			echo "oops, something is going wrong!"
-		fi
 	fi
 
 	echo -e "\nVariantCalling finished succesfull. Moving temp files to final.\n\n"
