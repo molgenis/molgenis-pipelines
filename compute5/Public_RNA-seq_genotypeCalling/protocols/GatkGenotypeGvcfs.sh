@@ -1,4 +1,4 @@
-#MOLGENIS walltime=10-23:59:00 mem=8gb ppn=16
+#MOLGENIS walltime=71:59:00 mem=10gb ppn=8
 
 ### variables to help adding to database (have to use weave)
 #string project
@@ -40,7 +40,7 @@ inputs=$(printf ' --variant %s ' $(printf '%s\n' ${gvcfs[@]}))
 
 mkdir -p ${haplotyperDir}
 
-if java -Xmx6g -XX:ParallelGCThreads=16 -Djava.io.tmpdir=${haplotyperDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
+if java -Xmx8g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${haplotyperDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
  -T GenotypeGVCFs \
  -R ${onekgGenomeFasta} \
  --dbsnp ${dbsnpVcf}\
@@ -48,7 +48,7 @@ if java -Xmx6g -XX:ParallelGCThreads=16 -Djava.io.tmpdir=${haplotyperDir} -jar $
  $inputs \
  -stand_call_conf 10.0 \
  -stand_emit_conf 20.0 \
- -nt 4
+ -nt 6
 
 then
  echo "returncode: $?"; 
