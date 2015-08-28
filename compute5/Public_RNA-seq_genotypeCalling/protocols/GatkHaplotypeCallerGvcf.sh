@@ -1,4 +1,4 @@
-#MOLGENIS walltime=23:59:00 mem=14gb ppn=8
+#MOLGENIS walltime=47:59:00 mem=14gb ppn=8
 
 ### variables to help adding to database (have to use weave)
 #string sampleName
