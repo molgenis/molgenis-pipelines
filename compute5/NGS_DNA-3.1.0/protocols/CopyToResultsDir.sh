@@ -106,8 +106,6 @@ echo "Copied QC report to results directory (9/11)"
 CURRENT_DIR=`pwd`
 cd ${projectResultsDir}
 
-cd ${CURRENT_DIR}
-
 zip -gr ${projectResultsDir}/${project}.zip variants
 zip -gr ${projectResultsDir}/${project}.zip qc
 zip -gr ${projectResultsDir}/${project}.zip images
@@ -128,3 +126,4 @@ echo "Made md5 file for ${projectResultsDir}/${project}.zip (11/11)"
 
 chmod -R u+rwX,g+rwX ${projectResultsDir}
 
+cd ${CURRENT_DIR}

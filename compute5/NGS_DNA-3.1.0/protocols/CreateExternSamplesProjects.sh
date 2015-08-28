@@ -10,6 +10,7 @@
 #string batchIDList
 #string projectQcDir
 #string capturedBed
+#string environment_parameters
 
 #list sequencingStartDate
 #list sequencer
@@ -115,10 +116,10 @@ fi
 echo "before run second rocket"
 echo pwd
 
-module load molgenis-compute/v5_20150211
+module load NGS_DNA
 module list
 
-sh ${MC_HOME}/molgenis_compute.sh -p ${mainParameters} \
--p ${batchIDList} -p ${projectJobsDir}/${project}.csv -rundir ${projectJobsDir} \
--w ${workflowpath} -b pbs -g -weave -runid ${runid}
+sh ${EBROOTMOLGENISMINCOMPUTE}/molgenis_compute.sh -p ${mainParameters} \
+-p environment_parameters -p ${batchIDList} -p ${projectJobsDir}/${project}.csv -rundir ${projectJobsDir} \
+-w ${workflowpath} -b slurm -g -weave -runid ${runid}
 
