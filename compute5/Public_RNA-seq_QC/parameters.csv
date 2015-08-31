@@ -47,7 +47,7 @@ testIntervalList,${resDir}/b37/intervals/ALL.wgs.phase3_shapeit2_mvncall_integra
 ## FastQC
 fastqcDir,${projectDir}/fastqc/
 fastqcZipExt,_fastqc.zip
-singleEndfastqcZip,${fastqcDir}/${internalId}_${sampleName}.fq${fastqcZipExt}
+singleEndfastqcZip,${fastqcDir}/${uniqueID}${fastqcZipExt}
 pairedEndfastqcZip1,${fastqcDir}/${uniqueID}_1.fq${fastqcZipExt}
 pairedEndfastqcZip2,${fastqcDir}/${uniqueID}_2.fq${fastqcZipExt}
 ## CollectMultipleMetrics

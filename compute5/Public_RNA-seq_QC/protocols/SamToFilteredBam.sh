@@ -1,4 +1,4 @@
-#MOLGENIS nodes=1 ppn=1 mem=8gb walltime=10:00:00
+#MOLGENIS nodes=1 ppn=1 mem=8gb walltime=23:59:59
 
 ### variables to help adding to database (have to use weave)
 #string internalId
