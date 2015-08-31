@@ -43,7 +43,7 @@ mkdir -p ${haplotyperDir}
 if java -Xmx8g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${haplotyperDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
  -T GenotypeGVCFs \
  -R ${onekgGenomeFasta} \
- --dbsnp ${dbsnpVcf}\
+ --dbsnp ${dbsnpVcf} \
  -o ${genotypedVcf} \
  $inputs \
  -stand_call_conf 10.0 \
