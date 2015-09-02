@@ -1,10 +1,9 @@
 step,protocol,dependencies
-CutAdapter,protocols/CutAdapter.sh,
-ReverseComplement,protocols/ReverseComplement.sh,CutAdapter,
-RemoveRRna,protocols/RemoveRRna.sh,ReverseComplement
-FastQC,protocols/Fastqc.sh,RemoveRRna
-HisatAlignment,protocols/HisatAlignment.sh,ReverseComplement
-SamToFilteredBam,protocols/SamToFilteredBam.sh,HisatAlignment
+CutAdapt,protocols/CutAdapter.sh,
+RemoveRRna,protocols/RemoveRRna.sh,CutAdapt
+FastQC,protocols/Fastqc.sh,
+HisatAlignment,protocols/HisatAlignment.sh,RemoveRRna
+Kallisto,protocols/Kallisto.sh,RemoveRRna
 SortBam,protocols/SortBam.sh,SamToFilteredBam
 CollectRnaSeqMetrics,protocols/CollectRnaSeqMetrics.sh,SortBam
 CollectMultipleMetrics,protocols/CollectMultipleMetrics.sh,SortBam
