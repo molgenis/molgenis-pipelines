@@ -60,6 +60,10 @@ dbsnpVcfIdx,${dbsnpVcf}.idx
 mergeBamFilesDir,${projectDir}/mergeBams/
 mergeBamFilesBam,${mergeBamFilesDir}${sampleName}.bam
 mergeBamFilesBai,${mergeBamFilesDir}${sampleName}.bai
+## mergeBqsr
+mergeBqsrFilesDir,${projectDir}/mergeBqsr/
+mergeBqsrBam,${mergeBqsrFilesDir}${sampleName}.bam
+mergeBqsrBai,${mergeBqsrFilesDir}${sampleName}.bai
 ## addOrReplaceGroups
 sortedBamDir,${projectDir}/sortedBam/
 addOrReplaceGroupsDir,${projectDir}/addOrReplaceReadGroups/

@@ -16,6 +16,8 @@ Flagstat,protocols/Flagstat.sh,MarkDuplicates
 GatkSplitAndTrim,protocols/GatkSplitAndTrim.sh,MarkDuplicates
 IndelRealignmentKnown,protocols/GatkIndelRealignmentKnown.sh,GatkSplitAndTrim
 BQSR,protocols/GatkBQSR.sh,IndelRealignmentKnown
+MergeBQSR,protocols/MergeBqsr.sh,BQSR
+MergedHaplotypeCaller,protocols/MergedHaplotypeCaller.sh,MergeBQSR
 AnalyseCovariates,protocols/GatkAnalyseCovariates.sh,BQSR
 HaplotypeCallerGvcf,protocols/GatkHaplotypeCallerGvcf.sh,BQSR
 MergeGvcfs,protocols/GatkMergeGvcfs.sh,HaplotypeCallerGvcf
