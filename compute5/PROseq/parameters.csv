@@ -27,6 +27,7 @@ verifyBamVersion,1.1.1
 genotypeHarmonizerVersion,1.4.9
 tabixVersion,0.2.6-goolf-1.7.20
 plinkVersion,1.07-x86_64
+kallistoVersion,0.42.2.1-goolf-1.7.20
 jdkVersion,1.8.0_25
 verifyBamIDVersion,1.1.2-goolf-1.7.20
 GenotypeHarmonizerVersion,1.4.14
@@ -116,7 +117,7 @@ singleEndCutAdapt,${cutadaptDir}/${uniqueID}_adapter_cut.fastq
 pairedEndCutAdapt1,${cutadaptDir}/${uniqueID}_adapter_cut_1.fastq
 pairedEndCutAdapt2,${cutadaptDir}/${uniqueID}_adapter_cut_2.fastq
 cutadaptFile,${cutadaptDir}/${uniqueID}_adapter_cut.fastq
-adapters,/groups/umcg-wijmenga/tmp04/umcg-ndeklein/data/PROseq/adapters.txt
+adapters,/groups/umcg-wijmenga/tmp04/umcg-ndeklein/data/PROseq_timepoints/adapters.txt
 ## rRNAdust
 rRNAfilteredDir,${projectDir}/fastq_rRNAfiltered/
 rRNArefSeq,${resDir}/human_rRNA/U13369.1

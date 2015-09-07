@@ -33,7 +33,7 @@ echo "## "$(date)" Start $0"
 echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
 {
-echo "$(printf '%s.bed %s.bim %s.fam\n' $(printf '%s\n' ${genotypeHarminzerOutput[@]}) $(printf '%s\n' ${genotypeHarminzerOutput[@]}) $(printf '%s\n' ${genotypeHarminzerOutput[@]}))"
+echo "$(printf '%s.bed %s.bim %s.fam\n' $(printf '%s\n' ${genotypeHarmonizerOutput[@]}) $(printf '%s\n' ${genotypeHarmonizerOutput[@]}) $(printf '%s\n' ${genotypeHarmonizerOutput[@]}))"
 } > ${combinedBEDDir}combinedFiles.txt.tmp
 # remove first line (e.g. first sample) as this will be used as input for plink
 # to which the other samples will be merged
