@@ -44,9 +44,7 @@ if fastqc \
 	
 then
     echo "returncode: $?";
-	
-	echo
-    cp -v ${fastqcDir}/${singleEndRRna%%.*}${fastqcZipExt} ${singleEndfastqcZip}
+	cp -v ${fastqcDir}/$(basename ${singleEndRRna} .fastq)${fastqcZipExt} ${singleEndfastqcZip}
 
 	##################################################################
 	

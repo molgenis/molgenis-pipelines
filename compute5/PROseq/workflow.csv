@@ -20,5 +20,4 @@ AnalyseCovariates,protocols/GatkAnalyseCovariates.sh,BQSR
 HaplotypeCallerGvcf,protocols/GatkHaplotypeCallerGvcf.sh,BQSR
 MergeGvcfs,protocols/GatkMergeGvcfs.sh,HaplotypeCallerGvcf
 GenotypeGvcfs,protocols/GatkGenotypeGvcfs.sh,MergeGvcfs
-VerifyBamID,protocols/VerifyBamID.sh,HaplotypeCallerGvcf
 VariantEval,protocols/VariantEval.sh,HaplotypeCallerGvcf
