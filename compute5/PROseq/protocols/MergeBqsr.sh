@@ -11,21 +11,15 @@
 #string projectDir
 #string picardVersion
 #string addOrReplaceGroupsDir
-#list addOrReplaceGroupsBam
+#list bsqrBam
 #string mergeBamFilesDir
-#string mergeBamFilesBam
-#string mergeBamFilesBai
+#string mergeBqsrBam
+#string mergeBqsrBai
 #string toolDir
 
 
 echo "## "$(date)" Start $0"
-echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
-
-#for file in "${addOrReplaceGroupsBam[@]}" "${addOrReplaceGroupsBai[@]}"; do
-for file in "${addOrReplaceGroupsBam[@]}"; do
-    echo "getFile file='$file'"
-	getFile $file
-done
+echo "ID (project-sampleName): ${project}-${sampleName}"
 
 #Load Picard module
 ${stage} picard/${picardVersion}
@@ -34,7 +28,7 @@ ${checkStage}
 set -o posix
 
 #${addOrReplaceGroupsBam} sort unique and print like 'INPUT=file1.bam INPUT=file2.bam '
-bams=($(printf '%s\n' "${addOrReplaceGroupsBam[@]}" | sort -u ))
+bams=($(printf '%s\n' "${bsqrBam[@]}" | sort -u ))
 inputs=$(printf 'INPUT=%s ' $(printf '%s\n' ${bams[@]}))
 
 mkdir -p ${mergeBamFilesDir}
@@ -52,9 +46,6 @@ if java -jar -XX:ParallelGCThreads=4 -Xmx6g ${toolDir}picard/${picardVersion}/Me
 
 then
  echo "returncode: $?"; 
-
- putFile ${mergeBamFilesBam}
- putFile ${mergeBamFilesBai}
  echo "succes moving files";
 else
  echo "returncode: $?";

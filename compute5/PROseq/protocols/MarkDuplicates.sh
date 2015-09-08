@@ -1,7 +1,6 @@
 #MOLGENIS walltime=23:59:00 mem=6gb nodes=1 ppn=8
 
 ### variables to help adding to database (have to use weave)
-#string internalId
 #string sampleName
 #string project
 ###
@@ -23,7 +22,7 @@
 #string toolDir
 
 echo "## "$(date)" Start $0"
-echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
+echo "ID (project-sampleName): ${project}-${sampleName}"
 
 getFile ${mergeBamFilesBam}
 getFile ${mergeBamFilesBai}

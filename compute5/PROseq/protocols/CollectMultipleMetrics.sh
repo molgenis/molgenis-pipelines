@@ -9,7 +9,7 @@
 #string checkStage
 #string picardVersion
 #string RVersion
-#string reads2FqGz
+#string reads1FqGz
 #string collectMultipleMetricsDir
 #string collectMultipleMetricsPrefix
 #string onekgGenomeFasta
@@ -35,9 +35,9 @@ echo "## "$(date)" Start $0"
 echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
 insertSizeMetrics=""
-if [ ${#reads2FqGz} -ne 0 ]; then
-	insertSizeMetrics="PROGRAM=CollectInsertSizeMetrics"
-fi
+#if [ ${#reads2FqGz} -ne 0 ]; then
+#	insertSizeMetrics="PROGRAM=CollectInsertSizeMetrics"
+#fi
 
 #Run Picard CollectAlignmentSummaryMetrics, CollectInsertSizeMetrics, QualityScoreDistribution and MeanQualityByCycle
 

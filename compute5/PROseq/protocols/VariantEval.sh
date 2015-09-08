@@ -24,7 +24,7 @@ ${checkStage}
 mkdir -p ${variantEvalDir}
 
 echo "## "$(date)" Start $0"
-echo "ID (internalId-project-sampleName): ${project}-${sampleName}"
+echo "ID (project-sampleName): ${project}-${sampleName}"
 
 if java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
    -T VariantEval \

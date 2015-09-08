@@ -1,7 +1,6 @@
 #MOLGENIS nodes=1 ppn=8 mem=8gb walltime=23:59:00
 
 ### variables to help adding to database (have to use weave)
-#string internalId
 #string sampleName
 #string project
 ###
@@ -19,7 +18,7 @@
 #string toolDir
 
 echo "## "$(date)" Start $0"
-echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
+echo "ID (project-sampleName): ${project}-${sampleName}"
 
 getFile ${onekgGenomeFasta}
 getFile ${markDuplicatesBam}
