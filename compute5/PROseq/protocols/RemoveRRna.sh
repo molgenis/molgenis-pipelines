@@ -12,14 +12,9 @@
 #string WORKDIR
 #string projectDir
 #string rRNAfilteredDir
-#string reads2FqGz
 #string rRNArefSeq
 #string singleEndRC
-#string pairedEndRC1
-#string pairedEndRC2
 #string singleEndRRna
-#string pairedEndRRna1
-#string pairedEndRRna2
 #string picardVersion
 #string toolDir
 

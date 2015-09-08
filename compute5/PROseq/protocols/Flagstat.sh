@@ -13,7 +13,7 @@
 
 
 echo "## "$(date)" Start $0"
-echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
+echo "ID (project-sampleName): ${project}-${sampleName}"
 
 getFile ${markDuplicatesBam}
 

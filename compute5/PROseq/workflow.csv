@@ -19,6 +19,9 @@ BQSR,protocols/GatkBQSR.sh,IndelRealignmentKnown
 MergeBQSR,protocols/MergeBqsr.sh,BQSR
 MergedHaplotypeCaller,protocols/MergedHaplotypeCaller.sh,MergeBQSR
 AnalyseCovariates,protocols/GatkAnalyseCovariates.sh,BQSR
+HomerTagDir,protocols/HomerTagdir.sh,BQSR
+HomerVisualization,protocols/HomerVisualization.sh,HomerTagDir
+HomerFindPeaks,protocols/HomerFindPeaks.sh,HomerTagDir
 HaplotypeCallerGvcf,protocols/GatkHaplotypeCallerGvcf.sh,BQSR
 MergeGvcfs,protocols/GatkMergeGvcfs.sh,HaplotypeCallerGvcf
 GenotypeGvcfs,protocols/GatkGenotypeGvcfs.sh,MergeGvcfs

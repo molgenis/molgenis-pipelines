@@ -7,11 +7,11 @@ stage,module load
 checkStage,module list
 WORKDIR,/groups/
 root,${WORKDIR}
-group,umcg-wijmenga
+groupname,umcg-wijmenga
 tmp,tmp04
-resDir,/groups/umcg-wijmenga/tmp04/resources/
+resDir,/groups/${groupname}/tmp04/resources/
 toolDir,/apps/software/
-projectDir,${root}/${group}/${tmp}/projects/${project}/
+projectDir,${root}/${groupname}/${tmp}/projects/${project}/
 uniqueID,${sampleName}_${internalId}
 platform,ILLUMINA
 ########################################################################
@@ -37,6 +37,7 @@ fastqcVersion,0.11.3-Java-1.7.0_80
 genomeBuild,b37
 genomeGrchBuild,GRCh37
 human_g1k_vers,37
+weblogVersion,2.8.2
 ensemblVersion,75
 RVersion,3.2.1-goolf-1.7.20
 samtoolsVersion,1.2-goolf-1.7.20
@@ -169,6 +170,10 @@ pairedEndRC2,${reverseComplementDir}/${uniqueID}_reverse_complement_2.fastq
 kallistoIndex,/groups/umcg-pub/tmp04/public-rna-seq/kallisto/hg19.v75.cdna.all.42.2.idx
 kallistoDir,${projectDir}/kallisto/
 fragmentLength,100
+## Homer
+homerLocation,/apps/software/HOMER/4.7-goolf-1.7.20/homer/bin/
+bedgraphBigwigLocation,/apps/software/bedGraphToBigWig/1/bedGraphToBigWig
+homerTagDir,${projectDir}/homerTagDir/
 ## ?
 rRnaIntervalList,${resDir}//picard-tools/Ensembl${ensemblVersion}/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.rrna.interval_list
 genesRefFlat,${resDir}/picard-tools/Ensembl${ensemblVersion}/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.refflat

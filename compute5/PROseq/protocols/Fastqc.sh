@@ -13,15 +13,10 @@
 #string fastqcDir
 #string fastqcZipExt
 #string reads1FqGz
-#string reads2FqGz
 #string singleEndRRna
-#string pairedEndRRna1
-#string pairedEndRRna2
 #string singleEndfastqcZip
-#string pairedEndfastqcZip1
-#string pairedEndfastqcZip2
 
-echo -e "test ${pairedEndRRna1} ${pairedEndRRna2} 1: $(basename ${pairedEndRRna1} .gz)${fastqcZipExt} \n2: $(basename ${pairedEndRRna2} .gz)${fastqcZipExt} "
+#echo -e "test ${pairedEndRRna1} ${pairedEndRRna2} 1: $(basename ${pairedEndRRna1} .gz)${fastqcZipExt} \n2: $(basename ${pairedEndRRna2} .gz)${fastqcZipExt} "
 echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 echo "SINGLE END ONLY"
 ${stage} FastQC/${fastqcVersion}
@@ -51,7 +46,7 @@ then
     cd $OLDPWD
 
     cd ${fastqcDir}
-    md5sum $(basename ${pairedEndfastqcZip1}) > $(basename ${pairedEndfastqcZip1}).md5
+    md5sum $(basename ${singleEndfastqcZip}) > $(basename ${singleEndfastqcZip}).md5
     cd -
     echo "succes moving files";
 else
