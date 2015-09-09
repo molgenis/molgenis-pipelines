@@ -6,7 +6,7 @@
 ###
 #string stage
 #string checkStage
-#string indelRealignmentBam
+#string bsqrBam
 #string homerTagDir
 #string toolDir
 #string homerLocation
