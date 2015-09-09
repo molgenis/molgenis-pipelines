@@ -12,6 +12,7 @@
 #string homerLocation
 #string weblogoVersion
 #string samtoolsVersion
+#string bedgraphBigwigLocation
 
 echo "## "$(date)" Start $0"
 echo "ID (project-sampleName): ${project}-${sampleName}"
