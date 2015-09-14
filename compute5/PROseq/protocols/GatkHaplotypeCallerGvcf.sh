@@ -1,7 +1,6 @@
 #MOLGENIS walltime=23:59:00 mem=12gb ppn=8
 
 ### variables to help adding to database (have to use weave)
-#string internalId
 #string sampleName
 #string project
 ###
@@ -14,17 +13,17 @@
 #string dbsnpVcf
 #string dbsnpVcfIdx
 #string onekgGenomeFasta
-#list indelRealignmentBam
+#list bsqrBam
 #string haplotyperDir
 #string haplotyperGvcf
 #string haplotyperGvcfIdx
 #string toolDir
 
 echo "## "$(date)" Start $0"
-echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
+echo "ID (project-sampleName): ${project}-${sampleName}"
 
-for file in "${indelRealignmentBam[@]}" "${dbsnpVcf}" "${dbsnpVcfIdx}" "${onekgGenomeFasta}"; do
-#for file in "${indelRealignmentBam[@]}" "${indelRealignmentBai[@]}" "${dbsnpVcf}" "${dbsnpVcfIdx}" "${onekgGenomeFasta}"; do
+for file in "${bsqrBam[@]}" "${dbsnpVcf}" "${dbsnpVcfIdx}" "${onekgGenomeFasta}"; do
+#for file in "${bsqrBam[@]}" "${bsqrBai[@]}" "${dbsnpVcf}" "${dbsnpVcfIdx}" "${onekgGenomeFasta}"; do
 	echo "getFile file='$file'"
 	getFile $file
 done
@@ -34,7 +33,7 @@ ${stage} GATK/${gatkVersion}
 ${checkStage}
 
 #sort unique and print like 'INPUT=file1.bam INPUT=file2.bam '
-bams=($(printf '%s\n' "${indelRealignmentBam[@]}" | sort -u ))
+bams=($(printf '%s\n' "${bsqrBam[@]}" | sort -u ))
 
 inputs=$(printf ' -I %s ' $(printf '%s\n' ${bams[@]}))
 

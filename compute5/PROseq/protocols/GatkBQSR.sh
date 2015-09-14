@@ -1,7 +1,6 @@
 #MOLGENIS nodes=1 ppn=8 mem=16gb walltime=23:59:00
 
 ### variables to help adding to database (have to use weave)
-#string internalId
 #string sampleName
 #string project
 ###
@@ -28,7 +27,7 @@
 #java -jar GenomeAnalysisTK.jar -T SplitNCigarReads -R ref.fasta -I dedupped.bam -o split.bam -rf ReassignOneMappingQuality -RMQF 255 -RMQT 60 -U ALLOW_N_CIGAR_READS
 
 echo "## "$(date)" Start $0"
-echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
+echo "ID (project-sampleName): ${project}-${sampleName}"
 
 getFile ${onekgGenomeFasta}
 getFile ${oneKgPhase1IndelsVcf}

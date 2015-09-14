@@ -1,8 +1,6 @@
 #MOLGENIS walltime=23:59:00 mem=6gb ppn=4
 
 ### variables to help adding to database (have to use weave)
-#string internalId
-#string sampleName
 #string project
 ###
 #string stage
@@ -30,10 +28,10 @@ mkdir -p ${combinedBEDDir}
 
 
 echo "## "$(date)" Start $0"
-echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
+echo "ID (project): ${project}"
 
 {
-echo "$(printf '%s.bed %s.bim %s.fam\n' $(printf '%s\n' ${genotypeHarminzerOutput[@]}) $(printf '%s\n' ${genotypeHarminzerOutput[@]}) $(printf '%s\n' ${genotypeHarminzerOutput[@]}))"
+echo "$(printf '%s.bed %s.bim %s.fam\n' $(printf '%s\n' ${genotypeHarmonizerOutput[@]}) $(printf '%s\n' ${genotypeHarmonizerOutput[@]}) $(printf '%s\n' ${genotypeHarmonizerOutput[@]}))"
 } > ${combinedBEDDir}combinedFiles.txt.tmp
 # remove first line (e.g. first sample) as this will be used as input for plink
 # to which the other samples will be merged

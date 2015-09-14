@@ -3,7 +3,6 @@
 ### variables to help adding to database (have to use weave)
 #string project
 #string sampleName
-#string internalId
 ###
 #string stage
 #string checkStage
@@ -20,7 +19,7 @@
 
 
 echo "## "$(date)" Start $0"
-echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
+echo "ID project-sampleName): ${project}-${sampleName}"
 
 #for file in "${addOrReplaceGroupsBam[@]}" "${addOrReplaceGroupsBai[@]}"; do
 for file in "${addOrReplaceGroupsBam[@]}"; do

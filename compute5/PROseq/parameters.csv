@@ -7,11 +7,11 @@ stage,module load
 checkStage,module list
 WORKDIR,/groups/
 root,${WORKDIR}
-group,umcg-wijmenga
+groupname,umcg-wijmenga
 tmp,tmp04
-resDir,/groups/umcg-wijmenga/tmp04/resources/
+resDir,/groups/${groupname}/tmp04/resources/
 toolDir,/apps/software/
-projectDir,${root}/${group}/${tmp}/projects/${project}/
+projectDir,${root}/${groupname}/${tmp}/projects/${project}/
 uniqueID,${sampleName}_${internalId}
 platform,ILLUMINA
 ########################################################################
@@ -27,6 +27,7 @@ verifyBamVersion,1.1.1
 genotypeHarmonizerVersion,1.4.9
 tabixVersion,0.2.6-goolf-1.7.20
 plinkVersion,1.07-x86_64
+kallistoVersion,0.42.2.1-goolf-1.7.20
 jdkVersion,1.8.0_25
 verifyBamIDVersion,1.1.2-goolf-1.7.20
 GenotypeHarmonizerVersion,1.4.14
@@ -36,6 +37,7 @@ fastqcVersion,0.11.3-Java-1.7.0_80
 genomeBuild,b37
 genomeGrchBuild,GRCh37
 human_g1k_vers,37
+weblogoVersion,2.8.2
 ensemblVersion,75
 RVersion,3.2.1-goolf-1.7.20
 samtoolsVersion,1.2-goolf-1.7.20
@@ -59,6 +61,10 @@ dbsnpVcfIdx,${dbsnpVcf}.idx
 mergeBamFilesDir,${projectDir}/mergeBams/
 mergeBamFilesBam,${mergeBamFilesDir}${sampleName}.bam
 mergeBamFilesBai,${mergeBamFilesDir}${sampleName}.bai
+## mergeBqsr
+mergeBqsrFilesDir,${projectDir}/mergeBqsr/
+mergeBqsrBam,${mergeBqsrFilesDir}${sampleName}.bam
+mergeBqsrBai,${mergeBqsrFilesDir}${sampleName}.bai
 ## addOrReplaceGroups
 sortedBamDir,${projectDir}/sortedBam/
 addOrReplaceGroupsDir,${projectDir}/addOrReplaceReadGroups/
@@ -75,9 +81,9 @@ flagstatFile,${flagstatDir}/${sampleName}.flagstat
 ## FastQC
 fastqcDir,${projectDir}/fastqc/
 fastqcZipExt,_fastqc.zip
-singleEndfastqcZip,${fastqcDir}/${uniqueID}.fq${fastqcZipExt}
-pairedEndfastqcZip1,${fastqcDir}/${uniqueID}_1.fq${fastqcZipExt}
-pairedEndfastqcZip2,${fastqcDir}/${uniqueID}_2.fq${fastqcZipExt}
+singleEndfastqcZip,${fastqcDir}/${uniqueID}${fastqcZipExt}
+pairedEndfastqcZip1,${fastqcDir}/${uniqueID}_1${fastqcZipExt}
+pairedEndfastqcZip2,${fastqcDir}/${uniqueID}_2${fastqcZipExt}
 ## CollectMultipleMetrics
 collectMultipleMetricsDir,${projectDir}/collectMultipleMetrics/
 collectMultipleMetricsPrefix,${projectDir}/collectMultipleMetrics/${uniqueID}.multiplemetrics
@@ -116,7 +122,7 @@ singleEndCutAdapt,${cutadaptDir}/${uniqueID}_adapter_cut.fastq
 pairedEndCutAdapt1,${cutadaptDir}/${uniqueID}_adapter_cut_1.fastq
 pairedEndCutAdapt2,${cutadaptDir}/${uniqueID}_adapter_cut_2.fastq
 cutadaptFile,${cutadaptDir}/${uniqueID}_adapter_cut.fastq
-adapters,/groups/umcg-wijmenga/tmp04/umcg-ndeklein/data/PROseq/adapters.txt
+adapters,/groups/umcg-wijmenga/tmp04/umcg-ndeklein/data/PROseq_timepoints/adapters.txt
 ## rRNAdust
 rRNAfilteredDir,${projectDir}/fastq_rRNAfiltered/
 rRNArefSeq,${resDir}/human_rRNA/U13369.1
@@ -160,6 +166,14 @@ reverseComplementDir,${projectDir}/fastq_reverseComplement/
 singleEndRC,${reverseComplementDir}/${uniqueID}_reverse_complement.fastq
 pairedEndRC1,${reverseComplementDir}/${uniqueID}_reverse_complement_1.fastq
 pairedEndRC2,${reverseComplementDir}/${uniqueID}_reverse_complement_2.fastq
+## Kallisto
+kallistoIndex,/groups/umcg-pub/tmp04/public-rna-seq/kallisto/hg19.v75.cdna.all.42.2.idx
+kallistoDir,${projectDir}/kallisto/
+fragmentLength,100
+## Homer
+homerLocation,/apps/software/HOMER/4.7-goolf-1.7.20/homer/bin/
+bedgraphBigwigLocation,/apps/software/bedGraphToBigWig/1/bedGraphToBigWig
+homerTagDir,${projectDir}/homerTagDir/${sampleName}/
 ## ?
 rRnaIntervalList,${resDir}//picard-tools/Ensembl${ensemblVersion}/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.rrna.interval_list
 genesRefFlat,${resDir}/picard-tools/Ensembl${ensemblVersion}/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.refflat

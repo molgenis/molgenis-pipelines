@@ -22,42 +22,41 @@ ${stage} Kallisto/${kallistoVersion}
 
 #check modules
 ${checkStage}
-internalIdArray=(${internalId//_/ })
 
 echo "## "$(date)" Start $0"
 echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
-echo ${kallistoDir}/${internalIdArray[1]}/${internalIdArray[2]}/${internalIdArray[3]}_${fragmentLength}
+
 if [ ${#reads2FqGz} -eq 0 ]; then
-  mkdir -p ${kallistoDir}/${internalIdArray[1]}/${internalIdArray[2]}/${internalIdArray[3]}_${fragmentLength}
+  mkdir -p ${kallistoDir}/${uniqueID}_${fragmentLength}
   echo "Single end kallisto of ${reads1FqGz}"
   if kallisto quant \
     -i ${kallistoIndex} \
-    -o ${kallistoDir}/${internalIdArray[1]}/${internalIdArray[2]}/${internalIdArray[3]}_${fragmentLength} \
+    -o ${kallistoDir}/${uniqueID}_${fragmentLength} \
     --single \
     -l 200 \
     ${reads1FqGz}
   then
-    echo "returncode: $?"; putFile ${kallistoDir}/${internalIdArray[1]}/${internalIdArray[2]}/${internalIdArray[3]}_${fragmentLength}/abundance.tsv
-    putFile ${kallistoDir}/${internalIdArray[1]}/${internalIdArray[2]}/${internalIdArray[3]}_${fragmentLength}/abundance.h5
-    putFile ${kallistoDir}/${internalIdArray[1]}/${internalIdArray[2]}/${internalIdArray[3]}_${fragmentLength}/run_info.json
+    echo "returncode: $?"; putFile ${kallistoDir}/${uniqueID}_${fragmentLength}/abundance.tsv
+    putFile ${kallistoDir}/${uniqueID}_${fragmentLength}/abundance.h5
+    putFile ${kallistoDir}/${uniqueID}_${fragmentLength}_${fragmentLength}/run_info.json
     echo "succes moving files";
   else
     echo "returncode: $?";
     echo "fail";
   fi
 else
-  mkdir -p ${kallistoDir}/${internalIdArray[1]}/${internalIdArray[2]}/${internalIdArray[3]}
+  mkdir -p ${kallistoDir}/${uniqueID}
   getFile ${reads2FqGz}
   echo "Paired end kallisto of ${reads1FqGz} and ${reads2FqGz}"
   if kallisto quant \
     -i ${kallistoIndex} \
-    -o ${kallistoDir}/${internalIdArray[1]}/${internalIdArray[2]}/${internalIdArray[3]} \
+    -o ${kallistoDir}/${uniqueID} \
     ${reads1FqGz} ${reads2FqGz}
   then
-    echo "returncode: $?"; putFile ${kallistoDir}/${internalIdArray[1]}/${internalIdArray[2]}/${internalIdArray[3]}_${fragmentLength}/abundance.tsv
-    putFile ${kallistoDir}/${internalIdArray[1]}/${internalIdArray[2]}/${internalIdArray[3]}$/abundance.h5
-    putFile ${kallistoDir}/${internalIdArray[1]}/${internalIdArray[2]}/${internalIdArray[3]}/run_info.json
-    cd ${kallistoDir}/${internalIdArray[1]}/${internalIdArray[2]}/${internalIdArray[3]}
+    echo "returncode: $?"; putFile ${kallistoDir}/${uniqueID}/abundance.tsv
+    putFile ${kallistoDir}/${uniqueID}/abundance.h5
+    putFile ${kallistoDir}/${uniqueID}/run_info.json
+    cd ${kallistoDir}/${uniqueID}
     md5sum abundance.h5 > abundance.h5.md5
     md5sum run_info.json > run_info.json.md5
     md5sum abundance.tsv > abundance.tsv.md5

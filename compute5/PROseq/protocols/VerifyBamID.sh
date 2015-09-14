@@ -12,7 +12,8 @@
 #string verifyBamIDVersion
 #string stage
 #string checkStage
-
+#string genotypedVcf
+#string haplotyperGvcf
 
 #Load modules
 ${stage} verifyBamID/${verifyBamIDVersion}
@@ -26,7 +27,7 @@ echo "## "$(date)" Start $0"
 echo "ID (project-sampleName): ${project}-${sampleName}"
 
 if verifyBamID \
-  --vcf ${indelRealignmentBam} \
+  --vcf ${genotypedVcf} \
   --bam ${sortedBam} \
   --out ${verifyBamIdDir}${uniqueID}
 
