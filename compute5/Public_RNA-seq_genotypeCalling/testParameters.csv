@@ -142,7 +142,4 @@ annotVcf,${annotatorDir}/${project}.annot.vcf
 annotVcfIdx,${annotVcf}.idx
 oneKgP1wgsVcf,${resDir}/
 oneKgP1wgsVcfIdx,${resDir}/
-cosmicDir,${resDir}/Cosmic/
-cosmicVcf,${cosmicDir}/${cosmicVersion}/CosmicCodingMuts.ensembl.vcf
-cosmicVcfIdx,${cosmicVcf}.idx
 projectMarkdown,${projectDir}/${project}.summary.Rmd
