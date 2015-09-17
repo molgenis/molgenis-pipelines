@@ -33,7 +33,7 @@ array_contains () {
 }
 
 #select only Indels
-java -Xmx2g -jar ${EBROOTGATK}/${gatkJar} \
+java -Xmx4g -jar ${EBROOTGATK}/${gatkJar} \
 -R ${indexFile} \
 -T SelectVariants \
 --variant ${variantAnnotatorOutputVcf} \
@@ -43,7 +43,7 @@ java -Xmx2g -jar ${EBROOTGATK}/${gatkJar} \
 -sn ${externalSampleID}
 
 #Select SNPs and MNPs
-java -Xmx2g -jar ${EBROOTGATK}/${gatkJar} \
+java -Xmx4g -jar ${EBROOTGATK}/${gatkJar} \
 -R ${indexFile} \
 -T SelectVariants \
 --variant ${variantAnnotatorOutputVcf} \

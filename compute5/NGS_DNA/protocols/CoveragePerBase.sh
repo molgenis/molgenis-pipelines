@@ -19,7 +19,7 @@ if [ "${GCC_Analysis}" == "diagnostiek" ] || [ "${GCC_Analysis}" == "diagnostics
 then
 	if [ -f ${capturedIntervalsPerBase} ]
 	then
-		java -Xmx2g -jar ${EBROOTGATK}/${gatkJar} \
+		java -Xmx10g -XX:ParallelGCThreads=4 -jar ${EBROOTGATK}/${gatkJar} \
 		-R ${indexFile} \
 		-T DepthOfCoverage \
 		-o ${sample}.samtools.coveragePerBase \
