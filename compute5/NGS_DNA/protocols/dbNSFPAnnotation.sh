@@ -83,7 +83,7 @@ makeTmpDir ${dbNSFPSampleVcf}
 tmpDbNSFPSampleVcf=${MC_tmpFile}
 
 #Run dbNSFP
-java -Djava.io.tmpdir=${tempDir} -Xmx4g -jar \
+java -Djava.io.tmpdir=${tempDir} -Xmx4g -XX:ParallelGCThreads=2 -jar \
 ${EBROOTSNPEFF}/SnpSift.jar \
 dbnsfp \
 -a \

@@ -1,4 +1,4 @@
-#MOLGENIS walltime=23:59:00 mem=3gb ppn=4
+#MOLGENIS walltime=23:59:00 mem=4gb ppn=4
 
 #string capturedBed
 #string sortedBam

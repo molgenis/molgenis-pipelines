@@ -1,4 +1,4 @@
-#MOLGENIS walltime=23:59:00 mem=12gb ppn=2
+#MOLGENIS walltime=23:59:00 mem=14gb ppn=2
 
 #Parameter mapping
 #string stage
@@ -97,7 +97,7 @@ else
 			-o ${tmpSampleBatchVariantCalls} \
 			-L ${capturedBatchBed} \
 			--emitRefConfidence GVCF \
-			-ploidy 1
+			-ploidy 2
 		elif [ "${sex}" == "Female" ]
 		then
 			echo "X (female)"
@@ -136,7 +136,7 @@ else
                         -o ${tmpSampleBatchVariantCalls} \
                         -L ${capturedBatchBed} \
                         --emitRefConfidence GVCF \
-                        -ploidy 1
+                        -ploidy 2
 		fi
 	else
 		echo "Autosomal"
