@@ -1,4 +1,4 @@
-#MOLGENIS walltime=23:59:00 mem=6gb ppn=6
+#MOLGENIS walltime=23:59:00 mem=12gb ppn=5
 
 #Parameter mapping
 #string stage
@@ -41,7 +41,7 @@ ${stage} ${gatkVersion}
 ${checkStage}
 if [ -f ${projectBatchCombinedVariantCalls} ]
 then
-java -Xmx4g -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${tempDir} -jar \
+java -Xmx16g -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${tempDir} -jar \
 	${EBROOTGATK}/${gatkJar} \
 	 -T GenotypeGVCFs \
 	 -R ${indexFile} \

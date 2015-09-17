@@ -15,11 +15,9 @@ module load picard
 sleep 5
 
 #make intervallist
-if [ ! -f ${capturedIntervals_nonAutoChrX} ]
-then
+	rm -f ${capturedIntervals_nonAutoChrX}
 	cp ${indexFileDictionary} ${capturedIntervals_nonAutoChrX}
 	awk '{if ($0 ~ /^X/){print $0}}' ${capturedIntervals} >> ${capturedIntervals_nonAutoChrX}
-fi
 
 #Calculate coverage chromosome X
 java -jar -XX:ParallelGCThreads=2 -Xmx4g ${EBROOTPICARD}/${picardJar} CalculateHsMetrics \
