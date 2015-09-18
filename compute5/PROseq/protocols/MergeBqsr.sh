@@ -11,7 +11,7 @@
 #string projectDir
 #string picardVersion
 #string addOrReplaceGroupsDir
-#list bsqrBam
+#list bqsrBam
 #string mergeBamFilesDir
 #string mergeBqsrBam
 #string mergeBqsrBai
@@ -28,7 +28,7 @@ ${checkStage}
 set -o posix
 
 #${addOrReplaceGroupsBam} sort unique and print like 'INPUT=file1.bam INPUT=file2.bam '
-bams=($(printf '%s\n' "${bsqrBam[@]}" | sort -u ))
+bams=($(printf '%s\n' "${bqsrBam[@]}" | sort -u ))
 inputs=$(printf 'INPUT=%s ' $(printf '%s\n' ${bams[@]}))
 
 mkdir -p ${mergeBamFilesDir}
