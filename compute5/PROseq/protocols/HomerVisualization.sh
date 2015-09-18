@@ -31,7 +31,6 @@ then
   gunzip ${homerTagDir}).ucsc.bedGraph.gz
   cd -
   perl -ne 'if(/- strand/){$a=1} ; $a==1 ? print STDERR : print STDOUT;' ${homerTagDir}/$(basename ${homerTagDir}).ucsc.bedGraph >${homerTagDir}/${sampleName}_positive_strand.bedgraph 2>${homerTagDir}/${sampleName}_negative_strand.bedgraph;
-  awk '{print >out}; //{out="h"}' out=
 
  echo "returncode: $?"; 
  echo "succes moving files";

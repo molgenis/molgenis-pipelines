@@ -12,8 +12,7 @@
 #string projectDir
 #string fastqcDir
 #string fastqcZipExt
-#string reads1FqGz
-#string singleEndRRna
+#string maskedFq
 #string singleEndfastqcZip
 
 #echo -e "test ${pairedEndRRna1} ${pairedEndRRna2} 1: $(basename ${pairedEndRRna1} .gz)${fastqcZipExt} \n2: $(basename ${pairedEndRRna2} .gz)${fastqcZipExt} "
@@ -32,14 +31,14 @@ cd ${fastqcDir}
 	
 ##################################################################
 echo
-echo "## "$(date)" reads1FqGz"
+echo "## "$(date)" maskedFq"
 if fastqc \
-    --noextract ${singleEndRRna} \
+    --noextract ${maskedFq} \
 	--outdir ${fastqcDir}
 	
 then
     echo "returncode: $?";
-	cp -v ${fastqcDir}/$(basename ${singleEndRRna} .fastq)${fastqcZipExt} ${singleEndfastqcZip}
+	cp -v ${fastqcDir}/$(basename ${maskedFq} .fastq)${fastqcZipExt} ${singleEndfastqcZip}
 
 	##################################################################
 	

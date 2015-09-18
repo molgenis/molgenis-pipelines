@@ -13,6 +13,7 @@
 #string weblogoVersion
 #string samtoolsVersion
 #string bedgraphBigwigLocation
+#string homerSampleTagDir
 
 echo "## "$(date)" Start $0"
 echo "ID (project-sampleName): ${project}-${sampleName}"
@@ -28,7 +29,7 @@ ${stage} SAMtools/${samtoolsVersion}
 ${stage} Weblogo/${weblogoVersion}
 ${checkStage}
 
-if makeTagDirectory ${homerTagDir} ${indelRealignmentBam}
+if makeTagDirectory ${homerSampleTagDir} ${bsqrBam}
 then
  echo "returncode: $?"; 
  echo "succes moving files";

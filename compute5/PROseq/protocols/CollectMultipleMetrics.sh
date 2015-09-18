@@ -13,15 +13,9 @@
 #string collectMultipleMetricsDir
 #string collectMultipleMetricsPrefix
 #string onekgGenomeFasta
-#string sortedBam
+#string maskedBamSorted
 #string sortedBai
 #string toolDir
-
-
-getFile ${sortedBam}
-getFile ${sortedBai}
-getFile ${onekgGenomeFasta}
-
 
 #load modules
 ${stage} picard/${picardVersion}
@@ -42,7 +36,7 @@ insertSizeMetrics=""
 #Run Picard CollectAlignmentSummaryMetrics, CollectInsertSizeMetrics, QualityScoreDistribution and MeanQualityByCycle
 
 echo java -jar -Xmx4g -XX:ParallelGCThreads=4 ${toolDir}picard/${picardVersion}/CollectMultipleMetrics.jar \
-        I=${sortedBam} \
+        I=${maskedBamSorted} \
         O=${collectMultipleMetricsPrefix} \
         R=${onekgGenomeFasta} \
         PROGRAM=CollectAlignmentSummaryMetrics \
@@ -51,7 +45,7 @@ echo java -jar -Xmx4g -XX:ParallelGCThreads=4 ${toolDir}picard/${picardVersion}/
         $insertSizeMetrics \
         TMP_DIR=${collectMultipleMetricsDir}
 if java -jar -Xmx4g -XX:ParallelGCThreads=4 ${toolDir}picard/${picardVersion}/CollectMultipleMetrics.jar \
- I=${sortedBam} \
+ I=${maskedBamSorted} \
  O=${collectMultipleMetricsPrefix} \
  R=${onekgGenomeFasta} \
  PROGRAM=CollectAlignmentSummaryMetrics \

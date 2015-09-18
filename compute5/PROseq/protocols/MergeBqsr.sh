@@ -16,7 +16,7 @@
 #string mergeBqsrBam
 #string mergeBqsrBai
 #string toolDir
-
+#string mergeBamFilesBam
 
 echo "## "$(date)" Start $0"
 echo "ID (project-sampleName): ${project}-${sampleName}"

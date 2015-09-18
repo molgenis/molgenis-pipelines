@@ -7,7 +7,7 @@
 ###
 #string stage
 #string checkStage
-#string singleEndRRna
+#string maskedFq
 #string kallistoDir
 #string kallistoVersion
 #string uniqueID
@@ -21,13 +21,13 @@ ${stage} Kallisto/${kallistoVersion}
 ${checkStage}
 
 mkdir -p ${kallistoDir}/${uniqueID}
-echo "Single end kallisto of ${singleEndRRna}"
+echo "Single end kallisto of ${maskedFq}"
 if kallisto quant \
   -i ${kallistoIndex} \
   -o ${kallistoDir}/${uniqueID} \
   --single \
   -l 200 \
-  ${singleEndRRna}
+  ${maskedFq}
 then
     echo "succes moving files";
   else

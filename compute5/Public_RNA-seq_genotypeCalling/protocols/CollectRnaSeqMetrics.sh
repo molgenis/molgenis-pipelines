@@ -47,7 +47,7 @@ if java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}picard/${picardVersion}/Co
  
 then
  echo "returncode: $?"; 
- cd collectRnaSeqMetricsDir
+ cd ${collectRnaSeqMetricsDir}
  putFile ${collectRnaSeqMetrics}
  putFile ${collectRnaSeqMetricsChart}
   md5sum $(basename ${collectRnaSeqMetrics}) > $(basename ${collectRnaSeqMetrics}).md5
