@@ -13,7 +13,7 @@
 #string addOrReplaceGroupsDir
 #string addOrReplaceGroupsBam
 #string addOrReplaceGroupsBai
-#string sortedBam
+#string maskedBamSorted
 #string toolDir
 #string uniqueID
 
@@ -28,7 +28,7 @@ mkdir -p ${addOrReplaceGroupsDir}
 echo "## "$(date)" Start $0"
 
 if java -Xmx6g -XX:ParallelGCThreads=8 -jar ${toolDir}picard/${picardVersion}/AddOrReplaceReadGroups.jar \
- INPUT=${sortedBam} \
+ INPUT=${maskedBamSorted} \
  OUTPUT=${addOrReplaceGroupsBam} \
  SORT_ORDER=coordinate \
  RGID=${internalId} \

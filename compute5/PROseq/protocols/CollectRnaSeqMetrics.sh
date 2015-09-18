@@ -8,8 +8,7 @@
 #string stage
 #string checkStage
 #string picardVersion
-#string sortedBam
-#string sortedBai
+#string maskedBamSorted
 #string collectRnaSeqMetricsDir
 #string collectRnaSeqMetrics
 #string collectRnaSeqMetricsChart
@@ -18,9 +17,6 @@
 #string onekgGenomeFasta
 #string toolDir
 #string RVersion
-
-getFile ${sortedBam}
-getFile ${sortedBai}
 
 #Load module
 ${stage} picard/${picardVersion}
@@ -35,7 +31,7 @@ echo "## "$(date)" Start $0"
 echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
 if java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}picard/${picardVersion}/CollectRnaSeqMetrics.jar \
- INPUT=${sortedBam} \
+ INPUT=${maskedBamSorted} \
  OUTPUT=${collectRnaSeqMetrics} \
  CHART_OUTPUT=${collectRnaSeqMetricsChart} \
  METRIC_ACCUMULATION_LEVEL=SAMPLE \

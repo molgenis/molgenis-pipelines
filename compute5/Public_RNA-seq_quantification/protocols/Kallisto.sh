@@ -38,7 +38,7 @@ if [ ${#reads2FqGz} -eq 0 ]; then
   then
     echo "returncode: $?"; putFile ${kallistoDir}/${uniqueID}_${fragmentLength}/abundance.tsv
     putFile ${kallistoDir}/${uniqueID}_${fragmentLength}/abundance.h5
-    putFile ${kallistoDir}/${uniqueID}_${fragmentLength}_${fragmentLength}/run_info.json
+    putFile ${kallistoDir}/${uniqueID}_${fragmentLength}/run_info.json
     echo "succes moving files";
   else
     echo "returncode: $?";

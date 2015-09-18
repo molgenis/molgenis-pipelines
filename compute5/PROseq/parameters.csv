@@ -34,6 +34,7 @@ GenotypeHarmonizerVersion,1.4.14
 gatkVersion,3.4-0-Java-1.7.0_80 
 hisatVersion,0.1.6-beta-goolf-1.7.20
 fastqcVersion,0.11.3-Java-1.7.0_80  
+bedtoolsVersion,2.23.0-goolf-1.7.20
 genomeBuild,b37
 genomeGrchBuild,GRCh37
 human_g1k_vers,37
@@ -173,7 +174,14 @@ fragmentLength,100
 ## Homer
 homerLocation,/apps/software/HOMER/4.7-goolf-1.7.20/homer/bin/
 bedgraphBigwigLocation,/apps/software/bedGraphToBigWig/1/bedGraphToBigWig
-homerTagDir,${projectDir}/homerTagDir/${sampleName}/
+homerTagDir,${projectDir}/homerTagDir/
+homerSampleTagDir,${homerTagDir}/${sampleName}/
+## RemoveRepeatMappers
+maskedBamDir,${projectDir}/removeRepeatMappers/
+maskedBam,${maskedBamDir}/${uniqueID}_repeat_removed.bam
+repeatBedgraph,/groups/umcg-wijmenga/tmp04/umcg-ndeklein/data/hg19_36mers_mappability.bed
+maskedFq,${maskedBamDir}/${uniqueID}_repeat_removed.fastq
+maskedBamSorted,${maskedBamDir}/${uniqueID}_repeat_removed_sorted.bam
 ## ?
 rRnaIntervalList,${resDir}//picard-tools/Ensembl${ensemblVersion}/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.rrna.interval_list
 genesRefFlat,${resDir}/picard-tools/Ensembl${ensemblVersion}/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.refflat
