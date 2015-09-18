@@ -35,10 +35,11 @@ array_contains () {
 makeTmpDir ${projectBatchCombinedGenotypedVariantCalls}
 tmpProjectBatchCombinedGenotypedVariantCalls=${MC_tmpFile}
 
-
 #Load GATK module
 ${stage} ${gatkVersion}
 ${checkStage}
+
+
 if [ -f ${projectBatchCombinedVariantCalls} ]
 then
 java -Xmx16g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${tempDir} -jar \

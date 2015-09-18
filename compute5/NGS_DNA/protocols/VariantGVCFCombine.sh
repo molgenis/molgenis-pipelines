@@ -13,7 +13,8 @@
 #string tmpDataDir
 #list externalSampleID
 #string batchID
-
+#string projectJobsDir
+#string project
 sleep 5
 
 #Function to check if array contains value
@@ -46,8 +47,32 @@ do
 	array_contains INPUTS "$external" || INPUTS+=("$external")    # If bamFile does not exist in array add it
 done	
 
+SAMPLESIZE=$(${projectJobsDir}/${project}.csv | wc -l)
+
+## number of batches (+1 is because bash is rounding down) 
+numberofbatches=$(($SAMPLESIZE / 200))
+
+for b in $(seq 0 $numberofbatches){
+	i=0
+	ALLGVCFs=()
+	for s in "${INPUTS[@]}"; do
+		VAR=$($i % ($numberofbatches+1))
+		if [ $VAR -eq $b ] 
+		then
+			ALLGVCFs+=("--variant ${intermediateDir}/${s}.batch-${batchID}.variant.calls.g.vcf")
+		fi
+		$i++
+	done
+	java -Xmx30g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${tempDir} -jar \
+        ${EBROOTGATK}/${gatkJar} \
+        -T CombineGVCFs \
+        -R ${indexFile} \
+        -o ${tmpProjectBatchCombinedVariantCalls} \
+        ${ALLGVCFs[@]}
+}
 for i in "${INPUTS[@]}"
 do
+	if [ $ ] 
 	ALLGVCFs+=("--variant ${intermediateDir}/${i}.batch-${batchID}.variant.calls.g.vcf")
 done
 count=${#ALLGVCFs[@]}

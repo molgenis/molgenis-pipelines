@@ -11,7 +11,13 @@ RUNID=runXX
 ## For small batchsize (25) leave BATCH empty, else choose _wgs or _exome (100 batches) 
 BATCH=""
 
-
+SAMPLESIZE=$(cat ${WORKDIR}/generatedscripts/${PROJECT}/${PROJECT}.csv | wc -l)
+if [ $SAMPLESIZE -gt 199 ]
+then
+    	WORKFLOW=${EBROOTNGS_DNA}/workflow_samplesize_bigger_than_200.csv
+else
+        WORKFLOW=${EBROOTNGS_DNA}/workflow.csv
+fi
 
 if [ -f .compute.properties ];
 then
@@ -37,7 +43,7 @@ sh $EBROOTMOLGENISMINCOMPUTE/molgenis_compute.sh \
 -w ${EBROOTNGS_DNA}/create_in-house_ngs_projects_workflow.csv \
 -rundir ${WORKDIR}/generatedscripts/${PROJECT}/scripts \
 --runid ${RUNID} \
--o "workflowpath=${EBROOTNGS_DNA}/workflow.csv;\
+-o "workflowpath=${WORKFLOW};\
 outputdir=scripts/jobs;mainParameters=${WORKDIR}/generatedscripts/${PROJECT}/out.csv;\
 environment_parameters=${WORKDIR}/generatedscripts/${PROJECT}/environment_parameters.csv;\
 batchIDList=${EBROOTNGS_DNA}/batchIDList${BATCH}.csv;\
