@@ -21,7 +21,6 @@ cutadaptVersion,1.8.1-goolf-1.7.20-Python-2.7.9
 picardVersion,1.102-Java-1.7.0_80
 genotypeIOVersion,1.0.2
 verifyBamVersion,1.1.1
-genotypeHarmonizerVersion,1.4.9
 tabixVersion,0.2.6-goolf-1.7.20
 plinkVersion,1.07-x86_64
 jdkVersion,1.8.0_25

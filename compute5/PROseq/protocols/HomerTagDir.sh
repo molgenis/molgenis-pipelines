@@ -6,7 +6,7 @@
 ###
 #string stage
 #string checkStage
-#string bsqrBam
+#string bqsrBam
 #string homerTagDir
 #string toolDir
 #string homerLocation
@@ -29,7 +29,7 @@ ${stage} SAMtools/${samtoolsVersion}
 ${stage} Weblogo/${weblogoVersion}
 ${checkStage}
 
-if makeTagDirectory ${homerSampleTagDir} ${bsqrBam}
+if makeTagDirectory ${homerSampleTagDir} ${bqsrBam}
 then
  echo "returncode: $?"; 
  echo "succes moving files";

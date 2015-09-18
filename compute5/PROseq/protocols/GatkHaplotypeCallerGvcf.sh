@@ -13,7 +13,7 @@
 #string dbsnpVcf
 #string dbsnpVcfIdx
 #string onekgGenomeFasta
-#list bsqrBam
+#list bqsrBam
 #string haplotyperDir
 #string haplotyperGvcf
 #string haplotyperGvcfIdx
@@ -22,8 +22,8 @@
 echo "## "$(date)" Start $0"
 echo "ID (project-sampleName): ${project}-${sampleName}"
 
-for file in "${bsqrBam[@]}" "${dbsnpVcf}" "${dbsnpVcfIdx}" "${onekgGenomeFasta}"; do
-#for file in "${bsqrBam[@]}" "${bsqrBai[@]}" "${dbsnpVcf}" "${dbsnpVcfIdx}" "${onekgGenomeFasta}"; do
+for file in "${bqsrBam[@]}" "${dbsnpVcf}" "${dbsnpVcfIdx}" "${onekgGenomeFasta}"; do
+#for file in "${bqsrBam[@]}" "${bqsrBai[@]}" "${dbsnpVcf}" "${dbsnpVcfIdx}" "${onekgGenomeFasta}"; do
 	echo "getFile file='$file'"
 	getFile $file
 done
@@ -33,7 +33,7 @@ ${stage} GATK/${gatkVersion}
 ${checkStage}
 
 #sort unique and print like 'INPUT=file1.bam INPUT=file2.bam '
-bams=($(printf '%s\n' "${bsqrBam[@]}" | sort -u ))
+bams=($(printf '%s\n' "${bqsrBam[@]}" | sort -u ))
 
 inputs=$(printf ' -I %s ' $(printf '%s\n' ${bams[@]}))
 

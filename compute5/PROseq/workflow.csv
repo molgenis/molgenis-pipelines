@@ -27,3 +27,5 @@ HaplotypeCallerGvcf,protocols/GatkHaplotypeCallerGvcf.sh,BQSR
 MergeGvcfs,protocols/GatkMergeGvcfs.sh,HaplotypeCallerGvcf
 GenotypeGvcfs,protocols/GatkGenotypeGvcfs.sh,MergeGvcfs
 VariantEval,protocols/VariantEval.sh,HaplotypeCallerGvcf
+ASReads,protocols/ASReads.sh,GenotypeGvcfs
+ASE,protocols/ASE.sh,ASReads

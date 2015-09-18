@@ -17,10 +17,10 @@
 #string dbsnpVcfIdx
 #string indelRealignmentBam
 #string indelRealignmentBai
-#string bsqrDir
-#string bsqrBam
-#string bsqrBai
-#string bsqrBeforeGrp
+#string bqsrDir
+#string bqsrBam
+#string bqsrBai
+#string bqsrBeforeGrp
 #string toolDir
 
 #pseudo from gatk forum (link: http://gatkforums.broadinstitute.org/discussion/3891/best-practices-for-variant-calling-on-rnaseq):
@@ -43,35 +43,35 @@ ${stage} GATK/${gatkVersion}
 ${checkStage}
 
 
-mkdir -p ${bsqrDir}
+mkdir -p ${bqsrDir}
 
-#do bsqr for covariable determination then do print reads for valid bsqrbams
-#check the bsqr part and add known variants
+#do bqsr for covariable determination then do print reads for valid bqsrbams
+#check the bqsr part and add known variants
 
-java -Xmx8g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${bsqrDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
+java -Xmx8g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${bqsrDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
  -T BaseRecalibrator\
  -R ${onekgGenomeFasta} \
  -I ${indelRealignmentBam} \
- -o ${bsqrBeforeGrp} \
+ -o ${bqsrBeforeGrp} \
  -knownSites ${dbsnpVcf} \
  -knownSites ${goldStandardVcf}\
  -knownSites ${oneKgPhase1IndelsVcf}\
  -nct 2
 
-if java -Xmx8g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${bsqrDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
+if java -Xmx8g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${bqsrDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
  -T PrintReads \
  -R ${onekgGenomeFasta} \
  -I ${indelRealignmentBam} \
- -o ${bsqrBam} \
- -BQSR ${bsqrBeforeGrp} \
+ -o ${bqsrBam} \
+ -BQSR ${bqsrBeforeGrp} \
  -nct 2
 
 then
  echo "returncode: $?"; 
 
- putFile ${bsqrBam}
- putFile ${bsqrBai}
- putFile ${bsqrBeforeGrp}
+ putFile ${bqsrBam}
+ putFile ${bqsrBai}
+ putFile ${bqsrBeforeGrp}
  echo "succes moving files";
 else
  echo "returncode: $?";

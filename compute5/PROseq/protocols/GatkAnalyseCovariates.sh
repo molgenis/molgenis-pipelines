@@ -15,12 +15,12 @@
 #string oneKgPhase1IndelsVcfIdx
 #string dbsnpVcf
 #string dbsnpVcfIdx
-#string bsqrDir
-#string bsqrBam
-#string bsqrBai
+#string bqsrDir
+#string bqsrBam
+#string bqsrBai
 #string analyseCovarsDir
-#string bsqrBeforeGrp
-#string bsqrAfterGrp
+#string bqsrBeforeGrp
+#string bqsrAfterGrp
 #string analyseCovariatesPdf
 #string toolDir
 #string analyseCovariatesIntermediateCsv
@@ -36,33 +36,33 @@ getFile ${dbsnpVcf}
 getFile ${dbsnpVcfIdx}
 getFile ${goldStandardVcf} 
 getFile ${goldStandardVcfIdx}
-getFile ${bsqrBam}
-getFile ${bsqrBai}
+getFile ${bqsrBam}
+getFile ${bqsrBai}
 ${stage} R/${RVersion}
 ${stage} GATK/${gatkVersion}
 ${checkStage}
 
 mkdir -p ${analyseCovarsDir}
 
-#do bsqr for covariable determination then do print reads for valid bsqrbams
-#check the bsqr part and add known variants
+#do bqsr for covariable determination then do print reads for valid bqsrbams
+#check the bqsr part and add known variants
 
-java -Xmx4g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${bsqrDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
+java -Xmx4g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${bqsrDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
  -T BaseRecalibrator\
  -R ${onekgGenomeFasta} \
- -I ${bsqrBam} \
- -o ${bsqrAfterGrp} \
+ -I ${bqsrBam} \
+ -o ${bqsrAfterGrp} \
  -knownSites ${dbsnpVcf} \
  -knownSites ${goldStandardVcf} \
  -knownSites ${oneKgPhase1IndelsVcf} \
  -nct 2
 
-if java -Xmx4g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${bsqrDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
+if java -Xmx4g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${bqsrDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
  -T AnalyzeCovariates \
  -R ${onekgGenomeFasta} \
  -ignoreLMT \
- -before ${bsqrBeforeGrp} \
- -after ${bsqrAfterGrp} \
+ -before ${bqsrBeforeGrp} \
+ -after ${bqsrAfterGrp} \
  -l DEBUG \
  -csv ${analyseCovariatesIntermediateCsv} \
  -plots ${analyseCovariatesPdf}
@@ -70,7 +70,7 @@ if java -Xmx4g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${bsqrDir} -jar ${toolDi
 then
  echo "returncode: $?"; 
  
- putFile ${bsqrAfterGrp}
+ putFile ${bqsrAfterGrp}
  putFile ${analyseCovariatesPdf}
  echo "succes moving files";
 else
