@@ -16,6 +16,9 @@
 #string haplotyperDir
 #string AseDir
 #string ASFiles
+#string AseOutput
+#string ASReadsDir
+#string couplingFile
 #list ASReads
 echo "## "$(date)" Start $0"
 
@@ -23,19 +26,18 @@ echo "## "$(date)" Start $0"
 #Load gatk module
 ${checkStage}
 
-mkdir -p ${ASReadsDir}
+mkdir -p ${AseDir}
 
-($(printf '%s\n' "${ASReads[@]}")) >
+printf '%s\n' "${ASReads[@]}" > ${ASFiles}
 
 if java -jar /groups/umcg-wijmenga/tmp04/umcg-ndeklein/scripts/cellTypeSpecificAlleleSpecificExpression-1.0.3_niekRequest-jar-with-dependencies.jar \
---action ASEperSNP \
---output ${AseOutput}
+--action 2 \
+--output ${AseOutput} \
 --as_locations ${ASFiles} \
 --minimum_hets 1 \
 --minimum_reads 10
 
 then
-
  echo "returncode: $?";
  sort -n -k 6,6 ${AseOutput}_BetaBinomialResults.txt > ${AseOutput}_BetaBinomialResults_sorted.txt
  echo "succes moving files";

@@ -182,9 +182,10 @@ repeatBedgraph,/groups/umcg-wijmenga/tmp04/umcg-ndeklein/data/hg19_36mers_mappab
 maskedFq,${maskedBamDir}/${uniqueID}_repeat_removed.fastq
 maskedBamSorted,${maskedBamDir}/${uniqueID}_repeat_removed_sorted.bam
 ## ASReads
-ASReadsDir,${projectDir}/ASReads/${sampleName}/
+ASReadsDir,${projectDir}/ASReads/
+ASReadsDirSample,${ASReadsDir}/${sampleName}/
 couplingFile,${ASReadsDir}/coupling.txt
-ASReads,${ASReadsDir}/${sampleName}_ASreads.txt
+ASReads,${ASReadsDirSample}/${sampleName}_ASreads.txt
 ## ASE
 AseDir,${projectDir}/ASE/
 ASFiles,${AseDir}/ASFiles.txt
