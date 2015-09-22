@@ -39,7 +39,7 @@ java -Xmx4g -jar ${EBROOTGATK}/${gatkJar} \
 --variant ${variantAnnotatorOutputVcf} \
 -o ${variantAnnotatorSampleOutputIndelsVcf} \
 -L ${capturedIntervals} \
---selectTypeToInclude INDEL \
+-selectTypeToInclude INDEL \
 -sn ${externalSampleID}
 
 #Select SNPs and MNPs
@@ -49,5 +49,5 @@ java -Xmx4g -jar ${EBROOTGATK}/${gatkJar} \
 --variant ${variantAnnotatorOutputVcf} \
 -o ${variantAnnotatorSampleOutputSnpsVcf} \
 -L ${capturedIntervals} \
--selectTypeToExclude INDEL
+-selectTypeToExclude SNP \
 -sn ${externalSampleID}
