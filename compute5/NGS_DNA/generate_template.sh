@@ -8,7 +8,7 @@ PROJECT=projectXX
 TMPDIR=tmpXX
 WORKDIR="/groups/umcg-gaf/${TMPDIR}"
 RUNID=runXX
-## For small batchsize (25) leave BATCH empty, else choose _wgs or _exome (100 batches) 
+## For small batchsize (6) leave BATCH empty, else choose _exome (10 batches) or _wgs (20 batches) 
 BATCH=""
 
 SAMPLESIZE=$(cat ${WORKDIR}/generatedscripts/${PROJECT}/${PROJECT}.csv | wc -l)
@@ -30,10 +30,10 @@ then
 fi
 
 perl ${EBROOTNGS_DNA}/convertParametersGitToMolgenis.pl ${EBROOTNGS_DNA}/parameters.csv > \
-${GAF}/generatedscripts/${PROJECT}/out.csv
+${WORKDIR}/generatedscripts/${PROJECT}/out.csv
 
 perl ${EBROOTNGS_DNA}/convertParametersGitToMolgenis.pl ${EBROOTNGS_DNA}/${ENVIRONMENT_PARAMETERS} > \
-${GAF}/generatedscripts/${PROJECT}/environment_parameters.csv
+${WORKDIR}/generatedscripts/${PROJECT}/environment_parameters.csv
 
 sh $EBROOTMOLGENISMINCOMPUTE/molgenis_compute.sh \
 -p ${WORKDIR}/generatedscripts/${PROJECT}/out.csv \

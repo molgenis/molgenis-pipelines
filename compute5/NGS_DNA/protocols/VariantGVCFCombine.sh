@@ -47,49 +47,48 @@ do
 	array_contains INPUTS "$external" || INPUTS+=("$external")    # If bamFile does not exist in array add it
 done	
 
-SAMPLESIZE=$(${projectJobsDir}/${project}.csv | wc -l)
+SAMPLESIZE=$(cat ${projectJobsDir}/${project}.csv | wc -l)
 
 ## number of batches (+1 is because bash is rounding down) 
 numberofbatches=$(($SAMPLESIZE / 200))
-
-for b in $(seq 0 $numberofbatches){
+gvcfSize=0
+for b in $(seq 0 $numberofbatches)
+do
 	i=0
 	ALLGVCFs=()
-	for s in "${INPUTS[@]}"; do
-		VAR=$($i % ($numberofbatches+1))
+	for s in "${INPUTS[@]}" 
+	do
+		VAR=$(($i % ($numberofbatches + 1)))
 		if [ $VAR -eq $b ] 
 		then
-			ALLGVCFs+=("--variant ${intermediateDir}/${s}.batch-${batchID}.variant.calls.g.vcf")
+			if [ -f ${intermediateDir}/${s}.batch-${batchID}.variant.calls.g.vcf ] 
+			then
+				ALLGVCFs+=("--variant ${intermediateDir}/${s}.batch-${batchID}.variant.calls.g.vcf")
+			fi
 		fi
-		$i++
-	done
-	java -Xmx30g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${tempDir} -jar \
-        ${EBROOTGATK}/${gatkJar} \
-        -T CombineGVCFs \
-        -R ${indexFile} \
-        -o ${tmpProjectBatchCombinedVariantCalls} \
-        ${ALLGVCFs[@]}
-}
-for i in "${INPUTS[@]}"
-do
-	if [ $ ] 
-	ALLGVCFs+=("--variant ${intermediateDir}/${i}.batch-${batchID}.variant.calls.g.vcf")
+		i=$((i+1))
+ 	done
+	gvcfSize=${#ALLGVCFs[@]}
+	if [ $gvcfSize -ne 0 ]
+	then
+		java -Xmx30g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${tempDir} -jar \
+        	${EBROOTGATK}/${gatkJar} \
+        	-T CombineGVCFs \
+        	-R ${indexFile} \
+        	-o ${tmpProjectBatchCombinedVariantCalls}.$b \
+        	${ALLGVCFs[@]}
+	else
+		echo "There are no samples for batch-${batchID}.variant.calls.g.vcf"
+	fi
 done
-count=${#ALLGVCFs[@]}
 
-if [ ${count} -ne 0 ] 
+if [ $gvcfSize -ne 0 ]
 then
-	java -Xmx30g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${tempDir} -jar \
-	${EBROOTGATK}/${gatkJar} \
-	-T CombineGVCFs \
-	-R ${indexFile} \
-	-o ${tmpProjectBatchCombinedVariantCalls} \
-	${ALLGVCFs[@]} 
+	for i in $(ls ${tmpProjectBatchCombinedVariantCalls}.*)
+	do
+		mv $i ${intermediateDir}/$(basename $i)
+		echo "mv $i ${intermediateDir}/$(basename $i)"
+	done
 else
-	echo "ALLGVCFs is empty, probably something is wrong"
-	exit 1
+	echo "nothing to move! There are no samples, maybe there is something going wrong, or maybe chrX or chrY are not in the bed file"
 fi
-
-mv ${tmpProjectBatchCombinedVariantCalls} ${projectBatchCombinedVariantCalls}
-echo "mv ${tmpProjectBatchCombinedVariantCalls} ${projectBatchCombinedVariantCalls}"
-
