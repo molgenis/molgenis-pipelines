@@ -21,7 +21,6 @@
 #string intermediateDir
 #string rVersion
 #string inSilicoConcordanceFile
-#string pathToNGSBetaVersion
 #string ngsDNAVersion
 
 module load ${rVersion}

@@ -11,10 +11,12 @@
 #string capturedBatchBed
 #string dbSNP137Vcf
 #string dbSNP137VcfIdx
-#string projectBatchCombinedGenotypedVariantCalls
+#string projectBatchGenotypedVariantCalls
 #string projectBatchCombinedVariantCalls
+#list sampleBatchVariantCalls
 #string tmpDataDir
-#list externalSampleID
+#string projectJobsDir
+#string project
 
 sleep 5
 
@@ -32,27 +34,47 @@ array_contains () {
     return $in
 }
 
-makeTmpDir ${projectBatchCombinedGenotypedVariantCalls}
-tmpProjectBatchCombinedGenotypedVariantCalls=${MC_tmpFile}
-
+makeTmpDir ${projectBatchGenotypedVariantCalls}
+tmpProjectBatchGenotypedVariantCalls=${MC_tmpFile}
 
 #Load GATK module
 ${stage} ${gatkVersion}
 ${checkStage}
-if [ -f ${projectBatchCombinedVariantCalls} ]
+
+SAMPLESIZE=$(cat ${projectJobsDir}/${project}.csv | wc -l)
+numberofbatches=$(($SAMPLESIZE / 200))
+ALLGVCFs=()
+
+if [ $SAMPLESIZE -gt 200 ]
+then
+	for b in $(seq 0 $numberofbatches)
+	do
+		if [ -f ${projectBatchCombinedVariantCalls}.$b ]
+		then
+ 			ALLGVCFs+=(--variant ${projectBatchCombinedVariantCalls}.$b)
+		fi
+	done
+else
+	for sbatch in "${sampleBatchVariantCalls[@]}"
+        do
+          	array_contains ALLGVCFs "--variant $sbatch" || INPUTS+=("--variant $sbatch")
+        done
+fi 
+GvcfSize=${#ALLGVCFs[@]}
+if [ ${GvcfSize} -ne 0 ]
 then
 java -Xmx16g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${tempDir} -jar \
 	${EBROOTGATK}/${gatkJar} \
 	 -T GenotypeGVCFs \
 	 -R ${indexFile} \
 	 --dbsnp ${dbSNP137Vcf} \
-	 -o ${tmpProjectBatchCombinedGenotypedVariantCalls} \
-	 --variant ${projectBatchCombinedVariantCalls} 
+	 -o ${tmpProjectBatchGenotypedVariantCalls} \
+	${ALLGVCFs[@]} 
 
-	mv ${tmpProjectBatchCombinedGenotypedVariantCalls} ${projectBatchCombinedGenotypedVariantCalls}
-	echo "moved ${tmpProjectBatchCombinedGenotypedVariantCalls} to ${projectBatchCombinedGenotypedVariantCalls} "
+	mv ${tmpProjectBatchGenotypedVariantCalls} ${projectBatchGenotypedVariantCalls}
+	echo "moved ${tmpProjectBatchGenotypedVariantCalls} to ${projectBatchGenotypedVariantCalls} "
 else
 	echo ""
-	echo "${projectBatchCombinedVariantCalls} does not exist, skipped"
+	echo "there is nothing to genotype, skipped"
 	echo ""
 fi

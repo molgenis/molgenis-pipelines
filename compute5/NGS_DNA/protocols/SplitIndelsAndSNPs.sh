@@ -49,5 +49,5 @@ java -Xmx4g -jar ${EBROOTGATK}/${gatkJar} \
 --variant ${variantAnnotatorOutputVcf} \
 -o ${variantAnnotatorSampleOutputSnpsVcf} \
 -L ${capturedIntervals} \
--selectTypeToExclude INDEL
+--selectTypeToExclude INDEL \
 -sn ${externalSampleID}
