@@ -16,21 +16,7 @@ sleep 5
 
 
 makeTmpDir ${projectDellyAnnotatorOutputVcf}
-tmpprojectDellyAnnotatorOutputVcf=${MC_tmpFile}
-
-#Function to check if array contains value
-array_contains () { 
-    local array="$1[@]"
-    local seeking=$2
-    local in=1
-    for element in "${!array}"; do
-        if [[ "$element" == "$seeking" ]]; then
-            in=0
-            break
-        fi
-    done
-    return $in
-}
+tmpProjectDellyAnnotatorOutputVcf=${MC_tmpFile}
 
 ${stage} ${javaVersion}
 ${stage} ${snpEffVersion}
@@ -53,9 +39,9 @@ java -Xmx10g -jar ${EBROOTCMDLINEANNOTATOR}/CmdLineAnnotator-1.9.0.jar \
 hpo \
 ${hpoTerms} \
 ${intermediateDir}/${project}.delly.snpeff.vcf \
-${tmpprojectDellyAnnotatorOutputVcf}
+${tmpProjectDellyAnnotatorOutputVcf}
 
 echo "Finished HPO annotation"
 
-    mv ${tmpprojectDellyAnnotatorOutputVcf} ${projectDellyAnnotatorOutputVcf}
+    mv ${tmpProjectDellyAnnotatorOutputVcf} ${projectDellyAnnotatorOutputVcf}
 
