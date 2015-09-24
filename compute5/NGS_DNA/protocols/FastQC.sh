@@ -27,14 +27,19 @@ then
 	${peEnd2BarcodeFqGz} \
 	-o ${tmpIntermediateDir}
 	echo -e "\nFastQC finished succesfull. Moving temp files to final.\n\n"
-	rsync -a ${tmpIntermediateDir} ${intermediateDir}
+	cp -r ${tmpIntermediateDir}/* ${intermediateDir}
+	echo "copied ${tmpIntermediateDir}/* to ${intermediateDir}"
 	rm -rf ${tmpIntermediateDir}
+	echo "removed ${tmpIntermediateDir}"
 else
 	fastqc ${srBarcodeFqGz} \
 	-o ${tmpIntermediateDir}
 	echo -e "\nFastQC finished succesfull. Moving temp files to final.\n\n"
-	rsync -a ${tmpIntermediateDir} ${intermediateDir}
+	cp -r ${tmpIntermediateDir}/* ${intermediateDir}
+	echo "copied ${tmpIntermediateDir}/* to ${intermediateDir}"
 	rm -rf ${tmpIntermediateDir}
+	echo "removed ${tmpIntermediateDir}"
+	
 fi
 
 

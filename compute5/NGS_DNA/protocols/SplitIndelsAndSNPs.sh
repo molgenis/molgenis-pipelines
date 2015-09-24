@@ -33,7 +33,7 @@ array_contains () {
 }
 
 #select only Indels
-java -Xmx4g -jar ${EBROOTGATK}/${gatkJar} \
+java -XX:ParallelGCThreads=2 -Xmx4g -jar ${EBROOTGATK}/${gatkJar} \
 -R ${indexFile} \
 -T SelectVariants \
 --variant ${variantAnnotatorOutputVcf} \
@@ -43,11 +43,11 @@ java -Xmx4g -jar ${EBROOTGATK}/${gatkJar} \
 -sn ${externalSampleID}
 
 #Select SNPs and MNPs
-java -Xmx4g -jar ${EBROOTGATK}/${gatkJar} \
+java -XX:ParallelGCThreads=2 -Xmx4g -jar ${EBROOTGATK}/${gatkJar} \
 -R ${indexFile} \
 -T SelectVariants \
 --variant ${variantAnnotatorOutputVcf} \
 -o ${variantAnnotatorSampleOutputSnpsVcf} \
 -L ${capturedIntervals} \
--selectTypeToExclude INDEL
+--selectTypeToExclude INDEL \
 -sn ${externalSampleID}
