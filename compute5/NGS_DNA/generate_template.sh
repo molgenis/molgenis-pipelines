@@ -1,6 +1,6 @@
 #!/bin/bash
 
-module load NGS_DNA/3.0.1-Molgenis-Compute-v15.04.1-Java-1.7.0_80
+module load NGS_DNA
 module list
 
 ENVIRONMENT_PARAMETERS=parameters_XX.csv

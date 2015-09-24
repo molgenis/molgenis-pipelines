@@ -47,8 +47,8 @@ do
 	cp ${intermediateDir}/${sample}.merged.dedup.realigned.bam ${projectResultsDir}/alignment/
 	cp ${intermediateDir}/${sample}.merged.dedup.realigned.bai ${projectResultsDir}/alignment/
 	cp ${intermediateDir}/${sample}.merged.dedup.realigned.bam.md5 ${projectResultsDir}/alignment/
-	echo "Copied realigned bams (4/11)"
 done
+echo "Copied realigned bams (4/11)"
 
 # Copy alignment stats (lane and sample) to results directory
 
