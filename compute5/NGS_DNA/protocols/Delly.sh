@@ -34,4 +34,9 @@ done
 echo "Size of the UNIQUEBAMS: ${#UNIQUEBAMS[@]}"
 echo "Delly is saving output in: ${intermediateDir}/${project}.delly.vcf"
 
-delly -t ${dellyType} -x human.hg19.excl.tsv -o ${intermediateDir}/${project}.delly.vcf -g ${indexFile} ${UNIQUEBAMS[@]}
+${EBROOTDELLY}/delly \
+-t ${dellyType} \
+-x human.hg19.excl.tsv \
+-o ${intermediateDir}/${project}.delly.vcf \
+-g ${indexFile} \
+${UNIQUEBAMS[@]}
