@@ -15,7 +15,6 @@ dellyVersion,v0.6.7
 fastqcVersion,FastQC/0.11.3-Java-1.7.0_80
 gatkVersion,GATK/3.4-0-Java-1.7.0_80 
 javaVersion,Java/1.7.0_80
-ngsDNAVersion,NGS_DNA/3.0.1-Molgenis-Compute-v15.04.1-Java-1.7.0_80
 picardVersion,picard/1.130-Java-1.7.0_80
 rVersion,R/3.2.1-goolf-1.7.20
 samtoolsVersion,SAMtools/1.2-goolf-1.7.20
@@ -177,6 +176,7 @@ qcDedupMetricsOut,${projectQcDir}/${project}_dedupmetrics.txt
 qcBaitSet,${projectQcDir}/projectbaitset.txt
 qcStatisticsTexReport,${projectQcDir}/${project}_QCReport.tex
 qcReportMD,${projectQcDir}/${project}_QCReport.md
+NGS_DNAVersionFile,${intermediateDir}/NGS_DNA-Version.txt
 
 ### 5GPM Protocols (FilterOnIntervalList) ###
 fileWithIndexId,${intermediateDir}/${filePrefix}_${barcode}

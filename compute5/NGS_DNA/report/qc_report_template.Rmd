@@ -27,6 +27,11 @@ after `r strsplit(as.character(Sys.time()), " ")[[1]][1]`.
 	cat(csv.to.markdown.table.CUSTOM.qc( qcStatisticsCsv ))
 ```
 
+##Name of the pipeline used in this project
+```{r engine='bash', echo=F}
+        echo ${dnaVersion}
+```
+
 
 ##Name of the bait set(s) used in the hybrid selection for this project:
 ```{r engine='bash', echo=F}
