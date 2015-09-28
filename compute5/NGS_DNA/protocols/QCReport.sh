@@ -21,17 +21,20 @@
 #string intermediateDir
 #string rVersion
 #string inSilicoConcordanceFile
-#string ngsDNAVersion
+#string NGS_DNAVersionFile
 
 module load ${rVersion}
 module load ngs-utils
-module load ${ngsDNAVersion}
 
 #
 ## Initialize
 #
 mkdir -p ${projectQcDir}
 mkdir -p ${projectQcDir}/images
+
+#Retrieve pipeline version used via NGS_DNAVersion.txt 
+dnaVersion=$(grep 'DNA' ${NGS_DNAVersionFile})
+module load ${dnaVersion}
 
 cp ${intermediateDir}/*.merged.dedup.realigned.bam.insert_size_histogram.pdf ${projectQcDir}/images
 
@@ -62,7 +65,6 @@ array_contains () {
     done
     return $in
 }
-
 
 
 #This check needs to be performed because Compute generates duplicate values in array
@@ -123,6 +125,7 @@ qcHelperFunctionsR=${EBROOTNGS_DNA}/report/knitr_helper_functions.R
 	export qcStatisticsCsv
 	export project
 	export qcBaitSet
+	export dnaVersion
 	export qcDedupMetricsOut
 	export inSilicoConcordanceFile
 
@@ -138,6 +141,7 @@ R --slave <<RSCRIPT
 	projectQcDir		= '${projectQcDir}'
 	qcReportTemplate	= '${qcReportTemplate}'
 	qcReportMD		= '${qcReportMD}'
+	dnaVersion		= '${dnaVersion}'
 	qcDedupMetricsOut	= '${qcDedupMetricsOut}'
         externalSampleID        = stringToVector($(bashArrayToString externalSampleID[@]))
 	sampleInsertSizePDF	= stringToVector($(bashArrayToString sampleInsertSizePDF[@]))

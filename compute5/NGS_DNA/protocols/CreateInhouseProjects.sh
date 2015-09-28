@@ -25,10 +25,10 @@
 #string outputdir
 #string workflowpath
 #string environment_parameters
-
+#string ngsversion
 
 #string project
-
+#string NGS_DNAVersionFile
 umask 0007
 
 module list
@@ -43,6 +43,8 @@ mkdir -p ${projectLogsDir}
 mkdir -p ${intermediateDir}
 mkdir -p ${projectResultsDir}
 mkdir -p ${projectQcDir}
+
+echo ${ngsversion} > ${NGS_DNAVersionFile}
 
 ROCKETPOINT=`pwd`
 
