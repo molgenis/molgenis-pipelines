@@ -1,7 +1,7 @@
 #!/bin/bash
 
 module load NGS_DNA
-module list
+module list 
 
 ENVIRONMENT_PARAMETERS=parameters_XX.csv
 PROJECT=projectXX
@@ -32,6 +32,7 @@ fi
 perl ${EBROOTNGS_DNA}/convertParametersGitToMolgenis.pl ${EBROOTNGS_DNA}/parameters.csv > \
 ${WORKDIR}/generatedscripts/${PROJECT}/out.csv
 
+
 perl ${EBROOTNGS_DNA}/convertParametersGitToMolgenis.pl ${EBROOTNGS_DNA}/${ENVIRONMENT_PARAMETERS} > \
 ${WORKDIR}/generatedscripts/${PROJECT}/environment_parameters.csv
 
@@ -45,8 +46,10 @@ sh $EBROOTMOLGENISMINCOMPUTE/molgenis_compute.sh \
 --runid ${RUNID} \
 -o "workflowpath=${WORKFLOW};\
 outputdir=scripts/jobs;mainParameters=${WORKDIR}/generatedscripts/${PROJECT}/out.csv;\
+ngsversion=$(module list | grep -o -P 'NGS_DNA(.+)');\
 environment_parameters=${WORKDIR}/generatedscripts/${PROJECT}/environment_parameters.csv;\
 batchIDList=${EBROOTNGS_DNA}/batchIDList${BATCH}.csv;\
 worksheet=${WORKDIR}/generatedscripts/${PROJECT}/${PROJECT}.csv" \
 -weave \
 --generate
+
