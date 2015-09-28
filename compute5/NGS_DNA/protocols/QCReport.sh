@@ -125,6 +125,7 @@ qcHelperFunctionsR=${EBROOTNGS_DNA}/report/knitr_helper_functions.R
 	export qcStatisticsCsv
 	export project
 	export qcBaitSet
+	export dnaVersion
 	export qcDedupMetricsOut
 	export inSilicoConcordanceFile
 
