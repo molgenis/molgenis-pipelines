@@ -57,7 +57,7 @@ then
 else
 	for sbatch in "${sampleBatchVariantCalls[@]}"
         do
-          	array_contains ALLGVCFs "--variant $sbatch" || INPUTS+=("--variant $sbatch")
+          	array_contains ALLGVCFs "--variant $sbatch" || ALLGVCFs+=("--variant $sbatch")
         done
 fi 
 GvcfSize=${#ALLGVCFs[@]}
