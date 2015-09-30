@@ -9,6 +9,7 @@
 #string intermediateDir
 #string indexFile
 #string capturedBatchBed
+#string femaleCapturedBatchBed
 #string dbSNP137Vcf
 #string dbSNP137VcfIdx
 #string sampleBatchVariantCalls
@@ -121,7 +122,19 @@ else
 		echo "Y"
 		if [ "${sex}" == "Female" ]
         	then
-        	        echo "This sample is not a male, chromosome Y skipped!"
+			java -Xmx12g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${tempDir} -jar \
+                        ${EBROOTGATK}/${gatkJar} \
+                        -T HaplotypeCaller \
+                        -R ${indexFile} \
+                        --dbsnp ${dbSNP137Vcf}\
+                        ${inputs} \
+                        -dontUseSoftClippedBases \
+                        -stand_call_conf 10.0 \
+                        -stand_emit_conf 20.0 \
+                        -o ${tmpSampleBatchVariantCalls} \
+                        -L ${femaleCapturedBatchBed} \
+                        --emitRefConfidence GVCF \
+                        -ploidy 2
         	elif [ "${sex}" == "Male" ]
 		then
 			java -Xmx12g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${tempDir} -jar \
