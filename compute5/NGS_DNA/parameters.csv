@@ -65,6 +65,7 @@ captured,${intervalListDir}/${nameBed}
 capturedIntervals,${captured}.interval_list
 capturedBed,${captured}.bed
 capturedBatchBed,${captured}.batch-${batchID}.bed
+femaleCapturedBatchBed,${captured}.femaleY.bed
 capturedIntervalsPerBase,${captured}.uniq.per_base.bed
 
 #### Projects ####
