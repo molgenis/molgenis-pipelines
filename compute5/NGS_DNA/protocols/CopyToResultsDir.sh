@@ -75,12 +75,14 @@ then
 fi
 echo "Copied insert size metrics (6/11)"
 
+
 # Copy variants vcf and tables to results directory
 cp ${projectPrefix}.final.vcf ${projectResultsDir}/variants/
 cp ${projectPrefix}.final.vcf.table ${projectResultsDir}/variants/
-cp ${projectPrefix}.snpeff.hpo.vcf ${projectResultsDir}/variants/
-cp ${projectPrefix}.delly.vcf ${projectResultsDir}/variants/
-cp ${projectPrefix}.delly.snpeff.vcf ${projectResultsDir}/variants/
+if [ -f "${projectPrefix}.delly.snpeff.hpo.vcf" ]
+then
+	cp ${projectPrefix}.delly.snpeff.hpo.vcf ${projectResultsDir}/variants/
+fi
 echo "Copied variants vcf and tables to results directory (7/11)"
 
 #copy vcf file + coveragePerBase.txt
