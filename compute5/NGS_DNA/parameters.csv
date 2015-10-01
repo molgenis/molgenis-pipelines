@@ -126,7 +126,7 @@ gcBiasMetricsJar,CollectGcBiasMetrics
 hsMetricsJar,CalculateHsMetrics
 recreateInsertSizePdfR,createInsertSizePlot_c5.R
 bamIndexStatsJar,BamIndexStats
-projectDellyAnnotatorOutputVcf,${intermediateDir}/${project}.snpeff.hpo.vcf
+projectDellyAnnotatorOutputVcf,${intermediateDir}/${project}.delly.snpeff.hpo.vcf
 collectBamMetricsPrefix,${intermediateDir}/${externalSampleID}.merged.dedup.realigned.bqsr
 hpoTerms,${hpoDir}/build.${hpoVersion}/ALL_SOURCES_TYPICAL_FEATURES_diseases_to_genes_to_phenotypes.txt
 dellyTypeDEL,DEL
