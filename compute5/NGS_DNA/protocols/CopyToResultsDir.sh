@@ -75,7 +75,6 @@ then
 fi
 echo "Copied insert size metrics (6/11)"
 
-
 # Copy variants vcf and tables to results directory
 cp ${projectPrefix}.final.vcf ${projectResultsDir}/variants/
 cp ${projectPrefix}.final.vcf.table ${projectResultsDir}/variants/
