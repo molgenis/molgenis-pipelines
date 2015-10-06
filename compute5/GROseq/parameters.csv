@@ -1,0 +1,200 @@
+########################################################################
+## General parameters for SLURM settings and cluster directory paths
+#
+queue,ll
+defaultInterpreter,#!/bin/bash
+stage,module load
+checkStage,module list
+WORKDIR,/groups/
+root,${WORKDIR}
+groupname,umcg-wijmenga
+tmp,tmp04
+resDir,/groups/${groupname}/tmp04/resources/
+toolDir,/apps/software/
+projectDir,${root}/${groupname}/${tmp}/projects/${project}/
+uniqueID,${sampleName}_${internalId}
+platform,ILLUMINA
+########################################################################
+## Software and data versions/builds
+#
+gawkVersion,4.1.0-goolf-1.7.20
+fastxVersion,0.0.14-goolf-1.7.20
+rRNAdustVersion,1.02-goolf-1.7.20
+cutadaptVersion,1.8.1-goolf-1.7.20-Python-2.7.9
+picardVersion,1.102-Java-1.7.0_80
+genotypeIOVersion,1.0.2
+verifyBamVersion,1.1.1
+tabixVersion,0.2.6-goolf-1.7.20
+plinkVersion,1.07-x86_64
+kallistoVersion,0.42.2.1-goolf-1.7.20
+jdkVersion,1.8.0_25
+verifyBamIDVersion,1.1.2-goolf-1.7.20
+genotypeHarmonizerVersion,1.4.14
+gatkVersion,3.4-0-Java-1.7.0_80 
+hisatVersion,0.1.6-beta-goolf-1.7.20
+fastqcVersion,0.11.3-Java-1.7.0_80  
+bedtoolsVersion,2.23.0-goolf-1.7.20
+genomeBuild,b37
+genomeGrchBuild,GRCh37
+human_g1k_vers,37
+weblogoVersion,2.8.2
+ensemblVersion,75
+RVersion,3.2.1-goolf-1.7.20
+samtoolsVersion,1.2-goolf-1.7.20
+genomeLatSpecies,Homo_sapiens
+dbsnpVcf,${resDir}/${genomeBuild}/snp/dbSNP/dbsnp_138.b37.vcf
+onekgGenomeFasta,${resDir}/${genomeBuild}/indices/human_g1k_v${human_g1k_vers}.fasta
+genomeEnsembleAnnotationFile,${resDir}/Ensembl/release-${ensemblVersion}/gtf/homo_sapiens/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.gtf
+testIntervalList,${resDir}/b37/intervals/ALL.wgs.phase3_shapeit2_mvncall_integrated_v5.20130502.sites.MAF_0.05.SNPs_only.recode.annotated.EXON_only.interval_list
+goldStandardVcfIdx,${goldStandardVcf}.idx
+goldStandardVcf,${resDir}/${genomeBuild}/sv/1000G/Mills_and_1000G_gold_standard.indels.b37.vcf
+oneKgPhase1SnpsVcf,${resDir}/${genomeBuild}/snp/1000G/1000G_phase1.snps.high_confidence.b37.vcf
+oneKgPhase1SnpsVcfIdx,${oneKgPhase1SnpsVcf}.idx
+oneKgPhase1IndelsVcf,${resDir}/${genomeBuild}/sv/1000G/1000G_phase1.indels.b37.vcf
+oneKgPhase1IndelsVcfIdx,${oneKgPhase1IndelsVcf}.idx
+dbsnpVcf,${resDir}/${genomeBuild}/snp/dbSNP/dbsnp_138.b37.vcf
+dbsnpVcfIdx,${dbsnpVcf}.idx
+########################################################################
+## Specific tools paths
+#
+## mergeBam
+mergeBamFilesDir,${projectDir}/mergeBams/
+mergeBamFilesBam,${mergeBamFilesDir}${sampleName}.bam
+mergeBamFilesBai,${mergeBamFilesDir}${sampleName}.bai
+## mergeBqsr
+mergeBqsrFilesDir,${projectDir}/mergeBqsr/
+mergeBqsrBam,${mergeBqsrFilesDir}/group_${group}.bam
+mergeBqsrBai,${mergeBqsrFilesDir}/group_${group}.bai
+## addOrReplaceGroups
+sortedBamDir,${projectDir}/sortedBam/
+addOrReplaceGroupsDir,${projectDir}/addOrReplaceReadGroups/
+addOrReplaceGroupsBam,${addOrReplaceGroupsDir}${uniqueID}.bam
+addOrReplaceGroupsBai,${addOrReplaceGroupsDir}${uniqueID}.bai
+## markDuplicates
+markDuplicatesDir,${projectDir}/markDuplicates/
+markDuplicatesBam,${markDuplicatesDir}${sampleName}.bam
+markDuplicatesBai,${markDuplicatesDir}${sampleName}.bai
+markDuplicatesMetrics,${markDuplicatesDir}${sampleName}.metrics.log
+## Flagstat
+flagstatDir,${projectDir}/flagStat
+flagstatFile,${flagstatDir}/${sampleName}.flagstat
+## FastQC
+fastqcDir,${projectDir}/fastqc/
+fastqcZipExt,_fastqc.zip
+singleEndfastqcZip,${fastqcDir}/${uniqueID}${fastqcZipExt}
+pairedEndfastqcZip1,${fastqcDir}/${uniqueID}_1${fastqcZipExt}
+pairedEndfastqcZip2,${fastqcDir}/${uniqueID}_2${fastqcZipExt}
+## CollectMultipleMetrics
+collectMultipleMetricsDir,${projectDir}/collectMultipleMetrics/
+collectMultipleMetricsPrefix,${projectDir}/collectMultipleMetrics/${uniqueID}.multiplemetrics
+## CollectRnaSeqMetrics
+collectRnaSeqMetricsDir,${projectDir}/collectRnaSeqMetrics/
+collectRnaSeqMetrics,${collectRnaSeqMetricsDir}${uniqueID}.rna_metrics.log
+collectRnaSeqMetricsChart,${collectRnaSeqMetricsDir}${uniqueID}.chart.pdf
+## veryifyBamID
+verifyBamIdDir,${projectDir}/verifyBamID/
+## GenotypeHarmonizer + GenotypeIO
+genotypeIODir,${projectDir}/genotypeIO/
+genotypeHarmonizerDir,${projectDir}/genotypeHarmonizer/
+genotypeHarmonizerOutput,${genotypeHarmonizerDir}/${uniqueID}
+## CombineBED
+combinedBEDDir,${projectDir}/combinedBED/
+## Unified Genotype/Haplotype callers
+unifiedGenotyperHaplotypeDir,${projectDir}/haploTyper/
+unifiedGenotyperDir,${projectDir}/unifiedGenotype/
+rawVCF,${unifiedGenotyperDir}${uniqueID}.raw.vcf
+## variantEval
+variantEvalDir,${projectDir}/variantEval/
+evalGrp,${variantEvalDir}${uniqueID}.eval.grp
+## Hisat
+referenceGenomeHisat,${resDir}/${genomeBuild}/indices/hisat-${hisatVersion}/human_g1k_v${human_g1k_vers}
+hisatAlignmentDir,${projectDir}/hisat/
+filteredBamDir,${projectDir}/filteredBam/
+filteredBam,${filteredBamDir}/${uniqueID}_unique_mapping_only.bam
+unfilteredBamDir,${projectDir}/unfilteredBam/
+## SortBam
+sortedBamDir,${projectDir}/sortedBam/
+sortedBam,${sortedBamDir}${uniqueID}.bam
+sortedBai,${sortedBamDir}${uniqueID}.bai
+## cutadapt
+cutadaptDir,${projectDir}/fastq_AdapterFiltered/
+singleEndCutAdapt,${cutadaptDir}/${uniqueID}_adapter_cut.fastq
+pairedEndCutAdapt1,${cutadaptDir}/${uniqueID}_adapter_cut_1.fastq
+pairedEndCutAdapt2,${cutadaptDir}/${uniqueID}_adapter_cut_2.fastq
+cutadaptFile,${cutadaptDir}/${uniqueID}_adapter_cut.fastq
+adapters,/groups/umcg-wijmenga/tmp04/umcg-ndeklein/data/PROseq_timepoints/adapters.txt
+## rRNAdust
+rRNAfilteredDir,${projectDir}/fastq_rRNAfiltered/
+rRNArefSeq,${resDir}/human_rRNA/U13369.1
+singleEndRRna,${rRNAfilteredDir}/${uniqueID}_rRNA_filtered.fastq
+pairedEndRRna1,${rRNAfilteredDir}/${uniqueID}_rRNA_filtered_1.fastq
+pairedEndRRna2,${rRNAfilteredDir}/${uniqueID}_rRNA_filtered_2.fast
+## splitAndTrim
+splitAndTrimDir,${projectDir}/splitAndTrim/
+splitAndTrimBam,${splitAndTrimDir}${sampleName}.bam
+splitAndTrimBai,${splitAndTrimDir}${sampleName}.bai
+## indelRealignment
+indelRealignmentDir,${projectDir}/indelRealignment/
+realignmentIntervals,${indelRealignmentDir}/realignmentIntervals.list
+indelRealignmentBam,${indelRealignmentDir}${sampleName}.bam
+indelRealignmentBai,${indelRealignmentDir}${sampleName}.bai
+indelRealignmentTargets,${resDir}/${genomeBuild}/intervals/1000G_phase1.indels_Mills_and_1000G_gold_standard.indels.b37.human_g1k_v37.intervals
+## BQSR
+bqsrDir,${projectDir}/baseQualityScoreRecalibration/
+bqsrBam,${bqsrDir}${sampleName}.bam
+bqsrBai,${bqsrDir}${sampleName}.bai
+bqsrBeforeGrp,${bqsrDir}${sampleName}.before.grp
+analyseCovarsDir,${projectDir}/covariateAnalysis/
+bqsrAfterGrp,${bqsrDir}${sampleName}.after.grp
+analyseCovariatesPdf,${analyseCovarsDir}/${sampleName}.analysecovariates.pdf
+analyseCovariatesIntermediateCsv,${analyseCovarsDir}/${sampleName}.intermediate.csv
+## HaplotypeCaller
+haplotyperDir,${projectDir}/haplotypeCaller/
+haplotyperVcf,${haplotyperDir}${project}.vcf
+haplotyperVcfIdx,${haplotyperVcf}.idx
+haplotyperGvcf,${haplotyperDir}${sampleName}.g.vcf
+haplotyperGvcfIdx,${haplotyperGvcf}.idx
+## GenotypeVCF
+mergeGvcf,${haplotyperDir}${project}.g.vcf
+mergeGvcfIdx,${mergeGvcf}.idx
+genotypedVcf,${haplotyperDir}${project}.gg.vcf
+genotypedVcfIdx,${genotypedVcf}.idx
+annotatorDir,${projectDir}/VariantAnnotation/
+## merge HaplotypeCaller
+mergedHaplotyperDir,${projectDir}/mergedHaplotypeCaller/
+mergedHaplotyperVcf,${mergedHaplotyperDir}${project}.vcf
+mergedHaplotyperVcfIdx,${mergedHaplotyperVcf}.idx
+mergedHaplotyperGvcf,${mergedHaplotyperDir}${sampleName}.g.vcf
+mergedHaplotyperGvcfIdx,${mergedHaplotyperVcf}.idx
+## ReverseComplement
+reverseComplementDir,${projectDir}/fastq_reverseComplement/
+singleEndRC,${reverseComplementDir}/${uniqueID}_reverse_complement.fastq
+pairedEndRC1,${reverseComplementDir}/${uniqueID}_reverse_complement_1.fastq
+pairedEndRC2,${reverseComplementDir}/${uniqueID}_reverse_complement_2.fastq
+## Kallisto
+kallistoIndex,/groups/umcg-pub/tmp04/public-rna-seq/kallisto/hg19.v75.cdna.all.42.2.idx
+kallistoDir,${projectDir}/kallisto/
+fragmentLength,100
+## Homer
+homerLocation,/apps/software/HOMER/4.7-goolf-1.7.20/homer/bin/
+bedgraphBigwigLocation,/apps/software/bedGraphToBigWig/1/bedGraphToBigWig
+homerTagDir,${projectDir}/homerTagDir/
+homerSampleTagDir,${homerTagDir}/${sampleName}/
+## RemoveRepeatMappers
+maskedBamDir,${projectDir}/removeRepeatMappers/
+maskedBam,${maskedBamDir}/${uniqueID}_repeat_removed.bam
+repeatBedgraph,/groups/umcg-wijmenga/tmp04/umcg-ndeklein/data/hg19_36mers_mappability.bed
+maskedFq,${maskedBamDir}/${uniqueID}_repeat_removed.fastq
+maskedBamSorted,${maskedBamDir}/${uniqueID}_repeat_removed_sorted.bam
+## ASReads
+ASReadsDir,${projectDir}/ASReads/
+ASReadsDirSample,${ASReadsDir}/${sampleName}/
+couplingFile,${ASReadsDir}/coupling.txt
+ASReads,${ASReadsDirSample}/${sampleName}_ASreads.txt
+## ASE
+AseDir,${projectDir}/ASE/
+ASFiles,${AseDir}/ASFiles.txt
+AseOutput,${AseDir}/results
+## ?
+rRnaIntervalList,${resDir}//picard-tools/Ensembl${ensemblVersion}/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.rrna.interval_list
+genesRefFlat,${resDir}/picard-tools/Ensembl${ensemblVersion}/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.refflat
