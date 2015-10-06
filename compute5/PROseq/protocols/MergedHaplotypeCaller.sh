@@ -14,9 +14,9 @@
 #string dbsnpVcfIdx
 #string onekgGenomeFasta
 #list mergeBqsrBam
-#string haplotyperDir
-#string haplotyperGvcf
-#string haplotyperGvcfIdx
+#string mergedHaplotyperDir
+#string mergedHaplotyperGvcf
+#string mergedHaplotyperGvcfIdx
 #string toolDir
 
 echo "## "$(date)" Start $0"
@@ -37,9 +37,9 @@ bams=($(printf '%s\n' "${mergeBqsrBam[@]}" | sort -u ))
 
 inputs=$(printf ' -I %s ' $(printf '%s\n' ${bams[@]}))
 
-mkdir -p ${haplotyperDir}
+mkdir -p ${mergedHaplotyperDir}
 
-if java -Xmx12g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${haplotyperDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
+if java -Xmx12g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${mergedHaplotyperDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
  -T HaplotypeCaller \
  -R ${onekgGenomeFasta} \
  --dbsnp ${dbsnpVcf}\
@@ -47,7 +47,7 @@ if java -Xmx12g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${haplotyperDir} -jar $
  -dontUseSoftClippedBases \
  -stand_call_conf 10.0 \
  -stand_emit_conf 20.0 \
- -o ${haplotyperGvcf} \
+ -o ${mergedHaplotyperGvcf} \
  -variant_index_type LINEAR \
  -variant_index_parameter 128000 \
  --emitRefConfidence GVCF
@@ -55,8 +55,8 @@ if java -Xmx12g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${haplotyperDir} -jar $
 then
  echo "returncode: $?"; 
 
- putFile ${haplotyperGvcf}
- putFile ${haplotyperGvcfIdx}
+ putFile ${mergedHaplotyperGvcf}
+ putFile ${mergedHaplotyperGvcfIdx}
  echo "succes moving files";
 else
  echo "returncode: $?";
