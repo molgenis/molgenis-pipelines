@@ -63,8 +63,8 @@ mergeBamFilesBam,${mergeBamFilesDir}${sampleName}.bam
 mergeBamFilesBai,${mergeBamFilesDir}${sampleName}.bai
 ## mergeBqsr
 mergeBqsrFilesDir,${projectDir}/mergeBqsr/
-mergeBqsrBam,${mergeBqsrFilesDir}${sampleName}.bam
-mergeBqsrBai,${mergeBqsrFilesDir}${sampleName}.bai
+mergeBqsrBam,${mergeBqsrFilesDir}/group_${group}.bam
+mergeBqsrBai,${mergeBqsrFilesDir}/group_${group}.bai
 ## addOrReplaceGroups
 sortedBamDir,${projectDir}/sortedBam/
 addOrReplaceGroupsDir,${projectDir}/addOrReplaceReadGroups/
@@ -150,17 +150,22 @@ analyseCovariatesPdf,${analyseCovarsDir}/${sampleName}.analysecovariates.pdf
 analyseCovariatesIntermediateCsv,${analyseCovarsDir}/${sampleName}.intermediate.csv
 ## HaplotypeCaller
 haplotyperDir,${projectDir}/haplotypeCaller/
-haplotyperRealignmentBam,${haplotyperDir}${sampleName}.bam
-haplotyperRealignmentBai,${haplotyperDir}${sampleName}.bam
 haplotyperVcf,${haplotyperDir}${project}.vcf
 haplotyperVcfIdx,${haplotyperVcf}.idx
 haplotyperGvcf,${haplotyperDir}${sampleName}.g.vcf
 haplotyperGvcfIdx,${haplotyperGvcf}.idx
+## GenotypeVCF
 mergeGvcf,${haplotyperDir}${project}.g.vcf
 mergeGvcfIdx,${mergeGvcf}.idx
 genotypedVcf,${haplotyperDir}${project}.gg.vcf
 genotypedVcfIdx,${genotypedVcf}.idx
 annotatorDir,${projectDir}/VariantAnnotation/
+## merge HaplotypeCaller
+mergedHaplotyperDir,${projectDir}/mergedHaplotypeCaller/
+mergedHaplotyperVcf,${mergedHaplotyperDir}${project}.vcf
+mergedHaplotyperVcfIdx,${mergedHaplotyperVcf}.idx
+mergedHaplotyperGvcf,${mergedHaplotyperDir}${sampleName}.g.vcf
+mergedHaplotyperGvcfIdx,${mergedHaplotyperVcf}.idx
 ## ReverseComplement
 reverseComplementDir,${projectDir}/fastq_reverseComplement/
 singleEndRC,${reverseComplementDir}/${uniqueID}_reverse_complement.fastq

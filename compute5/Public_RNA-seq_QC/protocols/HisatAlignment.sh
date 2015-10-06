@@ -20,10 +20,16 @@ getFile ${reads1FqGz}
 if [ ${#reads2FqGz} -eq 0 ]; then
    input="-U ${reads1FqGz}"
    echo "Single end alignment of ${reads1FqGz}"
+   if [[ ! -f ${reads1FqGz} ]] ; then
+     exit 1
+   fi
 else
    getFile ${reads2FqGz}
    input="-1 ${reads1FqGz} -2 ${reads2FqGz}"
    echo "Paired end alignment of ${reads1FqGz} and ${reads2FqGz}"
+   if [[ ! -f ${reads2FqGz} ]] ; then
+     exit 1
+    fi
 fi
 
 #Load modules

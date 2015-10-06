@@ -12,11 +12,11 @@
 #string picardVersion
 #string addOrReplaceGroupsDir
 #list bqsrBam
-#string mergeBamFilesDir
+#string mergeBqsrFilesDir
 #string mergeBqsrBam
 #string mergeBqsrBai
 #string toolDir
-#string mergeBamFilesBam
+#string group
 
 echo "## "$(date)" Start $0"
 echo "ID (project-sampleName): ${project}-${sampleName}"
@@ -38,9 +38,9 @@ if java -jar -XX:ParallelGCThreads=4 -Xmx6g ${toolDir}picard/${picardVersion}/Me
  SORT_ORDER=coordinate \
  CREATE_INDEX=true \
  USE_THREADING=true \
- TMP_DIR=${mergeBamFilesDir} \
+ TMP_DIR=${mergeBqsrFilesDir} \
  MAX_RECORDS_IN_RAM=6000000 \
- OUTPUT=${mergeBamFilesBam} \
+ OUTPUT=${mergeBqsrBam} \
 
 # VALIDATION_STRINGENCY=LENIENT \
 
