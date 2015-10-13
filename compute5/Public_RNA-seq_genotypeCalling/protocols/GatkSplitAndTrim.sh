@@ -31,8 +31,7 @@ ${checkStage}
 mkdir -p ${splitAndTrimDir}
 
 #it botches on base quality scores use --allow_potentially_misencoded_quality_scores / the tool is not paralel with nt/nct
-if ${doQualtAction}{
-  qualAction=$(samtools view ${markDuplicatesBam} | \
+qualAction=$(samtools view ${markDuplicatesBam} | \
     head -1000000 | \
     awk '{gsub(/./,"&\n",$11);print $11}'| \
     sort -u| \
@@ -57,8 +56,7 @@ if ${doQualtAction}{
 	  die "Cannot estimate quality scores here is the list:".join(",",@ords)."\n";
     }
   ')
-}
-else{qualAction=""}
+
 echo
 echo "## Action to perform in quals: "$qualAction" ##"
 echo
