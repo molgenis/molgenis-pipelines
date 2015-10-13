@@ -55,6 +55,7 @@ do
 done
 
 java -cp ${EBROOTGATK}/${gatkJar} org.broadinstitute.gatk.tools.CatVariants \
+-Djava.io.tmpdir=${tempDir} \
 -R ${indexFile} \
 ${INPUTS[@]} \
 -out ${tmpProjectVariantsMerged} \

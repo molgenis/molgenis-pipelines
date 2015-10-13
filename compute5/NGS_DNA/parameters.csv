@@ -34,7 +34,8 @@ dbNSFPDir,${dataDir}/dbNSFP/
 hpoDir,${dataDir}/HPO/
 sequenomDir,${dataDir}/Sequenom/
 tmpDataDir,${workDir}/${tmpName}/
-tempDir,${tmpDataDir}/tmp/
+tempDir,${tmpDataDir}/temp/
+tmpDir,${tmpDataDir}/tmp/
 permanentDataDir,${workDir}/${prmName}
 
 ##### RAW DATA FILES/DIRS ####
@@ -70,7 +71,7 @@ capturedIntervalsPerBase,${captured}.uniq.per_base.bed
 
 #### Projects ####
 projectDir,${tmpDataDir}/projects/${project}/${runid}
-intermediateDir,${tempDir}/${project}/${runid}/
+intermediateDir,${tmpDir}/${project}/${runid}/
 projectPrefix,${intermediateDir}/${project}
 projectJobsDir,${projectDir}/jobs/
 projectLogsDir,${projectDir}/logs/
