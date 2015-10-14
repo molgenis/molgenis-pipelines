@@ -24,6 +24,7 @@
 #string bqsrBam
 #string ASReads
 #string bqsrDir
+#string AseVersion
 echo "## "$(date)" Start $0"
 
 getFile ${genotypedVcf}
@@ -31,6 +32,7 @@ getFile ${genotypedVcf}
 #Load gatk module
 ${stage} tabix/${tabixVersion}
 ${stage} GenotypeHarmonizer/${genotypeHarmonizerVersion}
+${stage} ASE/${AseVersion}
 ${checkStage}
 
 mkdir -p ${ASReadsDir}
@@ -40,7 +42,7 @@ tabix -p vcf ${genotypedVcf}.gz
 GenotypeHarmonizer.sh --input ${genotypedVcf}.gz --outputType TRITYPER --output ${ASReadsDir}
 ls ${bqsrDir}*.bam | awk {'gsub(".bam","",$1); gsub("${bqsrDir}","",$1); print $1 "\t"  $1}' > ${couplingFile}
 
-if java -XX:ParallelGCThreads=2 -jar /groups/umcg-wijmenga/tmp04/umcg-ndeklein/scripts/cellTypeSpecificAlleleSpecificExpression-1.0.3_niekRequest-jar-with-dependencies.jar \
+if java -XX:ParallelGCThreads=2 -jar ${EBROOTASE}/cellTypeSpecificAlleleSpecificExpression.jar \
 --action 1 \
 --output ${ASReads} \
 --coupling_file ${couplingFile} \
