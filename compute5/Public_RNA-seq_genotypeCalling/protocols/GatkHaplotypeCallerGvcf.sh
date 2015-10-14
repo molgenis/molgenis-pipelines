@@ -13,10 +13,11 @@
 #string dbsnpVcf
 #string dbsnpVcfIdx
 #string onekgGenomeFasta
+#string genomeBuild
+#string resDir
+#string referenceFastaName
 #list bqsrBam
 #string haplotyperDir
-#string haplotyperGvcf
-#string haplotyperGvcfIdx
 #string toolDir
 
 echo "## "$(date)" Start $0"
@@ -39,6 +40,12 @@ inputs=$(printf ' -I %s ' $(printf '%s\n' ${bams[@]}))
 
 mkdir -p ${haplotyperDir}
 
+#do variant calling for all 25 chromosomes seperate
+#for this purpose haplotyperGvcf variable is split in ${haplotyperDir}${sampleName}.chr$CHR.g.vcf
+
+for CHR in {1..25}
+do
+
 if java -Xmx12g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${haplotyperDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
  -T HaplotypeCaller \
  -R ${onekgGenomeFasta} \
@@ -47,14 +54,20 @@ if java -Xmx12g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${haplotyperDir} -jar $
  -dontUseSoftClippedBases \
  -stand_call_conf 10.0 \
  -stand_emit_conf 20.0 \
- -o ${haplotyperGvcf} \
+ -o ${haplotyperDir}${sampleName}.chr$CHR.g.vcf \
+ -L ${resDir}/${genomeBuild}/intervals/${referenceFastaName}.chr$CHR.interval_list \
  --emitRefConfidence GVCF
+
+done
+
 
 then
  echo "returncode: $?"; 
 
- putFile ${haplotyperGvcf}
- putFile ${haplotyperGvcfIdx}
+ #haplotyperGvcf is split into seperate variables now
+
+ putFile ${haplotyperDir}${sampleName}.chr$CHR.g.vcf
+ putFile ${haplotyperDir}${sampleName}.chr$CHR.g.vcf.idx
  echo "succes moving files";
 else
  echo "returncode: $?";
