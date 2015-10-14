@@ -20,17 +20,19 @@
 #string ASReadsDir
 #string couplingFile
 #list ASReads
+#string AseVersion
 echo "## "$(date)" Start $0"
 
 
 #Load gatk module
+${stage} ASE/${AseVersion}
 ${checkStage}
 
 mkdir -p ${AseDir}
 
 printf '%s\n' "${ASReads[@]}" > ${ASFiles}
 
-if java -jar /groups/umcg-wijmenga/tmp04/umcg-ndeklein/scripts/cellTypeSpecificAlleleSpecificExpression-1.0.3_niekRequest-jar-with-dependencies.jar \
+if java -jar ${EBROOTASE}/cellTypeSpecificAlleleSpecificExpression.jar \
 --action 2 \
 --output ${AseOutput} \
 --as_locations ${ASFiles} \
