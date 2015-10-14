@@ -26,7 +26,11 @@ genomeBuild,b37
 genomeGrchBuild,GRCh37
 genomeLatSpecies,Homo_sapiens
 genomeSpecies,human
-onekgGenomeFasta,${resDir}/${genomeBuild}/indices/human_g1k_v37.fasta
+AseVersion,14-10-2015
+genotypeHarmonizerVersion,1.4.14
+tabixVersion,0.2.6-goolf-1.7.20
+referenceFastaName,human_g1k_v37
+onekgGenomeFasta,${resDir}/${genomeBuild}/indices/${referenceFastaName}.fasta
 genomeEnsembleAnnotationFile,${resDir}/Ensembl/release-${ensemblVersion}/gtf/homo_sapiens/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.gtf
 genesRefFlat,${resDir}/Ensembl/release-${ensemblVersion}/gtf/homo_sapiens/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.refflat
 rRnaIntervalList,${resDir}//picard-tools/Ensembl${ensemblVersion}/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.rrna.interval_list
@@ -117,10 +121,17 @@ haplotyperVcf,${haplotyperDir}${project}.vcf
 haplotyperVcfIdx,${haplotyperVcf}.idx
 haplotyperGvcf,${haplotyperDir}${sampleName}.g.vcf
 haplotyperGvcfIdx,${haplotyperGvcf}.idx
+haplotyperChrGvcf,${haplotyperDir}${sampleName}.chr${chromosome}.g.vcf
+haplotyperChrGvcfIdx,${haplotyperChrGvcf}.idx
+haplotyperTargets,${resDir}/${genomeBuild}/intervals/${referenceFastaName}.chr${chromosome}.interval_list
 mergeGvcf,${haplotyperDir}${project}.g.vcf
 mergeGvcfIdx,${mergeGvcf}.idx
+mergeChrGvcf,${haplotyperDir}${project}.chr${chromosome}.g.vcf
+mergeChrGvcfIdx,${mergeChrGvcf}.idx
 genotypedVcf,${haplotyperDir}${project}.gg.vcf
 genotypedVcfIdx,${genotypedVcf}.idx
+genotypedChrVcf,${haplotyperDir}${project}.chr${chromosome}.gg.vcf
+genotypedChrVcfIdx,${genotypedChrVcf}.idx
 annotatorDir,${projectDir}/VariantAnnotation/
 ## snpEff
 snpEffVcf,${annotatorDir}/${project}.snpEff.vcf
@@ -133,6 +144,15 @@ readQuality,1
 ## Flagstat
 flagstatDir,${projectDir}/flagStat
 flagstatFile,${flagstatDir}/${sampleName}.flagstat
+## ASReads
+ASReadsDir,${projectDir}/ASReads/
+ASReadsDirSample,${ASReadsDir}/${sampleName}/
+couplingFile,${ASReadsDir}/coupling.txt
+ASReads,${ASReadsDirSample}/${sampleName}_ASreads.txt
+## ASE
+AseDir,${projectDir}/ASE/
+ASFiles,${AseDir}/ASFiles.txt
+AseOutput,${AseDir}/results
 ## ?
 motifBin,/gcc/resources/snpEff/3.6c/GRCh37.75/motif.bin
 nextProtBin,/gcc/resources/snpEff/3.6c/GRCh37.75/nextProt.bin
