@@ -39,6 +39,7 @@ if java -jar /groups/umcg-wijmenga/tmp04/umcg-ndeklein/scripts/cellTypeSpecificA
 
 then
  echo "returncode: $?";
+ sort -n -k 6,6 ${AseOutput}_BetaBinomialResults.txt > ${AseOutput}_BetaBinomialResults_sorted.txt
  echo "succes moving files";
 else
  echo "returncode: $?";

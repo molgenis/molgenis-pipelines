@@ -1,4 +1,4 @@
-#MOLGENIS nodes=1 ppn=8 mem=8gb walltime=15-10:00:00
+#MOLGENIS nodes=1 ppn=8 mem=8gb walltime=03:00:00
 
 ### variables to help adding to database (have to use weave)
 #string internalId
@@ -8,26 +8,16 @@
 #string stage
 #string checkStage
 #string referenceGenomeHisat
-#string reads1FqGz
-#string reads2FqGz
+#string singleEndRRna
 #string platform
 #string hisatAlignmentDir
 #string hisatVersion
 #string uniqueID
 #string samtoolsVersion
 
-getFile ${reads1FqGz}
-if [ ${#reads2FqGz} -eq 0 ]; then
-   input="-U ${reads1FqGz}"
-   echo "Single end alignment of ${reads1FqGz}"
-   if [[ ! -f ${reads1FqGz} ]] ; then
-     exit 1
-   fi
-else
-   getFile ${reads2FqGz}
-   input="-1 ${reads1FqGz} -2 ${reads2FqGz}"
-   echo "Paired end alignment of ${reads1FqGz} and ${reads2FqGz}"
-fi
+echo "single end only!"
+input="-U ${singleEndRRna}"
+echo "Single end alignment of ${singleEndRRna}"
 
 #Load modules
 ${stage} hisat/${hisatVersion}
