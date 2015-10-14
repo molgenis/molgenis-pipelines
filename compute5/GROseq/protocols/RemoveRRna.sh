@@ -29,7 +29,7 @@ echo "ONLY WORKS FOR SINGLE-END"
 mkdir -p ${rRNAfilteredDir}
 #if [ ${#reads2FqGz} -eq 0 ]; then
 input="-U ${singleEndCutAdapt}"
-echo "Single end alignment of ${singleEndRC}"
+echo "Single end alignment of ${singleEndCutAdapt}"
 #else
 #   input="-1 ${reads1FqGz} -2 ${reads2FqGz}"
 #   echo "Paired end alignment of ${reads1FqGz} and ${reads2FqGz}"

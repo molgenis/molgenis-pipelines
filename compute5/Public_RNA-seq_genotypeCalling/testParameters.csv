@@ -11,7 +11,7 @@ group,umcg-wijmenga
 tmp,tmp04
 resDir,/groups/umcg-wijmenga/tmp04/resources/
 toolDir,/apps/software/
-projectDir,${root}/${group}/${tmp}/projects/${project}/
+projectDir,${root}/${group}/${tmp}/projects/umcg-ndeklein/${project}/
 uniqueID,${sampleName}_${internalId}
 ########################################################################
 ## Software and data versions/builds/paths

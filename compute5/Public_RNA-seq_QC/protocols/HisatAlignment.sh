@@ -27,9 +27,6 @@ else
    getFile ${reads2FqGz}
    input="-1 ${reads1FqGz} -2 ${reads2FqGz}"
    echo "Paired end alignment of ${reads1FqGz} and ${reads2FqGz}"
-   if [[ ! -f ${reads2FqGz} ]] ; then
-     exit 1
-    fi
 fi
 
 #Load modules
