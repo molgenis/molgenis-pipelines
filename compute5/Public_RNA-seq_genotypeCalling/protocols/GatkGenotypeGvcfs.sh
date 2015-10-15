@@ -15,6 +15,7 @@
 #string haplotyperDir
 #string onekgGenomeFasta
 #list mergeChrGvcf
+#string batches
 
 #string genotypedChrVcf
 #string genotypedChrVcfIdx
