@@ -1,0 +1,83 @@
+#MOLGENIS walltime=12:00:00 nodes=1 ppn=1 mem=1gb
+#string runResultsDir
+#string intermediateDir
+#list internalSampleID
+#list seqType
+#list barcode
+#list barcodeType
+#list lane
+#list sequencingStartDate
+#list sequencer
+#list flowcell
+#list run
+
+n_elements=${internalSampleID[@]}
+max_index=${#internalSampleID[@]}-1
+for ((sampleNumber = 0; sampleNumber <= max_index; sampleNumber++))
+do
+	sNumber=$(($sampleNumber+1))
+	if [[ ${seqType[sampleNumber]} == "SR" ]]
+	then
+  		if [[ ${barcode[sampleNumber]} == "None" || ${barcodeType[sampleNumber]} == "GAF" ]]
+		then
+                        # Process lane FastQ files for lanes without barcodes or with GAF barcodes.
+			cd ${intermediateDir}
+
+			md5sum lane${lane[sampleNumber]}_S*_L00${lane[sampleNumber]}_R1_001.fastq.gz >  ${runResultsDir}/${sequencingStartDate[sampleNumber]}_${sequencer[sampleNumber]}_${run[sampleNumber]}_${flowcell[sampleNumber]}_L${lane[sampleNumber]}.fq.gz.md5
+
+			cp lane${lane[sampleNumber]}_S*_L00${lane[sampleNumber]}_R1_001.fastq.gz ${runResultsDir}/${sequencingStartDate[sampleNumber]}_${sequencer[sampleNumber]}_${run[sampleNumber]}_${flowcell[sampleNumber]}_L${lane[sampleNumber]}.fq.gz
+
+			cd  ${runResultsDir}
+			md5sum -c ${sequencingStartDate[sampleNumber]}_${sequencer[sampleNumber]}_${run[sampleNumber]}_${flowcell[sampleNumber]}_L${lane[sampleNumber]}.fq.gz
+
+  		else
+
+			cd ${intermediateDir}
+			echo "JO: lane${lane[sampleNumber]}_${barcode[sampleNumber]}_S*_L00${lane}_R1_001.fastq.gz"
+			md5sum lane${lane[sampleNumber]}_${barcode[sampleNumber]}_S*_L00${lane}_R1_001.fastq.gz > ${runResultsDir}/${sequencingStartDate[sampleNumber]}_${sequencer[sampleNumber]}_${run[sampleNumber]}_${flowcell[sampleNumber]}_L${lane[sampleNumber]}_${barcode[sampleNumber]}.fq.gz.md5
+
+			cp lane${lane[sampleNumber]}_${barcode[sampleNumber]}_S*_L00${lane[sampleNumber]}_R1_001.fastq.gz ${sequencingStartDate[sampleNumber]}_${sequencer[sampleNumber]}_${run[sampleNumber]}_${flowcell[sampleNumber]}_L${lane[sampleNumber]}_${barcode[sampleNumber]}.fq.gz
+
+			cd ${runResultsDir}
+
+			md5sum -c ${sequencingStartDate[sampleNumber]}_${sequencer[sampleNumber]}_${run[sampleNumber]}_${flowcell[sampleNumber]}_L${lane[sampleNumber]}_${barcode[sampleNumber]}.fq.gz.md5
+
+		fi
+	elif [[ ${seqType[sampleNumber]} == "PE" ]]
+	then
+		if [[ ${barcode[sampleNumber]} == "None" ]]
+    		then
+		cd ${intermediateDir}
+		md5sum lane${lane[sampleNumber]}_S*_L00${lane[sampleNumber]}_R1_001.fastq.gz >  ${runResultsDir}/${sequencingStartDate[sampleNumber]}_${sequencer[sampleNumber]}_${run[sampleNumber]}_${flowcell[sampleNumber]}_L${lane[sampleNumber]}_1.fq.gz.md5
+		md5sum lane${lane[sampleNumber]}_S*_L00${lane[sampleNumber]}_R2_001.fastq.gz >  ${runResultsDir}/${sequencingStartDate[sampleNumber]}_${sequencer[sampleNumber]}_${run[sampleNumber]}_${flowcell[sampleNumber]}_L${lane[sampleNumber]}_2.fq.gz.md5
+
+		cp lane${lane[sampleNumber]}_S*_L00${lane[sampleNumber]}_R1_001.fastq.gz >  ${runResultsDir}/${sequencingStartDate[sampleNumber]}_${sequencer[sampleNumber]}_${run[sampleNumber]}_${flowcell[sampleNumber]}_L${lane[sampleNumber]}_1.fq.gz
+		cp lane${lane[sampleNumber]}_S*_L00${lane[sampleNumber]}_R2_001.fastq.gz >  ${runResultsDir}/${sequencingStartDate[sampleNumber]}_${sequencer[sampleNumber]}_${run[sampleNumber]}_${flowcell[sampleNumber]}_L${lane[sampleNumber]}_2.fq.gz
+
+		cd  ${runResultsDir}
+
+		md5sum -c ${sequencingStartDate[sampleNumber]}_${sequencer[sampleNumber]}_${run[sampleNumber]}_${flowcell[sampleNumber]}_L${lane[sampleNumber]}_1.fq.gz.md5
+		md5sum -c ${sequencingStartDate[sampleNumber]}_${sequencer[sampleNumber]}_${run[sampleNumber]}_${flowcell[sampleNumber]}_L${lane[sampleNumber]}_2.fq.gz.md5
+
+		else
+		cd ${intermediateDir}
+		md5sum lane${lane[sampleNumber]}_${barcode[sampleNumber]}_S*_L00${lane[sampleNumber]}_R1_001.fastq.gz >  ${runResultsDir}/${sequencingStartDate[sampleNumber]}_${sequencer[sampleNumber]}_${run[sampleNumber]}_${flowcell[sampleNumber]}_L${lane[sampleNumber]}_${barcode[sampleNumber]}_1.fq.gz.md5
+		md5sum lane${lane[sampleNumber]}_${barcode[sampleNumber]}_S*_L00${lane[sampleNumber]}_R2_001.fastq.gz >  ${runResultsDir}/${sequencingStartDate[sampleNumber]}_${sequencer[sampleNumber]}_${run[sampleNumber]}_${flowcell[sampleNumber]}_L${lane[sampleNumber]}_${barcode[sampleNumber]}_2.fq.gz.md5
+
+		cp lane${lane[sampleNumber]}_${barcode[sampleNumber]}_S*_L00${lane[sampleNumber]}_R1_001.fastq.gz  ${runResultsDir}/${sequencingStartDate[sampleNumber]}_${sequencer[sampleNumber]}_${run[sampleNumber]}_${flowcell[sampleNumber]}_L${lane[sampleNumber]}_${barcode[sampleNumber]}_1.fq.gz
+		cp lane${lane[sampleNumber]}_${barcode[sampleNumber]}_S*_L00${lane[sampleNumber]}_R2_001.fastq.gz  ${runResultsDir}/${sequencingStartDate[sampleNumber]}_${sequencer[sampleNumber]}_${run[sampleNumber]}_${flowcell[sampleNumber]}_L${lane[sampleNumber]}_${barcode[sampleNumber]}_2.fq.gz
+
+		cd  ${runResultsDir}
+
+		md5sum -c ${sequencingStartDate[sampleNumber]}_${sequencer[sampleNumber]}_${run[sampleNumber]}_${flowcell[sampleNumber]}_L${lane[sampleNumber]}_${barcode[sampleNumber]}_1.fq.gz.md5
+		md5sum -c ${sequencingStartDate[sampleNumber]}_${sequencer[sampleNumber]}_${run[sampleNumber]}_${flowcell[sampleNumber]}_L${lane[sampleNumber]}_${barcode[sampleNumber]}_2.fq.gz.md5
+
+    		fi
+ 	else
+		#
+        	# Found unknown barcode type!
+        	#
+		echo "FATAL: unknown barcode type found for ${filenamePrefix}"
+		exit 1
+	fi
+done

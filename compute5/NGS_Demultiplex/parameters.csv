@@ -5,36 +5,39 @@ checkStage,module list
 ### Tool versions ####
 bcl2fastqVersion,bcl2fastq2/v2.17.1.14-goolf-1.7.20
 
-##### GENERAL DIRECTORIES #####
-root,/apps
-tmpName,tmp05
-workDir,/groups/umcg-gaf/${tmpName}/
-dataDir,${root}/data/
-rawDataDir,${workDir}/rawdata
-hiseqDir,${rawDataDir}/hiseq
-nextseqDir,${rawDataDir}/nextseq
-NGSDir,${rawDataDir}/ngs
-arrayDir,${rawDataDir}/array 
-hiseqRunDataDir,${hiseqDir}/${runPrefix}
-nextseqRunDataDir,${nextseqDir}/${runPrefix}
-bcl2fastqDir,${nextseqRunDataDir}/${project}
-runResultsDir,${NGSDir}/${runPrefix}
-sourcesDir,${root}/sources/
-tmpDataDir,${workDir}/${tmpName}/
-runDir,${workDir}/runs/
-#tempDir,${workDir}/tmp/
-#permanentDataDir,${workDir}/${prmName}
-
 #### Prefixes ####
 runPrefix,${sequencingStartDate}_${sequencer}_${run}_${flowcell}
 filePrefix,${runPrefix}_L${lane}
+
+##### GENERAL DIRECTORIES #####
+dataDir,${root}/data/
+rawDataDir,${workDir}/rawdata
+hiseqDir,${rawDataDir}/hiseq
+hiseqRunDataDir,${hiseqDir}/${runPrefix}
+
+nextseqDir,${rawDataDir}/nextseq
+nextseqRunDataDir,${nextseqDir}/${runPrefix}
+
+NGSDir,${rawDataDir}/ngs
+arrayDir,${rawDataDir}/array 
+
+runID,run_${run}
+runDir,${workDir}/runs/${runID}/
+runJobsDir,${runDir}/jobs/
+runResultsDir,${runDir}/results/
+prepKitsDir,${dataDir}/Prepkits/
+intermediateDir,${workDir}/tmp/${runID}/
+
+bcl2fastqDir,${nextseqRunDataDir}/${project}
+sampleSheet,${workDir}/generatedscripts/${runID}/${runID}.csv
+
+sourcesDir,${root}/sources/
 
 adapterStringency,0.9
 
 ## CreateFinalReport
 createPerSampleFinalReportPl,CreateFinalReportPerSample.pl
 finalReportResultDir,${nextseqRunDataDir}/finalreports/
-
 
 filenamePrefix,${sequencingStartDate}_${sequencer}_${run}_${flowcell}_L${lane}
 fastqExtension,.fq
@@ -53,23 +56,29 @@ compressedFastqFilenameSR,${fastqFilenameSR}${gzipExtension}
 compressedFastqFilenamePE1,${fastqFilenamePE1}${gzipExtension}
 compressedFastqFilenamePE2,${fastqFilenamePE2}${gzipExtension}
 
+
 demultiplexedSampleFastqFilenameSR,${filenamePrefix}_${barcode}${fastqExtension}
 demultiplexedSampleFastqFilenamePE1,${filenamePrefix}_${barcode}_${filenameSuffixPE1}${fastqExtension}
 demultiplexedSampleFastqFilenamePE2,${filenamePrefix}_${barcode}_${filenameSuffixPE2}${fastqExtension}
+
 demultiplexedDiscardedFastqFilenameSR,${filenamePrefix}_${filenameSuffixDiscardedReads}${fastqExtension}
 demultiplexedDiscardedFastqFilenamePE1,${filenamePrefix}_${filenameSuffixDiscardedReads}_${filenameSuffixPE1}${fastqExtension}
 demultiplexedDiscardedFastqFilenamePE2,${filenamePrefix}_${filenameSuffixDiscardedReads}_${filenameSuffixPE2}${fastqExtension}
 
+
 compressedDemultiplexedSampleFastqFilenameSR,${demultiplexedSampleFastqFilenameSR}${gzipExtension}
 compressedDemultiplexedSampleFastqFilenamePE1,${demultiplexedSampleFastqFilenamePE1}${gzipExtension}
 compressedDemultiplexedSampleFastqFilenamePE2,${demultiplexedSampleFastqFilenamePE2}${gzipExtension}
+
 compressedDemultiplexedDiscardedFastqFilenameSR,${demultiplexedDiscardedFastqFilenameSR}${gzipExtension}
 compressedDemultiplexedDiscardedFastqFilenamePE1,${demultiplexedDiscardedFastqFilenamePE1}${gzipExtension}
 compressedDemultiplexedDiscardedFastqFilenamePE2,${demultiplexedDiscardedFastqFilenamePE2}${gzipExtension}
 
+
 demultiplexedSampleFastqChecksumFilenameSR,${demultiplexedSampleFastqFilenameSR}${md5sumExtension}
 demultiplexedSampleFastqChecksumFilenamePE1,${demultiplexedSampleFastqFilenamePE1}${md5sumExtension}
 demultiplexedSampleFastqChecksumFilenamePE2,${demultiplexedSampleFastqFilenamePE2}${md5sumExtension}
+
 demultiplexedDiscardedFastqChecksumFilenameSR,${demultiplexedDiscardedFastqFilenameSR}${md5sumExtension}
 demultiplexedDiscardedFastqChecksumFilenamePE1,${demultiplexedDiscardedFastqFilenamePE1}${md5sumExtension}
 demultiplexedDiscardedFastqChecksumFilenamePE2,${demultiplexedDiscardedFastqFilenamePE2}${md5sumExtension}

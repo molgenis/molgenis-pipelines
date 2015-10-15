@@ -7,7 +7,7 @@ ENVIRONMENT_PARAMETERS=parameters_zinc-finger.csv
 TMPDIR=tmp05
 WORKDIR="/groups/umcg-gaf/${TMPDIR}"
 RUNNUMBER=run0674
-WORKFLOW=${EBROOTNGSMINDEMULTIPLEX}/workflow.csv
+WORKFLOW=${EBROOTNGS_DEMULTIPLEX}/workflow.csv
 
 if [ -f .compute.properties ];
 then
@@ -21,14 +21,14 @@ then
     	rm -rf ${WORKDIR}/generatedscripts/tmp_${RUNNUMBER}/out.csv
 fi
 
-perl ${EBROOTNGS_Demultiplex}/convertParametersGitToMolgenis.pl ${EBROOTNGS_Demultiplex}/${ENVIRONMENT_PARAMETERS} > \
+perl ${EBROOTNGS_DEMULTIPLEX}/convertParametersGitToMolgenis.pl ${EBROOTNGS_DEMULTIPLEX}/${ENVIRONMENT_PARAMETERS} > \
 ${WORKDIR}/generatedscripts/environment_parameters.csv
 
 sh $EBROOTMOLGENISMINCOMPUTE/molgenis_compute.sh \
 -p ${WORKDIR}/generatedscripts/tmp_${RUNNUMBER}/out.csv \
 -p ${WORKDIR}/generatedscripts/tmp_${RUNNUMBER}/environment_parameters.csv \
 -p ${WORKDIR}/generatedscripts/${RUNNUMBER}.csv \
--w ${EBROOTNGSMINDEMULTIPLEX}/${WORKFLOW} \
+-w ${EBROOTNGS_DEMULTIPLEX}/${WORKFLOW} \
 -rundir ${WORKDIR}/runs/${RUNNUMBER}/ \
 -weave \
 --generate
