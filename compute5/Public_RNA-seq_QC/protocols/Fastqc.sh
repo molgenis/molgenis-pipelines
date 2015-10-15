@@ -17,7 +17,7 @@
 #string singleEndfastqcZip
 #string pairedEndfastqcZip1
 #string pairedEndfastqcZip2
-
+#string fastqExtension
 echo -e "test ${reads1FqGz} ${reads2FqGz} 1: $(basename ${reads1FqGz} .gz)${fastqcZipExt} \n2: $(basename ${reads2FqGz} .gz)${fastqcZipExt} "
 echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
@@ -48,13 +48,13 @@ if [ ${#reads2FqGz} -eq 0 ]; then
  	  echo "returncode: $?"; 
 	
 	  echo
-	  cp -v ${fastqcDir}/$(basename ${reads1FqGz} .fastq.gz)${fastqcZipExt} ${singleEndfastqcZip}
+	  cp -v ${fastqcDir}/$(basename ${reads1FqGz} ${fastqExtension})${fastqcZipExt} ${singleEndfastqcZip}
 
 	##################################################################
 	
 	  cd $OLDPWD
 
-	  putFile ${fastqcDir}/$(basename ${reads1FqGz} .fastq.gz)${fastqcZipExt}
+      putFile ${fastqcDir}/$(basename ${reads1FqGz} ${fastqExtension})${fastqcZipExt}
 	  putFile ${singleEndfastqcZip}
       cd ${fastqcDir}
       md5sum $(basename ${singleEndfastqcZip}) > $(basename ${singleEndfastqcZip}).md5
@@ -81,8 +81,8 @@ else
 	fastqc \
 	--noextract ${reads1FqGz} \
 	--outdir ${fastqcDir}
-	
-	cp -v ${fastqcDir}/$(basename ${reads1FqGz} .fastq.gz)${fastqcZipExt} ${pairedEndfastqcZip1}
+
+   cp -v ${fastqcDir}/$(basename ${reads1FqGz} ${fastqExtension})${fastqcZipExt} ${pairedEndfastqcZip1}
 	echo
 	echo "## "$(date)" reads2FqGz"
 	
@@ -95,13 +95,13 @@ else
  	  echo "returncode: $?"; 
 	
 	  echo
-	  cp -v ${fastqcDir}/$(basename ${reads2FqGz} .fastq.gz)${fastqcZipExt} ${pairedEndfastqcZip2}
+	  cp -v ${fastqcDir}/$(basename ${reads2FqGz} ${fastqExtension})${fastqcZipExt} ${pairedEndfastqcZip2}
 
 	##################################################################
 	  cd $OLDPWD
 		
-	  putFile ${fastqcDir}/$(basename ${reads1FqGz} .fastq.gz)${fastqcZipExt}
-	  putFile ${fastqcDir}/$(basename ${reads2FqGz} .fastq.gz)${fastqcZipExt}
+	  putFile ${fastqcDir}/$(basename ${reads1FqGz} ${fastqExtension})${fastqcZipExt}
+	  putFile ${fastqcDir}/$(basename ${reads2FqGz} ${fastqExtension})${fastqcZipExt}
 	  putFile ${pairedEndfastqcZip1}
 	  putFile ${pairedEndfastqcZip2}
       cd ${fastqcDir}
