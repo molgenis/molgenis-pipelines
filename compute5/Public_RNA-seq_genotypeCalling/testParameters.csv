@@ -116,7 +116,7 @@ analyseCovariatesIntermediateCsv,${analyseCovarsDir}/${sampleName}.intermediate.
 ## HaplotypeCaller
 haplotyperDir,${projectDir}/haplotypeCaller/
 haplotyperRealignmentBam,${haplotyperDir}${sampleName}.bam
-haplotyperRealignmentBai,${haplotyperDir}${sampleName}.bam
+haplotyperRealignmentBai,${haplotyperDir}${sampleName}.bai
 haplotyperVcf,${haplotyperDir}${project}.vcf
 haplotyperVcfIdx,${haplotyperVcf}.idx
 haplotyperGvcf,${haplotyperDir}${sampleName}.g.vcf
