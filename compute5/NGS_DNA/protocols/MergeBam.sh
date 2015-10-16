@@ -8,7 +8,7 @@
 #string sampleMergedBam
 #string sampleMergedBamIdx
 #string tempDir
-#list alignedSortedBam,alignedSortedBamIdx
+#list inputMergeBam,inputMergeBamIdx
 #string tmpDataDir
 #string project
 #string intermediateDir
@@ -46,13 +46,13 @@ INPUTS=()
 INPUTBAMS=()
 UNIQUEBAIS=()
 
-for bamFile in "${alignedSortedBam[@]}"
+for bamFile in "${inputMergeBam[@]}"
 do
 	array_contains INPUTS "INPUT=$bamFile" || INPUTS+=("INPUT=$bamFile")    # If bamFile does not exist in array add it
 	array_contains INPUTBAMS "$bamFile" || INPUTBAMS+=("$bamFile")    # If bamFile does not exist in array add it
 done
 
-for baiFile in "${alignedSortedBamIdx[@]}"
+for baiFile in "${inputMergeBamIdx[@]}"
 do
 	array_contains UNIQUEBAIS "$baiFile" || UNIQUEBAIS+=("$baiFile")    # If baiFile does not exist in array add it
 done
