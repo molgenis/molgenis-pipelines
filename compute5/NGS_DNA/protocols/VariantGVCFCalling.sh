@@ -21,7 +21,7 @@
 #string tmpDataDir
 #string externalSampleID
 
-#string realignedBam
+#string dedupBam
 
 sleep 5
 
@@ -73,7 +73,7 @@ sex=$(less ${intermediateDir}/${externalSampleID}.chosenSex.txt | awk 'NR==2')
 
 baitBatchLength=`cat ${capturedBatchBed} | wc -l`
 
-bams=($(printf '%s\n' "${realignedBam[@]}" | sort -u ))
+bams=($(printf '%s\n' "${dedupBam[@]}" | sort -u ))
 inputs=$(printf ' -I %s ' $(printf '%s\n' ${bams[@]}))
 
 if [ ${baitBatchLength} -eq 0 ]

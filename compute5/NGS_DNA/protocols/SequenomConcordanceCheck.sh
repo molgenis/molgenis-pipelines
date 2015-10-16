@@ -7,7 +7,7 @@
 #string arrayMapFile
 #string tempDir
 #string intermediateDir
-#string realignedBam
+#string dedupBam
 #string indexFile
 #string dbSNPExSiteAfter129Vcf
 #string sequenomReport
@@ -154,7 +154,7 @@ then
 		-l INFO \
 		-T UnifiedGenotyper \
 		-R ${indexFile} \
-		-I ${realignedBam} \
+		-I ${dedupBam} \
 		-o ${sample}.concordance.allSites.vcf \
 		-stand_call_conf 30.0 \
 		-stand_emit_conf 10.0 \

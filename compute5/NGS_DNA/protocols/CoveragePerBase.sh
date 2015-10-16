@@ -4,7 +4,7 @@
 #string gatkVersion
 #string gatkJar
 #string intermediateDir
-#string realignedBam
+#string dedupBam
 #string project
 #string sample
 #string indexFile
@@ -23,7 +23,7 @@ then
 		-R ${indexFile} \
 		-T DepthOfCoverage \
 		-o ${sample}.samtools.coveragePerBase \
-		-I ${realignedBam} \
+		-I ${dedupBam} \
 		-L ${capturedIntervalsPerBase}
 
 		sed '1d' ${sample}.samtools.coveragePerBase > ${sample}.samtools.coveragePerBase_withoutHeader
