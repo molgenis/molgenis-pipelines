@@ -1,6 +1,6 @@
 #MOLGENIS ppn=4 mem=6gb walltime=03:00:00
 
-#string realignedBam
+#string dedupBam
 #string capturedIntervals
 #string capturedIntervals_nonAutoChrX
 #string indexFileDictionary
@@ -25,11 +25,11 @@ awk '{if ($0 ~ /^X/){print $0}}' ${capturedIntervals} >> ${capturedIntervals_non
 
 #Calculate coverage chromosome X
 java -jar -XX:ParallelGCThreads=2 -Xmx4g ${EBROOTPICARD}/${picardJar} CalculateHsMetrics \
-INPUT=${realignedBam} \
+INPUT=${dedupBam} \
 TARGET_INTERVALS=${capturedIntervals_nonAutoChrX} \
 BAIT_INTERVALS=${capturedIntervals_nonAutoChrX} \
 TMP_DIR=${tempDir} \
-OUTPUT=${realignedBam}.nonAutosomalRegionChrX_hs_metrics
+OUTPUT=${dedupBam}.nonAutosomalRegionChrX_hs_metrics
 
 rm -rf ${sample}.checkSex.filter.meancoverage.txt
 
@@ -45,7 +45,7 @@ awk '{
         }else{
                 print $22
         }
-}' ${realignedBam}.hs_metrics >> ${checkSexMeanCoverage}
+}' ${dedupBam}.hs_metrics >> ${checkSexMeanCoverage}
 
 #select only the mean target coverage of chromosome X
 awk '{
@@ -59,7 +59,7 @@ awk '{
         }else{
                 print $22
         }
-}' ${realignedBam}.nonAutosomalRegionChrX_hs_metrics >> ${checkSexMeanCoverage}
+}' ${dedupBam}.nonAutosomalRegionChrX_hs_metrics >> ${checkSexMeanCoverage}
 
 
 
@@ -77,11 +77,11 @@ echo "RESULT: $RESULT"
 awk '{
 	
 	if ( length($1) == 0){
-		print "${realignedBam}.hs_metrics has not a MEAN TARGET COVERAGE value"
+		print "${dedupBam}.hs_metrics has not a MEAN TARGET COVERAGE value"
 		exit 0
 	}
 	else if ( length($2) == 0 ){ 
-		print "${realignedBam}.nonAutosomalRegionChrX_hs_metrics has not a MEAN TARGET COVERAGE value"
+		print "${dedupBam}.nonAutosomalRegionChrX_hs_metrics has not a MEAN TARGET COVERAGE value"
 		exit 0
 	}
 	else if ( "NA" == $1 || "?" == $2 ) {
