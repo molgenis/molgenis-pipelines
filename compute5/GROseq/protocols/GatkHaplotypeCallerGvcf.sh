@@ -1,4 +1,4 @@
-#MOLGENIS walltime=47:59:00 mem=14gb ppn=8
+#MOLGENIS walltime=23:59:00 mem=12gb ppn=8
 
 ### variables to help adding to database (have to use weave)
 #string sampleName
@@ -13,15 +13,14 @@
 #string dbsnpVcf
 #string dbsnpVcfIdx
 #string onekgGenomeFasta
-#string genomeBuild
-#string resDir
-#string referenceFastaName
 #list bqsrBam
 #string haplotyperDir
+#string haplotyperGvcf
+#string haplotyperGvcfIdx
 #string toolDir
 
 echo "## "$(date)" Start $0"
-
+echo "ID (project-sampleName): ${project}-${sampleName}"
 
 for file in "${bqsrBam[@]}" "${dbsnpVcf}" "${dbsnpVcfIdx}" "${onekgGenomeFasta}"; do
 #for file in "${bqsrBam[@]}" "${bqsrBai[@]}" "${dbsnpVcf}" "${dbsnpVcfIdx}" "${onekgGenomeFasta}"; do
@@ -40,12 +39,6 @@ inputs=$(printf ' -I %s ' $(printf '%s\n' ${bams[@]}))
 
 mkdir -p ${haplotyperDir}
 
-#do variant calling for all 25 chromosomes seperate
-#for this purpose haplotyperGvcf variable is split in ${haplotyperDir}${sampleName}.chr$CHR.g.vcf
-
-for CHR in {1..25}
-do
-
 if java -Xmx12g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${haplotyperDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
  -T HaplotypeCaller \
  -R ${onekgGenomeFasta} \
@@ -54,20 +47,16 @@ if java -Xmx12g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${haplotyperDir} -jar $
  -dontUseSoftClippedBases \
  -stand_call_conf 10.0 \
  -stand_emit_conf 20.0 \
- -o ${haplotyperDir}${sampleName}.chr$CHR.g.vcf \
- -L ${resDir}/${genomeBuild}/intervals/${referenceFastaName}.chr$CHR.interval_list \
+ -o ${haplotyperGvcf} \
+ -variant_index_type LINEAR \
+ -variant_index_parameter 128000 \
  --emitRefConfidence GVCF
-
-done
-
 
 then
  echo "returncode: $?"; 
 
- #haplotyperGvcf is split into seperate variables now
-
- putFile ${haplotyperDir}${sampleName}.chr$CHR.g.vcf
- putFile ${haplotyperDir}${sampleName}.chr$CHR.g.vcf.idx
+ putFile ${haplotyperGvcf}
+ putFile ${haplotyperGvcfIdx}
  echo "succes moving files";
 else
  echo "returncode: $?";

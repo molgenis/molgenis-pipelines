@@ -1,4 +1,4 @@
-#MOLGENIS walltime=14-23:59:59 mem=32gb ppn=8
+#MOLGENIS walltime=8-23:59:59 mem=30gb ppn=8
 ################################^advised 45 gb for 300 files so 30 for 200 files?
 
 ### variables to help adding to database (have to use weave)
@@ -11,18 +11,16 @@
 #string projectDir
 #string onekgGenomeFasta
 #string gatkVersion
-#string haplotyperTargets
-#string chromosome
-#list haplotyperChrGvcf
+#list haplotyperGvcf
 
 #string haplotyperDir
-#string mergeChrGvcf
-#string mergeChrGvcfIdx
+#string mergeGvcf
+#string mergeGvcfIdx
 #string toolDir
 
 echo "## "$(date)" Start $0"
 
-for file in "${haplotyperChrGvcf[@]}" "${onekgGenomeFasta}"; do
+for file in "${haplotyperGvcf[@]}" "${onekgGenomeFasta}"; do
 	echo "getFile file='$file'"
 	getFile $file
 done
@@ -32,7 +30,7 @@ ${stage} GATK/${gatkVersion}
 ${checkStage}
 
 #sort unique and print like 'INPUT=file1.bam INPUT=file2.bam '
-gvcfs=($(printf '%s\n' "${haplotyperChrGvcf[@]}" | sort -u ))
+gvcfs=($(printf '%s\n' "${haplotyperGvcf[@]}" | sort -u ))
 
 inputs=$(printf ' --variant %s ' $(printf '%s\n' ${gvcfs[@]}))
 
@@ -43,17 +41,15 @@ mkdir -p ${haplotyperDir}
 if java -Xmx30g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${haplotyperDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
  -T CombineGVCFs \
  -R ${onekgGenomeFasta} \
- -o ${mergeChrGvcf} \
- -L ${haplotyperTargets} \
+ -o ${mergeGvcf} \
  $inputs 
 
 then
  echo "returncode: $?"; 
 
- putFile ${mergeChrGvcf}
- putFile ${mergeChrGvcf}
+ putFile ${mergeGvcf}
 cd ${haplotyperDir}
-md5sum $(basename ${mergeGvcf})> $(basename ${mergeGvcf}).md5sum
+md5sum $(basename ${mergeGvcf})> $(basename ${mergeGvcf}).md5
  cd -
  echo "succes moving files";
 else

@@ -4,7 +4,7 @@
 #string intermediateDir
 #string dellyVersion
 #string dellyType
-#list realignedBam
+#list dedupBam
 
 module load delly/${dellyVersion}
 module list
@@ -26,7 +26,7 @@ array_contains () {
 UNIQUEBAMS=()
 
 
-for bamFile in "${realignedBam[@]}"
+for bamFile in "${dedupBam[@]}"
 do
         array_contains UNIQUEBAMS "$bamFile" || UNIQUEBAMS+=("$bamFile")    # If bamFile does not exist in array add it
 done
