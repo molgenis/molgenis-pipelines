@@ -29,7 +29,7 @@ mkdir -p ${addOrReplaceGroupsDir}
 
 echo "## "$(date)" Start $0"
 
-if java -Xmx6g -XX:ParallelGCThreads=8 -jar ${toolDir}picard/${picardVersion}/AddOrReplaceReadGroups.jar \
+if java -Xmx6g -XX:ParallelGCThreads=8 -jar $EBROOTPICARD//AddOrReplaceReadGroups.jar \
  INPUT=${sortedBamFile} \
  OUTPUT=${addOrReplaceGroupsBam} \
  SORT_ORDER=coordinate \
