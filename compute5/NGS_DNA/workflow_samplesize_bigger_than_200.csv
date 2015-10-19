@@ -9,7 +9,7 @@ s07_MergeBam,protocols/MergeBam.sh,s06_SortBam;inputMergeBam=alignedSortedBam;in
 s08_MarkDuplicates,protocols/MarkDuplicates.sh,s07_MergeBam
 s10a_Delly_DEL,protocols/Delly.sh,s08_MarkDuplicates;dellyType=dellyTypeDEL
 s10b_DellyAnnotator,protocols/DellyAnnotator.sh,s10a_Delly_DEL
-s11_MakeRealignedBamMd5,protocols/MakeRealignedBamMd5.sh,s08_MarkDuplicates
+s11_MakeDedupBamMd5,protocols/MakeDedupBamMd5.sh,s08_MarkDuplicates
 s12_SequenomConcordanceCheck,protocols/SequenomConcordanceCheck.sh,s08_MarkDuplicates
 s13_CoveragePerBase,protocols/CoveragePerBase.sh,s08_MarkDuplicates
 s14a_CollectMultipleMetrics,protocols/CollectMultipleMetrics.sh,s08_MarkDuplicates
