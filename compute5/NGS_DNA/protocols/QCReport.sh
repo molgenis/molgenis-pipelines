@@ -36,7 +36,7 @@ mkdir -p ${projectQcDir}/images
 dnaVersion=$(grep 'DNA' ${NGS_DNAVersionFile})
 module load ${dnaVersion}
 
-cp ${intermediateDir}/*.merged.dedup.realigned.bam.insert_size_histogram.pdf ${projectQcDir}/images
+cp ${intermediateDir}/*.merged.dedup.bam.insert_size_histogram.pdf ${projectQcDir}/images
 
 #
 ## Define bash helper function for arrays
@@ -78,12 +78,12 @@ done
 for sample in "${INPUTS[@]}"
 do
 
-	sampleHsMetrics+=("${intermediateDir}/${sample}.merged.dedup.realigned.bam.hs_metrics")
-        sampleAlignmentMetrics+=("${intermediateDir}/${sample}.merged.dedup.realigned.bam.alignment_summary_metrics")
-        sampleInsertMetrics+=("${intermediateDir}/${sample}.merged.dedup.realigned.bam.insert_size_metrics")
+	sampleHsMetrics+=("${intermediateDir}/${sample}.merged.dedup.bam.hs_metrics")
+        sampleAlignmentMetrics+=("${intermediateDir}/${sample}.merged.dedup.bam.alignment_summary_metrics")
+        sampleInsertMetrics+=("${intermediateDir}/${sample}.merged.dedup.bam.insert_size_metrics")
 	sampleDedupMetrics_folded+=("${intermediateDir}/${sample}.merged.dedup.metrics")
         sampleConcordance+=("${intermediateDir}/${sample}.concordance.ngsVSarray.txt")
-        sampleInsertSizePDF+=("images/${sample}.merged.dedup.realigned.bam.insert_size_histogram.pdf")
+        sampleInsertSizePDF+=("images/${sample}.merged.dedup.bam.insert_size_histogram.pdf")
 
 done
 
