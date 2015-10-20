@@ -5,6 +5,7 @@
 #string dellyVersion
 #string dellyType
 #list dedupBam
+#string dellyVcf
 
 module load delly/${dellyVersion}
 module list
@@ -25,6 +26,9 @@ array_contains () {
 
 UNIQUEBAMS=()
 
+makeTmpDir ${dellyVcf}
+tmpDellyVcf=${MC_tmpFile}
+
 
 for bamFile in "${dedupBam[@]}"
 do
@@ -32,11 +36,13 @@ do
 done
 
 echo "Size of the UNIQUEBAMS: ${#UNIQUEBAMS[@]}"
-echo "Delly is saving output in: ${intermediateDir}/${project}.delly.vcf"
 
 ${EBROOTDELLY}/delly \
 -t ${dellyType} \
 -x human.hg19.excl.tsv \
--o ${intermediateDir}/${project}.delly.vcf \
+-o ${tmpDellyVcf} \
 -g ${indexFile} \
 ${UNIQUEBAMS[@]}
+
+mv ${tmpDellyVcf} ${dellyVcf}
+echo "moved ${tmpDellyVcf} to ${dellyVcf}"
