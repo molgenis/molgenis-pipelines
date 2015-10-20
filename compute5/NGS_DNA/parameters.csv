@@ -130,6 +130,7 @@ bamIndexStatsJar,BamIndexStats
 projectDellyAnnotatorOutputVcf,${intermediateDir}/${project}.delly.snpeff.hpo.vcf
 collectBamMetricsPrefix,${intermediateDir}/${externalSampleID}.merged.dedup.realigned.bqsr
 hpoTerms,${hpoDir}/build.${hpoVersion}/ALL_SOURCES_TYPICAL_FEATURES_diseases_to_genes_to_phenotypes.txt
+dellyVcf,${intermediateDir}/${project}.delly.vcf 
 dellyTypeDEL,DEL
 dellyTypeDUP,DUP
 dellyTypeINV,INV
