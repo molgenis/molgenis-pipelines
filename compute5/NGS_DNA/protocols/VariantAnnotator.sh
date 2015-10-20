@@ -60,7 +60,7 @@ done
 for sample in "${SAMPLES[@]}"
 do
   echo "sample: ${sample}"		
-  INPUTS+=("-I ${intermediateDir}/${sample}.merged.dedup.realigned.bam")
+  INPUTS+=("-I ${intermediateDir}/${sample}.merged.dedup.bam")
 done
 
 #Load GATK module
