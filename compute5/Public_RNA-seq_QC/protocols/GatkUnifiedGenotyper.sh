@@ -56,7 +56,6 @@ if java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}GATK//${gatkVersion}/Genom
 # have to gzip for GenometypeHarmonizer usage later
 bgzip -c ${rawVCF} > ${rawVCF}.gz
 tabix -p vcf ${rawVCF}.gz
-rm ${rawVCF}
 
 then
  echo "returncode: $?";
