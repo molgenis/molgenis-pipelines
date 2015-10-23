@@ -11,16 +11,18 @@
 #string projectDir
 #string onekgGenomeFasta
 #string gatkVersion
-#list haplotyperGvcf
+#string haplotyperTargets
+#string chromosome
+#list haplotyperChrGvcf
 
 #string haplotyperDir
-#string mergeGvcf
-#string mergeGvcfIdx
+#string mergeChrGvcf
+#string mergeChrGvcfIdx
 #string toolDir
 
 echo "## "$(date)" Start $0"
 
-for file in "${haplotyperGvcf[@]}" "${onekgGenomeFasta}"; do
+for file in "${haplotyperChrGvcf[@]}" "${onekgGenomeFasta}"; do
 	echo "getFile file='$file'"
 	getFile $file
 done
@@ -30,7 +32,7 @@ ${stage} GATK/${gatkVersion}
 ${checkStage}
 
 #sort unique and print like 'INPUT=file1.bam INPUT=file2.bam '
-gvcfs=($(printf '%s\n' "${haplotyperGvcf[@]}" | sort -u ))
+gvcfs=($(printf '%s\n' "${haplotyperChrGvcf[@]}" | sort -u ))
 
 inputs=$(printf ' --variant %s ' $(printf '%s\n' ${gvcfs[@]}))
 
@@ -41,13 +43,15 @@ mkdir -p ${haplotyperDir}
 if java -Xmx30g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${haplotyperDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
  -T CombineGVCFs \
  -R ${onekgGenomeFasta} \
- -o ${mergeGvcf} \
+ -o ${mergeChrGvcf} \
+ -L ${haplotyperTargets} \
  $inputs 
 
 then
  echo "returncode: $?"; 
 
- putFile ${mergeGvcf}
+ putFile ${mergeChrGvcf}
+ putFile ${mergeChrGvcf}
 cd ${haplotyperDir}
 md5sum $(basename ${mergeGvcf})> $(basename ${mergeGvcf}).md5sum
  cd -

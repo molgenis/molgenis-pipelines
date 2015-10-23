@@ -10,7 +10,3 @@ IndelRealignmentKnown,protocols/GatkIndelRealignmentKnown.sh,GatkSplitAndTrim
 BQSR,protocols/GatkBQSR.sh,IndelRealignmentKnown
 AnalyseCovariates,protocols/GatkAnalyseCovariates.sh,BQSR
 HaplotypeCallerGvcf,protocols/GatkHaplotypeCallerGvcf.sh,BQSR
-MergeGvcfs,protocols/GatkMergeGvcfs.sh,HaplotypeCallerGvcf
-GenotypeGvcfs,protocols/GatkGenotypeGvcfs.sh,MergeGvcfs
-ASReads,protocols/ASReads.sh,GenotypeGvcfs
-ASE,protocols/ASE.sh,ASReads
