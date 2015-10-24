@@ -47,7 +47,7 @@ mkdir -p ${analyseCovarsDir}
 #do bqsr for covariable determination then do print reads for valid bqsrbams
 #check the bqsr part and add known variants
 
-java -Xmx6g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${bqsrDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
+java -Xmx6g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${bqsrDir} -jar EBROOTGATK/GenomeAnalysisTK.jar \
  -T BaseRecalibrator\
  -R ${onekgGenomeFasta} \
  -I ${bqsrBam} \
@@ -57,7 +57,7 @@ java -Xmx6g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${bqsrDir} -jar ${toolDir}G
  -knownSites ${oneKgPhase1IndelsVcf} \
  -nct 2
 
-if java -Xmx6g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${bqsrDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
+if java -Xmx6g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${bqsrDir} -jar EBROOTGATK/GenomeAnalysisTK.jar \
  -T AnalyzeCovariates \
  -R ${onekgGenomeFasta} \
  -ignoreLMT \
