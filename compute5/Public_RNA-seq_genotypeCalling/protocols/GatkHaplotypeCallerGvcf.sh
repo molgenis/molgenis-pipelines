@@ -45,33 +45,30 @@ mkdir -p ${haplotyperDir}
 
 for CHR in {1..25}
 do
+   echo "CHR $CHR"
+   if java -Xmx12g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${haplotyperDir} -jar $EBROOTGATK/GenomeAnalysisTK.jar \
+       -T HaplotypeCaller \
+       -R ${onekgGenomeFasta} \
+       --dbsnp ${dbsnpVcf}\
+       $inputs \
+       -dontUseSoftClippedBases \
+       -stand_call_conf 10.0 \
+       -stand_emit_conf 20.0 \
+       -o ${haplotyperDir}${sampleName}.chr$CHR.g.vcf \
+       -L ${resDir}/${genomeBuild}/intervals/${referenceFastaName}.chr$CHR.interval_list \
+       --emitRefConfidence GVCF;
+  then
+    echo "returncode: $?";
+    #haplotyperGvcf is split into seperate variables now
 
-if java -Xmx12g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${haplotyperDir} -jar EBROOTGATK/GenomeAnalysisTK.jar \
- -T HaplotypeCaller \
- -R ${onekgGenomeFasta} \
- --dbsnp ${dbsnpVcf}\
- $inputs \
- -dontUseSoftClippedBases \
- -stand_call_conf 10.0 \
- -stand_emit_conf 20.0 \
- -o ${haplotyperDir}${sampleName}.chr$CHR.g.vcf \
- -L ${resDir}/${genomeBuild}/intervals/${referenceFastaName}.chr$CHR.interval_list \
- --emitRefConfidence GVCF
-
+    putFile ${haplotyperDir}${sampleName}.chr$CHR.g.vcf
+    putFile ${haplotyperDir}${sampleName}.chr$CHR.g.vcf.idx
+    echo "succes moving files";
+  else
+    echo "returncode: $?";
+    echo "fail";
+  fi
 done
 
-
-then
- echo "returncode: $?"; 
-
- #haplotyperGvcf is split into seperate variables now
-
- putFile ${haplotyperDir}${sampleName}.chr$CHR.g.vcf
- putFile ${haplotyperDir}${sampleName}.chr$CHR.g.vcf.idx
- echo "succes moving files";
-else
- echo "returncode: $?";
- echo "fail";
-fi
 
 echo "## "$(date)" ##  $0 Done "
