@@ -61,7 +61,7 @@ echo
 echo "## Action to perform in quals: "$qualAction" ##"
 echo
 
-if java -Xmx8g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${splitAndTrimDir} -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
+if java -Xmx8g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${splitAndTrimDir} -jar EBROOTGATK/GenomeAnalysisTK.jar \
  -T SplitNCigarReads \
  -R ${onekgGenomeFasta} \
  -I ${markDuplicatesBam} \
