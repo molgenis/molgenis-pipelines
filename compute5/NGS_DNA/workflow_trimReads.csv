@@ -1,12 +1,13 @@
 step,protocol,dependencies
-s01_SpikePhiX,protocols/SpikePhiX.sh,
-s02_CheckIlluminaEncoding,protocols/CheckIlluminaEncoding.sh,s01_SpikePhiX
+s01a_SpikePhiX,protocols/SpikePhiX.sh,
+s01b_TrimReads,protocols/TrimReads.sh,s01a_SpikePhiX
+s02_CheckIlluminaEncoding,protocols/CheckIlluminaEncoding.sh,s01b_TrimReads
 s03_FastQC,protocols/FastQC.sh,s02_CheckIlluminaEncoding
 s04_BwaAlign,protocols/BwaAlign.sh,s02_CheckIlluminaEncoding
 s05_SamToBam,protocols/SamToBam.sh,s04_BwaAlign
 s06_SortBam,protocols/SortBam.sh,s05_SamToBam
 s07_MergeBam,protocols/MergeBam.sh,s06_SortBam;inputMergeBam=alignedSortedBam;inputMergeBamIdx=alignedSortedBamIdx
-s08_MarkDuplicates,protocols/Sambamba.sh,s07_MergeBam
+s08_MarkDuplicates,protocols/MarkDuplicates.sh,s07_MergeBam
 s10a_Delly_DEL,protocols/Delly.sh,s08_MarkDuplicates;dellyType=dellyTypeDEL
 s10b_DellyAnnotator,protocols/DellyAnnotator.sh,s10a_Delly_DEL
 s11_MakeDedupBamMd5,protocols/MakeDedupBamMd5.sh,s08_MarkDuplicates

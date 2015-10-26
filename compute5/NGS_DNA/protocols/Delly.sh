@@ -38,6 +38,7 @@ done
 echo "Size of the UNIQUEBAMS: ${#UNIQUEBAMS[@]}"
 
 ${EBROOTDELLY}/delly \
+-n \
 -t ${dellyType} \
 -x human.hg19.excl.tsv \
 -o ${tmpDellyVcf} \
