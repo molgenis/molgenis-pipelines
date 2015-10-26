@@ -33,7 +33,7 @@ if [ ${seqType} == "PE" ]
 then
 
 	cutadapt \
-        --cut=50 \
+        --cut=-50 \
         -o ${tmppeEnd1BarcodeTrimmedFqGz} \
 	-p ${tmppeEnd2BarcodeTrimmedFqGz} \
 	${peEnd1BarcodeFqGz} ${peEnd2BarcodeFqGz}	
@@ -47,7 +47,7 @@ then
 elif [ ${seqType} == "SR" ]
 then
 	cutadapt \
-	--cut=50 \
+	--cut=-50 \
 	-o ${tmpsrBarcodeTrimmedFqGz} \
 	${srBarcodeFqGz}
 
