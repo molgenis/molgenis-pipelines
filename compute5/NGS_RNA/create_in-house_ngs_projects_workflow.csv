@@ -1,0 +1,3 @@
+step,protocol,dependencies
+CopyPrmTmpData,protocols/CopyPrmTmpData.sh,
+CreateInhouseRnaSeqProjects,protocols/CreateInhouseRnaSeqProjects.sh,
