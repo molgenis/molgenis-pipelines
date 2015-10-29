@@ -49,7 +49,7 @@ do
    if java -Xmx12g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${haplotyperDir} -jar $EBROOTGATK/GenomeAnalysisTK.jar \
        -T HaplotypeCaller \
        -R ${onekgGenomeFasta} \
-       --dbsnp ${dbsnpVcf}\
+       --dbsnp ${dbsnpVcf} \
        $inputs \
        -dontUseSoftClippedBases \
        -stand_call_conf 10.0 \
