@@ -1,0 +1,119 @@
+##### BACKEND #####
+queue,ll
+mem,4
+walltime,23:59:00
+nodes,1
+ppn,1
+defaultInterpreter,#!/bin/bash
+stage,module load
+checkStage,module list
+jobname,jobname
+
+##### Tool versions #####
+jdkVersion,Java/1.7.0_80
+NGSUtilsVersion,ngs-utils
+fastqcVersion,FastQC/0.11.3-Java-1.7.0_80
+samtoolsVersion,SAMtools/1.2-goolf-1.7.20
+RVersion,R/3.2.1-goolf-1.7.20
+wkhtmltopdfVersion,0.11.0
+picardVersion,picard/1.102-Java-1.7.0_80
+anacondaVersion,Anaconda/1.8.0-Linux-x86_64
+htseqVersion,HTSeq/0.6.1p1
+starVersion,STAR/2.3.1z12-goolf-1.7.20
+hisatVersion,hisat/0.1.5-beta-goolf-1.7.20
+pythonVersion,Python/2.7.9-goolf-1.7.20
+
+##### GENERAL DIRECTORIES #####
+workDir,/groups/umcg-gaf/
+dataDir,${root}/data/
+tmpName,tmp04
+root,/apps/
+tempDir,${workDir}/${tmpName}/tmp/
+tmpDataDir,${workDir}/${tmpName}/
+sourcesDir,${root}/sources/
+softwareDir,${root}/software/
+scriptDir,${softwareDir}/scripts/
+permanentDir,${workDir}/prm02
+
+##### RAW DATA FILES/DIRS #####
+allRawNgsPrmDataDir,${permanentDir}/rawdata/ngs
+allRawtmpDataDir,${tmpDataDir}/rawdata/
+allRawNgstmpDataDir,${allRawtmpDataDir}/ngs/
+rawtmpDataDir,${allRawNgstmpDataDir}/${runPrefix}
+
+
+srInputFile,${rawtmpDataDir}/${filePrefix}.fq.gz
+peEnd1FqGz,${rawtmpDataDir}/${filePrefix}_1.fq.gz
+peEnd2FqGz,${rawtmpDataDir}/${filePrefix}_2.fq.gz
+peEnd1BarcodeFqGz,${rawFile}_1.${rawFileExt}
+peEnd2BarcodeFqGz,${rawFile}_2.${rawFileExt}
+peEnd1BarcodeFq,${rawFile}_1.fq
+srBarcodeFqGz,${rawFile}.${rawFileExt}
+srBarcodeFq,${intermediateDir}/${filePrefix}_${barcode}.fq
+leftbarcode,${projectRawtmpDataDir}/${filePrefix}_${barcode}_1
+rightbarcode,${projectRawtmpDataDir}/${filePrefix}_${barcode}_2
+leftbarcodefq,${leftbarcode}.fq
+rightbarcodefq,${rightbarcode}.fq
+leftbarcodefqgz,${leftbarcodefq}.gz
+rightbarcodefqgz,${rightbarcodefq}.gz
+workflowFile,$MC_HOME/NGS_RNA_seq_pipeline/workflow.csv
+
+##### GENOME,INDEX,ANNOTATION FILES #####
+genome,b37
+ensembleReleaseVersion,75
+species,Homo_sapiens
+indexFileID,human_g1k_v37
+ensebleDir,${dataDir}/ftp.ensembl.org/pub/release-${ensembleReleaseVersion}/gtf/${species}/
+geneAnnotationTxt,${STARindex}//${species}.GRCh${genome}.${ensembleReleaseVersion}.txt.gz
+STARindex,${dataDir}/ftp.broadinstitute.org/bundle/2.8/${genome}/${starVersion}/
+hisatIndex,${dataDir}/ftp.broadinstitute.org/bundle/2.8/${genome}/${hisatVersion}/human_g1k_v37
+annotationGtf,${ensebleDir}/${species}.GRCh${genome}.${ensembleReleaseVersion}.gtf
+annotationRefFlat,${ensebleDir}/${species}.GRCh${genome}.${ensembleReleaseVersion}.gtf.annotation.refFlat
+
+##### PREFIXES,POSTFIXES #####
+rawFileExt,fq.gz
+runPrefix,${sequencingStartDate}_${sequencer}_${run}_${flowcell}
+rawFile,${projectRawtmpDataDir}/${filePrefix}_${barcode}
+filePrefix,${runPrefix}_L${lane}
+library,${filePrefix}
+
+##### Projects #####
+generalProjectDir,${tmpDataDir}/projects/
+projectDir,${generalProjectDir}/${project}/${runid}
+projectRawtmpDataDir,${projectDir}/rawdata/ngs/
+projectRawArraytmpDataDir,${projectDir}/rawdata/array/
+intermediateDir,${tempDir}/${project}/${runid}/
+projectPrefix,${intermediateDir}/${project}
+projectJobsDir,${projectDir}/jobs/
+projectLogsDir,${projectDir}/logs/
+projectResultsDir,${projectDir}/results/
+projectQcDir,${projectDir}/qc/
+
+##### Protocols 1, 2 (FastQC, STAR) #####
+peEnd1BarcodeFastQcZip,${intermediateDir}/${filePrefix}_${barcode}_1.fq_fastqc.zip
+peEnd2BarcodeFastQcZip,${intermediateDir}/${filePrefix}_${barcode}_2.fq_fastqc.zip
+srBarcodeFastQcZip,${intermediateDir}/${filePrefix}_${barcode}.fq_fastqc.zip
+BarcodeFastQcFolder,${intermediateDir}/${filePrefix}_${barcode}.fq_fastqc
+BarcodeFastQcFolderPE,${intermediateDir}/${filePrefix}_${barcode}_1.fq_fastqc
+alignedSam,${intermediateDir}/${filePrefix}_${barcode}.sam
+alignedBam,${intermediateDir}/${filePrefix}_${barcode}.bam
+alignedFilteredBam,${intermediateDir}/${filePrefix}_${barcode}.unique_mapping_reads.bam
+sortedBam,${intermediateDir}${externalSampleID}.unique_mapping_reads.sorted.bam
+sortedBai,${intermediateDir}${externalSampleID}.unique_mapping_reads.sorted.bai
+starLogFile,${intermediateDir}/${externalSampleID}.Log.final.out,
+
+##### Protocols 3,6 (QCStats, QC_Report) #####
+flagstatMetrics,${intermediateDir}${externalSampleID}.flagstat
+dupStatMetrics,${intermediateDir}${externalSampleID}.mdupmetrics
+rnaSeqMetrics,${intermediateDir}${externalSampleID}.collectrnaseqmetrics
+insertsizeMetrics,${intermediateDir}${externalSampleID}.insertsizemetrics
+insertsizeMetricspdf,${intermediateDir}${externalSampleID}.insertsizemetrics.pdf
+qcMatricsList,${intermediateDir}/${project}_qcMatricsList.txt
+gcPlotList,${intermediateDir}/${project}_gcPlotList.txt
+recreateinsertsizepdfR,createInsertSizePlot.R
+qcMatrics,${intermediateDir}/${externalSampleID}.total.qc.metrics.table
+
+##### Protocols 4, 5 (HTSeq count, MakeExpressionTable) #####
+txtExpression,"${intermediateDir}/${externalSampleID}.htseq.txt",,,
+expressionTable,${intermediateDir}/expression_table.genelevel.v${ensembleReleaseVersion}.htseq.txt.table,,,
+processReadCountsJar,ProcessReadCounts.jar
