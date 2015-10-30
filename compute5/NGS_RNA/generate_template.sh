@@ -1,6 +1,6 @@
 #!/bin/bash
 
-module load NGS_RNA/3.1.3-Molgenis-Compute-v15.04.1-Java-1.7.0_80 
+module load NGS_RNA 
 module list
 
 PROJECT=projectxx
@@ -34,6 +34,7 @@ sh ${EBROOTMOLGENISMINCOMPUTE}/molgenis_compute.sh \
 --runid ${RUNID} \
 -o "workflowpath=$EBROOTNGS_RNA/workflow_hisat.csv;\
 outputdir=scripts/jobs;mainParameters=${GAF}/generatedscripts/${PROJECT}/out.csv;\
+ngsversion=$(module list | grep -o -P 'NGS_RNA(.+)');\
 worksheet=${GAF}/generatedscripts/${PROJECT}/${PROJECT}.csv;environment_parameters=${GAF}/generatedscripts/${PROJECT}/environment_parameters.csv;"\
 -weave \
 --generate
