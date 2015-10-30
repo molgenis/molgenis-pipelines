@@ -16,6 +16,7 @@
 #list flowcell
 
 #string mainParameters
+#string environment_parameters
 #string worksheet 
 #string outputdir
 #string workflowpath
@@ -129,5 +130,6 @@ EBROOTNGS_RNA=/apps/software/NGS_RNA/2.1.1-Molgenis-Compute-v15.04.1-Java-1.7.0_
 EBROOTMOLGENISMINCOMPUTE=/apps/software/Molgenis-Compute/v15.04.1-Java-1.7.0_80
 
 sh ${EBROOTMOLGENISMINCOMPUTE}/molgenis_compute.sh -p ${mainParameters} \
+-p ${environment_parameters} \
 -p ${projectJobsDir}/${project}.csv -rundir ${projectJobsDir} \
 -w ${workflowpath} -b slurm -g -weave -runid ${runid}

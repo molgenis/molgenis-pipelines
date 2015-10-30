@@ -1,0 +1,9 @@
+step,protocol,dependencies
+s00_FastQC,protocols/FastQC.sh,
+s01_HisatAlignment,protocols/HisatAlignment.sh,
+s02_QCStats,protocols/QCStats.sh,s01_HisatAlignment
+s03_HTSeq_count,protocols/HTSeq_count.sh,s01_HisatAlignment
+s04_SplitAndTrim,protocols/SplitAndTrim.sh,s01_HisatAlignment
+s04_MakeExpressionTable,protocols/MakeExpressionTable.sh,s03_HTSeq_count
+s05_QC_Report,protocols/QC_Report.sh,s04_MakeExpressionTable;s02_QCStats
+s06_CopyToResultsDir,protocols/CopyToResultsDir.sh,s04_MakeExpressionTable;s00_FastQC;s02_QCStats
