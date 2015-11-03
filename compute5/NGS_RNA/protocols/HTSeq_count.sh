@@ -1,7 +1,7 @@
 #MOLGENIS walltime=24:00:00 nodes=1 cores=1 mem=6gb
 
 #Parameter mapping
-#string sortedBam
+#string sampleMergedBam
 #string tempDir
 #string annotationGtf
 #string txtExpression
@@ -19,7 +19,7 @@ echo "Sorting bam file by name"
 if samtools \
         sort \
         -n \
-        ${sortedBam} \
+        ${sampleMergedBam} \
         ${tempDir}/nameSorted
 then 
         echo "bam file sorted"
