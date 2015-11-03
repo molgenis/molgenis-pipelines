@@ -41,8 +41,8 @@ echo "## "$(date)" Start $0"
 echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
 if hisat -x ${referenceGenomeHisat} \
-  ${input}\
-  -p 8\
+  ${input} \
+  -p 8 \
   --rg-id ${internalId} \
   --rg PL:${platform} \
   --rg PU:${sampleName}_${internalId}_${internalId} \
