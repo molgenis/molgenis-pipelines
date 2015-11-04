@@ -2,18 +2,40 @@
 
 #string intermediateDir
 #string processReadCountsJar
+#list externalSampleID
 #string geneAnnotationTxt
-#string expressionTable
+#string projectHTseqEexpressionTable
 #string project
 #string jdkVersion
-#list externalSampleID
+
+#Function to check if array contains value
+array_contains () {
+    local array="$1[@]"
+    local seeking=$2
+    local in=1
+    for element in "${!array-}"; do
+        if [[ "$element" == "$seeking" ]]; then
+            in=0
+            break
+        fi
+    done
+    return $in
+}
+
+makeTmpDir ${projectHTseqEexpressionTable}
+tmpProjectHTseqEexpressionTable=${MC_tmpFile}
 
 rm -f ${intermediateDir}/fileList.txt
 
-for sample in "${externalSampleID[@]}" 
+INPUTS=()
+for sample in "${externalSampleID[@]}"
 do
-	inputs ${intermediateDir}/${sample}.htseq.txt
-	echo -e "${sample}\t$intermediateDir/${sample}.htseq.txt" >> ${intermediateDir}/fileList.txt
+	array_contains INPUTS "$sample" || INPUTS+=("$sample") 
+done
+
+for sampleID in "${INPUTS[@]}" 
+do
+	echo -e "${sampleID}\t$intermediateDir/${sampleID}.htseq.txt" >> ${intermediateDir}/fileList.txt
 done 
 
 module load jdk/${jdkVersion}
@@ -25,10 +47,10 @@ if java \
         --mode makeExpressionTable \
         --fileList ${intermediateDir}/fileList.txt \
         --annot ${geneAnnotationTxt} \
-        --out ${expressionTable}___tmp___
+        --out ${tmpProjectHTseqEexpressionTable}
 then
         echo "table create succesfull"
-        mv ${expressionTable}___tmp___ ${expressionTable}
+        mv ${tmpProjectHTseqEexpressionTable} ${projectHTseqEexpressionTable}
 else
         echo "table create failed"
 	exit 1

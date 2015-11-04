@@ -4,8 +4,7 @@
 #string sampleMergedBam
 #string tempDir
 #string annotationGtf
-#string txtExpression
-#string externalSampleID
+#string sampleHTseqExpressionText
 #string htseqVersion
 #string samtoolsVersion
 
@@ -14,18 +13,23 @@ module load ${htseqVersion}
 module load ${samtoolsVersion}
 module list
 
+
+makeTmpDir ${sampleHTseqExpressionText}
+tmpSampleHTseqExpressionText=${MC_tmpFile}
+
+
 echo "Sorting bam file by name"
 
 if samtools \
         sort \
         -n \
         ${sampleMergedBam} \
-        ${tempDir}/nameSorted
+        ${sampleMergedBam}.nameSorted
 then 
         echo "bam file sorted"
 else
         echo "Failed to sort bam file"
-        rm -f ${tempDir}/nameSorted.bam
+        rm -f ${sampleMergedBam}.nameSorted.bam
         exit 1
 fi 
         
@@ -33,23 +37,23 @@ echo -e "\nQuantifying expression"
 
 if samtools \
         view -h \
-        ${tempDir}/nameSorted.bam | \
+        ${sampleMergedBam}.nameSorted.bam | \
         htseq-count \
         -m union \
         -s no \
         - \
         ${annotationGtf} | \
         head -n -5 \
-        > ${txtExpression}___tmp___;
+        > ${tmpSampleHTseqExpressionText}
 then
         echo "Gene count succesfull"
-        mv ${txtExpression}___tmp___ ${txtExpression}
+        mv ${tmpSampleHTseqExpressionText} ${sampleHTseqExpressionText}
 else
         echo "Genecount failed"
-        rm -f ${tempDir}/nameSorted.bam
+        rm -f ${sampleMergedBam}.nameSorted.bam
         exit 1
 fi
 
-rm ${tempDir}/nameSorted.bam
+rm ${sampleMergedBam}.nameSorted.bam
 
 echo "Finished!"
