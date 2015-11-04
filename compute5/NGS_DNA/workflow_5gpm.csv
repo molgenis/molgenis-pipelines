@@ -5,7 +5,8 @@ s03_FastQC,protocols/FastQC.sh,s02_CheckIlluminaEncoding
 s04_BwaAlign,protocols/BwaAlign.sh,s02_CheckIlluminaEncoding
 s05_SamToBam,protocols/SamToBam.sh,s04_BwaAlign
 s06_SortBam,protocols/SortBam.sh,s05_SamToBam
-s07_MergeBam,protocols/MergeBam.sh,s06_SortBam;inputMergeBam=alignedSortedBam;inputMergeBamIdx=alignedSortedBamIdx
+s06a_FilterOnIntervalList,protocols/FilterOnIntervalList.sh,s06_SortBam
+s07_MergeBam,protocols/MergeBam.sh,s06a_FilterOnIntervalList;inputMergeBam=intervalsSortedBam;inputMergeBamIdx=intervalsSortedBamIdx
 s08_MarkDuplicates,protocols/MarkDuplicates.sh,s07_MergeBam
 s10a_Delly_DEL,protocols/Delly.sh,s08_MarkDuplicates;dellyType=dellyTypeDEL
 s10b_DellyAnnotator,protocols/DellyAnnotator.sh,s10a_Delly_DEL
@@ -18,8 +19,7 @@ s14c_CollectGCBiasMetrics,protocols/CollectGCBiasMetrics.sh,s08_MarkDuplicates
 s14d_CollectBamIndexMetrics,protocols/CollectBamIndexMetrics.sh,s08_MarkDuplicates
 s15_CheckSex,protocols/CheckSex.sh,s14a_CollectMultipleMetrics
 s16a_VariantCalling,protocols/VariantGVCFCalling.sh,s15_CheckSex
-s16b_CombineVariants,protocols/VariantGVCFCombine.sh,s16a_VariantCalling
-s16c_GenotypeVariants,protocols/VariantGVCFGenotyping.sh,s16b_CombineVariants
+s16c_GenotypeVariants,protocols/VariantGVCFGenotyping.sh,s16a_VariantCalling
 s17_MergeBatches,protocols/MergeBatches.sh,s16c_GenotypeVariants
 s18_SnpEff,protocols/SnpEff.sh,s17_MergeBatches
 s19_VariantAnnotator,protocols/VariantAnnotator.sh,s18_SnpEff

@@ -44,9 +44,9 @@ echo "Copied fastQC output to results directory (3/11)"
 #copy realigned bams
 for sample in "${externalSampleID[@]}"
 do
-	cp ${intermediateDir}/${sample}.merged.dedup.realigned.bam ${projectResultsDir}/alignment/
-	cp ${intermediateDir}/${sample}.merged.dedup.realigned.bai ${projectResultsDir}/alignment/
-	cp ${intermediateDir}/${sample}.merged.dedup.realigned.bam.md5 ${projectResultsDir}/alignment/
+	cp ${intermediateDir}/${sample}.merged.dedup.bam ${projectResultsDir}/alignment/
+	cp ${intermediateDir}/${sample}.merged.dedup.bai ${projectResultsDir}/alignment/
+	cp ${intermediateDir}/${sample}.merged.dedup.bam.md5 ${projectResultsDir}/alignment/
 done
 echo "Copied realigned bams (4/11)"
 
@@ -54,12 +54,12 @@ echo "Copied realigned bams (4/11)"
 
 for sample in "${externalSampleID[@]}"
 do
-	cp ${intermediateDir}/${sample}.merged.dedup.realigned.bam.alignment_summary_metrics ${projectResultsDir}/qc/statistics/
-	cp ${intermediateDir}/${sample}.merged.dedup.realigned.bam.gc_bias_metrics ${projectResultsDir}/qc/statistics/
-	cp ${intermediateDir}/${sample}.merged.dedup.realigned.bam.quality_by_cycle_metrics ${projectResultsDir}/qc/statistics/
-	cp ${intermediateDir}/${sample}.merged.dedup.realigned.bam.quality_distribution_metrics ${projectResultsDir}/qc/statistics/
-	cp ${intermediateDir}/${sample}.merged.dedup.realigned.bam.hs_metrics ${projectResultsDir}/qc/statistics/
-	cp ${intermediateDir}/${sample}.merged.dedup.realigned.bam.bam_index_stats ${projectResultsDir}/qc/statistics/
+	cp ${intermediateDir}/${sample}.merged.dedup.bam.alignment_summary_metrics ${projectResultsDir}/qc/statistics/
+	cp ${intermediateDir}/${sample}.merged.dedup.bam.gc_bias_metrics ${projectResultsDir}/qc/statistics/
+	cp ${intermediateDir}/${sample}.merged.dedup.bam.quality_by_cycle_metrics ${projectResultsDir}/qc/statistics/
+	cp ${intermediateDir}/${sample}.merged.dedup.bam.quality_distribution_metrics ${projectResultsDir}/qc/statistics/
+	cp ${intermediateDir}/${sample}.merged.dedup.bam.hs_metrics ${projectResultsDir}/qc/statistics/
+	cp ${intermediateDir}/${sample}.merged.dedup.bam.bam_index_stats ${projectResultsDir}/qc/statistics/
 	cp ${intermediateDir}/${sample}.merged.dedup.metrics ${projectResultsDir}/qc/statistics/
 	cp ${intermediateDir}/${sample}*.pdf ${projectResultsDir}/qc/statistics/
 	echo "Copied alignment stats (lane and sample) to results directory (5/11)"
@@ -70,7 +70,7 @@ if [ -f "${intermediateDir}/*.insert_size_metrics" ]
 then
 	for sample in "${externalSampleID[@]}"
 	do
-		cp ${intermediateDir}/${sample}.merged.dedup.realigned.bam.insert_size_metrics ${projectResultsDir}/qc/statistics/
+		cp ${intermediateDir}/${sample}.merged.dedup.bam.insert_size_metrics ${projectResultsDir}/qc/statistics/
 	done
 fi
 echo "Copied insert size metrics (6/11)"
@@ -79,9 +79,10 @@ echo "Copied insert size metrics (6/11)"
 # Copy variants vcf and tables to results directory
 cp ${projectPrefix}.final.vcf ${projectResultsDir}/variants/
 cp ${projectPrefix}.final.vcf.table ${projectResultsDir}/variants/
-cp ${projectPrefix}.snpeff.hpo.vcf ${projectResultsDir}/variants/
-cp ${projectPrefix}.delly.vcf ${projectResultsDir}/variants/
-cp ${projectPrefix}.delly.snpeff.vcf ${projectResultsDir}/variants/
+if [ -f "${projectPrefix}.delly.snpeff.hpo.vcf" ]
+then
+	cp ${projectPrefix}.delly.snpeff.hpo.vcf ${projectResultsDir}/variants/
+fi
 echo "Copied variants vcf and tables to results directory (7/11)"
 
 #copy vcf file + coveragePerBase.txt

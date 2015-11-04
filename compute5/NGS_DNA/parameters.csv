@@ -9,14 +9,16 @@ checkStage,module list
 
 ### Tool versions ####
 bwaVersion,BWA/0.7.12-goolf-1.7.20
-computeVersion,v15.04.1-Java-1.7.0_80
+computeVersion,v15.11.1-Java-1.8.0_45
+cutadaptVersion,1.8.1-goolf-1.7.20-Python-2.7.9
 dbNSFPVersion,2.7
-dellyVersion,v0.6.7
+dellyVersion,v0.7.1
 fastqcVersion,FastQC/0.11.3-Java-1.7.0_80
 gatkVersion,GATK/3.4-0-Java-1.7.0_80 
 javaVersion,Java/1.7.0_80
 picardVersion,picard/1.130-Java-1.7.0_80
 rVersion,R/3.2.1-goolf-1.7.20
+sambambaVersion,sambamba_v0.5.9
 samtoolsVersion,SAMtools/1.2-goolf-1.7.20
 snpEffVersion,snpEff/4.1g-Java-1.7.0_80
 tabixVersion,tabix/0.2.6-goolf-1.7.20
@@ -34,7 +36,8 @@ dbNSFPDir,${dataDir}/dbNSFP/
 hpoDir,${dataDir}/HPO/
 sequenomDir,${dataDir}/Sequenom/
 tmpDataDir,${workDir}/${tmpName}/
-tempDir,${tmpDataDir}/tmp/
+tempDir,${tmpDataDir}/temp/
+tmpDir,${tmpDataDir}/tmp/
 permanentDataDir,${workDir}/${prmName}
 
 ##### RAW DATA FILES/DIRS ####
@@ -70,7 +73,7 @@ capturedIntervalsPerBase,${captured}.uniq.per_base.bed
 
 #### Projects ####
 projectDir,${tmpDataDir}/projects/${project}/${runid}
-intermediateDir,${tempDir}/${project}/${runid}/
+intermediateDir,${tmpDir}/${project}/${runid}/
 projectPrefix,${intermediateDir}/${project}
 projectJobsDir,${projectDir}/jobs/
 projectLogsDir,${projectDir}/logs/
@@ -81,6 +84,9 @@ projectQcDir,${projectDir}/qc/
 peEnd1BarcodeFqGz,${rawFile}_1.${rawFileExt}
 peEnd2BarcodeFqGz,${rawFile}_2.${rawFileExt}
 srBarcodeFqGz,${rawFile}.${rawFileExt}
+peEnd1BarcodeTrimmedFqGz,${intermediateDir}/${filePrefix}_${barcode}_1.trimmed.${rawFileExt}
+peEnd2BarcodeTrimmedFqGz,${intermediateDir}${filePrefix}_${barcode}_2.trimmed.${rawFileExt}
+srBarcodeTrimmedFqGz,${intermediateDir}/${filePrefix}_${barcode}.trimmed.${rawFileExt}
 bwaAlignCores,8
 humanPhiXdir,${dataDir}/inSilico/humanPhiX
 simulatedPhiXVariants,${humanPhiXdir}/InSilicoData.chrNC_001422.1.variant.calls.vcf
@@ -102,10 +108,8 @@ alignedSortedBamIdx,${fileWithIndexId}.sorted.bai
 sampleMergedBam,${sample}.merged.bam
 sampleMergedBamIdx,${sample}.merged.bai
 dedupBam,${sample}.merged.dedup.bam
-dedupBamIdx,${sample}.merged.dedup.bai
-dedupMetrics,${sample}.merged.dedup.metrics
-realignedBam,${intermediateDir}/${externalSampleID}.merged.dedup.realigned.bam
-realignedBamIdx,${intermediateDir}/${externalSampleID}.merged.dedup.realigned.bai
+dedupBamIdx,${sample}.merged.dedup.bam.bai
+dedupMetrics,${sample}.merged.dedup.metrics,
 KGPhase1IndelsVcf,${indicesDir}/indels/1000G_phase1.indels.b37.vcf
 KGPhase1IndelsVcfIdx,${KGPhase1IndelsVcf}.idx
 MillsGoldStandardDir,${indicesDir}/Mills_and_1000G_gold_standard/
@@ -126,9 +130,10 @@ gcBiasMetricsJar,CollectGcBiasMetrics
 hsMetricsJar,CalculateHsMetrics
 recreateInsertSizePdfR,createInsertSizePlot_c5.R
 bamIndexStatsJar,BamIndexStats
-projectDellyAnnotatorOutputVcf,${intermediateDir}/${project}.snpeff.hpo.vcf
-collectBamMetricsPrefix,${intermediateDir}/${externalSampleID}.merged.dedup.realigned.bqsr
+projectDellyAnnotatorOutputVcf,${intermediateDir}/${project}.delly.snpeff.hpo.vcf
+collectBamMetricsPrefix,${intermediateDir}/${externalSampleID}.merged.dedup
 hpoTerms,${hpoDir}/build.${hpoVersion}/ALL_SOURCES_TYPICAL_FEATURES_diseases_to_genes_to_phenotypes.txt
+dellyVcf,${intermediateDir}/${project}.delly.vcf 
 dellyTypeDEL,DEL
 dellyTypeDUP,DUP
 dellyTypeINV,INV

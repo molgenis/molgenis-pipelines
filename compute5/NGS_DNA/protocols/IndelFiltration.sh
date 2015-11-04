@@ -40,7 +40,7 @@ tmpVariantAnnotatorSampleOutputIndelsFilteredVcf=${MC_tmpFile}
 
 #Run GATK VariantFiltration to filter called SNPs on 
 
-java -XX:ParallelGCThreads=4 -Xmx8g -Xms6g -jar ${EBROOTGATK}/${gatkJar} \
+java -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${tempDir} -Xmx8g -Xms6g -jar ${EBROOTGATK}/${gatkJar} \
 -T VariantFiltration \
 -R ${indexFile} \
 -o ${tmpVariantAnnotatorSampleOutputIndelsFilteredVcf} \
