@@ -6,13 +6,13 @@
 #string peEnd1BarcodeFqGz
 #string peEnd2BarcodeFqGz
 #string peEnd1BarcodeFq
-#string srBarcodeFastQcZip
 #string srBarcodeFqGz
 #string srBarcodeFq
 #string intermediateDir
 #string BarcodeFastQcFolder
 #string BarcodeFastQcFolderPE
-#string sortedBam
+#string sampleMergedBam
+#string sampleMergedDedupBam
 #string annotationRefFlat
 #string insertsizeMetrics
 #string insertsizeMetricspdf
@@ -47,7 +47,7 @@ then
 	echo -e "generate insertSizeMatrics"
 
 	java -jar -Xmx4g ${EBROOTPICARD}/CollectInsertSizeMetrics.jar \
-        I=${sortedBam} \
+        I=${sampleMergedBam} \
         O=${insertsizeMetrics} \
         H=${insertsizeMetricspdf} \
         VALIDATION_STRINGENCY=LENIENT \
@@ -74,17 +74,17 @@ then
 
 	#Duplicates statistics.
         java -jar ${EBROOTPICARD}/MarkDuplicates.jar \
-        I=${sortedBam} \
-        O=${sortedBam}.mdup.bam \
+        I=${sampleMergedBam} \
+        O=${sampleMergedDedupBam} \
         M=${dupStatMetrics} AS=true
 
 	#Flagstat for reads mapping to the genome.
-	samtools flagstat ${sortedBam}.mdup.bam >  ${flagstatMetrics}
+	samtools flagstat ${sampleMergedDedupBam} >  ${flagstatMetrics}
 
 	#CollectRnaSeqMetrics.jar
 	java -jar ${EBROOTPICARD}/CollectRnaSeqMetrics.jar \
 	REF_FLAT=${annotationRefFlat} \
-	I=${sortedBam} \
+	I=${sampleMergedBam} \
 	STRAND_SPECIFICITY=SECOND_READ_TRANSCRIPTION_STRAND \
 	CHART_OUTPUT=${rnaSeqMetrics}.pdf  \
 	O=${rnaSeqMetrics}	
@@ -123,18 +123,18 @@ then
 
 	#Duplicates statistics.
         java -jar ${EBROOTPICARD}/MarkDuplicates.jar \
-        I=${sortedBam} \
-        O=${sortedBam}.mdup.bam \
+        I=${sampleMergedBam} \
+        O=${sampleMergedDedupBam} \
         M=${dupStatMetrics} AS=true
 
         #Flagstat for reads mapping to the genome.
-        samtools flagstat ${sortedBam}.mdup.bam \
+        samtools flagstat ${sampleMergedDedupBam} \
         > ${flagstatMetrics}
 
 	#CollectRnaSeqMetrics.jar
         java -jar ${EBROOTPICARD}/CollectRnaSeqMetrics.jar \
         REF_FLAT=${annotationRefFlat} \
-        I=${sortedBam} \
+        I=${sampleMergedDedupBam} \
         STRAND_SPECIFICITY=SECOND_READ_TRANSCRIPTION_STRAND \
         CHART_OUTPUT=${rnaSeqMetrics}.pdf  \
         O=${rnaSeqMetrics}

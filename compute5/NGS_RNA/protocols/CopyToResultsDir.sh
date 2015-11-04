@@ -8,7 +8,7 @@
 #string projectLogsDir
 #string projectQcDir
 #string projectJobsDir
-#string expressionTable
+#string projectHTseqEexpressionTable
 #string annotationGtf
 #string fastqcVersion
 #string samtoolsVersion

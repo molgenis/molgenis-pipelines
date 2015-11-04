@@ -76,7 +76,7 @@ else
 
 	echo -e "\nsampleMergedBam finished succesfull. Moving temp files to final.\n\n"
 	mv ${tmpSampleMergedBam} ${sampleMergedBam}
-	mv ${tmpSampleMergedBai} ${tmpSampleMergedBai}
+	mv ${tmpSampleMergedBai} ${sampleMergedBai}
 
 fi
 
