@@ -10,7 +10,7 @@ fastqcVersion,FastQC/0.11.3-Java-1.7.0_80
 samtoolsVersion,SAMtools/1.2-goolf-1.7.20
 RVersion,R/3.2.1-goolf-1.7.20
 wkhtmltopdfVersion,0.11.0
-picardVersion,picard/1.102-Java-1.7.0_80
+picardVersion,picard/1.130-Java-1.7.0_80
 anacondaVersion,Anaconda/1.8.0-Linux-x86_64
 htseqVersion,HTSeq/0.6.1p1
 starVersion,STAR/2.3.1z12-goolf-1.7.20
@@ -95,11 +95,13 @@ BarcodeFastQcFolderPE,${intermediateDir}/${filePrefix}_${barcode}_1.fq_fastqc
 alignedSam,${intermediateDir}/${filePrefix}_${barcode}.sam
 alignedBam,${intermediateDir}/${filePrefix}_${barcode}.bam
 alignedFilteredBam,${intermediateDir}/${filePrefix}_${barcode}.unique_mapping_reads.bam
-alignedFilteredBam,${intermediateDir}/${filePrefix}_${barcode}.unique_mapping_reads.bai
+alignedFilteredBai,${intermediateDir}/${filePrefix}_${barcode}.unique_mapping_reads.bai
 sortedBam,${intermediateDir}/${filePrefix}_${barcode}.unique_mapping_reads.sorted.bam
 sortedBai,${intermediateDir}/${filePrefix}_${barcode}.unique_mapping_reads.sorted.bai
 sampleMergedBam,${intermediateDir}/${externalSampleID}.unique_mapping_reads.sorted.merged.bam
 sampleMergedBai,${intermediateDir}/${externalSampleID}.unique_mapping_reads.sorted.merged.bai
+sampleMergedDedupBam,${intermediateDir}/${externalSampleID}.unique_mapping_reads.sorted.merged.dedup.bam
+sampleMergedDedupBai,${intermediateDir}/${externalSampleID}.unique_mapping_reads.sorted.merged.dedup.bai
 starLogFile,${intermediateDir}/${externalSampleID}.Log.final.out,
 splitAndTrimBam,${intermediateDir}${externalSampleID}.unique_mapping_reads.sorted_splitAndTrim.bam
 splitAndTrimBai,${intermediateDir}${externalSampleID}.unique_mapping_reads.sorted_splitAndTrim.bai
@@ -116,6 +118,6 @@ recreateinsertsizepdfR,createInsertSizePlot.R
 qcMatrics,${intermediateDir}/${externalSampleID}.total.qc.metrics.table
 
 ##### Protocols 4, 5 (HTSeq count, MakeExpressionTable) #####
-txtExpression,"${intermediateDir}/${externalSampleID}.htseq.txt",,,
-expressionTable,${intermediateDir}/expression_table.genelevel.v${ensembleReleaseVersion}.htseq.txt.table,,,
+sampleHTseqExpressionText,${intermediateDir}/${externalSampleID}.htseq.txt
+projectHTseqEexpressionTable,${intermediateDir}/${project}.expression.genelevel.v${ensembleReleaseVersion}.htseq.txt.table
 processReadCountsJar,ProcessReadCounts.jar
