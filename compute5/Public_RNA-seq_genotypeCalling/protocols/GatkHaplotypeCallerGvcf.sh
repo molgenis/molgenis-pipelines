@@ -49,20 +49,22 @@ do
    if java -Xmx12g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${haplotyperDir} -jar $EBROOTGATK/GenomeAnalysisTK.jar \
        -T HaplotypeCaller \
        -R ${onekgGenomeFasta} \
-       --dbsnp ${dbsnpVcf}\
+       --dbsnp ${dbsnpVcf} \
        $inputs \
        -dontUseSoftClippedBases \
        -stand_call_conf 10.0 \
        -stand_emit_conf 20.0 \
-       -o ${haplotyperDir}${sampleName}.chr$CHR.g.vcf \
+       -o ${haplotyperDir}${sampleName}.chr$CHR.g.vcf.gz \
+       -variant_index_type LINEAR \
+	   -variant_index_parameter 128000 \
        -L ${resDir}/${genomeBuild}/intervals/${referenceFastaName}.chr$CHR.interval_list \
        --emitRefConfidence GVCF;
   then
     echo "returncode: $?";
     #haplotyperGvcf is split into seperate variables now
 
-    putFile ${haplotyperDir}${sampleName}.chr$CHR.g.vcf
-    putFile ${haplotyperDir}${sampleName}.chr$CHR.g.vcf.idx
+    putFile ${haplotyperDir}${sampleName}.chr$CHR.g.vcf.gz
+    putFile ${haplotyperDir}${sampleName}.chr$CHR.g.vcf.gz.idx
     echo "succes moving files";
   else
     echo "returncode: $?";
