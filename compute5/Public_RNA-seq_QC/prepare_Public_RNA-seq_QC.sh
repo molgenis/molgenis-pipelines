@@ -1,7 +1,6 @@
 module load Molgenis-Compute/v15.04.1-Java-1.7.0_80
 sh molgenis_compute.sh \
   --backend slurm \
-  --footer /groups/umcg-wijmenga/tmp04/umcg-ndeklein/templates/slurm/footer.ftl \
   --generate \
   --header /groups/umcg-wijmenga/tmp04/umcg-ndeklein/templates/slurm/header.ftl \
   -p /groups/umcg-wijmenga/tmp04/umcg-ndeklein/molgenis-pipelines/compute5/Public_RNA-seq_QC/parameters.converted.csv \
