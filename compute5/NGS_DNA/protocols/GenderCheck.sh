@@ -10,28 +10,10 @@
 #string tempDir
 #string checkSexMeanCoverage
 #string picardJar
+#string hsMetricsNonAutosomalRegionChrX
 
 module load picard
 sleep 5
-
-#make intervallist
-if [ -f ${capturedIntervals_nonAutoChrX} ] 
-then
-	rm ${capturedIntervals_nonAutoChrX}
-fi
-
-cp ${indexFileDictionary} ${capturedIntervals_nonAutoChrX}
-awk '{if ($0 ~ /^X/){print $0}}' ${capturedIntervals} >> ${capturedIntervals_nonAutoChrX}
-
-#Calculate coverage chromosome X
-java -jar -XX:ParallelGCThreads=2 -Xmx4g ${EBROOTPICARD}/${picardJar} CalculateHsMetrics \
-INPUT=${dedupBam} \
-TARGET_INTERVALS=${capturedIntervals_nonAutoChrX} \
-BAIT_INTERVALS=${capturedIntervals_nonAutoChrX} \
-TMP_DIR=${tempDir} \
-OUTPUT=${dedupBam}.nonAutosomalRegionChrX_hs_metrics
-
-rm -rf ${sample}.checkSex.filter.meancoverage.txt
 
 #select only the mean target coverage of the whole genome file
 awk '{
@@ -59,7 +41,7 @@ awk '{
         }else{
                 print $22
         }
-}' ${dedupBam}.nonAutosomalRegionChrX_hs_metrics >> ${checkSexMeanCoverage}
+}' ${hsMetricsNonAutosomalRegionChrX} >> ${checkSexMeanCoverage}
 
 
 
