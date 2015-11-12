@@ -18,7 +18,7 @@ gatkVersion,GATK/3.4-0-Java-1.7.0_80
 javaVersion,Java/1.7.0_80
 picardVersion,picard/1.130-Java-1.7.0_80
 rVersion,R/3.2.1-goolf-1.7.20
-sambambaVersion,sambamba_v0.5.9
+sambambaVersion,sambamba/v0.5.9-goolf-1.7.20 
 samtoolsVersion,SAMtools/1.2-goolf-1.7.20
 snpEffVersion,snpEff/4.1g-Java-1.7.0_80
 tabixVersion,tabix/0.2.6-goolf-1.7.20
@@ -26,6 +26,7 @@ molgenisAnnotatorVersion,CmdLineAnnotator/1.9.0-Java-1.8.0_45
 hpoVersion,90
 gatkJar,GenomeAnalysisTK.jar
 picardJar,picard.jar
+sambambaTool,sambamba_v0.5.9
 
 ##### GENERAL DIRECTORIES #####
 dataDir,${root}/data/
@@ -106,10 +107,13 @@ alignedBam,${fileWithIndexId}.bam
 alignedSortedBam,${fileWithIndexId}.sorted.bam
 alignedSortedBamIdx,${fileWithIndexId}.sorted.bai
 sampleMergedBam,${sample}.merged.bam
-sampleMergedBamIdx,${sample}.merged.bai
+sampleMergedBai,${sample}.merged.bai
+sampleMergedBamIdx,${sample}.merged.bam.bai
 dedupBam,${sample}.merged.dedup.bam
 dedupBamIdx,${sample}.merged.dedup.bam.bai
 dedupMetrics,${sample}.merged.dedup.metrics,
+dedupCramBam,${sample}.merged.dedup.bam.cram
+dedupCramBamIdx,${sample}.merged.dedup.bam.cram.bai
 KGPhase1IndelsVcf,${indicesDir}/indels/1000G_phase1.indels.b37.vcf
 KGPhase1IndelsVcfIdx,${KGPhase1IndelsVcf}.idx
 MillsGoldStandardDir,${indicesDir}/Mills_and_1000G_gold_standard/
@@ -126,14 +130,20 @@ sampleConcordanceFile,${sample}.concordance.ngsVSarray.txt
 sequenomReport,${tmpDataDir}/rawdata/array/${project}_Sequenom_Report.txt
 sequenomInfo,${sequenomDir}/Sequonome_SNPinfo.txt
 collectMultipleMetricsJar,CollectMultipleMetrics
-gcBiasMetricsJar,CollectGcBiasMetrics
-hsMetricsJar,CalculateHsMetrics
-recreateInsertSizePdfR,createInsertSizePlot_c5.R
+bamIndexStats,${dedupBam}.bam_index_stats
 bamIndexStatsJar,BamIndexStats
-projectDellyAnnotatorOutputVcf,${intermediateDir}/${project}.delly.snpeff.hpo.vcf
+gcBiasMetrics,${dedupBam}.gc_bias_metrics
+gcBiasMetricsJar,CollectGcBiasMetrics
+insertSizeMetrics,${dedupBam}.insert_size_metrics
+hsMetricsJar,CalculateHsMetrics
+hsMetrics,${dedupBam}.hs_metrics
+hsMetricsNonAutosomalRegionChrX,${dedupBam}.nonAutosomalRegionChrX_hs_metrics
+recreateInsertSizePdfR,createInsertSizePlot_c5.R
+projectDellyAnnotatorOutputVcf,${intermediateDir}/${sample}.delly.snpeff.hpo.vcf
 collectBamMetricsPrefix,${intermediateDir}/${externalSampleID}.merged.dedup
 hpoTerms,${hpoDir}/build.${hpoVersion}/ALL_SOURCES_TYPICAL_FEATURES_diseases_to_genes_to_phenotypes.txt
-dellyVcf,${intermediateDir}/${project}.delly.vcf 
+dellyVcf,${intermediateDir}/${sample}.delly.vcf 
+dellySnpEffVcf,${intermediateDir}/${sample}.delly.snpeff.vcf
 dellyTypeDEL,DEL
 dellyTypeDUP,DUP
 dellyTypeINV,INV
