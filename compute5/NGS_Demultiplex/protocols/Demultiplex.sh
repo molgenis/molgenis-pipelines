@@ -15,7 +15,7 @@
 #string compressedFastqFilenamePE2
 #string run
 #string flowcell
-#list lane
+#string lane
 
 csv_with_prefix(){
 	declare -a items=("${!1}")
