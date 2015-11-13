@@ -1,21 +1,14 @@
 #MOLGENIS nodes=2 ppn=1 mem=25gb walltime=06:00:00
 
-
 #Parameter mapping
 #string seqType
-#string peEnd1BarcodeFqGz
-#string peEnd2BarcodeFqGz
-#string peEnd1BarcodeFq
-#string srBarcodeFqGz
-#string srBarcodeFq
 #string intermediateDir
-#string BarcodeFastQcFolder
-#string BarcodeFastQcFolderPE
 #string sampleMergedBam
 #string sampleMergedDedupBam
 #string annotationRefFlat
 #string insertsizeMetrics
 #string insertsizeMetricspdf
+#string insertsizeMetricspng
 #string tempDir
 #string scriptDir
 #string flagstatMetrics
@@ -30,6 +23,10 @@
 #string samtoolsVersion
 #string NGSUtilsVersion
 #string pythonVersion
+#string picardJar
+#string BarcodeFastQcFolderPE
+#string BarcodeFastQcFolder
+
 
 #Load module
 module load ${picardVersion}
@@ -46,7 +43,8 @@ if [ ${seqType} == "PE" ]
 then
 	echo -e "generate insertSizeMatrics"
 
-	java -jar -Xmx4g ${EBROOTPICARD}/CollectInsertSizeMetrics.jar \
+
+	java -XX:ParallelGCThreads=4 -jar -Xmx6g ${EBROOTPICARD}/${picardJar} CollectInsertSizeMetrics \
         I=${sampleMergedBam} \
         O=${insertsizeMetrics} \
         H=${insertsizeMetricspdf} \
@@ -59,30 +57,20 @@ then
         --pdf ${insertsizeMetricspdf}
 
 	#convert pdf to png
-	convert -density 150 ${insertsizeMetricspdf} -quality 90 ${insertsizeMetricspdf}.png	
-
-	#unzip srBarcodeFqGz
-	zcat ${peEnd1BarcodeFqGz} > ${peEnd1BarcodeFq} 
-		
-	#Generate a GCpercentage plot  
-	gentrap_graph_seqgc.py \
-	${peEnd1BarcodeFq} \
-	${intermediateDir}/${externalSampleID}.GC.png
-	
-	#clean up 
-	rm ${peEnd1BarcodeFq}	
+	convert -density 150 ${insertsizeMetricspdf} -quality 90 ${insertsizeMetricspng}	
 
 	#Duplicates statistics.
-        java -jar ${EBROOTPICARD}/MarkDuplicates.jar \
+	java -XX:ParallelGCThreads=4 -jar -Xmx6g ${EBROOTPICARD}/${picardJar} MarkDuplicates \
         I=${sampleMergedBam} \
         O=${sampleMergedDedupBam} \
         M=${dupStatMetrics} AS=true
 
 	#Flagstat for reads mapping to the genome.
 	samtools flagstat ${sampleMergedDedupBam} >  ${flagstatMetrics}
+	perl -nle 'print $2,"|\t",$1 while m%^([0-9]+)+.+0\s(.+)%g;' ${flagstatMetrics} > ${starLogFile}
 
 	#CollectRnaSeqMetrics.jar
-	java -jar ${EBROOTPICARD}/CollectRnaSeqMetrics.jar \
+	java -XX:ParallelGCThreads=4 -jar -Xmx6g ${EBROOTPICARD}/${picardJar} CollectRnaSeqMetrics \
 	REF_FLAT=${annotationRefFlat} \
 	I=${sampleMergedBam} \
 	STRAND_SPECIFICITY=SECOND_READ_TRANSCRIPTION_STRAND \
@@ -90,15 +78,14 @@ then
 	O=${rnaSeqMetrics}	
 
 	#convert pdf to png
-        pdftoppm -png ${rnaSeqMetrics}.pdf > ${rnaSeqMetrics}.png
-	convert -density 150 ${rnaSeqMetrics} -quality 90 ${rnaSeqMetrics}.png	
+	convert -density 150 ${rnaSeqMetrics}.pdf -quality 90 ${rnaSeqMetrics}.png	
 
 	# Collect QC data from several QC matricses, and write a tablular output file.
 
 	#add header to qcMatrics
         echo "Sample:	${externalSampleID}" > ${qcMatrics}
 
-	pull_RNA_Seq_Stats.py \
+	python $EBROOTNGSMINUTILS/pull_RNA_Seq_Stats.py \
 	-1 ${BarcodeFastQcFolderPE}/fastqc_data.txt \
 	-i ${insertsizeMetrics} \
 	-f ${flagstatMetrics} \
@@ -110,19 +97,9 @@ then
 elif [ ${seqType} == "SR" ]
 then
 
-	#unzip srBarcodeFqGz
-        zcat ${srBarcodeFqGz} > ${srBarcodeFq}
-
-        #Generate a GCpercentage plot
-        gentrap_graph_seqgc.py \
-        ${srBarcodeFq} \
-        ${intermediateDir}/${externalSampleID}.GC.png
-
-        #clean up
-        rm ${srBarcodeFq}
-
 	#Duplicates statistics.
-        java -jar ${EBROOTPICARD}/MarkDuplicates.jar \
+	
+	java -XX:ParallelGCThreads=4 -jar -Xmx6g ${EBROOTPICARD}/${picardJar} MarkDuplicates \	
         I=${sampleMergedBam} \
         O=${sampleMergedDedupBam} \
         M=${dupStatMetrics} AS=true
@@ -132,7 +109,7 @@ then
         > ${flagstatMetrics}
 
 	#CollectRnaSeqMetrics.jar
-        java -jar ${EBROOTPICARD}/CollectRnaSeqMetrics.jar \
+	java -XX:ParallelGCThreads=4 -jar -Xmx6g ${EBROOTPICARD}/${picardJar} CollectRnaSeqMetrics \        
         REF_FLAT=${annotationRefFlat} \
         I=${sampleMergedDedupBam} \
         STRAND_SPECIFICITY=SECOND_READ_TRANSCRIPTION_STRAND \
@@ -140,13 +117,13 @@ then
         O=${rnaSeqMetrics}
 	
 	#convert pdf to png
-	convert -density 150 ${rnaSeqMetrics} -quality 90 ${rnaSeqMetrics}.png
+	convert -density 150 ${rnaSeqMetrics}.pdf -quality 90 ${rnaSeqMetrics}.png
 	
 	#add header to qcMatrics
 	echo "Sample:	${externalSampleID}" > ${qcMatrics} 
 
 	#Pull RNASeq stats without intsertSizeMatrics	
-	pull_RNA_Seq_Stats.py \
+	python $EBROOTNGSMINUTILS/pull_RNA_Seq_Stats.py \
 	-1 ${BarcodeFastQcFolder}/fastqc_data.txt \
 	-f ${flagstatMetrics} \
 	-r ${rnaSeqMetrics} \

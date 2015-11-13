@@ -22,6 +22,8 @@
 #string barcode
 #string lane
 #string tempDir
+#string filePrefix
+#string picardJar
 
 if [ ${#rightbarcodefqgz} -eq 0 ]; then
 	input="-U ${leftbarcodefqgz}"
@@ -50,6 +52,7 @@ if hisat -x ${hisatIndex} \
 	--rg LB:${sequencer}_${flowcell}_${run}_${lane}_${barcode} \
 	--rg SM:${externalSampleID} \
 	-S ${alignedSam}
+
 then
 	echo "returncode: $?";
 	echo "succes moving files";
@@ -71,7 +74,7 @@ fi
 
 echo "## "$(date)" Start $0"
 
-if java -Xmx6g -XX:ParallelGCThreads=4 -jar ${EBROOTPICARD}/SortSam.jar \
+if java -XX:ParallelGCThreads=4 -jar -Xmx6g ${EBROOTPICARD}/${picardJar} SortSam \
 	INPUT=${alignedFilteredBam} \
 	OUTPUT=${sortedBam} \
  	SO=coordinate \

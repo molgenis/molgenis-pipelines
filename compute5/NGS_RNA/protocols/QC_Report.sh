@@ -29,7 +29,6 @@ rm -f ${gcPlotList}
  
 for sample in "${externalSampleID[@]}" 
 do
-        inputs ${intermediateDir}/${sample}.total.qc.metrics.table
         echo -e "$intermediateDir/${sample}.total.qc.metrics.table" >> ${qcMatricsList}
 done
 
@@ -37,7 +36,6 @@ done
  
 for sample in "${externalSampleID[@]}"
 do
-        inputs ${intermediateDir}/${sample}.GC.png
         echo -e "$intermediateDir/${sample}.GC.png" >> ${gcPlotList}
 done
 
@@ -235,7 +233,7 @@ Available online at: http://www.bioinformatics.babraham.ac.uk/projects/fastqc/ $
 </div>
 
 <div>
-<!--begin.rcode, engine='python', echo=FALSE, comment=NA, warning=FALSE, message=FALSE 
+<!--begin.rcode, engine='python', echo=FALSE, comment=NA, warning=FALSE, message=FALSE , results='asis'
 # print out tables with QC stats based on the qcMatricsList
 
 import csv
@@ -307,7 +305,7 @@ end.rcode-->
 The following figures show the GC distribution per sample.
 <br>
 <br>
-<!--begin.rcode, engine='bash', echo=FALSE, comment=NA, warning=FALSE, message=FALSE
+<!--begin.rcode, engine='bash', echo=FALSE, comment=NA, warning=FALSE, message=FALSE, results='asis'
 #prints a table with GC percentage plots, 3 per row.
 
 declare -a LIST=("${externalSampleID[@]}")
@@ -344,7 +342,7 @@ end.rcode-->
 <br>
 The following figures show the a plot of normalized position vs. coverage. 
 <br>
-<!--begin.rcode, engine='bash', echo=FALSE, comment=NA, warning=FALSE, message=FALSE
+<!--begin.rcode, engine='bash', echo=FALSE, comment=NA, warning=FALSE, message=FALSE, results='asis'
 #prints a table with coverage plots, 3 per row.
 declare -a LIST=("${externalSampleID[@]}")
 
@@ -375,7 +373,7 @@ echo "</table>"
 end.rcode-->
 </div>
 
-<!--begin.rcode, engine='bash', echo=FALSE, comment=NA, warning=FALSE, message=FALSE
+<!--begin.rcode, engine='bash', echo=FALSE, comment=NA, warning=FALSE, message=FALSE, results='asis'
 #when seqType is PE,prints a table with insertsize plots, 3 per row.
 
 if [ ${seqType} == "PE" ]
@@ -425,8 +423,8 @@ end.rcode-->
 </html>
 _EOF
 
-module load R/${RVersion}
-module load wkhtmltopdf/${wkhtmltopdfVersion}
+module load ${RVersion}
+module load ${wkhtmltopdfVersion}
 module list
 
 echo "generate QC report."
@@ -444,9 +442,9 @@ cp ${intermediateDir}/*.GC.png ${projectQcDir}/images
 #only available with PE
 if [ -f "${intermediateDir}/*.insertsizemetrics.pdf" ]
 then
-	cp ${intermediateDir}/*.insertsizemetrics.pdf ${projectQcDir}/images
+	cp ${intermediateDir}/*.insertsizemetrics.png ${projectQcDir}/images
 fi
 
 #convert to pdf
 
-html2pdf --page-size A0 ${projectQcDir}/${project}_QCReport.html ${projectQcDir}/${project}_QCReport.pdf
+wkhtmltopdf-amd64 --page-size A0 ${projectQcDir}/${project}_QCReport.html ${projectQcDir}/${project}_QCReport.pdf

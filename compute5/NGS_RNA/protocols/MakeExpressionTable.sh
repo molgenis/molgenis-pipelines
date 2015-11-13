@@ -1,12 +1,13 @@
-#MOLGENIS walltime=24:00:00 nodes=1 cores=1 mem=6
+#MOLGENIS walltime=24:00:00 nodes=1 cores=1 mem=2gb
 
 #string intermediateDir
 #string processReadCountsJar
 #list externalSampleID
 #string geneAnnotationTxt
-#string projectHTseqEexpressionTable
+#string projectHTseqExpressionTable
 #string project
 #string jdkVersion
+#string tmpTmpDataDir
 
 #Function to check if array contains value
 array_contains () {
@@ -22,8 +23,8 @@ array_contains () {
     return $in
 }
 
-makeTmpDir ${projectHTseqEexpressionTable}
-tmpProjectHTseqEexpressionTable=${MC_tmpFile}
+makeTmpDir ${projectHTseqExpressionTable}
+tmpProjectHTseqExpressionTable=${MC_tmpFile}
 
 rm -f ${intermediateDir}/fileList.txt
 
@@ -38,20 +39,16 @@ do
 	echo -e "${sampleID}\t$intermediateDir/${sampleID}.htseq.txt" >> ${intermediateDir}/fileList.txt
 done 
 
-module load jdk/${jdkVersion}
+module load ${jdkVersion}
+module load ngs-utils
 module list
 
-if java \
-        -Xmx4g \
-        -jar ${processReadCountsJar} \
+	java -Xmx1g -XX:ParallelGCThreads=1 -Djava.io.tmpdir=${tmpTmpDataDir} -jar ${EBROOTNGSMINUTILS}/${processReadCountsJar} \
         --mode makeExpressionTable \
         --fileList ${intermediateDir}/fileList.txt \
         --annot ${geneAnnotationTxt} \
-        --out ${tmpProjectHTseqEexpressionTable}
-then
+        --out ${tmpProjectHTseqExpressionTable}
+
         echo "table create succesfull"
-        mv ${tmpProjectHTseqEexpressionTable} ${projectHTseqEexpressionTable}
-else
-        echo "table create failed"
-	exit 1
-fi
+        mv ${tmpProjectHTseqExpressionTable} ${projectHTseqExpressionTable}
+
