@@ -9,7 +9,7 @@ checkStage,module list
 
 ### Tool versions ####
 bwaVersion,BWA/0.7.12-goolf-1.7.20
-computeVersion,v15.04.1-Java-1.7.0_80
+computeVersion,v15.11.1-Java-1.8.0_45
 cutadaptVersion,1.8.1-goolf-1.7.20-Python-2.7.9
 dbNSFPVersion,2.7
 dellyVersion,v0.7.1

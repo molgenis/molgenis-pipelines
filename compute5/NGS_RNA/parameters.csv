@@ -9,7 +9,7 @@ NGSUtilsVersion,ngs-utils
 fastqcVersion,FastQC/0.11.3-Java-1.7.0_80
 samtoolsVersion,SAMtools/1.2-goolf-1.7.20
 RVersion,R/3.2.1-goolf-1.7.20
-wkhtmltopdfVersion,0.11.0
+wkhtmltopdfVersion,wkhtmltopdf/0.11.0_rc1-static-amd64
 picardVersion,picard/1.130-Java-1.7.0_80
 anacondaVersion,Anaconda/1.8.0-Linux-x86_64
 htseqVersion,HTSeq/0.6.1p1
@@ -19,6 +19,7 @@ pythonVersion,Python/2.7.9-goolf-1.7.20
 gatkVersion,GATK/3.4-46-Java-1.7.0_80 
 picardJar,picard.jar
 mergeSamFilesJar,MergeSamFiles
+processReadCountsJar,ProcessReadCounts.jar
 
 ##### GENERAL DIRECTORIES #####
 tmpDataDir,${workDir}/${tmpName}/
@@ -32,7 +33,6 @@ allRawNgsPrmDataDir,${permanentDir}/rawdata/ngs
 allRawtmpDataDir,${tmpDataDir}/rawdata/
 allRawNgstmpDataDir,${allRawtmpDataDir}/ngs/
 rawtmpDataDir,${allRawNgstmpDataDir}/${runPrefix}
-
 
 srInputFile,${rawtmpDataDir}/${filePrefix}.fq.gz
 peEnd1FqGz,${rawtmpDataDir}/${filePrefix}_1.fq.gz
@@ -54,18 +54,20 @@ workflowFile,$MC_HOME/NGS_RNA_seq_pipeline/workflow.csv
 genome,b37
 ensembleReleaseVersion,75
 species,homo_sapiens
-indexFileID,human_g1k_v37
-ensebleDir,${dataDir}/ftp.ensembl.org/pub/release-${ensembleReleaseVersion}/gtf/${species}/
-geneAnnotationTxt,${STARindex}/Homo_sapiens.GRCh37.${ensembleReleaseVersion}.txt.gz
+indexFileID,human_g1k_v37_phiX
+ensembleDir,${dataDir}/ftp.ensembl.org/pub/release-${ensembleReleaseVersion}/gtf/${species}/
+geneAnnotationTxt,${ensembleDir}/Homo_sapiens.GRCh37.${ensembleReleaseVersion}.annotation.geneIds.txt.gz
 STARindex,${dataDir}/ftp.broadinstitute.org/bundle/2.8/${genome}/${starVersion}/
 hisatIndex,${dataDir}/ftp.broadinstitute.org/bundle/2.8/${genome}/${hisatVersion}/human_g1k_v37
-annotationGtf,${ensebleDir}/Homo_sapiens.GRCh37.${ensembleReleaseVersion}.gtf
-annotationRefFlat,${ensebleDir}/Homo_sapiens.GRCh37.${ensembleReleaseVersion}.gtf.annotation.refFlat
+annotationGtf,${ensembleDir}/Homo_sapiens.GRCh37.${ensembleReleaseVersion}.gtf
+annotationRefFlat,${ensembleDir}/Homo_sapiens.GRCh37.${ensembleReleaseVersion}.gtf.annotation.refFlat
 indicesDir,${dataDir}/1000G/phase1
 indexFileFastaIndex,${indicesDir}/${indexFileID}.fasta.fai
 indexFile,${indicesDir}/${indexFileID}.fasta
 indexFileDictionary,${indicesDir}/${indexFileID}.dict
-
+dbSNPDir,${dataDir}/dbSNP/
+dbSNPFileID,dbsnp_137.b37
+dbsnpVcf,${dbSNPDir}${dbSNPFileID}.vcf
 
 ##### PREFIXES,POSTFIXES #####
 rawFileExt,fq.gz
@@ -86,7 +88,7 @@ projectLogsDir,${projectDir}/logs/
 projectResultsDir,${projectDir}/results/
 projectQcDir,${projectDir}/qc/
 
-##### Protocols 1, 2 (FastQC, STAR) #####
+##### Protocols 0,1a,1b, (FastQC,HisatAlignment,MergeBam) #####
 peEnd1BarcodeFastQcZip,${intermediateDir}/${filePrefix}_${barcode}_1.fq_fastqc.zip
 peEnd2BarcodeFastQcZip,${intermediateDir}/${filePrefix}_${barcode}_2.fq_fastqc.zip
 srBarcodeFastQcZip,${intermediateDir}/${filePrefix}_${barcode}.fq_fastqc.zip
@@ -103,21 +105,29 @@ sampleMergedBai,${intermediateDir}/${externalSampleID}.unique_mapping_reads.sort
 sampleMergedDedupBam,${intermediateDir}/${externalSampleID}.unique_mapping_reads.sorted.merged.dedup.bam
 sampleMergedDedupBai,${intermediateDir}/${externalSampleID}.unique_mapping_reads.sorted.merged.dedup.bai
 starLogFile,${intermediateDir}/${externalSampleID}.Log.final.out,
+
+##### Protocols 4,5a,5b,5c (SplitAndTrim,GatkHaplotypeCallerGvcf,GatkMergeGvcf,GatkGenotypeGvcf) #####
 splitAndTrimBam,${intermediateDir}${externalSampleID}.unique_mapping_reads.sorted_splitAndTrim.bam
 splitAndTrimBai,${intermediateDir}${externalSampleID}.unique_mapping_reads.sorted_splitAndTrim.bai
+GatkHaplotypeCallerGvcf,${intermediateDir}${externalSampleID}.GatkHaplotypeCallerGvcf.g.vcf
+GatkHaplotypeCallerGvcfidx,${intermediateDir}${externalSampleID}.GatkHaplotypeCallerGvcf.g.vcf.idx
+GatkMergeGvcf,${intermediateDir}${externalSampleID}.MergeGvcf.g.vcf
+GatkMergeGvcfidx,${intermediateDir}.MergeGvcf.g.vcf.idx
+projectBatchGenotypedVariantCalls,${projectPrefix}.variant.calls.genotyped.vcf
+projectBatchCombinedVariantCalls,${projectPrefix}.variant.calls.combined.g.vcf 
 
-##### Protocols 3,6 (QCStats, QC_Report) #####
+##### Protocols 2,7 (QCStats, QC_Report) #####
 flagstatMetrics,${intermediateDir}${externalSampleID}.flagstat
 dupStatMetrics,${intermediateDir}${externalSampleID}.mdupmetrics
 rnaSeqMetrics,${intermediateDir}${externalSampleID}.collectrnaseqmetrics
 insertsizeMetrics,${intermediateDir}${externalSampleID}.insertsizemetrics
 insertsizeMetricspdf,${intermediateDir}${externalSampleID}.insertsizemetrics.pdf
+insertsizeMetricspng,${intermediateDir}${externalSampleID}.insertsizemetrics.png
 qcMatricsList,${intermediateDir}/${project}_qcMatricsList.txt
 gcPlotList,${intermediateDir}/${project}_gcPlotList.txt
 recreateinsertsizepdfR,createInsertSizePlot.R
 qcMatrics,${intermediateDir}/${externalSampleID}.total.qc.metrics.table
 
-##### Protocols 4, 5 (HTSeq count, MakeExpressionTable) #####
+##### Protocols 3,6  (HTSeq count, MakeExpressionTable) #####
 sampleHTseqExpressionText,${intermediateDir}/${externalSampleID}.htseq.txt
-projectHTseqEexpressionTable,${intermediateDir}/${project}.expression.genelevel.v${ensembleReleaseVersion}.htseq.txt.table
-processReadCountsJar,ProcessReadCounts.jar
+projectHTseqExpressionTable,${intermediateDir}/${project}.expression.genelevel.v${ensembleReleaseVersion}.htseq.txt.table

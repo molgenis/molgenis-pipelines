@@ -8,7 +8,7 @@
 #string projectLogsDir
 #string projectQcDir
 #string projectJobsDir
-#string projectHTseqEexpressionTable
+#string projectHTseqExpressionTable
 #string annotationGtf
 #string fastqcVersion
 #string samtoolsVersion
@@ -28,6 +28,7 @@ mkdir -p ${projectResultsDir}/expression
 mkdir -p ${projectResultsDir}/expression/perSampleExpression
 mkdir -p ${projectResultsDir}/expression/expressionTable
 mkdir -p ${projectResultsDir}/images
+mkdir -p ${projectResultsDir}/variants
 
 # Copy error, out and finished logs to project jobs directory
 
@@ -43,21 +44,19 @@ cp ${projectJobsDir}/${project}.csv ${projectResultsDir}
 
 	cp ${intermediateDir}/*_fastqc.zip ${projectResultsDir}/fastqc
 
-
-
 # Copy BAM plus index plus md5 sum to results directory
 
-	cp ${intermediateDir}/*.Aligned.out.sorted.bam ${projectResultsDir}/alignment
-	cp ${intermediateDir}/*.Aligned.out.sorted.bam.md5 ${projectResultsDir}/alignment
-	cp ${intermediateDir}/*.Aligned.out.sorted.bai ${projectResultsDir}/alignment
-	cp ${intermediateDir}/*.SJ.out.tab.gz ${projectResultsDir}/alignment
+	cp ${intermediateDir}/*.unique_mapping_reads.sorted_splitAndTrim.bam ${projectResultsDir}/alignment
+	cp ${intermediateDir}/*.unique_mapping_reads.sorted_splitAndTrim.bam.md5 ${projectResultsDir}/alignment
+	cp ${intermediateDir}/*.unique_mapping_reads.sorted_splitAndTrim.bai ${projectResultsDir}/alignment
+	cp ${intermediateDir}/*.unique_mapping_reads.sorted_splitAndTrim.bai.md5 ${projectResultsDir}/alignment
 	cp ${intermediateDir}/*.Log.final.out ${projectResultsDir}/alignment
 	cp ${intermediateDir}/*.Log.out ${projectResultsDir}/alignment
 
 # copy GeneCounts to results directory
 
 	cp ${intermediateDir}/*.htseq.txt ${projectResultsDir}/expression/perSampleExpression
-	cp ${expressionTable} ${projectResultsDir}/expression/expressionTable
+	cp ${projectHTseqExpressionTable} ${projectResultsDir}/expression/expressionTable
 	cp ${annotationGtf} ${projectResultsDir}/expression/
 	
 # Copy QC images and report to results directory
@@ -66,10 +65,14 @@ cp ${projectJobsDir}/${project}.csv ${projectResultsDir}
 	cp ${intermediateDir}/*.GC.png ${projectResultsDir}/images
 	cp ${projectQcDir}/${project}_QCReport.pdf ${projectResultsDir}
 
+# Copy variants vcfs to results directory
+
+	cp ${intermediateDir}/${project}.variant.calls.genotyped.vcf ${projectResultsDir}/variants
+
 #only available with PE
-	if [ -f "${intermediateDir}/*.insertsizemetrics.pdf" ]
+	if [ -f "${intermediateDir}/*.insertsizemetrics.png" ]
 	then
-		cp ${intermediateDir}/*.insertsizemetrics.pdf ${projectResultsDir}/images
+		cp ${intermediateDir}/*.insertsizemetrics.png ${projectResultsDir}/images
 	fi
 
 
@@ -110,6 +113,9 @@ the tool FastQC ${fastqcVersion} [4]. QC metrics are calculated for the aligned 
 Picard-tools ${picardVersion} [5] CollectRnaSeqMetrics, MarkDuplicates, CollectInsertSize-
 Metrics and SAMtools ${samtoolsVersion} flagstat.
 
+GATK variant calling
+#TODO
+
 Results archive
 The zipped archive contains the following data and subfolders:
 
@@ -144,6 +150,8 @@ zip -gr ${projectResultsDir}/${project}.zip fastqc
 zip -g ${projectResultsDir}/${project}.zip ${project}.csv
 zip -gr ${projectResultsDir}/${project}.zip alignment
 zip -gr ${projectResultsDir}/${project}.zip expression
+zip -gr ${projectResultsDir}/${project}.zip variants
+zip -gr ${projectResultsDir}/${project}.zip images
 zip -g ${projectResultsDir}/${project}.zip ${project}_QCReport.pdf
 zip -g ${projectResultsDir}/${project}.zip README.txt
 
