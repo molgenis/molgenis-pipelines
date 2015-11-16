@@ -139,11 +139,11 @@ hsMetricsJar,CalculateHsMetrics
 hsMetrics,${dedupBam}.hs_metrics
 hsMetricsNonAutosomalRegionChrX,${dedupBam}.nonAutosomalRegionChrX_hs_metrics
 recreateInsertSizePdfR,createInsertSizePlot_c5.R
-projectDellyAnnotatorOutputVcf,${intermediateDir}/${sample}.delly.snpeff.hpo.vcf
+projectDellyAnnotatorOutputVcf,${sample}.delly.snpeff.hpo.vcf
 collectBamMetricsPrefix,${intermediateDir}/${externalSampleID}.merged.dedup
 hpoTerms,${hpoDir}/build.${hpoVersion}/ALL_SOURCES_TYPICAL_FEATURES_diseases_to_genes_to_phenotypes.txt
-dellyVcf,${intermediateDir}/${sample}.delly.vcf 
-dellySnpEffVcf,${intermediateDir}/${sample}.delly.snpeff.vcf
+dellyVcf,${sample}.delly.vcf 
+dellySnpEffVcf,${sample}.delly.snpeff.vcf
 dellyTypeDEL,DEL
 dellyTypeDUP,DUP
 dellyTypeINV,INV
