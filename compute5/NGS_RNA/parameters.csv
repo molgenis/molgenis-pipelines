@@ -55,10 +55,13 @@ genome,b37
 ensembleReleaseVersion,75
 species,homo_sapiens
 indexFileID,human_g1k_v37_phiX
+indexFolderName,human_g1k_v37
+dbSNPFileID,dbsnp_137.b37
+
 ensembleDir,${dataDir}/ftp.ensembl.org/pub/release-${ensembleReleaseVersion}/gtf/${species}/
 geneAnnotationTxt,${ensembleDir}/Homo_sapiens.GRCh37.${ensembleReleaseVersion}.annotation.geneIds.txt.gz
 STARindex,${dataDir}/ftp.broadinstitute.org/bundle/2.8/${genome}/${starVersion}/
-hisatIndex,${dataDir}/ftp.broadinstitute.org/bundle/2.8/${genome}/${hisatVersion}/human_g1k_v37
+hisatIndex,${dataDir}/ftp.broadinstitute.org/bundle/2.8/${genome}/${hisatVersion}/${indexFolderName}
 annotationGtf,${ensembleDir}/Homo_sapiens.GRCh37.${ensembleReleaseVersion}.gtf
 annotationRefFlat,${ensembleDir}/Homo_sapiens.GRCh37.${ensembleReleaseVersion}.gtf.annotation.refFlat
 indicesDir,${dataDir}/1000G/phase1
@@ -66,7 +69,6 @@ indexFileFastaIndex,${indicesDir}/${indexFileID}.fasta.fai
 indexFile,${indicesDir}/${indexFileID}.fasta
 indexFileDictionary,${indicesDir}/${indexFileID}.dict
 dbSNPDir,${dataDir}/dbSNP/
-dbSNPFileID,dbsnp_137.b37
 dbsnpVcf,${dbSNPDir}${dbSNPFileID}.vcf
 
 ##### PREFIXES,POSTFIXES #####
