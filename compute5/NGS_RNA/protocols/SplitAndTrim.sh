@@ -48,12 +48,14 @@ then
 	mv ${tmpsplitAndTrimBai} ${splitAndTrimBai}
 
 	# Create md5sum for zip file
-
+	
+	RUNDIR=${PWD}
 	cd ${intermediateDir}
 	md5sum ${splitAndTrimBam} > ${splitAndTrimBam}.md5
 	md5sum ${splitAndTrimBai} > ${splitAndTrimBai}.md5
     	echo "returncode: $?";
         echo "succes moving files";
+	cd ${RUNDIR}
 else
  echo "returncode: $?";
  echo "fail";

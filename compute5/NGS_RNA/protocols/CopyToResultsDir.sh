@@ -159,6 +159,7 @@ zip -g ${projectResultsDir}/${project}.zip README.txt
 
 cd ${projectResultsDir}
 md5sum ${project}.zip > ${projectResultsDir}/${project}.zip.md5
+cd ${projectJobsDir}
 
 # add u+rwx,g+r+w rights for GAF group
 
