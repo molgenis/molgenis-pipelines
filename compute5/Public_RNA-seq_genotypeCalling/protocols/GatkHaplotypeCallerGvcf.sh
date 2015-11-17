@@ -56,7 +56,7 @@ do
        -stand_emit_conf 20.0 \
        -o ${haplotyperDir}${sampleName}.chr$CHR.g.vcf.gz \
        -variant_index_type LINEAR \
-	   -variant_index_parameter 128000 \
+       -variant_index_parameter 128000 \
        -L ${resDir}/${genomeBuild}/intervals/${referenceFastaName}.chr$CHR.interval_list \
        --emitRefConfidence GVCF;
   then
