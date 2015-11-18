@@ -55,6 +55,8 @@ then
  
  putFile ${genotypedChrVcf}
  putFile ${genotypedChrVcfIdx}
+ cd ${haplotyperDir}
+ md5sum $(basename ${genotypedChrVcf})> $(basename ${genotypedChrVcf}).md5sum
  echo "succes moving files";
 else
  echo "returncode: $?";

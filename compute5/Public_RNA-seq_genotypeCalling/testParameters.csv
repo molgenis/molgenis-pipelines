@@ -121,16 +121,16 @@ haplotyperVcf,${haplotyperDir}${project}.vcf
 haplotyperVcfIdx,${haplotyperVcf}.idx
 haplotyperGvcf,${haplotyperDir}${sampleName}.g.vcf
 haplotyperGvcfIdx,${haplotyperGvcf}.idx
-haplotyperChrGvcf,${haplotyperDir}${sampleName}.chr${chromosome}.g.vcf
+haplotyperChrGvcf,${haplotyperDir}${sampleName}.chr${chromosome}.g.vcf.gz
 haplotyperChrGvcfIdx,${haplotyperChrGvcf}.idx
 haplotyperTargets,${resDir}/${genomeBuild}/intervals/${referenceFastaName}.chr${chromosome}.interval_list
-mergeGvcf,${haplotyperDir}${project}.g.vcf
+mergeGvcf,${haplotyperDir}${project}.g.vcf.gz
 mergeGvcfIdx,${mergeGvcf}.idx
-mergeChrGvcf,${haplotyperDir}${project}.chr${chromosome}.g.vcf
+mergeChrGvcf,${haplotyperDir}${project}.chr${chromosome}.g.vcf.gz
 mergeChrGvcfIdx,${mergeChrGvcf}.idx
 genotypedVcf,${haplotyperDir}${project}.gg.vcf
 genotypedVcfIdx,${genotypedVcf}.idx
-genotypedChrVcf,${haplotyperDir}${project}.chr${chromosome}.gg.vcf
+genotypedChrVcf,${haplotyperDir}${project}.chr${chromosome}.gg.vcf.gz
 genotypedChrVcfIdx,${genotypedChrVcf}.idx
 annotatorDir,${projectDir}/VariantAnnotation/
 ## snpEff
