@@ -36,7 +36,7 @@ echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}
 if java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${tmpCramFileDir} \
  -jar $EBROOTPICARD/FixMateInformation.jar \
  INPUT=${unfilteredBamDir}${uniqueID}.bam \
- OUTPUT=${tmpCramFileDir}${uniqueID}.bam \
+ OUTPUT=${tmpCramFileDir}${uniqueID}.fixmates.bam \
  VALIDATION_STRINGENCY=LENIENT \
  CREATE_INDEX=true \
  SORT_ORDER=coordinate
