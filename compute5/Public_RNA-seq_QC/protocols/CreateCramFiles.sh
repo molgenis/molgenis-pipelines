@@ -67,7 +67,7 @@ then
  echo "returncode: $?";
  putFile ${cramFileDir}${uniqueID}.cram
  cd ${cramFileDir}
- md5sum $(basename ${cramFileDir}${uniqueID}.cram) > $(basename ${cramFileDir}${uniqueID}.cram).md5
+ md5sum $(basename ${cramFileDir}${uniqueID}.cram)> $(basename ${cramFileDir}${uniqueID}.cram).md5
  echo "succes moving files";
 else
  echo "returncode: $?";

@@ -40,7 +40,7 @@ then
   echo "returncode: $?";
   putFile ${filteredBam}
   cd ${unfilteredBamDir}
-  md5sum $(basename ${unfilteredBamDir}${uniqueID}.bam) > $(basename ${unfilteredBamDir}${uniqueID}.bam).md5
+  md5sum $(basename ${unfilteredBamDir}${uniqueID}.bam)> $(basename ${unfilteredBamDir}${uniqueID}.bam).md5
   echo "succes moving files";
 else
  echo "returncode: $?";
