@@ -65,6 +65,8 @@ do
 
     putFile ${haplotyperDir}${sampleName}.chr$CHR.g.vcf.gz
     putFile ${haplotyperDir}${sampleName}.chr$CHR.g.vcf.gz.idx
+    cd ${haplotyperDir}
+ 	md5sum $(basename ${haplotyperDir}${sampleName}.chr$CHR.g.vcf.gz)> $(basename ${haplotyperDir}${sampleName}.chr$CHR.g.vcf.gz).md5sum
     echo "succes moving files";
   else
     echo "returncode: $?";
