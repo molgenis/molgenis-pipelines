@@ -7,6 +7,7 @@ PROJECT=projectxx
 RUNID=runxx
 TMPDIR=tmp04
 GAF="/groups/umcg-gaf/${TMPDIR}"
+BUILD="b38"
 
 SAMPLESIZE=$(cat ${GAF}/generatedscripts/${PROJECT}/${PROJECT}.csv | wc -l)
 if [ $SAMPLESIZE -gt 200 ]
@@ -30,7 +31,7 @@ fi
 perl ${EBROOTNGS_RNA}/convertParametersGitToMolgenis.pl ${EBROOTNGS_RNA}/parameters.csv > \
 ${GAF}/generatedscripts/${PROJECT}/out.csv
 
-perl ${EBROOTNGS_RNA}/convertParametersGitToMolgenis.pl ${EBROOTNGS_RNA}/parameters_calculon.csv > \
+perl ${EBROOTNGS_RNA}/convertParametersGitToMolgenis.pl ${EBROOTNGS_RNA}/parameters_calculon.${BUILD}.csv > \
 ${GAF}/generatedscripts/${PROJECT}/environment_parameters.csv
 
 sh ${EBROOTMOLGENISMINCOMPUTE}/molgenis_compute.sh \

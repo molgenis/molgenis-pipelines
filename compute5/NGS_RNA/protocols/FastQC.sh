@@ -3,6 +3,7 @@
 
 #Parameter mapping
 #string seqType
+#string lane
 #string peEnd1BarcodeFqGz
 #string peEnd2BarcodeFqGz
 #string peEnd1BarcodeFq
@@ -17,16 +18,6 @@
 #string BarcodeFastQcFolderPE
 #string BarcodeFastQcFolder
 
-
-#Echo parameter values
-echo "seqType: ${seqType}"
-echo "peEnd1BarcodeFqGz: ${peEnd1BarcodeFqGz}"
-echo "peEnd2BarcodeFqGz: ${peEnd2BarcodeFqGz}"
-echo "srBarcodeFqGz: ${srBarcodeFqGz}"
-echo "intermediateDir: ${intermediateDir}"
-echo "peEnd1BarcodeFastQcZip: ${peEnd1BarcodeFastQcZip}"
-echo "peEnd2BarcodeFastQcZip: ${peEnd2BarcodeFastQcZip}"
-echo "srBarcodeFastQcZip: ${srBarcodeFastQcZip}"
 
 #Load module
 module load ${fastqcVersion}

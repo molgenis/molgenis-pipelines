@@ -33,31 +33,30 @@ echo "## "$(date)" Start $0"
 echo
 echo
 echo "Running split and trim:"
-if java -Xmx8g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${tmpTmpDataDir} -jar ${EBROOTGATK}/GenomeAnalysisTK.jar \
- -T SplitNCigarReads \
- -R ${indexFile} \
- -I ${sampleMergedBam} \
- -o ${tmpsplitAndTrimBam} \
- -rf ReassignOneMappingQuality \
- -RMQF 255 \
- -RMQT 60 \
- -U ALLOW_N_CIGAR_READS
 
-then
-	mv ${tmpsplitAndTrimBam} ${splitAndTrimBam}
-	mv ${tmpsplitAndTrimBai} ${splitAndTrimBai}
+  java -Xmx8g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${tmpTmpDataDir} -jar ${EBROOTGATK}/GenomeAnalysisTK.jar \
+  -T SplitNCigarReads \
+  -R ${indexFile} \
+  -I ${sampleMergedBam} \
+  -o ${tmpsplitAndTrimBam} \
+  -rf ReassignOneMappingQuality \
+  -RMQF 255 \
+  -RMQT 60 \
+  -U ALLOW_N_CIGAR_READS
 
-	# Create md5sum for zip file
 
-	cd ${intermediateDir}
-	md5sum ${splitAndTrimBam} > ${splitAndTrimBam}.md5
-	md5sum ${splitAndTrimBai} > ${splitAndTrimBai}.md5
-    	echo "returncode: $?";
-        echo "succes moving files";
-else
- echo "returncode: $?";
- echo "fail";
-fi
+  mv ${tmpsplitAndTrimBam} ${splitAndTrimBam}
+  mv ${tmpsplitAndTrimBai} ${splitAndTrimBai}
 
-echo "## "$(date)" ##  $0 Done "
+  # Create md5sum for zip file
+	
+  RUNDIR=${PWD}
+  cd ${intermediateDir}
+  md5sum ${splitAndTrimBam} > ${splitAndTrimBam}.md5
+  md5sum ${splitAndTrimBai} > ${splitAndTrimBai}.md5
+  echo "returncode: $?";
+  echo "succes moving files";
+  cd ${RUNDIR}
+
+  echo "## "$(date)" ##  $0 Done "
 

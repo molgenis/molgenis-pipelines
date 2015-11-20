@@ -20,22 +20,18 @@ tmpSampleHTseqExpressionText=${MC_tmpFile}
 
 echo "Sorting bam file by name"
 
-if samtools \
-        sort \
-        -n \
-        ${sampleMergedBam} \
-        ${sampleMergedBam}.nameSorted
-then 
-        echo "bam file sorted"
-else
-        echo "Failed to sort bam file"
-        rm -f ${sampleMergedBam}.nameSorted.bam
-        exit 1
-fi 
+  samtools \
+      sort \
+      -n \
+      ${sampleMergedBam} \
+      ${sampleMergedBam}.nameSorted
+ 
+      echo "bam file sorted"
+
         
 echo -e "\nQuantifying expression"
 
-if samtools \
+  samtools \
         view -h \
         ${sampleMergedBam}.nameSorted.bam | \
         htseq-count \
@@ -45,15 +41,9 @@ if samtools \
         ${annotationGtf} | \
         head -n -5 \
         > ${tmpSampleHTseqExpressionText}
-then
+
         echo "Gene count succesfull"
         mv ${tmpSampleHTseqExpressionText} ${sampleHTseqExpressionText}
-else
-        echo "Genecount failed"
-        rm -f ${sampleMergedBam}.nameSorted.bam
-        exit 1
-fi
+	rm ${sampleMergedBam}.nameSorted.bam
 
-rm ${sampleMergedBam}.nameSorted.bam
-
-echo "Finished!"
+	echo "Finished!"

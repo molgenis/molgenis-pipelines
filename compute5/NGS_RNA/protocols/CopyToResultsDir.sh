@@ -51,7 +51,11 @@ cp ${projectJobsDir}/${project}.csv ${projectResultsDir}
 	cp ${intermediateDir}/*.unique_mapping_reads.sorted_splitAndTrim.bai ${projectResultsDir}/alignment
 	cp ${intermediateDir}/*.unique_mapping_reads.sorted_splitAndTrim.bai.md5 ${projectResultsDir}/alignment
 	cp ${intermediateDir}/*.Log.final.out ${projectResultsDir}/alignment
-	cp ${intermediateDir}/*.Log.out ${projectResultsDir}/alignment
+
+	if [ -f "${intermediateDir}/*.Log.out" ]
+	then
+		cp ${intermediateDir}/*.Log.out ${projectResultsDir}/alignment
+	fi
 
 # copy GeneCounts to results directory
 
@@ -159,6 +163,7 @@ zip -g ${projectResultsDir}/${project}.zip README.txt
 
 cd ${projectResultsDir}
 md5sum ${project}.zip > ${projectResultsDir}/${project}.zip.md5
+cd ${projectJobsDir}
 
 # add u+rwx,g+r+w rights for GAF group
 

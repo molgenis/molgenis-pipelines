@@ -1,4 +1,4 @@
-#MOLGENIS nodes=1 ppn=8 mem=8gb walltime=03:00:00
+#MOLGENIS nodes=1 ppn=8 mem=8gb walltime=05:00:00
 
 #string project
 #string stage
@@ -33,6 +33,17 @@ else
 	echo "Paired end alignment of ${leftbarcodefqgz} and ${rightbarcodefqgz}"
 fi
 
+makeTmpDir ${alignedSam}
+tmpAlignedSam=${MC_tmpFile}
+
+makeTmpDir ${alignedFilteredBam}
+tmpAlignedFilteredBam=${MC_tmpFile}
+
+makeTmpDir ${sortedBam}
+tmpSortedBam=${MC_tmpFile}
+
+
+
 #Load modules
 ${stage} ${hisatVersion}
 ${stage} ${samtoolsVersion}
@@ -43,7 +54,7 @@ ${checkStage}
 
 echo "## "$(date)" Start $0"
 
-if hisat -x ${hisatIndex} \
+	hisat -x ${hisatIndex} \
 	${input} \
 	-p 8 \
 	--rg-id ${externalSampleID} \
@@ -51,42 +62,37 @@ if hisat -x ${hisatIndex} \
 	--rg PU:${sequencer}_${flowcell}_${run}_${lane}_${barcode} \
 	--rg LB:${sequencer}_${flowcell}_${run}_${lane}_${barcode} \
 	--rg SM:${externalSampleID} \
-	-S ${alignedSam}
+	-S ${tmpAlignedSam}
 
-then
+
 	echo "returncode: $?";
 	echo "succes moving files";
-else
+
 	echo "returncode: $?";
 	echo "fail";
-fi
 
-if sed '/NH:i:[^1]/d' ${alignedSam} | samtools view -h -b - > ${alignedFilteredBam}
-then
+
+sed '/NH:i:[^1]/d' ${tmpAlignedSam} | samtools view -h -b - > ${tmpAlignedFilteredBam}
+
 	echo "Reads with flag NH:i:[2+] where filtered out (only leaving 'unique' mapping reads)."
-	rm ${alignedSam}
+	rm ${tmpAlignedSam}
 	echo "returncode: $?";
 	echo "succes moving files";
-else
-	echo "returncode: $?";
-	echo "fail";
-fi
+
+
 
 echo "## "$(date)" Start $0"
 
-if java -XX:ParallelGCThreads=4 -jar -Xmx6g ${EBROOTPICARD}/${picardJar} SortSam \
-	INPUT=${alignedFilteredBam} \
-	OUTPUT=${sortedBam} \
+java -XX:ParallelGCThreads=4 -jar -Xmx6g ${EBROOTPICARD}/${picardJar} SortSam \
+	INPUT=${tmpAlignedFilteredBam} \
+	OUTPUT=${tmpSortedBam} \
  	SO=coordinate \
 	CREATE_INDEX=true \
 	TMP_DIR=${tempDir}
 
-then
+
 	echo "returncode: $?";
+	mv ${tmpSortedBam} ${sortedBam}
 	echo "succes moving files";
-else
- echo "returncode: $?";
- echo "fail";
-fi
 
 echo "## "$(date)" ##  $0 Done "
