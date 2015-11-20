@@ -24,8 +24,6 @@
 #string NGSUtilsVersion
 #string pythonVersion
 #string picardJar
-#string BarcodeFastQcFolderPE
-#string BarcodeFastQcFolder
 
 
 #Load module
@@ -86,7 +84,6 @@ then
         echo "Sample:	${externalSampleID}" > ${qcMatrics}
 
 	python $EBROOTNGSMINUTILS/pull_RNA_Seq_Stats.py \
-	-1 ${BarcodeFastQcFolderPE}/fastqc_data.txt \
 	-i ${insertsizeMetrics} \
 	-f ${flagstatMetrics} \
 	-r ${rnaSeqMetrics} \
@@ -124,7 +121,6 @@ then
 
 	#Pull RNASeq stats without intsertSizeMatrics	
 	python $EBROOTNGSMINUTILS/pull_RNA_Seq_Stats.py \
-	-1 ${BarcodeFastQcFolder}/fastqc_data.txt \
 	-f ${flagstatMetrics} \
 	-r ${rnaSeqMetrics} \
 	-d ${dupStatMetrics} \

@@ -51,7 +51,11 @@ cp ${projectJobsDir}/${project}.csv ${projectResultsDir}
 	cp ${intermediateDir}/*.unique_mapping_reads.sorted_splitAndTrim.bai ${projectResultsDir}/alignment
 	cp ${intermediateDir}/*.unique_mapping_reads.sorted_splitAndTrim.bai.md5 ${projectResultsDir}/alignment
 	cp ${intermediateDir}/*.Log.final.out ${projectResultsDir}/alignment
-	cp ${intermediateDir}/*.Log.out ${projectResultsDir}/alignment
+
+	if [ -f "${intermediateDir}/*.Log.out" ]
+	then
+		cp ${intermediateDir}/*.Log.out ${projectResultsDir}/alignment
+	fi
 
 # copy GeneCounts to results directory
 

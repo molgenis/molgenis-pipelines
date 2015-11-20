@@ -1,4 +1,4 @@
-#!/bin/bash =====================================================
+#MOLGENIS walltime=10-23:59:00 mem=2gb ppn=2
 
 #list seqType
 #string projectRawArraytmpDataDir

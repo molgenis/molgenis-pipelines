@@ -69,18 +69,19 @@ GvcfSize=${#ALLGVCFs[@]}
 if [ ${GvcfSize} -ne 0 ]
 then
 
-java -Xmx4g -XX:ParallelGCThreads=16 -Djava.io.tmpdir=${tmpTmpDataDir} -jar ${EBROOTGATK}/GenomeAnalysisTK.jar \
- -T GenotypeGVCFs \
- -R ${indexFile} \
- --dbsnp ${dbsnpVcf}\
- -o ${tmpProjectBatchGenotypedVariantCalls} \
-${ALLGVCFs[@]} \
- -stand_call_conf 10.0 \
- -stand_emit_conf 20.0 \
- -nt 4
+	java -Xmx4g -XX:ParallelGCThreads=16 -Djava.io.tmpdir=${tmpTmpDataDir} -jar ${EBROOTGATK}/GenomeAnalysisTK.jar \
+	-T GenotypeGVCFs \
+	-R ${indexFile} \
+ 	--dbsnp ${dbsnpVcf}\
+	-o ${tmpProjectBatchGenotypedVariantCalls} \
+	${ALLGVCFs[@]} \
+	-stand_call_conf 10.0 \
+	-stand_emit_conf 20.0 \
+	-nt 4
 
 	mv ${tmpProjectBatchGenotypedVariantCalls} ${projectBatchGenotypedVariantCalls}
 	echo "moved ${tmpProjectBatchGenotypedVariantCalls} to ${projectBatchGenotypedVariantCalls} "
+
 else
 	echo ""
 	echo "there is nothing to genotype, skipped"

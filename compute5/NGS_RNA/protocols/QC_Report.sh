@@ -162,10 +162,11 @@ cat > ${intermediateDir}/${project}_QCReport.rhtml <<'_EOF'
 <h1>Introduction</h1>
 <br>
 <br>
+<pre>
 This report describes a series of statistics about your sequencing data. Together with this 
 report you'll receive alignment files and geneCount tables. If you, in addition, also want 
 the raw data, then please notify us via e-mail. In any case we'll delete the raw data, 
-three months after <script language="javascript">
+three months after</pre> <script language="javascript">
         var month=new Array(12);
         month[0]="January";
         month[1]="February";
@@ -185,7 +186,7 @@ three months after <script language="javascript">
         var year = currentTime.getFullYear()
   document.write(month + " " + day + ", " + year)
 </script>
-
+<pre>
 Description of the RNA Isolation, Sample Preparation and sequencing and different steps used in the RNA analysis pipeline
 
 RNA Isolation, Sample Preparation and sequencing
@@ -227,13 +228,13 @@ HTSeq – A Python framework to work with high-throughput sequencing data. 2014:
 Available online at: http://www.bioinformatics.babraham.ac.uk/projects/fastqc/ ${samtoolsVersion}
 5. Picard Sourceforge Web site. http://picard.sourceforge.net/ ${picardVersion}
 
-
+</pre>
 </p>
 </div>
 </div>
 
 <div>
-<!--begin.rcode, engine='python', echo=FALSE, comment=NA, warning=FALSE, message=FALSE , results='asis'
+<!--begin.rcode, engine='python', echo=FALSE, comment=NA, warning=FALSE, message=FALSE
 # print out tables with QC stats based on the qcMatricsList
 
 import csv
@@ -288,12 +289,15 @@ arraySize = len(arrayResults)
 
 print('<h1>Project analysis results</h1>')
 
+end.rcode-->
+<!--begin.rcode, engine='python', echo=FALSE, comment=NA, warning=FALSE, message=FALSE
+
 for j in range (0, arraySize):
-    print('<div class="page"><h2 style="text-align:center">Table ' + str(j+1) +': Overview statistics</h2></br>')
+    print('<div class="page"><h2 style="text-align:center">Table ' + str(j+1) +': Overview statistics</h2></br><pre>')
     ress = arrayResults[j]
     for i in range(0, index):
         print(titles[i].ljust(60) + ress[i].ljust(30))
-    print('</div>') 
+    print('</pre></div>') 
 
 end.rcode-->
 </div>
@@ -308,7 +312,7 @@ The following figures show the GC distribution per sample.
 <!--begin.rcode, engine='bash', echo=FALSE, comment=NA, warning=FALSE, message=FALSE, results='asis'
 #prints a table with GC percentage plots, 3 per row.
 
-declare -a LIST=("${externalSampleID[@]}")
+LIST=($(printf '%s\n' "${externalSampleID[@]}" | sort -u))
 
 ROWS=${#LIST[@]}
 COLS=3
@@ -344,7 +348,9 @@ The following figures show the a plot of normalized position vs. coverage.
 <br>
 <!--begin.rcode, engine='bash', echo=FALSE, comment=NA, warning=FALSE, message=FALSE, results='asis'
 #prints a table with coverage plots, 3 per row.
-declare -a LIST=("${externalSampleID[@]}")
+
+
+LIST=($(printf '%s\n' "${externalSampleID[@]}" | sort -u))
 
 ROWS=${#LIST[@]}
 COLS=3
@@ -387,7 +393,7 @@ then
   echo "<br>"
 
 
-  declare -a LIST=("${externalSampleID[@]}")
+  LIST=($(printf '%s\n' "${externalSampleID[@]}" | sort -u))
 
   ROWS=${#LIST[@]}
   COLS=3
@@ -438,6 +444,7 @@ sed -i 's/border:solid 1px #F7F7F7/border:solid 0px #F7F7F7/g' ${projectQcDir}/$
 mkdir -p ${projectQcDir}/images
 cp ${intermediateDir}/*.collectrnaseqmetrics.png ${projectQcDir}/images
 cp ${intermediateDir}/*.GC.png ${projectQcDir}/images
+cp ${intermediateDir}/*.insertsizemetrics.png ${projectQcDir}/images
 
 #only available with PE
 if [ -f "${intermediateDir}/*.insertsizemetrics.pdf" ]

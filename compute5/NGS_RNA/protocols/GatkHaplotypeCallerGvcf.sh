@@ -49,28 +49,24 @@ ${checkStage}
 
 echo "## "$(date)" Start $0"
 
-if java -Xmx12g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${tmpTmpDataDir} -jar ${EBROOTGATK}/GenomeAnalysisTK.jar \
- -T HaplotypeCaller \
- -R ${indexFile} \
- ${inputs[@]} \
- --dbsnp ${dbsnpVcf}\
- -dontUseSoftClippedBases \
- -stand_call_conf 10.0 \
- -stand_emit_conf 20.0 \
- -o ${tmpGatkHaplotypeCallerGvcf} \
- -variant_index_type LINEAR \
- -variant_index_parameter 128000 \
- --emitRefConfidence GVCF
+  java -Xmx12g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${tmpTmpDataDir} -jar ${EBROOTGATK}/GenomeAnalysisTK.jar \
+  -T HaplotypeCaller \
+  -R ${indexFile} \
+  ${inputs[@]} \
+  --dbsnp ${dbsnpVcf}\
+  -dontUseSoftClippedBases \
+  -stand_call_conf 10.0 \
+  -stand_emit_conf 20.0 \
+  -o ${tmpGatkHaplotypeCallerGvcf} \
+  -variant_index_type LINEAR \
+  -variant_index_parameter 128000 \
+  --emitRefConfidence GVCF
 
 
-then
-    	mv ${tmpGatkHaplotypeCallerGvcf} ${GatkHaplotypeCallerGvcf}
-	mv ${tmpGatkHaplotypeCallerGvcfidx} ${GatkHaplotypeCallerGvcfidx}
-        echo "returncode: $?";
-        echo "succes moving files";
-else
- echo "returncode: $?";
- echo "fail";
-fi
 
-echo "## "$(date)" ##  $0 Done "
+  mv ${tmpGatkHaplotypeCallerGvcf} ${GatkHaplotypeCallerGvcf}
+  mv ${tmpGatkHaplotypeCallerGvcfidx} ${GatkHaplotypeCallerGvcfidx}
+  echo "returncode: $?";
+  echo "succes moving files";
+
+  echo "## "$(date)" ##  $0 Done "
