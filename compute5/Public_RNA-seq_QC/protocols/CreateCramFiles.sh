@@ -36,7 +36,7 @@ echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}
 if java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${tmpCramFileDir} \
  -jar $EBROOTPICARD/FixMateInformation.jar \
  INPUT=${unfilteredBamDir}${uniqueID}.bam \
- OUTPUT=${tmpCramFileDir}${uniqueID}.bam \
+ OUTPUT=${tmpCramFileDir}${uniqueID}.fixmates.bam \
  VALIDATION_STRINGENCY=LENIENT \
  CREATE_INDEX=true \
  SORT_ORDER=coordinate
@@ -68,6 +68,7 @@ then
  putFile ${cramFileDir}${uniqueID}.cram
  cd ${cramFileDir}
  md5sum $(basename ${cramFileDir}${uniqueID}.cram)> $(basename ${cramFileDir}${uniqueID}.cram).md5
+ cd -
  echo "succes moving files";
 else
  echo "returncode: $?";
