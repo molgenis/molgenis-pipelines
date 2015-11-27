@@ -1,0 +1,5 @@
+step,protocol,dependencies
+PrepareUtrechtProjects,protocols/PrepareUtrechtProjects.sh,
+FilterBam,protocols/FilterBam.sh,PrepareUtrechtProjects
+Run,protocols/Run.sh,FilterBam
+CopyToResultsDir,protocols/CopyToResultsDir.sh,Run
