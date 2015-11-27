@@ -40,7 +40,7 @@ mkdir -p ${haplotyperDir}
 
 #pseudo: java -jar GenomeAnalysisTK.jar -T HaplotypeCaller -R ref.fasta -I input.bam -recoverDanglingHeads -dontUseSoftClippedBases -stand_call_conf 20.0 -stand_emit_conf 20.0 -o output.vcf from http://gatkforums.broadinstitute.org/discussion/3891/calling-variants-in-rnaseq
 
-if java -Xmx30g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${haplotyperDir} -jar EBROOTGATK/GenomeAnalysisTK.jar \
+if java -Xmx30g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${haplotyperDir} -jar $EBROOTGATK/GenomeAnalysisTK.jar \
  -T CombineGVCFs \
  -R ${onekgGenomeFasta} \
  -o ${mergeChrGvcf} \

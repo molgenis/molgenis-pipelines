@@ -44,7 +44,7 @@ if [ ! -e ${indelRealignmentDir} ]; then
 fi
 
 
-if java -Xmx8g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${indelRealignmentDir} -jar EBROOTGATK/GenomeAnalysisTK.jar \
+if java -Xmx8g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${indelRealignmentDir} -jar $EBROOTGATK/GenomeAnalysisTK.jar \
  -T IndelRealigner \
  -R ${onekgGenomeFasta} \
  -I ${splitAndTrimBam} \

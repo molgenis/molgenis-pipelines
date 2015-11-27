@@ -10,3 +10,4 @@ GenotypeHarmonizer,protocols/GenotypeHarmonizer.sh,GatkUnifiedGenotyper
 CombineBedFiles,protocols/CombineBedFiles.sh,GenotypeHarmonizer
 CollectRnaSeqMetrics,protocols/CollectRnaSeqMetrics.sh,SortBam
 CollectMultipleMetrics,protocols/CollectMultipleMetrics.sh,SortBam
+CreateCramFiles,protocols/CreateCramFiles.sh,SamToFilteredBam
