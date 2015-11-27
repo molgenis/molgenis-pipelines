@@ -15,7 +15,7 @@ sambambaTool,sambamba_v0.5.9
 
 dataDir,/apps/data/
 intermediateDir,${tmpDataDir}/tmp/${project}/${runid}
-inputDataTmp,${tmpDataDir}/inputData/${project}
+inputDataTmp,/groups/umcg-gd/tmp05/inputData/${project}
 projectsDir,${tmpDataDir}/projects/${project}/${runid}
 resultsDir,${projectsDir}/results
 

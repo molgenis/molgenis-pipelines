@@ -17,6 +17,11 @@ array_contains () {
     return $in
 }
 
+if [ ! -d ${inputDataTmp} ]
+then
+	mkdir -p ${inputDataTmp}
+fi
+
 
 # Copying data to zinc-finger
 for externalID in "${externalSampleID[@]}"
