@@ -20,8 +20,8 @@ projectsDir,${tmpDataDir}/projects/${project}/${runid}
 resultsDir,${projectsDir}/results
 
 utrechtDir,/groups/umcg-umcu/${tmpName}/NIPT/${project}/
-inputUtrechtDataRawSample,${inputDataTmp}/${externalSampleID}.bam
-inputDataRawSample,${inputDataTmp}/${externalSampleID}.filtered.bam
+inputUtrechtDataRawSample,${inputDataTmp}/${externalSampleID}_dedup.bam
+inputDataRawSample,${inputDataTmp}/${externalSampleID}_dedup.filtered.bam
 dataDirNIPT,${dataDir}/NIPT
 controlGroupRds,${dataDirNIPT}/NIPT_Project_control_group_separate.rds
 

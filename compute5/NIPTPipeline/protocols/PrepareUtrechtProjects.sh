@@ -26,8 +26,8 @@ fi
 # Copying data to zinc-finger
 for externalID in "${externalSampleID[@]}"
 do
-	array_contains INPUTS "${externalID}.bam" || INPUTS+=("${externalID}.bam")
-	array_contains INPUTS "${externalID}.bam.bai" || INPUTS+=("${externalID}.bam.bai")
+	array_contains INPUTS "${externalID}_dedup.bam" || INPUTS+=("${externalID}_dedup.bam")
+	array_contains INPUTS "${externalID}_dedup.bam.bai" || INPUTS+=("${externalID}_dedup.bam.bai")
 done
 
 for i in ${INPUTS[@]}
