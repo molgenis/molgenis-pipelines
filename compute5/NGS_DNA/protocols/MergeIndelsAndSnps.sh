@@ -8,6 +8,7 @@
 #string checkStage
 #string projectPrefix
 #string intermediateDir
+#string	project
 
 #Function to check if array contains value
 array_contains () {

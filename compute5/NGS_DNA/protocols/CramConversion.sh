@@ -1,25 +1,38 @@
-#MOLGENIS walltime=23:59:00 mem=2gb ppn=2
-
+#MOLGENIS walltime=23:59:00 mem=1gb ppn=9
 #string dedupBam
 #string indexFile
-#string dedupCramBam
+#string dedupBamCram
+#string dedupBamCramBam
+#string indexFile
+#string	project
 
-makeTmpDir ${dedupCramBam}
-tmpDedupCramBam=${MC_tmpFile}
+module load io_lib
+module list
 
-time java -jar /groups/umcg-gaf/tmp04/umcg-rkanninga/cramtools/cramtools-3.0.jar cram \
---input-bam-file ${dedupBam} \
---reference-fasta-file ${indexFile} \
---output-cram-file ${tmpDedupCramBam}
-echo "$i to cram done"
+makeTmpDir ${dedupBamCram}
+tmpDedupBamCram=${MC_tmpFile}
 
+makeTmpDir ${dedupBamCramBam}
+tmpDedupBamCramBam=${MC_tmpFile}
 
-time java -jar /groups/umcg-gaf/tmp04/umcg-rkanninga/cramtools/cramtools-3.0.jar bam \
---input-cram-file ${tmpDedupCramBam} \
---reference-fasta-file ${indexFile} \
---output-bam-file ${dedupCramBam}.backTo.bam
-echo "$i back to bam done"
+scramble \
+-I bam \
+-O cram \
+-r ${indexFile} \
+-m \
+-t 8 \
+${dedupBam} \
+${tmpDedupBamCram}
 
-done
+scramble \
+-I cram \
+-O bam \
+-r ${indexFile} \
+-m \
+-t 8 \
+${tmpDedupBamCram} \
+${tmpDedupBamCramBam}
 
-mv ${tmpDedupCramBam} ${dedupCramBam}
+echo "dirname"
+mv ${tmpDedupBamCram} ${dedupBamCram}
+mv ${tmpDedupBamCramBam} ${dedupBamCramBam} 

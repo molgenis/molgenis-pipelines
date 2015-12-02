@@ -14,6 +14,7 @@
 #string sequenomInfo
 #string gatkJar
 #string gatkVersion
+#string	project
 
 sleep 5
 #

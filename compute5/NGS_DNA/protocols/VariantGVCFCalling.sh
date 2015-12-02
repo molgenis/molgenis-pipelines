@@ -20,6 +20,7 @@
 #string sampleBatchVariantCallsFemaleIdx
 #string tmpDataDir
 #string externalSampleID
+#string	project
 
 #string dedupBam
 

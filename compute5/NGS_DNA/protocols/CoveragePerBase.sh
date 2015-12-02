@@ -12,6 +12,7 @@
 #string capturedBed
 #string GCC_Analysis
 
+
 sleep 5
 module load ${gatkVersion}
 
@@ -40,3 +41,7 @@ else
 	echo "CoveragePerBase skipped"
 
 fi
+
+python /home/umcg-rkanninga/calculateCoveragePerGene.py --input ${sample}.coveragePerBase.txt --output ${sample}.coveragePerGene.txt.tmp
+
+sort ${sample}.coveragePerGene.txt.tmp > ${sample}.coveragePerGene.txt

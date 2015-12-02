@@ -10,6 +10,7 @@
 #string peEnd2BarcodeTrimmedFqGz
 #string srBarcodeTrimmedFqGz
 #string cutadaptVersion
+#string	project
 
 #Load module
 module load cutadapt/${cutadaptVersion}

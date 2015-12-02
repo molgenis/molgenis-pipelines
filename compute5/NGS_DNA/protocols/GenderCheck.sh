@@ -11,6 +11,7 @@
 #string checkSexMeanCoverage
 #string picardJar
 #string hsMetricsNonAutosomalRegionChrX
+#string	project
 
 module load picard
 sleep 5

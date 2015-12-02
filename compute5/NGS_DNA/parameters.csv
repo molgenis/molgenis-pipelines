@@ -97,7 +97,7 @@ phiXPrefix,150504_WGSIM_9999_ZZZZZZZZXX
 phiXEnd1Gz,${humanPhiXdir}/${phiXPrefix}/${phiXPrefix}_L9_ZZZZZZ_1.${rawFileExt}
 phiXEnd2Gz,${humanPhiXdir}/${phiXPrefix}/${phiXPrefix}_L9_ZZZZZZ_2.${rawFileExt}
 
-### Protocols 5, 6, 7, 8 and 9 (SamToBam, SortBam, MergeBam, MarkDuplicates, IndelRealignment) ###
+### Protocols 5, 6, 7, 8 and 9 (SamToBam, SortBam, MergeBam, MarkDuplicates) ###
 samToBamJar,SamFormatConverter
 sortSamJar,SortSam
 mergeSamFilesJar,MergeSamFiles
@@ -112,8 +112,9 @@ sampleMergedBamIdx,${sample}.merged.bam.bai
 dedupBam,${sample}.merged.dedup.bam
 dedupBamIdx,${sample}.merged.dedup.bam.bai
 dedupMetrics,${sample}.merged.dedup.metrics,
-dedupCramBam,${sample}.merged.dedup.bam.cram
-dedupCramBamIdx,${sample}.merged.dedup.bam.cram.bai
+dedupBamCram,${sample}.merged.dedup.bam.cram
+dedupBamCramIdx,${sample}.merged.dedup.bam.cram.bai
+dedupBamCramBam,${sample}.merged.dedup.bam.cram.bam
 KGPhase1IndelsVcf,${indicesDir}/indels/1000G_phase1.indels.b37.vcf
 KGPhase1IndelsVcfIdx,${KGPhase1IndelsVcf}.idx
 MillsGoldStandardDir,${indicesDir}/Mills_and_1000G_gold_standard/

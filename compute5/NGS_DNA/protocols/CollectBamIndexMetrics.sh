@@ -12,6 +12,7 @@
 #string capturingKit
 #string picardJar
 #string bamIndexStats
+#string project
 
 #Load Picard module
 ${stage} ${picardVersion}
