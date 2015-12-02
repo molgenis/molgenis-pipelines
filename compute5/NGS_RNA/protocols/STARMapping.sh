@@ -16,6 +16,7 @@
 #string lane
 #string picardVersion
 #string starVersion
+#string project
 
 #Echo parameter values
 fastq1="${leftbarcodefqgz}"

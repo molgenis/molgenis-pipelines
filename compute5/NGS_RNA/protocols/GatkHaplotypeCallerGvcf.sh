@@ -14,6 +14,7 @@
 #string dbSNPFileID
 #string GatkHaplotypeCallerGvcf
 #string GatkHaplotypeCallerGvcfidx
+#string project
 
 makeTmpDir ${GatkHaplotypeCallerGvcf}
 tmpGatkHaplotypeCallerGvcf=${MC_tmpFile}

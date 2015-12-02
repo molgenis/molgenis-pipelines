@@ -24,6 +24,7 @@
 #string NGSUtilsVersion
 #string pythonVersion
 #string picardJar
+#string project
 
 
 #Load module
@@ -43,7 +44,7 @@ then
 
 
 	java -XX:ParallelGCThreads=4 -jar -Xmx6g ${EBROOTPICARD}/${picardJar} CollectInsertSizeMetrics \
-        I=${sampleMergedBam} \
+        I=${sampleMergedDedupBam} \
         O=${insertsizeMetrics} \
         H=${insertsizeMetricspdf} \
         VALIDATION_STRINGENCY=LENIENT \
@@ -57,12 +58,6 @@ then
 	#convert pdf to png
 	convert -density 150 ${insertsizeMetricspdf} -quality 90 ${insertsizeMetricspng}	
 
-	#Duplicates statistics.
-	java -XX:ParallelGCThreads=4 -jar -Xmx6g ${EBROOTPICARD}/${picardJar} MarkDuplicates \
-        I=${sampleMergedBam} \
-        O=${sampleMergedDedupBam} \
-        M=${dupStatMetrics} AS=true
-
 	#Flagstat for reads mapping to the genome.
 	samtools flagstat ${sampleMergedDedupBam} >  ${flagstatMetrics}
 	perl -nle 'print $2,"|\t",$1 while m%^([0-9]+)+.+0\s(.+)%g;' ${flagstatMetrics} > ${starLogFile}
@@ -70,7 +65,7 @@ then
 	#CollectRnaSeqMetrics.jar
 	java -XX:ParallelGCThreads=4 -jar -Xmx6g ${EBROOTPICARD}/${picardJar} CollectRnaSeqMetrics \
 	REF_FLAT=${annotationRefFlat} \
-	I=${sampleMergedBam} \
+	I=${sampleMergedDedupBam} \
 	STRAND_SPECIFICITY=SECOND_READ_TRANSCRIPTION_STRAND \
 	CHART_OUTPUT=${rnaSeqMetrics}.pdf  \
 	O=${rnaSeqMetrics}	
@@ -93,13 +88,6 @@ then
 	
 elif [ ${seqType} == "SR" ]
 then
-
-	#Duplicates statistics.
-	
-	java -XX:ParallelGCThreads=4 -jar -Xmx6g ${EBROOTPICARD}/${picardJar} MarkDuplicates \	
-        I=${sampleMergedBam} \
-        O=${sampleMergedDedupBam} \
-        M=${dupStatMetrics} AS=true
 
         #Flagstat for reads mapping to the genome.
         samtools flagstat ${sampleMergedDedupBam} \

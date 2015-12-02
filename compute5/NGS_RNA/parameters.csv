@@ -99,8 +99,8 @@ sampleMergedDedupBai,${intermediateDir}/${externalSampleID}.unique_mapping_reads
 starLogFile,${intermediateDir}/${externalSampleID}.Log.final.out,
 
 ##### Protocols 4,5a,5b,5c (SplitAndTrim,GatkHaplotypeCallerGvcf,GatkMergeGvcf,GatkGenotypeGvcf) #####
-splitAndTrimBam,${intermediateDir}${externalSampleID}.unique_mapping_reads.sorted_splitAndTrim.bam
-splitAndTrimBai,${intermediateDir}${externalSampleID}.unique_mapping_reads.sorted_splitAndTrim.bai
+splitAndTrimBam,${intermediateDir}${externalSampleID}.unique_mapping_reads.sorted.merged.dedup.splitAndTrim.bam
+splitAndTrimBai,${intermediateDir}${externalSampleID}.unique_mapping_reads.sorted.merged.dedup.splitAndTrim.bai
 GatkHaplotypeCallerGvcf,${intermediateDir}${externalSampleID}.GatkHaplotypeCallerGvcf.g.vcf
 GatkHaplotypeCallerGvcfidx,${intermediateDir}${externalSampleID}.GatkHaplotypeCallerGvcf.g.vcf.idx
 GatkMergeGvcf,${intermediateDir}${externalSampleID}.MergeGvcf.g.vcf

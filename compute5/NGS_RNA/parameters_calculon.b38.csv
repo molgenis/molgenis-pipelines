@@ -17,4 +17,4 @@ indexFolderName,human_g1k_v38
 indicesDir,${dataDir}/${GR}/
 dbSNPFileID,dbsnp_142.GRCh38
 dbSNPDir,${dataDir}/ftp.ncbi.nlm.nih.gov/pub/human_9606_b142_GRCh38
-hisatIndex,${dataDir}/${GR}/${hisatVersion}/
+hisatIndex,${dataDir}/${GR}/${hisatVersion}/Homo_sapiens.${indexFileID}
