@@ -109,7 +109,7 @@ fluxDir=${MC_tmpFile}
 #
 if [ "$seqType" == "SR" ]
 then
-	if [ "$barcode[0]" == "None" ]
+	if [[ "${barcode[0]}" == "None" || "${barcode[0]}" == "" ]]
 	then
 		# No barcodes used in this lane: Do nothing.
 		touch ${fluxDir}/${filenamePrefix}.demultiplex.read_count_check.skipped
@@ -158,7 +158,7 @@ then
 
 elif [ "$seqType" == "PE" ]
 then
-	if [ "$barcode[0]" == "None" ]
+	if [[ "${barcode[0]}" == "None" || "${barcode[0]}" == "" ]]
 	then
 		#
 		# No barcodes used in this lane: Do nothing.

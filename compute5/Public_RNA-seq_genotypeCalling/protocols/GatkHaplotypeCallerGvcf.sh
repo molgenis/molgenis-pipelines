@@ -64,7 +64,7 @@ do
     #haplotyperGvcf is split into seperate variables now
 
     putFile ${haplotyperDir}${sampleName}.chr$CHR.g.vcf.gz
-    putFile ${haplotyperDir}${sampleName}.chr$CHR.g.vcf.gz.idx
+    putFile ${haplotyperDir}${sampleName}.chr$CHR.g.vcf.gz.tbi
     cd ${haplotyperDir}
 	md5sum $(basename ${haplotyperDir}${sampleName}.chr$CHR.g.vcf.gz)> $(basename ${haplotyperDir}${sampleName}.chr$CHR.g.vcf.gz).md5sum
     cd -
