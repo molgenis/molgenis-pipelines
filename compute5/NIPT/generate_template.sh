@@ -4,12 +4,12 @@ module load NIPT
 module list
 
 ### Change at least for every different run the $project and $runid ####
-project=projectXX
-runid=testXX
-
-ENVIRONMENT_PARAMETERS=parameters_zinc-finger.csv
-TMPDIR=tmp05
-WORKDIR="/groups/umcg-gaf/${TMPDIR}"
+project="<ProjectNameVar>"
+runid=run01
+cluster="<GccClusterVar>"
+ENVIRONMENT_PARAMETERS=parameters_$(cluster).csv
+TMPDIR=$(ls -1 /groups/umcg-gd/ |grep tmp)
+WORKDIR="/groups/umcg-gd/${TMPDIR}"
 WORKFLOW=${EBROOTNIPT}/workflow.csv
 
 
@@ -46,3 +46,7 @@ sh ${EBROOTMOLGENISMINCOMPUTE}/molgenis_compute.sh \
 -runid ${runid} \
 -weave \
 --generate
+
+cd $(WORKDIR)/projects/$(project)/$(runid)/jobs/
+
+sh submit.sh
