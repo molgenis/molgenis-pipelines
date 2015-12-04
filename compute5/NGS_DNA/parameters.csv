@@ -15,7 +15,7 @@ dbNSFPVersion,2.7
 dellyVersion,v0.7.1
 fastqcVersion,FastQC/0.11.3-Java-1.7.0_80
 gatkVersion,GATK/3.4-0-Java-1.7.0_80 
-javaVersion,Java/1.7.0_80
+javaVersion,Java/1.8.0_45
 picardVersion,picard/1.130-Java-1.7.0_80
 rVersion,R/3.2.1-goolf-1.7.20
 sambambaVersion,sambamba/v0.5.9-goolf-1.7.20 

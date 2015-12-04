@@ -15,6 +15,7 @@
 
 sleep 5
 module load ${gatkVersion}
+module load ngs-utils
 
 if [ "${GCC_Analysis}" == "diagnostiek" ] || [ "${GCC_Analysis}" == "diagnostics" ] || [ "${GCC_Analysis}" == "Diagnostiek" ] || [ "${GCC_Analysis}" == "Diagnostics" ]
 then
@@ -34,6 +35,11 @@ then
 		echo -e "chr\tstart\tstop\tgene\tcoverage" > ${sample}.coveragePerBase.txt
 
 		awk -v OFS='\t' '{print $1,$2,$3,$5,$7}' ${sample}.combined_bedfile_and_samtoolsoutput.txt >> ${sample}.coveragePerBase.txt
+
+		python ${EBROOTNGSMINUTILS}/calculateCoveragePerGene.py --input ${sample}.coveragePerBase.txt --output ${sample}.coveragePerGene.txt.tmp
+
+		sort ${sample}.coveragePerGene.txt.tmp > ${sample}.coveragePerGene.txt
+
 	else
 		echo "there is no capturedIntervalsPerBase: ${capturedIntervalsPerBase}, please run coverageperbase: (module load ngs-utils --> run coverage_per_base.sh)" 
 	fi
@@ -42,6 +48,3 @@ else
 
 fi
 
-python /home/umcg-rkanninga/calculateCoveragePerGene.py --input ${sample}.coveragePerBase.txt --output ${sample}.coveragePerGene.txt.tmp
-
-sort ${sample}.coveragePerGene.txt.tmp > ${sample}.coveragePerGene.txt
