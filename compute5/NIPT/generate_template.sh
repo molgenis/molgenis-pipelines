@@ -7,7 +7,7 @@ module list
 project="<ProjectNameVar>"
 runid=run01
 cluster="<GccClusterVar>"
-ENVIRONMENT_PARAMETERS=parameters_$(cluster).csv
+ENVIRONMENT_PARAMETERS=parameters_${cluster}.csv
 TMPDIR=$(ls -1 /groups/umcg-gd/ |grep tmp)
 WORKDIR="/groups/umcg-gd/${TMPDIR}"
 WORKFLOW=${EBROOTNIPT}/workflow.csv
@@ -47,6 +47,6 @@ sh ${EBROOTMOLGENISMINCOMPUTE}/molgenis_compute.sh \
 -weave \
 --generate
 
-cd $(WORKDIR)/projects/$(project)/$(runid)/jobs/
+cd ${WORKDIR}/projects/${project}/${runid}/jobs/
 
 sh submit.sh
