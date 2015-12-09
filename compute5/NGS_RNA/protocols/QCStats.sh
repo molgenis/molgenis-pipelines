@@ -32,6 +32,7 @@ module load ${picardVersion}
 module load ${samtoolsVersion}
 module load ${pythonVersion}
 module load ${NGSUtilsVersion}
+module load ${ghostscriptVersion}
 module list
 
 makeTmpDir ${intermediateDir}
@@ -44,11 +45,11 @@ then
 
 
 	java -XX:ParallelGCThreads=4 -jar -Xmx6g ${EBROOTPICARD}/${picardJar} CollectInsertSizeMetrics \
-        I=${sampleMergedDedupBam} \
-        O=${insertsizeMetrics} \
-        H=${insertsizeMetricspdf} \
-        VALIDATION_STRINGENCY=LENIENT \
-        TMP_DIR=${tempDir}/processing
+	I=${sampleMergedDedupBam} \
+	O=${insertsizeMetrics} \
+	H=${insertsizeMetricspdf} \
+	VALIDATION_STRINGENCY=LENIENT \
+	TMP_DIR=${tempDir}/processing
 
         # Overwrite the PDFs that were just created by nicer onces:
         ${recreateinsertsizepdfR} \
