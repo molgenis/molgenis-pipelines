@@ -12,6 +12,8 @@ umask 0007
 
 if [ ! -d ${resultsSampleDir}  ] 
 then
+  mkdir -p ${resultsSampleDir}
+fi
 
 cp ${reportPDF} ${resultsSampleDir}
 cp ${reportHTML} ${resultsSampleDir}
