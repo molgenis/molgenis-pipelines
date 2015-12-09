@@ -3,8 +3,8 @@
 #string project
 #string stage
 #string checkStage
-#string sampleMergedBam
-#string sampleMergedBai
+#string sampleMergedDedupBam
+#string sampleMergedDedupBai
 #string samtoolsVersion
 #string gatkVersion
 #string intermediateDir
@@ -14,6 +14,7 @@
 #string tmpDataDir
 #string indexFile
 #string tmpTmpDataDir
+#string project
 
 makeTmpDir ${splitAndTrimBam} 
 tmpsplitAndTrimBam=${MC_tmpFile}
@@ -37,7 +38,7 @@ echo "Running split and trim:"
   java -Xmx8g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${tmpTmpDataDir} -jar ${EBROOTGATK}/GenomeAnalysisTK.jar \
   -T SplitNCigarReads \
   -R ${indexFile} \
-  -I ${sampleMergedBam} \
+  -I ${sampleMergedDedupBam} \
   -o ${tmpsplitAndTrimBam} \
   -rf ReassignOneMappingQuality \
   -RMQF 255 \

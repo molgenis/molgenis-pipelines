@@ -1,0 +1,33 @@
+mem,4
+walltime,23:59:00
+nodes,1
+ppn,1
+defaultInterpreter,#!/bin/bash
+stage,module load
+checkStage,module list
+
+### Tool versions ####
+rVersion,R/3.2.1-goolf-1.7.20
+sambambaVersion,sambamba/v0.5.9-goolf-1.7.20
+tmpDataDir,${workDir}/${tmpName}/
+wkHtmlToPdfVersion,0.11.0_rc1-static-amd64
+sambambaTool,sambamba_v0.5.9
+
+dataDir,/apps/data/
+intermediateDir,${tmpDataDir}/tmp/${project}/${runid}
+inputDataTmp,/groups/umcg-gd/tmp05/inputData/${project}
+projectsDir,${tmpDataDir}/projects/${project}/${runid}
+resultsDir,${projectsDir}/results
+
+utrechtDir,/groups/umcg-umcu/${tmpName}/NIPT/${project}/
+inputUtrechtDataRawSample,${inputDataTmp}/${externalSampleID}_dedup.bam
+inputDataRawSample,${inputDataTmp}/${externalSampleID}_dedup.filtered.bam
+dataDirNIPT,${dataDir}/NIPT
+controlGroupRds,${dataDirNIPT}/NIPT_Project_control_group_separate.rds
+
+reportRMD,NIPT_Diagnostics_v3.0_Report.Rmd
+qcReportRMD,NIPT_Diagnostics_v3.0_QC_Report.Rmd
+reportHTML,${intermediateDir}/${externalSampleID}.Report.html
+qcReportHTML,${intermediateDir}/${externalSampleID}.QC_Report.html
+reportPDF,${intermediateDir}/${externalSampleID}.Report.pdf
+qcReportPDF,${intermediateDir}/${externalSampleID}.QC_Report.pdf

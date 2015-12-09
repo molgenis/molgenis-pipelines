@@ -14,6 +14,7 @@
 #string dbSNPFileID
 #string GatkHaplotypeCallerGvcf
 #string GatkHaplotypeCallerGvcfidx
+#string project
 
 makeTmpDir ${GatkHaplotypeCallerGvcf}
 tmpGatkHaplotypeCallerGvcf=${MC_tmpFile}
@@ -49,7 +50,7 @@ ${checkStage}
 
 echo "## "$(date)" Start $0"
 
-  java -Xmx12g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${tmpTmpDataDir} -jar ${EBROOTGATK}/GenomeAnalysisTK.jar \
+  java -Xmx10g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${tmpTmpDataDir} -jar ${EBROOTGATK}/GenomeAnalysisTK.jar \
   -T HaplotypeCaller \
   -R ${indexFile} \
   ${inputs[@]} \

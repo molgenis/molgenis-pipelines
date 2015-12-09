@@ -24,6 +24,7 @@
 #string NGSUtilsVersion
 #string pythonVersion
 #string picardJar
+#string project
 
 
 #Load module
@@ -31,6 +32,7 @@ module load ${picardVersion}
 module load ${samtoolsVersion}
 module load ${pythonVersion}
 module load ${NGSUtilsVersion}
+module load ${ghostscriptVersion}
 module list
 
 makeTmpDir ${intermediateDir}
@@ -43,11 +45,11 @@ then
 
 
 	java -XX:ParallelGCThreads=4 -jar -Xmx6g ${EBROOTPICARD}/${picardJar} CollectInsertSizeMetrics \
-        I=${sampleMergedBam} \
-        O=${insertsizeMetrics} \
-        H=${insertsizeMetricspdf} \
-        VALIDATION_STRINGENCY=LENIENT \
-        TMP_DIR=${tempDir}/processing
+	I=${sampleMergedDedupBam} \
+	O=${insertsizeMetrics} \
+	H=${insertsizeMetricspdf} \
+	VALIDATION_STRINGENCY=LENIENT \
+	TMP_DIR=${tempDir}/processing
 
         # Overwrite the PDFs that were just created by nicer onces:
         ${recreateinsertsizepdfR} \
@@ -57,12 +59,6 @@ then
 	#convert pdf to png
 	convert -density 150 ${insertsizeMetricspdf} -quality 90 ${insertsizeMetricspng}	
 
-	#Duplicates statistics.
-	java -XX:ParallelGCThreads=4 -jar -Xmx6g ${EBROOTPICARD}/${picardJar} MarkDuplicates \
-        I=${sampleMergedBam} \
-        O=${sampleMergedDedupBam} \
-        M=${dupStatMetrics} AS=true
-
 	#Flagstat for reads mapping to the genome.
 	samtools flagstat ${sampleMergedDedupBam} >  ${flagstatMetrics}
 	perl -nle 'print $2,"|\t",$1 while m%^([0-9]+)+.+0\s(.+)%g;' ${flagstatMetrics} > ${starLogFile}
@@ -70,7 +66,7 @@ then
 	#CollectRnaSeqMetrics.jar
 	java -XX:ParallelGCThreads=4 -jar -Xmx6g ${EBROOTPICARD}/${picardJar} CollectRnaSeqMetrics \
 	REF_FLAT=${annotationRefFlat} \
-	I=${sampleMergedBam} \
+	I=${sampleMergedDedupBam} \
 	STRAND_SPECIFICITY=SECOND_READ_TRANSCRIPTION_STRAND \
 	CHART_OUTPUT=${rnaSeqMetrics}.pdf  \
 	O=${rnaSeqMetrics}	
@@ -93,13 +89,6 @@ then
 	
 elif [ ${seqType} == "SR" ]
 then
-
-	#Duplicates statistics.
-	
-	java -XX:ParallelGCThreads=4 -jar -Xmx6g ${EBROOTPICARD}/${picardJar} MarkDuplicates \	
-        I=${sampleMergedBam} \
-        O=${sampleMergedDedupBam} \
-        M=${dupStatMetrics} AS=true
 
         #Flagstat for reads mapping to the genome.
         samtools flagstat ${sampleMergedDedupBam} \

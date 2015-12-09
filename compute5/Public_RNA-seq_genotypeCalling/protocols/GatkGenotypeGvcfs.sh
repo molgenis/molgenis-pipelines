@@ -40,7 +40,7 @@ inputs=$(printf ' --variant %s ' $(printf '%s\n' ${gvcfs[@]}))
 
 mkdir -p ${haplotyperDir}
 
-if java -Xmx8g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${haplotyperDir} -jar EBROOTGATK/GenomeAnalysisTK.jar \
+if java -Xmx8g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${haplotyperDir} -jar $EBROOTGATK/GenomeAnalysisTK.jar \
  -T GenotypeGVCFs \
  -R ${onekgGenomeFasta} \
  --dbsnp ${dbsnpVcf} \
@@ -55,6 +55,9 @@ then
  
  putFile ${genotypedChrVcf}
  putFile ${genotypedChrVcfIdx}
+ cd ${haplotyperDir}
+ md5sum $(basename ${genotypedChrVcf})> $(basename ${genotypedChrVcf}).md5sum
+ cd -
  echo "succes moving files";
 else
  echo "returncode: $?";

@@ -17,6 +17,7 @@ starVersion,STAR/2.3.1z12-goolf-1.7.20
 hisatVersion,hisat/0.1.5-beta-goolf-1.7.20
 pythonVersion,Python/2.7.9-goolf-1.7.20
 gatkVersion,GATK/3.4-46-Java-1.7.0_80 
+ghostscriptVersion,Ghostscript/9.16-goolf-1.7.20
 picardJar,picard.jar
 mergeSamFilesJar,MergeSamFiles
 processReadCountsJar,ProcessReadCounts.jar
@@ -99,8 +100,8 @@ sampleMergedDedupBai,${intermediateDir}/${externalSampleID}.unique_mapping_reads
 starLogFile,${intermediateDir}/${externalSampleID}.Log.final.out,
 
 ##### Protocols 4,5a,5b,5c (SplitAndTrim,GatkHaplotypeCallerGvcf,GatkMergeGvcf,GatkGenotypeGvcf) #####
-splitAndTrimBam,${intermediateDir}${externalSampleID}.unique_mapping_reads.sorted_splitAndTrim.bam
-splitAndTrimBai,${intermediateDir}${externalSampleID}.unique_mapping_reads.sorted_splitAndTrim.bai
+splitAndTrimBam,${intermediateDir}${externalSampleID}.unique_mapping_reads.sorted.merged.dedup.splitAndTrim.bam
+splitAndTrimBai,${intermediateDir}${externalSampleID}.unique_mapping_reads.sorted.merged.dedup.splitAndTrim.bai
 GatkHaplotypeCallerGvcf,${intermediateDir}${externalSampleID}.GatkHaplotypeCallerGvcf.g.vcf
 GatkHaplotypeCallerGvcfidx,${intermediateDir}${externalSampleID}.GatkHaplotypeCallerGvcf.g.vcf.idx
 GatkMergeGvcf,${intermediateDir}${externalSampleID}.MergeGvcf.g.vcf

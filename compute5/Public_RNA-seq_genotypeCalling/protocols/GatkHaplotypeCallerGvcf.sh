@@ -56,7 +56,7 @@ do
        -stand_emit_conf 20.0 \
        -o ${haplotyperDir}${sampleName}.chr$CHR.g.vcf.gz \
        -variant_index_type LINEAR \
-	   -variant_index_parameter 128000 \
+       -variant_index_parameter 128000 \
        -L ${resDir}/${genomeBuild}/intervals/${referenceFastaName}.chr$CHR.interval_list \
        --emitRefConfidence GVCF;
   then
@@ -64,7 +64,10 @@ do
     #haplotyperGvcf is split into seperate variables now
 
     putFile ${haplotyperDir}${sampleName}.chr$CHR.g.vcf.gz
-    putFile ${haplotyperDir}${sampleName}.chr$CHR.g.vcf.gz.idx
+    putFile ${haplotyperDir}${sampleName}.chr$CHR.g.vcf.gz.tbi
+    cd ${haplotyperDir}
+	md5sum $(basename ${haplotyperDir}${sampleName}.chr$CHR.g.vcf.gz)> $(basename ${haplotyperDir}${sampleName}.chr$CHR.g.vcf.gz).md5sum
+    cd -
     echo "succes moving files";
   else
     echo "returncode: $?";

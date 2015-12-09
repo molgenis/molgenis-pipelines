@@ -69,7 +69,7 @@ GvcfSize=${#ALLGVCFs[@]}
 if [ ${GvcfSize} -ne 0 ]
 then
 
-	java -Xmx4g -XX:ParallelGCThreads=16 -Djava.io.tmpdir=${tmpTmpDataDir} -jar ${EBROOTGATK}/GenomeAnalysisTK.jar \
+	java -Xmx6g -XX:ParallelGCThreads=16 -Djava.io.tmpdir=${tmpTmpDataDir} -jar ${EBROOTGATK}/GenomeAnalysisTK.jar \
 	-T GenotypeGVCFs \
 	-R ${indexFile} \
  	--dbsnp ${dbsnpVcf}\

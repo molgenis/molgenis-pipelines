@@ -7,7 +7,7 @@
 #string sampleHTseqExpressionText
 #string htseqVersion
 #string samtoolsVersion
-
+#string project
 
 module load ${htseqVersion}
 module load ${samtoolsVersion}

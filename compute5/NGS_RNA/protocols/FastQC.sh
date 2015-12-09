@@ -17,7 +17,7 @@
 #string externalSampleID
 #string BarcodeFastQcFolderPE
 #string BarcodeFastQcFolder
-
+#string project
 
 #Load module
 module load ${fastqcVersion}

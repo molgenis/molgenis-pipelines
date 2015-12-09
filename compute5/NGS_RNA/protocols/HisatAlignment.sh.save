@@ -24,11 +24,8 @@
 #string tempDir
 #string filePrefix
 #string picardJar
-#string seqType
 
-if [ ${seqType} == "SR" ]
-then
-
+if [ ${#rightbarcodefqgz} -eq 0 ]; then
 	input="-U ${leftbarcodefqgz}"
 	echo "Single end alignment of ${leftbarcodefqgz}"
 else
@@ -45,8 +42,6 @@ tmpAlignedFilteredBam=${MC_tmpFile}
 makeTmpDir ${sortedBam}
 tmpSortedBam=${MC_tmpFile}
 
-makeTmpDir ${sortedBai}
-tmpSortedBai=${MC_tmpFile}
 
 
 #Load modules
@@ -70,13 +65,11 @@ echo "## "$(date)" Start $0"
 	-S ${tmpAlignedSam}
 
 
-sed '/NH:i:[^1]/d' ${tmpAlignedSam} | samtools view -h -b - > ${tmpAlignedFilteredBam}
 
 	echo "Reads with flag NH:i:[2+] where filtered out (only leaving 'unique' mapping reads)."
 	rm ${tmpAlignedSam}
 	echo "returncode: $?";
 	echo "succes moving files";
-
 
 echo "## "$(date)" Start $0"
 
@@ -90,7 +83,6 @@ java -XX:ParallelGCThreads=4 -jar -Xmx6g ${EBROOTPICARD}/${picardJar} SortSam \
 
 	echo "returncode: $?";
 	mv ${tmpSortedBam} ${sortedBam}
-	mv ${tmpSortedBai} ${sortedBai}
 	echo "succes moving files";
 
-	echo "## "$(date)" ##  $0 Done "
+echo "## "$(date)" ##  $0 Done "
