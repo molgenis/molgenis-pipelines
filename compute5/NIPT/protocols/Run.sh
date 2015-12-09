@@ -22,11 +22,6 @@ then
     	mkdir -p $intermediateDir
 fi
 
-if [ ! -f $resultsDir ]
-then
-	mkdir -p $resultsDir
-fi
-
 module load R
 module load ngs-utils
 module load PPVforNIPT

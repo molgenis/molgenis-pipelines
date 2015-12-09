@@ -17,9 +17,9 @@ dataDir,/apps/data/
 intermediateDir,${tmpDataDir}/tmp/${project}/${runid}
 inputDataTmp,/groups/umcg-gd/tmp05/inputData/${project}
 projectsDir,${tmpDataDir}/projects/${project}/${runid}
-resultsDir,${projectsDir}/results
+resultsSampleDir,${projectsDir}/results/${externalSampleID}/
 
-utrechtDir,/groups/umcg-umcu/${tmpName}/NIPT/${project}/
+utrechtDir,/groups/umcg-umcu/${tmpName}/NIPT/${ProjectUtrecht}/
 inputUtrechtDataRawSample,${inputDataTmp}/${externalSampleID}_dedup.bam
 inputDataRawSample,${inputDataTmp}/${externalSampleID}_dedup.filtered.bam
 dataDirNIPT,${dataDir}/NIPT
