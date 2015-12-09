@@ -8,7 +8,6 @@
 #string apriori13
 #string apriori18
 #string apriori21
-#string resultsDir
 #string reportRMD
 #string qcReportRMD
 #string reportHTML
