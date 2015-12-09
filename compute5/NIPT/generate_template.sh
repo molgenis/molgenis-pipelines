@@ -48,5 +48,6 @@ sh ${EBROOTMOLGENISMINCOMPUTE}/molgenis_compute.sh \
 --generate
 
 cd ${WORKDIR}/projects/${project}/${runid}/jobs/
-
 sh submit.sh
+
+echo "scripts generated, now starting the pipeline (type squeue -u USERNAME to check status of running jobs"
