@@ -1,7 +1,7 @@
 #MOLGENIS walltime=01:00:00 nodes=1 ppn=4 mem=6gb
 
 #string sampleConcordanceFile
-#string sample
+#string sampleNameID
 #string externalSampleID
 #string familyList
 #string arrayMapFile
@@ -76,10 +76,10 @@ else
 	module list
 	
 	plink \
-	--lfile ${sample}.concordance \
+	--lfile ${sampleNameID}.concordance \
 	--recode \
 	--noweb \
-	--out ${sample}.concordance \
+	--out ${sampleNameID}.concordance \
 	--keep ${familyList}
 	
 	module unload plink
@@ -89,23 +89,23 @@ else
 	##Create genotype VCF for sample
 	plink108 \
 	--recode-vcf \
-	--ped ${sample}.concordance.ped \
+	--ped ${sampleNameID}.concordance.ped \
 	--map ${arrayMapFile} \
-	--out ${sample}.concordance
+	--out ${sampleNameID}.concordance
 	
 	##Rename plink.vcf to sample.vcf
-	mv ${sample}.concordance.vcf ${sample}.genotypeArray.vcf
+	mv ${sampleNameID}.concordance.vcf ${sampleNameID}.genotypeArray.vcf
 	
 	##Replace chr23 and 24 with X and Y
-    perl -pi -e 's/^23/X/' ${sample}.genotypeArray.vcf
-    perl -pi -e 's/^24/Y/' ${sample}.genotypeArray.vcf
+    perl -pi -e 's/^23/X/' ${sampleNameID}.genotypeArray.vcf
+    perl -pi -e 's/^24/Y/' ${sampleNameID}.genotypeArray.vcf
 	
 	##Remove family ID from sample in header genotype VCF
-	perl -pi -e 's/1_${externalSampleID}/${externalSampleID}/' ${sample}.genotypeArray.vcf
+	perl -pi -e 's/1_${externalSampleID}/${externalSampleID}/' ${sampleNameID}.genotypeArray.vcf
 	
 	##Create binary ped (.bed) and make tab-delimited .fasta file for all genotypes
-	sed -e 's/chr//' ${sample}.genotypeArray.vcf | awk '{OFS="\t"; if (!/^#/){print $1,$2-1,$2}}' \
-	> ${sample}.genotypeArray.bed
+	sed -e 's/chr//' ${sampleNameID}.genotypeArray.vcf | awk '{OFS="\t"; if (!/^#/){print $1,$2-1,$2}}' \
+	> ${sampleNameID}.genotypeArray.bed
 	
 if [ "${build}" == "build37" ]
 then
@@ -120,30 +120,30 @@ then
 		##Create tabular fasta from bed
 		fastaFromBed \
 		-fi ${indexFile} \
-		-bed ${sample}.genotypeArray.bed \
-		-fo ${sample}.genotypeArray.fasta -tab
+		-bed ${sampleNameID}.genotypeArray.bed \
+		-fo ${sampleNameID}.genotypeArray.fasta -tab
 		
 		##Align vcf to reference AND DO NOT FLIP STRANDS!!! (genotype data is already in forward-forward format) If flipping is needed use "-f" command before sample.genotype_array.vcf
 		align-vcf-to-ref.pl -f \
-		${sample}.genotypeArray.vcf \
-		${sample}.genotypeArray.fasta \
-		${sample}.genotypeArray.aligned_to_ref.vcf \
-		> ${sample}.genotypeArray.aligned_to_ref.vcf.out
+		${sampleNameID}.genotypeArray.vcf \
+		${sampleNameID}.genotypeArray.fasta \
+		${sampleNameID}.genotypeArray.aligned_to_ref.vcf \
+		> ${sampleNameID}.genotypeArray.aligned_to_ref.vcf.out
 	
 		##Some GATK versions sort header alphabetically, which results in wrong individual genotypes. So cut header from "original" sample.genotype_array.vcf and replace in sample.genotype_array.aligned_to_ref.lifted_over.out
-		head -3 ${sample}.genotypeArray.vcf > ${sample}.genotypeArray.header.txt
+		head -3 ${sampleNameID}.genotypeArray.vcf > ${sampleNameID}.genotypeArray.header.txt
 	
-		sed '1,3d' ${sample}.genotypeArray.aligned_to_ref.vcf \
-		> ${sample}.genotypeArray.headerless.vcf
+		sed '1,3d' ${sampleNameID}.genotypeArray.aligned_to_ref.vcf \
+		> ${sampleNameID}.genotypeArray.headerless.vcf
 	
-		cat ${sample}.genotypeArray.header.txt \
-		${sample}.genotypeArray.headerless.vcf \
-		> ${sample}.genotypeArray.updated.header.vcf
+		cat ${sampleNameID}.genotypeArray.header.txt \
+		${sampleNameID}.genotypeArray.headerless.vcf \
+		> ${sampleNameID}.genotypeArray.updated.header.vcf
 	
 		##Create interval_list of CHIP SNPs to call SNPs in sequence data on
 		iChip_pos_to_interval_list.pl \
-		${sample}.genotypeArray.updated.header.vcf \
-		${sample}.genotypeArray.updated.header.interval_list
+		${sampleNameID}.genotypeArray.updated.header.vcf \
+		${sampleNameID}.genotypeArray.updated.header.interval_list
 	
 		module unload GATK
 		module load 1.2-1-g33967a4
@@ -156,23 +156,23 @@ then
 		-T UnifiedGenotyper \
 		-R ${indexFile} \
 		-I ${dedupBam} \
-		-o ${sample}.concordance.allSites.vcf \
+		-o ${sampleNameID}.concordance.allSites.vcf \
 		-stand_call_conf 30.0 \
 		-stand_emit_conf 10.0 \
 		-out_mode EMIT_ALL_SITES \
-		-L ${sample}.genotypeArray.updated.header.interval_list
+		-L ${sampleNameID}.genotypeArray.updated.header.interval_list
 	
 		##Change FILTER column from GATK "called SNPs". All SNPs having Q20 & DP10 change to "PASS", all other SNPs are "filtered" (not used in concordance check)
 		change_vcf_filter.pl \
-		${sample}.concordance.allSites.vcf \
-		${sample}.concordance.q20.dp10.vcf 10 20
+		${sampleNameID}.concordance.allSites.vcf \
+		${sampleNameID}.concordance.q20.dp10.vcf 10 20
 	
 		##Calculate condordance between genotype SNPs and GATK "called SNPs"
 		java -Xmx2g -Djava.io.tmpdir=${tempDir} -jar ${EBROOTGATK}/${gatkJar} \
 		-T VariantEval \
-		-eval:eval,VCF ${sample}.concordance.q20.dp10.vcf \
-		-comp:comp_immuno,VCF ${sample}.genotypeArray.updated.header.vcf \
-		-o ${sample}.concordance.q20.dp10.eval \
+		-eval:eval,VCF ${sampleNameID}.concordance.q20.dp10.vcf \
+		-comp:comp_immuno,VCF ${sampleNameID}.genotypeArray.updated.header.vcf \
+		-o ${sampleNameID}.concordance.q20.dp10.eval \
 		-R ${indexFile} \
 		-D:dbSNP,VCF ${dbSNPExSiteAfter129Vcf} \
 		-EV GenotypeConcordance
@@ -188,7 +188,7 @@ then
 		##Retrieve name,step,#SNPs,%dbSNP,Ti/Tv known,Ti/Tv Novel,Non-Ref Sensitivity,Non-Ref discrepancy,Overall concordance from sample.q20_dp10_concordance.eval
 		##Don't forget to add .libPaths("/target/gpfs2/gcc/tools/GATK-1.3-24-gc8b1c92/public/R") to your ~/.Rprofile
 		extract_info_GATK_variantEval_V3.R \
-		--in ${sample}.concordance.q20.dp10.eval \
+		--in ${sampleNameID}.concordance.q20.dp10.eval \
 		--step q20_dp10_concordance \
 		--name ${externalSampleID} \
 		--comp comp_immuno \

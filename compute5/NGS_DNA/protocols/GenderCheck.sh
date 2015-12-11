@@ -4,7 +4,6 @@
 #string capturedIntervals
 #string capturedIntervals_nonAutoChrX
 #string indexFileDictionary
-#string sample
 #string intermediateDir
 #string whichSex
 #string tempDir

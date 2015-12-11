@@ -9,7 +9,7 @@ checkStage,module list
 
 ### Tool versions ####
 bwaVersion,BWA/0.7.12-goolf-1.7.20
-computeVersion,v15.11.1-Java-1.8.0_45
+computeVersion,v15.12.2-Java-1.8.0_45
 cutadaptVersion,1.8.1-goolf-1.7.20-Python-2.7.9
 dbNSFPVersion,2.7
 dellyVersion,v0.7.1
@@ -60,7 +60,7 @@ indexFileDictionary,${indicesDir}/${indexFileIDPhiX}.dict
 #### Prefixes ####
 runPrefix,${sequencingStartDate}_${sequencer}_${run}_${flowcell}
 filePrefix,${runPrefix}_L${lane}
-sample,${intermediateDir}/${externalSampleID}
+sampleNameID,${intermediateDir}/${externalSampleID}
 
 #### INTERVALS ####
 nameBed,captured
@@ -106,15 +106,15 @@ alignedSam,${fileWithIndexId}.sam
 alignedBam,${fileWithIndexId}.bam
 alignedSortedBam,${fileWithIndexId}.sorted.bam
 alignedSortedBamIdx,${fileWithIndexId}.sorted.bai
-sampleMergedBam,${sample}.merged.bam
-sampleMergedBai,${sample}.merged.bai
-sampleMergedBamIdx,${sample}.merged.bam.bai
-dedupBam,${sample}.merged.dedup.bam
-dedupBamIdx,${sample}.merged.dedup.bam.bai
-dedupMetrics,${sample}.merged.dedup.metrics,
-dedupBamCram,${sample}.merged.dedup.bam.cram
-dedupBamCramIdx,${sample}.merged.dedup.bam.cram.bai
-dedupBamCramBam,${sample}.merged.dedup.bam.cram.bam
+sampleMergedBam,${sampleNameID}.merged.bam
+sampleMergedBai,${sampleNameID}.merged.bai
+sampleMergedBamIdx,${sampleNameID}.merged.bam.bai
+dedupBam,${sampleNameID}.merged.dedup.bam
+dedupBamIdx,${sampleNameID}.merged.dedup.bam.bai
+dedupMetrics,${sampleNameID}.merged.dedup.metrics,
+dedupBamCram,${sampleNameID}.merged.dedup.bam.cram
+dedupBamCramIdx,${sampleNameID}.merged.dedup.bam.cram.bai
+dedupBamCramBam,${sampleNameID}.merged.dedup.bam.cram.bam
 KGPhase1IndelsVcf,${indicesDir}/indels/1000G_phase1.indels.b37.vcf
 KGPhase1IndelsVcfIdx,${KGPhase1IndelsVcf}.idx
 MillsGoldStandardDir,${indicesDir}/Mills_and_1000G_gold_standard/
@@ -122,12 +122,12 @@ MillsGoldStandardIndelsVcf,${MillsGoldStandardDir}/1000G_phase1.indels_Mills_and
 MillsGoldStandardChr1Intervals,${MillsGoldStandardDir}/1000G_phase1.indels_Mills_and_1000G_gold_standard.indels.b37.human_g1k_v37.chr1.intervals
 
 ### Protocols 11, 12, 13 and 14 (CheckSex, Delly, CoveragePerBase, SequonomConcordanceCheck, CollectBamMetrics) ###
-whichSex,${sample}.chosenSex.txt
-checkSexMeanCoverage,${sample}.checkSex.filter.meancoverage.txt
+whichSex,${sampleNameID}.chosenSex.txt
+checkSexMeanCoverage,${sampleNameID}.checkSex.filter.meancoverage.txt
 capturedIntervals_nonAutoChrX,${intermediateDir}/${nameBed}.nonAutosomalChrX.interval_list
-familyList,${sample}.familylist.txt
-arrayMapFile,${sample}.concordance.map
-sampleConcordanceFile,${sample}.concordance.ngsVSarray.txt
+familyList,${sampleNameID}.familylist.txt
+arrayMapFile,${sampleNameID}.concordance.map
+sampleConcordanceFile,${sampleNameID}.concordance.ngsVSarray.txt
 sequenomReport,${tmpDataDir}/rawdata/array/${project}_Sequenom_Report.txt
 sequenomInfo,${sequenomDir}/Sequonome_SNPinfo.txt
 collectMultipleMetricsJar,CollectMultipleMetrics
@@ -140,11 +140,11 @@ hsMetricsJar,CalculateHsMetrics
 hsMetrics,${dedupBam}.hs_metrics
 hsMetricsNonAutosomalRegionChrX,${dedupBam}.nonAutosomalRegionChrX_hs_metrics
 recreateInsertSizePdfR,createInsertSizePlot_c5.R
-projectDellyAnnotatorOutputVcf,${sample}.delly.snpeff.hpo.vcf
+projectDellyAnnotatorOutputVcf,${sampleNameID}.delly.snpeff.hpo.vcf
 collectBamMetricsPrefix,${intermediateDir}/${externalSampleID}.merged.dedup
 hpoTerms,${hpoDir}/build.${hpoVersion}/ALL_SOURCES_TYPICAL_FEATURES_diseases_to_genes_to_phenotypes.txt
-dellyVcf,${sample}.delly.vcf 
-dellySnpEffVcf,${sample}.delly.snpeff.vcf
+dellyVcf,${sampleNameID}.delly.vcf 
+dellySnpEffVcf,${sampleNameID}.delly.snpeff.vcf
 dellyTypeDEL,DEL
 dellyTypeDUP,DUP
 dellyTypeINV,INV
@@ -155,11 +155,11 @@ dbSNP137Vcf,${dbSNPDir}/dbsnp_137.b37.vcf
 dbSNP137VcfIdx,${dbSNP137Vcf}.idx
 dbSNPExSiteAfter129Vcf,${dbSNPDir}/dbsnp_137.b37.excluding_sites_after_129.vcf
 dbSNPExSiteAfter129VcfIdx,${dbSNPExSiteAfter129Vcf}.idx
-sampleBatchVariantCalls,${sample}.batch-${batchID}.variant.calls.g.vcf
+sampleBatchVariantCalls,${sampleNameID}.batch-${batchID}.variant.calls.g.vcf
 sampleBatchVariantCallsIdx,${sampleBatchVariantCalls}.idx
-sampleBatchVariantCallsFemale,${sample}.batch-${batchID}.chrX.female.variant.calls.g.vcf
+sampleBatchVariantCallsFemale,${sampleNameID}.batch-${batchID}.chrX.female.variant.calls.g.vcf
 sampleBatchVariantCallsFemaleIdx,${sampleBatchVariantCallsFemale}.idx
-sampleBatchVariantCallsMaleNONPAR,${sample}.batch-${batchID}.chrX.male.NONPAR.variant.calls.g.vcf
+sampleBatchVariantCallsMaleNONPAR,${sampleNameID}.batch-${batchID}.chrX.male.NONPAR.variant.calls.g.vcf
 sampleBatchVariantCallsMaleNONPARIdx,${sampleBatchVariantCallsMaleNONPAR}.idx
 projectBatchCombinedVariantCalls,${projectPrefix}.batch-${batchID}.variant.calls.combined.g.vcf
 projectBatchGenotypedVariantCalls,${projectPrefix}.batch-${batchID}.variant.calls.genotyped.vcf
@@ -174,12 +174,12 @@ snpEffGenesTxt,${projectPrefix}.snpEff.calls.genes.txt
 snpEffCallsVcf,${projectPrefix}.calls.snpEff.vcf
 snpEffCallsSortedVcf,${projectPrefix}.calls.snpEff.sorted.vcf
 dbNSFP,${dbNSFPDir}/${dbNSFPVersion}/dbNSFP${dbNSFPVersion}.txt.gz
-dbNSFPSampleVcf,${sample}.snpEff.annotated.snps.dbnsfp.vcf
+dbNSFPSampleVcf,${sampleNameID}.snpEff.annotated.snps.dbnsfp.vcf
 variantAnnotatorOutputVcf,${projectPrefix}.snpEff.annotated.vcf
-variantAnnotatorSampleOutputIndelsVcf,${sample}.snpEff.annotated.indels.vcf
-variantAnnotatorSampleOutputSnpsVcf,${sample}.snpEff.annotated.snps.vcf
-variantAnnotatorSampleOutputIndelsFilteredVcf,${sample}.snpEff.annotated.filtered.indels.vcf
-variantAnnotatorSampleOutputSnpsFilteredVcf,${sample}.snpEff.annotated.filtered.snps.vcf
+variantAnnotatorSampleOutputIndelsVcf,${sampleNameID}.snpEff.annotated.indels.vcf
+variantAnnotatorSampleOutputSnpsVcf,${sampleNameID}.snpEff.annotated.snps.vcf
+variantAnnotatorSampleOutputIndelsFilteredVcf,${sampleNameID}.snpEff.annotated.filtered.indels.vcf
+variantAnnotatorSampleOutputSnpsFilteredVcf,${sampleNameID}.snpEff.annotated.filtered.snps.vcf
 
 ### Protocols 24 and 25 (VcfToTable, QCReport) ###
 variantsFinalProjectVcfTable,${projectPrefix}.final.vcf.table
