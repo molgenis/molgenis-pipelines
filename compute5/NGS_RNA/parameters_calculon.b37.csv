@@ -1,0 +1,20 @@
+#### ENVIRONMENT VARIABLES ####
+queue,ll
+workDir,/groups/umcg-gaf/
+dataDir,${root}/data/
+tmpName,tmp04
+root,/apps/
+tempDir,${workDir}/${tmpName}/tmp/
+permanentDir,${workDir}/prm02
+
+#### GENOME VARIABLES ####
+genome,b37
+GR,GRCh37
+ensembleReleaseVersion,75
+species,homo_sapiens
+indexFileID,human_g1k_v37_phiX
+indexFolderName,human_g1k_v37
+dbSNPFileID,dbsnp_137.${genome}
+indicesDir,${dataDir}/1000G/phase1
+dbSNPDir,${dataDir}/dbSNP/
+hisatIndex,${dataDir}/ftp.broadinstitute.org/bundle/2.8/${genome}/${hisatVersion}/${indexFolderName}

@@ -8,7 +8,6 @@
 #string apriori13
 #string apriori18
 #string apriori21
-#string resultsDir
 #string reportRMD
 #string qcReportRMD
 #string reportHTML
@@ -20,11 +19,6 @@
 if [ ! -f $intermediateDir ]
 then
     	mkdir -p $intermediateDir
-fi
-
-if [ ! -f $resultsDir ]
-then
-	mkdir -p $resultsDir
 fi
 
 module load R

@@ -30,9 +30,9 @@
 #list lane
 
 umask 0007
+module load Molgenis-Compute/${computeVersion}
 
 module list
-
 #
 # Create project dirs.
 #
@@ -116,8 +116,6 @@ fi
 echo "before run second rocket"
 echo pwd
 
-module load NGS_DNA
-module list
 
 sh ${EBROOTMOLGENISMINCOMPUTE}/molgenis_compute.sh -p ${mainParameters} \
 -p environment_parameters -p ${batchIDList} -p ${projectJobsDir}/${project}.csv -rundir ${projectJobsDir} \
