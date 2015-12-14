@@ -9,10 +9,10 @@ SAMPLESHEETDIR="${WORKDIR}/Samplesheets/"
 
 ### Sequencer is writing to this location: $NEXTSEQDIR
 ### Looping through to see if all files
-for i in $(ls -1 ${NEXTSEQDIR})
+for i in $(ls -1 -d ${NEXTSEQDIR}/*/)
 do
 	## PROJECTNAME is sequencingStartDate_sequencer_run_flowcell
-	PROJECTNAME=${i}
+	PROJECTNAME=$(basename ${i})
 	DEBUGGER=${NEXTSEQDIR}/${PROJECTNAME}_logger.txt
 	OLDIFS=$IFS
 	IFS=_
@@ -21,7 +21,7 @@ do
 	run=$3
 	IFS=$OLDIFS
 	## Check if there the run is already completed
-	if [ -f ${NEXTSEQDIR}/${i}/RunCompletionStatus.xml  ]
+	if [ -f ${NEXTSEQDIR}/${PROJECTNAME}/RunCompletionStatus.xml  ]
 	then
 		### Check if data is already demultiplexed
 		echo "(${PROJECTNAME}) Check if data is demultiplexed" >> ${DEBUGGER}
