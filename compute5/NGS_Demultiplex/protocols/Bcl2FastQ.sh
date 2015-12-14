@@ -32,6 +32,16 @@ then
     	mkdir -p ${intermediateDir}
 fi
 
+if [ -d ${intermediateDir}/Reports ]
+then
+	rm -rf ${intermediateDir}/Reports
+fi
+
+if [ -d ${intermediateDir}/Stats ]
+then
+        rm -rf ${intermediateDir}/Stats
+fi
+
 cp ${sampleSheet} ${runJobsDir}
 
 echo "intermediateDir: ${intermediateDir}"
@@ -52,4 +62,5 @@ bcl2fastq \
 --runfolder-dir ${nextseqRunDataDir} \
 --output-dir ${tmpIntermediateDir} \
 --sample-sheet ${intermediateDir}/Illumina_R${run}.csv 
+
 mv ${tmpIntermediateDir}/* ${intermediateDir}
