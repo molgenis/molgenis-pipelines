@@ -25,7 +25,7 @@ do
 	then
 		### Check if data is already demultiplexed
 		echo "(${PROJECTNAME}) Check if data is demultiplexed" >> ${DEBUGGER}
-		if [ ! -f ${NEXTSEQDIR}/${PROJECTNAME}/Demultiplexing.finished ]
+		if [ ! -f ${NEXTSEQDIR}/${PROJECTNAME}_Demultiplexing.finished ]
                 then
 			echo "Check if the demultiplexing is already started" >> ${DEBUGGER}
 			### Check if the demultiplexing is already started
