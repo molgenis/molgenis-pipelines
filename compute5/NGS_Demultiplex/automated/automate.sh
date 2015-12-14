@@ -37,7 +37,6 @@ do
                         	then
 					echo  "Check samplesheet" >> ${DEBUGGER}
 					python checkSampleSheet.py --input ${SAMPLESHEETDIR}/${PROJECTNAME}.csv
-					echo  "checked SAMPLESHEET" >> ${DEBUGGER}
 					if [ $? == 1 ]
 					then
 						echo "There is something wrong in the samplesheet! Exiting" >> ${DEBUGGER}
