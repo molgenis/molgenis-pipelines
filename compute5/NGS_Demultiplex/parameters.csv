@@ -22,7 +22,7 @@ NGSDir,${rawDataDir}/ngs
 arrayDir,${rawDataDir}/array 
 
 runID,run_${run}
-runDir,${workDir}/runs/${runID}/
+runDir,${workDir}/runs/${runID}_${sequencer}/
 runJobsDir,${runDir}/jobs/
 runResultsDir,${runDir}/results/
 prepKitsDir,${dataDir}/Prepkits/
