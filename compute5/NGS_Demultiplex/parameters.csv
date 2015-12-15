@@ -29,7 +29,7 @@ prepKitsDir,${dataDir}/Prepkits/
 intermediateDir,${workDir}/tmp/${runID}/
 
 bcl2fastqDir,${nextSeqRunDataDir}/${project}
-sampleSheet,${workDir}/generatedscripts/${runID}/${runID}.csv
+sampleSheet,${workDir}/generatedscripts/${runID}/${runID}_${sequencer}.csv
 
 sourcesDir,${root}/sources/
 
