@@ -24,17 +24,29 @@ then
 		java -Xmx10g -XX:ParallelGCThreads=4 -jar ${EBROOTGATK}/${gatkJar} \
 		-R ${indexFile} \
 		-T DepthOfCoverage \
-		-o ${sampleNameID}.samtools.coveragePerBase \
+		-o ${sampleNameID}.coveragePerBase \
+		--omitLocusTable \
 		-I ${dedupBam} \
 		-L ${capturedIntervalsPerBase}
-		echo "hoihoi"
-		sed '1d' ${sampleNameID}.samtools.coveragePerBase > ${sampleNameID}.samtools.coveragePerBase_withoutHeader
 
-		paste ${capturedIntervalsPerBase} ${sampleNameID}.samtools.coveragePerBase_withoutHeader > ${sampleNameID}.combined_bedfile_and_samtoolsoutput.txt
+		sed '1d' ${sampleNameID}.coveragePerBase > ${sampleNameID}.coveragePerBase_withoutHeader
+
+		paste ${capturedIntervalsPerBase} ${sampleNameID}.coveragePerBase_withoutHeader > ${sampleNameID}.combined_bedfile_and_samtoolsoutput.txt
 
 		echo -e "chr\tstart\tstop\tgene\tcoverage" > ${sampleNameID}.coveragePerBase.txt
 
-		awk -v OFS='\t' '{print $1,$2,$3,$5,$7}' ${sampleNameID}.combined_bedfile_and_samtoolsoutput.txt >> ${sampleNameID}.coveragePerBase.txt
+		awk -v OFS='\t' '{print $1,$2,$3,$5,$7}' ${sampleNameID}.combined_bedfile_and_samtoolsoutput.txt > ${sampleNameID}.coveragePerBase.txt
+
+		java -Xmx10g -XX:ParallelGCThreads=4 -jar ${EBROOTGATK}/${gatkJar} \
+                -R ${indexFile} \
+                -T DepthOfCoverage \
+                -o ${sampleNameID}.coveragePerTarget \
+                -I ${dedupBam} \
+		--omitDepthOutputAtEachBase \
+                -L ${capturedBed}
+		
+		awk -v OFS='\t' '{print $1,$3}' ${sampleNameID}.coveragePerTarget.sample_interval_summary > ${sampleNameID}.coveragePerTarget.coveragePerTarget.txt.tmp
+		paste ${sampleNameID}.coveragePerTarget.coveragePerTarget.txt.tmp ${capturedBed}.genesOnly > ${sampleNameID}.coveragePerTarget.coveragePerTarget.txt
 
 		python ${EBROOTNGSMINUTILS}/calculateCoveragePerGene.py --input ${sampleNameID}.coveragePerBase.txt --output ${sampleNameID}.coveragePerGene.txt.tmp
 
