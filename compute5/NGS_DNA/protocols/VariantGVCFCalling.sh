@@ -100,7 +100,7 @@ else
 			-L ${capturedBatchBed} \
 			--emitRefConfidence GVCF \
 			-ploidy 2
-		elif [ "${sex}" == "Female" || "${sex}" == "Unknown"]
+		elif [ "${sex}" == "Female" || "${sex}" == "Unknown" ]
 		then
 			echo "X (female)"
 			#Run GATK HaplotypeCaller in DISCOVERY mode to call SNPs and indels
