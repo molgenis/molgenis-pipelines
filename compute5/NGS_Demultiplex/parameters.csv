@@ -22,14 +22,14 @@ NGSDir,${rawDataDir}/ngs
 arrayDir,${rawDataDir}/array 
 
 runID,run_${run}
-runDir,${workDir}/runs/${runID}/
+runDir,${workDir}/runs/${runID}_${sequencer}/
 runJobsDir,${runDir}/jobs/
 runResultsDir,${runDir}/results/
 prepKitsDir,${dataDir}/Prepkits/
 intermediateDir,${workDir}/tmp/${runID}/
 
 bcl2fastqDir,${nextSeqRunDataDir}/${project}
-sampleSheet,${workDir}/generatedscripts/${runID}/${runID}.csv
+sampleSheet,${workDir}/generatedscripts/${runID}_${sequencer}/${runID}_${sequencer}.csv
 
 sourcesDir,${root}/sources/
 
