@@ -4,13 +4,13 @@
 #string capturedIntervals
 #string capturedIntervals_nonAutoChrX
 #string indexFileDictionary
-#string sample
 #string intermediateDir
 #string whichSex
 #string tempDir
 #string checkSexMeanCoverage
 #string picardJar
 #string hsMetricsNonAutosomalRegionChrX
+#string	project
 
 module load picard
 sleep 5

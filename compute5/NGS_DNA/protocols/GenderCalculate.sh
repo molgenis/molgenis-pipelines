@@ -4,13 +4,14 @@
 #string capturedIntervals
 #string capturedIntervals_nonAutoChrX
 #string indexFileDictionary
-#string sample
+#string sampleNameID
 #string intermediateDir
 #string whichSex
 #string tempDir
 #string checkSexMeanCoverage
 #string picardJar
 #string hsMetricsNonAutosomalRegionChrX
+#string	project
 
 module load picard
 sleep 5
@@ -35,7 +36,7 @@ BAIT_INTERVALS=${capturedIntervals_nonAutoChrX} \
 TMP_DIR=${tempDir} \
 OUTPUT=${tmpHsMetricsNonAutosomalRegionChrX}
 
-rm -rf ${sample}.checkSex.filter.meancoverage.txt
+rm -rf ${sampleNameID}.checkSex.filter.meancoverage.txt
 
 mv ${tmpHsMetricsNonAutosomalRegionChrX} ${hsMetricsNonAutosomalRegionChrX}
 echo "mv ${tmpHsMetricsNonAutosomalRegionChrX} ${hsMetricsNonAutosomalRegionChrX}"

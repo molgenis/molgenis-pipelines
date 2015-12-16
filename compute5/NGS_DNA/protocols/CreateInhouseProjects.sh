@@ -125,5 +125,5 @@ echo pwd
 
 sh ${EBROOTMOLGENISMINCOMPUTE}/molgenis_compute.sh -p ${mainParameters} \
 -p ${batchIDList} -p ${projectJobsDir}/${project}.csv -p ${environment_parameters} -rundir ${projectJobsDir} \
--w ${workflowpath} -b slurm -g -weave -runid ${runid}
+--header ${EBROOTMOLGENISMINCOMPUTE}/templates/slurm/header.ftl -w ${workflowpath} -b slurm -g -weave -runid ${runid}
 

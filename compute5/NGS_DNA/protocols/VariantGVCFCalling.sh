@@ -20,6 +20,7 @@
 #string sampleBatchVariantCallsFemaleIdx
 #string tmpDataDir
 #string externalSampleID
+#string	project
 
 #string dedupBam
 
@@ -99,7 +100,7 @@ else
 			-L ${capturedBatchBed} \
 			--emitRefConfidence GVCF \
 			-ploidy 2
-		elif [ "${sex}" == "Female" ]
+		elif [ "${sex}" == "Female" || "${sex}" == "Unknown" ]
 		then
 			echo "X (female)"
 			#Run GATK HaplotypeCaller in DISCOVERY mode to call SNPs and indels
@@ -116,6 +117,9 @@ else
         		-L ${capturedBatchBed} \
         		--emitRefConfidence GVCF \
 			-ploidy 2 
+		else 
+			echo "The sex has not a known option (Male, Female, Unknown)"
+			exit 1
 		fi
 	elif [[ "${capturedBatchBed}" == *batch-[0-9]*Y.bed ]]
 	then

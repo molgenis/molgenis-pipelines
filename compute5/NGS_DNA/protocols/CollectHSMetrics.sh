@@ -14,6 +14,7 @@
 #string capturedIntervals
 #string capturingKit
 #string picardJar
+#string	project
 
 #Load Picard module
 ${stage} ${picardVersion}

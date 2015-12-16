@@ -18,6 +18,7 @@
 #string picardJar
 #string insertSizeMetrics
 #string gcBiasMetrics
+#string	project
 
 #Load Picard module
 ${stage} ${picardVersion}

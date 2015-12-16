@@ -13,6 +13,7 @@
 #string dedupMetrics
 #string tmpDataDir
 #string picardJar
+#string project
 
 #Load Picard module
 ${stage} ${picardVersion}
