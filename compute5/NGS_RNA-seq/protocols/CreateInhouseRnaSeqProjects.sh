@@ -31,7 +31,7 @@
 umask 0007
 
 #FIX!
-#module load NGS_RNA/2.1.1-Molgenis-Compute-v15.04.1-Java-1.7.0_80
+module load NGS_RNA-seq/3.2.1-Molgenis-Compute-v15.12.4-Java-1.8.0_45
 
 module load ${NGSUtilsVersion}
 module list
@@ -122,6 +122,7 @@ echo pwd
 sh ${EBROOTMOLGENISMINCOMPUTE}/molgenis_compute.sh \
 --backend slurm \
 --generate \
+--header ${EBROOTNGS_RNAMINSEQ}/templates/slurm/header.ftl \
 -runid ${runid} \
 -p ${mainParameters} \
 -p ${environment_parameters} \

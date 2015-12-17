@@ -19,7 +19,6 @@ platform,ILLUMINA
 ########################################################################
 ## GAF and custom parameter mapping
 #
-projectRawtmpDataDir,${projectRoot}/${runid}/rawdata/ngs/
 projectResultsDir,${projectDir}/results
 filePrefix,${sequencingStartDate}_${sequencer}_${run}_${flowcell}_L${lane}
 leftbarcode,${projectRawtmpDataDir}/${filePrefix}_${barcode}
