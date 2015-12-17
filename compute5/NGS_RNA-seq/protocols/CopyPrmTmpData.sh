@@ -1,6 +1,6 @@
 #MOLGENIS walltime=01:59:00 mem=4gb
 
-#string allRawNgstmpDataDir
+#string allRawNgsTmpDataDir
 #string allRawNgsPrmDataDir
 
 #list seqType
@@ -27,7 +27,7 @@ do
 
 	RUNNAME=${sequencingStartDate[samplenumber]}_${sequencer[samplenumber]}_${run[samplenumber]}_${flowcell[samplenumber]}	
 	PRMDATADIR=${allRawNgsPrmDataDir}/${RUNNAME}
-	TMPDATADIR=${allRawNgstmpDataDir}/${RUNNAME}
+	TMPDATADIR=${allRawNgsTmpDataDir}/${RUNNAME}
 
 	if [[ ${seqType[samplenumber]} == "SR" ]]
 	then
@@ -82,6 +82,3 @@ do
  	fi	
 
 done
-
-
-

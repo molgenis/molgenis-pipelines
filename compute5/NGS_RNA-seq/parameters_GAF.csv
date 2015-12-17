@@ -217,7 +217,7 @@ projectJobsDir,${projectRoot}/${runid}/jobs
 projectLogsDir,${projectRoot}/${runid}logs
 projectQcDir,${projectRoot}/${runid}/qc
 allRawNgsPrmDataDir,${root}/umcg-gaf/prm02/rawdata/ngs
-allRawNgstmpDataDir,${root}/umcg-gaf/${tmp}/rawdata/ngs
+allRawNgsTmpDataDir,${root}/umcg-gaf/${tmp}/rawdata/ngs
 
 ## ?
 motifBin,/gcc/resources/snpEff/3.6c/GRCh37.75/motif.bin

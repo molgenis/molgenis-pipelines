@@ -21,8 +21,8 @@ platform,ILLUMINA
 #
 projectResultsDir,${projectDir}/results
 filePrefix,${sequencingStartDate}_${sequencer}_${run}_${flowcell}_L${lane}
-leftbarcode,${projectRawtmpDataDir}/${filePrefix}_${barcode}_1
-rightbarcode,${projectRawtmpDataDir}/${filePrefix}_${barcode}_2
+leftbarcode,${projectRawTmpDataDir}/${filePrefix}_${barcode}_1
+rightbarcode,${projectRawTmpDataDir}/${filePrefix}_${barcode}_2
 leftbarcodefqgz,${leftbarcode}.fq.gz
 rightbarcodefqgz,${rightbarcode}.fq.gz
 internalId,${internalSampleID}
