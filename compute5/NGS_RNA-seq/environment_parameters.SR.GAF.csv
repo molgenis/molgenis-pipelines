@@ -1,0 +1,32 @@
+########################################################################
+## General parameters for SLURM settings and cluster directory paths
+#
+queue,ll
+defaultInterpreter,#!/bin/bash
+stage,module load
+checkStage,module list
+WORKDIR,/groups/
+root,${WORKDIR}
+group,umcg-gaf
+tmp,tmp04
+resDir,/groups/umcg-wijmenga/tmp04/resources/
+toolDir,/apps/software/
+projectRoot,${root}/${group}/${tmp}/projects/${project}/
+projectDir,${root}/${group}/${tmp}/projects/${project}/${runid}/results/
+uniqueID,${sampleName}_${internalId}
+platform,ILLUMINA
+
+########################################################################
+## GAF and custom parameter mapping
+#
+projectRawtmpDataDir,${projectRoot}/${runid}/rawdata/ngs/
+projectResultsDir,${projectDir}/results
+filePrefix,${sequencingStartDate}_${sequencer}_${run}_${flowcell}_L${lane}
+leftbarcode,${projectRawtmpDataDir}/${filePrefix}_${barcode}
+leftbarcodefqgz,${leftbarcode}.fq.gz
+internalId,${internalSampleID}
+sampleName,${externalSampleID}
+reads1FqGz,${leftbarcodefqgz}
+reads2FqGz,
+sortedBamFile,${projectDir}/sortedBam/${uniqueID}.bam
+
