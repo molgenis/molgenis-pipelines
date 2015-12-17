@@ -15,6 +15,8 @@
 module load picard
 sleep 5
 
+rm  $checkSexMeanCoverage
+
 #select only the mean target coverage of the whole genome file
 awk '{
         if ($0 ~ /^#/){
@@ -47,13 +49,14 @@ awk '{
 
 perl -pi -e 's/\n/\t/' ${checkSexMeanCoverage}
 
-RESULT=`awk '{
+RESULT=$(awk '{
 	if ( "NA" == $1 || "?" == $2 ){
+		print "1) This is probably a whole genome sample, due to time saving there is no coverage calculated"
 		print "Unknown"
 	} else {
 		printf "%.2f \n", $2/$1 
 	}
-}' ${checkSexMeanCoverage}`
+}' ${checkSexMeanCoverage})
 
 echo "RESULT: $RESULT"
 awk '{
@@ -67,6 +70,7 @@ awk '{
 		exit 0
 	}
 	else if ( "NA" == $1 || "?" == $2 ) {
+		print "2) This is probably a whole genome sample, due to time saving there is no coverage calculated"
                 print "Unknown"
         }
 	else if ($2/$1 < 0.65 ){

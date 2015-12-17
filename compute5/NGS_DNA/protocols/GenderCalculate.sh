@@ -36,7 +36,5 @@ BAIT_INTERVALS=${capturedIntervals_nonAutoChrX} \
 TMP_DIR=${tempDir} \
 OUTPUT=${tmpHsMetricsNonAutosomalRegionChrX}
 
-rm -rf ${sampleNameID}.checkSex.filter.meancoverage.txt
-
 mv ${tmpHsMetricsNonAutosomalRegionChrX} ${hsMetricsNonAutosomalRegionChrX}
 echo "mv ${tmpHsMetricsNonAutosomalRegionChrX} ${hsMetricsNonAutosomalRegionChrX}"
