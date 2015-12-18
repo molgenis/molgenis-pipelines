@@ -46,7 +46,7 @@ flagstat \
 --nthreads=4 \
 ${tmpDedupBam} > ${tmpDedupBam}.flagstat
 
-echo -e "READ PAIR DUPLICATES\tPERCENTAGE DUPLICATES" > ${tmpDedupMetrics}
+echo -e "READ_PAIR_DUPLICATES\tPERCENTAGE_DUPLICATES" > ${tmpDedupMetrics}
 sed -n '1p;4p' ${tmpDedupBam}.flagstat | awk '{print $1}' | perl -wpe 's|\n|\t|' | awk '{print $2"\t"($2/$1)*100}' >> ${tmpDedupMetrics}
 
 echo -e "\nMarkDuplicates finished succesfull. Moving temp files to final.\n\n"
