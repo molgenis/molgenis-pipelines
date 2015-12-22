@@ -8,7 +8,7 @@ PROJECT=projectXX
 TMPDIR=tmpXX
 WORKDIR="/groups/umcg-gaf/${TMPDIR}"
 RUNID=runXX
-## For small batchsize (6) leave BATCH empty, else choose _exome (10 batches) or _wgs (20 batches) 
+## For small batchsize (6) leave BATCH empty, _chr (per chrosomomes), _NO (1 batch), _exome (10 batches) or _wgs (20 batches)  
 BATCH=""
 
 SAMPLESIZE=$(cat ${WORKDIR}/generatedscripts/${PROJECT}/${PROJECT}.csv | wc -l)
