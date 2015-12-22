@@ -13,6 +13,7 @@
 #string tempDir
 #string seqType
 #string picardJar
+#string	project
 
 #Load Picard module
 ${stage} ${picardVersion}

@@ -9,6 +9,7 @@
 #string alignedSam
 #string tempDir
 #string intermediateDir
+#string alignedSam
 #string alignedBam
 #string tmpDataDir
 #string project
@@ -17,7 +18,7 @@
 ${stage} ${picardVersion}
 ${checkStage}
 
-makeTmpDir ${alignedSam}
+makeTmpDir ${alignedBam}
 tmpAlignedBam=${MC_tmpFile}
 
 #Run picard, convert SAM to BAM

@@ -7,6 +7,7 @@
 #string projectPrefix
 #string intermediateDir
 #list externalSampleID
+#string	project
  
 makeTmpDir ${variantsFinalProjectVcfTable}
 tmpVariantsFinalProjectVcfTable=${MC_tmpFile}

@@ -32,7 +32,7 @@
 umask 0007
 
 module list
-
+module load Molgenis-Compute/${computeVersion}
 #
 # Create project dirs.
 #
@@ -123,10 +123,7 @@ fi
 echo "before run second rocket"
 echo pwd
 
-NGS_DNA_HOME="/groups/umcg-gaf/tmp04/software/NGS_DNA-3.0.1/"
-EBROOTMOLGENISMINCOMPUTE=/apps/software/Molgenis-Compute/v15.04.1-Java-1.7.0_80
-
 sh ${EBROOTMOLGENISMINCOMPUTE}/molgenis_compute.sh -p ${mainParameters} \
 -p ${batchIDList} -p ${projectJobsDir}/${project}.csv -p ${environment_parameters} -rundir ${projectJobsDir} \
--w ${workflowpath} -b slurm -g -weave -runid ${runid}
+--header ${EBROOTMOLGENISMINCOMPUTE}/templates/slurm/header.ftl -w ${workflowpath} -b slurm -g -weave -runid ${runid}
 

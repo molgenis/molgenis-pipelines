@@ -4,34 +4,18 @@
 #string capturedIntervals
 #string capturedIntervals_nonAutoChrX
 #string indexFileDictionary
-#string sample
 #string intermediateDir
 #string whichSex
 #string tempDir
 #string checkSexMeanCoverage
 #string picardJar
+#string hsMetricsNonAutosomalRegionChrX
+#string	project
 
 module load picard
 sleep 5
 
-#make intervallist
-if [ -f ${capturedIntervals_nonAutoChrX} ] 
-then
-	rm ${capturedIntervals_nonAutoChrX}
-fi
-
-cp ${indexFileDictionary} ${capturedIntervals_nonAutoChrX}
-awk '{if ($0 ~ /^X/){print $0}}' ${capturedIntervals} >> ${capturedIntervals_nonAutoChrX}
-
-#Calculate coverage chromosome X
-java -jar -XX:ParallelGCThreads=2 -Xmx4g ${EBROOTPICARD}/${picardJar} CalculateHsMetrics \
-INPUT=${dedupBam} \
-TARGET_INTERVALS=${capturedIntervals_nonAutoChrX} \
-BAIT_INTERVALS=${capturedIntervals_nonAutoChrX} \
-TMP_DIR=${tempDir} \
-OUTPUT=${dedupBam}.nonAutosomalRegionChrX_hs_metrics
-
-rm -rf ${sample}.checkSex.filter.meancoverage.txt
+rm  $checkSexMeanCoverage
 
 #select only the mean target coverage of the whole genome file
 awk '{
@@ -59,19 +43,20 @@ awk '{
         }else{
                 print $22
         }
-}' ${dedupBam}.nonAutosomalRegionChrX_hs_metrics >> ${checkSexMeanCoverage}
+}' ${hsMetricsNonAutosomalRegionChrX} >> ${checkSexMeanCoverage}
 
 
 
 perl -pi -e 's/\n/\t/' ${checkSexMeanCoverage}
 
-RESULT=`awk '{
+RESULT=$(awk '{
 	if ( "NA" == $1 || "?" == $2 ){
+		print "1) This is probably a whole genome sample, due to time saving there is no coverage calculated"
 		print "Unknown"
 	} else {
 		printf "%.2f \n", $2/$1 
 	}
-}' ${checkSexMeanCoverage}`
+}' ${checkSexMeanCoverage})
 
 echo "RESULT: $RESULT"
 awk '{
@@ -85,6 +70,7 @@ awk '{
 		exit 0
 	}
 	else if ( "NA" == $1 || "?" == $2 ) {
+		print "2) This is probably a whole genome sample, due to time saving there is no coverage calculated"
                 print "Unknown"
         }
 	else if ($2/$1 < 0.65 ){
