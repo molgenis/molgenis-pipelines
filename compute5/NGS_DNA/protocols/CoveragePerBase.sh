@@ -50,11 +50,14 @@ then
 		--omitDepthOutputAtEachBase \
                 -L ${capturedBed}
 		
-		awk -v OFS='\t' '{print $1,$3}' ${sampleNameID}.coveragePerTarget.sample_interval_summary > ${sampleNameID}.coveragePerTarget.coveragePerTarget.txt.tmp
-		paste ${sampleNameID}.coveragePerTarget.coveragePerTarget.txt.tmp ${capturedBed}.genesOnly > ${sampleNameID}.coveragePerTarget.coveragePerTarget.txt
+		awk -v OFS='\t' '{print $1,$3}' ${sampleNameID}.coveragePerTarget.sample_interval_summary | sed '1d' > ${sampleNameID}.coveragePerTarget.coveragePerTarget.txt.tmp
+		paste ${sampleNameID}.coveragePerTarget.coveragePerTarget.txt.tmp ${capturedBed}.genesOnly > ${sampleNameID}.coveragePerTarget_inclGenes.txt
+		awk 'BEGIN { OFS = "\t" } ; {split($1,a,":"); print a[1],a[2],$2,$3}' ${sampleNameID}.coveragePerTarget_inclGenes.txt | awk 'BEGIN { OFS = "\t" } ; {split($0,a,"-"); print a[1],a[2]}' > ${sampleNameID}.coveragePerTarget_inclGenes_splitted.txt
+		echo "Chr\tChr Position Start\tChr Position End\tAverage Counts\tDescription\tReference Length" > ${sampleNameID}.coveragePerTarget_final.txt
+		awk '{OFS="\t"} {len=$3-$2} END {print $0,len}' ${sampleNameID}.coveragePerTarget_inclGenes_splitted.txt >> ${sampleNameID}.coveragePerTarget_final.txt 
 
-		#python ${EBROOTNGSMINUTILS}/calculateCoveragePerGene.py --input ${sampleNameID}.coveragePerBase.txt --output ${sampleNameID}.coveragePerGene.txt.tmp
-		#sort ${sampleNameID}.coveragePerGene.txt.tmp > ${sampleNameID}.coveragePerGene.txt
+		python ${EBROOTNGSMINUTILS}/calculateCoveragePerGene.py --input ${sampleNameID}.coveragePerBase.txt --output ${sampleNameID}.coveragePerGene.txt.tmp
+		sort ${sampleNameID}.coveragePerGene.txt.tmp > ${sampleNameID}.coveragePerGene.txt
 
 	else
 		echo "there is no capturedIntervalsPerBase: ${capturedIntervalsPerBase}, please run coverageperbase: (module load ngs-utils --> run coverage_per_base.sh)" 
