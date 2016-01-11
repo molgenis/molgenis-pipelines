@@ -33,9 +33,9 @@ then
 
 		paste ${capturedIntervalsPerBase} ${sampleNameID}.coveragePerBase_withoutHeader > ${sampleNameID}.combined_bedfile_and_samtoolsoutput.txt
 
-		echo -e "chr\tstart\tstop\tgene\tcoverage" > ${sampleNameID}.coveragePerBase.txt
+		echo -e "Chr\tChr Position Start\tDescription\tMin Counts" > ${sampleNameID}.coveragePerBase.txt
 
-		awk -v OFS='\t' '{print $1,$2,$3,$5,$7}' ${sampleNameID}.combined_bedfile_and_samtoolsoutput.txt > ${sampleNameID}.coveragePerBase.txt
+		awk -v OFS='\t' '{print $1,$2,$5,$7}' ${sampleNameID}.combined_bedfile_and_samtoolsoutput.txt > ${sampleNameID}.coveragePerBase.txt
 
 		if [ ! -f ${capturedBed}.genesOnly ]
 		then
