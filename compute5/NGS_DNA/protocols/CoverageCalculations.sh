@@ -16,6 +16,7 @@
 sleep 5
 module load ${gatkVersion}
 module load ngs-utils
+module load Python
 
 if [ "${GCC_Analysis}" == "diagnostiek" ] || [ "${GCC_Analysis}" == "diagnostics" ] || [ "${GCC_Analysis}" == "Diagnostiek" ] || [ "${GCC_Analysis}" == "Diagnostics" ]
 then
@@ -38,7 +39,7 @@ then
 
 		echo -e "Chr\tChr Position Start\tDescription\tMin Counts" > ${sampleNameID}.coveragePerBase.txt
 
-		awk -v OFS='\t' '{print $1,$2,$5,$7}' ${sampleNameID}.combined_bedfile_and_samtoolsoutput.txt > ${sampleNameID}.coveragePerBase.txt
+		awk -v OFS='\t' '{print $1,$2,$5,$7}' ${sampleNameID}.combined_bedfile_and_samtoolsoutput.txt >> ${sampleNameID}.coveragePerBase.txt
 
 		if [ ! -f ${capturedBed}.genesOnly ]
 		then
@@ -70,8 +71,8 @@ then
 			rm ${sampleNameID}.coveragePerTarget_final.txt
 		fi 
 
-		echo "Chr\tChr Position Start\tChr Position End\tAverage Counts\tDescription\tReference Length" > ${sampleNameID}.coveragePerTarget_final.txt
-		awk '{OFS="\t"} {len=$3-$2} END {print $0,len}' ${sampleNameID}.coveragePerTarget_inclGenes_splitted.txt >> ${sampleNameID}.coveragePerTarget_final.txt 
+		echo -e "Chr\tChr Position Start\tChr Position End\tAverage Counts\tDescription\tReference Length" > ${sampleNameID}.coveragePerTarget_final.txt
+		awk '{OFS="\t"} {len=$3-$2} {print $0,len}' ${sampleNameID}.coveragePerTarget_inclGenes_splitted.txt >> ${sampleNameID}.coveragePerTarget_final.txt 
 
 
 	else
