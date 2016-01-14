@@ -51,8 +51,8 @@ then
  putFile ${collectRnaSeqMetrics}
  putFile ${collectRnaSeqMetricsChart}
 cd ${collectRnaSeqMetricsDir}
-md5sum ${collectRnaSeqMetrics} > ${collectRnaSeqMetrics}.md5
-md5sum ${collectRnaSeqMetricsChart} > ${collectRnaSeqMetricsChart}.md5
+md5sum ${collectRnaSeqMetrics} > basename ${collectRnaSeqMetrics}.md5
+md5sum ${collectRnaSeqMetricsChart} > basename ${collectRnaSeqMetricsChart}.md5
 cd -
  echo "succes moving files";
 else
