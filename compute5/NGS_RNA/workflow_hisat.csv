@@ -1,0 +1,13 @@
+step,protocol,dependencies
+s00_FastQC,protocols/FastQC.sh,
+s01a_HisatAlignment,protocols/HisatAlignment.sh,
+s01b_MergeBam,protocols/MergeBam.sh,s01a_HisatAlignment
+s02_MarkDuplicates,protocols/MarkDuplicates.sh,s01b_MergeBam
+s03_QCStats,protocols/QCStats.sh,s02_MarkDuplicates
+s04_HTSeq_count,protocols/HTSeq_count.sh,s01b_MergeBam
+s05a_SplitAndTrim,protocols/SplitAndTrim.sh,s02_MarkDuplicates
+s05b_GatkHaplotypeCallerGvcf,protocols/GatkHaplotypeCallerGvcf.sh,s05a_SplitAndTrim
+s05c_GatkGenotypeGvcf,protocols/GatkGenotypeGvcf.sh,s05b_GatkHaplotypeCallerGvcf
+s06_MakeExpressionTable,protocols/MakeExpressionTable.sh,s04_HTSeq_count
+s07_QC_Report,protocols/QC_Report.sh,s04_MakeExpressionTable;s03_QCStats
+s08_CopyToResultsDir,protocols/CopyToResultsDir.sh,s06_MakeExpressionTable;s00_FastQC;s03_QCStats

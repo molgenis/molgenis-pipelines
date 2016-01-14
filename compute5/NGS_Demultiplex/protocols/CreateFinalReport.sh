@@ -4,6 +4,8 @@
 #string run
 #string arrayDir
 #string sampleSheet
+#string nextSeqDir
+#string runPrefix
 
 module load ngs-utils
 
@@ -12,3 +14,7 @@ ${createPerSampleFinalReportPl} \
 -o ${finalReportResultDir} \
 -r ${run} \
 -s ${sampleSheet}
+
+### Pipeline is finished, write a finished file
+touch ${nextSeqDir}/${runPrefix}_Demultiplexing.finished
+

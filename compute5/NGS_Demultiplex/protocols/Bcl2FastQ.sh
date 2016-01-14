@@ -1,7 +1,7 @@
 #MOLGENIS walltime=12:00:00 nodes=1 ppn=6 mem=12gb
 #string bcl2fastqVersion
 #string NGSDir
-#string nextseqRunDataDir
+#string nextSeqRunDataDir
 #string runResultsDir
 #string stage
 #string checkStage
@@ -32,6 +32,16 @@ then
     	mkdir -p ${intermediateDir}
 fi
 
+if [ -d ${intermediateDir}/Reports ]
+then
+	rm -rf ${intermediateDir}/Reports
+fi
+
+if [ -d ${intermediateDir}/Stats ]
+then
+        rm -rf ${intermediateDir}/Stats
+fi
+
 cp ${sampleSheet} ${runJobsDir}
 
 echo "intermediateDir: ${intermediateDir}"
@@ -49,7 +59,8 @@ CreateIlluminaSampleSheet_V2.pl \
 mv ${tmpIntermediateDir}/Illumina_R${run}.csv ${intermediateDir}/Illumina_R${run}.csv
 
 bcl2fastq \
---runfolder-dir ${nextseqRunDataDir} \
+--runfolder-dir ${nextSeqRunDataDir} \
 --output-dir ${tmpIntermediateDir} \
 --sample-sheet ${intermediateDir}/Illumina_R${run}.csv 
+
 mv ${tmpIntermediateDir}/* ${intermediateDir}

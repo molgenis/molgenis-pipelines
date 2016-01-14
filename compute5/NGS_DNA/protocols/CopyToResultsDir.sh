@@ -95,6 +95,16 @@ do
 	then
 		cp ${intermediateDir}/${sample}.coveragePerBase.txt ${projectResultsDir}/coverage/
 	fi
+	if [ -f ${intermediateDir}/${sample}.coveragePerGene.txt  ] 
+	then
+		cp ${intermediateDir}/${sample}.coveragePerGene.txt ${projectResultsDir}/coverage/
+	fi
+	if [ -f ${intermediateDir}/${sample}.coveragePerTarget.txt  ] 
+	then
+		cp ${intermediateDir}/${sample}.coveragePerTarget.txt ${projectResultsDir}/coverage/
+	fi
+	
+	
 done
 echo "Copied vcf file + coveragePerBase.txt (8/11)"
 

@@ -11,9 +11,10 @@
 #string javaVersion
 #string molgenisAnnotatorVersion
 #string projectDellyAnnotatorOutputVcf
+#string dellyVcf
+#string dellySnpEffVcf
 
-sleep 5
-
+sleep 3
 
 makeTmpDir ${projectDellyAnnotatorOutputVcf}
 tmpProjectDellyAnnotatorOutputVcf=${MC_tmpFile}
@@ -23,14 +24,12 @@ ${stage} ${snpEffVersion}
 ${stage} ${molgenisAnnotatorVersion}
 ${checkStage}
 
-
-
 #Run Molgenis CmdLineAnnotator with snpEff to add "Gene_Name" to be used for HPO annotation
 java -Xmx10g -jar -Djava.io.tmpdir=${tempDir} ${EBROOTCMDLINEANNOTATOR}/CmdLineAnnotator-1.9.0.jar \
 snpEff \
 ${EBROOTSNPEFF}/snpEff.jar \
-${intermediateDir}/${project}.delly.vcf \
-${intermediateDir}/${project}.delly.snpeff.vcf
+${dellyVcf} \
+${dellySnpEffVcf}
 
 echo "Finished SnpEff annotation"
 
@@ -38,10 +37,10 @@ echo "Finished SnpEff annotation"
 java -Xmx10g -jar -Djava.io.tmpdir=${tempDir} ${EBROOTCMDLINEANNOTATOR}/CmdLineAnnotator-1.9.0.jar \
 hpo \
 ${hpoTerms} \
-${intermediateDir}/${project}.delly.snpeff.vcf \
+${dellySnpEffVcf} \
 ${tmpProjectDellyAnnotatorOutputVcf}
 
 echo "Finished HPO annotation"
 
-    mv ${tmpProjectDellyAnnotatorOutputVcf} ${projectDellyAnnotatorOutputVcf}
+mv ${tmpProjectDellyAnnotatorOutputVcf} ${projectDellyAnnotatorOutputVcf}
 

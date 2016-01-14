@@ -15,21 +15,21 @@ rawDataDir,${workDir}/rawdata
 hiseqDir,${rawDataDir}/hiseq
 hiseqRunDataDir,${hiseqDir}/${runPrefix}
 
-nextseqDir,${rawDataDir}/nextseq
-nextseqRunDataDir,${nextseqDir}/${runPrefix}
+nextSeqDir,${rawDataDir}/nextseq
+nextSeqRunDataDir,${nextSeqDir}/${runPrefix}/
 
 NGSDir,${rawDataDir}/ngs
 arrayDir,${rawDataDir}/array 
 
 runID,run_${run}
-runDir,${workDir}/runs/${runID}/
+runDir,${workDir}/runs/${runID}_${sequencer}/
 runJobsDir,${runDir}/jobs/
 runResultsDir,${runDir}/results/
 prepKitsDir,${dataDir}/Prepkits/
-intermediateDir,${workDir}/tmp/${runID}/
+intermediateDir,${workDir}/tmp/${runID}_${sequencer}/
 
-bcl2fastqDir,${nextseqRunDataDir}/${project}
-sampleSheet,${workDir}/generatedscripts/${runID}/${runID}.csv
+bcl2fastqDir,${nextSeqRunDataDir}/${project}
+sampleSheet,${workDir}/generatedscripts/${runID}_${sequencer}/${runID}_${sequencer}.csv
 
 sourcesDir,${root}/sources/
 
@@ -37,7 +37,7 @@ adapterStringency,0.9
 
 ## CreateFinalReport
 createPerSampleFinalReportPl,CreateFinalReportPerSample.pl
-finalReportResultDir,${nextseqRunDataDir}/finalreports/
+finalReportResultDir,${nextSeqRunDataDir}/finalreports/
 
 filenamePrefix,${sequencingStartDate}_${sequencer}_${run}_${flowcell}_L${lane}
 fastqExtension,.fq
