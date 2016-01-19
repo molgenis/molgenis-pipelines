@@ -37,9 +37,9 @@ then
 		##Paste command produces ^M character
 		perl -p -i -e "s/\r//g" ${sampleNameID}.combined_bedfile_and_samtoolsoutput.txt
 
-		echo -e "Chr\tChr Position Start\tDescription\tMin Counts\tCDS" > ${sampleNameID}.coveragePerBase.txt
+		echo -e "Index\tChr\tChr Position Start\tDescription\tMin Counts\tCDS\tContig" > ${sampleNameID}.coveragePerBase.txt
 
-		awk -v OFS='\t' '{print $1,$2,$5,$7,"CDS"}' ${sampleNameID}.combined_bedfile_and_samtoolsoutput.txt >> ${sampleNameID}.coveragePerBase.txt
+		awk -v OFS='\t' '{print NR,$1,$2,$5,$7,"CDS","1"}' ${sampleNameID}.combined_bedfile_and_samtoolsoutput.txt >> ${sampleNameID}.coveragePerBase.txt
 
 		if [ ! -f ${capturedBed}.genesOnly ]
 		then
@@ -70,8 +70,8 @@ then
 			rm ${sampleNameID}.coveragePerTarget_final.txt
 		fi 
 
-		echo -e "Chr\tChr Position Start\tChr Position End\tAverage Counts\tDescription\tReference Length\tCDS" > ${sampleNameID}.coveragePerTarget_final.txt
-		awk '{OFS="\t"} {len=$3-$2} {print $0,len,"CDS"}' ${sampleNameID}.coveragePerTarget_inclGenes_splitted.txt >> ${sampleNameID}.coveragePerTarget_final.txt 
+		echo -e "Index\tChr\tChr Position Start\tChr Position End\tAverage Counts\tDescription\tReference Length\tCDS\tContig" > ${sampleNameID}.coveragePerTarget_final.txt
+		awk '{OFS="\t"} {len=$3-$2} {print NR,$0,len,"CDS","1"}' ${sampleNameID}.coveragePerTarget_inclGenes_splitted.txt >> ${sampleNameID}.coveragePerTarget_final.txt 
 
 
 	else
