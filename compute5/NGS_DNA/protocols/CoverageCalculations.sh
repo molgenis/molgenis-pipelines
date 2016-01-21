@@ -16,6 +16,7 @@
 sleep 5
 module load ${gatkVersion}
 module load ngs-utils
+module load Python
 
 if [ "${GCC_Analysis}" == "diagnostiek" ] || [ "${GCC_Analysis}" == "diagnostics" ] || [ "${GCC_Analysis}" == "Diagnostiek" ] || [ "${GCC_Analysis}" == "Diagnostics" ]
 then
@@ -36,9 +37,9 @@ then
 		##Paste command produces ^M character
 		perl -p -i -e "s/\r//g" ${sampleNameID}.combined_bedfile_and_samtoolsoutput.txt
 
-		echo -e "Chr\tChr Position Start\tDescription\tMin Counts" > ${sampleNameID}.coveragePerBase.txt
+		echo -e "Index\tChr\tChr Position Start\tDescription\tMin Counts\tCDS\tContig" > ${sampleNameID}.coveragePerBase.txt
 
-		awk -v OFS='\t' '{print $1,$2,$5,$7}' ${sampleNameID}.combined_bedfile_and_samtoolsoutput.txt > ${sampleNameID}.coveragePerBase.txt
+		awk -v OFS='\t' '{print NR,$1,$2,$5,$7,"CDS","1"}' ${sampleNameID}.combined_bedfile_and_samtoolsoutput.txt >> ${sampleNameID}.coveragePerBase.txt
 
 		if [ ! -f ${capturedBed}.genesOnly ]
 		then
@@ -56,7 +57,6 @@ then
 		python ${EBROOTNGSMINUTILS}/calculateCoveragePerGene.py --input ${sampleNameID}.coveragePerBase.txt --output ${sampleNameID}.coveragePerGene.txt.tmp
 		sort ${sampleNameID}.coveragePerGene.txt.tmp > ${sampleNameID}.coveragePerGene.txt
 
-		
 		awk -v OFS='\t' '{print $1,$3}' ${sampleNameID}.coveragePerTarget.sample_interval_summary | sed '1d' > ${sampleNameID}.coveragePerTarget.coveragePerTarget.txt.tmp
 		paste ${sampleNameID}.coveragePerTarget.coveragePerTarget.txt.tmp ${capturedBed}.genesOnly > ${sampleNameID}.coveragePerTarget_inclGenes.txt
 		##Paste command produces ^M character
@@ -65,13 +65,13 @@ then
 		
 		awk 'BEGIN { OFS = "\t" } ; {split($1,a,":"); print a[1],a[2],$2,$3}' ${sampleNameID}.coveragePerTarget_inclGenes.txt | awk 'BEGIN { OFS = "\t" } ; {split($0,a,"-"); print a[1],a[2]}' > ${sampleNameID}.coveragePerTarget_inclGenes_splitted.txt
 
-		if [ -d ${sampleNameID}.coveragePerTarget_final.txt]
+		if [ -d ${sampleNameID}.coveragePerTarget_final.txt ]
 		then
 			rm ${sampleNameID}.coveragePerTarget_final.txt
 		fi 
 
-		echo "Chr\tChr Position Start\tChr Position End\tAverage Counts\tDescription\tReference Length" > ${sampleNameID}.coveragePerTarget_final.txt
-		awk '{OFS="\t"} {len=$3-$2} END {print $0,len}' ${sampleNameID}.coveragePerTarget_inclGenes_splitted.txt >> ${sampleNameID}.coveragePerTarget_final.txt 
+		echo -e "Index\tChr\tChr Position Start\tChr Position End\tAverage Counts\tDescription\tReference Length\tCDS\tContig" > ${sampleNameID}.coveragePerTarget_final.txt
+		awk '{OFS="\t"} {len=$3-$2} {print NR,$0,len,"CDS","1"}' ${sampleNameID}.coveragePerTarget_inclGenes_splitted.txt >> ${sampleNameID}.coveragePerTarget_final.txt 
 
 
 	else
