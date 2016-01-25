@@ -18,7 +18,6 @@
 #string toolDir
 #string uniqueID
 
-echo "## "$(date)" ##  $0 Started "
 echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 getFile ${sortedBamFile}
 
@@ -56,6 +55,3 @@ fi
 
 echo "## "$(date)" ##  $0 Done "
 
-
-
-echo "## "$(date)" ##  $0 Done "
