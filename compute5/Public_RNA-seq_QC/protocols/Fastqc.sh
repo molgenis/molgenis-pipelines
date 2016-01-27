@@ -25,7 +25,7 @@ ${stage} FastQC/${fastqcVersion}
 ${checkStage}
 
 
-echo "## "$(date)" ##  $0 Started "
+echo "## "$(date)" ##  $0 Start "
 
 if [ ${#reads2FqGz} -eq 0 ]; then
 	
