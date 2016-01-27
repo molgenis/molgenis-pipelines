@@ -1,4 +1,4 @@
-#MOLGENIS walltime=23:59:00 mem=6gb ppn=6
+#MOLGENIS walltime=23:59:00 mem=36gb ppn=6
 
 #string	intermediateDir
 #string	externalSampleID
@@ -15,16 +15,18 @@
 #string reportPDF
 #string qcReportPDF
 #string wkHtmlToPdfVersion
+umask 0007
 
 if [ ! -f $intermediateDir ]
 then
-    	mkdir -p $intermediateDir
+    mkdir -m 770 -p $intermediateDir
 fi
 
-module load R
-module load ngs-utils
-module load PPVforNIPT
+module load R/${rVersion}
+module load ngs-utils/${ngsUtilsVersion}
+module load PPVforNIPT/${ppvForNiptVersion}
 module load wkhtmltopdf/${wkHtmlToPdfVersion}
+module list
 
 Rmarkdownfile_Diagnostic_output_table="${EBROOTNGSMINUTILS}/${reportRMD}"
 Rmarkdownfile_QC="${EBROOTNGSMINUTILS}/${qcReportRMD}"

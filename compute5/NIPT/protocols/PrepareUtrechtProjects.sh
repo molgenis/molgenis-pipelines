@@ -1,8 +1,10 @@
 #MOLGENIS walltime=01:00:00 mem=1gb ppn=2
+
 #string inputDataTmp
 #string ProjectUtrecht
 #list externalSampleID
 #string utrechtDir
+umask 0007
 
 array_contains () {
     local array="$1[@]"
@@ -17,21 +19,18 @@ array_contains () {
     return $in
 }
 
-if [ ! -d ${inputDataTmp} ]
-then
-	mkdir -p ${inputDataTmp}
+if [ ! -d ${inputDataTmp} ]; then
+    mkdir -m 770 -p ${inputDataTmp}
 fi
 
 
 # Copying data to zinc-finger
-for externalID in "${externalSampleID[@]}"
-do
-	array_contains INPUTS "${externalID}_dedup.bam" || INPUTS+=("${externalID}_dedup.bam")
-	array_contains INPUTS "${externalID}_dedup.bam.bai" || INPUTS+=("${externalID}_dedup.bam.bai")
+for externalID in "${externalSampleID[@]}"; do
+    array_contains INPUTS "${externalID}_dedup.bam" || INPUTS+=("${externalID}_dedup.bam")
+    array_contains INPUTS "${externalID}_dedup.bam.bai" || INPUTS+=("${externalID}_dedup.bam.bai")
 done
 
-for i in ${INPUTS[@]}
-do
-	rsync -av ${utrechtDir}/${i} ${inputDataTmp}
+for i in ${INPUTS[@]}; do
+    rsync -av ${utrechtDir}/${i} ${inputDataTmp}
 done
 echo "rsync done"
