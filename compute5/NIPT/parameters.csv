@@ -7,10 +7,12 @@ stage,module load
 checkStage,module list
 
 ### Tool versions ####
-rVersion,R/3.2.1-goolf-1.7.20
-sambambaVersion,sambamba/v0.5.9-goolf-1.7.20
-tmpDataDir,${workDir}/${tmpName}/
+rVersion,3.2.1-goolf-1.7.20
+sambambaVersion,v0.5.9-goolf-1.7.20
+ngsUtilsVersion,16.01.1
+ppvForNiptVersion,0.1-goolf-1.7.20
 wkHtmlToPdfVersion,0.11.0_rc1-static-amd64
+tmpDataDir,${workDir}/${tmpName}/
 sambambaTool,sambamba_v0.5.9
 
 dataDir,/apps/data/
