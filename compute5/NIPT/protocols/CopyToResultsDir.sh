@@ -10,9 +10,9 @@
 # Change permissions
 umask 0007
 
-if [ ! -d ${resultsSampleDir}  ] 
+if [ ! -d ${resultsSampleDir} ] 
 then
-  mkdir -p ${resultsSampleDir}
+    mkdir -m 770 -p ${resultsSampleDir}
 fi
 
 cp ${reportPDF} ${resultsSampleDir}
