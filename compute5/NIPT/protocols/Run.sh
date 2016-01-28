@@ -5,6 +5,9 @@
 #string	controlGroupRds
 #string	inputDataRawSample
 #string rVersion
+#string ngsUtilsVersion
+#string ppvForNiptVersion
+#string wkHtmlToPdfVersion
 #string apriori13
 #string apriori18
 #string apriori21
@@ -14,7 +17,6 @@
 #string qcReportHTML
 #string reportPDF
 #string qcReportPDF
-#string wkHtmlToPdfVersion
 umask 0007
 
 if [ ! -f $intermediateDir ]
