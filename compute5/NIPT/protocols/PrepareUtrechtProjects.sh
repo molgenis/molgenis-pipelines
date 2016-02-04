@@ -13,7 +13,7 @@ fi
 # Copying data to location where it will be analysed.
 #
 for externalID in "${externalSampleID[@]}"; do
-    rsync -av "${utrechtDir}/${externalID}/mapping/${externalID}_dedup.bam*" "${inputDataTmp}"
+    rsync -av ${utrechtDir}/${externalID}/mapping/${externalID}_dedup.bam* ${inputDataTmp}
 done
 
 echo "rsync done"
