@@ -51,6 +51,7 @@ if java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}GATK//${gatkVersion}/Genom
   -o ${rawVCF} \
   -U ALLOW_N_CIGAR_READS \
   -rf ReassignMappingQuality \
+  -out_mode EMIT_ALL_SITES \
   -DMQ 60
 
 # have to gzip for GenometypeHarmonizer usage later
