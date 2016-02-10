@@ -11,11 +11,11 @@ permanentDir,${workDir}/prm02
 genome,b38
 GR,GRCh38
 ensembleReleaseVersion,82
-species,mus_musculus
-indexFileID,Mus_musculus.GRCm38
-annotationFileName,Mus_musculus.GRCm38
-indexFolderName,mus_musculus
-indicesDir,${dataDir}/${GR}/
+species,callithrix_jacchus
+indexFileID,Callithrix_jacchus.GRCm38
+annotationFileName,Callithrix_jacchus.GRCm38
+indexFolderName,callithrix_jacchus
+indicesDir,${hisatIndex}
 dbSNPFileID,dbsnp_142.GRCh38
 dbSNPDir,${dataDir}/ftp.ncbi.nlm.nih.gov/pub/human_9606_b142_GRCh38/
-hisatIndex,${dataDir}/ftp.ensembl.org/pub/release-82/fasta/mus_musculus/${indexFileID}
+hisatIndex,${dataDir}/ftp.ensembl.org/pub/release-82/fasta/${species}/${indexFileID}

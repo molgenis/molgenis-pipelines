@@ -12,6 +12,7 @@ genome,b38
 GR,GRCh38
 ensembleReleaseVersion,82
 species,homo_sapiens
+annotationFileName,Homo_sapiens.${GR}
 indexFileID,GCA_000001405.15_GRCh38_no_alt_analysis_set
 indexFolderName,human_g1k_v38
 indicesDir,${dataDir}/${GR}/

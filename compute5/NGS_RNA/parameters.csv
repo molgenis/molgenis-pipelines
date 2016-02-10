@@ -53,10 +53,10 @@ workflowFile,$MC_HOME/NGS_RNA_seq_pipeline/workflow.csv
 
 ##### GENOME,INDEX,ANNOTATION FILES #####
 ensembleDir,${dataDir}/ftp.ensembl.org/pub/release-${ensembleReleaseVersion}/gtf/${species}/
-geneAnnotationTxt,${ensembleDir}/Homo_sapiens.${GR}.${ensembleReleaseVersion}.annotation.geneIds.txt.gz
+geneAnnotationTxt,${ensembleDir}/${annotationFileName}.${ensembleReleaseVersion}.annotation.geneIds.txt.gz
 STARindex,${dataDir}/ftp.broadinstitute.org/bundle/2.8/${genome}/${starVersion}/
-annotationGtf,${ensembleDir}/Homo_sapiens.${GR}.${ensembleReleaseVersion}.gtf
-annotationRefFlat,${ensembleDir}/Homo_sapiens.${GR}.${ensembleReleaseVersion}.gtf.annotation.refFlat
+annotationGtf,${ensembleDir}/${annotationFileName}.${ensembleReleaseVersion}.gtf
+annotationRefFlat,${ensembleDir}/${annotationFileName}.${ensembleReleaseVersion}.gtf.annotation.refFlat
 indexFileFastaIndex,${indicesDir}/${indexFileID}.fasta.fai
 indexFile,${indicesDir}/${indexFileID}.fasta
 indexFileDictionary,${indicesDir}/${indexFileID}.dict
@@ -97,7 +97,7 @@ sampleMergedBam,${intermediateDir}/${externalSampleID}.unique_mapping_reads.sort
 sampleMergedBai,${intermediateDir}/${externalSampleID}.unique_mapping_reads.sorted.merged.bai
 sampleMergedDedupBam,${intermediateDir}/${externalSampleID}.unique_mapping_reads.sorted.merged.dedup.bam
 sampleMergedDedupBai,${intermediateDir}/${externalSampleID}.unique_mapping_reads.sorted.merged.dedup.bai
-starLogFile,${intermediateDir}/${externalSampleID}.Log.final.out,
+starLogFile,${intermediateDir}/${externalSampleID}.hisat.final.log,
 
 ##### Protocols 4,5a,5b,5c (SplitAndTrim,GatkHaplotypeCallerGvcf,GatkMergeGvcf,GatkGenotypeGvcf) #####
 splitAndTrimBam,${intermediateDir}${externalSampleID}.unique_mapping_reads.sorted.merged.dedup.splitAndTrim.bam
