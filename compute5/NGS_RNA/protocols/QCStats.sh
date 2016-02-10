@@ -23,6 +23,7 @@
 #string samtoolsVersion
 #string NGSUtilsVersion
 #string pythonVersion
+#string ghostscriptVersion
 #string picardJar
 #string project
 
@@ -57,11 +58,11 @@ then
         --pdf ${insertsizeMetricspdf}
 
 	#convert pdf to png
-	convert -density 150 ${insertsizeMetricspdf} -quality 90 ${insertsizeMetricspng}	
+	convert -density 150 ${insertsizeMetricspdf} -quality 90 ${insertsizeMetricspng}
 
 	#Flagstat for reads mapping to the genome.
 	samtools flagstat ${sampleMergedDedupBam} >  ${flagstatMetrics}
-	perl -nle 'print $2,"|\t",$1 while m%^([0-9]+)+.+0\s(.+)%g;' ${flagstatMetrics} > ${starLogFile}
+	#perl -nle 'print $2,"|\t",$1 while m%^([0-9]+)+.+0\s([a-z0-9 ]+)%g;' ${flagstatMetrics} > ${flagstatMetrics}.final
 
 	#CollectRnaSeqMetrics.jar
 	java -XX:ParallelGCThreads=4 -jar -Xmx6g ${EBROOTPICARD}/${picardJar} CollectRnaSeqMetrics \
@@ -69,10 +70,11 @@ then
 	I=${sampleMergedDedupBam} \
 	STRAND_SPECIFICITY=SECOND_READ_TRANSCRIPTION_STRAND \
 	CHART_OUTPUT=${rnaSeqMetrics}.pdf  \
-	O=${rnaSeqMetrics}	
+	VALIDATION_STRINGENCY=LENIENT \
+	O=${rnaSeqMetrics}
 
 	#convert pdf to png
-	convert -density 150 ${rnaSeqMetrics}.pdf -quality 90 ${rnaSeqMetrics}.png	
+	convert -density 150 ${rnaSeqMetrics}.pdf -quality 90 ${rnaSeqMetrics}.png
 
 	# Collect QC data from several QC matricses, and write a tablular output file.
 
@@ -85,30 +87,32 @@ then
 	-r ${rnaSeqMetrics} \
 	-d ${dupStatMetrics} \
 	-s ${starLogFile} \
-	>> ${qcMatrics}	
-	
+	>> ${qcMatrics}
+
 elif [ ${seqType} == "SR" ]
 then
 
         #Flagstat for reads mapping to the genome.
         samtools flagstat ${sampleMergedDedupBam} \
         > ${flagstatMetrics}
+	#perl -nle 'print $2,"|\t",$1 while m%^([0-9]+)+.+0\s([a-z0-9 ]+)%g;' ${flagstatMetrics} > ${flagstatMetrics}.final
 
 	#CollectRnaSeqMetrics.jar
-	java -XX:ParallelGCThreads=4 -jar -Xmx6g ${EBROOTPICARD}/${picardJar} CollectRnaSeqMetrics \        
+	java -XX:ParallelGCThreads=4 -jar -Xmx6g ${EBROOTPICARD}/${picardJar} CollectRnaSeqMetrics \
         REF_FLAT=${annotationRefFlat} \
         I=${sampleMergedDedupBam} \
         STRAND_SPECIFICITY=SECOND_READ_TRANSCRIPTION_STRAND \
         CHART_OUTPUT=${rnaSeqMetrics}.pdf  \
+	VALIDATION_STRINGENCY=LENIENT \
         O=${rnaSeqMetrics}
-	
+
 	#convert pdf to png
 	convert -density 150 ${rnaSeqMetrics}.pdf -quality 90 ${rnaSeqMetrics}.png
-	
+
 	#add header to qcMatrics
 	echo "Sample:	${externalSampleID}" > ${qcMatrics} 
 
-	#Pull RNASeq stats without intsertSizeMatrics	
+	#Pull RNASeq stats without intsertSizeMatrics
 	python $EBROOTNGSMINUTILS/pull_RNA_Seq_Stats.py \
 	-f ${flagstatMetrics} \
 	-r ${rnaSeqMetrics} \

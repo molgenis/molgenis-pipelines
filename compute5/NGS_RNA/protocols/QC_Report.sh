@@ -234,7 +234,7 @@ Available online at: http://www.bioinformatics.babraham.ac.uk/projects/fastqc/ $
 </div>
 
 <div>
-<!--begin.rcode, engine='python', echo=FALSE, comment=NA, warning=FALSE, message=FALSE
+<!--begin.rcode, engine='python', echo=FALSE, comment=NA, warning=FALSE, message=FALSE, results='asis'
 # print out tables with QC stats based on the qcMatricsList
 
 import csv
@@ -288,9 +288,6 @@ for j in range(0, filesNumber):
 arraySize = len(arrayResults)
 
 print('<h1>Project analysis results</h1>')
-
-end.rcode-->
-<!--begin.rcode, engine='python', echo=FALSE, comment=NA, warning=FALSE, message=FALSE
 
 for j in range (0, arraySize):
     print('<div class="page"><h2 style="text-align:center">Table ' + str(j+1) +': Overview statistics</h2></br><pre>')
@@ -444,7 +441,6 @@ sed -i 's/border:solid 1px #F7F7F7/border:solid 0px #F7F7F7/g' ${projectQcDir}/$
 mkdir -p ${projectQcDir}/images
 cp ${intermediateDir}/*.collectrnaseqmetrics.png ${projectQcDir}/images
 cp ${intermediateDir}/*.GC.png ${projectQcDir}/images
-cp ${intermediateDir}/*.insertsizemetrics.png ${projectQcDir}/images
 
 #only available with PE
 if [ -f "${intermediateDir}/*.insertsizemetrics.pdf" ]

@@ -46,7 +46,13 @@ java -XX:ParallelGCThreads=4 -jar -Xmx6g ${EBROOTPICARD}/${picardJar} MarkDuplic
 I=${sampleMergedBam} \
 O=${tmpSampleMergedDedupBam} \
 CREATE_INDEX=true \
+VALIDATION_STRINGENCY=LENIENT \
 M=${dupStatMetrics} AS=true
 
 mv ${tmpSampleMergedDedupBam} ${sampleMergedDedupBam}
 mv ${tmpSampleMergedDedupBai} ${sampleMergedDedupBai}
+
+cd ${intermediateDir}
+md5sum ${sampleMergedDedupBam} > $(basename ${sampleMergedDedupBam}).md5
+md5sum ${sampleMergedDedupBai} > $(basename ${sampleMergedDedupBai}).md5
+cd -

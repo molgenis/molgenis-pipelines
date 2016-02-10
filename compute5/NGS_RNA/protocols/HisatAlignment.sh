@@ -67,8 +67,9 @@ echo "## "$(date)" Start $0"
 	--rg PU:${sequencer}_${flowcell}_${run}_${lane}_${barcode} \
 	--rg LB:${sequencer}_${flowcell}_${run}_${lane}_${barcode} \
 	--rg SM:${externalSampleID} \
-	-S ${tmpAlignedSam}
+	-S ${tmpAlignedSam} > ${intermediateDir}/${externalSampleID}_L${lane}.hisat.log 2>&1
 
+	perl -nle 'print $2,"|\t",$1 while (m%^[ ]*([.0-9\%]+\s\(.+\)|[.0-9\%]+).(.+)%g);' ${intermediateDir}/${externalSampleID}_L${lane}.hisat.log > ${intermediateDir}/${externalSampleID}.hisat.final.log
 
 sed '/NH:i:[^1]/d' ${tmpAlignedSam} | samtools view -h -b - > ${tmpAlignedFilteredBam}
 
@@ -85,6 +86,7 @@ java -XX:ParallelGCThreads=4 -jar -Xmx6g ${EBROOTPICARD}/${picardJar} SortSam \
 	OUTPUT=${tmpSortedBam} \
  	SO=coordinate \
 	CREATE_INDEX=true \
+	VALIDATION_STRINGENCY=LENIENT \
 	TMP_DIR=${tempDir}
 
 
