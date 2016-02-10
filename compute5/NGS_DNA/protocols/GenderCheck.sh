@@ -14,8 +14,10 @@
 
 module load picard
 sleep 5
-
-rm  $checkSexMeanCoverage
+if [ -f $checkSexMeanCoverage ]
+then
+	rm  $checkSexMeanCoverage
+fi
 
 #select only the mean target coverage of the whole genome file
 awk '{
