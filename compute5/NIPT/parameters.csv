@@ -17,7 +17,7 @@ dataDir,/apps/data/
 intermediateDir,${tmpDataDir}/tmp/${project}/${runid}
 inputDataTmp,/groups/umcg-gd/tmp05/inputData/${project}
 projectsDir,${tmpDataDir}/projects/${project}/${runid}
-resultsSampleDir,${projectsDir}/results/${externalSampleID}/
+resultsSampleDir,${projectsDir}/results/${DNA_nr}_${externalSampleID}/
 
 utrechtDir,/groups/umcg-umcu/${tmpName}/NIPT/${ProjectUtrecht}/
 inputUtrechtDataRawSample,${inputDataTmp}/${externalSampleID}_dedup.bam
@@ -27,7 +27,7 @@ controlGroupRds,${dataDirNIPT}/NIPT_Project_control_group_separate.rds
 
 reportRMD,NIPT_Diagnostics_v3.0_Report.Rmd
 qcReportRMD,NIPT_Diagnostics_v3.0_QC_Report.Rmd
-reportHTML,${intermediateDir}/${externalSampleID}.Report.html
-qcReportHTML,${intermediateDir}/${externalSampleID}.QC_Report.html
-reportPDF,${intermediateDir}/${externalSampleID}.Report.pdf
-qcReportPDF,${intermediateDir}/${externalSampleID}.QC_Report.pdf
+reportHTML,${intermediateDir}/${DNA_nr}_${externalSampleID}.Report.html
+qcReportHTML,${intermediateDir}/${DNA_nr}_${externalSampleID}.QC_Report.html
+reportPDF,${intermediateDir}/${DNA_nr}_${externalSampleID}.Report.pdf
+qcReportPDF,${intermediateDir}/${DNA_nr}_${externalSampleID}.QC_Report.pdf
