@@ -43,7 +43,8 @@ then
 
 		if [ ! -f ${capturedBed}.genesOnly ]
 		then
-			awk '{print $5}' ${capturedBed} > ${capturedBed}.genesOnly 
+			echo "${capturedBed}.genesOnly does not exist (please run make_compute_bedfiles_calculon.sh from the ngs-utils repo)"		
+			exit 1
 		fi
 		
 		java -Xmx10g -XX:ParallelGCThreads=4 -jar ${EBROOTGATK}/${gatkJar} \
