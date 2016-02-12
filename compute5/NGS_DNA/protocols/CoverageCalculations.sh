@@ -41,12 +41,6 @@ then
 
 		awk -v OFS='\t' '{print NR,$1,$2,$5,$7,"CDS","1"}' ${sampleNameID}.combined_bedfile_and_samtoolsoutput.txt >> ${sampleNameID}.coveragePerBase.txt
 
-		if [ ! -f ${capturedBed}.genesOnly ]
-		then
-			echo "${capturedBed}.genesOnly does not exist (please run make_compute_bedfiles_calculon.sh from the ngs-utils repo)"		
-			exit 1
-		fi
-		
 		java -Xmx10g -XX:ParallelGCThreads=4 -jar ${EBROOTGATK}/${gatkJar} \
                 -R ${indexFile} \
                 -T DepthOfCoverage \
