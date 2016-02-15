@@ -231,5 +231,5 @@ then
 
 fi
 
-mv ${fluxDir}/* ${runResultsDir}
-echo "moved ${fluxDir}/* ${runResultsDir}"
+mv ${fluxDir}/${filenamePrefix}* ${runResultsDir}
+echo "moved ${fluxDir}/${filenamePrefix}* ${runResultsDir}"
