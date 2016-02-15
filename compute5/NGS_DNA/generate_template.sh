@@ -1,14 +1,15 @@
 #!/bin/bash
 
-module load NGS_DNA
+module load NGS_DNA/3.2.2-Molgenis-Compute-v15.12.4-Java-1.8.0_45
 module list 
 
+##Choose parameters_calculon or parameters_zinc-finger
 ENVIRONMENT_PARAMETERS=parameters_XX.csv
 PROJECT=projectXX
 TMPDIR=tmpXX
 WORKDIR="/groups/umcg-gaf/${TMPDIR}"
 RUNID=runXX
-## For small batchsize (6) leave BATCH empty, _chr (per chrosomomes), _NO (1 batch), _exome (10 batches) or _wgs (20 batches)  
+## For small batchsize (6) leave BATCH empty, _exome (10 batches) or _wgs (20 batches)  OR  this is beta: _chr (per chrosomome), _NO (1 batch),
 BATCH=""
 
 SAMPLESIZE=$(cat ${WORKDIR}/generatedscripts/${PROJECT}/${PROJECT}.csv | wc -l)
