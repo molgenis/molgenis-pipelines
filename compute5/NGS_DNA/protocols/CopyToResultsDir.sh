@@ -45,7 +45,7 @@ echo "Copied fastQC output to results directory (3/11)"
 for sample in "${externalSampleID[@]}"
 do
 	cp ${intermediateDir}/${sample}.merged.dedup.bam ${projectResultsDir}/alignment/
-	cp ${intermediateDir}/${sample}.merged.dedup.bai ${projectResultsDir}/alignment/
+	cp ${intermediateDir}/${sample}.merged.dedup.bam.bai ${projectResultsDir}/alignment/
 	cp ${intermediateDir}/${sample}.merged.dedup.bam.md5 ${projectResultsDir}/alignment/
 done
 echo "Copied realigned bams (4/11)"
