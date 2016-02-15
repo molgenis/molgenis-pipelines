@@ -25,6 +25,8 @@ ${stage} ${molgenisAnnotatorVersion}
 ${checkStage}
 if [ "${GCC_Analysis}" == "diagnostiek" ] || [ "${GCC_Analysis}" == "diagnostics" ] || [ "${GCC_Analysis}" == "Diagnostiek" ] || [ "${GCC_Analysis}" == "Diagnostics" ]
 then
+	echo "Delly step is skipped"
+else
 	#Run Molgenis CmdLineAnnotator with snpEff to add "Gene_Name" to be used for HPO annotation
 	java -Xmx10g -jar -Djava.io.tmpdir=${tempDir} ${EBROOTCMDLINEANNOTATOR}/CmdLineAnnotator-1.9.0.jar \
 	snpEff \
@@ -44,6 +46,4 @@ then
 	echo "Finished HPO annotation"
 
 	mv ${tmpProjectDellyAnnotatorOutputVcf} ${projectDellyAnnotatorOutputVcf}
-else
-	echo "Delly step is skipped"
 fi

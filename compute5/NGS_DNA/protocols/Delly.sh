@@ -15,6 +15,8 @@ tmpDellyVcf=${MC_tmpFile}
 
 if [ "${GCC_Analysis}" == "diagnostiek" ] || [ "${GCC_Analysis}" == "diagnostics" ] || [ "${GCC_Analysis}" == "Diagnostiek" ] || [ "${GCC_Analysis}" == "Diagnostics" ]
 then
+	echo "Delly step is skipped"
+else
 	${EBROOTDELLY}/delly \
 	-n \
 	-t ${dellyType} \
@@ -25,6 +27,4 @@ then
 
 	mv ${tmpDellyVcf} ${dellyVcf}
 	echo "moved ${tmpDellyVcf} to ${dellyVcf}"
-else
-	echo "Delly step is skipped"
 fi
