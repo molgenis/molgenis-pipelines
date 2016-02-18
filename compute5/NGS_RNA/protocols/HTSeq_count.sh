@@ -34,7 +34,7 @@ echo -e "\nQuantifying expression"
   samtools \
         view -h \
         ${sampleMergedBam}.nameSorted.bam | \
-        htseq-count \
+        $EBROOTHTSEQ/scripts/htseq-count \
         -m union \
         -s no \
         - \

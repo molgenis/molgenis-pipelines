@@ -16,7 +16,11 @@
 #list flowcell
 
 #string mainParameters
-#string environment_parameters
+#string parameters_build
+#string parameters_species
+#string parameters_environment
+#string ngsversion
+
 #string worksheet 
 #string outputdir
 #string workflowpath
@@ -28,16 +32,13 @@
 #list barcode
 #list lane
 
-#MOLGENIS walltime=00:10:00
-#FOREACH project
-
 #
 # Change permissions.
 #
 umask 0007
 
 #FIX!
-#module load NGS_RNA/2.1.1-Molgenis-Compute-v15.04.1-Java-1.7.0_80
+module load ${ngsversion}
 
 module load ${NGSUtilsVersion}
 module list
@@ -54,6 +55,7 @@ mkdir -p ${projectResultsDir}
 mkdir -p ${projectQcDir}
 
 ROCKETPOINT=`pwd`
+
 cd ${projectRawtmpDataDir}
 
 #
@@ -116,20 +118,21 @@ extract_samples_from_GAF_list.pl --i ${worksheet} --o ${projectJobsDir}/${projec
 # Execute MOLGENIS/compute to create job scripts to analyse this project.
 #
 
-cd ..
 
-if [ -f .compute.properties ];
+if [ -f ../.compute.properties ];
 then
-     rm .compute.properties
+     rm ../.compute.properties
 fi
 
 echo "before run second rocket"
 echo pwd
 
-EBROOTNGS_RNA=/apps/software/NGS_RNA/2.1.1-Molgenis-Compute-v15.04.1-Java-1.7.0_80
-EBROOTMOLGENISMINCOMPUTE=/apps/software/Molgenis-Compute/v15.04.1-Java-1.7.0_80
 
-sh ${EBROOTMOLGENISMINCOMPUTE}/molgenis_compute.sh -p ${mainParameters} \
--p ${environment_parameters} \
+sh ${EBROOTMOLGENISMINCOMPUTE}/molgenis_compute.sh \
+-p ${mainParameters} \
+-p ${parameters_build} \
+-p ${parameters_species} \
+-p ${parameters_environment} \
 -p ${projectJobsDir}/${project}.csv -rundir ${projectJobsDir} \
--w ${workflowpath} -b slurm -g -weave -runid ${runid}
+-w ${workflowpath} -b slurm -g -weave -runid ${runid} \
+-o "ngsversion=${ngsversion};"
