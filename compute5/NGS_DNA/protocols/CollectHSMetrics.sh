@@ -12,6 +12,7 @@
 #string tempDir
 #string recreateInsertSizePdfR
 #string capturedIntervals
+#string capturedExomeIntervals
 #string capturingKit
 #string picardJar
 #string	project
@@ -23,7 +24,16 @@ makeTmpDir ${hsMetrics}
 tmpHsMetrics=${MC_tmpFile}
 
 #Run Picard HsMetrics if capturingKit was used
-if [ "${capturingKit}" != "None" ]
+if [ "${capturingKit}" != "UMCG\/wgs" ]
+then
+	java -jar -Xmx4g ${EBROOTPICARD}/${picardJar} ${hsMetricsJar} \
+	INPUT=${dedupBam} \
+	OUTPUT=${tmpHsMetrics} \
+	BAIT_INTERVALS=${capturedExomeIntervals} \
+	TARGET_INTERVALS=${capturedExomeIntervals} \
+	VALIDATION_STRINGENCY=LENIENT \
+	TMP_DIR=${tempDir}
+else if [ "${capturingKit}" != "None" ]
 then
 	java -jar -Xmx4g ${EBROOTPICARD}/${picardJar} ${hsMetricsJar} \
 	INPUT=${dedupBam} \
