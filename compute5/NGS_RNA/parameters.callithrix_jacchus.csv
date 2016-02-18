@@ -1,0 +1,13 @@
+#### GENOME VARIABLES ####
+species,callithrix_jacchus
+indexFileID,Callithrix_jacchus.GRCm38
+annotationFileName,Callithrix_jacchus.GRCm38
+indexFolderName,callithrix_jacchus
+indicesDir,${dataDir}/ftp.ensembl.org/pub/release-82/fasta/${indexFolderName}
+dbSNPFileID,dbsnp_142.GRCh38
+dbSNPDir,${dataDir}/ftp.ncbi.nlm.nih.gov/pub/human_9606_b142_GRCh38/
+hisatIndex,${dataDir}/ftp.ensembl.org/pub/release-82/fasta/${species}/${indexFileID}
+kallistoIndex,${indicesDir}/${indexFileID}.cdna.all.fa.idx
+indexFileFastaIndex,${indexSpecies}.fai
+indexSpecies,${indicesDir}/${indexFileID}.dna.toplevel.fa
+indexFileDictionary,${indexSpecies}.dict

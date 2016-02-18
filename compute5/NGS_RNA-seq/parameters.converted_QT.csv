@@ -1,0 +1,2 @@
+queue,defaultInterpreter,stage,checkStage,WORKDIR,root,group,tmp,resDir,toolDir,projectDir,uniqueID,platform,kallistoVersion,kallistoIndex,kallistoDir,fragmentLength
+ll,#!/bin/bash,module load,module list,/groups/,${WORKDIR},umcg-wijmenga,tmp04,/groups/umcg-wijmenga/tmp04/resources/,/apps/software/,${root}/${group}/${tmp}/projects/${project}/,${sampleName}_${internalId},ILLUMINA,0.42.2.1-goolf-1.7.20,/groups/umcg-pub/tmp04/public-rna-seq/kallisto/hg19.v75.cdna.all.42.2.idx,${projectDir}/kallisto/,200

@@ -18,6 +18,7 @@ hisatVersion,hisat/0.1.5-beta-goolf-1.7.20
 pythonVersion,Python/2.7.9-goolf-1.7.20
 gatkVersion,GATK/3.4-46-Java-1.7.0_80 
 ghostscriptVersion,Ghostscript/9.16-goolf-1.7.20
+kallistoVersion,Kallisto/0.42.4-goolf-1.7.20
 picardJar,picard.jar
 mergeSamFilesJar,MergeSamFiles
 processReadCountsJar,ProcessReadCounts.jar
@@ -53,13 +54,10 @@ workflowFile,$MC_HOME/NGS_RNA_seq_pipeline/workflow.csv
 
 ##### GENOME,INDEX,ANNOTATION FILES #####
 ensembleDir,${dataDir}/ftp.ensembl.org/pub/release-${ensembleReleaseVersion}/gtf/${species}/
-geneAnnotationTxt,${ensembleDir}/Homo_sapiens.${GR}.${ensembleReleaseVersion}.annotation.geneIds.txt.gz
-STARindex,${dataDir}/ftp.broadinstitute.org/bundle/2.8/${genome}/${starVersion}/
-annotationGtf,${ensembleDir}/Homo_sapiens.${GR}.${ensembleReleaseVersion}.gtf
-annotationRefFlat,${ensembleDir}/Homo_sapiens.${GR}.${ensembleReleaseVersion}.gtf.annotation.refFlat
-indexFileFastaIndex,${indicesDir}/${indexFileID}.fasta.fai
-indexFile,${indicesDir}/${indexFileID}.fasta
-indexFileDictionary,${indicesDir}/${indexFileID}.dict
+geneAnnotationTxt,${ensembleDir}/${annotationFileName}.${ensembleReleaseVersion}.annotation.geneIds.txt.gz
+annotationGtf,${ensembleDir}/${annotationFileName}.${ensembleReleaseVersion}.gtf
+annotationRefFlat,${ensembleDir}/${annotationFileName}.${ensembleReleaseVersion}.gtf.annotation.refFlat
+indexFile,${indexSpecies}
 dbsnpVcf,${dbSNPDir}${dbSNPFileID}.vcf
 
 ##### PREFIXES,POSTFIXES #####
@@ -97,7 +95,8 @@ sampleMergedBam,${intermediateDir}/${externalSampleID}.unique_mapping_reads.sort
 sampleMergedBai,${intermediateDir}/${externalSampleID}.unique_mapping_reads.sorted.merged.bai
 sampleMergedDedupBam,${intermediateDir}/${externalSampleID}.unique_mapping_reads.sorted.merged.dedup.bam
 sampleMergedDedupBai,${intermediateDir}/${externalSampleID}.unique_mapping_reads.sorted.merged.dedup.bai
-starLogFile,${intermediateDir}/${externalSampleID}.Log.final.out,
+starLogFile,${intermediateDir}/${externalSampleID}.hisat.final.log,
+fragmentLength,200
 
 ##### Protocols 4,5a,5b,5c (SplitAndTrim,GatkHaplotypeCallerGvcf,GatkMergeGvcf,GatkGenotypeGvcf) #####
 splitAndTrimBam,${intermediateDir}${externalSampleID}.unique_mapping_reads.sorted.merged.dedup.splitAndTrim.bam
