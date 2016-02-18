@@ -33,7 +33,7 @@ then
 	TARGET_INTERVALS=${capturedExomeIntervals} \
 	VALIDATION_STRINGENCY=LENIENT \
 	TMP_DIR=${tempDir}
-else if [ "${capturingKit}" != "None" ]
+elif [ "${capturingKit}" != "None" ]
 then
 	java -jar -Xmx4g ${EBROOTPICARD}/${picardJar} ${hsMetricsJar} \
 	INPUT=${dedupBam} \

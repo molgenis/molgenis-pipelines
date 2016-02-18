@@ -34,7 +34,7 @@ softwareDir,${root}/software/
 sourcesDir,${root}/sources/
 dbSNPDir,${dataDir}/dbSNP/
 dbNSFPDir,${dataDir}/dbNSFP/
-diagnosticsDir,${dataDir}/Diagnostics_UMCG
+inhouseIntervalsDir,${dataDir}/UMCG
 hpoDir,${dataDir}/HPO/
 sequenomDir,${dataDir}/Sequenom/
 tmpDataDir,${workDir}/${tmpName}/
