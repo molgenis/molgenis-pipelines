@@ -62,7 +62,6 @@ then
 
 	#Flagstat for reads mapping to the genome.
 	samtools flagstat ${sampleMergedDedupBam} >  ${flagstatMetrics}
-	#perl -nle 'print $2,"|\t",$1 while m%^([0-9]+)+.+0\s([a-z0-9 ]+)%g;' ${flagstatMetrics} > ${flagstatMetrics}.final
 
 	#CollectRnaSeqMetrics.jar
 	java -XX:ParallelGCThreads=4 -jar -Xmx6g ${EBROOTPICARD}/${picardJar} CollectRnaSeqMetrics \
@@ -93,9 +92,7 @@ elif [ ${seqType} == "SR" ]
 then
 
         #Flagstat for reads mapping to the genome.
-        samtools flagstat ${sampleMergedDedupBam} \
-        > ${flagstatMetrics}
-	#perl -nle 'print $2,"|\t",$1 while m%^([0-9]+)+.+0\s([a-z0-9 ]+)%g;' ${flagstatMetrics} > ${flagstatMetrics}.final
+        samtools flagstat ${sampleMergedDedupBam} > ${flagstatMetrics}
 
 	#CollectRnaSeqMetrics.jar
 	java -XX:ParallelGCThreads=4 -jar -Xmx6g ${EBROOTPICARD}/${picardJar} CollectRnaSeqMetrics \

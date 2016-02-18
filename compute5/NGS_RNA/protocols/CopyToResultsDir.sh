@@ -10,12 +10,21 @@
 #string projectJobsDir
 #string projectHTseqExpressionTable
 #string annotationGtf
+#string anacondaVersion
+#string indexFileID
+
+#string jdkVersion
 #string fastqcVersion
 #string samtoolsVersion
+#string RVersion
+#string wkhtmltopdfVersion
 #string picardVersion
-#string anacondaVersion
-#string hisatVersion
-#string indexFileID
+#string htseqVersion
+#string pythonVersion
+#string gatkVersion
+#string ghostscriptVersion
+#string kallistoVersion
+#string ensembleReleaseVersion
 
 # Change permissions
 
@@ -46,17 +55,21 @@ cp ${projectJobsDir}/${project}.csv ${projectResultsDir}
 
 # Copy BAM plus index plus md5 sum to results directory
 
-	cp ${intermediateDir}/*.unique_mapping_reads.sorted.merged.dedup*.bam ${projectResultsDir}/alignment
-	cp ${intermediateDir}/*.unique_mapping_reads.sorted.merged.dedup*.bam.md5 ${projectResultsDir}/alignment
-	cp ${intermediateDir}/*.unique_mapping_reads.sorted.merged.dedup*.bai ${projectResultsDir}/alignment
-	cp ${intermediateDir}/*.unique_mapping_reads.sorted.merged.dedup*.bai.md5 ${projectResultsDir}/alignment
-	cp ${intermediateDir}/*.Log.final.out ${projectResultsDir}/alignment
+if [ -f "${intermediateDir}/*.unique_mapping_reads.sorted.merged.dedup.splitAndTrim.bam" ]
+then
+	cp ${intermediateDir}/*.unique_mapping_reads.sorted.merged.dedup.splitAndTrim.bam ${projectResultsDir}/alignment
+	cp ${intermediateDir}/*.unique_mapping_reads.sorted.merged.dedup.splitAndTrim.bam.md5 ${projectResultsDir}/alignment
+	cp ${intermediateDir}/*.unique_mapping_reads.sorted.merged.dedup.splitAndTrim.bai ${projectResultsDir}/alignment
+	cp ${intermediateDir}/*.unique_mapping_reads.sorted.merged.dedup.splitAndTrim.bai.md5 ${projectResultsDir}/alignment	
+else
+	cp ${intermediateDir}/*.unique_mapping_reads.sorted.merged.dedup.bam ${projectResultsDir}/alignment
+	cp ${intermediateDir}/*.unique_mapping_reads.sorted.merged.dedup.bam.md5 ${projectResultsDir}/alignment
+	cp ${intermediateDir}/*.unique_mapping_reads.sorted.merged.dedup.bai ${projectResultsDir}/alignment
+	cp ${intermediateDir}/*.unique_mapping_reads.sorted.merged.dedup.bai.md5 ${projectResultsDir}/alignment
 
-	if [ -f "${intermediateDir}/*.Log.out" ]
-	then
-		cp ${intermediateDir}/*.hisat.final.log ${projectResultsDir}/alignment
-		cp ${intermediateDir}/*.log.final.out ${projectResultsDir}/alignment
-	fi
+fi
+	cp ${intermediateDir}/*.hisat.final.log ${projectResultsDir}/alignment
+        cp ${intermediateDir}/*.flagstat ${projectResultsDir}/alignment
 
 # copy GeneCounts to results directory
 
@@ -107,11 +120,11 @@ sequenced on an Illumina HiSeq2500 using default parameters (single read 1x50bp 
 End 2 x 100 bp) in pools of multiple samples.
 
 Gene expression quantification
-The trimmed fastQ files where aligned to build ${indexFileID} reference genome using hisat
+The trimmed fastQ files where aligned to build ${indexFileID} ensembleResease ${ensembleReleaseVersion} reference genome using hisat
 ${hisatVersion} [1] allowing for 2 mismatches. Before gene quantification 
 SAMtools ${samtoolsVersion} [2] was used to sort the aligned reads. 
 The gene level quantification was performed by HTSeq in Anaconda ${anacondaVersion} [3] using --mode=union 
---stranded=no and, Ensembl version 71 was used as gene annotation database which is included
+--stranded=no and, Ensembl version ${ensembleReleaseVersion} was used as gene annotation database which is included
  in folder expression/. 
 
 Calculate QC metrics on raw and aligned data
@@ -135,6 +148,19 @@ The zipped archive contains the following data and subfolders:
 The root of the results directory contains the final QC report, and the samplesheet which 
 were the basis for this analysis. 
 
+Used toolversions:
+
+${jdkVersion}
+${fastqcVersion}
+${samtoolsVersion}
+${RVersion}
+${wkhtmltopdfVersion}
+${picardVersion}
+${htseqVersion}
+${pythonVersion}
+${gatkVersion}
+${ghostscriptVersion}
+${kallistoVersion}
 
 1. Daehwan Kim, Ben Langmead & Steven L Salzberg: HISAT: a fast spliced aligner with low
 memory requirements. Nature Methods 12, 357–360 (2015)

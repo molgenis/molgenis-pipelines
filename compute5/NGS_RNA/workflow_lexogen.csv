@@ -1,8 +1,8 @@
 step,protocol,dependencies
 s00_TrimReads,protocols/TrimReads.sh,
 s01_FastQC,protocols/FastQC.sh,s00_TrimReads
+s01a_Kallisto,protocols/Kallisto.sh,s00_TrimReads
 s02_HisatAlignment,protocols/HisatAlignment.sh,s00_TrimReads
-#s02_STARAlignment,/protocols/StarAlignment.sh,s00_TrimReads
 s03_MergeBam,protocols/MergeBam.sh,s02_HisatAlignment
 s04_MarkDuplicates,protocols/MarkDuplicates.sh,s03_MergeBam
 s05_QCStats,protocols/QCStats.sh,s04_MarkDuplicates

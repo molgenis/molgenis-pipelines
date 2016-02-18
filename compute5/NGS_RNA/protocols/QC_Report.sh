@@ -21,6 +21,16 @@
 #string anacondaVersion
 #string starVersion
 #string genome
+#string ngsversion
+
+#string jdkVersion
+#string RVersion
+#string htseqVersion
+#string pythonVersion
+#string gatkVersion
+#string ghostscriptVersion
+#string kallistoVersion
+#string ensembleReleaseVersion
 
 #genarate qcMatricsList
 
@@ -151,7 +161,10 @@ cat > ${intermediateDir}/${project}_QCReport.rhtml <<'_EOF'
 	</tr>
 	<tr>
 		<td>E-mail</td><td>${contact}</td>
-	</tr>				
+	</tr>
+	<tr>
+            	<td>Pipeline version</td><td>${ngsversion}</td>
+        </tr>
 </table>
 </div>
 </div>
@@ -201,11 +214,11 @@ sequenced on an Illumina HiSeq2500 using default parameters (single read 1x50bp 
 End 2 x 100 bp) in pools of multiple samples.
 
 Gene expression quantification
-The trimmed fastQ files where aligned to build ${genome} human reference genome using STAR
-${starVersion} [1] allowing for 2 mismatches. Before gene quantification
+The trimmed fastQ files where aligned to build ${genome} human reference genome using 
+${htseqVersion} [1] allowing for 2 mismatches. Before gene quantification
 SAMtools ${samtoolsVersion} [2] was used to sort the aligned reads.
-The gene level quantification was performed by HTSeq in Anaconda ${anacondaVersion} [3] using --mode=union
---stranded=no and, Ensembl version 71 was used as gene annotation database which is included
+The gene level quantification was performed by ${htseqVersion} in Anaconda ${anacondaVersion} [3] using --mode=union
+--stranded=no and, Ensembl version ${ensembleReleaseVersion} was used as gene annotation database which is included
  in folder expression/.
 
 Calculate QC metrics on raw and aligned data
@@ -216,6 +229,19 @@ Metrics and SAMtools ${samtoolsVersion} flagstat.
 
 These QC metrics form the basis in this  final QC report. 
 
+Used toolversions:
+
+${jdkVersion}
+${fastqcVersion}
+${samtoolsVersion}
+${RVersion}
+${wkhtmltopdfVersion}
+${picardVersion}
+${htseqVersion}
+${pythonVersion}
+${gatkVersion}
+${ghostscriptVersion}
+${kallistoVersion}
 
 1. Dobin A, Davis C a, Schlesinger F, Drenkow J, Zaleski C, Jha S, Batut P, Chaisson M,
 Gingeras TR: STAR: ultrafast universal RNA-seq aligner. Bioinformatics 2013, 29:15–21.
