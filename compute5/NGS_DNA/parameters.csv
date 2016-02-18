@@ -34,6 +34,7 @@ softwareDir,${root}/software/
 sourcesDir,${root}/sources/
 dbSNPDir,${dataDir}/dbSNP/
 dbNSFPDir,${dataDir}/dbNSFP/
+inhouseIntervalsDir,${dataDir}/UMCG/
 hpoDir,${dataDir}/HPO/
 sequenomDir,${dataDir}/Sequenom/
 tmpDataDir,${workDir}/${tmpName}/
@@ -71,6 +72,9 @@ capturedBed,${captured}.bed
 capturedBatchBed,${captured}.batch-${batchID}.bed
 femaleCapturedBatchBed,${captured}.femaleY.bed
 capturedIntervalsPerBase,${captured}.uniq.per_base.bed
+coveragePerBaseDir,${inhouseIntervalsDir}/CoveragePerBase/
+coveragePerTargetDir,${inhouseIntervalsDir}/CoveragePerTarget/
+capturedExomeIntervals,${dataDir}/Agilent/SureSelect_Human_All_Exon_V5_S04380110_Padded_and_Agilent_SureSelect_Inherited_Disease_V1_S0684402_UMCG_and_CGD_2014-03-12/${indexFileID}/${nameBed}.interval_list
 
 #### Projects ####
 projectDir,${tmpDataDir}/projects/${project}/${runid}
