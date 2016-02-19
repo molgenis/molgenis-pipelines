@@ -1,0 +1,2 @@
+step,protocol,dependencies
+BeagleGenotypeCalling,protocols/BeagleGenotypeCalling.sh,
