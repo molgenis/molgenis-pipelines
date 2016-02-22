@@ -18,25 +18,21 @@
 
 #string genotypedChrVcf
 #string genotypedChrVcfIdx
+#string chromosome
 #string toolDir
 
 echo "## "$(date)" Start $0"
 
-#for file in "${mergeChrGvcf[@]}" "${mergeChrGvcfIdx[@]}" "${onekgGenomeFasta}"; do
-for file in "${mergeChrGvcf[@]}" "${onekgGenomeFasta}"; do
-    echo "getFile file='$file'"
-	getFile $file
+#Generate input files, according to number of batches
+for i in {0..2}
+do
+	echo "getFile file=${haplotyperDir}${project}.batch${i}_chr${chromosome}.g.vcf.gz"
+	inputs+=" --variant ${haplotyperDir}${project}.batch${i}_chr${chromosome}.g.vcf.gz"
 done
 
 #Load gatk module
 ${stage} GATK/${gatkVersion}
 ${checkStage}
-
-
-# sort unique and print like ' --variant file1.vcf --variant file2.vcf '
-gvcfs=($(printf '%s\n' "${mergeChrGvcf[@]}" | sort -u ))
-
-inputs=$(printf ' --variant %s ' $(printf '%s\n' ${gvcfs[@]}))
 
 mkdir -p ${haplotyperDir}
 

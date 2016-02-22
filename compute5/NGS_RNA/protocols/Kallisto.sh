@@ -59,29 +59,50 @@ else
 
   mkdir -p ${tmpIntermediateDir}/${uniqueID}_${fragmentLength}
   echo "Single end kallisto of ${srBarcodeFqGz}"
+
+  seq=`zcat ${srBarcodeFqGz} | head -2 | tail -1`
+  echo "seq used to determine read length: ${seq}"
+  readLength="${#seq}"
+ 
+  if [ $readLength -ge 110 ]; then
+	fragmentLength=150
+  elif [ $readLength -ge 60 ]; then
+	numMism=3
+  else
+	numMism=2
+  fi
+
+echo "readLength=$readLength"
+	
+
+  mkdir -p ${tmpIntermediateDir}/${uniqueID}_${fragmentLength}
+  echo "Single end kallisto of ${srBarcodeFqGz}"
+
+
   if kallisto quant \
     -i ${kallistoIndex} \
-    -o ${tmpIntermediateDir}/${uniqueID}_${fragmentLength} \
+    -o ${tmpIntermediateDir}/${uniqueID}_${readLength} \
     --single \
-    -l ${fragmentLength} \
+    -l ${readLength} \
     ${srBarcodeFqGz}
   then
     echo "returncode: $?"; 
 
-    cd ${tmpIntermediateDir}/${uniqueID}_${fragmentLength}
+    cd ${tmpIntermediateDir}/${uniqueID}_${readLength}
 
     md5sum abundance.h5 > abundance.h5.md5
     md5sum run_info.json > run_info.json.md5
     md5sum abundance.tsv > abundance.tsv.md5
     cd -
 
-    mv -f ${tmpIntermediateDir}/${uniqueID}_${fragmentLength}/ ${intermediateDir}
+    mv -f ${tmpIntermediateDir}/${uniqueID}_${readLength}/ ${intermediateDir}
     echo "succes moving files";
 
   else
 
     echo "returncode: $?";
     echo "fail";
+    exit 1
 
   fi
 

@@ -3,7 +3,6 @@
 #Parameter mapping  #why not string foo,bar? instead of string foo\nstring bar
 #string stage
 #string checkStage
-#string fastqcVersion
 #string WORKDIR
 #string projectDir
 
@@ -12,7 +11,7 @@
 #string genomeEnsembleAnnotationFile
 
 #string samtoolsVersion
-#string anacondaVersion
+#string htseqVersion
 #string htseqCountDir
 #string htseqCountCounts
 
@@ -22,8 +21,8 @@ echo "## "$(date)" ##  $0 Started "
 getFile ${markDuplicatesBam}
 getFile ${markDuplicatesBai}
 
-${stage} anaconda/${anacondaVersion}
-${stage} samtools/${samtoolsVersion}
+${stage} HTSeq/${htseqVersion}
+${stage} SAMtools/${samtoolsVersion}
 ${checkStage}
 
 set -x
@@ -31,7 +30,7 @@ set -e
 
 mkdir -p ${htseqCountDir}
 
-samtools view -h ${markDuplicatesBam} | htseq-count -m union -s no -t exon -i gene_id - ${genomeEnsembleAnnotationFile} > ${htseqCountCounts}
+samtools view -h ${markDuplicatesBam} | $EBROOTHTSEQ/scripts/htseq-count -m union -s no -t exon -i gene_id - ${genomeEnsembleAnnotationFile} > ${htseqCountCounts}
 
 putFile ${htseqCountCounts}
 
