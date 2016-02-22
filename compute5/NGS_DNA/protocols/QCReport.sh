@@ -22,17 +22,17 @@
 #string rVersion
 #string inSilicoConcordanceFile
 #string ngsversion
+#string ngsUtilsVersion
 
 module load ${rVersion}
-module load ngs-utils
+module load ${ngsUtilsVersion}
+module load ${ngsversion}
 
 #
 ## Initialize
 #
 mkdir -p ${projectQcDir}
 mkdir -p ${projectQcDir}/images
-
-module load ${ngsversion}
 
 cp ${intermediateDir}/*.merged.dedup.bam.insert_size_histogram.pdf ${projectQcDir}/images
 

@@ -11,8 +11,9 @@
 #string picardJar
 #string hsMetricsNonAutosomalRegionChrX
 #string	project
+#string picardVersion
 
-module load picard
+module load ${picardVersion}
 sleep 5
 if [ -f $checkSexMeanCoverage ]
 then

@@ -10,10 +10,11 @@
 #string tempDir
 #string checkSexMeanCoverage
 #string picardJar
+#string picardVersion
 #string hsMetricsNonAutosomalRegionChrX
 #string	project
 
-module load picard
+module load ${picardVersion}
 sleep 5
 
 makeTmpDir ${hsMetricsNonAutosomalRegionChrX}
