@@ -1,7 +1,7 @@
 #!/bin/bash
 
 module load NGS_RNA/3.2.1-Molgenis-Compute-v15.12.4-Java-1.8.0_45
-module list
+#module list
 
 PROJECT=projectXX
 RUNID=run0XX

@@ -35,7 +35,7 @@ echo
 echo
 echo "Running split and trim:"
 
-  java -Xmx8g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${tmpTmpDataDir} -jar ${EBROOTGATK}/GenomeAnalysisTK.jar \
+  java -Xmx9g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${tmpTmpDataDir} -jar ${EBROOTGATK}/GenomeAnalysisTK.jar \
   -T SplitNCigarReads \
   -R ${indexFile} \
   -I ${sampleMergedDedupBam} \
