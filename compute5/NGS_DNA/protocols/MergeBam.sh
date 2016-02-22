@@ -1,18 +1,19 @@
-#MOLGENIS walltime=23:59:00 mem=8gb ppn=6
+#MOLGENIS walltime=23:59:00 mem=4gb ppn=10
 
 #Parameter mapping
 #string stage
 #string checkStage
-#string picardVersion
-#string mergeSamFilesJar
+#string samtoolsVersion
 #string sampleMergedBam
+#string sampleMergedBai
 #string sampleMergedBamIdx
 #string tempDir
-#list inputMergeBam,inputMergeBamIdx
+#list inputMergeBam
 #string tmpDataDir
 #string project
 #string intermediateDir
-#string picardJar
+#string sambambaVersion
+#string sambambaTool
 
 sleep 5
 
@@ -36,47 +37,36 @@ tmpSampleMergedBam=${MC_tmpFile}
 makeTmpDir ${sampleMergedBamIdx}
 tmpSampleMergedBamIdx=${MC_tmpFile}
 
-#Load Picard module
-${stage} ${picardVersion}
+${stage} ${sambambaVersion}
 ${checkStage}
 
 #Create string with input BAM files for Picard
 #This check needs to be performed because Compute generates duplicate values in array
 INPUTS=()
 INPUTBAMS=()
-UNIQUEBAIS=()
 
 for bamFile in "${inputMergeBam[@]}"
 do
-	array_contains INPUTS "INPUT=$bamFile" || INPUTS+=("INPUT=$bamFile")    # If bamFile does not exist in array add it
+	array_contains INPUTS "$bamFile" || INPUTS+=("$bamFile")    # If bamFile does not exist in array add it
 	array_contains INPUTBAMS "$bamFile" || INPUTBAMS+=("$bamFile")    # If bamFile does not exist in array add it
-done
-
-for baiFile in "${inputMergeBamIdx[@]}"
-do
-	array_contains UNIQUEBAIS "$baiFile" || UNIQUEBAIS+=("$baiFile")    # If baiFile does not exist in array add it
 done
 
 if [ ${#INPUTS[@]} == 1 ]
 then
 	ln -sf ${INPUTBAMS[0]} ${sampleMergedBam}
-	ln -sf ${UNIQUEBAIS[0]} ${sampleMergedBamIdx}
 	echo "nothing to merge because there is only one sample"
 
 else
-	java -XX:ParallelGCThreads=4 -jar -Xmx6g ${EBROOTPICARD}/${picardJar} ${mergeSamFilesJar} \
-	${INPUTS[@]} \
-	SORT_ORDER=coordinate \
-	CREATE_INDEX=true \
-	USE_THREADING=true \
-	TMP_DIR=${tempDir} \
-	MAX_RECORDS_IN_RAM=6000000 \
-	VALIDATION_STRINGENCY=LENIENT \
-	OUTPUT=${tmpSampleMergedBam}
+	${EBROOTSAMBAMBA}/${sambambaTool} merge \
+	${tmpSampleMergedBam} \
+	${INPUTS[@]}
 
-	echo -e "\nsampleMergedBam finished succesfull. Moving temp files to final.\n\n"
 	mv ${tmpSampleMergedBam} ${sampleMergedBam}
 	mv ${tmpSampleMergedBamIdx} ${sampleMergedBamIdx}
+	echo "mv ${tmpSampleMergedBam} ${sampleMergedBam}"
+	echo "mv ${tmpSampleMergedBamIdx} ${sampleMergedBamIdx}"
 
 fi
 
+ln -sf ${sampleMergedBamIdx} ${sampleMergedBai}
+echo "ln -sf ${sampleMergedBamIdx} ${sampleMergedBai}"

@@ -43,8 +43,6 @@ mkdir -p ${intermediateDir}
 mkdir -p ${projectResultsDir}
 mkdir -p ${projectQcDir}
 
-
-
 ROCKETPOINT=`pwd`
 
 if [ ! -f ${ROCKETPOINT}/CopyPrmTmpData_0.sh.finished ]
@@ -98,7 +96,7 @@ cd $ROCKETPOINT
 echo "before splitting"
 echo `pwd`
 module load ngs-utils
-module load NGS_DNA/$ngs
+module load NGS_DNA/$ngsversion
 #
 # TODO: array for each sample:
 #
