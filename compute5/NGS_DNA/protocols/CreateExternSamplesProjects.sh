@@ -25,9 +25,10 @@
 
 #list internalSampleID
 #string project
-
+#string ngsversion
 #list barcode
 #list lane
+#string ngsUtilsVersion
 
 umask 0007
 module load Molgenis-Compute/${computeVersion}
@@ -90,8 +91,8 @@ cd $ROCKETPOINT
 
 echo "before splitting"
 echo `pwd`
-
-module load ngs-utils
+module load NGS_DNA/$ngsversion
+module load ${ngsUtilsVersion}
 
 #
 # TODO: array for each sample:
@@ -116,8 +117,13 @@ fi
 echo "before run second rocket"
 echo pwd
 
-
 sh ${EBROOTMOLGENISMINCOMPUTE}/molgenis_compute.sh -p ${mainParameters} \
--p environment_parameters -p ${batchIDList} -p ${projectJobsDir}/${project}.csv -rundir ${projectJobsDir} \
--w ${workflowpath} -b slurm -g -weave -runid ${runid}
-
+-p environment_parameters \
+-p ${batchIDList} \
+-p ${projectJobsDir}/${project}.csv \
+-rundir ${projectJobsDir} \
+-w ${workflowpath} \
+-b slurm \
+-g -weave \
+-runid ${runid} \
+-o "ngsversion=${ngsversion}"

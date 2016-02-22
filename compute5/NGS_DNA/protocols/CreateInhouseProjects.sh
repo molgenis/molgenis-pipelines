@@ -28,7 +28,6 @@
 #string ngsversion
 
 #string project
-#string NGS_DNAVersionFile
 umask 0007
 
 module list
@@ -43,8 +42,6 @@ mkdir -p ${projectLogsDir}
 mkdir -p ${intermediateDir}
 mkdir -p ${projectResultsDir}
 mkdir -p ${projectQcDir}
-
-echo ${ngsversion} > ${NGS_DNAVersionFile}
 
 ROCKETPOINT=`pwd`
 
@@ -99,7 +96,7 @@ cd $ROCKETPOINT
 echo "before splitting"
 echo `pwd`
 module load ngs-utils
-
+module load NGS_DNA/$ngsversion
 #
 # TODO: array for each sample:
 #
@@ -125,5 +122,10 @@ echo pwd
 
 sh ${EBROOTMOLGENISMINCOMPUTE}/molgenis_compute.sh -p ${mainParameters} \
 -p ${batchIDList} -p ${projectJobsDir}/${project}.csv -p ${environment_parameters} -rundir ${projectJobsDir} \
---header ${EBROOTMOLGENISMINCOMPUTE}/templates/slurm/header.ftl -w ${workflowpath} -b slurm -g -weave -runid ${runid}
+--header ${EBROOTMOLGENISMINCOMPUTE}/templates/slurm/header.ftl \
+-w ${workflowpath} \
+-b slurm \
+-g -weave \
+-runid ${runid} \
+-o "ngsversion=${ngsversion}"
 

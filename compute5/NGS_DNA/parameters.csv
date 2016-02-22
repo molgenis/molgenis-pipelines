@@ -16,7 +16,9 @@ dellyVersion,v0.7.1
 fastqcVersion,FastQC/0.11.3-Java-1.7.0_80
 gatkVersion,GATK/3.4-0-Java-1.7.0_80 
 javaVersion,Java/1.8.0_45
+ngsUtilsVersion,ngs-utils/16.02.2
 picardVersion,picard/1.130-Java-1.7.0_80
+pythonVersion,Python/3.4.1-goolf-1.7.20
 rVersion,R/3.2.1-goolf-1.7.20
 sambambaVersion,sambamba/v0.5.9-goolf-1.7.20 
 samtoolsVersion,SAMtools/1.2-goolf-1.7.20
@@ -34,6 +36,7 @@ softwareDir,${root}/software/
 sourcesDir,${root}/sources/
 dbSNPDir,${dataDir}/dbSNP/
 dbNSFPDir,${dataDir}/dbNSFP/
+inhouseIntervalsDir,${dataDir}/UMCG/
 hpoDir,${dataDir}/HPO/
 sequenomDir,${dataDir}/Sequenom/
 tmpDataDir,${workDir}/${tmpName}/
@@ -71,6 +74,9 @@ capturedBed,${captured}.bed
 capturedBatchBed,${captured}.batch-${batchID}.bed
 femaleCapturedBatchBed,${captured}.femaleY.bed
 capturedIntervalsPerBase,${captured}.uniq.per_base.bed
+coveragePerBaseDir,${inhouseIntervalsDir}/CoveragePerBase/
+coveragePerTargetDir,${inhouseIntervalsDir}/CoveragePerTarget/
+capturedExomeIntervals,${dataDir}/Agilent/SureSelect_Human_All_Exon_V5_S04380110_Padded_and_Agilent_SureSelect_Inherited_Disease_V1_S0684402_UMCG_and_CGD_2014-03-12/${indexFileID}/${nameBed}.interval_list
 
 #### Projects ####
 projectDir,${tmpDataDir}/projects/${project}/${runid}
