@@ -21,7 +21,7 @@
 #string intermediateDir
 #string rVersion
 #string inSilicoConcordanceFile
-#string NGS_DNAVersionFile
+#string ngsversion
 
 module load ${rVersion}
 module load ngs-utils
@@ -32,9 +32,7 @@ module load ngs-utils
 mkdir -p ${projectQcDir}
 mkdir -p ${projectQcDir}/images
 
-#Retrieve pipeline version used via NGS_DNAVersion.txt 
-dnaVersion=$(grep 'DNA' ${NGS_DNAVersionFile})
-module load ${dnaVersion}
+module load ${ngsversion}
 
 cp ${intermediateDir}/*.merged.dedup.bam.insert_size_histogram.pdf ${projectQcDir}/images
 
@@ -125,7 +123,7 @@ qcHelperFunctionsR=${EBROOTNGS_DNA}/report/knitr_helper_functions.R
 	export qcStatisticsCsv
 	export project
 	export qcBaitSet
-	export dnaVersion
+	export ngsversion
 	export qcDedupMetricsOut
 	export inSilicoConcordanceFile
 
@@ -141,7 +139,7 @@ R --slave <<RSCRIPT
 	projectQcDir		= '${projectQcDir}'
 	qcReportTemplate	= '${qcReportTemplate}'
 	qcReportMD		= '${qcReportMD}'
-	dnaVersion		= '${dnaVersion}'
+	ngsversion		= '${ngsversion}'
 	qcDedupMetricsOut	= '${qcDedupMetricsOut}'
         externalSampleID        = stringToVector($(bashArrayToString externalSampleID[@]))
 	sampleInsertSizePDF	= stringToVector($(bashArrayToString sampleInsertSizePDF[@]))
