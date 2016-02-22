@@ -15,6 +15,7 @@
 #string gatkJar
 #string gatkVersion
 #string	project
+#string ngsUtilsVersion
 
 sleep 5
 #
@@ -22,7 +23,7 @@ sleep 5
 #
 build="build37"
 
-module load ngs-utils
+module load ${ngsUtilsVersion}
 module load ${gatkVersion}
 
 if test ! -e ${sequenomReport};

@@ -28,6 +28,7 @@
 #string ngsversion
 #list barcode
 #list lane
+#string ngsUtilsVersion
 
 umask 0007
 module load Molgenis-Compute/${computeVersion}
@@ -91,7 +92,7 @@ cd $ROCKETPOINT
 echo "before splitting"
 echo `pwd`
 module load NGS_DNA/$ngsversion
-module load ngs-utils
+module load ${ngsUtilsVersion}
 
 #
 # TODO: array for each sample:
