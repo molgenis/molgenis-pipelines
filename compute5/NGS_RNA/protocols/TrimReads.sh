@@ -6,6 +6,7 @@
 #string peEnd2BarcodeFqGz
 #string srBarcodeFqGz
 #string intermediateDir
+#string BBMapVersion
 
 #Echo parameter values
 echo "seqType: ${seqType}"
@@ -15,7 +16,7 @@ echo "srBarcodeFqGz: ${srBarcodeFqGz}"
 echo "intermediateDir: ${intermediateDir}"
 
 #Load module
-module load BBMap/35.69-Java-1.7.0_80
+module load ${BBMapVersion}
 module list
 
 
@@ -23,7 +24,7 @@ module list
 if [ ${seqType} == "PE" ]
 then
 
-	${EBROOTBBMAP}/bbduk.sh -Xmx1g \
+	${EBROOTBBMAP}/bbduk.sh -Xmx3g \
 	in1=${peEnd1BarcodeFqGz} \
 	in2=${peEnd2BarcodeFqGz} \
 	out1=${peEnd1BarcodeFqGz}.tmp \
@@ -46,7 +47,7 @@ then
 
 elif [ ${seqType} == "SR" ]
 then
-	${EBROOTBBMAP}/bbduk.sh -Xmx1g \
+	${EBROOTBBMAP}/bbduk.sh -Xmx3g \
 	in=${srBarcodeFqGz} \
 	out=${srBarcodeFqGz}.tmp \
 	ref=${EBROOTBBMAP}/resources/polyA.fa.gz,${EBROOTBBMAP}/resources/truseq.fa.gz,${EBROOTBBMAP}/resources/polyG.fa.gz \

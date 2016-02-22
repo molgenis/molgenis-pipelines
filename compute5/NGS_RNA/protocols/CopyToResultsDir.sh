@@ -19,6 +19,7 @@
 #string RVersion
 #string wkhtmltopdfVersion
 #string picardVersion
+#string hisatVersion
 #string htseqVersion
 #string pythonVersion
 #string gatkVersion
