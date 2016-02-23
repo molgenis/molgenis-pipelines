@@ -57,29 +57,29 @@ then
 			perTarget=$(basename $i)
 			perTargetDir=${coveragePerTargetDir}/${perTarget}/human_g1k_v37/
 
-		java -Xmx10g -XX:ParallelGCThreads=4 -jar ${EBROOTGATK}/${gatkJar} \
-                -R ${indexFile} \
-                -T DepthOfCoverage \
-                -o ${sampleNameID}.${perTarget}.coveragePerTarget \
-                -I ${dedupBam} \
-		--omitDepthOutputAtEachBase \
-                -L ${perTargetDir}/${perTarget}.bed
+			java -Xmx10g -XX:ParallelGCThreads=4 -jar ${EBROOTGATK}/${gatkJar} \
+                	-R ${indexFile} \
+                	-T DepthOfCoverage \
+                	-o ${sampleNameID}.${perTarget}.coveragePerTarget \
+                	-I ${dedupBam} \
+			--omitDepthOutputAtEachBase \
+                	-L ${perTargetDir}/${perTarget}.bed
 
-		awk -v OFS='\t' '{print $1,$3}' ${sampleNameID}.${perTarget}.coveragePerTarget.sample_interval_summary | sed '1d' > ${sampleNameID}.${perTarget}.coveragePerTarget.coveragePerTarget.txt.tmp
-		paste ${sampleNameID}.${perTarget}.coveragePerTarget.coveragePerTarget.txt.tmp ${perTargetDir}/${perTarget}.genesOnly > ${sampleNameID}.${perTarget}.coveragePerTarget_inclGenes.txt
-		##Paste command produces ^M character
+			awk -v OFS='\t' '{print $1,$3}' ${sampleNameID}.${perTarget}.coveragePerTarget.sample_interval_summary | sed '1d' > ${sampleNameID}.${perTarget}.coveragePerTarget.coveragePerTarget.txt.tmp
+			paste ${sampleNameID}.${perTarget}.coveragePerTarget.coveragePerTarget.txt.tmp ${perTargetDir}/${perTarget}.genesOnly > ${sampleNameID}.${perTarget}.coveragePerTarget_inclGenes.txt
+			##Paste command produces ^M character
 
-		perl -p -i -e "s/\r//g" ${sampleNameID}.${perTarget}.coveragePerTarget_inclGenes.txt
+			perl -p -i -e "s/\r//g" ${sampleNameID}.${perTarget}.coveragePerTarget_inclGenes.txt
 		
-		awk 'BEGIN { OFS = "\t" } ; {split($1,a,":"); print a[1],a[2],$2,$3}' ${sampleNameID}.${perTarget}.coveragePerTarget_inclGenes.txt | awk 'BEGIN { OFS = "\t" } ; {split($0,a,"-"); print a[1],a[2]}' > ${sampleNameID}.${perTarget}.coveragePerTarget_inclGenes_splitted.txt
+			awk 'BEGIN { OFS = "\t" } ; {split($1,a,":"); print a[1],a[2],$2,$3}' ${sampleNameID}.${perTarget}.coveragePerTarget_inclGenes.txt | awk 'BEGIN { OFS = "\t" } ; {split($0,a,"-"); print a[1],a[2]}' > ${sampleNameID}.${perTarget}.coveragePerTarget_inclGenes_splitted.txt
 
-		if [ -d ${sampleNameID}.${perTarget}.coveragePerTarget_final.txt ]
-		then
-			rm ${sampleNameID}.${perTarget}.coveragePerTarget_final.txt
-		fi 
+			if [ -d ${sampleNameID}.${perTarget}.coveragePerTarget.txt ]
+			then
+				rm ${sampleNameID}.${perTarget}.coveragePerTarget.txt
+			fi 
 
-		echo -e "Index\tChr\tChr Position Start\tChr Position End\tAverage Counts\tDescription\tReference Length\tCDS\tContig" > ${sampleNameID}.${perTarget}.coveragePerTarget_final.txt
-		awk '{OFS="\t"} {len=$3-$2} {print NR,$0,len,"CDS","1"}' ${sampleNameID}.${perTarget}.coveragePerTarget_inclGenes_splitted.txt >> ${sampleNameID}.${perTarget}.coveragePerTarget_final.txt 
+			echo -e "Index\tChr\tChr Position Start\tChr Position End\tAverage Counts\tDescription\tReference Length\tCDS\tContig" > ${sampleNameID}.${perTarget}.coveragePerTarget.txt
+			awk '{OFS="\t"} {len=$3-$2} {print NR,$0,len,"CDS","1"}' ${sampleNameID}.${perTarget}.coveragePerTarget_inclGenes_splitted.txt >> ${sampleNameID}.${perTarget}.coveragePerTarget.txt 
 		done
 
 	else
