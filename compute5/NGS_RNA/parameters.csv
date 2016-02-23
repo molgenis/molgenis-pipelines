@@ -19,6 +19,7 @@ pythonVersion,Python/2.7.9-goolf-1.7.20
 gatkVersion,GATK/3.4-46-Java-1.7.0_80 
 ghostscriptVersion,Ghostscript/9.16-goolf-1.7.20
 kallistoVersion,Kallisto/0.42.4-goolf-1.7.20
+BBMapVersion,BBMap/35.69-Java-1.7.0_80
 picardJar,picard.jar
 mergeSamFilesJar,MergeSamFiles
 processReadCountsJar,ProcessReadCounts.jar

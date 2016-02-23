@@ -21,7 +21,6 @@
 
 #Load module
 module load ${fastqcVersion}
-module load ngs-utils
 module list
 
 makeTmpDir ${intermediateDir}
