@@ -49,6 +49,12 @@ then
 			echo -e "Index\tChr\tChr Position Start\tDescription\tMin Counts\tCDS\tContig" > ${sampleNameID}.${perBase}.coveragePerBase.txt
 
 			awk -v OFS='\t' '{print NR,$1,$2,$5,$7,"CDS","1"}' ${sampleNameID}.${perBase}.combined_bedfile_and_samtoolsoutput.txt >> ${sampleNameID}.${perBase}.coveragePerBase.txt
+			
+			#remove phiX
+			grep -v "phiX174" ${sampleNameID}.${perBase}.coveragePerBase.txt > ${sampleNameID}.${perBase}.coveragePerBase.txt.tmp
+			mv ${sampleNameID}.${perBase}.coveragePerBase.txt.tmp ${sampleNameID}.${perBase}.coveragePerBase.txt
+			echo "phiX is removed for ${sampleNameID} perBase" 
+
 		done
 		
 		## Per target bed files
@@ -80,6 +86,12 @@ then
 
 			echo -e "Index\tChr\tChr Position Start\tChr Position End\tAverage Counts\tDescription\tReference Length\tCDS\tContig" > ${sampleNameID}.${perTarget}.coveragePerTarget.txt
 			awk '{OFS="\t"} {len=$3-$2} {print NR,$0,len,"CDS","1"}' ${sampleNameID}.${perTarget}.coveragePerTarget_inclGenes_splitted.txt >> ${sampleNameID}.${perTarget}.coveragePerTarget.txt 
+
+			#Remove phiX
+			grep -v "phiX174" ${sampleNameID}.${perTarget}.coveragePerTarget.txt > ${sampleNameID}.${perTarget}.coveragePerTarget.txt.tmp
+			mv ${sampleNameID}.${perBase}.coveragePerTarget.txt.tmp ${sampleNameID}.${perTarget}.coveragePerTarget.txt
+			echo "phiX is removed for ${sampleNameID} perTarget" 
+
 		done
 
 	else
