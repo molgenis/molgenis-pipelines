@@ -26,6 +26,7 @@
 #string workflowpath
 #string environment_parameters
 #string ngsversion
+#string ngsUtilsVersion
 
 #string project
 umask 0007
@@ -95,8 +96,8 @@ cd $ROCKETPOINT
 
 echo "before splitting"
 echo `pwd`
-module load ngs-utils
-module load NGS_DNA/$ngsversion
+module load ${ngsUtilsVersion}
+module load ${ngsversion}
 #
 # TODO: array for each sample:
 #

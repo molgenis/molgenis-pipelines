@@ -18,7 +18,7 @@ gatkVersion,GATK/3.4-0-Java-1.7.0_80
 javaVersion,Java/1.8.0_45
 ngsUtilsVersion,ngs-utils/16.02.2
 picardVersion,picard/1.130-Java-1.7.0_80
-pythonVersion,Python/3.4.1-goolf-1.7.20
+pythonVersion,Python/2.7.9-goolf-1.7.20
 rVersion,R/3.2.1-goolf-1.7.20
 sambambaVersion,sambamba/v0.5.9-goolf-1.7.20 
 samtoolsVersion,SAMtools/1.2-goolf-1.7.20

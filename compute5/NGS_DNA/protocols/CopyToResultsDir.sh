@@ -90,18 +90,18 @@ for sample in "${externalSampleID[@]}"
 do
 	cp ${intermediateDir}/${sample}.final.vcf ${projectResultsDir}/variants/
 	cp ${intermediateDir}/${sample}.final.vcf.table ${projectResultsDir}/variants/
-
-	if [ -f ${intermediateDir}/${sample}.coveragePerBase.txt  ] 
+	
+	if [ -f ${intermediateDir}/${sample}.*.coveragePerBase.txt  ] 
 	then
-		cp ${intermediateDir}/${sample}.coveragePerBase.txt ${projectResultsDir}/coverage/
+		cp ${intermediateDir}/${sample}.*.coveragePerBase.txt ${projectResultsDir}/coverage/
 	fi
-	if [ -f ${intermediateDir}/${sample}.coveragePerGene.txt  ] 
+	if [ -f ${intermediateDir}/${sample}.*.coveragePerGene.txt  ] 
 	then
-		cp ${intermediateDir}/${sample}.coveragePerGene.txt ${projectResultsDir}/coverage/
+		cp ${intermediateDir}/${sample}.*.coveragePerGene.txt ${projectResultsDir}/coverage/
 	fi
-	if [ -f ${intermediateDir}/${sample}.coveragePerTarget.txt  ] 
+	if [ -f ${intermediateDir}/${sample}.*coveragePerTarget.txt  ] 
 	then
-		cp ${intermediateDir}/${sample}.coveragePerTarget.txt ${projectResultsDir}/coverage/
+		cp ${intermediateDir}/${sample}.*.coveragePerTarget.txt ${projectResultsDir}/coverage/
 	fi
 	
 	
@@ -126,10 +126,8 @@ zip -gr ${projectResultsDir}/${project}.zip images
 zip -g ${projectResultsDir}/${project}.zip ${project}.csv
 #zip -g ${projectResultsDir}/${project}.zip README.pdf
 zip -g ${projectResultsDir}/${project}.zip ${project}_QCReport.md
-if [ -f ${intermediateDir}/*.coveragePerBase.txt  ]
-then
-	zip -gr ${projectResultsDir}/${project}.zip ${projectResultsDir}/coverage/*.coveragePerBase.txt
-fi
+zip -gr ${projectResultsDir}/${project}.zip coverage
+
 echo "Made zip file: ${projectResultsDir}/${project}.zip (10/11)"
 
 # Create md5sum for zip file
