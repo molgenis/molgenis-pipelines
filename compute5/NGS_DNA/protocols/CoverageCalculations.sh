@@ -69,7 +69,7 @@ then
                 	-o ${sampleNameID}.${perTarget}.coveragePerTarget \
                 	-I ${dedupBam} \
 			--omitDepthOutputAtEachBase \
-                	-L ${perTargetDir}/${perTarget}.bed
+                	-L ${perTargetDir}/${perTarget}.merged.bed
 
 			awk -v OFS='\t' '{print $1,$3}' ${sampleNameID}.${perTarget}.coveragePerTarget.sample_interval_summary | sed '1d' > ${sampleNameID}.${perTarget}.coveragePerTarget.coveragePerTarget.txt.tmp
 			paste ${sampleNameID}.${perTarget}.coveragePerTarget.coveragePerTarget.txt.tmp ${perTargetDir}/${perTarget}.genesOnly > ${sampleNameID}.${perTarget}.coveragePerTarget_inclGenes.txt
@@ -89,7 +89,7 @@ then
 
 			#Remove phiX
 			grep -v "phiX174" ${sampleNameID}.${perTarget}.coveragePerTarget.txt > ${sampleNameID}.${perTarget}.coveragePerTarget.txt.tmp
-			mv ${sampleNameID}.${perBase}.coveragePerTarget.txt.tmp ${sampleNameID}.${perTarget}.coveragePerTarget.txt
+			mv ${sampleNameID}.${perTarget}.coveragePerTarget.txt.tmp ${sampleNameID}.${perTarget}.coveragePerTarget.txt
 			echo "phiX is removed for ${sampleNameID} perTarget" 
 
 		done
