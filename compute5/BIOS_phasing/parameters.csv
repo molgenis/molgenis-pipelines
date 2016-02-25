@@ -17,7 +17,7 @@ uniqueID,${sampleName}_${internalId}
 ## Software and data versions/builds/paths
 #
 beagleVersion,09Feb16.2b7-Java-1.8.0_45
-
+shapeitVersion,v2.r837-static
 
 
 referenceFastaName,human_g1k_v37
@@ -58,5 +58,7 @@ genotypedChrVcfIdx,${genotypedChrVcf}.idx
 ## Beagle
 beagleDir,${projectDir}/beagle/
 genotypedChrVcfBeagleGenotypeProbabilities,${beagleDir}/${project}.chr${chromosome}.beagle.genotype.probs.gg.vcf.gz
+genotypedChrVcfShapeitInputPrefix,${beagleDir}/${project}.chr${chromosome}.beagle.genotype.probs.gg
+shapeitDir,${projectDir}/shapeit/
 
 
