@@ -4,10 +4,10 @@ s02_CheckIlluminaEncoding,protocols/CheckIlluminaEncoding.sh,s01_SpikePhiX
 s03_FastQC,protocols/FastQC.sh,s02_CheckIlluminaEncoding
 s04_BwaAlign,protocols/BwaAlign.sh,s02_CheckIlluminaEncoding
 s05_SamToBam,protocols/SamToBam.sh,s04_BwaAlign
-s06_SambambaSort,protocols/SambambaSort.sh,s05_SamToBam
-s07_SambambaMerge,protocols/SambambaMerge.sh,s06_SambambaSort;inputMergeBam=alignedSortedBam
-s08_MarkDuplicates,protocols/Sambamba.sh,s07_SambambaMerge
-s09a_Delly_DEL,protocols/Delly.sh,s07_SambambaMerge;dellyType=dellyTypeDEL;dellyInput=sampleMergedBam
+s06_SortBam,protocols/SortBam.sh,s05_SamToBam
+s07_MergeBam,protocols/MergeBam.sh,s06_SortBam;inputMergeBam=alignedSortedBam
+s08_MarkDuplicates,protocols/MarkDuplicates.sh,s07_MergeBam
+s09a_Delly_DEL,protocols/Delly.sh,s07_MergeBam;dellyType=dellyTypeDEL;dellyInput=sampleMergedBam
 s09b_DellyAnnotator,protocols/DellyAnnotator.sh,s09a_Delly_DEL
 s10a_GenderCalculate,protocols/GenderCalculate.sh,s08_MarkDuplicates
 #s10b_CramConversion,protocols/CramConversion.sh,s08_MarkDuplicates
