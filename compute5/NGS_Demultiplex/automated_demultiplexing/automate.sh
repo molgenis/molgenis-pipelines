@@ -2,8 +2,6 @@ set -e
 set -u
 
 module load NGS_Demultiplex/DMP-2.1.2-Molgenis-Compute-v15.12.4-Java-1.8.0_45
-module load ngs-utils
-module load Python
 module list
 
 ##source config file (zinc-finger.gcc.rug.nl.cfg OR gattaca.cfg)
