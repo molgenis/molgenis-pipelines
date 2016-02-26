@@ -31,12 +31,12 @@ then
 	out2=${peEnd2BarcodeFqGz}.tmp \
 	ref=${EBROOTBBMAP}/resources/polyA.fa.gz,${EBROOTBBMAP}/resources/truseq.fa.gz,${EBROOTBBMAP}/resources/polyG.fa.gz \
 	overwrite=true \
-	k=13 ktrim=r \
-	useshortkmers=t \
-	mink=5 \
-	qtrim=t \
-	trimq=10 \
-	minlength=20
+        k=13 \
+	ktrim=l \
+        qtrim=rl \
+        trimq=14 \
+        minlength=20 \
+        forcetrimleft=11
 
 	gzip ${peEnd1BarcodeFqGz}.tmp
 	gzip ${peEnd2BarcodeFqGz}.tmp
@@ -52,13 +52,12 @@ then
 	out=${srBarcodeFqGz}.tmp \
 	ref=${EBROOTBBMAP}/resources/polyA.fa.gz,${EBROOTBBMAP}/resources/truseq.fa.gz,${EBROOTBBMAP}/resources/polyG.fa.gz \
 	overwrite=true \
-	k=13 \
-	ktrim=r \
-	useshortkmers=t \
-	mink=5 \
-	qtrim=t \
-	trimq=10 \
-	minlength=20
+        k=13 \
+	ktrim=l \
+        qtrim=rl \
+        trimq=14 \
+        minlength=20 \
+        forcetrimleft=11
 
 	gzip ${srBarcodeFqGz}.tmp
 	mv ${srBarcodeFqGz}.tmp.gz ${srBarcodeFqGz}

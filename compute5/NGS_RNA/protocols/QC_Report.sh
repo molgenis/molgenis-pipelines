@@ -19,7 +19,7 @@
 #string samtoolsVersion
 #string picardVersion
 #string anacondaVersion
-#string starVersion
+#string hisatVersion
 #string genome
 #string ngsversion
 
@@ -215,7 +215,7 @@ End 2 x 100 bp) in pools of multiple samples.
 
 Gene expression quantification
 The trimmed fastQ files where aligned to build ${genome} human reference genome using 
-${htseqVersion} [1] allowing for 2 mismatches. Before gene quantification
+${hisatVersion} [1] allowing for 2 mismatches. Before gene quantification
 SAMtools ${samtoolsVersion} [2] was used to sort the aligned reads.
 The gene level quantification was performed by ${htseqVersion} in Anaconda ${anacondaVersion} [3] using --mode=union
 --stranded=no and, Ensembl version ${ensembleReleaseVersion} was used as gene annotation database which is included
@@ -233,6 +233,7 @@ Used toolversions:
 
 ${jdkVersion}
 ${fastqcVersion}
+${hisatVersion}
 ${samtoolsVersion}
 ${RVersion}
 ${wkhtmltopdfVersion}
