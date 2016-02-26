@@ -161,7 +161,7 @@ ${htseqVersion}
 ${pythonVersion}
 ${gatkVersion}
 ${ghostscriptVersion}
-${kallistoVersion}
+${hisatVersion}
 
 1. Daehwan Kim, Ben Langmead & Steven L Salzberg: HISAT: a fast spliced aligner with low
 memory requirements. Nature Methods 12, 357–360 (2015)
