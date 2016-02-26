@@ -1,10 +1,11 @@
+#!/bin/bash
 set -e
 set -u
 
-module load NGS_Demultiplex/DMP-2.1.2-Molgenis-Compute-v15.12.4-Java-1.8.0_45
+##Demultiplexing module will be loaded via cronjob
 module list
 
-##source config file (zinc-finger.gcc.rug.nl.cfg OR gattaca.cfg)
+##source config file (zinc-finger.gcc.rug.nl.cfg, leucine-zipper.gcc.rug.nl OR gattaca.cfg)
 myhost=$(hostname)
 if [[ $myhost == *"gattaca"* ]]
 then
@@ -92,12 +93,12 @@ do
                         fi
                 fi
 	fi
-if [ -f /groups/umcg-gaf/tmp05/Samplesheets/${PROJECTNAME}_Check.txt ]
+if [ -f ${SAMPLESHEETDIR}/${PROJECTNAME}_Check.txt ]
 then
-	COUNT=$(cat /groups/umcg-gaf/tmp05/Samplesheets/${PROJECTNAME}_Check.txt | wc -l)
+	COUNT=$(cat ${SAMPLESHEETDIR}/{PROJECTNAME}_Check.txt | wc -l)
 	if [ $COUNT == 10 ]
 	then
-		echo "Er is geen samplesheet gevonden op deze locatie: /groups/umcg-gaf/tmp05/Samplesheets/${PROJECTNAME}.csv" | mail -s "Er is geen samplesheet gevonden voor ${PROJECTNAME}" ${ONTVANGER}
+		echo "Er is geen samplesheet gevonden op deze locatie: ${SAMPLESHEETDIR}/${PROJECTNAME}.csv" | mail -s "Er is geen samplesheet gevonden voor ${PROJECTNAME}" ${ONTVANGER}
 		echo "mail has been sent to ${ONTVANGER}"
 	fi
 fi
