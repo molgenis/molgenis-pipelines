@@ -15,6 +15,7 @@
 #string intermediateDir
 #string picardJar
 #string project
+#string picardVersion
 
 sleep 5
 
@@ -38,7 +39,7 @@ tmpSampleMergedDedupBam=${MC_tmpFile}
 makeTmpDir ${sampleMergedDedupBai}
 tmpSampleMergedDedupBai=${MC_tmpFile}
 
-module load picard
+module load ${picardVersion}
 
 
 #Duplicates statistics.
