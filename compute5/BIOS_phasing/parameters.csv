@@ -18,35 +18,10 @@ uniqueID,${sampleName}_${internalId}
 #
 beagleVersion,09Feb16.2b7-Java-1.8.0_45
 shapeitVersion,v2.r837-static
-
-
 referenceFastaName,human_g1k_v37
 onekgGenomeFasta,${resDir}/${genomeBuild}/indices/${referenceFastaName}.fasta
-genomeEnsembleAnnotationFile,${resDir}/Ensembl/release-${ensemblVersion}/gtf/homo_sapiens/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.gtf
-genesRefFlat,${resDir}/Ensembl/release-${ensemblVersion}/gtf/homo_sapiens/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.refflat
-rRnaIntervalList,${resDir}//picard-tools/Ensembl${ensemblVersion}/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.rrna.interval_list
-goldStandardVcf,${resDir}/${genomeBuild}/sv/1000G/Mills_and_1000G_gold_standard.indels.b37.vcf
-goldStandardVcfIdx,${goldStandardVcf}.idx
-oneKgPhase1SnpsVcf,${resDir}/${genomeBuild}/snp/1000G/1000G_phase1.snps.high_confidence.b37.vcf
-oneKgPhase1SnpsVcfIdx,${oneKgPhase1SnpsVcf}.idx
-oneKgPhase1IndelsVcf,${resDir}/${genomeBuild}/sv/1000G/1000G_phase1.indels.b37.vcf
-oneKgPhase1IndelsVcfIdx,${oneKgPhase1IndelsVcf}.idx
-dbsnpVcf,${resDir}/${genomeBuild}/snp/dbSNP/dbsnp_138.b37.vcf
-dbsnpVcfIdx,${dbsnpVcf}.idx
-regulation_CD4Bin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_CD4.bin
-regulation_GM06990Bin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_GM06990.bin
-regulation_GM12878Bin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_GM12878.bin
-regulation_H1ESCBin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_H1ESC.bin
-regulation_HeLaS3Bin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_HeLa-S3.bin
-regulation_HepG2Bin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_HepG2.bin
-regulation_HMECBin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_HMEC.bin
-regulation_HSMMBin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_HSMM.bin
-regulation_HUVECBin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_HUVEC.bin
-regulation_IMR90Bin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_IMR90.bin
-regulation_K562bBin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_K562b.bin
-regulation_K562Bin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_K562.bin
-regulation_NHABin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_NH-A.bin
-regulation_NHEKBin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_NHEK.bin
+geneticMapDir,/apps/data/www.shapeit.fr/genetic_map_b37/
+geneticMapChr,${geneticMapDir}/genetic_map_chr${chr}_combined_b37.txt
 ########################################################################
 ## Specific tools paths
 #
@@ -59,6 +34,8 @@ genotypedChrVcfIdx,${genotypedChrVcf}.idx
 beagleDir,${projectDir}/beagle/
 genotypedChrVcfBeagleGenotypeProbabilities,${beagleDir}/${project}.chr${chromosome}.beagle.genotype.probs.gg.vcf.gz
 genotypedChrVcfShapeitInputPrefix,${beagleDir}/${project}.chr${chromosome}.beagle.genotype.probs.gg
+## Shapeit
 shapeitDir,${projectDir}/shapeit/
-
+phasedScaffoldDir,/groups/umcg-lld/tmp04/projects/genotypingRelease3/selectionLldeep/lldeepPhased/
+shapeitPhasedOutputPrefix,${shapeitDir}/chr${chr}.shapeit.phased
 
