@@ -1,0 +1,41 @@
+########################################################################
+## General parameters for SLURM settings and cluster directory paths
+#
+queue,ll
+defaultInterpreter,#!/bin/bash
+stage,module load
+checkStage,module list
+WORKDIR,/groups/
+root,${WORKDIR}
+group,umcg-bios
+tmp,tmp04
+resDir,/groups/umcg-wijmenga/tmp04/resources/
+toolDir,/apps/software/
+projectDir,${root}/${group}/${tmp}/projects/${project}/
+uniqueID,${sampleName}_${internalId}
+########################################################################
+## Software and data versions/builds/paths
+#
+beagleVersion,09Feb16.2b7-Java-1.8.0_45
+shapeitVersion,v2.r837-static
+referenceFastaName,human_g1k_v37
+onekgGenomeFasta,${resDir}/${genomeBuild}/indices/${referenceFastaName}.fasta
+geneticMapDir,/apps/data/www.shapeit.fr/genetic_map_b37/
+geneticMapChr,${geneticMapDir}/genetic_map_chr${chr}_combined_b37.txt
+########################################################################
+## Specific tools paths
+#
+## Input Beagle from GATK GenotypeGVF
+genotypedVcf,${haplotyperDir}${project}.gg.vcf
+genotypedVcfIdx,${genotypedVcf}.idx
+genotypedChrVcf,${haplotyperDir}${project}.chr${chromosome}.gg.vcf.gz
+genotypedChrVcfIdx,${genotypedChrVcf}.idx
+## Beagle
+beagleDir,${projectDir}/beagle/
+genotypedChrVcfBeagleGenotypeProbabilities,${beagleDir}/${project}.chr${chromosome}.beagle.genotype.probs.gg.vcf.gz
+genotypedChrVcfShapeitInputPrefix,${beagleDir}/${project}.chr${chromosome}.beagle.genotype.probs.gg
+## Shapeit
+shapeitDir,${projectDir}/shapeit/
+phasedScaffoldDir,/groups/umcg-lld/tmp04/projects/genotypingRelease3/selectionLldeep/lldeepPhased/
+shapeitPhasedOutputPrefix,${shapeitDir}/chr${chr}.shapeit.phased
+
