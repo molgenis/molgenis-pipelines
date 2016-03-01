@@ -79,18 +79,11 @@ do
 	sampleHsMetrics+=("${intermediateDir}/${sample}.merged.dedup.bam.hs_metrics")
         sampleAlignmentMetrics+=("${intermediateDir}/${sample}.merged.dedup.bam.alignment_summary_metrics")
         sampleInsertMetrics+=("${intermediateDir}/${sample}.merged.dedup.bam.insert_size_metrics")
-	sampleDedupMetrics_folded+=("${intermediateDir}/${sample}.merged.dedup.metrics")
+	sampleDedupMetrics+=("${intermediateDir}/${sample}.merged.dedup.metrics")
         sampleConcordance+=("${intermediateDir}/${sample}.concordance.ngsVSarray.txt")
         sampleInsertSizePDF+=("images/${sample}.merged.dedup.bam.insert_size_histogram.pdf")
 
 done
-
-#unfolded dor dedupMatrics per lane,flowcell.
-for sample in "${externalSampleID[@]}"
-do 
-	sampleDedupMetrics+=("${intermediateDir}/${sample}.merged.dedup.metrics")
-done
-
 
 #
 ## Gather QC statistics
@@ -100,7 +93,7 @@ Rscript ${EBROOTNGSMINUTILS}/getStatistics/${getStatisticsScript} \
 --hsmetrics $(bashArrayToCSV sampleHsMetrics[@]) \
 --alignment $(bashArrayToCSV sampleAlignmentMetrics[@]) \
 --insertmetrics $(bashArrayToCSV sampleInsertMetrics[@]) \
---dedupmetrics $(bashArrayToCSV sampleDedupMetrics_folded[@]) \
+--dedupmetrics $(bashArrayToCSV sampleDedupMetrics[@]) \
 --concordance $(bashArrayToCSV sampleConcordance[@]) \
 --sample $(bashArrayToCSV INPUTS[@]) \
 --colnames ${EBROOTNGSMINUTILS}/getStatistics/NiceColumnNames.csv \
@@ -113,6 +106,46 @@ Rscript ${EBROOTNGSMINUTILS}/getStatistics/${getStatisticsScript} \
 
 qcReportTemplate=${EBROOTNGS_DNA}/report/qc_report_template.Rmd
 qcHelperFunctionsR=${EBROOTNGS_DNA}/report/knitr_helper_functions.R
+
+count="0"
+FIRSTLINE=""
+SECONDLINE=""
+thisSample=""
+
+if [ -f ${qcDedupMetricsOut}.tmp ] 
+then
+	rm ${qcDedupMetricsOut}.tmp
+fi
+
+for i in $(ls ${intermediateDir}/*.merged.dedup.metrics)
+do
+        tail -1 ${i} | awk '{OFS="\n"} {print $1,$2}' >> ${qcDedupMetricsOut}.tmp
+done
+
+while read line
+do
+  	if [ $count == "0" ]
+        then
+            	FIRSTLINE+=$(echo "${line},")
+                count="1"
+        elif [ $count == "1" ]
+        then
+            	SECONDLINE+=$(echo "${line},")
+                count="0"
+        fi
+done<${qcDedupMetricsOut}.tmp
+FIRST=${FIRSTLINE%?}
+SECOND=${SECONDLINE%?}
+
+for sa in "${INPUTS[@]}"
+do
+  	thisSample+=$(echo "${sa},")
+done
+
+sam=${thisSample%?}
+echo -e "Sample,${sam}" > ${qcDedupMetricsOut}
+echo -e "READ_PAIR_DUPLICATES,${FIRST}\nPERCENT_DUPLICATION,${SECOND}" >> ${qcDedupMetricsOut}
+
 
 #
 ## Run R script to knitr your report
