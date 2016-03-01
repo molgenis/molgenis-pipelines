@@ -33,7 +33,7 @@ if [ ${#reads2FqGz} -eq 0 ]; then
     -i ${kallistoIndex} \
     -o ${kallistoDir}/${uniqueID}_${fragmentLength} \
     --single \
-    -l 200 \
+    -l ${fragmentLength} \
     ${reads1FqGz}
   then
     echo "returncode: $?"; putFile ${kallistoDir}/${uniqueID}_${fragmentLength}/abundance.tsv

@@ -41,7 +41,7 @@ fi
 
 #Run Picard CollectAlignmentSummaryMetrics, CollectInsertSizeMetrics, QualityScoreDistribution and MeanQualityByCycle
 
-echo java -jar -Xmx4g -XX:ParallelGCThreads=4 ${toolDir}picard/${picardVersion}/CollectMultipleMetrics.jar \
+echo java -jar -Xmx4g -XX:ParallelGCThreads=4 $EBROOTPICARD/CollectMultipleMetrics.jar \
         I=${sortedBam} \
         O=${collectMultipleMetricsPrefix} \
         R=${onekgGenomeFasta} \
