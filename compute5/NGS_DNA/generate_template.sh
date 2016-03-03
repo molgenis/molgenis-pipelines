@@ -11,8 +11,10 @@ WORKDIR="/groups/umcg-gaf/${TMPDIR}"
 RUNID=runXX
 ## For small batchsize (6) leave BATCH empty, _exome (10 batches) or _wgs (20 batches)  OR  this is beta: _chr (per chrosomome), _NO (1 batch),
 BATCH=""
+THISDIR=$(pwd)
 
-SAMPLESIZE=$(cat ${WORKDIR}/generatedscripts/${PROJECT}/${PROJECT}.csv | wc -l)
+SAMPLESIZE=$(( $(sh ${EBROOTNGS_DNA}/samplesize.sh ${WORKDIR}/generatedscripts/${PROJECT}/${PROJECT}.csv $THISDIR) -1 ))
+echo "Samplesize is $SAMPLESIZE"
 if [ $SAMPLESIZE -gt 199 ]
 then
     	WORKFLOW=${EBROOTNGS_DNA}/workflow_samplesize_bigger_than_200.csv
