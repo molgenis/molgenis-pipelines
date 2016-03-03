@@ -6,6 +6,7 @@
 #string dellyType
 #string dellyInput
 #string dellyVcf
+#string GCC_Analysis
 
 module load delly/${dellyVersion}
 module list
