@@ -12,4 +12,4 @@ do
 done
 
 cat $DIR/countRows.txt | uniq | wc -l
-#rm $DIR/countRows.txt
+rm $DIR/countRows.txt
