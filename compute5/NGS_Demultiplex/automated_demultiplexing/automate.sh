@@ -9,9 +9,9 @@ module list
 myhost=$(hostname)
 if [[ $myhost == *"gattaca"* ]]
 then
-	. gattaca.cfg
+	. ./gattaca.cfg
 else
-	. ${myhost}
+	. ./${myhost}.cfg
 fi
 
 ### Sequencer is writing to this location: $NEXTSEQDIR
@@ -85,7 +85,7 @@ do
 					echo "jobs submitted, pipeline is running" >> ${LOGGERPIPELINE}
                                		touch ${LOGSDIR}/${PROJECTNAME}_Demultiplexing.started
 					echo "De demultiplexing pipeline is gestart, over een aantal uren zal dit klaar zijn \
-					en word de data automatisch naar zinc-finger gestuurd, hierna  word de pipeline gestart" | mail -s "Het demultiplexen van ug is gestart op (`date +%d/%m/%Y` `date +%H:%M`)" ${ONTVANGER}
+					en word de data automatisch naar zinc-finger gestuurd, hierna  word de pipeline gestart" | mail -s "Het demultiplexen van ${PROJECTNAME} is gestart op (`date +%d/%m/%Y` `date +%H:%M`)" ${ONTVANGER}
 				fi
                         else
 				echo "Samplesheet is missing, after 10 times a mail will be send to the user" >> ${DEBUGGER}
