@@ -97,7 +97,7 @@ do
 	fi
 if [ -f ${SAMPLESHEETDIR}/${PROJECTNAME}_Check.txt ]
 then
-	COUNT=$(cat ${SAMPLESHEETDIR}/{PROJECTNAME}_Check.txt | wc -l)
+	COUNT=$(cat ${SAMPLESHEETDIR}/${PROJECTNAME}_Check.txt | wc -l)
 	if [ $COUNT == 10 ]
 	then
 		echo "Er is geen samplesheet gevonden op deze locatie: ${SAMPLESHEETDIR}/${PROJECTNAME}.csv" | mail -s "Er is geen samplesheet gevonden voor ${PROJECTNAME}" ${ONTVANGER}
