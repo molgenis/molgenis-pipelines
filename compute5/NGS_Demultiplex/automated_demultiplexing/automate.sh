@@ -5,13 +5,15 @@ set -u
 ##Demultiplexing module will be loaded via cronjob
 module list
 
+MYINSTALLATIONDIR=$( cd -P "$( dirname "$0" )" && pwd )
+
 ##source config file (zinc-finger.gcc.rug.nl.cfg, leucine-zipper.gcc.rug.nl OR gattaca.cfg)
 myhost=$(hostname)
 if [[ $myhost == *"gattaca"* ]]
 then
-	. ./gattaca.cfg
+	. ${MYINSTALLATIONDIR}/gattaca.cfg
 else
-	. ./${myhost}.cfg
+	. ${MYINSTALLATIONDIR}/${myhost}.cfg
 fi
 
 ### Sequencer is writing to this location: $NEXTSEQDIR
@@ -95,7 +97,7 @@ do
 	fi
 if [ -f ${SAMPLESHEETDIR}/${PROJECTNAME}_Check.txt ]
 then
-	COUNT=$(cat ${SAMPLESHEETDIR}/{PROJECTNAME}_Check.txt | wc -l)
+	COUNT=$(cat ${SAMPLESHEETDIR}/${PROJECTNAME}_Check.txt | wc -l)
 	if [ $COUNT == 10 ]
 	then
 		echo "Er is geen samplesheet gevonden op deze locatie: ${SAMPLESHEETDIR}/${PROJECTNAME}.csv" | mail -s "Er is geen samplesheet gevonden voor ${PROJECTNAME}" ${ONTVANGER}
