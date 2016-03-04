@@ -38,7 +38,7 @@ do
 			### Check if Samplesheet is there
                       	if [ -f ${SAMPLESHEETDIR}/${PROJECTNAME}.csv ]
                         then
-				python $NGS_DEMULTIPLEX/automated_demultiplexing/checkSampleSheet.py --input ${SAMPLESHEETDIR}/${PROJECTNAME}.csv
+				python ${EBROOTNGS_DEMULTIPLEX}/automated_demultiplexing/checkSampleSheet.py --input ${SAMPLESHEETDIR}/${PROJECTNAME}.csv
 				if [ $? == 1 ]
 				then
 					echo "There is something wrong in the samplesheet! Exiting" >> ${DEBUGGER}
