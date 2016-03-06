@@ -1,4 +1,8 @@
 step,protocol,dependencies
+GenotypeConcordance,protocols/GenotypeConcordance.sh,
 BeagleGenotypeCalling,protocols/BeagleGenotypeCalling.sh,
 ConvertBeagleToShapeit,protocols/ConvertBeagleToShapeit.sh,BeagleGenotypeCalling
 ShapeitPhasing,protocols/ShapeitPhasing.sh,ConvertBeagleToShapeit
+ReadbackPhasing,protocols/ReadbackPhasing.sh,ShapeitPhasing
+PhasingQC,protocols/PhasingQC.sh,ReadbackPhasing
+
