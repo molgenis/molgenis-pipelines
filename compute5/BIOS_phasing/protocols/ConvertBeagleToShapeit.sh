@@ -22,7 +22,7 @@ getFile ${genotypedChrVcf}
 getFile ${genotypedChrVcfIdx}
 getFile ${genotypedChrVcfBeagleGenotypeProbabilities}
 
-${stage} GLib/2.45.2-goolf-1.7.20
+${stage} GLib/${GLibVersion}
 ${stage} prepareGenFromBeagle4/${prepareGenFromBeagle4Version}
 ${checkStage}
 
