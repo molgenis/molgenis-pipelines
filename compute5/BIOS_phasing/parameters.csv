@@ -31,7 +31,7 @@ tabixVersion,0.2.6-goolf-1.7.20
 referenceFastaName,human_g1k_v37
 onekgGenomeFasta,${resDir}/${genomeBuild}/indices/${referenceFastaName}.fasta
 geneticMapDir,/apps/data/www.shapeit.fr/genetic_map_b37/
-geneticMapChr,${geneticMapDir}/genetic_map_chr${chr}_combined_b37.txt
+geneticMapChr,${geneticMapDir}/genetic_map_chr${chromosome}_combined_b37.txt
 ########################################################################
 ## Specific tools paths
 #
@@ -46,11 +46,11 @@ genotypedChrVcfShapeitInputPrefix,${beagleDir}/${project}.chr${chromosome}.beagl
 ## Shapeit
 shapeitDir,${projectDir}/shapeit/
 phasedScaffoldDir,/groups/umcg-lld/tmp04/projects/genotypingRelease3/selectionLldeep/lldeepPhased/
-shapeitPhasedOutputPrefix,${shapeitDir}/chr${chr}.shapeit.phased
+shapeitPhasedOutputPrefix,${shapeitDir}/chr${chromosome}.shapeit.phased
 ## phASER
 mapq,0
 baseq,0
 phaserDir,shapeitDir,${projectDir}/phASER
-phaserOutPrefix,${sampleName}_chr${chr}
+phaserOutPrefix,${sampleName}_chr${chromosome}
 ## genotype concordance
-comparisonFileDir,${fvdPrjectDir}RNA-seq_rare_variants/comparison_files/
+comparisonFileDir,${fvdProjectDir}RNA-seq_rare_variants/comparison_files/
