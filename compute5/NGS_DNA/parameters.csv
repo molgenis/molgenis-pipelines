@@ -130,7 +130,7 @@ MillsGoldStandardChr1Intervals,${MillsGoldStandardDir}/1000G_phase1.indels_Mills
 ### Protocols 11, 12, 13 and 14 (CheckSex, Delly, CoveragePerBase, SequonomConcordanceCheck, CollectBamMetrics) ###
 whichSex,${sampleNameID}.chosenSex.txt
 checkSexMeanCoverage,${sampleNameID}.checkSex.filter.meancoverage.txt
-capturedIntervals_nonAutoChrX,${intermediateDir}/${sampleNameID}.${nameBed}.nonAutosomalChrX.interval_list
+capturedIntervals_nonAutoChrX,${sampleNameID}.${nameBed}.nonAutosomalChrX.interval_list
 familyList,${sampleNameID}.familylist.txt
 arrayMapFile,${sampleNameID}.concordance.map
 sampleConcordanceFile,${sampleNameID}.concordance.ngsVSarray.txt

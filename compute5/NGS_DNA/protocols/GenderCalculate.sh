@@ -20,8 +20,8 @@ sleep 5
 makeTmpDir ${hsMetricsNonAutosomalRegionChrX}
 tmpHsMetricsNonAutosomalRegionChrX=${MC_tmpFile}
 
-cp ${indexFileDictionary} ${capturedIntervals_nonAutoChrX}
-awk '{if ($0 ~ /^X/){print $0}}' ${capturedIntervals} > ${capturedIntervals_nonAutoChrX}
+cat ${indexFileDictionary} > ${capturedIntervals_nonAutoChrX}
+awk '{if ($0 ~ /^X/){print $0}}' ${capturedIntervals} >> ${capturedIntervals_nonAutoChrX}
 
 #Calculate coverage chromosome X
 java -jar -XX:ParallelGCThreads=2 -Xmx4g ${EBROOTPICARD}/${picardJar} CalculateHsMetrics \
