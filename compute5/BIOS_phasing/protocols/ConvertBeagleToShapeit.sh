@@ -9,7 +9,7 @@
 
 #string WORKDIR
 #string projectDir
-#string genotypedChrVcf_GL
+#string genotypedChrVcfGL
 #string genotypedChrVcfIdx
 #string genotypedChrVcfBeagleGenotypeProbabilities
 #string prepareGenFromBeagle4Version
@@ -18,7 +18,7 @@
 
 echo "## "$(date)" Start $0"
 
-getFile ${genotypedChrVcf_GL}
+getFile ${genotypedChrVcfGL}
 getFile ${genotypedChrVcfIdx}
 getFile ${genotypedChrVcfBeagleGenotypeProbabilities}
 
@@ -28,7 +28,7 @@ ${checkStage}
 
 #Run conversion script beagle vcf to shapeit format
 if prepareGenFromBeagle4 \
- --likelihoods ${genotypedChrVcf_GL} \
+ --likelihoods ${genotypedChrVcfGL} \
  --posteriors ${genotypedChrVcfBeagleGenotypeProbabilities} \
  --threshold 0.995 \
  --output ${genotypedChrVcfShapeitInputPrefix}
