@@ -16,13 +16,13 @@ checkIlluminaEncoding() {
 barcodeFqGz=$1
 echo ${barcodeFqGz}
 
-Lines=(`zcat ${barcodeFqGz} | head -96 | awk 'NR % 4 == 0'`)
+lines=(`zcat ${barcodeFqGz} | head -96 | awk 'NR % 4 == 0'`)
 count=1
 nodecision=0
 numberoflines=0
-for line in  ${Lines[*]}
+for line in  ${lines[@]}
 do
-	numberoflines=$(( numberoflines++ ))
+	numberoflines=$(( numberoflines+1 ))
 	#check for illumina encoding 1.5
 	if [[ "$line" =~ [P-Z] ]] || [[ "$line" =~ [a-g] ]]
 		then
@@ -30,7 +30,7 @@ do
 	        if [[ ${count} -eq 1 ]]
         	then
             	lastEncoding=${encoding}
-            	count=$(( count++ ))
+            	count=$(( count+1 ))
         	fi
 
         	if ! [ "${encoding}" == "${lastEncoding}" ]
@@ -49,7 +49,7 @@ do
 	        if [[ ${count} -eq 1 ]]
         	then
         		lastEncoding=${encoding}
-	        	count=$(( count++ ))
+	        	count=$(( count+1 ))
         	fi
         	if ! [ "${encoding}" == "${lastEncoding}" ]
         	then
@@ -61,7 +61,7 @@ do
               	lastEncoding="${encoding}"
 	elif [[ "$line" =~ @ ]] || [[ "$line" =~ [A-J] ]]
         	then
-                nodecision=$(( nodecision++ ))
+                nodecision=$(( nodecision+1 ))
 	else
 		echo "The encoding is not matching to anything, check FastQ documentation (count=$count)"
 	fi
