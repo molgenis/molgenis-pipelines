@@ -11,12 +11,11 @@
 #string projectDir
 #string genotypedChrVcfGLDir
 #string genotypedChrVcfGL
-#string genotypedChrVcf
 
 
 echo "## "$(date)" Start $0"
 
-getFile ${genotypedChrVcf}
+getFile ${vcf}
 
 ${stage} Python/${pythonVersion}
 ${checkStage}
@@ -25,7 +24,7 @@ mkdir -p ${genotypedChrVcfGLDir}
 
 #Run conversion script beagle vcf to shapeit format
 if python /groups/umcg-bios/tmp04/users/umcg-aclaringbould/genotyping_pipeline/PL_to_GL/PL_to_GL_reorder.py \
-    --vcf ${genotypedChrVcf} \
+    --vcf ${vcf} \
     --out ${genotypedChrVcf_GL}
 
 then

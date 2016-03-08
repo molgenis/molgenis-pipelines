@@ -13,7 +13,7 @@
 
 #string beagleVersion
 
-#string genotypedChrVcf
+#string vcf
 #string genotypedChrVcfIdx
 
 #string genotypedChrVcfBeagleGenotypeProbabilities
@@ -22,7 +22,7 @@
 echo "## "$(date)" Start $0"
 
 
-getFile ${genotypedChrVcf}
+getFile ${vcf}
 getFile ${genotypedChrVcfIdx}
 
 
@@ -32,7 +32,7 @@ ${checkStage}
 mkdir -p ${beagleDir}
 
 if java -Xmx6g -XX:ParallelGCThreads=2 -jar $EBROOTBEAGLE/beagle.$beagleVersion.jar \
- gl=${genotypedChrVcf} \
+ gl=${vcf} \
  out=${genotypedChrVcfBeagleGenotypeProbabilities} \
  chrom=${chr}
 then
