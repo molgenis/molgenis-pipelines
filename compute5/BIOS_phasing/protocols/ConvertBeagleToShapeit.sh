@@ -12,7 +12,6 @@
 #string genotypedChrVcfGL
 #string genotypedChrVcfIdx
 #string genotypedChrVcfBeagleGenotypeProbabilities
-#string prepareGenFromBeagle4Version
 #string genotypedChrVcfShapeitInputPrefix
 
 
@@ -23,11 +22,10 @@ getFile ${genotypedChrVcfIdx}
 getFile ${genotypedChrVcfBeagleGenotypeProbabilities}
 
 ${stage} GLib/${GLibVersion}
-${stage} prepareGenFromBeagle4/${prepareGenFromBeagle4Version}
 ${checkStage}
 
 #Run conversion script beagle vcf to shapeit format
-if prepareGenFromBeagle4 \
+if /groups/umcg-bios/tmp04/umcg-fvandijk/projects/beagleTest/prepareGenFromBeagle4 \
  --likelihoods ${genotypedChrVcfGL} \
  --posteriors ${genotypedChrVcfBeagleGenotypeProbabilities} \
  --threshold 0.995 \
