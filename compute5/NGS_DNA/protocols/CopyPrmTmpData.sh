@@ -25,7 +25,16 @@ for ((samplenumber = 0; samplenumber <= max_index; samplenumber++))
 do
 
 	RUNNAME=${sequencingStartDate[samplenumber]}_${sequencer[samplenumber]}_${run[samplenumber]}_${flowcell[samplenumber]}	
-	PRMDATADIR=${allRawNgsPrmDataDir}/${RUNNAME}
+	WHOAMI=$(whoami)
+	HOST=$(hostname)
+	if [ "$HOST" == "zinc-finger.gcc.rug.nl" ] && [ ! -d /groups/umcg-gaf/prm02 ]
+	then
+			echo "${WHOAMI}@calculon.hpc.rug.nl:${allRawNgsPrmDataDir}/${RUNNAME}"
+			PRMDATADIR="${WHOAMI}@calculon.hpc.rug.nl:${allRawNgsPrmDataDir}/${RUNNAME}"
+	else	
+			PRMDATADIR=${allRawNgsPrmDataDir}/${RUNNAME}
+	fi
+
 	TMPDATADIR=${allRawNgsTmpDataDir}/${RUNNAME}
 
 	if [[ ${seqType[samplenumber]} == "SR" ]]
@@ -33,17 +42,19 @@ do
   		mkdir -p ${TMPDATADIR}
 		if [[ ${barcode[samplenumber]} == "None" ]]
 		then
-			rsync -a -r --no-perms \
+			echo "copying ${RUNNAME}_L${lane[samplenumber]}.fq.gz..." 
+			rsync -a -r --no-perms --no-owner \
 			${PRMDATADIR}/${RUNNAME}_L${lane[samplenumber]}.fq.gz \
 			${TMPDATADIR}/${RUNNAME}_L${lane[samplenumber]}.fq.gz
-			rsync -a -r --no-perms \
+			rsync -a -r --no-perms --no-owner \
 			${PRMDATADIR}/${RUNNAME}_L${lane[samplenumber]}.fq.gz.md5 \
 			${TMPDATADIR}/${RUNNAME}_L${lane[samplenumber]}.fq.gz.md5
 		else
-			rsync -a -r --no-perms \
+			echo "copying ${RUNNAME}_L${lane[samplenumber]}_${barcode[samplenumber]}.fq.gz..." 
+			rsync -a -r --no-perms --no-owner \
 			${PRMDATADIR}/${RUNNAME}_L${lane[samplenumber]}_${barcode[samplenumber]}.fq.gz \
 			${TMPDATADIR}/${RUNNAME}_L${lane[samplenumber]}_${barcode[samplenumber]}.fq.gz
-			rsync -a -r --no-perms \
+			rsync -a -r --no-perms --no-owner \
 			${PRMDATADIR}/${RUNNAME}_L${lane[samplenumber]}_${barcode[samplenumber]}.fq.gz.md5 \
 			${TMPDATADIR}/${RUNNAME}_L${lane[samplenumber]}_${barcode[samplenumber]}.fq.gz.md5	
 		fi
@@ -52,29 +63,33 @@ do
 		mkdir -p ${TMPDATADIR}
 		if [[ ${barcode[samplenumber]} == "None" ]]
     		then
-    		rsync -a -r --no-perms \
+		echo "copying ${RUNNAME}_L${lane[samplenumber]}_1.fq.gz..." 
+    		rsync -a -r --no-perms --no-owner \
     			${PRMDATADIR}/${RUNNAME}_L${lane[samplenumber]}_1.fq.gz \
     			${TMPDATADIR}/${RUNNAME}_L${lane[samplenumber]}_1.fq.gz
-		rsync -a -r --no-perms \
+		echo "copying ${RUNNAME}_L${lane[samplenumber]}_2.fq.gz..." 
+		rsync -a -r --no-perms --no-owner \
 			${PRMDATADIR}/${RUNNAME}_L${lane[samplenumber]}_2.fq.gz \
 			${TMPDATADIR}/${RUNNAME}_L${lane[samplenumber]}_2.fq.gz
-		rsync -a -r --no-perms \
+		rsync -a -r --no-perms --no-owner \
 			${PRMDATADIR}/${RUNNAME}_L${lane[samplenumber]}_1.fq.gz.md5 \
 			${TMPDATADIR}/${RUNNAME}_L${lane[samplenumber]}_1.fq.gz.md5
-        	rsync -a -r --no-perms \
+        	rsync -a -r --no-perms --no-owner \
         		${PRMDATADIR}/${RUNNAME}_L${lane[samplenumber]}_2.fq.gz.md5 \
         		${TMPDATADIR}/${RUNNAME}_L${lane[samplenumber]}_2.fq.gz.md5
 		else          
-        	rsync -a -r --no-perms \
+		echo "copying ${RUNNAME}_L${lane[samplenumber]}_${barcode[samplenumber]}_1.fq.gz..." 
+        	rsync -a -r --no-perms --no-owner \
         		${PRMDATADIR}/${RUNNAME}_L${lane[samplenumber]}_${barcode[samplenumber]}_1.fq.gz \
         		${TMPDATADIR}/${RUNNAME}_L${lane[samplenumber]}_${barcode[samplenumber]}_1.fq.gz
-        	rsync -a -r --no-perms \
+		echo "copying ${RUNNAME}_L${lane[samplenumber]}_${barcode[samplenumber]}_2.fq.gz..." 
+        	rsync -a -r --no-perms --no-owner \
         		${PRMDATADIR}/${RUNNAME}_L${lane[samplenumber]}_${barcode[samplenumber]}_2.fq.gz \
         		${TMPDATADIR}/${RUNNAME}_L${lane[samplenumber]}_${barcode[samplenumber]}_2.fq.gz
-        	rsync -a -r --no-perms \
+        	rsync -a -r --no-perms --no-owner \
         		${PRMDATADIR}/${RUNNAME}_L${lane[samplenumber]}_${barcode[samplenumber]}_1.fq.gz.md5 \
         		${TMPDATADIR}/${RUNNAME}_L${lane[samplenumber]}_${barcode[samplenumber]}_1.fq.gz.md5
-        	rsync -a -r --no-perms \
+        	rsync -a -r --no-perms --no-owner \
         		${PRMDATADIR}/${RUNNAME}_L${lane[samplenumber]}_${barcode[samplenumber]}_2.fq.gz.md5 \
         		${TMPDATADIR}/${RUNNAME}_L${lane[samplenumber]}_${barcode[samplenumber]}_2.fq.gz.md5
     		fi
