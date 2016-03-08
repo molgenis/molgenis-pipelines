@@ -17,7 +17,7 @@
 #string genotypedChrVcfIdx
 
 #string genotypedChrVcfBeagleGenotypeProbabilities
-#string chr
+#string chromosome
 
 echo "## "$(date)" Start $0"
 
@@ -34,7 +34,7 @@ mkdir -p ${beagleDir}
 if java -Xmx6g -XX:ParallelGCThreads=2 -jar $EBROOTBEAGLE/beagle.$beagleVersion.jar \
  gl=${vcf} \
  out=${genotypedChrVcfBeagleGenotypeProbabilities} \
- chrom=${chr}
+ chrom=${chromosome}
 then
  echo "returncode: $?";
  putFile ${genotypedChrVcfBeagleGenotypeProbabilities}
