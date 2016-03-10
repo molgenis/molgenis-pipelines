@@ -16,7 +16,7 @@ checkIlluminaEncoding() {
 barcodeFqGz=$1
 echo ${barcodeFqGz}
 
-lines=(`zcat ${barcodeFqGz} | head -96 | awk 'NR % 4 == 0'`)
+lines=(`zcat ${barcodeFqGz} | head -8000 | tail -192 | awk 'NR % 4 == 0'`)
 count=1
 nodecision=0
 numberoflines=0
@@ -80,7 +80,7 @@ else
         gzip -d -c ${barcodeFqGz} > ${barcodeFqGz}.fq
 	mkdir -p ${projectRawTmpDataDir}/IlluminaEncoding1.5
         mv ${barcodeFqGz} ${projectRawTmpDataDir}/IlluminaEncoding1.5/
-
+	echo "start encoding for ${barcodeFqGz}.fq"
         #convert Phreds+64 to Phred+33 (Illumna 1.5 TO Illumina / Sanger 1.9)
         sed -e '4~4y/@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghi/!"#$%&'\''()*+,-.\/0123456789:;<=>?@ABCDEFGHIJ/' ${barcodeFqGz}.fq > ${barcodeFqGz}.fq.encoded
         gzip ${barcodeFqGz}.fq.encoded

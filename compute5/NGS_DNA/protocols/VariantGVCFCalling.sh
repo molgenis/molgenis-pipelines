@@ -124,7 +124,7 @@ else
 	elif [[ "${capturedBatchBed}" == *batch-[0-9]*Y.bed ]]
 	then
 		echo "Y"
-		if [ "${sex}" == "Female" ]
+		if [[ "${sex}" == "Female" || "${sex}" == "Unknown" ]]
         	then
 			java -Xmx12g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${tempDir} -jar \
                         ${EBROOTGATK}/${gatkJar} \
