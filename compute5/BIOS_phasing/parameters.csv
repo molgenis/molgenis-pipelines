@@ -43,7 +43,7 @@ genotypedChrVcfGL, ${genotypedChrVcfGLDir}{vcf}.gg.vcf.gz
 genotypedChrVcfIdx,${vcf}.idx
 ## Beagle
 beagleDir,${projectDir}/beagle/
-genotypedChrVcfBeagleGenotypeProbabilities,${beagleDir}/${project}.chr${chromosome}.beagle.genotype.probs.gg.vcf.gz
+genotypedChrVcfBeagleGenotypeProbabilities,${beagleDir}/${project}.chr${chromosome}.beagle.genotype.probs.gg
 genotypedChrVcfShapeitInputPrefix,${beagleDir}/${project}.chr${chromosome}.beagle.genotype.probs.gg
 ## Shapeit
 shapeitDir,${projectDir}/shapeit/
