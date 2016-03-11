@@ -12,6 +12,8 @@
 #string genotypedChrVcfGLDir
 #string genotypedChrVcfGL
 #string vcf
+#string pythonVersion
+#string genotypedChrVcf_GL
 
 echo "## "$(date)" Start $0"
 
