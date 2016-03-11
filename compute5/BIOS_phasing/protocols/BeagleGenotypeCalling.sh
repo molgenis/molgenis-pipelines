@@ -41,7 +41,7 @@ then
  putFile ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz
  cd ${beagleDir}
  bname=$(basename ${genotypedChrVcfBeagleGenotypeProbabilities})
- md5sum ${bname} > ${bname}.md5
+ md5sum ${bname} > ${bname}.vcf.gz.md5
  cd -
  echo "succes moving files";
 else
