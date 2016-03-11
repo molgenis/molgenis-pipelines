@@ -13,7 +13,7 @@
 #string genotypedChrVcfTbi
 #string genotypedChrVcfBeagleGenotypeProbabilities
 #string genotypedChrVcfShapeitInputPrefix
-
+#string GLibVersion
 
 echo "## "$(date)" Start $0"
 
