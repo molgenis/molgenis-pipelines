@@ -41,7 +41,7 @@ geneticMapChr,${geneticMapDir}/genetic_map_chr${chromosome}_combined_b37.txt
 ## Input Beagle from GATK GenotypeGVF
 genotypedChrVcfGLDir,/groups/umcg-bios/tmp04/projects/phasing/genotypeVcfGL/
 genotypedChrVcfGL,${genotypedChrVcfGLDir}chr${chromosome}.genotypeGVCF.gg.vcf
-genotypedChrVcfIdx,${vcf}.idx
+genotypedChrVcfTbi,${vcf}.tbi
 ## Beagle
 beagleDir,${projectDir}/beagle/
 genotypedChrVcfBeagleGenotypeProbabilities,${beagleDir}/${project}.chr${chromosome}.beagle.genotype.probs.gg
