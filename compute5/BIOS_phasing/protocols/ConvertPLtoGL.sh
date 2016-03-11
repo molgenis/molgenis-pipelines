@@ -11,7 +11,7 @@
 #string projectDir
 #string genotypedChrVcfGLDir
 #string genotypedChrVcfGL
-
+#string vcf
 
 echo "## "$(date)" Start $0"
 
