@@ -38,9 +38,9 @@ if java -Xmx6g -XX:ParallelGCThreads=2 -jar $EBROOTBEAGLE/beagle.${beagleJarVers
  chrom=${chromosome}
 then
  echo "returncode: $?";
- putFile ${genotypedChrVcfBeagleGenotypeProbabilities}
+ putFile ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz
  cd ${beagleDir}
- bname=$(basename ${genotypedChrVcfBeagleGenotypeProbabilities}).vcf.gz
+ bname=$(basename ${genotypedChrVcfBeagleGenotypeProbabilities})
  md5sum ${bname} > ${bname}.md5
  cd -
  echo "succes moving files";
