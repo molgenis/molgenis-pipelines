@@ -11,5 +11,5 @@ do
 	count=$((count + 1))
 done
 
-cat $DIR/countRows.txt | uniq | wc -l
+cat $DIR/countRows.txt | sort-V | uniq | wc -l
 rm $DIR/countRows.txt
