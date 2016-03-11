@@ -25,9 +25,9 @@ ${stage} GLib/${GLibVersion}
 ${checkStage}
 
 #Run conversion script beagle vcf to shapeit format
-if /groups/umcg-bios/tmp04/umcg-fvandijk/projects/beagleTest/prepareGenFromBeagle4 \
+if /groups/umcg-bios/tmp04/umcg-fvandijk/projects/beagleTest/prepareGenFromBeagle4/bin/prepareGenFromBeagle4 \
  --likelihoods ${genotypedChrVcfGL} \
- --posteriors ${genotypedChrVcfBeagleGenotypeProbabilities} \
+ --posteriors ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz \
  --threshold 0.995 \
  --output ${genotypedChrVcfShapeitInputPrefix}
 then
