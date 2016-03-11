@@ -13,7 +13,7 @@
 #string genotypedChrVcfGL
 #string vcf
 #string pythonVersion
-#string genotypedChrVcf_GL
+#string genotypedChrVcfGL
 
 echo "## "$(date)" Start $0"
 
@@ -27,13 +27,13 @@ mkdir -p ${genotypedChrVcfGLDir}
 #Run conversion script beagle vcf to shapeit format
 if python /groups/umcg-bios/tmp04/users/umcg-aclaringbould/genotyping_pipeline/PL_to_GL/PL_to_GL_reorder.py \
     --vcf ${vcf} \
-    --out ${genotypedChrVcf_GL}
+    --out ${genotypedChrVcfGL}
 
 then
  echo "returncode: $?";
- putFile ${genotypedChrVcf_GL}
+ putFile ${genotypedChrVcfGL}
  cd ${genotypedChrVcfGLDir}
- bname=$(basename ${genotypedChrVcf_GL})
+ bname=$(basename ${genotypedChrVcfGL})
  md5sum ${bname} > ${bname}.md5
  cd -
  echo "succes moving files";
