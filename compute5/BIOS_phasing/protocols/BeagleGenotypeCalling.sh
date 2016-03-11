@@ -14,7 +14,7 @@
 #string beagleVersion
 
 #string vcf
-#string genotypedChrVcfIdx
+#string genotypedChrVcfTbi
 
 #string genotypedChrVcfBeagleGenotypeProbabilities
 #string chromosome
@@ -24,7 +24,7 @@ echo "## "$(date)" Start $0"
 
 
 getFile ${vcf}
-getFile ${genotypedChrVcfIdx}
+getFile ${genotypedChrVcfTbi}
 
 
 ${stage} beagle/${beagleVersion}
