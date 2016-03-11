@@ -25,6 +25,7 @@ pyvcfVersion,0.6.7-foss-2015b-Python-2.7.9
 samtoolsVersion,1.2-foss-2015b
 bedtoolsVersion,2.23.0-foss-2015b
 pythonVersion,3.4.1-foss-2015b
+biopythonVersion,1.65-foss-2015b-Python-3.4.1
 GLibVersion,2.45.2-foss-2015b
 vcftoolsVersion,0.1.12b-goolf-1.7.20-Perl-5.20.2-bare
 RVersion,3.2.1-foss-2015b    
@@ -38,8 +39,8 @@ geneticMapChr,${geneticMapDir}/genetic_map_chr${chromosome}_combined_b37.txt
 ## Specific tools paths
 #
 ## Input Beagle from GATK GenotypeGVF
-genotypedChrVcfGLDir,/groups/umcg-bios/tmp04/projects/phasing/genotypeVcfGL
-genotypedChrVcfGL, ${genotypedChrVcfGLDir}${vcf}
+genotypedChrVcfGLDir,/groups/umcg-bios/tmp04/projects/phasing/genotypeVcfGL/
+genotypedChrVcfGL,${genotypedChrVcfGLDir}$chr${chromosome}.genotypeGVCF.gg.vcf
 genotypedChrVcfIdx,${vcf}.idx
 ## Beagle
 beagleDir,${projectDir}/beagle/
