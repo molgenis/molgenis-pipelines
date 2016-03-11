@@ -34,7 +34,7 @@ mkdir -p ${beagleDir}
 
 if java -Xmx6g -XX:ParallelGCThreads=2 -jar $EBROOTBEAGLE/beagle.${beagleJarVersion}.jar \
  gl=${vcf} \
- out=${beagleDir}/${project}.chr${chromosome}${genotypedChrVcfBeagleGenotypeProbabilitiesPostfix} \
+ out=${genotypedChrVcfBeagleGenotypeProbabilities} \
  chrom=${chromosome}
 then
  echo "returncode: $?";
