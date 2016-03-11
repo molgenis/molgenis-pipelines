@@ -12,14 +12,14 @@
 #string genotypedChrVcfGLDir
 #string genotypedChrVcfGL
 #string vcf
-#string pythonVersion
+#string biopythonVersion
 #string genotypedChrVcfGL
 
 echo "## "$(date)" Start $0"
 
 getFile ${vcf}
 
-${stage} Python/${pythonVersion}
+${stage} Biopython/${biopythonVersion}
 ${checkStage}
 
 mkdir -p ${genotypedChrVcfGLDir}
