@@ -49,9 +49,9 @@ then
 		awk -v OFS='\t' '{print NR,$1,$2,$5,$7,"CDS","1"}' ${sampleNameID}.${perBase}.combined_bedfile_and_samtoolsoutput.txt >> ${sampleNameID}.${perBase}.coveragePerBase.txt
 			
 		#remove phiX
-		grep -v "phiX174" ${sampleNameID}.${perBase}.coveragePerBase.txt > ${sampleNameID}.${perBase}.coveragePerBase.txt.tmp
+		grep -v "NC_001422.1" ${sampleNameID}.${perBase}.coveragePerBase.txt > ${sampleNameID}.${perBase}.coveragePerBase.txt.tmp
 		mv ${sampleNameID}.${perBase}.coveragePerBase.txt.tmp ${sampleNameID}.${perBase}.coveragePerBase.txt
-		echo "phiX is removed for ${sampleNameID} perBase" 
+		echo "phiX is removed for ${sampleNameID}.${perBase} perBase" 
 
 	done
 		
@@ -88,7 +88,7 @@ then
 		#Remove phiX
 		grep -v "phiX174" ${sampleNameID}.${perTarget}.coveragePerTarget.txt > ${sampleNameID}.${perTarget}.coveragePerTarget.txt.tmp
 		mv ${sampleNameID}.${perTarget}.coveragePerTarget.txt.tmp ${sampleNameID}.${perTarget}.coveragePerTarget.txt
-		echo "phiX is removed for ${sampleNameID} perTarget" 
+		echo "phiX is removed for ${sampleNameID}.${perTarget} perTarget" 
 
 	done
 else
