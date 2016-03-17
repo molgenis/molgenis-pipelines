@@ -86,7 +86,7 @@ then
 		awk '{OFS="\t"} {len=$3-$2} {print NR,$0,len,"CDS","1"}' ${sampleNameID}.${perTarget}.coveragePerTarget_inclGenes_splitted.txt >> ${sampleNameID}.${perTarget}.coveragePerTarget.txt 
 
 		#Remove phiX
-		grep -v "phiX174" ${sampleNameID}.${perTarget}.coveragePerTarget.txt > ${sampleNameID}.${perTarget}.coveragePerTarget.txt.tmp
+		grep -v "NC_001422.1" ${sampleNameID}.${perTarget}.coveragePerTarget.txt > ${sampleNameID}.${perTarget}.coveragePerTarget.txt.tmp
 		mv ${sampleNameID}.${perTarget}.coveragePerTarget.txt.tmp ${sampleNameID}.${perTarget}.coveragePerTarget.txt
 		echo "phiX is removed for ${sampleNameID}.${perTarget} perTarget" 
 
