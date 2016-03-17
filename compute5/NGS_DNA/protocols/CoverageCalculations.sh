@@ -38,8 +38,8 @@ then
 		-L ${perBaseDir}/${perBase}.bed
 
 		sed '1d' ${sampleNameID}.${perBase}.coveragePerBase > ${sampleNameID}.${perBase}.coveragePerBase_withoutHeader
-
-		paste ${perBaseDir}/${perBase}.uniq.per_base.bed ${sampleNameID}.${perBase}.coveragePerBase_withoutHeader > ${sampleNameID}.${perBase}.combined_bedfile_and_samtoolsoutput.txt
+		sort -V ${sampleNameID}.${perBase}.coveragePerBase_withoutHeader > ${sampleNameID}.${perBase}.coveragePerBase_withoutHeader.sorted
+		paste ${perBaseDir}/${perBase}.uniq.per_base.bed ${sampleNameID}.${perBase}.coveragePerBase_withoutHeader.sorted > ${sampleNameID}.${perBase}.combined_bedfile_and_samtoolsoutput.txt
 
 		##Paste command produces ^M character
 		perl -p -i -e "s/\r//g" ${sampleNameID}.${perBase}.combined_bedfile_and_samtoolsoutput.txt
