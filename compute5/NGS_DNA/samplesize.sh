@@ -1,15 +1,18 @@
 HEADER=$(head -1 $1)
-IFS=', ' read -r -a array <<< $HEADER
+OLDIFS=$IFS
+IFS=','
+array=($HEADER)
+IFS=$OLDIFS
 count=0
 DIR=$2
 for i in "${array[@]}"
 do
-  	if [ "${array[count]}" == "externalSampleID" ]
+  	if [ "${i}" == "externalSampleID" ]
         then
             	awk '{FS=","}{print $'$count'}' $1 > $DIR/countRows.txt
         fi
 	count=$((count + 1))
 done
 
-cat $DIR/countRows.txt | sort-V | uniq | wc -l
+cat $DIR/countRows.txt | sort -V | uniq | wc -l
 rm $DIR/countRows.txt
