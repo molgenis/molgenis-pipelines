@@ -6,7 +6,7 @@ MYINSTALLATIONDIR=$( cd -P "$( dirname "$0" )" && pwd )
 ##source config file (zinc-finger.gcc.rug.nl.cfg, leucine-zipper.gcc.rug.nl OR gattaca.cfg)
 myhost=$(hostname)
 . ${MYINSTALLATIONDIR}/${myhost}.cfg
-
+. ${MYINSTALLATIONDIR}/sharedConfig.cfg
 
 ### VERVANG DOOR UMCG-ATEAMBOT USER
 ls ${SAMPLESHEETSDIR}/*.csv > ${SAMPLESHEETSDIR}/allSampleSheets_Zinc.txt
@@ -49,7 +49,7 @@ do
 		countFilesRawDataDirTmp=$(ls ${RAWDATADIR}/${filePrefix}/*.fq.gz* | wc -l)
 		if [ $makeRawDataDir == "false" ]
 		then
-			echo "copying data from zinc to prm" >> $LOGGER
+			echo "copying data from zinc to prm" >> ${LOGGER}
                         rsync -r -a ${copyRawZincToPrm}
 			makeRawDataDir="true"
 		fi
@@ -61,12 +61,14 @@ do
                                 COPIEDTOPRM=$(ssh umcg-gaf-dm@calculon.hpc.rug.nl "sh ${RAWDATADIRPRM}../check.sh ${RAWDATADIRPRM} ${filePrefix}")
 				if [[ "${COPIEDTOPRM}" == *"FAILED"* ]]
                                 then
-                                        echo "md5sum check failed, the copying will start again" >> $LOGGER
+                                        echo "md5sum check failed, the copying will start again" >> ${LOGGER}
                                         rsync -r -a ${copyRawZincToPrm}
 					echo "copy failed" >> $LOGDIR/${filePrefix}.failed
                                 elif [[ "${COPIEDTOPRM}" == *"PASS"* ]]
                                 then
                                         touch $LOGDIR/${filePrefix}.dataCopiedToPrm
+					scp ${SAMPLESHEETSDIR}/${csvFile} umcg-gaf-dm@calculon.hpc.rug.nl:${SAMPLESHEETSPRMDIR}
+					echo "copied ${csvFile} to ${SAMPLESHEETSPRMDIR} on calculon" >> ${LOGGER}
 					printf "De data voor project ${filePrefix} is gekopieerd naar ${RAWDATADIRPRM}" | mail -s "${filePrefix} copied to permanent storage" ${ONTVANGER}
 					rm $LOGDIR/${filePrefix}.failed
                                 fi
