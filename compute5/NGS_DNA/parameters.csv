@@ -43,6 +43,7 @@ tmpDataDir,${workDir}/${tmpName}/
 tempDir,${tmpDataDir}/temp/
 tmpDir,${tmpDataDir}/tmp/
 permanentDataDir,${workDir}/${prmName}
+logsDir,${tmpDataDir}/logs
 
 ##### RAW DATA FILES/DIRS ####
 allRawNgsPrmDataDir,${permanentDataDir}/rawdata/ngs
