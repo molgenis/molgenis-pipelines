@@ -10,6 +10,7 @@ MYINSTALLATIONDIR=$( cd -P "$( dirname "$0" )" && pwd )
 ##source config file (zinc-finger.gcc.rug.nl.cfg, leucine-zipper.gcc.rug.nl OR gattaca.cfg)
 myhost=$(hostname)
 . ${MYINSTALLATIONDIR}/${myhost}.cfg
+. ${MYINSTALLATIONDIR}/sharedConfig.cfg
 
 ### VERVANG DOOR UMCG-ATEAMBOT USER
 ssh umcg-rkanninga@${gattacaAddress} "ls ${GATTACA}/Samplesheets/*.csv" > ${SAMPLESHEETSDIR}/allSampleSheets_${GAT}.txt

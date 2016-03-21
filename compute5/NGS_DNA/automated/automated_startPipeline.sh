@@ -6,15 +6,16 @@ MYINSTALLATIONDIR=$( cd -P "$( dirname "$0" )" && pwd )
 ##source config file (zinc-finger.gcc.rug.nl.cfg, leucine-zipper.gcc.rug.nl OR gattaca.cfg)
 myhost=$(hostname)
 echo $myhost
+
 . ${MYINSTALLATIONDIR}/${myhost}.cfg
-echo $SAMPLESHEETSDIR
+. ${MYINSTALLATIONDIR}/sharedConfig.cfg
+
 ### VERVANG DOOR UMCG-ATEAMBOT USER
 ls ${SAMPLESHEETSDIR}/*.csv > ${SAMPLESHEETSDIR}/allSampleSheets_Zinc_startPipeline.txt
 
 pipeline="dna"
 count=0
 echo "Logfiles will be written to $LOGDIR"
-
 
 for i in $(ls ${SAMPLESHEETSDIR}/*.csv)
 do
@@ -56,16 +57,17 @@ do
 				underline=`tput smul`
 				normal=`tput sgr0`
 				bold=`tput bold`
-				printf "${bold}WARNING: there is no pipeline version loaded, this can be because this script is run manually.\nA default version of the NGS_DNA pipeline will be loaded!\n\n"
+				printf "${bold}WARNING: there is no pipeline version loaded, this can be because this script is run manually.\nA default version of the NGS_DNA pipeline will be loaded!\n\n" 
 				module load NGS_DNA
 				pipelineVersion=$(module list | grep -o -P 'NGS_DNA(.+)')
 				printf "The version which is now loaded is $pipelineVersion${normal}\n\n"
 			fi
                         mkdir -p ${GENERATEDSCRIPTS}/${run}_${sequencer}/
-
+			echo "copying $EBROOTNGS_DNA/automated/automated_generate_template.sh to ${GENERATEDSCRIPTS}/${run}_${sequencer}/generate.sh" >> $LOGGER
                         cp $EBROOTNGS_DNA/automated/automated_generate_template.sh ${GENERATEDSCRIPTS}/${run}_${sequencer}/generate.sh
 			if [ -f ${GENERATEDSCRIPTS}/${run}_${sequencer}/${run}_${sequencer}.csv ]
 			then
+				echo "${GENERATEDSCRIPTS}/${run}_${sequencer}/${run}_${sequencer}.csv already existed, will now be removed and will be replaced by a fresh copy" >> $LOGGER
 				rm ${GENERATEDSCRIPTS}/${run}_${sequencer}/${run}_${sequencer}.csv
 			fi
 
@@ -75,9 +77,7 @@ do
 			cd scripts
 
 			touch ${GENERATEDSCRIPTS}/${run}_${sequencer}/scripts/CopyPrmTmpData_0.sh.finished
-			echo $(pwd)
 			sh submit.sh
-
 			for i in $(ls $LOGDIR/${filePrefix}.project_*.txt)
 			do
 				PROJECT=$(cat $i)
