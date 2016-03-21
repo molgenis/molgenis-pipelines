@@ -9,7 +9,7 @@ myhost=$(hostname)
 
 
 ### VERVANG DOOR UMCG-ATEAMBOT USER
-ls ${SAMPLESHEETSDIR}/*.csv > /groups/umcg-gaf/tmp05/Samplesheets/allSampleSheets_Zinc.txt
+ls ${SAMPLESHEETSDIR}/*.csv > ${SAMPLESHEETSDIR}/allSampleSheets_Zinc.txt
 pipeline="dna"
 
 function finish {
@@ -86,4 +86,4 @@ do
 		fi
 	fi
 	rm ${LOGDIR}/automated_copyDataToPrm.sh.locked
-done</groups/umcg-gaf/tmp05/Samplesheets/allSampleSheets_Zinc.txt
+done<${SAMPLESHEETSDIR}/allSampleSheets_Zinc.txt

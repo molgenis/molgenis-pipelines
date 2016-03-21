@@ -92,4 +92,4 @@ do
 		fi
 	fi
 rm ${LOGDIR}/${filePrefix}.copyToZinc.locked
-done</groups/umcg-gaf/tmp05/Samplesheets/allSampleSheets_${GAT}.txt
+done<${SAMPLESHEETSDIR}/allSampleSheets_${GAT}.txt
