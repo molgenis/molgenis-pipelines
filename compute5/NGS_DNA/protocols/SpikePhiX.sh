@@ -8,6 +8,7 @@
 #string peEnd1BarcodeFqGz
 #string peEnd2BarcodeFqGz
 #string project
+#string logsDir
 
 sleep 10 
 

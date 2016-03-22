@@ -14,6 +14,7 @@
 #string seqType
 #string picardJar
 #string	project
+#string logsDir
 
 #Load Picard module
 ${stage} ${picardVersion}

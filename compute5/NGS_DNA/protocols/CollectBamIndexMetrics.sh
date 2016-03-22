@@ -13,6 +13,7 @@
 #string picardJar
 #string bamIndexStats
 #string project
+#string logsDir
 
 #Load Picard module
 ${stage} ${picardVersion}

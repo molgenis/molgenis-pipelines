@@ -12,6 +12,7 @@
 #string variantAnnotatorSampleOutputIndelsFilteredVcf
 #string tmpDataDir
 #string project
+#string logsDir
 
 sleep 5
 

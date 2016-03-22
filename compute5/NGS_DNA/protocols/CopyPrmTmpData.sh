@@ -14,6 +14,7 @@
 #string workflowpath
 #list internalSampleID
 #string project
+#string logsDir
 #string intermediateDir
 #list barcode
 #list lane

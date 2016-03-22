@@ -12,11 +12,12 @@
 #string dbSNP137Vcf
 #string dbSNP137VcfIdx
 #string projectBatchGenotypedVariantCalls
+#string project
 #string projectBatchCombinedVariantCalls
 #list sampleBatchVariantCalls
 #string tmpDataDir
 #string projectJobsDir
-#string project
+#string logsDir
 
 sleep 5
 
