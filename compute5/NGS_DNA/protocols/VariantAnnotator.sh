@@ -20,7 +20,6 @@
 
 #list externalSampleID
 #string tmpDataDir
-#string project
 #string sortVCFpl
 #string gatkVersion
 #string gatkJar

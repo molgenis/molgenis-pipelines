@@ -15,6 +15,7 @@
 #string sambambaTool
 #string dedupMetrics
 #string	project
+#string logsDir
 
 #Load Picard module
 ${stage} ${sambambaVersion}

@@ -3,6 +3,7 @@
 #string intermediateDir
 #string project
 #string logsDir
+
 cd $projectJobsDir
 
 countShScripts=`ls *.sh | wc -l`

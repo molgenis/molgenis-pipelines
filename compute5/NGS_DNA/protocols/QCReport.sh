@@ -9,8 +9,6 @@
 
 # conststants
 #string qcStatisticsCsv
-#string logsDir
-#string project
 #string projectQcDir
 #string getStatisticsScript
 #string getDedupInfoScript

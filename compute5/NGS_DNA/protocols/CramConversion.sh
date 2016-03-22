@@ -5,6 +5,7 @@
 #string dedupBamCramBam
 #string indexFile
 #string	project
+#string logsDir
 
 module load io_lib
 module list

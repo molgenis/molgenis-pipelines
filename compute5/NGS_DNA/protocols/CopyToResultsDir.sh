@@ -15,7 +15,6 @@
 #list externalSampleID
 #list batchID
 #list seqType
-#string logsDir
 
 # Change permissions
 

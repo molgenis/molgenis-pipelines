@@ -10,6 +10,7 @@
 #string picardVersion
 #string samtoolsVersion
 #string	project
+#string logsDir
 
 module load ${samtoolsVersion}
 module load ${picardVersion}

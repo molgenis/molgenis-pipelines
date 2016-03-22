@@ -7,7 +7,6 @@
 #string srBarcodeFqGz
 #string intermediateDir
 #string tmpDataDir
-#string project
 #string logsDir
 #string project
 #string projectRawTmpDataDir

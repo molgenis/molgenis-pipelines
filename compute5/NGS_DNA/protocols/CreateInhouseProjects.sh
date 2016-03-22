@@ -9,7 +9,6 @@
 #string intermediateDir
 #string projectResultsDir
 #string batchIDList
-#string project
 #string projectQcDir
 #string capturedBed
 #string computeVersion
@@ -32,6 +31,7 @@
 
 #string project
 #string logsDir
+
 umask 0007
 
 module list
