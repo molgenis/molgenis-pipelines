@@ -10,7 +10,7 @@
 #string project
 #string logsDir
 #string project
-#string logsDirRawTmpDataDir
+#string projectRawTmpDataDir
 
 sleep 10
 
