@@ -5,7 +5,7 @@
 #string project
 #string logsDir
 #string project
-#string logsDirVariantsMergedSorted
+#string projectVariantsMergedSorted
 #string intermediateDir
 
 sleep 10

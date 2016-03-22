@@ -8,13 +8,10 @@
 #string tabixVersion
 #string tempDir
 #string intermediateDir
-#string project
-#string logsDirVariantsMerged
-#string project
-#string logsDirVariantsMergedSorted
+#string projectVariantsMerged
+#string projectVariantsMergedSorted
 #list batchID
-#string project
-#string logsDirPrefix
+#string projectPrefix
 #string tmpDataDir
 #string project
 #string logsDir

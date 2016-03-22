@@ -9,7 +9,8 @@
 #string snpEffCallsVcf
 #string snpEffGenesTxt
 #string project
-#string logsDirVariantsMergedSorted
+#string logsDir
+#string projectVariantsMergedSorted
 #string tmpDataDir
 #string project
 #string logsDir

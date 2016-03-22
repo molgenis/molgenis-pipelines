@@ -11,8 +11,7 @@
 #string hpoTerms
 #string javaVersion
 #string molgenisAnnotatorVersion
-#string project
-#string logsDirDellyAnnotatorOutputVcf
+#string projectDellyAnnotatorOutputVcf
 #string dellyVcf
 #string dellySnpEffVcf
 

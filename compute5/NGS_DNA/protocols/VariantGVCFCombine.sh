@@ -9,13 +9,11 @@
 #string intermediateDir
 #string indexFile
 #string capturedBatchBed
-#string project
-#string logsDirBatchCombinedVariantCalls
+#string projectBatchCombinedVariantCalls
 #string tmpDataDir
 #list externalSampleID
 #string batchID
-#string project
-#string logsDirJobsDir
+#string projectJobsDir
 #string project
 #string logsDir
 sleep 5
