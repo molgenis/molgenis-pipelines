@@ -1,12 +1,13 @@
 #MOLGENIS walltime=01:59:00 mem=4gb
 
-#string logsDir
 #list sequencingStartDate
 #list sequencer
 #list run
 #list flowcell
 #string project
-#string projectJobsDir
+#string logsDir
+#string project
+#string logsDirJobsDir
 
 echo -e ${project} > ${logsDir}/${sequencingStartDate[0]}_${sequencer[0]}_${run[0]}_${flowcell[0]}.project_${project}.txt
 echo "pipeline started"

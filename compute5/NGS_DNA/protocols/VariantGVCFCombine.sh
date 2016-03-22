@@ -9,12 +9,15 @@
 #string intermediateDir
 #string indexFile
 #string capturedBatchBed
-#string projectBatchCombinedVariantCalls
+#string project
+#string logsDirBatchCombinedVariantCalls
 #string tmpDataDir
 #list externalSampleID
 #string batchID
-#string projectJobsDir
 #string project
+#string logsDirJobsDir
+#string project
+#string logsDir
 sleep 5
 
 #Function to check if array contains value

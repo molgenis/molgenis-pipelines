@@ -11,14 +11,17 @@
 #string indexFile
 #string indexFileFastaIndex
 #string capturedIntervals
-#string projectVariantsMergedSorted
+#string project
+#string logsDirVariantsMergedSorted
 #string snpEffCallsSortedVcf
 #string variantAnnotatorOutputVcf
-#string projectVariantsMergedSortedSorted
+#string project
+#string logsDirVariantsMergedSortedSorted
 
 #list externalSampleID
 #string tmpDataDir
 #string project
+#string logsDir
 #string sortVCFpl
 #string gatkVersion
 #string gatkJar

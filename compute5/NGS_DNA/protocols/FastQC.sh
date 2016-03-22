@@ -11,6 +11,7 @@
 #string intermediateDir
 #string tmpDataDir
 #string project
+#string logsDir
 
 sleep 5
 

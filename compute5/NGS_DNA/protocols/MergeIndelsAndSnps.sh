@@ -6,7 +6,8 @@
 #string indexFile
 #string stage
 #string checkStage
-#string projectPrefix
+#string project
+#string logsDirPrefix
 #string intermediateDir
 #string	project
 

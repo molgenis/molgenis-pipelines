@@ -3,7 +3,9 @@
 #string simulatedPhiXVariants
 #string inSilicoConcordanceFile
 #string project
-#string projectVariantsMergedSorted
+#string logsDir
+#string project
+#string logsDirVariantsMergedSorted
 #string intermediateDir
 
 sleep 10

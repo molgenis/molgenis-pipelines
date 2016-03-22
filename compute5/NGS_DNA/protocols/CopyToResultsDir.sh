@@ -2,15 +2,23 @@
 
 #Parameter mapping
 
-#string projectResultsDir
 #string project
-#string projectPrefix
+#string logsDirResultsDir
+#string project
+#string logsDir
+#string project
+#string logsDirPrefix
 #string intermediateDir
-#string projectQcDir
-#string projectLogsDir
-#string projectRawTmpDataDir
-#string projectQcDir
-#string projectJobsDir
+#string project
+#string logsDirQcDir
+#string project
+#string logsDirLogsDir
+#string project
+#string logsDirRawTmpDataDir
+#string project
+#string logsDirQcDir
+#string project
+#string logsDirJobsDir
 #list externalSampleID
 #list batchID
 #list seqType

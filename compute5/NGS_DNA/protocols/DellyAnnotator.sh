@@ -6,11 +6,13 @@
 #string tempDir
 #string intermediateDir
 #string project
+#string logsDir
 #string snpEffVersion
 #string hpoTerms
 #string javaVersion
 #string molgenisAnnotatorVersion
-#string projectDellyAnnotatorOutputVcf
+#string project
+#string logsDirDellyAnnotatorOutputVcf
 #string dellyVcf
 #string dellySnpEffVcf
 

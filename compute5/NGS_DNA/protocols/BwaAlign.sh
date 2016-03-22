@@ -15,6 +15,7 @@
 #string externalSampleID
 #string tmpDataDir
 #string project
+#string logsDir
 #string intermediateDir
 #string filePrefix
 

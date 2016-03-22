@@ -16,6 +16,7 @@
 #string inputCoverageBam
 #string tmpDataDir
 #string project
+#string logsDir
 
 if [ ${capturingKit} != "None" ]
 then

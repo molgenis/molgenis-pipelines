@@ -8,9 +8,11 @@
 #string snpEffCallsHtml
 #string snpEffCallsVcf
 #string snpEffGenesTxt
-#string projectVariantsMergedSorted
+#string project
+#string logsDirVariantsMergedSorted
 #string tmpDataDir
 #string project
+#string logsDir
 #string snpEffVersion
 #string javaVersion
 

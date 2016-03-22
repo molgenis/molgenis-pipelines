@@ -1,6 +1,7 @@
 #MOLGENIS walltime=23:59:00 mem=4gb ppn=1
 # worksheet params:
 #string project
+#string logsDir
 #list externalSampleID
 #list lane
 #list flowcell
@@ -8,7 +9,8 @@
 
 # conststants
 #string qcStatisticsCsv
-#string projectQcDir
+#string project
+#string logsDirQcDir
 #string getStatisticsScript
 #string getDedupInfoScript
 #string qcStatisticsTex

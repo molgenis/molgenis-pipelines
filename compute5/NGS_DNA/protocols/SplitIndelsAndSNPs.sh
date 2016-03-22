@@ -5,6 +5,7 @@
 #string checkStage
 #string intermediateDir
 #string project
+#string logsDir
 #string gatkVersion
 #string gatkJar
 #string indexFile

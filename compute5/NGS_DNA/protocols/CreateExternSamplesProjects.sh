@@ -1,14 +1,20 @@
 #MOLGENIS walltime=01:59:00 mem=4gb
 
 #list seqType
-#string projectRawArrayTmpDataDir
-#string projectRawTmpDataDir
-#string projectJobsDir
-#string projectLogsDir
+#string project
+#string logsDirRawArrayTmpDataDir
+#string project
+#string logsDirRawTmpDataDir
+#string project
+#string logsDirJobsDir
+#string project
+#string logsDirLogsDir
 #string intermediateDir
-#string projectResultsDir
+#string project
+#string logsDirResultsDir
 #string batchIDList
-#string projectQcDir
+#string project
+#string logsDirQcDir
 #string capturedBed
 #string environment_parameters
 
@@ -26,6 +32,7 @@
 
 #list internalSampleID
 #string project
+#string logsDir
 #string ngsversion
 #list barcode
 #list lane

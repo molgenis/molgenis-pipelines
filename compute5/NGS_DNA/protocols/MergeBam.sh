@@ -11,6 +11,7 @@
 #list inputMergeBam
 #string tmpDataDir
 #string project
+#string logsDir
 #string intermediateDir
 #string sambambaVersion
 #string sambambaTool

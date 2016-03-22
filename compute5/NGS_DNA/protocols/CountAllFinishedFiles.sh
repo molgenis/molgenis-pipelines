@@ -1,7 +1,9 @@
 #MOLGENIS walltime=00:01:00 mem=1gb
-#string projectJobsDir
+#string project
+#string logsDirJobsDir
 #string intermediateDir
 #string project
+#string logsDir
 cd $projectJobsDir
 
 countShScripts=`ls *.sh | wc -l`

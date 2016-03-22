@@ -8,7 +8,9 @@
 #string intermediateDir
 #string tmpDataDir
 #string project
-#string projectRawTmpDataDir
+#string logsDir
+#string project
+#string logsDirRawTmpDataDir
 
 sleep 10
 
