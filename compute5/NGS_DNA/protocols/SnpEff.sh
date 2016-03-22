@@ -12,8 +12,6 @@
 #string logsDir
 #string projectVariantsMergedSorted
 #string tmpDataDir
-#string project
-#string logsDir
 #string snpEffVersion
 #string javaVersion
 
