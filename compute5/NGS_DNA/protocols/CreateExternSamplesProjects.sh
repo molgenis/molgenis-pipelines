@@ -131,6 +131,8 @@ sh ${EBROOTMOLGENISMINCOMPUTE}/molgenis_compute.sh -p ${mainParameters} \
 -p ${projectJobsDir}/${project}.csv \
 -rundir ${projectJobsDir} \
 -w ${workflowpath} \
+--header ${EBROOTMOLGENISMINCOMPUTE}/templates/slurm/header_gaf.ftl \
+--submit ${EBROOTMOLGENISMINCOMPUTE}/templates/slurm/submit_gaf.ftl \
 -b slurm \
 -g -weave \
 -runid ${runid} \
