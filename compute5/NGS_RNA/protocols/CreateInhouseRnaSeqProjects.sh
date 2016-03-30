@@ -19,6 +19,7 @@
 #string parameters_build
 #string parameters_species
 #string parameters_environment
+#string parameters_chromosomes
 #string ngsversion
 
 #string worksheet 
@@ -133,6 +134,7 @@ sh ${EBROOTMOLGENISMINCOMPUTE}/molgenis_compute.sh \
 -p ${parameters_build} \
 -p ${parameters_species} \
 -p ${parameters_environment} \
+-p ${parameters_chromosomes} \
 -p ${projectJobsDir}/${project}.csv -rundir ${projectJobsDir} \
 -w ${workflowpath} -b slurm -g -weave -runid ${runid} \
 -o "ngsversion=${ngsversion};"

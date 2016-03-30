@@ -1,20 +1,21 @@
-#MOLGENIS walltime=23:59:00 mem=32gb ppn=4
-#Parameter mapping
+#MOLGENIS walltime=43:59:00 mem=32gb ppn=4
 #string stage
-#string checkStage
 #string gatkVersion
-#string gatkJar
-#string tempDir
-#string intermediateDir
-#string indexFile
-#string capturedBatchBed
-#string projectBatchCombinedVariantCalls
+#string checkStage
+#string tmpTmpDataDir
 #string tmpDataDir
+#string dbsnpVcf
+#string gatkVersion
+#string indexFile
+#list GatkHaplotypeCallerGvcf,GatkHaplotypeCallerGvcfidx
 #list externalSampleID
-#string batchID
+#string indexChrIntervalList,chr
+#string intermediateDir
+#string projectPrefix
+#string projectBatchGenotypedVariantCalls
+#string projectBatchCombinedVariantCalls
 #string projectJobsDir
 #string project
-
 
 makeTmpDir ${projectBatchCombinedVariantCalls}
 tmpProjectBatchCombinedVariantCalls=${MC_tmpFile}
@@ -49,7 +50,7 @@ do
 	array_contains INPUTS "$external" || INPUTS+=("$external")    # If vcfFile does not exist in array add it
 done	
 
-SAMPLESIZE=$(cat ${projectJobsDir}/${project}.csv | wc -l)
+SAMPLESIZE=${#INPUTS[@]}
 
 ## number of batches (+1 is because bash is rounding down) 
 numberofbatches=$(($SAMPLESIZE / 200))
@@ -63,24 +64,27 @@ do
 		VAR=$(($i % ($numberofbatches + 1)))
 		if [ $VAR -eq $b ] 
 		then
-			if [ -f ${intermediateDir}/${s}.variant.calls.g.vcf ] 
+			if [ -f ${intermediateDir}/${s}.GatkHaplotypeCallerGvcf.g.vcf ] 
 			then
-				ALLGVCFs+=("--variant ${intermediateDir}/${s}.variant.calls.g.vcf")
+				ALLGVCFs+=("--variant ${intermediateDir}/${s}.GatkHaplotypeCallerGvcf.g.vcf")
 			fi
 		fi
 		i=$((i+1))
  	done
 	gvcfSize=${#ALLGVCFs[@]}
+	echo "batchsize is ${gvcfSize}"
+	
 	if [ $gvcfSize -ne 0 ]
 	then
 		java -Xmx30g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${tmpTmpDataDir} -jar \
         	${EBROOTGATK}/GenomeAnalysisTK.jar \
         	-T CombineGVCFs \
         	-R ${indexFile} \
-        	-o ${tmpProjectBatchCombinedVariantCalls}.$b \
+		-L ${indexChrIntervalList} \
+        	-o ${tmpProjectBatchCombinedVariantCalls}.${b} \
         	${ALLGVCFs[@]}
 	else
-		echo "There are no samples for batch-${batchID}.variant.calls.g.vcf"
+		echo "There are no samples "
 	fi
 done
 
