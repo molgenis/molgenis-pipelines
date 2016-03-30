@@ -1,6 +1,6 @@
 #!/bin/bash
 
-##external call with 2 arguments (sequencer, run and workDir)
+##external call with 3 arguments (sequencer, run and workDir)
 
 module load NGS_Demultiplex
 module list
