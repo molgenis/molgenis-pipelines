@@ -3,7 +3,7 @@ stage,module load
 checkStage,module list
 
 ### Tool versions ####
-bcl2fastqVersion,bcl2fastq2/v2.17.1.14-goolf-1.7.20
+bcl2fastqVersion,bcl2fastq2/v2.17.1.14-foss-2015b
 
 #### Prefixes ####
 runPrefix,${sequencingStartDate}_${sequencer}_${run}_${flowcell}
@@ -15,8 +15,6 @@ rawDataDir,${workDir}/rawdata
 hiseqDir,${rawDataDir}/hiseq
 hiseqRunDataDir,${hiseqDir}/${runPrefix}
 
-nextSeqDir,${rawDataDir}/nextseq
-nextSeqRunDataDir,${nextSeqDir}/${runPrefix}/
 
 NGSDir,${rawDataDir}/ngs
 arrayDir,${rawDataDir}/array 

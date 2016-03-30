@@ -5,29 +5,37 @@ from collections import defaultdict
 
 parser = argparse.ArgumentParser(description='Process some integers.')
 parser.add_argument("--input")
+parser.add_argument("--logfile")
 args = parser.parse_args()
 
 columns = defaultdict(list)
 f = open(args.input, 'r') # opens the csv file
-print(args.input)	
+print("inputfile:" + args.input)	
 reader = csv.DictReader(f)  # creates the reader object
+
+w = open(args.logfile, 'w')
+print("logfile:" + args.logfile)
+
 
 hasRows = False
 for number, row in enumerate(reader,1):   # iterates the rows of the file in orders
 	hasRows = True
 	for sleutel in ('externalSampleID','project','sequencer','sequencingStartDate','flowcell','run','flowcell','lane','seqType','prepKit','capturingKit','barcode','barcodeType'):
 		if sleutel not in row.keys():
-			print("One of the headers is missing: (externalSampleID,project,sequencer,sequencingStartDate,flowcell,run,flowcell,lane,seqType,prepKit,capturingKit,barcode,barcodeType)")
+			w.write("One of the headers is missing: (externalSampleID,project,sequencer,sequencingStartDate,flowcell,run,flowcell,lane,seqType,prepKit,capturingKit,barcode,barcodeType)")
 			sys.exit(1)
 		if row[sleutel] == "":
 			if sleutel in ('capturingKit','barcode','barcodeType'):
-				print("The variable " + key + " on line " + str(line) +  " is empty!")
+				w.write("The variable " + sleutel + " on line " + str(number) +  " is empty!")
 			else:
-				print("The variable " + key + " on line " + str(line) +  " is empty! Please fill in None (this to be sure that is not missing)")
+				print("fout")
+				w.write("The variable " + sleutel + " on line " + str(number) +  " is empty! Please fill in None (this to be sure that is not missing)")
+			w.close()
 			sys.exit(1)
 
 if not hasRows:
 	sys.exit(1)
+w.close()
 f.close()      # closing
 
 
