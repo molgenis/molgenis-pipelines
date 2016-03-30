@@ -1,8 +1,9 @@
-queue,ll
-tmpName,tmp05
+queue,localhost
+tmpName,scr01
 prmName,prm02
 root,/apps/
 workDir,/groups/umcg-gaf/${tmpName}
-
-nextSeqDir,${rawdataDir}/nextSeq
+nextSeqDir,${workDir}/sequencers
 nextSeqRunDataDir,${nextSeqDir}/${runPrefix}/
+
+

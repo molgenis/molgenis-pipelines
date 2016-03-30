@@ -1,13 +1,12 @@
 #!/bin/bash
 
-##external call with 2 arguments (sequencer and run)
+##external call with 3 arguments (sequencer, run and workDir)
 
 module load NGS_Demultiplex
 module list
 
-ENVIRONMENT_PARAMETERS=parameters_zinc-finger.csv
-TMPDIR=tmp05
-WORKDIR="/groups/umcg-gaf/${TMPDIR}"
+ENVIRONMENT_PARAMETERS=parameters_gattaca.csv
+WORKDIR=$3
 SEQUENCER=$1
 RUNNUMBER=${2}_${SEQUENCER}
 WORKFLOW=${EBROOTNGS_DEMULTIPLEX}/workflow.csv
