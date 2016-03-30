@@ -9,7 +9,7 @@
 #string dbsnpVcf
 #string gatkVersion
 #string indexFile
-#list GatkHaplotypeCallerGvcf,GatkHaplotypeCallerGvcfidx
+#list externalSampleID
 #string intermediateDir
 #string projectPrefix
 #string projectBatchGenotypedVariantCalls
@@ -43,29 +43,27 @@ ${checkStage}
 
 echo "## "$(date)" Start $0"
 
-SAMPLESIZE=$(cat ${projectJobsDir}/${project}.csv | wc -l)
-numberofbatches=$(($SAMPLESIZE / 200))
+INPUTS=()
 ALLGVCFs=()
 
-if [ $SAMPLESIZE -gt 200 ]
-then
-	for b in $(seq 0 $numberofbatches)
-	do
-		if [ -f ${projectBatchCombinedVariantCalls}.$b ]
-		then
- 			ALLGVCFs+=(--variant ${projectBatchCombinedVariantCalls}.$b)
-		fi
-	done
-else
-	for sbatch in "${GatkHaplotypeCallerGvcf[@]}"
-        do
-		if [ -f $sbatch ]
-		then
-          		array_contains ALLGVCFs "--variant $sbatch" || ALLGVCFs+=("--variant $sbatch")
-		fi
-        done
-fi 
+for external in "${externalSampleID[@]}"
+do
+  	array_contains INPUTS "$external" || INPUTS+=("$external")    # If vcfFile does not exist in array add it
+done
+
+SAMPLESIZE=${#INPUTS[@]}
+numberofbatches=$(($SAMPLESIZE / 200))
+
+for b in $(seq 0 $numberofbatches)
+do
+	if [ -f ${projectBatchCombinedVariantCalls}.$b ]
+	then
+		ALLGVCFs+=("--variant ${projectBatchCombinedVariantCalls}.$b")
+	fi
+done
+
 GvcfSize=${#ALLGVCFs[@]}
+
 if [ ${GvcfSize} -ne 0 ]
 then
 
@@ -81,14 +79,16 @@ then
 
 	mv ${tmpProjectBatchGenotypedVariantCalls} ${projectBatchGenotypedVariantCalls}
 	echo "moved ${tmpProjectBatchGenotypedVariantCalls} to ${projectBatchGenotypedVariantCalls} "
+	
+	cd ${intermediateDir}
+	md5sum $(basename ${projectBatchGenotypedVariantCalls})> $(basename ${projectBatchGenotypedVariantCalls}).md5sum
+ 	cd -
+	echo "succes moving files"
+
 
 else
 	echo ""
 	echo "there is nothing to genotype, skipped"
 	echo ""
 fi
-
-
-
-
 
