@@ -54,15 +54,12 @@ do
 		touch $LOGDIR/${filePrefix}.SampleSheetCopied
 
 	fi
-	if [ -d ${RAWDATADIR}/${filePrefix} ]
-	then
-		countFilesRawDataDirTmp=$(ls ${RAWDATADIR}/${filePrefix}/*.fq.gz* | wc -l)
-	fi
 	## Check if data is already copied to tmp05 on zinc-finger
 
 	if [ ! -d ${RAWDATADIR}/$filePrefix ]
 	then
 		mkdir -p ${RAWDATADIR}/$filePrefix
+		echo "Copying data to zinc.." >> $LOGGER
 		rsync -r -a ${copyRawGatToZinc}
 	fi
 
@@ -70,6 +67,7 @@ do
 	if [[ -d ${RAWDATADIR}/$filePrefix  && ! -f $LOGDIR/${filePrefix}.dataCopiedToZinc ]]
 	then
 		##Compare how many files are on both the servers in the directory
+		countFilesRawDataDirTmp=$(ls ${RAWDATADIR}/${filePrefix}/*.fq.gz* | wc -l)
 		countFilesRawDataDirGattaca=$(ssh umcg-ateambot@${gattacaAddress} "ls ${GATTACA}/runs/run_${run}_${sequencer}/results/*.fq.gz* | wc -l ")
 		if [ ${countFilesRawDataDirTmp} -eq ${countFilesRawDataDirGattaca} ]
 		then
@@ -88,6 +86,7 @@ do
 				fi
 			done
 		else
+			echo "Retry: Copying data to zinc" >> $LOGGER
 			rsync -r -a ${copyRawGatToZinc}
 			echo "data copied to Zinc" >> $LOGGER
 		fi
