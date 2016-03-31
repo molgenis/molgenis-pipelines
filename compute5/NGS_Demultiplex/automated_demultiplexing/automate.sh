@@ -11,8 +11,10 @@ MYINSTALLATIONDIR=$( cd -P "$( dirname "$0" )" && pwd )
 myhost=$(hostname)
 if [[ $myhost == *"gattaca"* ]]
 then
+	echo $myhost
 	. ${MYINSTALLATIONDIR}/gattaca.cfg
 else
+	echo $myhost
 	. ${MYINSTALLATIONDIR}/${myhost}.cfg
 fi
 
@@ -38,10 +40,11 @@ do
 			### Check if Samplesheet is there
                       	if [ -f ${SAMPLESHEETDIR}/${PROJECTNAME}.csv ]
                         then
-				python ${EBROOTNGS_DEMULTIPLEX}/automated_demultiplexing/checkSampleSheet.py --input ${SAMPLESHEETDIR}/${PROJECTNAME}.csv
+				python ${EBROOTNGS_DEMULTIPLEX}/automated_demultiplexing/checkSampleSheet.py --input ${SAMPLESHEETDIR}/${PROJECTNAME}.csv --logfile ${DEBUGGER}.error
 				if [ $? == 1 ]
 				then
-					echo "There is something wrong in the samplesheet! Exiting" >> ${DEBUGGER}
+					cat  ${DEBUGGER}.error | mail -s "Samplesheet error ${PROJECTNAME}" ${ONTVANGER}
+					rm ${DEBUGGER}.error
 					exit 1
 				else
 					echo  "Samplesheet is OK" >> ${DEBUGGER}
@@ -79,7 +82,7 @@ do
 
 					### Generating scripts
 					echo "Generated scripts" >> ${LOGGERPIPELINE}
-					sh generate_template.sh ${sequencer} ${run}
+					sh generate_template.sh ${sequencer} ${run} ${WORKDIR}
 					echo "cd ${WORKDIR}/runs/${RUNFOLDER}/jobs" >> ${LOGGERPIPELINE}
 					cd ${WORKDIR}/runs/${RUNFOLDER}/jobs
 
