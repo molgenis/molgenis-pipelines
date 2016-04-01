@@ -1,5 +1,6 @@
 #MOLGENIS walltime=63:59:00 mem=10gb
 #string project
+#string logsDir
 #string indexFile
 #string intermediateDir
 #string dellyVersion

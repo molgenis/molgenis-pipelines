@@ -15,6 +15,7 @@
 #string gatkJar
 #string gatkVersion
 #string	project
+#string logsDir
 #string ngsUtilsVersion
 
 sleep 5

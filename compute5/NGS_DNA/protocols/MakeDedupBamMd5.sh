@@ -2,6 +2,7 @@
 
 #string dedupBam
 #string	project
+#string logsDir
 
 md5sum ${dedupBam} > ${dedupBam}.md5
 

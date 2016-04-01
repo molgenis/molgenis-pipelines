@@ -6,6 +6,7 @@
 #string hisatIndex
 #string leftbarcodefqgz
 #string rightbarcodefqgz
+#string srBarcodeFqGz
 #string intermediateDir
 #string alignedSam
 #string alignedFilteredBam
@@ -29,8 +30,8 @@
 if [ ${seqType} == "SR" ]
 then
 
-	input="-U ${leftbarcodefqgz}"
-	echo "Single end alignment of ${leftbarcodefqgz}"
+	input="-U ${srBarcodeFqGz}"
+	echo "Single end alignment of ${srBarcodeFqGz}"
 else
 	input="-1 ${leftbarcodefqgz} -2 ${rightbarcodefqgz}"
 	echo "Paired end alignment of ${leftbarcodefqgz} and ${rightbarcodefqgz}"
@@ -69,7 +70,7 @@ echo "## "$(date)" Start $0"
 	--rg SM:${externalSampleID} \
 	-S ${tmpAlignedSam} > ${intermediateDir}/${externalSampleID}_L${lane}.hisat.log 2>&1
 
-	perl -nle 'print $2,"|\t",$1 while (m%^[ ]*([.0-9\%]+\s\(.+\)|[.0-9\%]+).(.+)%g);' ${intermediateDir}/${externalSampleID}_L${lane}.hisat.log > ${intermediateDir}/${externalSampleID}.hisat.final.log
+	perl -nle 'print $2,"|\t",$1 while (m%^[ ]*([.0-9\%]+\s\(.+\)|[.0-9\%]+).(.+)%g);' ${intermediateDir}/${externalSampleID}_L${lane}.hisat.log > ${intermediateDir}/${externalSampleID}_L${lane}.hisat.final.log
 
 sed '/NH:i:[^1]/d' ${tmpAlignedSam} | samtools view -h -b - > ${tmpAlignedFilteredBam}
 

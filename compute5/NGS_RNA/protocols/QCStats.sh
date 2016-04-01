@@ -1,4 +1,4 @@
-#MOLGENIS nodes=2 ppn=1 mem=25gb walltime=06:00:00
+#MOLGENIS nodes=1 ppn=1 mem=8gb walltime=06:00:00
 
 #Parameter mapping
 #string seqType
@@ -6,6 +6,8 @@
 #string sampleMergedBam
 #string sampleMergedDedupBam
 #string annotationRefFlat
+#string annotationIntervalList
+#string indexSpecies
 #string insertsizeMetrics
 #string insertsizeMetricspdf
 #string insertsizeMetricspng
@@ -16,7 +18,7 @@
 #string qcMatrics
 #string rnaSeqMetrics
 #string dupStatMetrics
-#string starLogFile
+#string alignmentMetrics
 #string externalSampleID
 #string picardVersion
 #string anacondaVersion
@@ -26,7 +28,7 @@
 #string ghostscriptVersion
 #string picardJar
 #string project
-
+#string collectMultipleMetricsPrefix
 
 #Load module
 module load ${picardVersion}
@@ -42,20 +44,19 @@ tmpIntermediateDir=${MC_tmpFile}
 #If paired-end do fastqc for both ends, else only for one
 if [ ${seqType} == "PE" ]
 then
-	echo -e "generate insertSizeMatrics"
+	echo -e "generate CollectMultipleMetrics"
 
-
-	java -XX:ParallelGCThreads=4 -jar -Xmx6g ${EBROOTPICARD}/${picardJar} CollectInsertSizeMetrics \
+	# Picard CollectMultipleMetrics
+        java -jar -Xmx6g -XX:ParallelGCThreads=4 ${EBROOTPICARD}/${picardJar} CollectMultipleMetrics \
 	I=${sampleMergedDedupBam} \
-	O=${insertsizeMetrics} \
-	H=${insertsizeMetricspdf} \
-	VALIDATION_STRINGENCY=LENIENT \
-	TMP_DIR=${tempDir}/processing
-
-        # Overwrite the PDFs that were just created by nicer onces:
-        ${recreateinsertsizepdfR} \
-        --insertSizeMetrics ${insertsizeMetrics} \
-        --pdf ${insertsizeMetricspdf}
+        O=${collectMultipleMetricsPrefix} \
+        R=${indexSpecies} \
+        PROGRAM=CollectAlignmentSummaryMetrics \
+        PROGRAM=QualityScoreDistribution \
+        PROGRAM=MeanQualityByCycle \
+        PROGRAM=CollectInsertSizeMetrics \
+        TMP_DIR=${tempDir}/processing
+	
 
 	#convert pdf to png
 	convert -density 150 ${insertsizeMetricspdf} -quality 90 ${insertsizeMetricspng}
@@ -67,8 +68,9 @@ then
 	java -XX:ParallelGCThreads=4 -jar -Xmx6g ${EBROOTPICARD}/${picardJar} CollectRnaSeqMetrics \
 	REF_FLAT=${annotationRefFlat} \
 	I=${sampleMergedDedupBam} \
-	STRAND_SPECIFICITY=SECOND_READ_TRANSCRIPTION_STRAND \
+	STRAND_SPECIFICITY=NONE \
 	CHART_OUTPUT=${rnaSeqMetrics}.pdf  \
+	RIBOSOMAL_INTERVALS=${annotationIntervalList} \
 	VALIDATION_STRINGENCY=LENIENT \
 	O=${rnaSeqMetrics}
 
@@ -85,7 +87,7 @@ then
 	-f ${flagstatMetrics} \
 	-r ${rnaSeqMetrics} \
 	-d ${dupStatMetrics} \
-	-s ${starLogFile} \
+	-a ${alignmentMetrics} \
 	>> ${qcMatrics}
 
 elif [ ${seqType} == "SR" ]
@@ -94,12 +96,28 @@ then
         #Flagstat for reads mapping to the genome.
         samtools flagstat ${sampleMergedDedupBam} > ${flagstatMetrics}
 
+
+	echo -e "generate CollectMultipleMetrics"
+
+        # Picard CollectMultipleMetrics
+        java -jar -Xmx6g -XX:ParallelGCThreads=4 ${EBROOTPICARD}/${picardJar} CollectMultipleMetrics \
+        I=${sampleMergedDedupBam} \
+        O=${collectMultipleMetricsPrefix} \
+        R=${indexSpecies} \
+        PROGRAM=CollectAlignmentSummaryMetrics \
+        PROGRAM=QualityScoreDistribution \
+        PROGRAM=MeanQualityByCycle \
+        PROGRAM=CollectInsertSizeMetrics \
+        TMP_DIR=${tempDir}/processing
+
+
 	#CollectRnaSeqMetrics.jar
 	java -XX:ParallelGCThreads=4 -jar -Xmx6g ${EBROOTPICARD}/${picardJar} CollectRnaSeqMetrics \
         REF_FLAT=${annotationRefFlat} \
         I=${sampleMergedDedupBam} \
-        STRAND_SPECIFICITY=SECOND_READ_TRANSCRIPTION_STRAND \
-        CHART_OUTPUT=${rnaSeqMetrics}.pdf  \
+	STRAND_SPECIFICITY=NONE \
+	RIBOSOMAL_INTERVALS=${annotationIntervalList} \
+        CHART_OUTPUT=${rnaSeqMetrics}.pdf \
 	VALIDATION_STRINGENCY=LENIENT \
         O=${rnaSeqMetrics}
 
@@ -114,6 +132,6 @@ then
 	-f ${flagstatMetrics} \
 	-r ${rnaSeqMetrics} \
 	-d ${dupStatMetrics} \
-	-s ${starLogFile} \
+	-a ${alignmentMetrics} \
 	>> ${qcMatrics}
 fi

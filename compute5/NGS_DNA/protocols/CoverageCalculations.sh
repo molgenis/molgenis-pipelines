@@ -6,6 +6,7 @@
 #string intermediateDir
 #string dedupBam
 #string project
+#string logsDir
 #string externalSampleID
 #string indexFile
 #string capturedIntervalsPerBase

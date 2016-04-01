@@ -2,8 +2,9 @@
 
 #Parameter mapping
 
-#string projectResultsDir
 #string project
+#string projectResultsDir
+#string logsDir
 #string projectPrefix
 #string intermediateDir
 #string projectQcDir
@@ -14,7 +15,6 @@
 #list externalSampleID
 #list batchID
 #list seqType
-#string logsDir
 
 # Change permissions
 

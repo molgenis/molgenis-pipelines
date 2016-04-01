@@ -13,6 +13,7 @@
 #string alignedBam
 #string tmpDataDir
 #string project
+#string logsDir
 
 #Load Picard module
 ${stage} ${picardVersion}

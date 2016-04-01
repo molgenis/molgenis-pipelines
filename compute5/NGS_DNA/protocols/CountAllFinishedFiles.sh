@@ -2,6 +2,8 @@
 #string projectJobsDir
 #string intermediateDir
 #string project
+#string logsDir
+
 cd $projectJobsDir
 
 

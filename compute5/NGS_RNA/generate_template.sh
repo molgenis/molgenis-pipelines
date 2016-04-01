@@ -10,15 +10,9 @@ GAF="/groups/umcg-gaf/${TMPDIR}"
 BUILD="b37" # b37, b38
 ENVIRONMENT="calculon" # zinc-finger, calculon
 SPECIES="homo_sapiens" # callithrix_jacchus, mus_musculus, homo_sapiens
-PIPELINE="lexogen" # hisat, lexogen
+PIPELINE="hisat" # hisat, lexogen
 
-SAMPLESIZE=$(cat ${GAF}/generatedscripts/${PROJECT}/${PROJECT}.csv | wc -l)
-if [ $SAMPLESIZE -gt 200 ]
-then
-        WORKFLOW=${EBROOTNGS_RNA}/workflow_${PIPELINE}_samplesize_bigger_than_200.csv
-else
-        WORKFLOW=${EBROOTNGS_RNA}/workflow_${PIPELINE}.csv
-fi
+WORKFLOW=${EBROOTNGS_RNA}/workflow_${PIPELINE}.csv
 
 if [ -f .compute.properties ];
 then
@@ -59,4 +53,5 @@ ngsversion=$(module list | grep -o -P 'NGS_RNA(.+)');\
 worksheet=${GAF}/generatedscripts/${PROJECT}/${PROJECT}.csv;\
 parameters_build=${GAF}/generatedscripts/${PROJECT}/parameters.${BUILD}.csv;\
 parameters_species=${GAF}/generatedscripts/${PROJECT}/parameters.${SPECIES}.csv;\
+parameters_chromosomes=${EBROOTNGS_RNA}/chromosomes.${SPECIES}.csv;\
 parameters_environment=${GAF}/generatedscripts/${PROJECT}/parameters.${ENVIRONMENT}.csv;"

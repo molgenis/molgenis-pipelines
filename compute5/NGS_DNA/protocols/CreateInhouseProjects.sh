@@ -1,6 +1,7 @@
 #MOLGENIS walltime=01:59:00 mem=4gb
 
 #list seqType
+#string project
 #string projectRawArrayTmpDataDir
 #string projectRawTmpDataDir
 #string projectJobsDir
@@ -29,6 +30,8 @@
 #string ngsUtilsVersion
 
 #string project
+#string logsDir
+
 umask 0007
 
 module list
@@ -123,7 +126,8 @@ echo pwd
 
 sh ${EBROOTMOLGENISMINCOMPUTE}/molgenis_compute.sh -p ${mainParameters} \
 -p ${batchIDList} -p ${projectJobsDir}/${project}.csv -p ${environment_parameters} -rundir ${projectJobsDir} \
---header ${EBROOTMOLGENISMINCOMPUTE}/templates/slurm/header.ftl \
+--header ${EBROOTMOLGENISMINCOMPUTE}/templates/slurm/header_gaf.ftl \
+--submit ${EBROOTMOLGENISMINCOMPUTE}/templates/slurm/submit_gaf.ftl \
 -w ${workflowpath} \
 -b slurm \
 -g -weave \
