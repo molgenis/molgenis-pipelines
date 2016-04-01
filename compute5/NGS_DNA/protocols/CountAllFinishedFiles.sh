@@ -6,15 +6,18 @@
 
 cd $projectJobsDir
 
-countShScripts=`ls *.sh | wc -l`
-countFinishedFiles=`ls *.sh.finished | wc -l`
 
-#remove 3, because this step (CountAllFinishedFiles) and the next step are not finished yet and there is submit.sh
+countShScripts=$(ls *.sh | wc -l)
+countShScripts=$(ls *.sh | wc -l)
+countFinishedFiles=$(find *.sh ! -name '*Delly*.sh'  | wc -l)
+countFinishedFiles=$(find *.sh.finished ! -name '*Delly*.sh.finished'  | wc -l)
+
+#remove 3, because this step (CountAllFinishedFiles) and the CopyToResultsDir are not finished yet and there is submit.sh
 countShScripts=$(($countShScripts-3))
 
 rm -f ${projectJobsDir}/${taskId}_INCORRECT
 
-if [ "${countShScripts}" == "$countFinishedFiles" ]
+if [ ${countShScripts} -eq $countFinishedFiles ]
 then	
 	echo "all files are finished" > ${projectJobsDir}/${taskId}_CORRECT
 else
