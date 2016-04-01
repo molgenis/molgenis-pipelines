@@ -113,7 +113,8 @@ echo "Copied vcf file + coveragePerBase.txt (8/11)"
 # print README.txt files
 
 # Copy QC report to results directory
-cp ${projectQcDir}/${project}_QCReport.md ${projectResultsDir}
+cp ${projectQcDir}/${project}_QCReport.pdf ${projectResultsDir}
+cp ${projectQcDir}/${project}_QCReport.html ${projectResultsDir}
 cp -r ${projectQcDir}/images ${projectResultsDir}
 echo "Copied QC report to results directory (9/11)"
 
