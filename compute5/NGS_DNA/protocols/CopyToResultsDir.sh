@@ -15,7 +15,7 @@
 #list externalSampleID
 #list batchID
 #list seqType
-
+#string filePrefix
 # Change permissions
 
 umask 0007
@@ -91,20 +91,16 @@ for sample in "${externalSampleID[@]}"
 do
 	cp ${intermediateDir}/${sample}.final.vcf ${projectResultsDir}/variants/
 	cp ${intermediateDir}/${sample}.final.vcf.table ${projectResultsDir}/variants/
-	
-	if [ -f ${intermediateDir}/${sample}.*.coveragePerBase.txt  ] 
-	then
-		cp ${intermediateDir}/${sample}.*.coveragePerBase.txt ${projectResultsDir}/coverage/
-	fi
-	if [ -f ${intermediateDir}/${sample}.*.coveragePerGene.txt  ] 
-	then
-		cp ${intermediateDir}/${sample}.*.coveragePerGene.txt ${projectResultsDir}/coverage/
-	fi
-	if [ -f ${intermediateDir}/${sample}.*coveragePerTarget.txt  ] 
-	then
-		cp ${intermediateDir}/${sample}.*.coveragePerTarget.txt ${projectResultsDir}/coverage/
-	fi
-	
+
+	for i in $(ls ${intermediateDir}/${sample}.*.coveragePerBase.txt )
+	do
+		cp $i ${projectResultsDir}/coverage/
+	done
+
+	for i in $(ls ${intermediateDir}/${sample}.*.coveragePerTarget.txt )
+	do
+		cp $i ${projectResultsDir}/coverage/
+	done	
 	
 done
 echo "Copied vcf file + coveragePerBase.txt (8/11)"
@@ -127,7 +123,7 @@ zip -gr ${projectResultsDir}/${project}.zip qc
 zip -gr ${projectResultsDir}/${project}.zip images
 zip -g ${projectResultsDir}/${project}.zip ${project}.csv
 #zip -g ${projectResultsDir}/${project}.zip README.pdf
-zip -g ${projectResultsDir}/${project}.zip ${project}_QCReport.md
+zip -g ${projectResultsDir}/${project}.zip ${project}_QCReport.pdf
 zip -gr ${projectResultsDir}/${project}.zip coverage
 
 echo "Made zip file: ${projectResultsDir}/${project}.zip (10/11)"
