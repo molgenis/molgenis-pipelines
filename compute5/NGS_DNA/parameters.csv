@@ -16,7 +16,7 @@ dellyVersion,v0.7.1
 fastqcVersion,FastQC/0.11.3-Java-1.7.0_80
 gatkVersion,GATK/3.4-0-Java-1.7.0_80 
 javaVersion,Java/1.8.0_45
-ngsUtilsVersion,ngs-utils/16.02.2
+ngsUtilsVersion,ngs-utils/16.03.1
 picardVersion,picard/1.130-Java-1.7.0_80
 pythonVersion,Python/2.7.9-goolf-1.7.20
 rVersion,R/3.2.1-goolf-1.7.20
@@ -24,6 +24,7 @@ sambambaVersion,sambamba/v0.5.9-goolf-1.7.20
 samtoolsVersion,SAMtools/1.2-goolf-1.7.20
 snpEffVersion,snpEff/4.1g-Java-1.7.0_80
 tabixVersion,tabix/0.2.6-goolf-1.7.20
+wkHtmlToPdfVersion,wkhtmltopdf/0.11.0_rc1-static-amd64
 molgenisAnnotatorVersion,CmdLineAnnotator/1.9.0-Java-1.8.0_45
 hpoVersion,90
 gatkJar,GenomeAnalysisTK.jar
@@ -138,8 +139,10 @@ sampleConcordanceFile,${sampleNameID}.concordance.ngsVSarray.txt
 sequenomReport,${tmpDataDir}/rawdata/array/${project}_Sequenom_Report.txt
 sequenomInfo,${sequenomDir}/Sequonome_SNPinfo.txt
 collectMultipleMetricsJar,CollectMultipleMetrics
+alignmentMetrics,${dedupBam}.alignment_summary_metrics
 bamIndexStats,${dedupBam}.bam_index_stats
 bamIndexStatsJar,BamIndexStats
+flagstatMetrics,${dedupBam}.flagstat
 gcBiasMetrics,${dedupBam}.gc_bias_metrics
 gcBiasMetricsJar,CollectGcBiasMetrics
 insertSizeMetrics,${dedupBam}.insert_size_metrics
@@ -201,6 +204,9 @@ qcBaitSet,${projectQcDir}/projectbaitset.txt
 qcStatisticsTexReport,${projectQcDir}/${project}_QCReport.tex
 qcReportMD,${projectQcDir}/${project}_QCReport.md
 NGS_DNAVersionFile,${intermediateDir}/NGS_DNA-Version.txt
-
+qcReportHtml,${projectQcDir}/${project}_QCReport.html
+qcReportPdf,${projectQcDir}/${project}_QCReport.pdf
+qcMetrics,${intermediateDir}/${externalSampleID}.total.qc.metrics.table
+allMetrics,${intermediateDir}/${project}_qc.metricsList
 ### 5GPM Protocols (FilterOnIntervalList) ###
 fileWithIndexId,${intermediateDir}/${filePrefix}_${barcode}

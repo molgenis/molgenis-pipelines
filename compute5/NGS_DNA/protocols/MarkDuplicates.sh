@@ -16,11 +16,15 @@
 #string dedupMetrics
 #string	project
 #string logsDir
+#string flagstatMetrics
 
 #Load Picard module
 ${stage} ${sambambaVersion}
 ${checkStage}
 sleep 5
+
+makeTmpDir ${flagstatMetrics}
+tmpFlagstatMetrics=${MC_tmpFile}
 
 makeTmpDir ${dedupBam}
 tmpDedupBam=${MC_tmpFile}
@@ -31,7 +35,8 @@ tmpDedupBamIdx=${MC_tmpFile}
 makeTmpDir ${dedupMetrics}
 tmpDedupMetrics=${MC_tmpFile}
 
-#Run picard, sort BAM file and create index on the fly
+
+##Run picard, sort BAM file and create index on the fly
 ${EBROOTSAMBAMBA}/${sambambaTool} markdup \
 --nthreads=4 \
 --overflow-list-size 1000000 \
@@ -40,22 +45,21 @@ ${EBROOTSAMBAMBA}/${sambambaTool} markdup \
 --tmpdir=${tempDir} \
 ${sampleMergedBam} ${tmpDedupBam}
 
-
 #make metrics file
 ${EBROOTSAMBAMBA}/${sambambaTool} \
 flagstat \
 --nthreads=4 \
-${tmpDedupBam} > ${tmpDedupBam}.flagstat
+${tmpDedupBam} > ${tmpFlagstatMetrics}
 
 echo -e "READ_PAIR_DUPLICATES\tPERCENT_DUPLICATION" > ${tmpDedupMetrics}
-sed -n '1p;4p' ${tmpDedupBam}.flagstat | awk '{print $1}' | perl -wpe 's|\n|\t|' | awk '{print $2"\t"($2/$1)*100}' >> ${tmpDedupMetrics}
+sed -n '1p;4p' ${tmpFlagstatMetrics} | awk '{print $1}' | perl -wpe 's|\n|\t|' | awk '{print $2"\t"($2/$1)*100}' >> ${tmpDedupMetrics}
 
 echo -e "\nMarkDuplicates finished succesfull. Moving temp files to final.\n\n"
+mv ${tmpFlagstatMetrics} ${flagstatMetrics}
+echo "moved ${tmpFlagstatMetrics} ${flagstatMetrics}"
 mv ${tmpDedupBam} ${dedupBam}
-mv ${tmpDedupBamIdx} ${dedupBamIdx}
 echo "moved ${tmpDedupBam} ${dedupBam}"
+mv ${tmpDedupBamIdx} ${dedupBamIdx}
 echo "mv ${tmpDedupBamIdx} ${dedupBamIdx}"
-
-
 mv ${tmpDedupMetrics} ${dedupMetrics}
 echo "mv ${tmpDedupMetrics} ${dedupMetrics}"
