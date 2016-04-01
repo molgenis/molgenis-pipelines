@@ -36,24 +36,20 @@ makeTmpDir ${dedupMetrics}
 tmpDedupMetrics=${MC_tmpFile}
 
 
-#### WIJZIG TERUG VOOR SUBMITTEN (comments weghalen)
-
 ##Run picard, sort BAM file and create index on the fly
-#${EBROOTSAMBAMBA}/${sambambaTool} markdup \
-#--nthreads=4 \
-#--overflow-list-size 1000000 \
-#--hash-table-size 1000000 \
-#-p \
-#--tmpdir=${tempDir} \
-#${sampleMergedBam} ${tmpDedupBam}
-
-#### WIJZIG TERUG VOOR SUBMITTEN (dedupBam --> tmpDedupBam)
+${EBROOTSAMBAMBA}/${sambambaTool} markdup \
+--nthreads=4 \
+--overflow-list-size 1000000 \
+--hash-table-size 1000000 \
+-p \
+--tmpdir=${tempDir} \
+${sampleMergedBam} ${tmpDedupBam}
 
 #make metrics file
 ${EBROOTSAMBAMBA}/${sambambaTool} \
 flagstat \
 --nthreads=4 \
-${dedupBam} > ${tmpFlagstatMetrics}
+${tmpDedupBam} > ${tmpFlagstatMetrics}
 
 echo -e "READ_PAIR_DUPLICATES\tPERCENT_DUPLICATION" > ${tmpDedupMetrics}
 sed -n '1p;4p' ${tmpFlagstatMetrics} | awk '{print $1}' | perl -wpe 's|\n|\t|' | awk '{print $2"\t"($2/$1)*100}' >> ${tmpDedupMetrics}
