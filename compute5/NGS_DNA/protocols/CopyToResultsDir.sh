@@ -15,7 +15,7 @@
 #list externalSampleID
 #list batchID
 #list seqType
-
+#string filePrefix
 # Change permissions
 
 umask 0007
@@ -123,7 +123,7 @@ zip -gr ${projectResultsDir}/${project}.zip qc
 zip -gr ${projectResultsDir}/${project}.zip images
 zip -g ${projectResultsDir}/${project}.zip ${project}.csv
 #zip -g ${projectResultsDir}/${project}.zip README.pdf
-zip -g ${projectResultsDir}/${project}.zip ${project}_QCReport.md
+zip -g ${projectResultsDir}/${project}.zip ${project}_QCReport.pdf
 zip -gr ${projectResultsDir}/${project}.zip coverage
 
 echo "Made zip file: ${projectResultsDir}/${project}.zip (10/11)"
