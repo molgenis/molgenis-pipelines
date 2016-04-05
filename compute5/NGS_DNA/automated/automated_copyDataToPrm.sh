@@ -18,8 +18,14 @@ function finish {
 }
 trap finish ERR
 
+ARR=()
+while read i
+do
+ARR+=($i)
+done<${SAMPLESHEETSDIR}/allSampleSheets_Zinc.txt
+
 echo "Logfiles will be written to $LOGDIR"
-while read line
+for line in ${ARR[@]}
 do
         csvFile=$(basename $line)
         filePrefix="${csvFile%.*}"
@@ -47,13 +53,13 @@ do
 	then
 		echo "1"
 		countFilesRawDataDirTmp=$(ls ${RAWDATADIR}/${filePrefix}/*.fq.gz* | wc -l)
-		if [ $makeRawDataDir == "false" ]
+		if [ "${makeRawDataDir}" == "false" ]
 		then
 			echo "copying data from zinc to prm" >> ${LOGGER}
                         rsync -r -a ${copyRawZincToPrm}
 			makeRawDataDir="true"
 		fi
-		if [ $makeRawDataDir == "true" ]
+		if [ "${makeRawDataDir}" == "true" ]
                 then
                         countFilesRawDataDirPrm=$(ssh umcg-gaf-dm@calculon.hpc.rug.nl "ls ${RAWDATADIRPRM}/${filePrefix}/*.fq.gz* | wc -l")
                         if [ ${countFilesRawDataDirTmp} -eq ${countFilesRawDataDirPrm} ]
@@ -73,6 +79,7 @@ do
 					rm $LOGDIR/${filePrefix}.failed
                                 fi
                         else
+				echo "copying data..." >> $LOGGER
                                 rsync -r -a ${copyRawZincToPrm}
                         fi
                 fi
