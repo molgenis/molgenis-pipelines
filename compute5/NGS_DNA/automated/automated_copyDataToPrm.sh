@@ -53,13 +53,13 @@ do
 	then
 		echo "1"
 		countFilesRawDataDirTmp=$(ls ${RAWDATADIR}/${filePrefix}/*.fq.gz* | wc -l)
-		if [ "${makeRawDataDir}" == "false" ]
+		if [ "${makeRawDataDir}" == "f" ]
 		then
 			echo "copying data from zinc to prm" >> ${LOGGER}
                         rsync -r -a ${copyRawZincToPrm}
-			makeRawDataDir="true"
+			makeRawDataDir="t"
 		fi
-		if [ "${makeRawDataDir}" == "true" ]
+		if [ "${makeRawDataDir}" == "t" ]
                 then
                         countFilesRawDataDirPrm=$(ssh umcg-gaf-dm@calculon.hpc.rug.nl "ls ${RAWDATADIRPRM}/${filePrefix}/*.fq.gz* | wc -l")
                         if [ ${countFilesRawDataDirTmp} -eq ${countFilesRawDataDirPrm} ]
