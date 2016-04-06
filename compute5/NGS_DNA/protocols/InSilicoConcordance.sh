@@ -1,4 +1,4 @@
-#MOLGENIS nodes=1 ppn=1 mem=1gb walltime=00:20:00
+#MOLGENIS ppn=1 mem=5gb walltime=00:20:00
 
 #string simulatedPhiXVariants
 #string inSilicoConcordanceFile
