@@ -27,7 +27,7 @@ do
 	IFS=','
 	array=($HEADER)
 	IFS=$OLDIFS
-	count=0
+	count=1
 	myproject=""
 
 	for j in "${array[@]}"
