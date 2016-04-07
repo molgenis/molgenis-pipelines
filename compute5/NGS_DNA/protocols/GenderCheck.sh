@@ -1,5 +1,5 @@
 #MOLGENIS ppn=4 mem=6gb walltime=03:00:00
-
+#string tmpName
 #string dedupBam
 #string capturedIntervals
 #string capturedIntervals_nonAutoChrX

@@ -1,6 +1,7 @@
 #MOLGENIS walltime=23:59:00 mem=30gb ppn=5
 
 #Parameter mapping
+#string tmpName
 #string stage
 #string checkStage
 #string sampleMergedBam

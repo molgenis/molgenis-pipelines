@@ -1,6 +1,7 @@
 #MOLGENIS walltime=20:00:00 nodes=1 ppn=8 mem=10gb
 
 #Parameter mapping
+#string tmpName
 #string stage
 #string checkStage
 #string seqType

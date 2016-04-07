@@ -1,6 +1,7 @@
 #MOLGENIS nodes=1 ppn=1 mem=1gb walltime=12:30:00
 
 #Parameter mapping
+#string tmpName
 #string seqType
 #string phiXEnd1Gz
 #string phiXEnd2Gz

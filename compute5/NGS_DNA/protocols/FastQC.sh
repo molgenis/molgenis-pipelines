@@ -1,6 +1,7 @@
 #MOLGENIS ppn=1 mem=2gb walltime=08:00:00
 
 #Parameter mapping
+#string tmpName
 #string seqType
 #string peEnd1BarcodeFqGz
 #string peEnd2BarcodeFqGz

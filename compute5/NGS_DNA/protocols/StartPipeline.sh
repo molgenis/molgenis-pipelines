@@ -1,5 +1,6 @@
 #MOLGENIS walltime=01:59:00 mem=4gb
 
+#string tmpName
 #list sequencingStartDate
 #list sequencer
 #list run
