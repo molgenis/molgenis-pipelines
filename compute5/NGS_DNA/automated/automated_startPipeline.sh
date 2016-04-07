@@ -34,7 +34,7 @@ do
 	do
   		if [ "${j}" == "project" ]
   	     	then
-  	        	myproject=$(awk '{FS=","}{print $'$count'}' $i)
+  	        	myproject=$(awk '{FS=","}{print $'$count'}' $i | uniq)
   	      	fi
 		count=$((count + 1))
 	done
