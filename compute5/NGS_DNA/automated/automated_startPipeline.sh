@@ -21,8 +21,25 @@ for i in $(ls ${SAMPLESHEETSDIR}/*.csv)
 do
   	csvFile=$(basename $i)
         filePrefix="${csvFile%.*}"
-        LOGGER=${LOGDIR}/${filePrefix}.startPipeline.logger
 
+	HEADER=$(head -1 ${i})
+	OLDIFS=$IFS
+	IFS=','
+	array=($HEADER)
+	IFS=$OLDIFS
+	count=0
+	myproject=""
+
+	for j in "${array[@]}"
+	do
+  		if [ "${j}" == "project" ]
+  	     	then
+  	        	myproject=$(awk '{FS=","}{print $'$count'}' $i)
+  	      	fi
+		count=$((count + 1))
+	done
+
+	echo "myproject: $myproject"
         FINISHED="no"
         OLDIFS=$IFS
         IFS=_
@@ -30,13 +47,14 @@ do
         sequencer=$2
         run=$3
 	IFS=$OLDIFS
+        LOGGER=${LOGDIR}/${myproject}.startPipeline.logger
 
-        if [ -f ${LOGDIR}/${filePrefix}.startPipeline.locked ]
+        if [ -f ${LOGDIR}/${myproject}.startPipeline.locked ]
         then
             	exit 0
         fi
 
-	if [[ -f $LOGDIR/${filePrefix}.dataCopiedToZinc && ! -f $LOGDIR/${filePrefix}.pipeline.started ]]
+	if [[ -f $LOGDIR/${filePrefix}.dataCopiedToZinc && ! -f $LOGDIR/${myproject}.pipeline.started ]]
         then
                 ### Step 4: Does the pipeline need to run?
                 if [ "${pipeline}" == "RNA-Lexogen-reverse" ]
@@ -78,18 +96,19 @@ do
 
 			touch ${GENERATEDSCRIPTS}/${run}_${sequencer}/scripts/CopyPrmTmpData_0.sh.finished
 			sh submit.sh
-			for i in $(ls $LOGDIR/${filePrefix}.project_*.txt)
-			do
-				PROJECT=$(cat $i)
+			if [ -f ${myproject}.failed.txt ]
+			then
+				PROJECT=$myproject
 				WHOAMI=$(whoami)
 				HOSTN=$(hostname)
 				pipelineVersion=$(module list | grep -o -P 'NGS_DNA(.+)')
 				printf "Pipeline: ${pipelineVersion}\nStarttime:`date +%d/%m/%Y` `date +%H:%M`\nProject: $PROJECT\nStarted by: $WHOAMI\nHost: ${HOSTN}\n\nProgress can be followed via the command squeue -u $WHOAMI on $HOSTN.\nYou will receive an email when the pipeline is finished!\n\nCheers from the GCC :)"| mail -s "NGS_DNA pipeline is started for project $PROJECT on `date +%d/%m/%Y` `date +%H:%M`" ${ONTVANGER}
-			done
+			fi
 
 		else
               		echo "Pipeline is skipped" >> ${LOGGER}
                 fi
         fi
+	rm ${LOGDIR}/${myproject}.startPipeline.locked
+	
 done
-#rm ${LOGDIR}/${filePrefix}.startPipeline.locked
