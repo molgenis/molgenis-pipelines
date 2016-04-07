@@ -96,14 +96,11 @@ do
 
 			touch ${GENERATEDSCRIPTS}/${run}_${sequencer}/scripts/CopyPrmTmpData_0.sh.finished
 			sh submit.sh
-			if [ -f ${myproject}.failed.txt ]
-			then
-				PROJECT=$myproject
-				WHOAMI=$(whoami)
-				HOSTN=$(hostname)
-				pipelineVersion=$(module list | grep -o -P 'NGS_DNA(.+)')
-				printf "Pipeline: ${pipelineVersion}\nStarttime:`date +%d/%m/%Y` `date +%H:%M`\nProject: $PROJECT\nStarted by: $WHOAMI\nHost: ${HOSTN}\n\nProgress can be followed via the command squeue -u $WHOAMI on $HOSTN.\nYou will receive an email when the pipeline is finished!\n\nCheers from the GCC :)"| mail -s "NGS_DNA pipeline is started for project $PROJECT on `date +%d/%m/%Y` `date +%H:%M`" ${ONTVANGER}
-			fi
+			PROJECT=$myproject
+			WHOAMI=$(whoami)
+			HOSTN=$(hostname)
+			pipelineVersion=$(module list | grep -o -P 'NGS_DNA(.+)')
+			printf "Pipeline: ${pipelineVersion}\nStarttime:`date +%d/%m/%Y` `date +%H:%M`\nProject: $PROJECT\nStarted by: $WHOAMI\nHost: ${HOSTN}\n\nProgress can be followed via the command squeue -u $WHOAMI on $HOSTN.\nYou will receive an email when the pipeline is finished!\n\nCheers from the GCC :)"| mail -s "NGS_DNA pipeline is started for project $PROJECT on `date +%d/%m/%Y` `date +%H:%M`" ${ONTVANGER}
 
 		else
               		echo "Pipeline is skipped" >> ${LOGGER}
