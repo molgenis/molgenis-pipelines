@@ -15,7 +15,7 @@
 #list externalSampleID
 #list batchID
 #list seqType
-#string filePrefix
+#string runPrefix
 # Change permissions
 
 umask 0007
@@ -137,7 +137,7 @@ echo "Made md5 file for ${projectResultsDir}/${project}.zip (11/11)"
 chmod -R u+rwX,g+rwX ${projectResultsDir}
 
 cd ${CURRENT_DIR}
-touch ${logsDir}/${filePrefix}.pipeline.finished
+touch ${logsDir}/${runPrefix}.pipeline.finished
 host=$(hostname)
 . $EBROOTNGS_DNA/automated/${host}.cfg
 printf "The results can be found: ${projectResultsDir}\n\nCheers from the GCC :)"| mail -s "NGS_DNA pipeline is finished for project ${project} on `date +%d/%m/%Y` `date +%H:%M`" ${ONTVANGER}
