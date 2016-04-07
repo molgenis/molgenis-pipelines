@@ -1,6 +1,7 @@
 #MOLGENIS walltime=01:00:00 nodes=1 ppn=4 mem=6gb
 
 #string sampleConcordanceFile
+#string tmpName
 #string sampleNameID
 #string externalSampleID
 #string familyList

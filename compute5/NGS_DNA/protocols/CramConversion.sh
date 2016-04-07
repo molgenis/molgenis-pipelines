@@ -1,4 +1,5 @@
 #MOLGENIS walltime=23:59:00 mem=1gb ppn=9
+#string tmpName
 #string dedupBam
 #string indexFile
 #string dedupBamCram

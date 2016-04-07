@@ -2,6 +2,7 @@
 
 
 #Parameter mapping
+#string tmpName
 #string stage
 #string checkStage
 #string picardVersion

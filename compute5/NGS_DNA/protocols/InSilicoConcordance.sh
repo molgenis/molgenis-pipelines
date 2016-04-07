@@ -1,5 +1,6 @@
 #MOLGENIS ppn=1 mem=5gb walltime=00:20:00
 
+#string tmpName
 #string simulatedPhiXVariants
 #string inSilicoConcordanceFile
 #string project

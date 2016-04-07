@@ -1,6 +1,7 @@
 #MOLGENIS walltime=10:00:00 mem=12gb nodes=1 ppn=1
 
 #Parameter mapping
+#string tmpName
 #string gatkVersion
 #string gatkJar
 #string intermediateDir
