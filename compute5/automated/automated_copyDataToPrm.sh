@@ -49,7 +49,7 @@ do
 	copyRawZincToPrm="${RAWDATADIR}/${filePrefix}/* umcg-gaf-dm@calculon.hpc.rug.nl:${RAWDATADIRPRM}/${filePrefix}"
 	makeRawDataDir=$(ssh umcg-gaf-dm@calculon.hpc.rug.nl "sh ${RAWDATADIRPRM}../checkRawData.sh ${RAWDATADIRPRM} ${filePrefix}")
 
-	if [[ -f $LOGDIR/${filePrefix}.dataCopiedToZinc && -f $LOGDIR/${filePrefix}.dataCopiedToPrm ]]
+	if [[ -f $LOGDIR/${filePrefix}.dataCopiedToZinc && ! -f $LOGDIR/${filePrefix}.dataCopiedToPrm ]]
 	then
 		echo "1"
 		countFilesRawDataDirTmp=$(ls ${RAWDATADIR}/${filePrefix}/*.fq.gz* | wc -l)
