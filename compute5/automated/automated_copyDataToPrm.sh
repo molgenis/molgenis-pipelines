@@ -49,7 +49,7 @@ do
 	copyRawZincToPrm="${RAWDATADIR}/${filePrefix}/* umcg-gaf-dm@calculon.hpc.rug.nl:${RAWDATADIRPRM}/${filePrefix}"
 	makeRawDataDir=$(ssh umcg-gaf-dm@calculon.hpc.rug.nl "sh ${RAWDATADIRPRM}../checkRawData.sh ${RAWDATADIRPRM} ${filePrefix}")
 
-	if [ -f $LOGDIR/${filePrefix}.dataCopiedToZinc ]
+	if [[ -f $LOGDIR/${filePrefix}.dataCopiedToZinc && -f $LOGDIR/${filePrefix}.dataCopiedToPrm ]]
 	then
 		echo "1"
 		countFilesRawDataDirTmp=$(ls ${RAWDATADIR}/${filePrefix}/*.fq.gz* | wc -l)
@@ -76,7 +76,10 @@ do
 					scp ${SAMPLESHEETSDIR}/${csvFile} umcg-gaf-dm@calculon.hpc.rug.nl:${SAMPLESHEETSPRMDIR}
 					echo "copied ${csvFile} to ${SAMPLESHEETSPRMDIR} on calculon" >> ${LOGGER}
 					printf "De data voor project ${filePrefix} is gekopieerd naar ${RAWDATADIRPRM}" | mail -s "${filePrefix} copied to permanent storage" ${ONTVANGER}
-					rm $LOGDIR/${filePrefix}.failed
+				  	if [ -f $LOGDIR/${filePrefix}.failed ] 
+                                        then
+						rm $LOGDIR/${filePrefix}.failed
+					fi
                                 fi
                         else
 				echo "copying data..." >> $LOGGER

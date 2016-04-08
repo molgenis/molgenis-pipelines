@@ -1,6 +1,4 @@
 #!/bin/bash
-#module load NGS_DNA/3.2.2-Molgenis-Compute-v15.12.4-Java-1.8.0_45
-#module list 
 
 ##Choose parameters_calculon or parameters_zinc-finger
 ENVIRONMENT_PARAMETERS=parameters_zinc-finger.csv
