@@ -46,7 +46,7 @@ do
 	## Check if samplesheet is copied
 	copyRawGatToZinc="umcg-ateambot@${gattacaAddress}:${GATTACA}/runs/run_${run}_${sequencer}/results/*.fq.gz* ${RAWDATADIR}/$filePrefix"
 
- 	if [ -f ${SAMPLESHEETSDIR}/$csvFile ]
+ 	if [[ -f ${SAMPLESHEETSDIR}/$csvFile && ! -f $LOGDIR/${filePrefix}.SampleSheetCopied ]]
 	then
 		touch $LOGDIR/${filePrefix}.SampleSheetCopied
 	else
