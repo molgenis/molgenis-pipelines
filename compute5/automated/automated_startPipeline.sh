@@ -10,7 +10,6 @@ echo $myhost
 . ${MYINSTALLATIONDIR}/${myhost}.cfg
 . ${MYINSTALLATIONDIR}/sharedConfig.cfg
 
-### VERVANG DOOR UMCG-ATEAMBOT USER
 ls ${SAMPLESHEETSDIR}/*.csv > ${SAMPLESHEETSDIR}/allSampleSheets_Zinc_startPipeline.txt
 
 pipeline="dna"
@@ -76,7 +75,7 @@ do
 				normal=`tput sgr0`
 				bold=`tput bold`
 				printf "${bold}WARNING: there is no pipeline version loaded, this can be because this script is run manually.\nA default version of the NGS_DNA pipeline will be loaded!\n\n" 
-				module load NGS_DNA
+				module load $DNA
 				pipelineVersion=$(module list | grep -o -P 'NGS_DNA(.+)')
 				printf "The version which is now loaded is $pipelineVersion${normal}\n\n"
 			fi
