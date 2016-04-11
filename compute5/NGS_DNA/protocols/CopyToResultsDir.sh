@@ -15,10 +15,13 @@
 #list externalSampleID
 #list batchID
 #list seqType
+#string automateVersion
 #string runPrefix
 # Change permissions
 
 umask 0007
+
+module load ${automateVersion}
 
 # Make result directories
 mkdir -p ${projectResultsDir}/alignment/
@@ -148,7 +151,14 @@ echo "Made md5 file for ${projectResultsDir}/${project}.zip (11/11)"
 chmod -R u+rwX,g+rwX ${projectResultsDir}
 
 cd ${CURRENT_DIR}
-touch ${logsDir}/${runPrefix}.pipeline.finished
+
 host=$(hostname)
-. $EBROOTNGS_DNA/automated/${host}.cfg
-printf "The results can be found: ${projectResultsDir}\n\nCheers from the GCC :)"| mail -s "NGS_DNA pipeline is finished for project ${project} on `date +%d/%m/%Y` `date +%H:%M`" ${ONTVANGER}
+if [ "${host}" == "calculon" ]
+then
+	echo "automating the pipeline is not implemented on calculon yet"
+else 
+	touch ${logsDir}/${runPrefix}.pipeline.finished
+	. $EBROOTAUTOMATED/${host}.cfg
+	printf "The results can be found: ${projectResultsDir}\n\nCheers from the GCC :)"| mail -s "NGS_DNA pipeline is finished for project ${project} on `date +%d/%m/%Y` `date +%H:%M`" ${ONTVANGER}
+
+fi
