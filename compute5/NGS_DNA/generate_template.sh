@@ -1,6 +1,6 @@
 #!/bin/bash
 
-module load NGS_DNA/3.2.2-Molgenis-Compute-v15.12.4-Java-1.8.0_45
+module load NGS_DNA/3.2.2-Molgenis-Compute-v16.04.1-Java-1.8.0_45
 module list 
 
 ##Choose parameters_calculon or parameters_zinc-finger
@@ -9,7 +9,7 @@ PROJECT=projectXX
 TMPDIR=tmpXX
 WORKDIR="/groups/umcg-gaf/${TMPDIR}"
 RUNID=runXX
-## For small batchsize (6) leave BATCH empty, _exome (10 batches) or _wgs (20 batches)  OR  this is beta: _chr (per chrosomome), _NO (1 batch),
+## For small batchsize (6) leave BATCH empty, _exome (10 batches), _wgs (20 batches) or _chr (per chrosomome), OR but this is beta _NO (1 batch),
 BATCH=""
 THISDIR=$(pwd)
 

@@ -46,11 +46,11 @@
 #string tabixVersion
 #string wkHtmlToPdfVersion
 
+
 module load ${wkHtmlToPdfVersion}
 module load ${rVersion}
 module load ${ngsUtilsVersion}
 module load ${ngsversion}
-
 
 #
 ## Define bash helper function for arrays
@@ -86,6 +86,12 @@ do
 	echo -e "$intermediateDir/${sample}.total.qc.metrics.table" >> ${allMetrics}
 done
 
+if [ "${contact}" == "" ]
+then
+	contact="Cleo C. van Diemen (c.c.van.diemen@umcg.nl)"
+fi
+
+
 cat > ${intermediateDir}/${project}_QCReport.rhtml <<'_EOF'
 <html>
 <head>
@@ -96,6 +102,7 @@ cat > ${intermediateDir}/${project}_QCReport.rhtml <<'_EOF'
         page-break-after: always;
         padding-top: 60px;
         padding-left: 40px;
+	td: padding: 6px;
       }
 </style>
 <body style="font-family: monospace;">
@@ -146,7 +153,7 @@ cat > ${intermediateDir}/${project}_QCReport.rhtml <<'_EOF'
 <br>
 <br>
 <br>
-<table align=center STYLE="font-size: 30pt;">
+<table align=center STYLE="font-size: 30pt; border-spacing: 8px 2px;">
         <tr>
             	<td><b>Report</b></td>
         </tr>
@@ -190,11 +197,9 @@ cat > ${intermediateDir}/${project}_QCReport.rhtml <<'_EOF'
 	</tr>
 	<tr>
             	<td>Number of samples</td>
-        </tr>
-	<tr>
 		<td>
-		<!--begin.rcode engine='bash', echo=FALSE, comment=NA, warning=FALSE, message=FALSE, results='asis'
-		echo "${#INPUTS[@]}"
+		<!--begin.rcode, engine='bash', echo=FALSE, comment=NA, warning=FALSE, message=FALSE, results='asis'
+		cat ${allMetrics} | wc -l	
 		end.rcode-->
 		</td>
 	</tr>
@@ -210,14 +215,7 @@ cat > ${intermediateDir}/${project}_QCReport.rhtml <<'_EOF'
 	<tr>
             	<td>Name</td>
 		<td>
-			<!--begin.rcode engine='bash', echo=FALSE, comment=NA, warning=FALSE, message=FALSE, results='asis'
-			if [ "${contact}" == "" ]
-			then
-				echo "Cleo C. van Diemen (c.c.van.diemen@umcg.nl)"
-			else
-				echo ${contact}
-			fi
-			end.rcode-->
+			${contact}
 		</td>
         </tr>
 </table>
@@ -260,7 +258,7 @@ Used toolversions:
 
 ${bwaVersion}
 Molgenis-Compute/${computeVersion}
-${cutadaptVersion}
+cutadapt-${cutadaptVersion}
 dbNSFP-${dbNSFPVersion}
 delly/${dellyVersion}
 ${fastqcVersion}

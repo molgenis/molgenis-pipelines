@@ -8,6 +8,7 @@ targetedInsertSize,200
 checkStage,module list
 
 ### Tool versions ####
+automateVersion,Automated/3.2.2
 bwaVersion,BWA/0.7.12-goolf-1.7.20
 computeVersion,v16.04.1-Java-1.8.0_45
 cutadaptVersion,1.8.1-goolf-1.7.20-Python-2.7.9
