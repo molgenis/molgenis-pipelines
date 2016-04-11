@@ -91,16 +91,27 @@ for sample in "${externalSampleID[@]}"
 do
 	cp ${intermediateDir}/${sample}.final.vcf ${projectResultsDir}/variants/
 	cp ${intermediateDir}/${sample}.final.vcf.table ${projectResultsDir}/variants/
-
-	for i in $(ls ${intermediateDir}/${sample}.*.coveragePerBase.txt )
-	do
-		cp $i ${projectResultsDir}/coverage/
-	done
-
-	for i in $(ls ${intermediateDir}/${sample}.*.coveragePerTarget.txt )
-	do
-		cp $i ${projectResultsDir}/coverage/
-	done	
+	
+	if ls ${intermediateDir}/${sample}.*.coveragePerBase.txt
+	then
+		for i in $(ls ${intermediateDir}/${sample}.*.coveragePerBase.txt )
+		do
+			cp $i ${projectResultsDir}/coverage/
+		done
+	
+	else
+		echo "coveragePerBase skipped for sample: ${sample}"
+	fi
+	
+	if ls ${intermediateDir}/${sample}.*.coveragePerTarget.txt   
+        then
+		for i in $(ls ${intermediateDir}/${sample}.*.coveragePerTarget.txt )
+		do
+			cp $i ${projectResultsDir}/coverage/
+		done	
+	else
+		 echo "coveragePerTarget skipped for sample: ${sample}"
+	fi
 	
 done
 echo "Copied vcf file + coveragePerBase.txt (8/11)"

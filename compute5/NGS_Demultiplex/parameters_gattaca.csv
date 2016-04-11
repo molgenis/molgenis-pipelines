@@ -3,5 +3,5 @@ tmpName,scr01
 prmName,prm02
 root,/apps/
 workDir,/groups/umcg-gaf/${tmpName}
-nextSeqDir,/groups/umcg-lab/sequencers
+nextSeqDir,/groups/umcg-lab/scr01/sequencers
 nextSeqRunDataDir,${nextSeqDir}/${runPrefix}/
