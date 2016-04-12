@@ -4,6 +4,7 @@ checkStage,module list
 
 ### Tool versions ####
 bcl2fastqVersion,bcl2fastq2/v2.17.1.14-foss-2015b
+ngsUtilsVersion,ngs-utils-16.04.1
 
 #### Prefixes ####
 runPrefix,${sequencingStartDate}_${sequencer}_${run}_${flowcell}

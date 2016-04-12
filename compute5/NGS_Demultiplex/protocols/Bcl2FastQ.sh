@@ -10,9 +10,10 @@
 #string intermediateDir
 #string runJobsDir
 #string prepKitsDir
+#string ngsUtilsVersion
 
 ${stage} ${bcl2fastqVersion}
-${stage} ngs-utils
+${stage} ${ngsUtilsVersion}
 
 ${checkStage}
 
