@@ -1,5 +1,2 @@
 step,protocol,dependencies
 GetReadCounts,protocols/GetReadCounts.sh,
-MergeReadCounts,protocols/MergeReadCounts.sh,GetReadCounts
-ModifyVcf,protocols/ModififyVcf.sh,MergeReadCounts
-RASQUAL,protocols/RASQUAL.sh,ModifyVcf

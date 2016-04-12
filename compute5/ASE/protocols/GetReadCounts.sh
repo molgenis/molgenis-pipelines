@@ -37,6 +37,6 @@ mkdir -p ${readCountDir}
 # This is the longest step of the script
 echo Intersecting with bams
 
-bedtools intersect -sorted -c -a $exonlist -b ${bam} | awk -F "\t" '{ print $15 }' $f > part$COUNTER
+bedtools intersect -sorted -c -a $exonlist -b ${bam} | awk -F "\t" '{ print $15 }' ${bam} > $readCountFile
 
 
