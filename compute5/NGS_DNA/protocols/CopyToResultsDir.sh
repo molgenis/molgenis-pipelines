@@ -31,103 +31,129 @@ mkdir -p ${projectResultsDir}/variants/
 #mkdir -p ${projectResultsDir}/Pindel/
 
 # Copy error, out and finished logs to project jobs directory
+printf "Copying out, error and finished logs to project jobs directory.."
+EXTERN=${#externalSampleID[@]}
 
-rsync -av ${projectJobsDir}/*.out ${projectLogsDir}
-rsync -av ${projectJobsDir}/*.err ${projectLogsDir}
-rsync -av ${projectJobsDir}/*.log ${projectLogsDir}
-echo "Copied error, out and finished logs to project jobs directory (1/11)"
+rsync -a ${projectJobsDir}/*.out ${projectLogsDir}
+rsync -a ${projectJobsDir}/*.err ${projectLogsDir}
+rsync -a ${projectJobsDir}/*.log ${projectLogsDir}
+printf ".. finished! (1/11)\n"
 
 # Copy project csv file to project results directory
-rsync -av ${projectJobsDir}/${project}.csv ${projectResultsDir}
-echo "Copied project csv file to project results directory (2/11)"
+printf "Copied project csv file to project results directory.."
+rsync -a ${projectJobsDir}/${project}.csv ${projectResultsDir}
+printf ".. finished (2/11)\n"
 
 # Copy fastQC output to results directory
-rsync -av ${intermediateDir}/*_fastqc.zip ${projectResultsDir}/qc/
-echo "Copied fastQC output to results directory (3/11)"
+echo "Copying fastQC output to results directory.."
+rsync -a ${intermediateDir}/*_fastqc.zip ${projectResultsDir}/qc/
+printf ".. finished (3/11)\n"
 
+count=1
 #copy realigned bams
+printf "Copying ${EXTERN} realigned bams.."
 for sample in "${externalSampleID[@]}"
 do
-	rsync -av ${intermediateDir}/${sample}.merged.dedup.bam ${projectResultsDir}/alignment/
-	rsync -av ${intermediateDir}/${sample}.merged.dedup.bam.bai ${projectResultsDir}/alignment/
-	rsync -av ${intermediateDir}/${sample}.merged.dedup.bam.md5 ${projectResultsDir}/alignment/
+	rsync -a ${intermediateDir}/${sample}.merged.dedup.bam ${projectResultsDir}/alignment/
+	rsync -a ${intermediateDir}/${sample}.merged.dedup.bam.bai ${projectResultsDir}/alignment/
+	rsync -a ${intermediateDir}/${sample}.merged.dedup.bam.md5 ${projectResultsDir}/alignment/
+	printf "."
 done
-echo "Copied realigned bams (4/11)"
+printf " finished (4/11)\n"
 
 # Copy alignment stats (lane and sample) to results directory
 
+count=1
+printf "Copying alignment stats (lane and sample) to results directory.."
 for sample in "${externalSampleID[@]}"
 do
-	rsync -av ${intermediateDir}/${sample}.merged.dedup.bam.alignment_summary_metrics ${projectResultsDir}/qc/statistics/
-	rsync -av ${intermediateDir}/${sample}.merged.dedup.bam.gc_bias_metrics ${projectResultsDir}/qc/statistics/
-	rsync -av ${intermediateDir}/${sample}.merged.dedup.bam.quality_by_cycle_metrics ${projectResultsDir}/qc/statistics/
-	rsync -av ${intermediateDir}/${sample}.merged.dedup.bam.quality_distribution_metrics ${projectResultsDir}/qc/statistics/
-	rsync -av ${intermediateDir}/${sample}.merged.dedup.bam.hs_metrics ${projectResultsDir}/qc/statistics/
-	rsync -av ${intermediateDir}/${sample}.merged.dedup.bam.bam_index_stats ${projectResultsDir}/qc/statistics/
-	rsync -av ${intermediateDir}/${sample}.merged.dedup.metrics ${projectResultsDir}/qc/statistics/
-	rsync -av ${intermediateDir}/${sample}*.pdf ${projectResultsDir}/qc/statistics/
-	echo "Copied alignment stats (lane and sample) to results directory (5/11)"
+	rsync -a ${intermediateDir}/${sample}.merged.dedup.bam.alignment_summary_metrics ${projectResultsDir}/qc/statistics/
+	rsync -a ${intermediateDir}/${sample}.merged.dedup.bam.gc_bias_metrics ${projectResultsDir}/qc/statistics/
+	rsync -a ${intermediateDir}/${sample}.merged.dedup.bam.quality_by_cycle_metrics ${projectResultsDir}/qc/statistics/
+	rsync -a ${intermediateDir}/${sample}.merged.dedup.bam.quality_distribution_metrics ${projectResultsDir}/qc/statistics/
+	rsync -a ${intermediateDir}/${sample}.merged.dedup.bam.hs_metrics ${projectResultsDir}/qc/statistics/
+	rsync -a ${intermediateDir}/${sample}.merged.dedup.bam.bam_index_stats ${projectResultsDir}/qc/statistics/
+	rsync -a ${intermediateDir}/${sample}.merged.dedup.metrics ${projectResultsDir}/qc/statistics/
+	rsync -a ${intermediateDir}/${sample}*.pdf ${projectResultsDir}/qc/statistics/
+	printf "."
 done
+	printf " finished (5/11)\n"
 
 #copy insert size metrics (only available with PE)
+
 if [ -f "${intermediateDir}/*.insert_size_metrics" ]
 then
+	printf "Copying insert size metrics.."
 	for sample in "${externalSampleID[@]}"
 	do
-		rsync -av ${intermediateDir}/${sample}.merged.dedup.bam.insert_size_metrics ${projectResultsDir}/qc/statistics/
+		rsync -a ${intermediateDir}/${sample}.merged.dedup.bam.insert_size_metrics ${projectResultsDir}/qc/statistics/
+		printf "."
 	done
+	printf "finished (6/11)\n"
+else
+	printf "no insert size metrics available, skipped (6/11)\n"
 fi
-echo "Copied insert size metrics (6/11)"
 
-
+printf "Copying variants vcf and tables to results directory .."
 # Copy variants vcf and tables to results directory
-rsync -av ${projectPrefix}.final.vcf ${projectResultsDir}/variants/
-rsync -av ${projectPrefix}.final.vcf.table ${projectResultsDir}/variants/
+rsync -a ${projectPrefix}.final.vcf ${projectResultsDir}/variants/
+printf "."
+rsync -a ${projectPrefix}.final.vcf.table ${projectResultsDir}/variants/
+printf "."
 if [ -f "${projectPrefix}.delly.snpeff.hpo.vcf" ]
 then
-	rsync -av ${projectPrefix}.delly.snpeff.hpo.vcf ${projectResultsDir}/variants/
+	rsync -a ${projectPrefix}.delly.snpeff.hpo.vcf ${projectResultsDir}/variants/
+	printf "."
 fi
-echo "Copied variants vcf and tables to results directory (7/11)"
+printf " finished (7/11)\n"
 
 #copy vcf file + coveragePerBase.txt
+printf "Copying vcf files and coverage per base and per target files.."
 for sample in "${externalSampleID[@]}"
 do
-	rsync -av ${intermediateDir}/${sample}.final.vcf ${projectResultsDir}/variants/
-	rsync -av ${intermediateDir}/${sample}.final.vcf.table ${projectResultsDir}/variants/
-	
-	if ls ${intermediateDir}/${sample}.*.coveragePerBase.txt
+	rsync -a ${intermediateDir}/${sample}.final.vcf ${projectResultsDir}/variants/
+	printf "."
+	rsync -a ${intermediateDir}/${sample}.final.vcf.table ${projectResultsDir}/variants/
+	printf "."
+	if ls ${intermediateDir}/${sample}.*.coveragePerBase.txt 1> /dev/null 2>&1
 	then
 		for i in $(ls ${intermediateDir}/${sample}.*.coveragePerBase.txt )
 		do
-			rsync -av $i ${projectResultsDir}/coverage/
+			rsync -a $i ${projectResultsDir}/coverage/
+			printf "."
 		done
 	
 	else
 		echo "coveragePerBase skipped for sample: ${sample}"
 	fi
 	
-	if ls ${intermediateDir}/${sample}.*.coveragePerTarget.txt   
+	if ls ${intermediateDir}/${sample}.*.coveragePerTarget.txt 1> /dev/null 2>&1
         then
 		for i in $(ls ${intermediateDir}/${sample}.*.coveragePerTarget.txt )
 		do
-			rsync -av $i ${projectResultsDir}/coverage/
+			rsync -a $i ${projectResultsDir}/coverage/
+			printf "."
 		done	
 	else
 		 echo "coveragePerTarget skipped for sample: ${sample}"
 	fi
 	
 done
-echo "Copied vcf file + coveragePerBase.txt (8/11)"
+printf ".. finished (8/11)\n"
 
 
 # print README.txt files
+printf "Copying QC report to results directory .."
 
 # Copy QC report to results directory
-rsync -av ${projectQcDir}/${project}_QCReport.pdf ${projectResultsDir}
-rsync -av ${projectQcDir}/${project}_QCReport.html ${projectResultsDir}
-rsync -rav ${projectQcDir}/images ${projectResultsDir}
-echo "Copied QC report to results directory (9/11)"
+rsync -a ${projectQcDir}/${project}_QCReport.pdf ${projectResultsDir}
+printf "."
+rsync -a ${projectQcDir}/${project}_QCReport.html ${projectResultsDir}
+printf "."
+rsync -ra ${projectQcDir}/images ${projectResultsDir}
+printf "..finished (9/11)\n"
 
+echo "Creating zip file"
 # Create zip file for all "small text" files
 CURRENT_DIR=`pwd`
 cd ${projectResultsDir}
@@ -140,7 +166,7 @@ zip -g ${projectResultsDir}/${project}.zip ${project}.csv
 zip -g ${projectResultsDir}/${project}.zip ${project}_QCReport.pdf
 zip -gr ${projectResultsDir}/${project}.zip coverage
 
-echo "Made zip file: ${projectResultsDir}/${project}.zip (10/11)"
+echo "Zip file created: ${projectResultsDir}/${project}.zip (10/11)"
 
 # Create md5sum for zip file
 
@@ -160,7 +186,9 @@ then
 elif [[ "${host}" == *"gd-node"* || "${host}" == "zinc-finger.gcc.rug.nl" ]]
 then
 	touch ${logsDir}/${runPrefix}.pipeline.finished
-        . $EBROOTAUTOMATED/zinc-finger.gcc.rug.nl.cfg
+        . $EBROOTAUTOMATED/zinf-finger.gcc.rug.nl.cfg
+        . $EBROOTAUTOMATED/sharedConfig.cfg
+	echo "pipeline is finished, user ${ONTVANGER} has been mailed"
         printf "The results can be found: ${projectResultsDir}\n\nCheers from the GCC :)"| mail -s "NGS_DNA pipeline is finished for project ${project} on `date +%d/%m/%Y` `date +%H:%M`" ${ONTVANGER}
 else
 	echo "unknown host"
