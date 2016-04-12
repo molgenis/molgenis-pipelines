@@ -32,25 +32,25 @@ mkdir -p ${projectResultsDir}/variants/
 
 # Copy error, out and finished logs to project jobs directory
 
-cp ${projectJobsDir}/*.out ${projectLogsDir}
-cp ${projectJobsDir}/*.err ${projectLogsDir}
-cp ${projectJobsDir}/*.log ${projectLogsDir}
+rsync -av ${projectJobsDir}/*.out ${projectLogsDir}
+rsync -av ${projectJobsDir}/*.err ${projectLogsDir}
+rsync -av ${projectJobsDir}/*.log ${projectLogsDir}
 echo "Copied error, out and finished logs to project jobs directory (1/11)"
 
 # Copy project csv file to project results directory
-cp ${projectJobsDir}/${project}.csv ${projectResultsDir}
+rsync -av ${projectJobsDir}/${project}.csv ${projectResultsDir}
 echo "Copied project csv file to project results directory (2/11)"
 
 # Copy fastQC output to results directory
-cp ${intermediateDir}/*_fastqc.zip ${projectResultsDir}/qc/
+rsync -av ${intermediateDir}/*_fastqc.zip ${projectResultsDir}/qc/
 echo "Copied fastQC output to results directory (3/11)"
 
 #copy realigned bams
 for sample in "${externalSampleID[@]}"
 do
-	cp ${intermediateDir}/${sample}.merged.dedup.bam ${projectResultsDir}/alignment/
-	cp ${intermediateDir}/${sample}.merged.dedup.bam.bai ${projectResultsDir}/alignment/
-	cp ${intermediateDir}/${sample}.merged.dedup.bam.md5 ${projectResultsDir}/alignment/
+	rsync -av ${intermediateDir}/${sample}.merged.dedup.bam ${projectResultsDir}/alignment/
+	rsync -av ${intermediateDir}/${sample}.merged.dedup.bam.bai ${projectResultsDir}/alignment/
+	rsync -av ${intermediateDir}/${sample}.merged.dedup.bam.md5 ${projectResultsDir}/alignment/
 done
 echo "Copied realigned bams (4/11)"
 
@@ -58,14 +58,14 @@ echo "Copied realigned bams (4/11)"
 
 for sample in "${externalSampleID[@]}"
 do
-	cp ${intermediateDir}/${sample}.merged.dedup.bam.alignment_summary_metrics ${projectResultsDir}/qc/statistics/
-	cp ${intermediateDir}/${sample}.merged.dedup.bam.gc_bias_metrics ${projectResultsDir}/qc/statistics/
-	cp ${intermediateDir}/${sample}.merged.dedup.bam.quality_by_cycle_metrics ${projectResultsDir}/qc/statistics/
-	cp ${intermediateDir}/${sample}.merged.dedup.bam.quality_distribution_metrics ${projectResultsDir}/qc/statistics/
-	cp ${intermediateDir}/${sample}.merged.dedup.bam.hs_metrics ${projectResultsDir}/qc/statistics/
-	cp ${intermediateDir}/${sample}.merged.dedup.bam.bam_index_stats ${projectResultsDir}/qc/statistics/
-	cp ${intermediateDir}/${sample}.merged.dedup.metrics ${projectResultsDir}/qc/statistics/
-	cp ${intermediateDir}/${sample}*.pdf ${projectResultsDir}/qc/statistics/
+	rsync -av ${intermediateDir}/${sample}.merged.dedup.bam.alignment_summary_metrics ${projectResultsDir}/qc/statistics/
+	rsync -av ${intermediateDir}/${sample}.merged.dedup.bam.gc_bias_metrics ${projectResultsDir}/qc/statistics/
+	rsync -av ${intermediateDir}/${sample}.merged.dedup.bam.quality_by_cycle_metrics ${projectResultsDir}/qc/statistics/
+	rsync -av ${intermediateDir}/${sample}.merged.dedup.bam.quality_distribution_metrics ${projectResultsDir}/qc/statistics/
+	rsync -av ${intermediateDir}/${sample}.merged.dedup.bam.hs_metrics ${projectResultsDir}/qc/statistics/
+	rsync -av ${intermediateDir}/${sample}.merged.dedup.bam.bam_index_stats ${projectResultsDir}/qc/statistics/
+	rsync -av ${intermediateDir}/${sample}.merged.dedup.metrics ${projectResultsDir}/qc/statistics/
+	rsync -av ${intermediateDir}/${sample}*.pdf ${projectResultsDir}/qc/statistics/
 	echo "Copied alignment stats (lane and sample) to results directory (5/11)"
 done
 
@@ -74,32 +74,32 @@ if [ -f "${intermediateDir}/*.insert_size_metrics" ]
 then
 	for sample in "${externalSampleID[@]}"
 	do
-		cp ${intermediateDir}/${sample}.merged.dedup.bam.insert_size_metrics ${projectResultsDir}/qc/statistics/
+		rsync -av ${intermediateDir}/${sample}.merged.dedup.bam.insert_size_metrics ${projectResultsDir}/qc/statistics/
 	done
 fi
 echo "Copied insert size metrics (6/11)"
 
 
 # Copy variants vcf and tables to results directory
-cp ${projectPrefix}.final.vcf ${projectResultsDir}/variants/
-cp ${projectPrefix}.final.vcf.table ${projectResultsDir}/variants/
+rsync -av ${projectPrefix}.final.vcf ${projectResultsDir}/variants/
+rsync -av ${projectPrefix}.final.vcf.table ${projectResultsDir}/variants/
 if [ -f "${projectPrefix}.delly.snpeff.hpo.vcf" ]
 then
-	cp ${projectPrefix}.delly.snpeff.hpo.vcf ${projectResultsDir}/variants/
+	rsync -av ${projectPrefix}.delly.snpeff.hpo.vcf ${projectResultsDir}/variants/
 fi
 echo "Copied variants vcf and tables to results directory (7/11)"
 
 #copy vcf file + coveragePerBase.txt
 for sample in "${externalSampleID[@]}"
 do
-	cp ${intermediateDir}/${sample}.final.vcf ${projectResultsDir}/variants/
-	cp ${intermediateDir}/${sample}.final.vcf.table ${projectResultsDir}/variants/
+	rsync -av ${intermediateDir}/${sample}.final.vcf ${projectResultsDir}/variants/
+	rsync -av ${intermediateDir}/${sample}.final.vcf.table ${projectResultsDir}/variants/
 	
 	if ls ${intermediateDir}/${sample}.*.coveragePerBase.txt
 	then
 		for i in $(ls ${intermediateDir}/${sample}.*.coveragePerBase.txt )
 		do
-			cp $i ${projectResultsDir}/coverage/
+			rsync -av $i ${projectResultsDir}/coverage/
 		done
 	
 	else
@@ -110,7 +110,7 @@ do
         then
 		for i in $(ls ${intermediateDir}/${sample}.*.coveragePerTarget.txt )
 		do
-			cp $i ${projectResultsDir}/coverage/
+			rsync -av $i ${projectResultsDir}/coverage/
 		done	
 	else
 		 echo "coveragePerTarget skipped for sample: ${sample}"
@@ -123,9 +123,9 @@ echo "Copied vcf file + coveragePerBase.txt (8/11)"
 # print README.txt files
 
 # Copy QC report to results directory
-cp ${projectQcDir}/${project}_QCReport.pdf ${projectResultsDir}
-cp ${projectQcDir}/${project}_QCReport.html ${projectResultsDir}
-cp -r ${projectQcDir}/images ${projectResultsDir}
+rsync -av ${projectQcDir}/${project}_QCReport.pdf ${projectResultsDir}
+rsync -av ${projectQcDir}/${project}_QCReport.html ${projectResultsDir}
+rsync -rav ${projectQcDir}/images ${projectResultsDir}
 echo "Copied QC report to results directory (9/11)"
 
 # Create zip file for all "small text" files
