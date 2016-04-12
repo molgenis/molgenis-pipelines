@@ -95,7 +95,7 @@ do
 			else
                                 if [ ! -f ${SAMPLESHEETDIR}/${PROJECTNAME}_Check.mailed ]
                                 then
-                                        if ${SAMPLESHEETDIR}/${PROJECTNAME}_Check.txt | wc -l  
+                                        if [ -f ${SAMPLESHEETDIR}/${PROJECTNAME}_Check.txt ]
                                         then
                                                 echo  "Samplesheet is not available" >> ${SAMPLESHEETDIR}/${PROJECTNAME}_Check.txt
                                         else
