@@ -21,12 +21,12 @@ tmpSampleHTseqExpressionText=${MC_tmpFile}
 
 if [[ "${prepKit}" =~ "Reverse" ]]
 then
-	echo "Prepkit:"${prepKit}", HTSeq-Count STRANDED=reverse is used"
+	echo "Prepkit:${prepKit}, HTSeq-Count STRANDED=reverse is used"
 	STRANDED=reverse
 
 elif [[ "${prepKit}" =~ "Lexogen" ]]
 then
-	echo "Prepkit:"${prepKit}", HTSeq-Count STRANDED=yes is used"
+	echo "Prepkit:${prepKit}, HTSeq-Count STRANDED=yes is used"
 	STRANDED=yes
 
 else
