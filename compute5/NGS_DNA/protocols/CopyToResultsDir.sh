@@ -160,7 +160,7 @@ then
 elif [[ "${host}" == *"gd-node"* || "${host}" == "zinc-finger.gcc.rug.nl" ]]
 then
 	touch ${logsDir}/${runPrefix}.pipeline.finished
-        . $EBROOTAUTOMATED/shared.cfg
+        . $EBROOTAUTOMATED/sharedConfig.cfg
         printf "The results can be found: ${projectResultsDir}\n\nCheers from the GCC :)"| mail -s "NGS_DNA pipeline is finished for project ${project} on `date +%d/%m/%Y` `date +%H:%M`" ${ONTVANGER}
 else
 	echo "unknown host"
