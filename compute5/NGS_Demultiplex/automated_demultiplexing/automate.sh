@@ -92,10 +92,18 @@ do
 					echo "De demultiplexing pipeline is gestart, over een aantal uren zal dit klaar zijn \
 					en word de data automatisch naar zinc-finger gestuurd, hierna  word de pipeline gestart" | mail -s "Het demultiplexen van ${PROJECTNAME} is gestart op (`date +%d/%m/%Y` `date +%H:%M`)" ${ONTVANGER}
 				fi
-                        else
-				echo "Samplesheet is missing, after 10 times a mail will be send to the user" >> ${DEBUGGER}
-                                echo  "Samplesheet is not available" >> ${SAMPLESHEETDIR}/${PROJECTNAME}_Check.txt 
-                        fi
+			else
+                                if [ ! -f ${SAMPLESHEETDIR}/${PROJECTNAME}_Check.mailed ]
+                                then
+                                        if ${SAMPLESHEETDIR}/${PROJECTNAME}_Check.txt | wc -l  
+                                        then
+                                                echo  "Samplesheet is not available" >> ${SAMPLESHEETDIR}/${PROJECTNAME}_Check.txt
+                                        else
+                                                echo  "Samplesheet is not available" >> ${SAMPLESHEETDIR}/${PROJECTNAME}_Check.txt
+                                                echo "Samplesheet is missing, after 10 times a mail will be send to the user" >> ${DEBUGGER}
+                                        fi
+                                fi
+                        fi	
                 fi
 	fi
 if [ -f ${SAMPLESHEETDIR}/${PROJECTNAME}_Check.txt ]
@@ -104,7 +112,9 @@ then
 	if [ $COUNT == 10 ]
 	then
 		echo "Er is geen samplesheet gevonden op deze locatie: ${SAMPLESHEETDIR}/${PROJECTNAME}.csv" | mail -s "Er is geen samplesheet gevonden voor ${PROJECTNAME}" ${ONTVANGER}
-		echo "mail has been sent to ${ONTVANGER}"
+                echo "mail has been sent to ${ONTVANGER}"
+                touch ${SAMPLESHEETDIR}/${PROJECTNAME}_Check.mailed
+                echo "mail send to ${ONTVANGER}" >> ${DEBUGGER}
 	fi
 fi
 done
