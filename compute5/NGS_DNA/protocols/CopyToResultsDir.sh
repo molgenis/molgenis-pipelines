@@ -153,12 +153,15 @@ chmod -R u+rwX,g+rwX ${projectResultsDir}
 cd ${CURRENT_DIR}
 
 host=$(hostname)
-if [ "${host}" == "calculon" ]
+if [[ "${host}" == *"umcg-"* || "${host}" == "calculon" ]]
 then
 	echo "automating the pipeline is not implemented on calculon yet"
-else 
+        
+elif [[ "${host}" == *"gd-node"* || "${host}" == "zinc-finger.gcc.rug.nl" ]]
+then
 	touch ${logsDir}/${runPrefix}.pipeline.finished
-	. $EBROOTAUTOMATED/${host}.cfg
-	printf "The results can be found: ${projectResultsDir}\n\nCheers from the GCC :)"| mail -s "NGS_DNA pipeline is finished for project ${project} on `date +%d/%m/%Y` `date +%H:%M`" ${ONTVANGER}
-
+        . $EBROOTAUTOMATED/zinc-finger.cfg
+        printf "The results can be found: ${projectResultsDir}\n\nCheers from the GCC :)"| mail -s "NGS_DNA pipeline is finished for project ${project} on `date +%d/%m/%Y` `date +%H:%M`" ${ONTVANGER}
+else
+	echo "unknown host"
 fi
