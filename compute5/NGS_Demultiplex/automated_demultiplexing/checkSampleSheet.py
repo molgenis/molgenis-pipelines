@@ -26,10 +26,10 @@ for number, row in enumerate(reader,1):   # iterates the rows of the file in ord
 			sys.exit(1)
 		if row[sleutel] == "":
 			if sleutel in ('capturingKit','barcode','barcodeType'):
-				w.write("The variable " + sleutel + " on line " + str(number) +  " is empty!")
+				w.write("The variable " + sleutel + " on line " + str(number) +  " is empty! Please fill in None (this to be sure that is not missing)")
 			else:
 				print("fout")
-				w.write("The variable " + sleutel + " on line " + str(number) +  " is empty! Please fill in None (this to be sure that is not missing)")
+				w.write("The variable " + sleutel + " on line " + str(number) +  " is empty!")
 			w.close()
 			sys.exit(1)
 
