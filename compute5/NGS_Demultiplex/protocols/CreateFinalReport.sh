@@ -6,8 +6,8 @@
 #string sampleSheet
 #string workDir
 #string runPrefix
-
-module load ngs-utils
+#string ngsUtilsVersion
+module load ${ngsUtilsVersion}
 
 ${createPerSampleFinalReportPl} \
 -i ${arrayDir} \
