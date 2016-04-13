@@ -114,7 +114,7 @@ markDuplicatesJar,MarkDuplicates
 alignedSam,${fileWithIndexId}.sam
 alignedBam,${fileWithIndexId}.bam
 alignedSortedBam,${fileWithIndexId}.sorted.bam
-alignedSortedBamIdx,${fileWithIndexId}.sorted.bai
+alignedSortedBamIdx,${fileWithIndexId}.sorted.bam.bai
 sampleMergedBam,${sampleNameID}.merged.bam
 sampleMergedBai,${sampleNameID}.merged.bai
 sampleMergedBamIdx,${sampleNameID}.merged.bam.bai
