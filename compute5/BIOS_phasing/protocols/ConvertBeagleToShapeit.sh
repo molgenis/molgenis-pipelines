@@ -9,27 +9,25 @@
 
 #string WORKDIR
 #string projectDir
-#string genotypedChrVcf
-#string genotypedChrVcfIdx
+#string genotypedChrVcfGL
+#string genotypedChrVcfTbi
 #string genotypedChrVcfBeagleGenotypeProbabilities
-#string prepareGenFromBeagle4Version
 #string genotypedChrVcfShapeitInputPrefix
-
+#string GLibVersion
 
 echo "## "$(date)" Start $0"
 
-getFile ${genotypedChrVcf}
-getFile ${genotypedChrVcfIdx}
-getFile ${genotypedChrVcfBeagleGenotypeProbabilities}
+getFile ${genotypedChrVcfGL}
+getFile ${genotypedChrVcfTbi}
+getFile ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz
 
-${stage} GLib/2.45.2-goolf-1.7.20
-${stage} prepareGenFromBeagle4/${prepareGenFromBeagle4Version}
+${stage} GLib/${GLibVersion}
 ${checkStage}
 
 #Run conversion script beagle vcf to shapeit format
-if prepareGenFromBeagle4 \
- --likelihoods ${genotypedChrVcf} \
- --posteriors ${genotypedChrVcfBeagleGenotypeProbabilities} \
+if /groups/umcg-bios/tmp04/umcg-fvandijk/projects/beagleTest/prepareGenFromBeagle4/bin/prepareGenFromBeagle4 \
+ --likelihoods ${genotypedChrVcfGL} \
+ --posteriors ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz \
  --threshold 0.995 \
  --output ${genotypedChrVcfShapeitInputPrefix}
 then

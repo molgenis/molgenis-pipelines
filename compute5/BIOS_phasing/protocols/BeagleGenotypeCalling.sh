@@ -13,17 +13,18 @@
 
 #string beagleVersion
 
-#string genotypedChrVcf
-#string genotypedChrVcfIdx
+#string vcf
+#string genotypedChrVcfTbi
 
 #string genotypedChrVcfBeagleGenotypeProbabilities
-#string chr
+#string chromosome
+#string beagleJarVersion
 
 echo "## "$(date)" Start $0"
 
 
-getFile ${genotypedChrVcf}
-getFile ${genotypedChrVcfIdx}
+getFile ${vcf}
+getFile ${genotypedChrVcfTbi}
 
 
 ${stage} beagle/${beagleVersion}
@@ -31,16 +32,16 @@ ${checkStage}
 
 mkdir -p ${beagleDir}
 
-if java -Xmx6g -XX:ParallelGCThreads=2 -jar $EBROOTBEAGLE/beagle.$beagleVersion.jar \
- gl=${genotypedChrVcf} \
+if java -Xmx6g -XX:ParallelGCThreads=2 -jar $EBROOTBEAGLE/beagle.${beagleJarVersion}.jar \
+ gl=${vcf} \
  out=${genotypedChrVcfBeagleGenotypeProbabilities} \
- chrom=${chr}
+ chrom=${chromosome}
 then
  echo "returncode: $?";
- putFile ${genotypedChrVcfBeagleGenotypeProbabilities}
+ putFile ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz
  cd ${beagleDir}
  bname=$(basename ${genotypedChrVcfBeagleGenotypeProbabilities})
- md5sum ${bname} > ${bname}.md5
+ md5sum ${bname}.vcf.gz > ${bname}.vcf.gz.md5
  cd -
  echo "succes moving files";
 else
