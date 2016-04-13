@@ -22,6 +22,20 @@ umask 0007
 
 module load ${automateVersion}
 
+#Function to check if array contains value
+array_contains () {
+    local array="$1[@]"
+    local seeking=$2
+    local in=1
+    for element in "${!array-}"; do
+        if [[ "$element" == "$seeking" ]]; then
+            in=0
+            break
+        fi
+    done
+    return $in
+}
+
 # Make result directories
 mkdir -p ${projectResultsDir}/alignment/
 mkdir -p ${projectResultsDir}/coverage/
@@ -29,10 +43,17 @@ mkdir -p ${projectResultsDir}/qc/statistics/
 mkdir -p ${projectResultsDir}/variants/
 #mkdir -p ${projectResultsDir}/Pindel/
 
+
+UNIQUESAMPLES=()
+for samples in "${externalSampleID[@]}"
+do
+  	array_contains UNIQUESAMPLES "$samples" || UNIQUESAMPLES+=("$samples")    # If bamFile does not exist in array add it
+done
+
+EXTERN=${#UNIQUESAMPLES[@]}
+
 # Copy error, out and finished logs to project jobs directory
 printf "Copying out, error and finished logs to project jobs directory.."
-EXTERN=${#externalSampleID[@]}
-
 rsync -a ${projectJobsDir}/*.out ${projectLogsDir}
 rsync -a ${projectJobsDir}/*.err ${projectLogsDir}
 rsync -a ${projectJobsDir}/*.log ${projectLogsDir}
@@ -44,14 +65,14 @@ rsync -a ${projectJobsDir}/${project}.csv ${projectResultsDir}
 printf ".. finished (2/11)\n"
 
 # Copy fastQC output to results directory
-echo "Copying fastQC output to results directory.."
+printf "Copying fastQC output to results directory.."
 rsync -a ${intermediateDir}/*_fastqc.zip ${projectResultsDir}/qc/
 printf ".. finished (3/11)\n"
 
 count=1
 #copy realigned bams
-printf "Copying ${EXTERN} realigned bams.."
-for sample in "${externalSampleID[@]}"
+printf "Copying ${EXTERN} realigned bams "
+for sample in "${UNIQUESAMPLES[@]}"
 do
 	rsync -a ${intermediateDir}/${sample}.merged.dedup.bam ${projectResultsDir}/alignment/
 	rsync -a ${intermediateDir}/${sample}.merged.dedup.bam.bai ${projectResultsDir}/alignment/
@@ -63,8 +84,8 @@ printf " finished (4/11)\n"
 # Copy alignment stats (lane and sample) to results directory
 
 count=1
-printf "Copying alignment stats (lane and sample) to results directory.."
-for sample in "${externalSampleID[@]}"
+printf "Copying alignment stats (lane and sample) to results directory "
+for sample in "${UNIQUESAMPLES[@]}"
 do
 	rsync -a ${intermediateDir}/${sample}.merged.dedup.bam.alignment_summary_metrics ${projectResultsDir}/qc/statistics/
 	rsync -a ${intermediateDir}/${sample}.merged.dedup.bam.gc_bias_metrics ${projectResultsDir}/qc/statistics/
@@ -82,18 +103,18 @@ done
 
 if [ -f "${intermediateDir}/*.insert_size_metrics" ]
 then
-	printf "Copying insert size metrics.."
-	for sample in "${externalSampleID[@]}"
+	printf "Copying insert size metrics "
+	for sample in "${UNIQUESAMPLES[@]}"
 	do
 		rsync -a ${intermediateDir}/${sample}.merged.dedup.bam.insert_size_metrics ${projectResultsDir}/qc/statistics/
 		printf "."
 	done
-	printf "finished (6/11)\n"
+	printf " finished (6/11)\n"
 else
 	printf "no insert size metrics available, skipped (6/11)\n"
 fi
 
-printf "Copying variants vcf and tables to results directory .."
+printf "Copying variants vcf and tables to results directory "
 # Copy variants vcf and tables to results directory
 rsync -a ${projectPrefix}.final.vcf ${projectResultsDir}/variants/
 printf "."
@@ -107,8 +128,8 @@ fi
 printf " finished (7/11)\n"
 
 #copy vcf file + coveragePerBase.txt
-printf "Copying vcf files and coverage per base and per target files.."
-for sample in "${externalSampleID[@]}"
+printf "Copying vcf files and coverage per base and per target files "
+for sample in "${UNIQUESAMPLES[@]}"
 do
 	rsync -a ${intermediateDir}/${sample}.final.vcf ${projectResultsDir}/variants/
 	printf "."
@@ -138,11 +159,11 @@ do
 	fi
 	
 done
-printf ".. finished (8/11)\n"
+printf " finished (8/11)\n"
 
 
 # print README.txt files
-printf "Copying QC report to results directory .."
+printf "Copying QC report to results directory "
 
 # Copy QC report to results directory
 rsync -a ${projectQcDir}/${project}_QCReport.pdf ${projectResultsDir}
@@ -150,7 +171,7 @@ printf "."
 rsync -a ${projectQcDir}/${project}_QCReport.html ${projectResultsDir}
 printf "."
 rsync -ra ${projectQcDir}/images ${projectResultsDir}
-printf "..finished (9/11)\n"
+printf " finished (9/11)\n"
 
 echo "Creating zip file"
 # Create zip file for all "small text" files
