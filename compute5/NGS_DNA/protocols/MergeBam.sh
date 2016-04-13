@@ -9,7 +9,7 @@
 #string sampleMergedBai
 #string sampleMergedBamIdx
 #string tempDir
-#list inputMergeBam
+#list inputMergeBam,inputMergeBamIdx
 #string tmpDataDir
 #string project
 #string logsDir
@@ -46,6 +46,8 @@ ${checkStage}
 #This check needs to be performed because Compute generates duplicate values in array
 INPUTS=()
 INPUTBAMS=()
+INPUTBAI=()
+INPUTBAIS=()
 
 for bamFile in "${inputMergeBam[@]}"
 do
@@ -55,7 +57,17 @@ done
 
 if [ ${#INPUTS[@]} == 1 ]
 then
-	ln -sf ${INPUTBAMS[0]} ${sampleMergedBam}
+
+	ln -sf $(basename ${inputMergeBam[0]}) ${sampleMergedBam}
+
+	#indexing because there is no index file coming out of the sorting step
+	printf "indexing..."
+	${EBROOTSAMBAMBA}/${sambambaTool} index ${sampleMergedBam} ${inputMergeBamIdx[0]}
+	printf "..finished\n"
+	
+	echo "ln -sf $(basename ${inputMergeBamIdx[0]}) ${sampleMergedBai}"
+	ln -sf $(basename ${inputMergeBamIdx[0]}) ${sampleMergedBai}
+
 	echo "nothing to merge because there is only one sample"
 
 else
@@ -70,5 +82,3 @@ else
 
 fi
 
-ln -sf ${sampleMergedBamIdx} ${sampleMergedBai}
-echo "ln -sf ${sampleMergedBamIdx} ${sampleMergedBai}"
