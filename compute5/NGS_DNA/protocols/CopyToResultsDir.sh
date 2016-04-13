@@ -45,13 +45,13 @@ rsync -a ${projectJobsDir}/${project}.csv ${projectResultsDir}
 printf ".. finished (2/11)\n"
 
 # Copy fastQC output to results directory
-echo "Copying fastQC output to results directory.."
+printf "Copying fastQC output to results directory.."
 rsync -a ${intermediateDir}/*_fastqc.zip ${projectResultsDir}/qc/
 printf ".. finished (3/11)\n"
 
 count=1
 #copy realigned bams
-printf "Copying ${EXTERN} realigned bams.."
+printf "Copying ${EXTERN} realigned bams "
 for sample in "${externalSampleID[@]}"
 do
 	rsync -a ${intermediateDir}/${sample}.merged.dedup.bam ${projectResultsDir}/alignment/
@@ -64,7 +64,7 @@ printf " finished (4/11)\n"
 # Copy alignment stats (lane and sample) to results directory
 
 count=1
-printf "Copying alignment stats (lane and sample) to results directory.."
+printf "Copying alignment stats (lane and sample) to results directory "
 for sample in "${externalSampleID[@]}"
 do
 	rsync -a ${intermediateDir}/${sample}.merged.dedup.bam.alignment_summary_metrics ${projectResultsDir}/qc/statistics/
@@ -83,18 +83,18 @@ done
 
 if [ -f "${intermediateDir}/*.insert_size_metrics" ]
 then
-	printf "Copying insert size metrics.."
+	printf "Copying insert size metrics "
 	for sample in "${externalSampleID[@]}"
 	do
 		rsync -a ${intermediateDir}/${sample}.merged.dedup.bam.insert_size_metrics ${projectResultsDir}/qc/statistics/
 		printf "."
 	done
-	printf "finished (6/11)\n"
+	printf " finished (6/11)\n"
 else
 	printf "no insert size metrics available, skipped (6/11)\n"
 fi
 
-printf "Copying variants vcf and tables to results directory .."
+printf "Copying variants vcf and tables to results directory "
 # Copy variants vcf and tables to results directory
 rsync -a ${projectPrefix}.final.vcf ${projectResultsDir}/variants/
 printf "."
@@ -108,7 +108,7 @@ fi
 printf " finished (7/11)\n"
 
 #copy vcf file + coveragePerBase.txt
-printf "Copying vcf files and coverage per base and per target files.."
+printf "Copying vcf files and coverage per base and per target files "
 for sample in "${externalSampleID[@]}"
 do
 	rsync -a ${intermediateDir}/${sample}.final.vcf ${projectResultsDir}/variants/
@@ -139,11 +139,11 @@ do
 	fi
 	
 done
-printf ".. finished (8/11)\n"
+printf " finished (8/11)\n"
 
 
 # print README.txt files
-printf "Copying QC report to results directory .."
+printf "Copying QC report to results directory "
 
 # Copy QC report to results directory
 rsync -a ${projectQcDir}/${project}_QCReport.pdf ${projectResultsDir}
@@ -151,7 +151,7 @@ printf "."
 rsync -a ${projectQcDir}/${project}_QCReport.html ${projectResultsDir}
 printf "."
 rsync -ra ${projectQcDir}/images ${projectResultsDir}
-printf "..finished (9/11)\n"
+printf " finished (9/11)\n"
 
 echo "Creating zip file"
 # Create zip file for all "small text" files
