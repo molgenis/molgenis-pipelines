@@ -16,7 +16,6 @@
 #list batchID
 #list seqType
 #string automateVersion
-#string runPrefix
 # Change permissions
 
 umask 0007
@@ -185,7 +184,7 @@ then
         
 elif [[ "${host}" == *"gd-node"* || "${host}" == "zinc-finger.gcc.rug.nl" ]]
 then
-	touch ${logsDir}/${runPrefix}.pipeline.finished
+	touch ${logsDir}/${project}.pipeline.finished
         . $EBROOTAUTOMATED/zinf-finger.gcc.rug.nl.cfg
         . $EBROOTAUTOMATED/sharedConfig.cfg
 	echo "pipeline is finished, user ${ONTVANGER} has been mailed"
