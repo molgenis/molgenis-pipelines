@@ -23,6 +23,20 @@ umask 0007
 
 module load ${automateVersion}
 
+#Function to check if array contains value
+array_contains () {
+    local array="$1[@]"
+    local seeking=$2
+    local in=1
+    for element in "${!array-}"; do
+        if [[ "$element" == "$seeking" ]]; then
+            in=0
+            break
+        fi
+    done
+    return $in
+}
+
 # Make result directories
 mkdir -p ${projectResultsDir}/alignment/
 mkdir -p ${projectResultsDir}/coverage/
@@ -30,10 +44,17 @@ mkdir -p ${projectResultsDir}/qc/statistics/
 mkdir -p ${projectResultsDir}/variants/
 #mkdir -p ${projectResultsDir}/Pindel/
 
+
+UNIQUESAMPLES=()
+for samples in "${externalSampleID[@]}"
+do
+  	array_contains UNIQUESAMPLES "$samples" || UNIQUESAMPLES+=("$samples")    # If bamFile does not exist in array add it
+done
+
+EXTERN=${#UNIQUESAMPLES[@]}
+
 # Copy error, out and finished logs to project jobs directory
 printf "Copying out, error and finished logs to project jobs directory.."
-EXTERN=${#externalSampleID[@]}
-
 rsync -a ${projectJobsDir}/*.out ${projectLogsDir}
 rsync -a ${projectJobsDir}/*.err ${projectLogsDir}
 rsync -a ${projectJobsDir}/*.log ${projectLogsDir}
@@ -52,7 +73,7 @@ printf ".. finished (3/11)\n"
 count=1
 #copy realigned bams
 printf "Copying ${EXTERN} realigned bams "
-for sample in "${externalSampleID[@]}"
+for sample in "${UNIQUESAMPLES[@]}"
 do
 	rsync -a ${intermediateDir}/${sample}.merged.dedup.bam ${projectResultsDir}/alignment/
 	rsync -a ${intermediateDir}/${sample}.merged.dedup.bam.bai ${projectResultsDir}/alignment/
@@ -65,7 +86,7 @@ printf " finished (4/11)\n"
 
 count=1
 printf "Copying alignment stats (lane and sample) to results directory "
-for sample in "${externalSampleID[@]}"
+for sample in "${UNIQUESAMPLES[@]}"
 do
 	rsync -a ${intermediateDir}/${sample}.merged.dedup.bam.alignment_summary_metrics ${projectResultsDir}/qc/statistics/
 	rsync -a ${intermediateDir}/${sample}.merged.dedup.bam.gc_bias_metrics ${projectResultsDir}/qc/statistics/
@@ -84,7 +105,7 @@ done
 if [ -f "${intermediateDir}/*.insert_size_metrics" ]
 then
 	printf "Copying insert size metrics "
-	for sample in "${externalSampleID[@]}"
+	for sample in "${UNIQUESAMPLES[@]}"
 	do
 		rsync -a ${intermediateDir}/${sample}.merged.dedup.bam.insert_size_metrics ${projectResultsDir}/qc/statistics/
 		printf "."
@@ -109,7 +130,7 @@ printf " finished (7/11)\n"
 
 #copy vcf file + coveragePerBase.txt
 printf "Copying vcf files and coverage per base and per target files "
-for sample in "${externalSampleID[@]}"
+for sample in "${UNIQUESAMPLES[@]}"
 do
 	rsync -a ${intermediateDir}/${sample}.final.vcf ${projectResultsDir}/variants/
 	printf "."
