@@ -6,10 +6,13 @@ module load NGS_Demultiplex
 module list
 
 ENVIRONMENT_PARAMETERS=parameters_gattaca.csv
-WORKDIR=$3
 SEQUENCER=$1
 RUNNUMBER=${2}_${SEQUENCER}
+WORKDIR=$3
+GROUP=$4
 WORKFLOW=${EBROOTNGS_DEMULTIPLEX}/workflow.csv
+echo "$WORKDIR AND $RUNNUMBER"
+echo "GROUPIE: $GROUP"
 
 if [ -f .compute.properties ];
 then
@@ -29,8 +32,12 @@ ${WORKDIR}/generatedscripts/run_${RUNNUMBER}/out.csv
 perl ${EBROOTNGS_DEMULTIPLEX}/convertParametersGitToMolgenis.pl ${EBROOTNGS_DEMULTIPLEX}/${ENVIRONMENT_PARAMETERS} > \
 ${WORKDIR}/generatedscripts/run_${RUNNUMBER}/environment_parameters.csv
 
+perl ${EBROOTNGS_DEMULTIPLEX}/convertParametersGitToMolgenis.pl ${EBROOTNGS_DEMULTIPLEX}/parameters_${GROUP}.csv > \
+${WORKDIR}/generatedscripts/run_${RUNNUMBER}/parameters_group.csv
+
 sh $EBROOTMOLGENISMINCOMPUTE/molgenis_compute.sh \
 -p ${WORKDIR}/generatedscripts/run_${RUNNUMBER}/out.csv \
+-p ${WORKDIR}/generatedscripts/run_${RUNNUMBER}/parameters_group.csv \
 -p ${WORKDIR}/generatedscripts/run_${RUNNUMBER}/environment_parameters.csv \
 -p ${WORKDIR}/generatedscripts/run_${RUNNUMBER}/run_${RUNNUMBER}.csv \
 -w ${WORKFLOW} \
