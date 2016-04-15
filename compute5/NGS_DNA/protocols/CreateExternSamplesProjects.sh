@@ -18,6 +18,7 @@
 #list flowcell
 #list externalFastQ_1
 #list externalFastQ_2
+#string group
 
 #string mainParameters
 #string worksheet 
@@ -123,6 +124,7 @@ sh ${EBROOTMOLGENISMINCOMPUTE}/molgenis_compute.sh -p ${mainParameters} \
 -p ${environment_parameters} \
 -p ${batchIDList} \
 -p ${projectJobsDir}/${project}.csv \
+-p ${group} \
 -rundir ${projectJobsDir} \
 -w ${workflowpath} \
 --header ${EBROOTMOLGENISMINCOMPUTE}/templates/slurm/header_gaf.ftl \
