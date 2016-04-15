@@ -206,7 +206,7 @@ then
 elif [[ "${host}" == *"gd-node"* || "${host}" == "zinc-finger.gcc.rug.nl" ]]
 then
 	touch ${logsDir}/${project}.pipeline.finished
-        . $EBROOTAUTOMATED/zinf-finger.gcc.rug.nl.cfg
+        . $EBROOTAUTOMATED/zinc-finger.gcc.rug.nl.cfg
         . $EBROOTAUTOMATED/sharedConfig.cfg
 	echo "pipeline is finished, user ${ONTVANGER} has been mailed"
         printf "The results can be found: ${projectResultsDir}\n\nCheers from the GCC :)"| mail -s "NGS_DNA pipeline is finished for project ${project} on `date +%d/%m/%Y` `date +%H:%M`" ${ONTVANGER}
