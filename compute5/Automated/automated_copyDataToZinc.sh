@@ -2,13 +2,14 @@ set -e
 set -u
 
 GAT=$1
-
+groupname=$2
 gattacaAddress="${GAT}.gcc.rug.nl"
 echo $gattacaAddress
 MYINSTALLATIONDIR=$( cd -P "$( dirname "$0" )" && pwd )
 
 ##source config file (zinc-finger.gcc.rug.nl.cfg, leucine-zipper.gcc.rug.nl OR gattaca.cfg)
 myhost=$(hostname)
+. ${MYINSTALLATIONDIR}/${groupname}.cfg
 . ${MYINSTALLATIONDIR}/${myhost}.cfg
 . ${MYINSTALLATIONDIR}/sharedConfig.cfg
 
