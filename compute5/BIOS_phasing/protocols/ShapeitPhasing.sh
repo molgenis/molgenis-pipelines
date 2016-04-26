@@ -35,14 +35,12 @@ mkdir -p ${shapeitDir}
 
 #Run shapeit
 
-#Maybe input-scaffold requires gzipped haps files, check this
-
 if shapeit \
  -call \
  --input-gen ${genotypedChrVcfShapeitInputPrefix}.gen.gz ${genotypedChrVcfShapeitInputPrefix}.gen.sample \
  --input-init ${genotypedChrVcfShapeitInputPrefix}.hap.gz ${genotypedChrVcfShapeitInputPrefix}.hap.sample \
  --input-map ${geneticMapChr} \
- --input-scaffold ${phasedScaffoldDir}/chr_${chromosome}.haps ${phasedScaffoldDir}/chr_${chromosome}.haps \
+ --input-scaffold ${phasedScaffoldDir}/chr_${chromosome}.haps ${phasedScaffoldDir}/chr_${chromosome}.sample \
  --input-thr 1.0 \
  --thread 8 \
  --window 0.1 \
@@ -59,7 +57,7 @@ then
  putFile ${shapeitPhasedOutputPrefix}.haps.gz
  putFile ${shapeitPhasedOutputPrefix}.haps.sample
  putFile ${shapeitPhasedOutputPrefix}.log
- cd ${beagleDir}
+ cd ${shapeitDir}
  bname=$(basename ${shapeitPhasedOutputPrefix}.haps.gz)
  md5sum ${bname} > ${bname}.md5
  bname=$(basename ${shapeitPhasedOutputPrefix}.haps.sample)
