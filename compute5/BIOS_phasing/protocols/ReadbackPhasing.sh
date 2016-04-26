@@ -5,9 +5,7 @@
 ###
 #string stage
 #string checkStage
-#string intervaltreeVersion
-#string pyvcfVersion
-#string samtoolsVersion
+#string phaserVersion
 #string phaserDir
 #string shapeitPhasedOutputPrefix
 #string mapq
@@ -23,12 +21,11 @@ if [[ ! -f ${vcf} ]] ; then
 exit 1
 fi
 
+#Clean environment from "old" python versions
+ml purge
 
-#Load modules
-${stage} intervaltree/${intervaltreeVersion}
-${stage} PyVCF/${pyvcfVersion}
-${stage} SAMtools/${samtoolsVersion}
-${stage} BEDTools/${bedtoolsVersion}
+#Load module
+${stage} phASER/${phaserVersion}
 
 #check modules
 ${checkStage}
@@ -37,8 +34,7 @@ mkdir -p ${phaserDir}
 
 echo "## "$(date)" Start $0"
 
-if
-time python phaser/phaser.py
+if python $EBROOTPHASER/phaser/phaser.py
     --bam ${bam}
     --vcf ${shapeitPhasedOutputPrefix}.haps.gz
     --mapq ${mapq}

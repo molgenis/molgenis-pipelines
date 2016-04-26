@@ -28,7 +28,8 @@ pythonVersion,3.4.1-foss-2015b
 biopythonVersion,1.65-foss-2015b-Python-3.4.1
 GLibVersion,2.45.2-foss-2015b
 vcftoolsVersion,0.1.12b-goolf-1.7.20-Perl-5.20.2-bare
-RVersion,3.2.1-foss-2015b    
+RVersion,3.2.1-foss-2015b
+phaserVersion,d688a18
 tabixVersion,0.2.6-goolf-1.7.20
 referenceFastaName,human_g1k_v37
 genomeBuild,b37
@@ -41,7 +42,7 @@ geneticMapChr,${geneticMapDir}/genetic_map_chr${chromosome}_combined_b37.txt
 ## Input Beagle from GATK GenotypeGVF
 genotypedChrVcfGLDir,/groups/umcg-bios/tmp04/projects/phasing/genotypeVcfGL/
 genotypedChrVcfGL,${genotypedChrVcfGLDir}chr${chromosome}.genotypeGVCF.gg.vcf.gz
-genotypedChrVcfTbi,${vcf}.tbi
+genotypedChrVcfTbi,${genotypedChrVcfGL}.tbi
 ## Beagle
 beagleDir,${projectDir}/beagle/
 genotypedChrVcfBeagleGenotypeProbabilities,${beagleDir}/${project}.chr${chromosome}.beagle.genotype.probs.gg

@@ -42,7 +42,7 @@ if shapeit \
  --input-gen ${genotypedChrVcfShapeitInputPrefix}.gen.gz ${genotypedChrVcfShapeitInputPrefix}.gen.sample \
  --input-init ${genotypedChrVcfShapeitInputPrefix}.hap.gz ${genotypedChrVcfShapeitInputPrefix}.hap.sample \
  --input-map ${geneticMapChr} \
- --input-scaffold ${phasedScaffoldDir}/chr_${chromosome}.haps ${phasedScaffoldDir}/chr_${chromosome}.haps \
+ --input-scaffold ${phasedScaffoldDir}/chr_${chromosome}.haps ${phasedScaffoldDir}/chr_${chromosome}.sample \
  --input-thr 1.0 \
  --thread 8 \
  --window 0.1 \
