@@ -34,14 +34,14 @@ mkdir -p ${phaserDir}
 
 echo "## "$(date)" Start $0"
 
-if python $EBROOTPHASER/phaser/phaser.py
-    --bam ${bam}
-    --vcf ${shapeitPhasedOutputPrefix}.haps.gz
-    --mapq ${mapq}
-    --sample ${sampleName}
-    --baseq ${baseq}
-    --o ${phaserOutPrefix}
-    --temp_dir ${phaserDir}
+if python $EBROOTPHASER/phaser/phaser.py \
+    --bam ${bam} \
+    --vcf ${shapeitPhasedOutputPrefix}.vcf.gz \
+    --mapq ${mapq} \
+    --sample ${sampleName} \
+    --baseq ${baseq} \
+    --o ${phaserOutPrefix} \
+    --temp_dir ${phaserDir} \
     --threads 4
 
 then

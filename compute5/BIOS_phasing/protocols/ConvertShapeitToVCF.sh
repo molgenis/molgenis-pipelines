@@ -39,12 +39,12 @@ cp ${shapeitPhasedOutputPrefix}.haps.sample ${shapeitPhasedOutputPrefix}.sample
 if shapeit \
 -convert \
 --input-haps ${shapeitPhasedOutputPrefix} \
---output-vcf ${shapeitPhasedOutputPrefix}.vcf
+--output-vcf ${shapeitPhasedOutputPrefix}.vcf.gz
 then
  echo "returncode: $?";
- putFile ${shapeitPhasedOutputPrefix}.vcf
+ putFile ${shapeitPhasedOutputPrefix}.vcf.gz
  cd ${shapeitDir}
- bname=$(basename ${shapeitPhasedOutputPrefix}.vcf)
+ bname=$(basename ${shapeitPhasedOutputPrefix}.vcf.gz)
  md5sum ${bname} > ${bname}.md5
  rm ${shapeitPhasedOutputPrefix}.haps
  cd -
