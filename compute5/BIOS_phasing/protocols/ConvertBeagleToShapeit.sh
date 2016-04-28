@@ -9,9 +9,9 @@
 
 #string WORKDIR
 #string projectDir
-#string genotypedChrVcfGL
-#string genotypedChrVcfTbi
-#string genotypedChrVcfBeagleGenotypeProbabilities
+#list genotypedChrVcfGL
+#list genotypedChrVcfTbi
+#list genotypedChrVcfBeagleGenotypeProbabilities
 #string genotypedChrVcfShapeitInputPrefix
 #string GLibVersion
 

@@ -13,7 +13,7 @@
 
 #string beagleVersion
 
-#string vcf
+#list vcf
 #string genotypedChrVcfTbi
 
 #string genotypedChrVcfBeagleGenotypeProbabilities

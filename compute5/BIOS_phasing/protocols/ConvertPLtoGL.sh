@@ -11,7 +11,7 @@
 #string projectDir
 #string genotypedChrVcfGLDir
 #string genotypedChrVcfGL
-#string vcf
+#list vcf
 #string biopythonVersion
 #string genotypedChrVcfGL
 
