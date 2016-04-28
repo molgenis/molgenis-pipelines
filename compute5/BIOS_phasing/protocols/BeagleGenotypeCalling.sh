@@ -24,7 +24,6 @@ echo "## "$(date)" Start $0"
 
 
 getFile ${vcf}
-getFile ${genotypedChrVcfTbi}
 
 
 ${stage} beagle/${beagleVersion}

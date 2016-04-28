@@ -9,16 +9,14 @@
 
 #string WORKDIR
 #string projectDir
-#list genotypedChrVcfGL
-#list genotypedChrVcfTbi
-#list genotypedChrVcfBeagleGenotypeProbabilities
+#string genotypedChrVcfGL
+#string genotypedChrVcfBeagleGenotypeProbabilities
 #string genotypedChrVcfShapeitInputPrefix
 #string GLibVersion
 
 echo "## "$(date)" Start $0"
 
 getFile ${genotypedChrVcfGL}
-getFile ${genotypedChrVcfTbi}
 getFile ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz
 
 ${stage} GLib/${GLibVersion}
