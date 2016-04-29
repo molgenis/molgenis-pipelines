@@ -13,7 +13,7 @@
 
 #string shapeitVersion
 
-#string shapeitPhasedOutputPrefix
+#list shapeitPhasedOutputPrefix
 #string chromosome
 
 

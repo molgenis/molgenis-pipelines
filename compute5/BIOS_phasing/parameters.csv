@@ -40,7 +40,7 @@ geneticMapChr,${geneticMapDir}/genetic_map_chr${chromosome}_combined_b37.txt
 ## Specific tools paths
 #
 ## Input Beagle from GATK GenotypeGVF
-genotypedChrVcfGLDir,/groups/umcg-bios/tmp04/projects/phasing/genotypeVcfGL/
+genotypedChrVcfGLDir,${projectDir}/genotypeVcfGL/
 genotypedChrVcfGL,${genotypedChrVcfGLDir}chr${chromosome}.genotypeGVCF.gg.vcf.gz
 genotypedChrVcfTbi,${genotypedChrVcfGL}.tbi
 ## Beagle

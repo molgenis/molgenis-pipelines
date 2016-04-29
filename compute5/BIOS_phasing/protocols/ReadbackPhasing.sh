@@ -7,7 +7,8 @@
 #string checkStage
 #string phaserVersion
 #string phaserDir
-#string shapeitPhasedOutputPrefix
+#list shapeitPhasedOutputPrefix
+#list bam
 #string mapq
 #string baseq
 #string phaserOutPrefix

@@ -13,7 +13,7 @@
 
 #string shapeitVersion
 
-#string genotypedChrVcfShapeitInputPrefix
+#list genotypedChrVcfShapeitInputPrefix
 #string chromosome
 #string phasedScaffoldDir
 #string geneticMapChr
