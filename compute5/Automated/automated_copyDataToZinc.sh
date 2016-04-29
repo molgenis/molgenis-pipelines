@@ -47,14 +47,11 @@ do
 	## Check if samplesheet is copied
 	copyRawGatToZinc="umcg-ateambot@${gattacaAddress}:${GATTACA}/runs/run_${run}_${sequencer}/results/*.fq.gz* ${RAWDATADIR}/$filePrefix"
 
- 	if [[ -f ${SAMPLESHEETSDIR}/$csvFile && ! -f $LOGDIR/${filePrefix}.SampleSheetCopied ]]
-	then
-		touch $LOGDIR/${filePrefix}.SampleSheetCopied
-	else
-		scp umcg-ateambot@${gattacaAddress}:${GATTACA}/Samplesheets/${csvFile} ${SAMPLESHEETSDIR}
-		touch $LOGDIR/${filePrefix}.SampleSheetCopied
-
-	fi
+	if [[ -f ${SAMPLESHEETSDIR}/$csvFile && ! -f $LOGDIR/${filePrefix}.SampleSheetCopied ]]
+        then
+                scp umcg-ateambot@${gattacaAddress}:${GATTACA}/Samplesheets/${csvFile} ${SAMPLESHEETSDIR}
+                touch $LOGDIR/${filePrefix}.SampleSheetCopied
+        fi
 	## Check if data is already copied to tmp05 on zinc-finger
 
 	if [ ! -d ${RAWDATADIR}/$filePrefix ]
