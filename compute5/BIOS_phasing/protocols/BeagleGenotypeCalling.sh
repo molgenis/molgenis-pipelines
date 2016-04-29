@@ -35,6 +35,14 @@ if java -Xmx6g -XX:ParallelGCThreads=2 -jar $EBROOTBEAGLE/beagle.${beagleJarVers
  gl=${vcf} \
  out=${genotypedChrVcfBeagleGenotypeProbabilities} \
  chrom=${chromosome}
+ 
+ #Decompress the beagle gzipped output and gzip it again. There's a bug on some platforms which causes incompatibility between normal zlib and boost zlib.
+ #This also affects our system! More information here: https://mathgen.stats.ox.ac.uk/genetics_software/shapeit/shapeit.html#gcall
+ 
+ cd ${beagleDir}
+ gunzip ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz
+ gzip ${beagleDir}/${project}.chr${chromosome}.beagle.genotype.probs.gg.vcf
+ 
 then
  echo "returncode: $?";
  putFile ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz

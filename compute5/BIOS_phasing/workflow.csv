@@ -1,6 +1,6 @@
 step,protocol,dependencies
 BeagleGenotypeCalling,protocols/BeagleGenotypeCalling.sh,
-ConvertPLtoGL,protocols/ConvertPLtoGL.sh,BeagleGenotypeCalling
+ConvertPLtoGL,protocols/ConvertPLtoGL.sh,
 ConvertBeagleToShapeit,protocols/ConvertBeagleToShapeit.sh,ConvertPLtoGL
 ShapeitPhasing,protocols/ShapeitPhasing.sh,ConvertBeagleToShapeit
 ConvertShapeitToVCF,protocols/ConvertShapeitToVCF.sh,ShapeitPhasing
