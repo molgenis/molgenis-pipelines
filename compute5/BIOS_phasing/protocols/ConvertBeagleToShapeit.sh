@@ -9,6 +9,7 @@
 
 #string WORKDIR
 #string projectDir
+#string beagleDir
 #string genotypedChrVcfGL
 #string genotypedChrVcfBeagleGenotypeProbabilities
 #string genotypedChrVcfShapeitInputPrefix
