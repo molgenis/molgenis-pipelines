@@ -19,6 +19,7 @@ uniqueID,${sampleName}
 samtoolsVersion,1.2-foss-2015b
 bedtoolsVersion,2.23.0-foss-2015b
 tabixVersion,0.2.6-goolf-1.7.20
+AseVersion,14-10-2015
 referenceFastaName,human_g1k_v37
 genomeBuild,b37
 ########################################################################
@@ -28,3 +29,12 @@ genomeBuild,b37
 exonlist,/scratch/p275394/bRasqualDataPreparation/NewExons/sorted.txt
 readCountDir,${projectDir}/readCounts/
 readCountFile,${readCountDir}/${sampleName}_readCounts.txt
+## ASReads
+ASReadsDir,${projectDir}/ASReads/
+ASReadsDirSample,${ASReadsDir}/${sampleName}/
+couplingFile,${ASReadsDir}/coupling.txt
+ASReads,${ASReadsDirSample}/${sampleName}_ASreads.txt
+## ASE
+AseDir,${projectDir}/ASE/
+ASFiles,${AseDir}/ASFiles.txt
+AseOutput,${AseDir}/results

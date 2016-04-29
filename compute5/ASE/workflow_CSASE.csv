@@ -1,0 +1,3 @@
+step,protocol,dependencies
+ASEReads,protocols/ASReads.sh,
+ASE,protocols/ASE.sh,ASEReads

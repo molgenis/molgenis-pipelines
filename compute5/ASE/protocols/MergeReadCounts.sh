@@ -66,4 +66,6 @@ sort -k2,2d -k3,3n collapsed_Positions.txt > sorted_Positionst.txt
 awk '{print NR}' sorted_Positionst.txt | paste -d "\t" sorted_Positionst.txt - > MainT.txt #; rm collapsed_* sorted_Positionst.txt
 #
 ######
-echo finished
+
+
+echo "## "$(date)" ##  $0 Done "
