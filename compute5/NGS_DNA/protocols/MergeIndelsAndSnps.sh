@@ -44,8 +44,8 @@ do
 	java -Xmx2g -jar ${EBROOTGATK}/${gatkJar} \
 	-R ${indexFile} \
 	-T CombineVariants \
-	--variant ${intermediateDir}/${externalID}.snpEff.annotated.filtered.indels.vcf \
-	--variant ${intermediateDir}/${externalID}.snpEff.annotated.snps.dbnsfp.vcf \
+	--variant ${intermediateDir}/${externalID}.annotated.filtered.indels.vcf \
+	--variant ${intermediateDir}/${externalID}.annotated.snps.dbnsfp.vcf \
 	--genotypemergeoption UNSORTED \
 	-o ${intermediateDir}/${externalID}.final.vcf
 done

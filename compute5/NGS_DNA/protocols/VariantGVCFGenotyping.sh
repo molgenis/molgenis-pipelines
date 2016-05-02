@@ -72,6 +72,7 @@ java -Xmx16g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${tempDir} -jar \
 	${EBROOTGATK}/${gatkJar} \
 	 -T GenotypeGVCFs \
 	 -R ${indexFile} \
+	 -L ${capturedBatchBed} \
 	 --dbsnp ${dbSNP137Vcf} \
 	 -o ${tmpProjectBatchGenotypedVariantCalls} \
 	${ALLGVCFs[@]} 

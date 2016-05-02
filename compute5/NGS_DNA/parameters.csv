@@ -15,7 +15,7 @@ cutadaptVersion,1.8.1-goolf-1.7.20-Python-2.7.9
 dbNSFPVersion,2.7
 dellyVersion,v0.7.1
 fastqcVersion,FastQC/0.11.3-Java-1.7.0_80
-gatkVersion,GATK/3.4-0-Java-1.7.0_80 
+gatkVersion,GATK/3.5-Java-1.7.0_80 
 javaVersion,Java/1.8.0_45
 ngsUtilsVersion,ngs-utils/16.04.1
 picardVersion,picard/1.130-Java-1.7.0_80
@@ -161,7 +161,7 @@ dellyTypeDUP,DUP
 dellyTypeINV,INV
 dellyTypeTRA,TRA
 
-### Protocols 15, 16 and 17 (gVCF VariantCalling, VariantCombine, VariantGenotyping) ###
+### Protocols 16a 16b 16c and  (gVCF VariantCalling, VariantCombine, VariantGenotyping) ###
 dbSNP137Vcf,${dbSNPDir}/dbsnp_137.b37.vcf
 dbSNP137VcfIdx,${dbSNP137Vcf}.idx
 dbSNPExSiteAfter129Vcf,${dbSNPDir}/dbsnp_137.b37.excluding_sites_after_129.vcf
@@ -175,22 +175,18 @@ sampleBatchVariantCallsMaleNONPARIdx,${sampleBatchVariantCallsMaleNONPAR}.idx
 projectBatchCombinedVariantCalls,${projectPrefix}.batch-${batchID}.variant.calls.combined.g.vcf
 projectBatchGenotypedVariantCalls,${projectPrefix}.batch-${batchID}.variant.calls.genotyped.vcf
 
-### Protocols 18, 19, 20, 21, 22 and 23 (MergeBatches, VariantAnnotator, SnpEff, dbNSFPAnnotation, VariantFiltration, IndelFiltration, SplitIndelsSNPs) ###
+### Protocols 17, 19, 20, 21, 22 and 23 (MergeBatches, VariantAnnotator, dbNSFPAnnotation, VariantFiltration, IndelFiltration, SplitIndelsSNPs) ###
 projectVariantsMerged,${projectPrefix}.variant.calls.GATK.vcf
 projectVariantsMergedSorted,${projectPrefix}.variant.calls.GATK.sorted.vcf
 projectVariantsMergedSortedSorted,${projectPrefix}.variant.calls.GATK.sorted.sorted.vcf
 sortVCFpl,sortVCFbyFai.pl
-snpEffCallsHtml,${projectPrefix}.snpEff.calls.html
-snpEffGenesTxt,${projectPrefix}.snpEff.calls.genes.txt
-snpEffCallsVcf,${projectPrefix}.calls.snpEff.vcf
-snpEffCallsSortedVcf,${projectPrefix}.calls.snpEff.sorted.vcf
 dbNSFP,${dbNSFPDir}/${dbNSFPVersion}/dbNSFP${dbNSFPVersion}.txt.gz
-dbNSFPSampleVcf,${sampleNameID}.snpEff.annotated.snps.dbnsfp.vcf
-variantAnnotatorOutputVcf,${projectPrefix}.snpEff.annotated.vcf
-variantAnnotatorSampleOutputIndelsVcf,${sampleNameID}.snpEff.annotated.indels.vcf
-variantAnnotatorSampleOutputSnpsVcf,${sampleNameID}.snpEff.annotated.snps.vcf
-variantAnnotatorSampleOutputIndelsFilteredVcf,${sampleNameID}.snpEff.annotated.filtered.indels.vcf
-variantAnnotatorSampleOutputSnpsFilteredVcf,${sampleNameID}.snpEff.annotated.filtered.snps.vcf
+dbNSFPSampleVcf,${sampleNameID}.annotated.snps.dbnsfp.vcf
+variantAnnotatorOutputVcf,${projectPrefix}.annotated.vcf
+variantAnnotatorSampleOutputIndelsVcf,${sampleNameID}.annotated.indels.vcf
+variantAnnotatorSampleOutputSnpsVcf,${sampleNameID}.annotated.snps.vcf
+variantAnnotatorSampleOutputIndelsFilteredVcf,${sampleNameID}.annotated.filtered.indels.vcf
+variantAnnotatorSampleOutputSnpsFilteredVcf,${sampleNameID}.annotated.filtered.snps.vcf
 
 ### Protocols 24 and 25 (VcfToTable, QCReport) ###
 variantsFinalProjectVcfTable,${projectPrefix}.final.vcf.table

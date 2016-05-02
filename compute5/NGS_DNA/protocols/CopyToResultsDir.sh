@@ -208,10 +208,10 @@ then
 
 	if [[ "${logsDir}" == *"/groups/umcg-gd"* ]]
 	then
-		. ${EBROOTAUTOMATED}/parameters_gd.csv
+		. ${EBROOTAUTOMATED}/umcg-gd.cfg
 	elif [[ "${logsDir}" == *"/groups/umcg-gaf"* ]] 
 	then
-		. ${EBROOTAUTOMATED}/parameters_gaf.csv
+		. ${EBROOTAUTOMATED}/umcg-gaf.cfg
 	else
 		echo "unknown groupname please run in gaf or gd"
 	fi

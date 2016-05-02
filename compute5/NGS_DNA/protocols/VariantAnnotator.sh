@@ -6,15 +6,11 @@
 #string checkStage
 #string tempDir
 #string intermediateDir
-#string snpEffCallsHtml
-#string snpEffCallsVcf
-#string snpEffGenesTxt
 #string indexFile
 #string indexFileFastaIndex
 #string capturedIntervals
 #string projectVariantsMergedSorted
 #string logsDir
-#string snpEffCallsSortedVcf
 #string variantAnnotatorOutputVcf
 #string project
 #string projectVariantsMergedSortedSorted
@@ -24,21 +20,13 @@
 #string sortVCFpl
 #string gatkVersion
 #string gatkJar
-#string snpEffVersion
 #string javaVersion
 #string dbSNPDir
 
 sleep 5
 
-
-makeTmpDir ${snpEffCallsHtml}
-tmpSnpEffCallsHtml=${MC_tmpFile}
-
-makeTmpDir ${snpEffCallsVcf}
-tmpSnpEffCallsVcf=${MC_tmpFile}
-
-makeTmpDir ${snpEffGenesTxt}
-tmpSnpEffGenesTxt=${MC_tmpFile}
+makeTmpDir ${variantAnnotatorOutputVcf}
+tmpVariantAnnotatorOutputVcf=${MC_tmpFile}
 
 #Function to check if array contains value
 array_contains () { 
@@ -68,7 +56,6 @@ done
 #Load GATK module
 ${stage} ${javaVersion}
 ${stage} ${gatkVersion}
-${stage} ${snpEffVersion}
 ${stage} ngs-utils
 
 ${checkStage}
@@ -79,18 +66,11 @@ ${sortVCFpl} \
 -inputVCF ${projectVariantsMergedSorted} \
 -outputVCF ${projectVariantsMergedSortedSorted}
 
-#sort VCf file: ${snpEffCallsVcf}
-${sortVCFpl} \
--fastaIndexFile ${indexFileFastaIndex} \
--inputVCF ${snpEffCallsVcf} \
--outputVCF ${snpEffCallsSortedVcf}
-
 java -XX:ParallelGCThreads=4 -Djava.io.tmpdir=${tempDir} -Xmx8g -jar \
 ${EBROOTGATK}/${gatkJar} \
 -T VariantAnnotator \
 -R ${indexFile} \
 ${INPUTS[@]} \
--A SnpEff \
 -A AlleleBalance \
 -A BaseCounts \
 -A BaseQualityRankSumTest \
@@ -110,8 +90,10 @@ ${INPUTS[@]} \
 --disable_auto_index_creation_and_locking_when_reading_rods \
 -D ${dbSNPDir}/dbsnp_137.b37.vcf \
 --variant ${projectVariantsMergedSorted} \
---snpEffFile ${snpEffCallsSortedVcf} \
 -L ${capturedIntervals} \
--o ${variantAnnotatorOutputVcf} \
+-o ${tmpVariantAnnotatorOutputVcf} \
 -nt 8
+
+mv ${tmpVariantAnnotatorOutputVcf} ${variantAnnotatorOutputVcf}
+echo "mv ${tmpVariantAnnotatorOutputVcf} ${variantAnnotatorOutputVcf}"
 
