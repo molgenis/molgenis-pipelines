@@ -23,6 +23,9 @@
 echo "## "$(date)" Start $0"
 
 
+#Set logdir to return to after gzipping created files, otherwise *.env and *.finished file are not written to correct folder/directory
+LOGDIR="$PWD"
+
 getFile ${vcf}
 
 
@@ -55,6 +58,9 @@ else
  echo "returncode: $?";
  echo "fail";
 fi
+
+#changedir to logdir
+cd $LOGDIR
 
 echo "## "$(date)" ##  $0 Done "
 
