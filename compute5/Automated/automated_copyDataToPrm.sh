@@ -49,36 +49,39 @@ do
 		touch ${LOGDIR}/automated_copyDataToPrm.sh.locked
         fi
 
-	copyRawZincToPrm="${RAWDATADIR}/${filePrefix}/* umcg-gaf-dm@calculon.hpc.rug.nl:${RAWDATADIRPRM}/${filePrefix}"
-	makeRawDataDir=$(ssh umcg-gaf-dm@calculon.hpc.rug.nl "sh ${RAWDATADIRPRM}../checkRawData.sh ${RAWDATADIRPRM} ${filePrefix}")
+	copyRawZincToPrm="${RAWDATADIR}/${filePrefix}/* ${groupname}-dm@calculon.hpc.rug.nl:${RAWDATADIRPRM}/${filePrefix}"
+	makeRawDataDir=$(ssh ${groupname}-dm@calculon.hpc.rug.nl "sh ${RAWDATADIRPRM}../checkRawData.sh ${RAWDATADIRPRM} ${filePrefix}")
 
 	if [[ -f $LOGDIR/${filePrefix}.dataCopiedToZinc && ! -f $LOGDIR/${filePrefix}.dataCopiedToPrm ]]
 	then
 		echo "1"
-		countFilesRawDataDirTmp=$(ls ${RAWDATADIR}/${filePrefix}/*.fq.gz* | wc -l)
+		countFilesRawDataDirTmp=$(ls ${RAWDATADIR}/${filePrefix}/${filePrefix}*(*.gz*|*.log) | wc -l)
 		if [ "${makeRawDataDir}" == "f" ]
 		then
 			echo "copying data from zinc to prm" >> ${LOGGER}
-                        rsync -r -a ${copyRawZincToPrm}
+                        rsync -r -av ${copyRawZincToPrm} >> $LOGGER
 			makeRawDataDir="t"
 		fi
 		if [ "${makeRawDataDir}" == "t" ]
                 then
-                        countFilesRawDataDirPrm=$(ssh umcg-gaf-dm@calculon.hpc.rug.nl "ls ${RAWDATADIRPRM}/${filePrefix}/*.fq.gz* | wc -l")
+                        countFilesRawDataDirPrm=$(ssh ${groupname}-dm@calculon.hpc.rug.nl "ls ${RAWDATADIRPRM}/${filePrefix}/${filePrefix}*(*.gz*|*.log) | wc -l")
                         if [ ${countFilesRawDataDirTmp} -eq ${countFilesRawDataDirPrm} ]
                         then
-                                COPIEDTOPRM=$(ssh umcg-gaf-dm@calculon.hpc.rug.nl "sh ${RAWDATADIRPRM}../check.sh ${RAWDATADIRPRM} ${filePrefix}")
+                                COPIEDTOPRM=$(ssh ${groupname}-dm@calculon.hpc.rug.nl "sh ${RAWDATADIRPRM}../check.sh ${RAWDATADIRPRM} ${filePrefix}")
 				if [[ "${COPIEDTOPRM}" == *"FAILED"* ]]
                                 then
                                         echo "md5sum check failed, the copying will start again" >> ${LOGGER}
-                                        rsync -r -a ${copyRawZincToPrm}
+                                        rsync -r -av ${copyRawZincToPrm} >> $LOGGER 2>&1
 					echo "copy failed" >> $LOGDIR/${filePrefix}.failed
                                 elif [[ "${COPIEDTOPRM}" == *"PASS"* ]]
                                 then
                                         touch $LOGDIR/${filePrefix}.dataCopiedToPrm
-					scp ${SAMPLESHEETSDIR}/${csvFile} umcg-gaf-dm@calculon.hpc.rug.nl:${SAMPLESHEETSPRMDIR}
-					echo "copied ${csvFile} to ${SAMPLESHEETSPRMDIR} on calculon" >> ${LOGGER}
+					scp ${SAMPLESHEETSDIR}/${csvFile} ${groupname}-dm@calculon.hpc.rug.nl:${SAMPLESHEETSPRMDIR}
+					echo "finished copying data to calculon" >> ${LOGGER}
+					logFileStatistics=$(cat ${RAWDATADIR}/${filePrefix}/${filePrefix}*.log)
+					printf "Demultiplex statistics ${filePrefix}: \n\n ${logFileStatistics}" | mail -s "Demultiplex statistics ${filePrefix}" ${ONTVANGER}
 					printf "De data voor project ${filePrefix} is gekopieerd naar ${RAWDATADIRPRM}" | mail -s "${filePrefix} copied to permanent storage" ${ONTVANGER}
+
 				  	if [ -f $LOGDIR/${filePrefix}.failed ] 
                                         then
 						rm $LOGDIR/${filePrefix}.failed
@@ -86,7 +89,7 @@ do
                                 fi
                         else
 				echo "copying data..." >> $LOGGER
-                                rsync -r -a ${copyRawZincToPrm}
+                                rsync -r -av ${copyRawZincToPrm} >> $LOGGER 2>&1
                         fi
                 fi
         fi

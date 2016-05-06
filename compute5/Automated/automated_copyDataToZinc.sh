@@ -45,16 +45,13 @@ do
 	touch ${LOGDIR}/${filePrefix}.copyToZinc.locked
 
 	## Check if samplesheet is copied
-	copyRawGatToZinc="umcg-ateambot@${gattacaAddress}:${GATTACA}/runs/run_${run}_${sequencer}/results/*.fq.gz* ${RAWDATADIR}/$filePrefix"
+	copyRawGatToZinc="umcg-ateambot@${gattacaAddress}:${GATTACA}/runs/run_${run}_${sequencer}/results/${filePrefix}*(*.gz*|*.log) ${RAWDATADIR}/$filePrefix"
 
- 	if [[ -f ${SAMPLESHEETSDIR}/$csvFile && ! -f $LOGDIR/${filePrefix}.SampleSheetCopied ]]
-	then
-		touch $LOGDIR/${filePrefix}.SampleSheetCopied
-	else
-		scp umcg-ateambot@${gattacaAddress}:${GATTACA}/Samplesheets/${csvFile} ${SAMPLESHEETSDIR}
-		touch $LOGDIR/${filePrefix}.SampleSheetCopied
-
-	fi
+	if [[ -f ${SAMPLESHEETSDIR}/$csvFile && ! -f $LOGDIR/${filePrefix}.SampleSheetCopied ]]
+        then
+                scp umcg-ateambot@${gattacaAddress}:${GATTACA}/Samplesheets/${csvFile} ${SAMPLESHEETSDIR}
+                touch $LOGDIR/${filePrefix}.SampleSheetCopied
+        fi
 	## Check if data is already copied to tmp05 on zinc-finger
 
 	if [ ! -d ${RAWDATADIR}/$filePrefix ]
@@ -68,8 +65,8 @@ do
 	if [[ -d ${RAWDATADIR}/$filePrefix  && ! -f $LOGDIR/${filePrefix}.dataCopiedToZinc ]]
 	then
 		##Compare how many files are on both the servers in the directory
-		countFilesRawDataDirTmp=$(ls ${RAWDATADIR}/${filePrefix}/*.fq.gz* | wc -l)
-		countFilesRawDataDirGattaca=$(ssh umcg-ateambot@${gattacaAddress} "ls ${GATTACA}/runs/run_${run}_${sequencer}/results/*.fq.gz* | wc -l ")
+		countFilesRawDataDirTmp=$(ls ${RAWDATADIR}/${filePrefix}/${filePrefix}*(*.gz*|*.log) | wc -l)
+		countFilesRawDataDirGattaca=$(ssh umcg-ateambot@${gattacaAddress} "ls ${GATTACA}/runs/run_${run}_${sequencer}/results/${filePrefix}*(*.gz*|*.log) | wc -l ")
 		if [ ${countFilesRawDataDirTmp} -eq ${countFilesRawDataDirGattaca} ]
 		then
 			cd ${RAWDATADIR}/${filePrefix}/
