@@ -29,8 +29,7 @@ cp ${vcf} ${vcf}.tmp.vcf
 gzip ${vcf}.tmp.vcf
 
 #Run conversion script beagle vcf to shapeit format
-#if python /groups/umcg-bios/tmp04/users/umcg-aclaringbould/genotyping_pipeline/PL_to_GL/PL_to_GL_reorder.py \
-if python /groups/umcg-bios/tmp04/umcg-fvandijk/beagleTest/20160426/PL_to_GL_reorder.py \
+if python /groups/umcg-bios/tmp04/users/umcg-aclaringbould/genotyping_pipeline/PL_to_GL/PL_to_GL_reorder.py \
     --vcf ${vcf}.tmp.vcf.gz \
     --out ${genotypedChrVcfGL}
 
