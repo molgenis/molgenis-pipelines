@@ -1,3 +1,0 @@
-step,protocol,dependencies
-CreateInhouseProjects,protocols/CreateInhouseProjects.sh,
-StartPipeline,protocols/StartPipeline.sh,CreateInhouseProjects
