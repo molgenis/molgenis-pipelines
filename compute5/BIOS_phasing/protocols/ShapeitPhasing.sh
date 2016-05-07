@@ -10,6 +10,7 @@
 #string WORKDIR
 #string projectDir
 #string shapeitDir
+#string shapeitPhasedOutputPrefix
 
 #string shapeitVersion
 

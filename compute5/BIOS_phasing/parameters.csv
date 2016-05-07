@@ -54,7 +54,7 @@ shapeitPhasedOutputPrefix,${shapeitDir}/chr${chromosome}.shapeit.phased
 ## phASER
 mapq,0
 baseq,0
-phaserDir,shapeitDir,${projectDir}/phASER
-phaserOutPrefix,${sampleName}_chr${chromosome}
+phaserDir,${projectDir}/phASER
+phaserOutPrefix,${phaserDir}/${sampleName}_chr${chromosome}
 ## genotype concordance
 comparisonFileDir,${fvdProjectDir}RNA-seq_rare_variants/comparison_files/
