@@ -1,6 +1,6 @@
 #!/bin/bash
 
-module load NGS_DNA/3.2.2-Molgenis-Compute-v16.04.1-Java-1.8.0_45
+module load NGS_DNA/3.2.3-Molgenis-Compute-v16.05.1-Java-1.8.0_45
 module list 
 HOST=$(hostname)
 ##Running script for checking the environment variables
@@ -13,7 +13,8 @@ GROUP=$(awk '{print $3}' ./environment_checks.txt)
 PROJECT=$1
 WORKDIR="/groups/${GROUP}/${TMPDIR}"
 RUNID=run01
-## For small batchsize (6) leave BATCH empty, _exome (10 batches), _wgs (20 batches) or _chr (per chrosomome), OR but this is beta _NO (1 batch),
+## Normal user, please leave BATCH at _chr
+## Expert modus: small batchsize (6) leave BATCH empty, _exome (10 batches), _wgs (20 batches), OR but this is beta _NO (1 batch),
 BATCH="_chr"
 THISDIR=$(pwd)
 
