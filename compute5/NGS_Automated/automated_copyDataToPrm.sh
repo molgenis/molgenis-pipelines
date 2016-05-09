@@ -55,7 +55,7 @@ do
 	if [[ -f $LOGDIR/${filePrefix}.dataCopiedToZinc && ! -f $LOGDIR/${filePrefix}.dataCopiedToPrm ]]
 	then
 		echo "1"
-		countFilesRawDataDirTmp=$(ls ${RAWDATADIR}/${filePrefix}/*.fq.gz* | wc -l)
+		countFilesRawDataDirTmp=$(ls ${RAWDATADIR}/${filePrefix}/${filePrefix}*(*.gz*|*.log) | wc -l)
 		if [ "${makeRawDataDir}" == "f" ]
 		then
 			echo "copying data from zinc to prm" >> ${LOGGER}
@@ -64,7 +64,7 @@ do
 		fi
 		if [ "${makeRawDataDir}" == "t" ]
                 then
-                        countFilesRawDataDirPrm=$(ssh ${groupname}-dm@calculon.hpc.rug.nl "ls ${RAWDATADIRPRM}/${filePrefix}/*.fq.gz* | wc -l")
+                        countFilesRawDataDirPrm=$(ssh ${groupname}-dm@calculon.hpc.rug.nl "ls ${RAWDATADIRPRM}/${filePrefix}/${filePrefix}*(*.gz*|*.log) | wc -l")
                         if [ ${countFilesRawDataDirTmp} -eq ${countFilesRawDataDirPrm} ]
                         then
                                 COPIEDTOPRM=$(ssh ${groupname}-dm@calculon.hpc.rug.nl "sh ${RAWDATADIRPRM}../check.sh ${RAWDATADIRPRM} ${filePrefix}")
@@ -78,7 +78,10 @@ do
                                         touch $LOGDIR/${filePrefix}.dataCopiedToPrm
 					scp ${SAMPLESHEETSDIR}/${csvFile} ${groupname}-dm@calculon.hpc.rug.nl:${SAMPLESHEETSPRMDIR}
 					echo "finished copying data to calculon" >> ${LOGGER}
+					logFileStatistics=$(cat ${RAWDATADIR}/${filePrefix}/${filePrefix}*.log)
+					printf "Demultiplex statistics ${filePrefix}: \n\n ${logFileStatistics}" | mail -s "Demultiplex statistics ${filePrefix}" ${ONTVANGER}
 					printf "De data voor project ${filePrefix} is gekopieerd naar ${RAWDATADIRPRM}" | mail -s "${filePrefix} copied to permanent storage" ${ONTVANGER}
+
 				  	if [ -f $LOGDIR/${filePrefix}.failed ] 
                                         then
 						rm $LOGDIR/${filePrefix}.failed
