@@ -8,6 +8,7 @@
 #string phaserVersion
 #string phaserDir
 #string shapeitPhasedOutputPrefix
+#string bam
 #string mapq
 #string baseq
 #string phaserOutPrefix
@@ -16,8 +17,7 @@ getFile ${bam}
 if [[ ! -f ${bam} ]] ; then
   exit 1
 fi
-getFile ${reads2FqGz}
-if [[ ! -f ${vcf} ]] ; then
+if [[ ! -f ${shapeitPhasedOutputPrefix}.vcf.gz ]] ; then
 exit 1
 fi
 

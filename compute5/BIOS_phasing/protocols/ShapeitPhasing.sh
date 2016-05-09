@@ -10,10 +10,11 @@
 #string WORKDIR
 #string projectDir
 #string shapeitDir
+#string shapeitPhasedOutputPrefix
 
 #string shapeitVersion
 
-#string genotypedChrVcfShapeitInputPrefix
+#list genotypedChrVcfShapeitInputPrefix
 #string chromosome
 #string phasedScaffoldDir
 #string geneticMapChr
