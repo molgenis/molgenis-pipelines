@@ -56,7 +56,7 @@ do
 
 	if [ ! -d ${RAWDATADIR}/$filePrefix ]
 	then
-		mkdir -p ${RAWDATADIR}/$filePrefix
+		mkdir -p ${RAWDATADIR}/${filePrefix}/Info
 		echo "Copying data to zinc.." >> $LOGGER
 		rsync -r -a ${copyRawGatToZinc}
 	fi
@@ -67,6 +67,11 @@ do
 		##Compare how many files are on both the servers in the directory
 		countFilesRawDataDirTmp=$(ls ${RAWDATADIR}/${filePrefix}/${filePrefix}*(*.gz*|*.log) | wc -l)
 		countFilesRawDataDirGattaca=$(ssh umcg-ateambot@${gattacaAddress} "ls ${GATTACA}/runs/run_${run}_${sequencer}/results/${filePrefix}*(*.gz*|*.log) | wc -l ")
+
+		rsync -r umcg-ateambot@${gattacaAddress}:/groups/umcg-lab/scr01/sequencers/${filePrefix}/InterOp ${RAWDATADIR}/${filePrefix}/Info/
+		rsync umcg-ateambot@${gattacaAddress}:/groups/umcg-lab/scr01/sequencers/${filePrefix}/RunInfo.xml ${RAWDATADIR}/${filePrefix}/Info/
+		rsync umcg-ateambot@${gattacaAddress}:/groups/umcg-lab/scr01/sequencers/${filePrefix}/RunParameters.xml ${RAWDATADIR}/${filePrefix}/Info/
+
 		if [ ${countFilesRawDataDirTmp} -eq ${countFilesRawDataDirGattaca} ]
 		then
 			cd ${RAWDATADIR}/${filePrefix}/
