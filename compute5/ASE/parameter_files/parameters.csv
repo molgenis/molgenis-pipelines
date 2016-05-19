@@ -34,6 +34,7 @@ ASReadsDir,${projectDir}/ASReads/
 ASReadsDirSample,${ASReadsDir}/${sampleName}/
 couplingFile,${ASReadsDir}/coupling.txt
 ASReads,${ASReadsDirSample}/${sampleName}_ASreads.txt
+imputedVcf,gonl-abc_samples.chr${chromosome}.release5.NoMAFSelection.vcf.gz
 ## ASE
 AseDir,${projectDir}/ASE/
 ASFiles,${AseDir}/ASFiles.txt
