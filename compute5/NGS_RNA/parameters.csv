@@ -58,6 +58,7 @@ ensembleDir,${dataDir}/ftp.ensembl.org/pub/release-${ensembleReleaseVersion}/gtf
 geneAnnotationTxt,${ensembleDir}/${annotationFileName}.${ensembleReleaseVersion}.annotation.geneIds.txt.gz
 annotationGtf,${ensembleDir}/${annotationFileName}.${ensembleReleaseVersion}.gtf
 annotationRefFlat,${ensembleDir}/${annotationFileName}.${ensembleReleaseVersion}.gtf.annotation.refFlat
+annotationIntervalList,${ensembleDir}/${annotationFileName}.${ensembleReleaseVersion}.rrna.interval_list
 indexFile,${indexSpecies}
 dbsnpVcf,${dbSNPDir}${dbSNPFileID}.vcf
 
@@ -106,16 +107,18 @@ GatkHaplotypeCallerGvcf,${intermediateDir}${externalSampleID}.GatkHaplotypeCalle
 GatkHaplotypeCallerGvcfidx,${intermediateDir}${externalSampleID}.GatkHaplotypeCallerGvcf.g.vcf.idx
 GatkMergeGvcf,${intermediateDir}${externalSampleID}.MergeGvcf.g.vcf
 GatkMergeGvcfidx,${intermediateDir}.MergeGvcf.g.vcf.idx
-projectBatchGenotypedVariantCalls,${projectPrefix}.variant.calls.genotyped.vcf
-projectBatchCombinedVariantCalls,${projectPrefix}.variant.calls.combined.g.vcf 
+projectBatchGenotypedVariantCalls,${projectPrefix}.variant.calls.genotyped.chr${chr}.vcf
+projectBatchCombinedVariantCalls,${projectPrefix}.variant.calls.combined.chr${chr}.g.vcf 
 
 ##### Protocols 2,7 (QCStats, QC_Report) #####
+collectMultipleMetricsPrefix,${intermediateDir}${externalSampleID}
 flagstatMetrics,${intermediateDir}${externalSampleID}.flagstat
 dupStatMetrics,${intermediateDir}${externalSampleID}.mdupmetrics
 rnaSeqMetrics,${intermediateDir}${externalSampleID}.collectrnaseqmetrics
+alignmentMetrics,${intermediateDir}${externalSampleID}.alignment_summary_metrics
 insertsizeMetrics,${intermediateDir}${externalSampleID}.insertsizemetrics
-insertsizeMetricspdf,${intermediateDir}${externalSampleID}.insertsizemetrics.pdf
-insertsizeMetricspng,${intermediateDir}${externalSampleID}.insertsizemetrics.png
+insertsizeMetricspdf,${intermediateDir}${externalSampleID}.insert_size_histogram.pdf
+insertsizeMetricspng,${intermediateDir}${externalSampleID}.insert_size_histogram.png
 qcMatricsList,${intermediateDir}/${project}_qcMatricsList.txt
 gcPlotList,${intermediateDir}/${project}_gcPlotList.txt
 recreateinsertsizepdfR,createInsertSizePlot.R

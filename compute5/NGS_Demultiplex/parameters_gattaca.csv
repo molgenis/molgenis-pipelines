@@ -1,0 +1,6 @@
+queue,localhost
+tmpName,scr01
+prmName,prm02
+root,/apps/
+nextSeqDir,/groups/umcg-lab/scr01/sequencers
+nextSeqRunDataDir,${nextSeqDir}/${runPrefix}/

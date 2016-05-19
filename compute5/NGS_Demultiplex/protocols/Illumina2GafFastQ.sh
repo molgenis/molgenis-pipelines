@@ -35,7 +35,7 @@ do
 
 			md5sum -c ${sequencingStartDate}_${sequencer}_${run}_${flowcell}_L${lane}.fq.gz
 		###CORRECT BARCODES
-		elif [[ ${barcodeType[sampleNumber]} == "RPI" || ${barcodeType[sampleNumber]} == "MON" || ${barcodeType[sampleNumber]} == "AGI" || ${barcodeType[sampleNumber]} == "LEX" || ${barcodeType[sampleNumber]} == "NEX" || ${barcodeType[sampleNumber]} == "AG8" || ${barcodeType[sampleNumber]} == "sRP" ]]
+		elif [[ ${barcodeType[sampleNumber]} == "RPI" || ${barcodeType[sampleNumber]} == "BIO" || ${barcodeType[sampleNumber]} == "MON" || ${barcodeType[sampleNumber]} == "AGI" || ${barcodeType[sampleNumber]} == "LEX" || ${barcodeType[sampleNumber]} == "NEX" || ${barcodeType[sampleNumber]} == "AG8" || ${barcodeType[sampleNumber]} == "sRP" ]]
 		then
 			cd ${intermediateDir}
 			md5sum lane${lane}_${barcode[sampleNumber]}_S[0-9]*_L00${lane}_R1_001.fastq.gz > ${runResultsDir}/${sequencingStartDate}_${sequencer}_${run}_${flowcell}_L${lane}_${barcode[sampleNumber]}.fq.gz.md5
@@ -79,7 +79,7 @@ else
 		md5sum -c ${sequencingStartDate}_${sequencer}_${run}_${flowcell}_L${lane}_2.fq.gz.md5
 
 		###CORRECT BARCODES
-		elif [[ ${barcodeType[sampleNumber]} == "RPI" || ${barcodeType[sampleNumber]} == "MON" || ${barcodeType[sampleNumber]} == "AGI" || ${barcodeType[sampleNumber]} == "LEX" || ${barcodeType[sampleNumber]} == "NEX" || ${barcodeType[sampleNumber]} == "AG8" || ${barcodeType[sampleNumber]} == "sRP" ]]
+		elif [[ ${barcodeType[sampleNumber]} == "RPI" || ${barcodeType[sampleNumber]} == "BIO" || ${barcodeType[sampleNumber]} == "MON" || ${barcodeType[sampleNumber]} == "AGI" || ${barcodeType[sampleNumber]} == "LEX" || ${barcodeType[sampleNumber]} == "NEX" || ${barcodeType[sampleNumber]} == "AG8" || ${barcodeType[sampleNumber]} == "sRP" ]]
 		then
 		cd ${intermediateDir}
 		md5sum lane${lane}_${barcode[sampleNumber]}_S[0-9]*_L00${lane}_R1_001.fastq.gz >  ${runResultsDir}/${sequencingStartDate}_${sequencer}_${run}_${flowcell}_L${lane}_${barcode[sampleNumber]}_1.fq.gz.md5

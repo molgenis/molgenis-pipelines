@@ -32,19 +32,43 @@
 #string kallistoVersion
 #string ensembleReleaseVersion
 
-#genarate qcMatricsList
 
+#Function to check if array contains value
+array_contains () { 
+    local array="$1[@]"
+    local seeking=$2
+    local in=1
+    for element in "${!array-}"; do
+        if [[ "$element" == "$seeking" ]]; then
+            in=0
+            break
+        fi
+    done
+    return $in
+}
+
+SAMPLES=()
+
+for external in "${externalSampleID[@]}"
+do
+        array_contains SAMPLES "$external" || SAMPLES+=("$external")    # If vcfFile does not exist in array add it
+done
+
+
+
+#genarate qcMatricsList
 rm -f ${qcMatricsList}
 rm -f ${gcPlotList}
+
  
-for sample in "${externalSampleID[@]}" 
+for sample in "${SAMPLES[@]}" 
 do
         echo -e "$intermediateDir/${sample}.total.qc.metrics.table" >> ${qcMatricsList}
 done
 
 #genarate gcPlotList
  
-for sample in "${externalSampleID[@]}"
+for sample in "${SAMPLES[@]}"
 do
         echo -e "$intermediateDir/${sample}.GC.png" >> ${gcPlotList}
 done
@@ -177,8 +201,8 @@ cat > ${intermediateDir}/${project}_QCReport.rhtml <<'_EOF'
 <br>
 <pre>
 This report describes a series of statistics about your sequencing data. Together with this 
-report you'll receive alignment files and geneCount tables. If you, in addition, also want 
-the raw data, then please notify us via e-mail. In any case we'll delete the raw data, 
+report you'll receive fastq files, qc metrics files and geneCount tables. If you, in addition, also want 
+the alignment data, then please notify us via e-mail. In any case we'll delete the raw data, 
 three months after</pre> <script language="javascript">
         var month=new Array(12);
         month[0]="January";
@@ -216,8 +240,8 @@ End 2 x 100 bp) in pools of multiple samples.
 Gene expression quantification
 The trimmed fastQ files where aligned to build ${genome} human reference genome using 
 ${hisatVersion} [1] allowing for 2 mismatches. Before gene quantification
-SAMtools ${samtoolsVersion} [2] was used to sort the aligned reads.
-The gene level quantification was performed by ${htseqVersion} in Anaconda ${anacondaVersion} [3] using --mode=union
+${samtoolsVersion} [2] was used to sort the aligned reads.
+The gene level quantification was performed by ${htseqVersion} [3] using --mode=union
 --stranded=no and, Ensembl version ${ensembleReleaseVersion} was used as gene annotation database which is included
  in folder expression/.
 
@@ -225,7 +249,7 @@ Calculate QC metrics on raw and aligned data
 Quality control (QC) metrics are calculated for the raw sequencing data. This is done using
 the tool FastQC ${fastqcVersion} [4]. QC metrics are calculated for the aligned reads using
 Picard-tools ${picardVersion} [5] CollectRnaSeqMetrics, MarkDuplicates, CollectInsertSize-
-Metrics and SAMtools ${samtoolsVersion} flagstat.
+Metrics and ${samtoolsVersion} flagstat.
 
 These QC metrics form the basis in this  final QC report. 
 
@@ -242,7 +266,6 @@ ${htseqVersion}
 ${pythonVersion}
 ${gatkVersion}
 ${ghostscriptVersion}
-${kallistoVersion}
 
 1. Dobin A, Davis C a, Schlesinger F, Drenkow J, Zaleski C, Jha S, Batut P, Chaisson M,
 Gingeras TR: STAR: ultrafast universal RNA-seq aligner. Bioinformatics 2013, 29:15–21.
@@ -262,7 +285,7 @@ Available online at: http://www.bioinformatics.babraham.ac.uk/projects/fastqc/ $
 
 <div>
 <!--begin.rcode, engine='python', echo=FALSE, comment=NA, warning=FALSE, message=FALSE, results='asis'
-# print out tables with QC stats based on the qcMatricsList
+# print out tables with QC stats based on the qcMetricsList
 
 import csv
 
@@ -435,7 +458,7 @@ then
           ROWS=${#LIST[@]}
           break
       else
-          echo "<td><img src="images/${LIST[$COUNT]}.insertsizemetrics.png" alt="images/${LIST[$COUNT]}.insertsizemetrics.png" width="700" height="700"></td>"
+          echo "<td><img src="images/${LIST[$COUNT]}.insert_size_histogram.png" alt="images/${LIST[$COUNT]}.insert_size_histogram.png" width="700" height="700"></td>"
           COUNT=$COUNT+1
       fi
     done
@@ -470,9 +493,10 @@ cp ${intermediateDir}/*.collectrnaseqmetrics.png ${projectQcDir}/images
 cp ${intermediateDir}/*.GC.png ${projectQcDir}/images
 
 #only available with PE
-if [ -f "${intermediateDir}/*.insertsizemetrics.pdf" ]
+
+if [ "${intermediateDir}/*.insert_size_histogram.png" ]
 then
-	cp ${intermediateDir}/*.insertsizemetrics.png ${projectQcDir}/images
+	cp ${intermediateDir}/*.insert_size_histogram.png ${projectQcDir}/images
 fi
 
 #convert to pdf

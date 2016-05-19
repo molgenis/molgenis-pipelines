@@ -13,7 +13,7 @@
 
 #string beagleVersion
 
-#string vcf
+#list vcf
 #string genotypedChrVcfTbi
 
 #string genotypedChrVcfBeagleGenotypeProbabilities
@@ -23,8 +23,10 @@
 echo "## "$(date)" Start $0"
 
 
+#Set logdir to return to after gzipping created files, otherwise *.env and *.finished file are not written to correct folder/directory
+LOGDIR="$PWD"
+
 getFile ${vcf}
-getFile ${genotypedChrVcfTbi}
 
 
 ${stage} beagle/${beagleVersion}
@@ -32,10 +34,18 @@ ${checkStage}
 
 mkdir -p ${beagleDir}
 
-if java -Xmx6g -XX:ParallelGCThreads=2 -jar $EBROOTBEAGLE/beagle.${beagleJarVersion}.jar \
+if java -Xmx6g -Djava.io.tmpdir=$TMPDIR -XX:ParallelGCThreads=2 -jar $EBROOTBEAGLE/beagle.${beagleJarVersion}.jar \
  gl=${vcf} \
  out=${genotypedChrVcfBeagleGenotypeProbabilities} \
  chrom=${chromosome}
+ 
+ #Decompress the beagle gzipped output and gzip it again. There's a bug on some platforms which causes incompatibility between normal zlib and boost zlib.
+ #This also affects our system! More information here: https://mathgen.stats.ox.ac.uk/genetics_software/shapeit/shapeit.html#gcall
+ 
+ cd ${beagleDir}
+ gunzip ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz
+ gzip ${beagleDir}/${project}.chr${chromosome}.beagle.genotype.probs.gg.vcf
+ 
 then
  echo "returncode: $?";
  putFile ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz
@@ -48,6 +58,9 @@ else
  echo "returncode: $?";
  echo "fail";
 fi
+
+#changedir to logdir
+cd $LOGDIR
 
 echo "## "$(date)" ##  $0 Done "
 

@@ -11,7 +11,7 @@
 #string projectDir
 #string genotypedChrVcfGLDir
 #string genotypedChrVcfGL
-#string vcf
+#list vcf
 #string biopythonVersion
 #string genotypedChrVcfGL
 
@@ -24,9 +24,13 @@ ${checkStage}
 
 mkdir -p ${genotypedChrVcfGLDir}
 
+#Gzip VCF because python script assumes gzipped input file
+cp ${vcf} ${vcf}.tmp.vcf
+gzip ${vcf}.tmp.vcf
+
 #Run conversion script beagle vcf to shapeit format
 if python /groups/umcg-bios/tmp04/users/umcg-aclaringbould/genotyping_pipeline/PL_to_GL/PL_to_GL_reorder.py \
-    --vcf ${vcf} \
+    --vcf ${vcf}.tmp.vcf.gz \
     --out ${genotypedChrVcfGL}
 
 then
@@ -36,6 +40,7 @@ then
  bname=$(basename ${genotypedChrVcfGL})
  md5sum ${bname} > ${bname}.md5
  cd -
+ rm ${vcf}.tmp.vcf.gz
  echo "succes moving files";
 else
  echo "returncode: $?";

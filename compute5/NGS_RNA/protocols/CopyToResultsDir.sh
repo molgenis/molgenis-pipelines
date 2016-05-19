@@ -24,7 +24,6 @@
 #string pythonVersion
 #string gatkVersion
 #string ghostscriptVersion
-#string kallistoVersion
 #string ensembleReleaseVersion
 
 # Change permissions
@@ -39,6 +38,7 @@ mkdir -p ${projectResultsDir}/expression/perSampleExpression
 mkdir -p ${projectResultsDir}/expression/expressionTable
 mkdir -p ${projectResultsDir}/images
 mkdir -p ${projectResultsDir}/variants
+mkdir -p ${projectResultsDir}/qcmetrics
 
 # Copy error, out and finished logs to project jobs directory
 
@@ -56,7 +56,7 @@ cp ${projectJobsDir}/${project}.csv ${projectResultsDir}
 
 # Copy BAM plus index plus md5 sum to results directory
 
-if [ -f "${intermediateDir}/*.unique_mapping_reads.sorted.merged.dedup.splitAndTrim.bam" ]
+if [ "${intermediateDir}/*.unique_mapping_reads.sorted.merged.dedup.splitAndTrim.bam" ]
 then
 	cp ${intermediateDir}/*.unique_mapping_reads.sorted.merged.dedup.splitAndTrim.bam ${projectResultsDir}/alignment
 	cp ${intermediateDir}/*.unique_mapping_reads.sorted.merged.dedup.splitAndTrim.bam.md5 ${projectResultsDir}/alignment
@@ -69,8 +69,25 @@ else
 	cp ${intermediateDir}/*.unique_mapping_reads.sorted.merged.dedup.bai.md5 ${projectResultsDir}/alignment
 
 fi
-	cp ${intermediateDir}/*.hisat.final.log ${projectResultsDir}/alignment
-        cp ${intermediateDir}/*.flagstat ${projectResultsDir}/alignment
+
+# copy qc metrics to qcmetrics folder
+
+	cp ${intermediateDir}/*.hisat.log ${projectResultsDir}/qcmetrics
+	cp ${intermediateDir}/*.quality_by_cycle_metrics ${projectResultsDir}/qcmetrics
+	cp ${intermediateDir}/*.quality_by_cycle.pdf ${projectResultsDir}/qcmetrics
+	cp ${intermediateDir}/*.quality_distribution.pdf ${projectResultsDir}/qcmetrics
+	cp ${intermediateDir}/*.quality_distribution_metrics ${projectResultsDir}/qcmetrics
+	cp ${intermediateDir}/*.base_distribution_by_cycle.pdf ${projectResultsDir}/qcmetrics 
+	cp ${intermediateDir}/*.base_distribution_by_cycle_metrics ${projectResultsDir}/qcmetrics
+	cp ${intermediateDir}/*.alignment_summary_metrics ${projectResultsDir}/qcmetrics
+        cp ${intermediateDir}/*.flagstat ${projectResultsDir}/qcmetrics
+	cp ${intermediateDir}/*.mdupmetrics ${projectResultsDir}/qcmetrics
+	cp ${intermediateDir}/*.collectrnaseqmetrics ${projectResultsDir}/qcmetrics
+
+	if [ "${intermediateDir}/*.insert_size_metrics" ]
+        then
+		cp ${intermediateDir}/*.insert_size_metrics ${projectResultsDir}/qcmetrics
+	fi
 
 # copy GeneCounts to results directory
 
@@ -86,14 +103,15 @@ fi
 
 # Copy variants vcfs to results directory
 
-	if [ -f "${intermediateDir}/${project}.variant.calls.genotyped.vcf" ]
+	if [ "${intermediateDir}/${project}.variant.calls.genotyped.*.vcf" ]
         then
-		cp ${intermediateDir}/${project}.variant.calls.genotyped.vcf ${projectResultsDir}/variants
+		cp ${intermediateDir}/${project}.variant.calls.genotyped.*.vcf* ${projectResultsDir}/variants
 	fi
 #only available with PE
-	if [ -f "${intermediateDir}/*.insertsizemetrics.png" ]
+	if [ "${intermediateDir}/*.insert_size_metrics.png" ]
 	then
 		cp ${intermediateDir}/*.insertsizemetrics.png ${projectResultsDir}/images
+		cp ${intermediateDir}/.insert_size_histogram.pdf ${projectResultsDir}/images
 	fi
 
 
@@ -101,11 +119,9 @@ fi
 
 cat > ${projectResultsDir}/README.txt <<'endmsg'
 
-Patrick Deelen
 Morris A. Swertz
 University of Groningen, University Medical Center Groningen, Genomics Coordination Center, Groningen, the Netherlands
 University of Groningen, University Medical Center Groningen, Department of Genetics, Groningen, the Netherlands
-Please use both affiliations
 
 Description of the different steps used in the RNA analysis pipeline
 
@@ -121,18 +137,18 @@ sequenced on an Illumina HiSeq2500 using default parameters (single read 1x50bp 
 End 2 x 100 bp) in pools of multiple samples.
 
 Gene expression quantification
-The trimmed fastQ files where aligned to build ${indexFileID} ensembleResease ${ensembleReleaseVersion} reference genome using hisat
-${hisatVersion} [1] allowing for 2 mismatches. Before gene quantification 
-SAMtools ${samtoolsVersion} [2] was used to sort the aligned reads. 
-The gene level quantification was performed by HTSeq in Anaconda ${anacondaVersion} [3] using --mode=union 
---stranded=no and, Ensembl version ${ensembleReleaseVersion} was used as gene annotation database which is included
- in folder expression/. 
+The trimmed fastQ files where aligned to build ${indexFileID} ensembleResease ${ensembleReleaseVersion} 
+reference genome using ${hisatVersion} [1] with default settings. Before gene quantification 
+${samtoolsVersion} [2] was used to sort the aligned reads. 
+The gene level quantification was performed by HTSeq-count ${htseqVersion} [3] using --mode=union, 
+Ensembl version ${ensembleReleaseVersion} was used as gene annotation database which is included
+in folder expression/. 
 
 Calculate QC metrics on raw and aligned data
 Quality control (QC) metrics are calculated for the raw sequencing data. This is done using 
 the tool FastQC ${fastqcVersion} [4]. QC metrics are calculated for the aligned reads using 
 Picard-tools ${picardVersion} [5] CollectRnaSeqMetrics, MarkDuplicates, CollectInsertSize-
-Metrics and SAMtools ${samtoolsVersion} flagstat.
+Metrics and {samtoolsVersion} flagstat.
 
 GATK variant calling
 #TODO
@@ -144,10 +160,12 @@ The zipped archive contains the following data and subfolders:
 - expression: textfiles with gene level quantification per sample and per project. 
 - fastqc: FastQC output
 - images: QC images
+- qcmetrics: Multiple qcMetrics generated with Picard-tools or SAMTools Flagstat.
+- variants: Variants calls using GATK. (optional)
 - rawdata: raw sequence file in the form of a gzipped fastq file (.fq.gz)
 
-The root of the results directory contains the final QC report, and the samplesheet which 
-were the basis for this analysis. 
+The root of the results directory contains the final QC report, README.txt and the samplesheet which 
+form the basis for this analysis. 
 
 Used toolversions:
 
@@ -182,7 +200,7 @@ cd ${projectResultsDir}
 
 zip -gr ${projectResultsDir}/${project}.zip fastqc
 zip -g ${projectResultsDir}/${project}.zip ${project}.csv
-zip -gr ${projectResultsDir}/${project}.zip alignment
+zip -gr ${projectResultsDir}/${project}.zip qcmetrics
 zip -gr ${projectResultsDir}/${project}.zip expression
 zip -gr ${projectResultsDir}/${project}.zip variants
 zip -gr ${projectResultsDir}/${project}.zip images

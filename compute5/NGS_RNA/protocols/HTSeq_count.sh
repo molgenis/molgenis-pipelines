@@ -8,6 +8,7 @@
 #string htseqVersion
 #string samtoolsVersion
 #string project
+#string prepKit
 
 module load ${htseqVersion}
 module load ${samtoolsVersion}
@@ -17,6 +18,21 @@ module list
 makeTmpDir ${sampleHTseqExpressionText}
 tmpSampleHTseqExpressionText=${MC_tmpFile}
 
+
+if [[ "${prepKit}" =~ "Reverse" ]]
+then
+	echo "Prepkit:${prepKit}, HTSeq-Count STRANDED=reverse is used"
+	STRANDED=reverse
+
+elif [[ "${prepKit}" =~ "Lexogen" ]]
+then
+	echo "Prepkit:${prepKit}, HTSeq-Count STRANDED=yes is used"
+	STRANDED=yes
+
+else
+	echo "Prepkit:${prepKit} is non stranded: HTSeq-Count STRANDED=no is used"
+        STRANDED=no
+fi
 
 echo "Sorting bam file by name"
 
@@ -36,7 +52,7 @@ echo -e "\nQuantifying expression"
         ${sampleMergedBam}.nameSorted.bam | \
         $EBROOTHTSEQ/scripts/htseq-count \
         -m union \
-        -s no \
+        -s ${STRANDED} \
         - \
         ${annotationGtf} | \
         head -n -5 \
