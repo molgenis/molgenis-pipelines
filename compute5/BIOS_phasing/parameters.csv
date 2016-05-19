@@ -29,13 +29,14 @@ biopythonVersion,1.65-foss-2015b-Python-3.4.1
 GLibVersion,2.45.2-foss-2015b
 vcftoolsVersion,0.1.12b-goolf-1.7.20-Perl-5.20.2-bare
 RVersion,3.2.1-foss-2015b
-phaserVersion,d688a18
+phaserVersion,bec9446
 tabixVersion,0.2.6-goolf-1.7.20
 referenceFastaName,human_g1k_v37
 genomeBuild,b37
 onekgGenomeFasta,${resDir}/${genomeBuild}/indices/${referenceFastaName}.fasta
 geneticMapDir,/apps/data/www.shapeit.fr/genetic_map_b37/
 geneticMapChr,${geneticMapDir}/genetic_map_chr${chromosome}_combined_b37.txt
+OneKgPhase3VCF,/apps/data/1000G/release/20130502//ALL.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.vcf.gz
 ########################################################################
 ## Specific tools paths
 #
@@ -55,6 +56,6 @@ shapeitPhasedOutputPrefix,${shapeitDir}/chr${chromosome}.shapeit.phased
 mapq,0
 baseq,0
 phaserDir,${projectDir}/phASER
-phaserOutPrefix,${phaserDir}/${sampleName}_chr${chromosome}
+phaserOutPrefix,${phaserDir}/${project}_${sampleName}_chr${chromosome}
 ## genotype concordance
 comparisonFileDir,${fvdProjectDir}RNA-seq_rare_variants/comparison_files/
