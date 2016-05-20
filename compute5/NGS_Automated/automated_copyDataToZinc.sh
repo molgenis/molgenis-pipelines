@@ -1,6 +1,12 @@
 set -e
 set -u
 
+function finish {
+	echo "TRAPPED"
+	rm ${LOGDIR}/automated_copyDataToPrm.sh.locked
+}
+trap finish ERR
+
 GAT=$1
 groupname=$2
 gattacaAddress="${GAT}.gcc.rug.nl"
