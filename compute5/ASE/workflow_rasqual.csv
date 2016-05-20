@@ -1,0 +1,2 @@
+step,protocol,dependencies
+GetReadCounts,protocols/GetReadCounts.sh,
