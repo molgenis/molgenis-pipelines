@@ -1,7 +1,6 @@
 #MOLGENIS walltime=23:59:00 mem=8gb nodes=1 ppn=2
 
 ### variables to help adding to database (have to use weave)
-#string sampleName
 #string project
 ###
 #string stage
@@ -11,7 +10,7 @@
 #string projectDir
 #string genotypedChrVcfGLDir
 #string genotypedChrVcfGL
-#list vcf
+#string vcf
 #string biopythonVersion
 #string genotypedChrVcfGL
 
@@ -23,6 +22,8 @@ ${stage} Biopython/${biopythonVersion}
 ${checkStage}
 
 mkdir -p ${genotypedChrVcfGLDir}
+
+echo "Starting conversion."
 
 #Gzip VCF because python script assumes gzipped input file
 cp ${vcf} ${vcf}.tmp.vcf
@@ -46,6 +47,8 @@ else
  echo "returncode: $?";
  echo "fail";
 fi
+
+echo "Finished conversion."
 
 echo "## "$(date)" ##  $0 Done "
 

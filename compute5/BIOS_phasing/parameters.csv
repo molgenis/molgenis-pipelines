@@ -12,7 +12,6 @@ tmp,tmp04
 resDir,/groups/umcg-wijmenga/tmp04/resources/
 toolDir,/apps/software/
 projectDir,${root}/${group}/${tmp}/projects/${project}/
-uniqueID,${sampleName}
 fvdProjectDir,${root}/${group}/${tmp}/projects/umcg-fvandijk/projects/
 ########################################################################
 ## Software and data versions/builds/paths
@@ -42,7 +41,7 @@ OneKgPhase3VCF,/apps/data/1000G/release/20130502//ALL.wgs.phase3_shapeit2_mvncal
 #
 ## Input Beagle from GATK GenotypeGVF
 genotypedChrVcfGLDir,${projectDir}/genotypeVcfGL/
-genotypedChrVcfGL,${genotypedChrVcfGLDir}chr${chromosome}.genotypeGVCF.gg.vcf.gz
+genotypedChrVcfGL,${genotypedChrVcfGLDir}/${project}.chr${chromosome}.genotypeGVCF.gg.vcf.gz
 genotypedChrVcfTbi,${genotypedChrVcfGL}.tbi
 ## Beagle
 beagleDir,${projectDir}/beagle/
@@ -51,11 +50,10 @@ genotypedChrVcfShapeitInputPrefix,${beagleDir}/${project}.chr${chromosome}.beagl
 ## Shapeit
 shapeitDir,${projectDir}/shapeit/
 phasedScaffoldDir,/groups/umcg-lld/tmp04/projects/genotypingRelease3/selectionLldeep/lldeepPhased/
-shapeitPhasedOutputPrefix,${shapeitDir}/chr${chromosome}.shapeit.phased
+shapeitPhasedOutputPrefix,${shapeitDir}/${project}.chr${chromosome}.shapeit.phased
 ## phASER
 mapq,0
 baseq,0
 phaserDir,${projectDir}/phASER
-phaserOutPrefix,${phaserDir}/${project}_${sampleName}_chr${chromosome}
 ## genotype concordance
 comparisonFileDir,${fvdProjectDir}RNA-seq_rare_variants/comparison_files/
