@@ -46,7 +46,7 @@ mkdir -p ${haplotyperDir}
 for CHR in {1..25}
 do
    echo "CHR $CHR"
-   if java -Xmx12g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${haplotyperDir} -jar $EBROOTGATK/GenomeAnalysisTK.jar \
+   if java -Xmx12g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${TMPDIR} -jar $EBROOTGATK/GenomeAnalysisTK.jar \
        -T HaplotypeCaller \
        -R ${onekgGenomeFasta} \
        --dbsnp ${dbsnpVcf} \
