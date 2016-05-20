@@ -1,30 +1,69 @@
 ########################################################################
 ## General parameters for SLURM settings and cluster directory paths
 #
-queue,ll
+queue,nodes
 defaultInterpreter,#!/bin/bash
 stage,module load
 checkStage,module list
-WORKDIR,/groups/
+WORKDIR,/scratch/
 root,${WORKDIR}
-group,umcg-bios
+group,p275394
 tmp,tmp04
 resDir,/groups/umcg-wijmenga/tmp04/resources/
 toolDir,/apps/software/
-projectDir,${root}/${group}/${tmp}/projects/${project}/
+projectDir,${root}/${group}/PipelineResult/GEUV-QC
 uniqueID,${sampleName}
 ########################################################################
 ## Software and data versions/builds/paths
 #
-samtoolsVersion,1.2-foss-2015b
-bedtoolsVersion,2.23.0-foss-2015b
-tabixVersion,0.2.6-goolf-1.7.20
+samtoolsVersion,1.3-foss-2016a
+bedtoolsVersion,2.23.0-goolfc-2.7.11
+tabixVersion,0.2.6-goolfc-2.7.11
 referenceFastaName,human_g1k_v37
+GSLVersion,2.1-intel-2016a
+RVersion,3.1.2-goolfc-2.7.11-default
 genomeBuild,b37
 ########################################################################
 ## Specific tools paths
 #
 ## GetReadCounts
-exonlist,/scratch/p275394/bRasqualDataPreparation/NewExons/sorted.txt
+exonlist,/scratch/p275394/Annotations/MetaInfo/exonlist_sorted.txt
 readCountDir,${projectDir}/readCounts/
-readCountFile,${readCountDir}/${sampleName}_readCounts.txt
+readCountFileGene,${readCountDir}/${sampleName}_readCountsGene.txt
+readCountFileExon,${readCountDir}/${sampleName}_readCountsExon.txt
+#
+## GetASCounts
+RASQUALDIR,/scratch/p275394/rasqual/
+ASCountsDir,${projectDir}/AScounts/
+ASCountFile,${ASCountsDir}/chr${CHR}_${sampleName}_AScounts.bam.gz
+VCFprefix,/scratch/p275394/aGM_ASL/gEUVADISvcfs/RasqualTest/SNPSonly/clean_mine_ALL.chr
+VCFsuffix,.integrated_phase1_v3.20101123.snps_indels_svs.genotypes.vcf.gz
+VCF,${VCFprefix}${CHR}${VCFsuffix}
+#
+## pasteReads
+countTableDir,${projectDir}/countTable/
+binDir,${projectDir}/bins/
+featureFileExon,/scratch/p275394/Annotations/MetaInfo/exonlist_sorted.txt.gz
+featureFileGene,/scratch/p275394/Annotations/MetaInfo/transcriptlist_sorted.txt.gz
+genelist,/scratch/p275394/Annotations/MetaInfo/transcriptlist_sorted.txt
+#
+## Paste AS counts
+ASVCF,${binDir}/chr${CHR}_ASVCF.vcf.gz
+#
+## RunRasqual
+featureType,gene
+regionsFile,/scratch/p275394/test.bed
+rasqualOutDir,${projectDir}/Rasqual/
+cisWindow,1000000
+yfiletxtExon,${binDir}/Yexon.txt
+yfiletxtGene,${binDir}/Ygene.txt
+kfilebinExon,${binDir}/K.bin
+yfilebinExon,${binDir}/Yexon.bin
+kfilebinGene,${binDir}/Kg.bin
+yfilebinGene,${binDir}/Ygene.bin
+minCoveragePerFeature,35
+exonGC,/scratch/p275394/Annotations/MetaInfo/GCexon.txt
+transcriptGC,/scratch/p275394/Annotations/MetaInfo/GCTranscript.txt
+insertSize,250
+RasqualizeScript,/scratch/p275394/Molgenis/molgenis-pipelines/compute5/ASE/protocols/rasqualize.R
+sampleNum,24
