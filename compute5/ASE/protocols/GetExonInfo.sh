@@ -7,7 +7,7 @@
 #SBATCH --output=O.txt
 
 module load BEDTools
-
+module load tabix
 # Generates Exon Information Files
 # I: $1 Reference sequence in FASTA fromat .fa $2 Genome anotation in Genome Transfer File fromat .gtf FROM SAME BUILD
 # O: Position sorted tab delimited file with info (coordinates, gc content, IDs) per transcript, per exona nd per forced gene.
@@ -22,7 +22,7 @@ echo Generating Exon information from annotation and reference genome
 #####################################################################
 export LC_ALL=C
 #
-awk -F "\t" '$3 == "exon" { print $0 }' ${GTF} | \
+awk -F "\t" '$3 == "exon" && ($2 == "protein_coding" || $2 == "lincRNA" || $2 == "pseudogene" || $2 == "processed_transcript" || $2 == "antisense") { print $0 }' ${GTF} | \
 	tr ' ' \\t | sed 's/[;"]//g' | \
 		cut -f1,4,5,10,12,14,16,22,26 | \
 			sort -t $'\t' -k1,1d -k2,2n | \
