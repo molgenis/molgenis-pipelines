@@ -2,7 +2,6 @@
 
 ##external call with 3 arguments (sequencer, run and workDir)
 
-module load NGS_Demultiplex
 module list
 
 ENVIRONMENT_PARAMETERS=parameters_gattaca.csv
