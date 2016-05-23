@@ -47,7 +47,7 @@ do
 	## Check if samplesheet is copied
 	copyRawGatToZinc="umcg-ateambot@${gattacaAddress}:${GATTACA}/runs/run_${run}_${sequencer}/results/${filePrefix}* ${RAWDATADIR}/$filePrefix"
 
-	if [[ -f ${SAMPLESHEETSDIR}/$csvFile && ! -f $LOGDIR/${filePrefix}.SampleSheetCopied ]]
+	if [[ ! -f ${SAMPLESHEETSDIR}/$csvFile && ! -f $LOGDIR/${filePrefix}.SampleSheetCopied ]]
         then
                 scp umcg-ateambot@${gattacaAddress}:${GATTACA}/Samplesheets/${csvFile} ${SAMPLESHEETSDIR}
                 touch $LOGDIR/${filePrefix}.SampleSheetCopied
