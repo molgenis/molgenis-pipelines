@@ -18,12 +18,12 @@ pipeline="dna"
 AUTOMATEDVERSION=$(module list | grep -o -P 'Automated(.+)' | awk -F"/" '{print $2}' )
 
 #NGS_DNA-3.2.2="NGS_DNA/3.2.2-Molgenis-Compute-v16.04.1-Java-1.8.0_45"
-NGS_DNA-3.2.3="NGS_DNA/3.2.3-Molgenis-Compute-v16.05.1-Java-1.8.0_45"
+NGS_DNA_3.2.3="NGS_DNA/3.2.3-Molgenis-Compute-v16.05.1-Java-1.8.0_45"
 
 
 if [ "${pipeline}" == "dna" ] 
 then
-	module load ${NGS_DNA-3.2.3}
+	module load ${NGS_DNA_3.2.3}
 fi
 
 count=0 echo "Logfiles will be written to $LOGDIR"

@@ -17,7 +17,6 @@
 #string samtoolsVersion
 #string haplotyperDir
 #string bqsrDir
-#string genotypedVcf
 #string projectDir
 #string ASReadsDir
 #string couplingFile
@@ -37,9 +36,9 @@ ${checkStage}
 
 mkdir -p ${ASReadsDir}
 
-bgzip -c ${genotypedVcf} > ${genotypedVcf}.gz
+bgzip -c ${imputedVcf} > ${genotypedVcf}.gz
 tabix -p vcf ${genotypedVcf}.gz
-GenotypeHarmonizer.sh --input ${genotypedVcf}.gz --outputType TRITYPER --output ${ASReadsDir}
+GenotypeHarmonizer.sh --input ${imputedVcf}.gz --outputType TRITYPER --output ${ASReadsDir}
 ls ${bqsrDir}*.bam | awk {'gsub(".bam","",$1); gsub("${bqsrDir}","",$1); print $1 "\t"  $1}' > ${couplingFile}
 
 if java -XX:ParallelGCThreads=2 -jar ${EBROOTASE}/cellTypeSpecificAlleleSpecificExpression.jar \

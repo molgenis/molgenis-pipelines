@@ -47,7 +47,7 @@ mkdir -p ${analyseCovarsDir}
 #do bqsr for covariable determination then do print reads for valid bqsrbams
 #check the bqsr part and add known variants
 
-java -Xmx6g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${bqsrDir} -jar $EBROOTGATK/GenomeAnalysisTK.jar \
+java -Xmx6g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${TMPDIR} -jar $EBROOTGATK/GenomeAnalysisTK.jar \
  -T BaseRecalibrator\
  -R ${onekgGenomeFasta} \
  -I ${bqsrBam} \

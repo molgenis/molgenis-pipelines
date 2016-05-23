@@ -144,15 +144,6 @@ readQuality,1
 ## Flagstat
 flagstatDir,${projectDir}/flagStat
 flagstatFile,${flagstatDir}/${sampleName}.flagstat
-## ASReads
-ASReadsDir,${projectDir}/ASReads/
-ASReadsDirSample,${ASReadsDir}/${sampleName}/
-couplingFile,${ASReadsDir}/coupling.txt
-ASReads,${ASReadsDirSample}/${sampleName}_ASreads.txt
-## ASE
-AseDir,${projectDir}/ASE/
-ASFiles,${AseDir}/ASFiles.txt
-AseOutput,${AseDir}/results
 ## ?
 motifBin,/gcc/resources/snpEff/3.6c/GRCh37.75/motif.bin
 nextProtBin,/gcc/resources/snpEff/3.6c/GRCh37.75/nextProt.bin
