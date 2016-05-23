@@ -54,8 +54,7 @@ do
 
 	if [[ -f $LOGDIR/${filePrefix}.dataCopiedToZinc && ! -f $LOGDIR/${filePrefix}.dataCopiedToPrm ]]
 	then
-		echo "1"
-		countFilesRawDataDirTmp=$(ls ${RAWDATADIR}/${filePrefix}/${filePrefix}*(*.gz*|*.log) | wc -l)
+		countFilesRawDataDirTmp=$(ls ${RAWDATADIR}/${filePrefix}/${filePrefix}* | wc -l)
 		if [ "${makeRawDataDir}" == "f" ]
 		then
 			echo "copying data from zinc to prm" >> ${LOGGER}
@@ -64,7 +63,7 @@ do
 		fi
 		if [ "${makeRawDataDir}" == "t" ]
                 then
-                        countFilesRawDataDirPrm=$(ssh ${groupname}-dm@calculon.hpc.rug.nl "ls ${RAWDATADIRPRM}/${filePrefix}/${filePrefix}*(*.gz*|*.log) | wc -l")
+                        countFilesRawDataDirPrm=$(ssh ${groupname}-dm@calculon.hpc.rug.nl "ls ${RAWDATADIRPRM}/${filePrefix}/${filePrefix}* | wc -l")
                         if [ ${countFilesRawDataDirTmp} -eq ${countFilesRawDataDirPrm} ]
                         then
                                 COPIEDTOPRM=$(ssh ${groupname}-dm@calculon.hpc.rug.nl "sh ${RAWDATADIRPRM}../check.sh ${RAWDATADIRPRM} ${filePrefix}")
