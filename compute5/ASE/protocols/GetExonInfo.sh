@@ -22,7 +22,7 @@ echo Generating Exon information from annotation and reference genome
 #####################################################################
 export LC_ALL=C
 #
-awk -F "\t" '$3 == "exon" && ($2 == "protein_coding" || $2 == "lincRNA" || $2 == "pseudogene" || $2 == "processed_transcript" || $2 == "antisense") { print $0 }' ${GTF} | \
+awk -F "\t" '$3 == "exon" && ($2 == "protein_coding" || $2 == "lincRNA" || $2 == "pseudogene" || $2 == "processed_transcript" || $2 == "antisense" || $2 = "metaGene") { print $0 }' ${GTF} | \
 	tr ' ' \\t | sed 's/[;"]//g' | \
 		cut -f1,4,5,10,12,14,16,22,26 | \
 			sort -t $'\t' -k1,1d -k2,2n | \
@@ -51,33 +51,11 @@ tabix -s 1 -b 2 -e 3 transcriptlist_sorted.txt.gz
 echo Generating annotation of forced consensus gene
 #############################################################
 # Escape if the file is merged already
-if [ ${GTF: -4} == ".Gtf" ]; then exit; done
-rm metaAnnotation.Gtf
-#
-Merge_print () {
-	name=$1[@]
-	stack=("${!name}")
-	printf '%s\n' "${stack[@]}" | \
-		bedtools merge \
-		-c 4,5 \
-		-o distinct,distinct \
-		-i - | \
-	awk 'BEGIN {FS=OFS="\t"} {printf ("%s\tmetaGene\texon\t%s\t%s\t.\t.\t.\tgene_id %s; transcript_id %s; exon_number %s; gene_name %s; gene_source .; gene_biotype .; transcript_name %s; transcript_source .; exon_id .;\n", $1, $2, $3, $4, $4, NR, $5, $5)}' >> metaAnnotation.Gtf
-	####
-}
-Flag=0
-while read line
-do
-	current=$(echo "$line" | cut -f4)
-	if (( Flag == 0)); then old=$current; Flag=1; fi
-	if [ $old != $current ]; then
-		Merge_print stack
-		stack=()
-		old=$current
-	fi    
-	stack+=("$line")
-done < <(cut -f1-4,7 exonlist_sorted.txt | sort -t $'\t' -k4,4d -k1,1d -k2,2n)
-Merge_print stack
+if [ ${GTF: -4} == ".Gtf" ]; then exit; fi 
+cut -f1-4,7 exonlist_sorted.txt | sort -t $'\t' -k4,4d -k1,1d -k2,2n | \
+awk 'BEGIN{OFS=FS="\t"}{temp=$1; $1=$4; $4=temp; print $0}' | \
+bedtools merge -i - -c 4,5 -o first,first | \
+awk 'BEGIN {FS=OFS="\t"} {printf ("%s\tmetaGene\texon\t%s\t%s\t.\t.\t.\tgene_id %s; transcript_id %s; exon_number %s; gene_name %s; gene_source .; gene_biotype .; transcript_name %s; transcript_source .; exon_id .;\n", $4, $2, $3, $1, $1, NR, $5, $5)}' > metaAnnotation.Gtf
 ################################
 echo "## "$(date)" ##  $0 Done "
 ################################
