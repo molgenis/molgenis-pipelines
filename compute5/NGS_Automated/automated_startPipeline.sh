@@ -15,8 +15,6 @@ echo $myhost
 ls ${SAMPLESHEETSDIR}/*.csv > ${SAMPLESHEETSDIR}/allSampleSheets_Zinc_startPipeline.txt 
 pipeline="dna"
 
-AUTOMATEDVERSION=$(module list | grep -o -P 'Automated(.+)' | awk -F"/" '{print $2}' )
-
 #NGS_DNA-3.2.2="NGS_DNA/3.2.2-Molgenis-Compute-v16.04.1-Java-1.8.0_45"
 NGS_DNA_3_2_3="NGS_DNA/3.2.3-Molgenis-Compute-v16.05.1-Java-1.8.0_45"
 
@@ -86,8 +84,8 @@ do
 				printf "The version which is now loaded is $pipelineVersion${normal}\n\n"
 			fi
                         mkdir -p ${GENERATEDSCRIPTS}/${run}_${sequencer}/
-			echo "copying $EBROOTAUTOMATED/automated_generate_template.sh to ${GENERATEDSCRIPTS}/${run}_${sequencer}/generate.sh" >> $LOGGER
-                        cp ${EBROOTAUTOMATED}/automated_generate_template.sh ${GENERATEDSCRIPTS}/${run}_${sequencer}/generate.sh
+			echo "copying $EBROOTNGS_AUTOMATED/automated_generate_template.sh to ${GENERATEDSCRIPTS}/${run}_${sequencer}/generate.sh" >> $LOGGER
+                        cp ${EBROOTNGS_AUTOMATED}/automated_generate_template.sh ${GENERATEDSCRIPTS}/${run}_${sequencer}/generate.sh
 			if [ -f ${GENERATEDSCRIPTS}/${run}_${sequencer}/${run}_${sequencer}.csv ]
 			then
 				echo "${GENERATEDSCRIPTS}/${run}_${sequencer}/${run}_${sequencer}.csv already existed, will now be removed and will be replaced by a fresh copy" >> $LOGGER
