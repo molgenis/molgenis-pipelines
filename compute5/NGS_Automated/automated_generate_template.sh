@@ -13,6 +13,7 @@ GROUP=$(awk '{print $3}' ./environment_checks.txt)
 PROJECT=$1
 WORKDIR="/groups/${GROUP}/${TMPDIR}"
 RUNID=run01
+
 ## Normal user, please leave BATCH at _chr
 ## Expert modus: small batchsize (6) leave BATCH empty, _exome (10 batches), _wgs (20 batches), OR but this is beta _NO (1 batch),
 BATCH="_chr"
@@ -57,7 +58,8 @@ sh $EBROOTMOLGENISMINCOMPUTE/molgenis_compute.sh \
 --runid ${RUNID} \
 -o "workflowpath=${WORKFLOW};\
 outputdir=scripts/jobs;mainParameters=${WORKDIR}/generatedscripts/${PROJECT}/out.csv;\
-group=${WORKDIR}/generatedscripts/${PROJECT}/group_parameters.csv;\
+group_parameters=${WORKDIR}/generatedscripts/${PROJECT}/group_parameters.csv;\
+groupname=${GROUP};\
 ngsversion=$(module list | grep -o -P 'NGS_DNA(.+)');\
 environment_parameters=${WORKDIR}/generatedscripts/${PROJECT}/environment_parameters.csv;\
 batchIDList=${EBROOTNGS_DNA}/batchIDList${BATCH}.csv;\
