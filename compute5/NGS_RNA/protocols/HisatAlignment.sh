@@ -26,6 +26,8 @@
 #string filePrefix
 #string picardJar
 #string seqType
+#string groupname
+#string	tmpName
 
 if [ ${seqType} == "SR" ]
 then

@@ -29,6 +29,8 @@
 #string picardJar
 #string project
 #string collectMultipleMetricsPrefix
+#string groupname
+#string tmpName
 
 #Load module
 module load ${picardVersion}

@@ -13,6 +13,8 @@
 #string project
 #string intermediateDir
 #string picardJar
+#string groupname
+#string tmpName
 
 sleep 5
 

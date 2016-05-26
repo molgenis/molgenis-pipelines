@@ -25,6 +25,8 @@
 #string gatkVersion
 #string ghostscriptVersion
 #string ensembleReleaseVersion
+#string groupname
+#string tmpName
 
 # Change permissions
 
@@ -56,18 +58,19 @@ cp ${projectJobsDir}/${project}.csv ${projectResultsDir}
 
 # Copy BAM plus index plus md5 sum to results directory
 
-if [ $(basename ${workflow}) == "workflow_lexogen.csv" ]
+usedWorkflow=$(basename ${workflow})
+
+if [ "${usedWorkflow}" == "workflow_lexogen.csv" ]
 then
 	cp ${intermediateDir}/*.unique_mapping_reads.sorted.merged.dedup.bam ${projectResultsDir}/alignment
         cp ${intermediateDir}/*.unique_mapping_reads.sorted.merged.dedup.bam.md5 ${projectResultsDir}/alignment
         cp ${intermediateDir}/*.unique_mapping_reads.sorted.merged.dedup.bai ${projectResultsDir}/alignment
         cp ${intermediateDir}/*.unique_mapping_reads.sorted.merged.dedup.bai.md5 ${projectResultsDir}/alignment
-
 else
-	cp ${intermediateDir}/*.unique_mapping_reads.sorted.merged.dedup.splitAndTrim.bam ${projectResultsDir}/alignment
-        cp ${intermediateDir}/*.unique_mapping_reads.sorted.merged.dedup.splitAndTrim.bam.md5 ${projectResultsDir}/alignment
-        cp ${intermediateDir}/*.unique_mapping_reads.sorted.merged.dedup.splitAndTrim.bai ${projectResultsDir}/alignment
-        cp ${intermediateDir}/*.unique_mapping_reads.sorted.merged.dedup.splitAndTrim.bai.md5 ${projectResultsDir}/alignment
+	cp ${intermediateDir}/*.sorted.merged.dedup.splitAndTrim.bam ${projectResultsDir}/alignment
+        cp ${intermediateDir}/*.sorted.merged.dedup.splitAndTrim.bam.md5 ${projectResultsDir}/alignment
+        cp ${intermediateDir}/*.sorted.merged.dedup.splitAndTrim.bai ${projectResultsDir}/alignment
+        cp ${intermediateDir}/*.sorted.merged.dedup.splitAndTrim.bai.md5 ${projectResultsDir}/alignment
 fi
 
 # copy qc metrics to qcmetrics folder
@@ -84,7 +87,7 @@ fi
 	cp ${intermediateDir}/*.mdupmetrics ${projectResultsDir}/qcmetrics
 	cp ${intermediateDir}/*.collectrnaseqmetrics ${projectResultsDir}/qcmetrics
 
-	if [ ${seqType} == "PE" ]
+	if [ "${seqType}" == "PE" ]
         then
 		cp ${intermediateDir}/*.insert_size_metrics ${projectResultsDir}/qcmetrics
 	else
@@ -106,7 +109,8 @@ fi
 
 # Copy variants vcfs to results directory
 
-	if [ if [ $(basename ${workflow}) == "workflow_lexogen.csv" ]
+	usedWorkflow=$(basename ${workflow})
+	if [ "${usedWorkflow}" == "workflow_lexogen.csv" ]
         then
 		echo "Variant vcfs are not existing, skipped"
 	else
@@ -114,10 +118,10 @@ fi
 	fi
 
 #only available with PE
-	if [ ${seqType} == "PE" ]
+	if [ "${seqType}" == "PE" ]
 	then
 		cp ${intermediateDir}/*.insertsizemetrics.png ${projectResultsDir}/images
-		cp ${intermediateDir}/.insert_size_histogram.pdf ${projectResultsDir}/images
+		cp ${intermediateDir}/*.insert_size_histogram.pdf ${projectResultsDir}/images
 	else
                 echo "Skip insertSizeMetrics. seqType is: ${seqType}"
 	fi

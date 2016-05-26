@@ -22,6 +22,8 @@
 #string hisatVersion
 #string genome
 #string ngsversion
+#string groupname
+#string tmpName
 
 #string jdkVersion
 #string RVersion
@@ -494,7 +496,7 @@ cp ${intermediateDir}/*.GC.png ${projectQcDir}/images
 
 #only available with PE
 
-if [ ${seqType} == "PE" ]
+if [ "${seqType}" == "PE" ]
 then
 	cp ${intermediateDir}/*.insert_size_histogram.png ${projectQcDir}/images
 fi
