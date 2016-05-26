@@ -31,8 +31,16 @@ do
 	run=$3
 	IFS=$OLDIFS
 
+	miseqCompleted="no"
+
+        ## Check if there the run is already completed
+        if [[ -f ${NEXTSEQDIR}/${PROJECTNAME}/RTAComplete.xml && "${sequencer}" == "M01785" ]]
+        then
+            	miSeqCompleted="yes"
+        fi
+
 	## Check if there the run is already completed
-	if [[ -f ${NEXTSEQDIR}/${PROJECTNAME}/RunCompletionStatus.xml || -f ${NEXTSEQDIR}/${PROJECTNAME}/CompletedJobInfo.xml ]]
+	if [[ -f ${NEXTSEQDIR}/${PROJECTNAME}/RunCompletionStatus.xml || "${miseqCompleted}" == "yes" ]]
 	then
 		##Check if it is a GAF or GD run
 		if [ -f "${ROOTDIR}/umcg-gaf/${SCRATCHDIR}/Samplesheets/${PROJECTNAME}.csv" ]
