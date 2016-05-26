@@ -494,7 +494,7 @@ cp ${intermediateDir}/*.GC.png ${projectQcDir}/images
 
 #only available with PE
 
-if [ "${intermediateDir}/*.insert_size_histogram.png" ]
+if [ ${seqType} == "PE" ]
 then
 	cp ${intermediateDir}/*.insert_size_histogram.png ${projectQcDir}/images
 fi

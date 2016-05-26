@@ -1,5 +1,5 @@
 #### ENVIRONMENT VARIABLES ####
-queue,ll
+queue,gaf
 workDir,/groups/umcg-gaf/
 dataDir,${root}/data/
 tmpName,tmp04

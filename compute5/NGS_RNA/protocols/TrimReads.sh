@@ -7,6 +7,7 @@
 #string srBarcodeFqGz
 #string intermediateDir
 #string BBMapVersion
+#string project
 
 #Echo parameter values
 echo "seqType: ${seqType}"

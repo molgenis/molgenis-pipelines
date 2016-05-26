@@ -89,20 +89,20 @@ BarcodeFastQcFolder,${intermediateDir}/${filePrefix}_${barcode}.fq_fastqc
 BarcodeFastQcFolderPE,${intermediateDir}/${filePrefix}_${barcode}_1.fq_fastqc
 alignedSam,${intermediateDir}/${filePrefix}_${barcode}.sam
 alignedBam,${intermediateDir}/${filePrefix}_${barcode}.bam
-alignedFilteredBam,${intermediateDir}/${filePrefix}_${barcode}.unique_mapping_reads.bam
-alignedFilteredBai,${intermediateDir}/${filePrefix}_${barcode}.unique_mapping_reads.bai
-sortedBam,${intermediateDir}/${filePrefix}_${barcode}.unique_mapping_reads.sorted.bam
-sortedBai,${intermediateDir}/${filePrefix}_${barcode}.unique_mapping_reads.sorted.bai
-sampleMergedBam,${intermediateDir}/${externalSampleID}.unique_mapping_reads.sorted.merged.bam
-sampleMergedBai,${intermediateDir}/${externalSampleID}.unique_mapping_reads.sorted.merged.bai
-sampleMergedDedupBam,${intermediateDir}/${externalSampleID}.unique_mapping_reads.sorted.merged.dedup.bam
-sampleMergedDedupBai,${intermediateDir}/${externalSampleID}.unique_mapping_reads.sorted.merged.dedup.bai
+alignedFilteredBam,${intermediateDir}/${filePrefix}_${barcode}.bam
+alignedFilteredBai,${intermediateDir}/${filePrefix}_${barcode}.bai
+sortedBam,${intermediateDir}/${filePrefix}_${barcode}.sorted.bam
+sortedBai,${intermediateDir}/${filePrefix}_${barcode}.sorted.bai
+sampleMergedBam,${intermediateDir}/${externalSampleID}.sorted.merged.bam
+sampleMergedBai,${intermediateDir}/${externalSampleID}.sorted.merged.bai
+sampleMergedDedupBam,${intermediateDir}/${externalSampleID}.sorted.merged.dedup.bam
+sampleMergedDedupBai,${intermediateDir}/${externalSampleID}.sorted.merged.dedup.bai
 starLogFile,${intermediateDir}/${externalSampleID}.hisat.final.log,
 fragmentLength,200
 
 ##### Protocols 4,5a,5b,5c (SplitAndTrim,GatkHaplotypeCallerGvcf,GatkMergeGvcf,GatkGenotypeGvcf) #####
-splitAndTrimBam,${intermediateDir}${externalSampleID}.unique_mapping_reads.sorted.merged.dedup.splitAndTrim.bam
-splitAndTrimBai,${intermediateDir}${externalSampleID}.unique_mapping_reads.sorted.merged.dedup.splitAndTrim.bai
+splitAndTrimBam,${intermediateDir}${externalSampleID}.sorted.merged.dedup.splitAndTrim.bam
+splitAndTrimBai,${intermediateDir}${externalSampleID}.sorted.merged.dedup.splitAndTrim.bai
 GatkHaplotypeCallerGvcf,${intermediateDir}${externalSampleID}.GatkHaplotypeCallerGvcf.g.vcf
 GatkHaplotypeCallerGvcfidx,${intermediateDir}${externalSampleID}.GatkHaplotypeCallerGvcf.g.vcf.idx
 GatkMergeGvcf,${intermediateDir}${externalSampleID}.MergeGvcf.g.vcf

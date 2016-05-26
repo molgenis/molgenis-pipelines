@@ -1,6 +1,6 @@
 #!/bin/bash
 
-module load NGS_RNA/3.2.1-Molgenis-Compute-v15.12.4-Java-1.8.0_45
+module load NGS_RNA/3.2.3-Molgenis-Compute-v15.12.4-Java-1.8.0_45
 #module list
 
 PROJECT=projectXX
@@ -42,6 +42,7 @@ sh ${EBROOTMOLGENISMINCOMPUTE}/molgenis_compute.sh \
 -p ${GAF}/generatedscripts/${PROJECT}/parameters.${SPECIES}.csv \
 -p ${GAF}/generatedscripts/${PROJECT}/parameters.${ENVIRONMENT}.csv \
 -p ${GAF}/generatedscripts/${PROJECT}/${PROJECT}.csv \
+-p ${EBROOTNGS_RNA}/chromosomes.${SPECIES}.csv \
 -w ${EBROOTNGS_RNA}/create_in-house_ngs_projects_workflow.csv \
 -rundir ${GAF}/generatedscripts/${PROJECT}/scripts \
 --runid ${RUNID} \
