@@ -37,6 +37,13 @@ do
 	sequencer=$2
 	run=$3
 	IFS=$OLDIFS
+	if ssh umcg-ateambot@${gattacaAddress} ls ${GATTACA}/logs/${filePrefix}.demultiplexing.finished 1> /dev/null 2>&1 
+	then
+		### Demultiplexing is finished
+		printf ""
+	else
+		continue;
+	fi
 
 	if [ -f ${LOGDIR}/${filePrefix}.copyToZinc.locked ]
 	then
@@ -70,7 +77,7 @@ do
 
 		rsync -r umcg-ateambot@${gattacaAddress}:/groups/umcg-lab/scr01/sequencers/${filePrefix}/InterOp ${RAWDATADIR}/${filePrefix}/Info/
 		rsync umcg-ateambot@${gattacaAddress}:/groups/umcg-lab/scr01/sequencers/${filePrefix}/RunInfo.xml ${RAWDATADIR}/${filePrefix}/Info/
-		rsync umcg-ateambot@${gattacaAddress}:/groups/umcg-lab/scr01/sequencers/${filePrefix}/RunParameters.xml ${RAWDATADIR}/${filePrefix}/Info/
+		rsync umcg-ateambot@${gattacaAddress}:/groups/umcg-lab/scr01/sequencers/${filePrefix}/*unParameters.xml ${RAWDATADIR}/${filePrefix}/Info/
 
 		if [ ${countFilesRawDataDirTmp} -eq ${countFilesRawDataDirGattaca} ]
 		then
