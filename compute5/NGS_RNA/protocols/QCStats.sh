@@ -23,7 +23,7 @@
 #string picardVersion
 #string anacondaVersion
 #string samtoolsVersion
-#string NGSUtilsVersion
+#string NGSRNAVersion
 #string pythonVersion
 #string ghostscriptVersion
 #string picardJar
