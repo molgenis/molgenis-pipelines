@@ -6,6 +6,7 @@ jobname,jobname
 ##### Tools and versions #####
 jdkVersion,Java/1.7.0_80
 NGSUtilsVersion,ngs-utils
+NGSRNAVersion,NGS_RNA/3.2.3-Molgenis-Compute-v16.05.1-Java-1.8.0_45
 fastqcVersion,FastQC/0.11.3-Java-1.7.0_80
 samtoolsVersion,SAMtools/1.2-goolf-1.7.20
 RVersion,R/3.2.1-goolf-1.7.20
@@ -13,7 +14,6 @@ wkhtmltopdfVersion,wkhtmltopdf/0.11.0_rc1-static-amd64
 picardVersion,picard/1.130-Java-1.7.0_80
 anacondaVersion,Anaconda/1.8.0-Linux-x86_64
 htseqVersion,HTSeq/0.6.1p1
-starVersion,STAR/2.3.1z12-goolf-1.7.20
 hisatVersion,hisat/0.1.5-beta-goolf-1.7.20
 pythonVersion,Python/2.7.9-goolf-1.7.20
 gatkVersion,GATK/3.4-46-Java-1.7.0_80 

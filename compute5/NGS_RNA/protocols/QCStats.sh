@@ -36,7 +36,7 @@
 module load ${picardVersion}
 module load ${samtoolsVersion}
 module load ${pythonVersion}
-module load ${NGSUtilsVersion}
+module load ${NGSRNAVersion}
 module load ${ghostscriptVersion}
 module list
 
@@ -84,7 +84,7 @@ then
 	#add header to qcMatrics
         echo "Sample:	${externalSampleID}" > ${qcMatrics}
 
-	python $EBROOTNGSMINUTILS/pull_RNA_Seq_Stats.py \
+	python ${EBROOTNGS_RNA}/report/pull_RNA_Seq_Stats.py \
 	-i ${insertsizeMetrics} \
 	-f ${flagstatMetrics} \
 	-r ${rnaSeqMetrics} \
@@ -130,7 +130,7 @@ then
 	echo "Sample:	${externalSampleID}" > ${qcMatrics} 
 
 	#Pull RNASeq stats without intsertSizeMatrics
-	python $EBROOTNGSMINUTILS/pull_RNA_Seq_Stats.py \
+	python ${EBROOTNGS_RNA}/report/pull_RNA_Seq_Stats.py \
 	-f ${flagstatMetrics} \
 	-r ${rnaSeqMetrics} \
 	-d ${dupStatMetrics} \
