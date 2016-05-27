@@ -36,7 +36,7 @@ if java -Xmx6g -XX:ParallelGCThreads=4 -jar $EBROOTPICARD/SortSam.jar \
   OUTPUT=${sortedBam} \
   SO=coordinate \
   CREATE_INDEX=true \
-  TMP_DIR=${sortedBamDir}
+  TMP_DIR=${TMPDIR}
 
 then
  echo "returncode: $?"; putFile ${sortedBam}

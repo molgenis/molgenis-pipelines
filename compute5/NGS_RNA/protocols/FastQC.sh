@@ -18,6 +18,8 @@
 #string BarcodeFastQcFolderPE
 #string BarcodeFastQcFolder
 #string project
+#string groupname
+#string tmpName
 
 #Load module
 module load ${fastqcVersion}

@@ -9,7 +9,9 @@
 #string projectResultsDir
 #string projectQcDir
 #string jdkVersion
+#string groupname
 #string NGSUtilsVersion
+
 #list sequencingStartDate
 #list sequencer
 #list run
@@ -19,6 +21,7 @@
 #string parameters_build
 #string parameters_species
 #string parameters_environment
+#string parameters_chromosomes
 #string ngsversion
 
 #string worksheet 
@@ -133,6 +136,10 @@ sh ${EBROOTMOLGENISMINCOMPUTE}/molgenis_compute.sh \
 -p ${parameters_build} \
 -p ${parameters_species} \
 -p ${parameters_environment} \
+-p ${parameters_chromosomes} \
+--header ${EBROOTMOLGENISMINCOMPUTE}/templates/slurm/header_gaf.ftl \
+--footer ${EBROOTMOLGENISMINCOMPUTE}/templates/slurm/footer_gaf.ftl \
+--submit ${EBROOTMOLGENISMINCOMPUTE}/templates/slurm/submit_gaf.ftl \
 -p ${projectJobsDir}/${project}.csv -rundir ${projectJobsDir} \
 -w ${workflowpath} -b slurm -g -weave -runid ${runid} \
--o "ngsversion=${ngsversion};"
+-o "ngsversion=${ngsversion};groupname=${groupname};"

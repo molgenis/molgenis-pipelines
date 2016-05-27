@@ -2,4 +2,6 @@ queue,ll
 tmpName,tmp05
 prmName,prm02
 root,/apps/
-workDir,/groups/umcg-gaf/${tmpName}
+
+nextSeqDir,${rawdataDir}/nextSeq
+nextSeqRunDataDir,${nextSeqDir}/${runPrefix}/

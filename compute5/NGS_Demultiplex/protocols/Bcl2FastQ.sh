@@ -10,9 +10,10 @@
 #string intermediateDir
 #string runJobsDir
 #string prepKitsDir
+#string ngsUtilsVersion
 
 ${stage} ${bcl2fastqVersion}
-${stage} ngs-utils
+${stage} ${ngsUtilsVersion}
 
 ${checkStage}
 
@@ -61,6 +62,7 @@ mv ${tmpIntermediateDir}/Illumina_R${run}.csv ${intermediateDir}/Illumina_R${run
 bcl2fastq \
 --runfolder-dir ${nextSeqRunDataDir} \
 --output-dir ${tmpIntermediateDir} \
+--mask-short-adapter-reads 10 \
 --sample-sheet ${intermediateDir}/Illumina_R${run}.csv 
 
 mv ${tmpIntermediateDir}/* ${intermediateDir}

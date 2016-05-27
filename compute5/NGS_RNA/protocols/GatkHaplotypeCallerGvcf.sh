@@ -15,6 +15,8 @@
 #string GatkHaplotypeCallerGvcf
 #string GatkHaplotypeCallerGvcfidx
 #string project
+#string groupname
+#string tmpName
 
 makeTmpDir ${GatkHaplotypeCallerGvcf}
 tmpGatkHaplotypeCallerGvcf=${MC_tmpFile}

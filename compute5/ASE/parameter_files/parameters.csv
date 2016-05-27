@@ -1,0 +1,41 @@
+########################################################################
+## General parameters for SLURM settings and cluster directory paths
+#
+queue,ll
+defaultInterpreter,#!/bin/bash
+stage,module load
+checkStage,module list
+WORKDIR,/groups/
+root,${WORKDIR}
+group,umcg-bios
+tmp,tmp04
+resDir,/groups/umcg-wijmenga/tmp04/resources/
+toolDir,/apps/software/
+projectDir,${root}/${group}/${tmp}/projects/${project}/
+uniqueID,${sampleName}
+########################################################################
+## Software and data versions/builds/paths
+#
+samtoolsVersion,1.2-foss-2015b
+bedtoolsVersion,2.23.0-foss-2015b
+tabixVersion,0.2.6-goolf-1.7.20
+AseVersion,0.1
+referenceFastaName,human_g1k_v37
+genomeBuild,b37
+########################################################################
+## Specific tools paths
+#
+## GetReadCounts
+exonlist,/scratch/p275394/bRasqualDataPreparation/NewExons/sorted.txt
+readCountDir,${projectDir}/readCounts/
+readCountFile,${readCountDir}/${sampleName}_readCounts.txt
+## ASReads
+ASReadsDir,${projectDir}/ASReads/
+ASReadsDirSample,${ASReadsDir}/${sampleName}/
+couplingFile,${ASReadsDir}/coupling.txt
+ASReads,${ASReadsDirSample}/${sampleName}_ASreads.txt
+imputedVcf,gonl-abc_samples.chr${chromosome}.release5.NoMAFSelection.vcf.gz
+## ASE
+AseDir,${projectDir}/ASE/
+ASFiles,${AseDir}/ASFiles.txt
+AseOutput,${AseDir}/results
