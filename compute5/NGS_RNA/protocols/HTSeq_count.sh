@@ -9,6 +9,8 @@
 #string samtoolsVersion
 #string project
 #string prepKit
+#string groupname
+#string tmpName
 
 module load ${htseqVersion}
 module load ${samtoolsVersion}

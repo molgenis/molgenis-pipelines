@@ -16,6 +16,7 @@
 
 #list internalSampleID
 #string project
+#string groupname
 #string scriptDir
 
 #list barcode

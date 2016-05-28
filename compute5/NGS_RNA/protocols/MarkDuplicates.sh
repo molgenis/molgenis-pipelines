@@ -16,6 +16,8 @@
 #string picardJar
 #string project
 #string picardVersion
+#string groupname
+#string tmpName
 
 sleep 5
 

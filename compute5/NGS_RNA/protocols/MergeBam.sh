@@ -13,6 +13,8 @@
 #string project
 #string intermediateDir
 #string picardJar
+#string groupname
+#string tmpName
 
 sleep 5
 
@@ -59,8 +61,8 @@ done
 
 if [ ${#INPUTS[@]} == 1 ]
 then
-	ln -sf ${INPUTBAMS[0]} ${sampleMergedBam}
-	ln -sf ${UNIQUEBAIS[0]} ${sampleMergedBai}
+	ln -sf $(basename ${INPUTBAMS[0]}) ${sampleMergedBam}
+	ln -sf $(basename ${UNIQUEBAIS[0]}) ${sampleMergedBai}
 	echo "nothing to merge because there is only one sample"
 
 else
