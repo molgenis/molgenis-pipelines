@@ -7,7 +7,7 @@ groupname=$1
 MYINSTALLATIONDIR=$( cd -P "$( dirname "$0" )" && pwd )
 ##source config file (zinc-finger.gcc.rug.nl.cfg, leucine-zipper.gcc.rug.nl OR gattaca.cfg)
 myhost=$(hostname)
-echo $myhost
+
 . ${MYINSTALLATIONDIR}/${groupname}.cfg
 . ${MYINSTALLATIONDIR}/${myhost}.cfg
 . ${MYINSTALLATIONDIR}/sharedConfig.cfg
@@ -26,11 +26,11 @@ then
 	module load ${NGS_DNA_3_2_3}
 fi
 
-count=0 echo "Logfiles will be written to $LOGDIR"
+count=0 
+echo "Logfiles will be written to $LOGDIR"
 
 for i in $(ls ${SAMPLESHEETSDIR}/*.csv) 
 do
-	echo "$i"
   	csvFile=$(basename $i)
         filePrefix="${csvFile%.*}"
 	
@@ -44,8 +44,6 @@ do
 	array=($HEADER)
 	IFS=$OLDIFS
 	count=1
-	myproject=()
-
 	for j in "${array[@]}"
 	do
   		if [ "${j}" == "project" ]
@@ -62,6 +60,28 @@ do
           	PROJECTARRAY+="${line} "
 
         done<${i}.uniq.projects
+	count=1
+
+	## Know which capturing kits
+	for j in "${array[@]}"
+	do
+  		if [ "${j}" == "capturingKit" ]
+  	     	then
+			
+			awk -F"," '{print $'$count'}' ${i}.tmp > ${i}.capturingKit
+  	 	fi
+		count=$((count + 1))
+	done
+	cat ${i}.capturingKit | sort -V | uniq > ${i}.uniq.capturingKits	
+	miSeqRun="no"
+	while read line
+        do
+        	if [[ "${line}" == *"CARDIO"* || "${line}" == *"DER_v1"* || "${line}" == *"DYS_v3"* || "${line}" == *"EPI_v3"* || "${line}" == *"LEVER_v1"* || "${line}" == *"NEURO_v1"* || "${line}" == *"ONCO_v1"* || "${line}" == *"PCS_v1"* ]]
+		then
+			miSeqRun="yes"
+			break
+		fi
+        done<${i}.uniq.capturingKits
 
         OLDIFS=$IFS
         IFS=_
@@ -69,7 +89,7 @@ do
         sequencer=$2
         run=$3
 	IFS=$OLDIFS
-        LOGGER=${LOGDIR}/${myproject}.startPipeline.logger
+        LOGGER=${LOGDIR}/${filePrefix}.startPipeline.logger
 
 	####
 	### Decide if the scripts should be created (per Samplesheet)
@@ -102,6 +122,14 @@ do
 				printf "The version which is now loaded is $pipelineVersion${normal}\n\n"
 			fi
                        	mkdir -p ${GENERATEDSCRIPTS}/${run}_${sequencer}/
+
+			batching="_chr"
+
+			if [ miSeqRun == "yes" ]
+			then
+				batching="_small"
+			fi
+				
 			echo "copying $EBROOTNGS_AUTOMATED/automated_generate_template.sh to ${GENERATEDSCRIPTS}/${run}_${sequencer}/generate.sh" >> $LOGGER
                        	cp ${EBROOTNGS_AUTOMATED}/automated_generate_template.sh ${GENERATEDSCRIPTS}/${run}_${sequencer}/generate.sh
 		
@@ -114,7 +142,7 @@ do
 			cp ${SAMPLESHEETSDIR}/${csvFile} ${GENERATEDSCRIPTS}/${run}_${sequencer}/${run}_${sequencer}.csv
 		
 			cd ${GENERATEDSCRIPTS}/${run}_${sequencer}/
-			sh ${GENERATEDSCRIPTS}/${run}_${sequencer}/generate.sh "${run}_${sequencer}"
+			sh ${GENERATEDSCRIPTS}/${run}_${sequencer}/generate.sh "${run}_${sequencer}" ${batching}
 		
 			cd scripts
 			touch ${GENERATEDSCRIPTS}/${run}_${sequencer}/scripts/CopyPrmTmpData_0.sh.finished
@@ -130,20 +158,22 @@ do
 	#
 	if [ -f $LOGDIR/${filePrefix}.scriptsGenerated ] 
 	then
-		for myproject in ${PROJECTARRAY[@]}
+		for PROJECT in ${PROJECTARRAY[@]}
 		do
-			PROJECT=$myproject
 			WHOAMI=$(whoami)
 			HOSTN=$(hostname)
+		        LOGGER=${LOGDIR}/${PROJECT}.startPipeline.logger
+			echo "${LOGDIR}/${PROJECT}"
+			if [ ! -f ${LOGDIR}/${PROJECT}.pipeline.started ]
+			then
+				cd ${PROJECTSDIR}/${PROJECT}/run01/jobs/
+				sh submit.sh
 
-			if [[ -f $LOGDIR/${filePrefix}.dataCopiedToZinc && ! -f $LOGDIR/${myproject}.pipeline.started ]]
-			cd ${PROJECTSDIR}/${PROJECT}/run01/jobs/
-			sh submit.sh
-
-			touch ${LOGDIR}/${PROJECT}.pipeline.started
-
-			printf "Pipeline: ${pipeline}\nStarttime:`date +%d/%m/%Y` `date +%H:%M`\nProject: $PROJECT\nStarted by: $WHOAMI\nHost: ${HOSTN}\n\nProgress can be followed via the command squeue -u $WHOAMI on $HOSTN.\nYou will receive an email when the pipeline is finished!\n\nCheers from the GCC :)" | mail -s "NGS_DNA pipeline is started for project $PROJECT on `date +%d/%m/%Y` `date +%H:%M`" ${ONTVANGER}
-			sleep 40
-        	fi
-	done
+				touch ${LOGDIR}/${PROJECT}.pipeline.started
+	
+				printf "Pipeline: ${pipeline}\nStarttime:`date +%d/%m/%Y` `date +%H:%M`\nProject: $PROJECT\nStarted by: $WHOAMI\nHost: ${HOSTN}\n\nProgress can be followed via the command squeue -u $WHOAMI on $HOSTN.\nYou will receive an email when the pipeline is finished!\n\nCheers from the GCC :)" | mail -s "NGS_DNA pipeline is started for project $PROJECT on `date +%d/%m/%Y` `date +%H:%M`" ${ONTVANGER}
+				sleep 40
+			fi
+		done
+	fi
 done
