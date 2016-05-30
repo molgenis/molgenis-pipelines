@@ -1,5 +1,7 @@
 #!/bin/bash
 
+### NEEDS 2 arguments! PROJECT AND BATCH
+
 module load NGS_DNA/3.2.3-Molgenis-Compute-v16.05.1-Java-1.8.0_45
 module list 
 HOST=$(hostname)
@@ -15,8 +17,8 @@ WORKDIR="/groups/${GROUP}/${TMPDIR}"
 RUNID=run01
 
 ## Normal user, please leave BATCH at _chr
-## Expert modus: small batchsize (6) leave BATCH empty, _exome (10 batches), _wgs (20 batches), OR but this is beta _NO (1 batch),
-BATCH="_chr"
+## Expert modus: small batchsize (6) fill in '_small', _exome (10 batches), _wgs (20 batches), OR but this is beta _NO (1 batch),
+BATCH=$2
 THISDIR=$(pwd)
 
 SAMPLESIZE=$(( $(sh ${EBROOTNGS_DNA}/samplesize.sh ${WORKDIR}/generatedscripts/${PROJECT}/${PROJECT}.csv $THISDIR) -1 ))

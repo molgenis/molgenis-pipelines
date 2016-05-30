@@ -7,13 +7,15 @@ groupname=$1
 MYINSTALLATIONDIR=$( cd -P "$( dirname "$0" )" && pwd )
 ##source config file (zinc-finger.gcc.rug.nl.cfg, leucine-zipper.gcc.rug.nl OR gattaca.cfg)
 myhost=$(hostname)
-echo $myhost
+
 . ${MYINSTALLATIONDIR}/${groupname}.cfg
 . ${MYINSTALLATIONDIR}/${myhost}.cfg
 . ${MYINSTALLATIONDIR}/sharedConfig.cfg
 
-ls ${SAMPLESHEETSDIR}/*.csv > ${SAMPLESHEETSDIR}/allSampleSheets_Zinc_startPipeline.txt 
+#ls ${SAMPLESHEETSDIR}/*.csv > ${SAMPLESHEETSDIR}/allSampleSheets_Zinc_startPipeline.txt 
 pipeline="dna"
+
+AUTOMATEDVERSION=$(module list | grep -o -P 'Automated(.+)' | awk -F"/" '{print $2}' )
 
 #NGS_DNA-3.2.2="NGS_DNA/3.2.2-Molgenis-Compute-v16.04.1-Java-1.8.0_45"
 NGS_DNA_3_2_3="NGS_DNA/3.2.3-Molgenis-Compute-v16.05.1-Java-1.8.0_45"
@@ -24,53 +26,89 @@ then
 	module load ${NGS_DNA_3_2_3}
 fi
 
-count=0 echo "Logfiles will be written to $LOGDIR"
+count=0 
+echo "Logfiles will be written to $LOGDIR"
 
 for i in $(ls ${SAMPLESHEETSDIR}/*.csv) 
 do
   	csvFile=$(basename $i)
         filePrefix="${csvFile%.*}"
-
+	
+	##get header to decide later which column is project
 	HEADER=$(head -1 ${i})
-	head -2 ${i} | tail -1 > ${i}.tmp
+
+	##Remove header, only want to keep samples
+	sed '1d' $i > ${i}.tmp
 	OLDIFS=$IFS
 	IFS=','
 	array=($HEADER)
 	IFS=$OLDIFS
 	count=1
-	myproject=""
-
 	for j in "${array[@]}"
 	do
   		if [ "${j}" == "project" ]
   	     	then
-  	        	myproject=$(awk -F"," '{print $'$count'}' ${i}.tmp)
+			awk -F"," '{print $'$count'}' ${i}.tmp > ${i}.tmp2
   	 	fi
 		count=$((count + 1))
 	done
-	rm ${i}.tmp
-        FINISHED="no"
+	cat ${i}.tmp2 | sort -V | uniq > ${i}.uniq.projects
+
+        PROJECTARRAY=()
+        while read line
+        do
+          	PROJECTARRAY+="${line} "
+
+        done<${i}.uniq.projects
+	count=1
+
+	## Know which capturing kits
+	for j in "${array[@]}"
+	do
+  		if [ "${j}" == "capturingKit" ]
+  	     	then
+			
+			awk -F"," '{print $'$count'}' ${i}.tmp > ${i}.capturingKit
+  	 	fi
+		count=$((count + 1))
+	done
+	cat ${i}.capturingKit | sort -V | uniq > ${i}.uniq.capturingKits	
+	miSeqRun="no"
+	while read line
+        do
+        	if [[ "${line}" == *"CARDIO"* || "${line}" == *"DER_v1"* || "${line}" == *"DYS_v3"* || "${line}" == *"EPI_v3"* || "${line}" == *"LEVER_v1"* || "${line}" == *"NEURO_v1"* || "${line}" == *"ONCO_v1"* || "${line}" == *"PCS_v1"* ]]
+		then
+			miSeqRun="yes"
+			break
+		fi
+        done<${i}.uniq.capturingKits
+
         OLDIFS=$IFS
         IFS=_
 	set $filePrefix
         sequencer=$2
         run=$3
 	IFS=$OLDIFS
-        LOGGER=${LOGDIR}/${myproject}.startPipeline.logger
-	if [[ -f $LOGDIR/${filePrefix}.dataCopiedToZinc && ! -f $LOGDIR/${myproject}.pipeline.started ]]
+        LOGGER=${LOGDIR}/${filePrefix}.startPipeline.logger
+
+	####
+	### Decide if the scripts should be created (per Samplesheet)
+	##
+	#
+	if [[ -f $LOGDIR/${filePrefix}.dataCopiedToZinc && ! -f $LOGDIR/${filePrefix}.scriptsGenerated ]]
         then
-                ### Step 4: Does the pipeline need to run?
-                if [ "${pipeline}" == "RNA-Lexogen-reverse" ]
-                then
-                        echo "RNA-Lexogen-reverse" >> ${LOGGER}
-                elif [ "${pipeline}" == "RNA-Lexogen" ]
-                then
-                        echo "RNA-Lexogen" >> ${LOGGER}
-                elif [ "${pipeline}" == "RNA" ]
-                then
-                        echo "RNA" >> ${LOGGER}
-                elif [ "${pipeline}" == "dna" ]
-                then
+               	### Step 4: Does the pipeline need to run?
+               	if [ "${pipeline}" == "RNA-Lexogen-reverse" ]
+               	then
+               	        echo "RNA-Lexogen-reverse" >> ${LOGGER}
+               	elif [ "${pipeline}" == "RNA-Lexogen" ]
+               	then
+               	        echo "RNA-Lexogen" >> ${LOGGER}
+               	elif [ "${pipeline}" == "RNA" ]
+               	then
+               	        echo "RNA" >> ${LOGGER}
+               	elif [ "${pipeline}" == "dna" ]
+               	then
 			if pipelineVersion=$(module list | grep -o -P 'NGS_DNA(.+)')
 			then
 				echo ""
@@ -83,37 +121,59 @@ do
 				pipelineVersion=$(module list | grep -o -P 'NGS_DNA(.+)')
 				printf "The version which is now loaded is $pipelineVersion${normal}\n\n"
 			fi
-                        mkdir -p ${GENERATEDSCRIPTS}/${run}_${sequencer}/
+                       	mkdir -p ${GENERATEDSCRIPTS}/${run}_${sequencer}/
+
+			batching="_chr"
+
+			if [ miSeqRun == "yes" ]
+			then
+				batching="_small"
+			fi
+				
 			echo "copying $EBROOTNGS_AUTOMATED/automated_generate_template.sh to ${GENERATEDSCRIPTS}/${run}_${sequencer}/generate.sh" >> $LOGGER
-                        cp ${EBROOTNGS_AUTOMATED}/automated_generate_template.sh ${GENERATEDSCRIPTS}/${run}_${sequencer}/generate.sh
+                       	cp ${EBROOTNGS_AUTOMATED}/automated_generate_template.sh ${GENERATEDSCRIPTS}/${run}_${sequencer}/generate.sh
+		
 			if [ -f ${GENERATEDSCRIPTS}/${run}_${sequencer}/${run}_${sequencer}.csv ]
 			then
 				echo "${GENERATEDSCRIPTS}/${run}_${sequencer}/${run}_${sequencer}.csv already existed, will now be removed and will be replaced by a fresh copy" >> $LOGGER
 				rm ${GENERATEDSCRIPTS}/${run}_${sequencer}/${run}_${sequencer}.csv
 			fi
-
+		
 			cp ${SAMPLESHEETSDIR}/${csvFile} ${GENERATEDSCRIPTS}/${run}_${sequencer}/${run}_${sequencer}.csv
+		
 			cd ${GENERATEDSCRIPTS}/${run}_${sequencer}/
-			sh ${GENERATEDSCRIPTS}/${run}_${sequencer}/generate.sh "${run}_${sequencer}"
+			sh ${GENERATEDSCRIPTS}/${run}_${sequencer}/generate.sh "${run}_${sequencer}" ${batching}
+		
 			cd scripts
-
 			touch ${GENERATEDSCRIPTS}/${run}_${sequencer}/scripts/CopyPrmTmpData_0.sh.finished
 			sh submit.sh
-			PROJECT=$myproject
+			pipelineVersion=$(module list | grep -o -P 'NGS_DNA(.+)')
+			touch $LOGDIR/${filePrefix}.scriptsGenerated
+		fi
+	fi
+
+	####
+	### If generatedscripts is already done, step in this part to submit the jobs (per project)
+	##
+	#
+	if [ -f $LOGDIR/${filePrefix}.scriptsGenerated ] 
+	then
+		for PROJECT in ${PROJECTARRAY[@]}
+		do
 			WHOAMI=$(whoami)
 			HOSTN=$(hostname)
-			pipelineVersion=$(module list | grep -o -P 'NGS_DNA(.+)')
+		        LOGGER=${LOGDIR}/${PROJECT}.startPipeline.logger
+			echo "${LOGDIR}/${PROJECT}"
+			if [ ! -f ${LOGDIR}/${PROJECT}.pipeline.started ]
+			then
+				cd ${PROJECTSDIR}/${PROJECT}/run01/jobs/
+				sh submit.sh
 
-			cd ${PROJECTSDIR}/${PROJECT}/run01/jobs/
-			sh submit.sh
-
-			touch ${LOGDIR}/${PROJECT}.pipeline.started
-
-			printf "Pipeline: ${pipelineVersion}\nStarttime:`date +%d/%m/%Y` `date +%H:%M`\nProject: $PROJECT\nStarted by: $WHOAMI\nHost: ${HOSTN}\n\nProgress can be followed via the command squeue -u $WHOAMI on $HOSTN.\nYou will receive an email when the pipeline is finished!\n\nCheers from the GCC :)"| mail -s "NGS_DNA pipeline is started for project $PROJECT on `date +%d/%m/%Y` `date +%H:%M`" ${ONTVANGER}
-			sleep 30
-		else
-              		echo "Pipeline is skipped" >> ${LOGGER}
-                fi
-        fi
-
+				touch ${LOGDIR}/${PROJECT}.pipeline.started
+	
+				printf "Pipeline: ${pipeline}\nStarttime:`date +%d/%m/%Y` `date +%H:%M`\nProject: $PROJECT\nStarted by: $WHOAMI\nHost: ${HOSTN}\n\nProgress can be followed via the command squeue -u $WHOAMI on $HOSTN.\nYou will receive an email when the pipeline is finished!\n\nCheers from the GCC :)" | mail -s "NGS_DNA pipeline is started for project $PROJECT on `date +%d/%m/%Y` `date +%H:%M`" ${ONTVANGER}
+				sleep 40
+			fi
+		done
+	fi
 done
