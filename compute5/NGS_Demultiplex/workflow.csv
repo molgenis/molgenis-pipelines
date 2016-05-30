@@ -3,3 +3,4 @@ Bcl2FastQ,protocols/Bcl2FastQ.sh,
 Illumina2GafFastQ,protocols/Illumina2GafFastQ.sh,Bcl2FastQ
 Demultiplex,protocols/Demultiplex.sh,Illumina2GafFastQ
 CreateFinalReport,protocols/CreateFinalReport.sh,Demultiplex
+UploadSampleheet,protocols/UploadSampleheet.sh,Demultiplex
