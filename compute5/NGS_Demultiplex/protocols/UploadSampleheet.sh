@@ -1,5 +1,6 @@
 #MOLGENIS walltime=00:59:00 mem=2gb cores=1
 #string sampleSheet
+#string MCsampleSheet
 #string workDir
 #string runPrefix
 
