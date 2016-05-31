@@ -16,9 +16,15 @@ myhost=$(hostname)
 ### VERVANG DOOR UMCG-ATEAMBOT USER
 ssh umcg-ateambot@${gattacaAddress} "ls ${GATTACA}/Samplesheets/*.csv" > ${SAMPLESHEETSDIR}/allSampleSheets_${GAT}.txt
 
+gattacaSamplesheets=()
+
+while read line 
+do
+gattacaSamplesheets+=("${line} ")
+done<${SAMPLESHEETSDIR}/allSampleSheets_${GAT}.txt
 
 echo "Logfiles will be written to $LOGDIR"
-while read line
+for line in ${gattacaSamplesheets[@]}
 do
 	csvFile=$(basename $line)
 	filePrefix="${csvFile%.*}"
@@ -37,7 +43,7 @@ do
 	sequencer=$2
 	run=$3
 	IFS=$OLDIFS
-	if ssh umcg-ateambot@${gattacaAddress} ls ${GATTACA}/logs/${filePrefix}.demultiplexing.finished 1> /dev/null 2>&1 
+	if ssh umcg-ateambot@${gattacaAddress} ls ${GATTACA}/logs/${filePrefix}_Demultiplexing.finished 1> /dev/null 2>&1 
 	then
 		### Demultiplexing is finished
 		printf ""
