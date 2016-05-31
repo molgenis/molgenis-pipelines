@@ -37,7 +37,7 @@ export RASQUALDIR # rasqual must be declared and exported. Other scripts are in 
 ${RASQUALDIR}/src/ASVCF/zpaste "${ASCountFile[@]}" > $TMPDIR/temp.as.gz
 $RASQUALDIR/src/ASVCF/pasteFiles ${VCF} $TMPDIR/temp.as.gz | \
 bgzip > ${ASVCF}
-tabix -p vcf ${ASVCF}
+tabix -p -f vcf ${ASVCF}
 rm $TMPDIR/temp.as.gz
 
 echo "## "$(date)" $0 Done"
