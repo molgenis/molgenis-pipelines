@@ -29,11 +29,11 @@ THISDIR=$(pwd)
 function errorExitandCleanUp()
 {
         echo "TRAPPED"
-	if [ ! -f /groups/${groupname}/${tmpName}/logs/${project}.generating.failed.mailed ]
+	if [ ! -f /groups/${GROUP}/${TMPDIR}/logs/${PROJECT}.generating.failed.mailed ]
         then
               	mailTo="helpdesk.gcc.groningen@gmail.com"
-                tail -50 ${WORKDIR}/generatedscripts/${PROJECT}/generate.logger	| mail -s "The generate script has crashed for run/project ${project}" <#noparse>${mailTo}</#noparse>
-                touch /groups/${groupname}/${tmpName}/logs/${project}.generating.failed.mailed
+                tail -50 ${WORKDIR}/generatedscripts/${PROJECT}/generate.logger	| mail -s "The generate script has crashed for run/project ${PROJECT}" ${mailTo}
+                touch /groups/${GROUP}/${TMPDIR}/logs/${PROJECT}.generating.failed.mailed 
         fi
 }
 trap "errorExitandCleanUp" HUP INT QUIT TERM EXIT ERR
