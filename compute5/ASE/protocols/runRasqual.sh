@@ -1,5 +1,5 @@
 #!bin/bash
-#MOLGENIS walltime=47:59:00 mem=8gb nodes=1 ppn=16 ### variables to help adding t$
+#MOLGENIS walltime=35:59:00 mem=8gb nodes=1 ppn=16 ### variables to help adding t$
 #string project
 ###
 #string stage
@@ -73,9 +73,9 @@ while read line;do
 		else R=$((start + window)); fi
 	Totalsnps="$(tabix ${ASVCF} $chr:$L-$R | wc -l)"
 	#PREFILTERS###########################################
-	if (( Coverage < Cutoff_for_this)); then continue; fi
+#	if (( Coverage < Cutoff_for_this)); then continue; fi
 	######################################################
-	tabix ${ASVCF} $chr:$L-$R | ${RASQUALDIR}/bin/rasqual --minor-allele-frequency-fsnp 0.1 -y ${yfilebin} -k ${kfilebin} -n $samples_num -j $line_number -l $Totalsnps -m $Totalsnps -s $featureStarts -e $featureEnds -f "$id Output:" --n-threads 16 >> ${rasqualOutDir}/${featureType}/${CHR}region_Rasqual_Output.txt
+	tabix ${ASVCF} $chr:$L-$R | ${RASQUALDIR}/bin/rasqual -y ${yfilebin} -k ${kfilebin} -n $samples_num -j $line_number -l $Totalsnps -m $Totalsnps -s $featureStarts -e $featureEnds -f "$id Output:" --n-threads 16 >> ${rasqualOutDir}/${featureType}/${CHR}region_Rasqual_Output.txt
 done < <(tabix ${featureFile} "$region" )
 done < <(awk -F '\t' '$1 == ${CHR} {printf ("%s:%s-%s\n", $1, $2, $3)}' ${regionsFile})
 ################################
