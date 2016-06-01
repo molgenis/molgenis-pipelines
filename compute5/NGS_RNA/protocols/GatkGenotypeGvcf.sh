@@ -16,6 +16,8 @@
 #string projectBatchCombinedVariantCalls
 #string projectJobsDir
 #string project
+#string groupname
+#string tmpName
 
 
 #Function to check if array contains value

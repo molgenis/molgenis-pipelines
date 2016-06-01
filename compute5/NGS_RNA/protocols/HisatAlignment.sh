@@ -26,6 +26,8 @@
 #string filePrefix
 #string picardJar
 #string seqType
+#string groupname
+#string	tmpName
 
 if [ ${seqType} == "SR" ]
 then
@@ -72,18 +74,9 @@ echo "## "$(date)" Start $0"
 
 	perl -nle 'print $2,"|\t",$1 while (m%^[ ]*([.0-9\%]+\s\(.+\)|[.0-9\%]+).(.+)%g);' ${intermediateDir}/${externalSampleID}_L${lane}.hisat.log > ${intermediateDir}/${externalSampleID}_L${lane}.hisat.final.log
 
-sed '/NH:i:[^1]/d' ${tmpAlignedSam} | samtools view -h -b - > ${tmpAlignedFilteredBam}
-
-	echo "Reads with flag NH:i:[2+] where filtered out (only leaving 'unique' mapping reads)."
-	rm ${tmpAlignedSam}
-	echo "returncode: $?";
-	echo "succes moving files";
-
-
-echo "## "$(date)" Start $0"
 
 java -XX:ParallelGCThreads=4 -jar -Xmx6g ${EBROOTPICARD}/${picardJar} SortSam \
-	INPUT=${tmpAlignedFilteredBam} \
+	INPUT=${tmpAlignedSam} \
 	OUTPUT=${tmpSortedBam} \
  	SO=coordinate \
 	CREATE_INDEX=true \

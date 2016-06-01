@@ -15,6 +15,8 @@
 #string indexFile
 #string tmpTmpDataDir
 #string project
+#string groupname
+#string tmpName
 
 makeTmpDir ${splitAndTrimBam} 
 tmpsplitAndTrimBam=${MC_tmpFile}

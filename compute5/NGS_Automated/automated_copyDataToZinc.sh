@@ -16,9 +16,15 @@ myhost=$(hostname)
 ### VERVANG DOOR UMCG-ATEAMBOT USER
 ssh umcg-ateambot@${gattacaAddress} "ls ${GATTACA}/Samplesheets/*.csv" > ${SAMPLESHEETSDIR}/allSampleSheets_${GAT}.txt
 
+gattacaSamplesheets=()
+
+while read line 
+do
+gattacaSamplesheets+=("${line} ")
+done<${SAMPLESHEETSDIR}/allSampleSheets_${GAT}.txt
 
 echo "Logfiles will be written to $LOGDIR"
-while read line
+for line in ${gattacaSamplesheets[@]}
 do
 	csvFile=$(basename $line)
 	filePrefix="${csvFile%.*}"
@@ -37,6 +43,13 @@ do
 	sequencer=$2
 	run=$3
 	IFS=$OLDIFS
+	if ssh umcg-ateambot@${gattacaAddress} ls ${GATTACA}/logs/${filePrefix}_Demultiplexing.finished 1> /dev/null 2>&1 
+	then
+		### Demultiplexing is finished
+		printf ""
+	else
+		continue;
+	fi
 
 	if [ -f ${LOGDIR}/${filePrefix}.copyToZinc.locked ]
 	then
@@ -45,9 +58,9 @@ do
 	touch ${LOGDIR}/${filePrefix}.copyToZinc.locked
 
 	## Check if samplesheet is copied
-	copyRawGatToZinc="umcg-ateambot@${gattacaAddress}:${GATTACA}/runs/run_${run}_${sequencer}/results/${filePrefix}*(*.gz*|*.log) ${RAWDATADIR}/$filePrefix"
+	copyRawGatToZinc="umcg-ateambot@${gattacaAddress}:${GATTACA}/runs/run_${run}_${sequencer}/results/${filePrefix}* ${RAWDATADIR}/$filePrefix"
 
-	if [[ -f ${SAMPLESHEETSDIR}/$csvFile && ! -f $LOGDIR/${filePrefix}.SampleSheetCopied ]]
+	if [[ ! -f ${SAMPLESHEETSDIR}/$csvFile || ! -f $LOGDIR/${filePrefix}.SampleSheetCopied ]]
         then
                 scp umcg-ateambot@${gattacaAddress}:${GATTACA}/Samplesheets/${csvFile} ${SAMPLESHEETSDIR}
                 touch $LOGDIR/${filePrefix}.SampleSheetCopied
@@ -56,7 +69,7 @@ do
 
 	if [ ! -d ${RAWDATADIR}/$filePrefix ]
 	then
-		mkdir -p ${RAWDATADIR}/$filePrefix
+		mkdir -p ${RAWDATADIR}/${filePrefix}/Info
 		echo "Copying data to zinc.." >> $LOGGER
 		rsync -r -a ${copyRawGatToZinc}
 	fi
@@ -65,8 +78,13 @@ do
 	if [[ -d ${RAWDATADIR}/$filePrefix  && ! -f $LOGDIR/${filePrefix}.dataCopiedToZinc ]]
 	then
 		##Compare how many files are on both the servers in the directory
-		countFilesRawDataDirTmp=$(ls ${RAWDATADIR}/${filePrefix}/${filePrefix}*(*.gz*|*.log) | wc -l)
-		countFilesRawDataDirGattaca=$(ssh umcg-ateambot@${gattacaAddress} "ls ${GATTACA}/runs/run_${run}_${sequencer}/results/${filePrefix}*(*.gz*|*.log) | wc -l ")
+		countFilesRawDataDirTmp=$(ls ${RAWDATADIR}/${filePrefix}/${filePrefix}* | wc -l)
+		countFilesRawDataDirGattaca=$(ssh umcg-ateambot@${gattacaAddress} "ls ${GATTACA}/runs/run_${run}_${sequencer}/results/${filePrefix}* | wc -l ")
+
+		rsync -r umcg-ateambot@${gattacaAddress}:/groups/umcg-lab/scr01/sequencers/${filePrefix}/InterOp ${RAWDATADIR}/${filePrefix}/Info/
+		rsync umcg-ateambot@${gattacaAddress}:/groups/umcg-lab/scr01/sequencers/${filePrefix}/RunInfo.xml ${RAWDATADIR}/${filePrefix}/Info/
+		rsync umcg-ateambot@${gattacaAddress}:/groups/umcg-lab/scr01/sequencers/${filePrefix}/*unParameters.xml ${RAWDATADIR}/${filePrefix}/Info/
+
 		if [ ${countFilesRawDataDirTmp} -eq ${countFilesRawDataDirGattaca} ]
 		then
 			cd ${RAWDATADIR}/${filePrefix}/
