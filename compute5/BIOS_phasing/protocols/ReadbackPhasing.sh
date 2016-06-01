@@ -54,8 +54,7 @@ mkdir -p ${phaserDir}/allele_config/
 
 #Set tmp files to use during interation
 INPUTVCF="${shapeitPhasedOutputPrefix}.vcf.gz"
-TMPINPUTVCF="${phaserDir}/${project}\_TMP.chr${chromosome}.vcf.gz"
-TMPOUTPUTVCF="${phaserDir}/${project}\_OUTPUT.chr${chromosome}"
+TMPINPUTVCF="${phaserDir}/${project}_TMP.chr${chromosome}.vcf.gz"
 
 cp $INPUTVCF $TMPINPUTVCF
 
@@ -78,7 +77,10 @@ echo "filename: $filename"
 echo "extension: $extension"
 echo "sampleName: $sampleName"
 
-phaserOutPrefix=${phaserDir}/${project}\_phASER.chr${chromosome}
+phaserOutPrefix=${phaserDir}/${project}_phASER.chr${chromosome}
+
+#Set output prefix per sample for statistics etc.
+TMPOUTPUTVCF="${phaserDir}/${project}_$sampleName.readBackPhased.chr${chromosome}"
 
 if python $EBROOTPHASER/phaser/phaser.py \
 	--paired_end 1 \
@@ -101,13 +103,13 @@ then
   echo "returncode: $?";
   #Replace TMPINPUTVCF with newly generated TMPOUTPUTVCF
   rm $TMPINPUTVCF
-  mv $TMPOUTPUTVCF.vcf.gz $TMPINPUTVCF.vcf.gz
+  mv $TMPOUTPUTVCF.vcf.gz $TMPINPUTVCF
   #Move log files to corresponding directories
-  mv TMPOUTPUTVCF.variant_connections.txt ${phaserDir}/variant_connections/
-  mv TMPOUTPUTVCF.allelic_counts.txt ${phaserDir}/allelic_counts/
-  mv TMPOUTPUTVCF.haplotypes.txt ${phaserDir}/haplotypes/
-  mv TMPOUTPUTVCF.haplotypic_counts.txt ${phaserDir}/haplotypic_counts/
-  mv TMPOUTPUTVCF.allele_config.txt ${phaserDir}/allele_config/
+  mv $TMPOUTPUTVCF.variant_connections.txt ${phaserDir}/variant_connections/
+  mv $TMPOUTPUTVCF.allelic_counts.txt ${phaserDir}/allelic_counts/
+  mv $TMPOUTPUTVCF.haplotypes.txt ${phaserDir}/haplotypes/
+  mv $TMPOUTPUTVCF.haplotypic_counts.txt ${phaserDir}/haplotypic_counts/
+  mv $TMPOUTPUTVCF.allele_config.txt ${phaserDir}/allele_config/
 else
  echo "returncode: $?";
  echo "fail";
