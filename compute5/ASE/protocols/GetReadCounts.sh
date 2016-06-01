@@ -1,4 +1,4 @@
-#MOLGENIS walltime=23:59:00 mem=8gb nodes=1 ppn=2
+#MOLGENIS walltime=23:59:00 mem=30gb nodes=1 ppn=2
 
 ### variables to help adding to database (have to use weave)
 #string sampleName
@@ -14,11 +14,13 @@
 
 #string exonlist
 #string readCountDir
-#string readCountFile
+#string readCountFileGene
+#string readCountFileExon
+#string bedtoolsVersion
+#string samtoolsVersion
+#string tabixVersion
 
 echo "## "$(date)" Start $0"
-
-getFile ${imputedVcf}
 getFile ${bam}
 
 
@@ -37,6 +39,29 @@ mkdir -p ${readCountDir}
 # This is the longest step of the script
 echo Intersecting with bams
 
-bedtools intersect -sorted -c -a ${exonlist} -b ${bam} | awk -F "\t" '{ print $15 }' ${bam} > ${readCountFile}
-
+export LC_ALL=C
+# Reads per Gene
+bedtools bamtobed -split -i ${bam} | \
+	LC_ALL=C sort -t $'\t' -k1,1 -k2,2n | \
+awk 'BEGIN {FS=OFS="\t"} {$5=0; print $0}' | \
+	bedtools intersect -sorted -loj -b stdin -a ${exonlist} | \
+sed 's#/.##' | cut -f1,2,4,20,21 | sort -t $'\t' -k3,3 |\
+bedtools groupby -g 3 -c 1,2,4,5 -o first,first,count_distinct,sum | \
+cut --complement -f1 | LC_ALL=C sort -t $'\t' -k1,1 -k2,2n | \
+awk -F "\t" '{if ($4<0) print $3-1; else print $3}' > ${readCountFileGene}
+## Per Exon
+#bedtools bamtobed -split -i ${bam} | \
+#        LC_ALL=C sort -t $'\t' -k1,1 -k2,2n | \
+#        bedtools intersect -sorted -c -b stdin -a ${exonlist} | cut -f17 > ${readCountFileExon}
+bedtools bamtobed -split -i ${bam} | \
+        LC_ALL=C sort -t $'\t' -k1,1 -k2,2n | \
+awk 'BEGIN {FS=OFS="\t"} {$5=0; print $0}' | \
+        bedtools intersect -sorted -loj -b stdin -a ${exonlist} | \
+sed 's#/.##' | cut -f1,2,4,6,20,21 | awk 'BEGIN {FS=OFS="\t"} {$3=$3"_"$4; print $0}' | \
+cut --complement -f4 |sort -t $'\t' -k3,3 |\
+bedtools groupby -g 3 -c 1,2,4,5 -o first,first,count_distinct,sum | \
+cut --complement -f1 | LC_ALL=C sort -t $'\t' -k1,1 -k2,2n | \
+awk -F "\t" '{if ($4<0) print $3-1; else print $3}' > ${readCountFileExon}
+################################
 echo "## "$(date)" ##  $0 Done "
+################################
