@@ -25,11 +25,11 @@ runDir,${workDir}/runs/${runID}_${sequencer}/
 runJobsDir,${runDir}/jobs/
 runResultsDir,${runDir}/results/
 prepKitsDir,${dataDir}/Prepkits/
-intermediateDir,${intermediateDir}/tmp/${runID}_${sequencer}/
+intermediateDir,${workDir}/tmp/${runID}_${sequencer}/
 
 bcl2fastqDir,${nextSeqRunDataDir}/${project}
 sampleSheet,${workDir}/generatedscripts/${runID}_${sequencer}/${runID}_${sequencer}.csv
-MCsampleSheet,${runDir}/GCCSamplelist.csv
+MCsampleSheet,${intermediateDir}/GCCSamplelist.csv
 
 sourcesDir,${root}/sources/
 
