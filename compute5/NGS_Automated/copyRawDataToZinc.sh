@@ -31,10 +31,13 @@ do
 	LOGGER=${LOGDIR}/${filePrefix}.copyToZinc.logger
 
 	function finish {
-        	echo "TRAPPED"
-        	rm ${LOGDIR}/${filePrefix}.copyToZinc.locked
+		if [ -f ${LOGDIR}/${filePrefix}.copyToZinc.locked ]
+        	then
+	        	echo "TRAPPED"
+        		rm ${LOGDIR}/${filePrefix}.copyToZinc.locked
+		fi
 	}
-	trap finish ERR
+	trap finish HUP INT QUIT TERM EXIT ERR
 
 	FINISHED="no"
 	OLDIFS=$IFS
@@ -110,3 +113,6 @@ do
 	fi
 rm ${LOGDIR}/${filePrefix}.copyToZinc.locked
 done<${SAMPLESHEETSDIR}/allSampleSheets_${GAT}.txt
+
+trap - EXIT
+exit 0

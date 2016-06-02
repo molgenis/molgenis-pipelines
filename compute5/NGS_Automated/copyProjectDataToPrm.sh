@@ -18,9 +18,12 @@ pipeline="dna"
 
 function finish {
 	echo "TRAPPED"
-	rm ${LOGDIR}/automated_copyProjectDataToPrm.sh.locked
+	if [ -f ${LOGDIR}/automated_copyProjectDataToPrm.sh.locked ]
+	then
+		rm ${LOGDIR}/automated_copyProjectDataToPrm.sh.locked
+	fi
 }
-trap finish ERR
+trap finish HUP INT QUIT TERM EXIT ERR
 
 ARR=()
 while read i
@@ -104,3 +107,6 @@ do
 	fi
 	rm ${LOGDIR}/automated_copyProjectDataToPrm.sh.locked
 done
+
+trap - EXIT
+exit 0

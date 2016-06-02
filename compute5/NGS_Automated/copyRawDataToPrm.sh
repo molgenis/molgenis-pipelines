@@ -17,9 +17,12 @@ pipeline="dna"
 
 function finish {
 	echo "TRAPPED"
-	rm ${LOGDIR}/automated_copyDataToPrm.sh.locked
+	if [ -f ${LOGDIR}/automated_copyDataToPrm.sh.locked ]
+	then
+		rm ${LOGDIR}/automated_copyDataToPrm.sh.locked
+	fi
 }
-trap finish ERR
+trap finish HUP INT QUIT TERM EXIT ERR
 
 ARR=()
 while read i
@@ -44,6 +47,7 @@ do
 
         if [ -f ${LOGDIR}/automated_copyDataToPrm.sh.locked ]
         then
+		echo "copyToPrm is locked"
             	exit 0
 	else
 		touch ${LOGDIR}/automated_copyDataToPrm.sh.locked
@@ -108,3 +112,6 @@ do
 	fi
 	rm ${LOGDIR}/automated_copyDataToPrm.sh.locked
 done<${SAMPLESHEETSDIR}/allSampleSheets_Zinc.txt
+
+trap - EXIT
+exit 0
