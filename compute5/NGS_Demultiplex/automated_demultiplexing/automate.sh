@@ -34,13 +34,13 @@ do
 	miseqCompleted="no"
 
         ## Check if there the run is already completed
-        if [[ -f ${NEXTSEQDIR}/${PROJECTNAME}/RTAComplete.xml && "${sequencer}" == "M01785" ]]
+        if [[ -f ${NEXTSEQDIR}/${PROJECTNAME}/RTAComplete.txt ]] && [[ "${sequencer}" == "M01785" || "${sequencer}" == "M01997" ]]
         then
             	miSeqCompleted="yes"
         fi
 
 	## Check if there the run is already completed
-	if [[ -f ${NEXTSEQDIR}/${PROJECTNAME}/RunCompletionStatus.xml || "${miseqCompleted}" == "yes" ]]
+	if [[ -f ${NEXTSEQDIR}/${PROJECTNAME}/RunCompletionStatus.xml || "${miSeqCompleted}" == "yes" ]]
 	then
 		##Check if it is a GAF or GD run
 		if [ -f "${ROOTDIR}/umcg-gaf/${SCRATCHDIR}/Samplesheets/${PROJECTNAME}.csv" ]
