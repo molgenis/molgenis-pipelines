@@ -32,7 +32,7 @@ ${stage} SAMtools/${samtoolsVersion}
 ${stage} tabix/${tabixVersion}
 
 mkdir -p ${ASCountsDir}
-
+rm ${ASCountFile}
 echo Generating ASreads
 export RASQUALDIR # rasqual must be declared and exported. Other scripts are in rasqualdir... what happens here
 

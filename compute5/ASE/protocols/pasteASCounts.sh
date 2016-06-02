@@ -1,3 +1,4 @@
+
 #MOLGENIS walltime=23:59:00 mem=8gb nodes=1 ppn=2
 
 ### variables to help adding to database (have to use weave)
@@ -37,7 +38,7 @@ export RASQUALDIR # rasqual must be declared and exported. Other scripts are in 
 ${RASQUALDIR}/src/ASVCF/zpaste "${ASCountFile[@]}" > $TMPDIR/temp.as.gz
 $RASQUALDIR/src/ASVCF/pasteFiles ${VCF} $TMPDIR/temp.as.gz | \
 bgzip > ${ASVCF}
-tabix -p -f vcf ${ASVCF}
+tabix -f -p vcf ${ASVCF}
 rm $TMPDIR/temp.as.gz
 
 echo "## "$(date)" $0 Done"
