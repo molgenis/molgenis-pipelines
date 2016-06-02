@@ -31,8 +31,11 @@ do
 	LOGGER=${LOGDIR}/${filePrefix}.copyToZinc.logger
 
 	function finish {
-        	echo "TRAPPED"
-        	rm ${LOGDIR}/${filePrefix}.copyToZinc.locked
+		if [ -f ${LOGDIR}/${filePrefix}.copyToZinc.locked ]
+        	then
+	        	echo "TRAPPED"
+        		rm ${LOGDIR}/${filePrefix}.copyToZinc.locked
+		fi
 	}
 	trap finish HUP INT QUIT TERM EXIT ERR
 
