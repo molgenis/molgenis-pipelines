@@ -61,8 +61,14 @@ cp $INPUTVCF $TMPINPUTVCF
 #Iterate over all BAM files.
 #Do this to prevent running lots of samples in parallel all using the same input VCF.gz file
 
+#Check when last BAM, if so don't replace the GT:etc info fields in VCF
+i=0
+last_bam=${#bams[@]}
+
 for BAM in "${bams[@]}"
 do
+
+let i=i+1
 
 #Extract sampleName from BAM
 
@@ -98,6 +104,17 @@ if python $EBROOTPHASER/phaser/phaser.py \
 	--gw_phase_vcf 1
 
 # --show_warning 1 --debug 1 \
+
+	#Unzip output VCF, inline replace messed up sample output and gzip file again
+	cd ${phaserDir}
+	gunzip ${project}_$sampleName.readBackPhased.chr${chromosome}.vcf.gz
+	if [ $i -ne $last_bam ]; 
+	then
+		perl -pi -e 's/:PG:PB:PI:PW:PC//gs' "test_$sampleName.readBackPhased.chr20.vcf";
+	fi
+	perl -pi -e 's/:.:.:.:.:.//gs' ${project}_$sampleName.readBackPhased.chr${chromosome}.vcf
+	gzip ${project}_$sampleName.readBackPhased.chr${chromosome}.vcf
+	cd -
     
 then
   echo "returncode: $?";
