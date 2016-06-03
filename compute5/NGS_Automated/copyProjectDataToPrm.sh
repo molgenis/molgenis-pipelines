@@ -18,9 +18,9 @@ pipeline="dna"
 
 function finish {
 	echo "TRAPPED"
-	if [ -f ${LOGDIR}/automated_copyProjectDataToPrm.sh.locked ]
+	if [ -f ${LOGDIR}/copyProjectDataToPrm.sh.locked ]
 	then
-		rm ${LOGDIR}/automated_copyProjectDataToPrm.sh.locked
+		rm ${LOGDIR}/copyProjectDataToPrm.sh.locked
 	fi
 }
 trap finish HUP INT QUIT TERM EXIT ERR
@@ -39,32 +39,32 @@ do
 
         FINISHED="no"
 
-        if [ -f ${LOGDIR}/automated_copyProjectDataToPrm.sh.locked ]
+        if [ -f ${LOGDIR}/copyProjectDataToPrm.sh.locked ]
         then
             	exit 0
 	else
-		touch ${LOGDIR}/automated_copyProjectDataToPrm.sh.locked
+		touch ${LOGDIR}/copyProjectDataToPrm.sh.locked
         fi
 	##command to check if projectfolder exists
-	makeProjectDataDir=$(ssh ${groupname}-dm@calculon.hpc.rug.nl "sh ${PROJECTSDIRPRM}../checkProjectData.sh ${PROJECTSDIRPRM} ${projectName}")	
+	makeProjectDataDir=$(ssh ${groupname}-dm@calculon.hpc.rug.nl "sh ${PROJECTSDIRPRM}/checkProjectData.sh ${PROJECTSDIRPRM} ${projectName}")	
 	
 	copyProjectDataZincToPrm="${PROJECTSDIR}/${projectName}/* ${groupname}-dm@calculon.hpc.rug.nl:${PROJECTSDIRPRM}/${projectName}"
 	if [[ -f $LOGDIR/${projectName}.pipeline.finished && ! -f $LOGDIR/${projectName}.projectDataCopiedToPrm ]]
 	then
-		${PROJECTSDIR}/${projectName}/*
 		countFilesProjectDataDirTmp=$(ls -R ${PROJECTSDIR}/${projectName}/*/results/ | wc -l)
 		module load hashdeep/4.4-foss-2015b
 		if [ ! -f ${PROJECTSDIR}/${projectName}.allResultmd5sums ]
 		then
-			cd ${PROJECTSDIR}
-			md5deep -r -j0 -o f -l ${projectName}/*/results/ > ${projectName}.allResultmd5sums
+			cd ${PROJECTSDIR}/${projectName}/${projectName}.allResultmd5sums
+			md5deep -r -j0 -o f -l */results/ > ${projectName}.allResultmd5sums
+			chmod g+rx ${PROJECTSDIR}
 		fi
 		
 		if [ "${makeProjectDataDir}" == "f" ]
 		then
 			echo "copying project data from zinc to prm" >> ${LOGGER}
-                        rsync -r -av --exclude ${PROJECTSDIR}/${projectName}/*/rawdata/ ${copyProjectZincToPrm} >> $LOGGER
-			rsync -r -av ${PROJECTSDIR}/${projectName}.allResultmd5sums ${groupname}-dm@calculon.hpc.rug.nl:${PROJECTSDIRPRM}
+                        rsync -r -av --exclude ${PROJECTSDIR}/${projectName}/*/rawdata/ ${copyProjectDataZincToPrm} >> $LOGGER
+			rsync -r -av ${PROJECTSDIR}/${projectName}/${projectName}.allResultmd5sums ${groupname}-dm@calculon.hpc.rug.nl:${PROJECTSDIRPRM}/${projectName}/
 			makeProjectDataDir="t"
 		fi
 		if [ "${makeProjectDataDir}" == "t" ]
@@ -72,7 +72,7 @@ do
                         countFilesProjectDataDirPrm=$(ssh ${groupname}-dm@calculon.hpc.rug.nl "ls -R ${PROJECTSDIRPRM}/${projectName}/*/results/ | wc -l")
                         if [ ${countFilesProjectDataDirTmp} -eq ${countFilesProjectDataDirPrm} ]
                         then
-                                COPIEDTOPRM=$(ssh ${groupname}-dm@calculon.hpc.rug.nl "sh ${PROJECTSDIRPRM}../check.sh ${PROJECTSDIRPRM} ${projectName}")
+                                COPIEDTOPRM=$(ssh ${groupname}-dm@calculon.hpc.rug.nl "sh ${PROJECTSDIRPRM}/check.sh ${PROJECTSDIRPRM} ${projectName}")
 				if [[ "${COPIEDTOPRM}" == *"FAILED"* ]]
                                 then
                                         echo "md5sum check failed, the copying will start again" >> ${LOGGER}
@@ -105,7 +105,7 @@ do
 			printf "De md5sum checks voor project ${projectName} op ${PROJECTSDIRPRM} zijn mislukt.De originele data staat op ${HOSTNA}:${PROJECTSDIR}\n\nDeze mail is verstuurd omdat er al 10 pogingen zijn gedaan om de data te kopieren/md5summen" | mail -s "${projectName} failing to copy to permanent storage" ${ONTVANGER}
 		fi
 	fi
-	rm ${LOGDIR}/automated_copyProjectDataToPrm.sh.locked
+	rm ${LOGDIR}/copyProjectDataToPrm.sh.locked
 done
 
 trap - EXIT
