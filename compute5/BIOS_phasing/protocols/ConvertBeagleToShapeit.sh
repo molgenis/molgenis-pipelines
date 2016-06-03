@@ -19,11 +19,14 @@ echo "## "$(date)" Start $0"
 getFile ${genotypedChrVcfGL}
 getFile ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz
 
+${stage} ngs-utils/${ngsutilsVersion}
 ${stage} GLib/${GLibVersion}
+${stage} zlib/${zlibVersion}
+${stage} bzip2/${bzip2Version}
 ${checkStage}
 
 #Run conversion script beagle vcf to shapeit format
-if /groups/umcg-bios/tmp04/umcg-fvandijk/projects/beagleTest/prepareGenFromBeagle4/bin/prepareGenFromBeagle4 \
+if $EBROOTNGSMINUTILS/bin/prepareGenFromBeagle4 \
  --likelihoods ${genotypedChrVcfGL} \
  --posteriors ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz \
  --threshold 0.995 \
