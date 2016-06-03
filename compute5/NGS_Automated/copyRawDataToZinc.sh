@@ -98,7 +98,6 @@ do
 					echo "data copied to zinc" >> $LOGGER
 					touch $LOGDIR/${filePrefix}.dataCopiedToZinc
 					touch ${filePrefix}.md5sums.checked
-					rm ${LOGDIR}/${filePrefix}.copyToZinc.locked
 				else
 					echo "md5sum check failed, the copying will start again" >> $LOGGER
 					rsync -r -a ${copyRawGatToZinc}
