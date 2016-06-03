@@ -13,12 +13,14 @@
 #string vcf
 #string biopythonVersion
 #string genotypedChrVcfGL
+#string ngsutilsVersion
 
 echo "## "$(date)" Start $0"
 
 getFile ${vcf}
 
 ${stage} Biopython/${biopythonVersion}
+${stage} ngs-utils/${ngsutilsVersion}
 ${checkStage}
 
 mkdir -p ${genotypedChrVcfGLDir}
@@ -30,7 +32,7 @@ cp ${vcf} ${vcf}.tmp.vcf
 gzip ${vcf}.tmp.vcf
 
 #Run conversion script beagle vcf to shapeit format
-if python /groups/umcg-bios/tmp04/users/umcg-aclaringbould/genotyping_pipeline/PL_to_GL/PL_to_GL_reorder.py \
+if python $EBROOTNGSMINUTILS/PL_to_GL_reorder.py \
     --vcf ${vcf}.tmp.vcf.gz \
     --out ${genotypedChrVcfGL}
 

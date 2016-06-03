@@ -13,6 +13,10 @@
 #string genotypedChrVcfBeagleGenotypeProbabilities
 #string genotypedChrVcfShapeitInputPrefix
 #string GLibVersion
+#string ngsutilsVersion
+#string zlibVersion
+#string bzip2Version
+
 
 echo "## "$(date)" Start $0"
 
@@ -26,7 +30,7 @@ ${stage} bzip2/${bzip2Version}
 ${checkStage}
 
 #Run conversion script beagle vcf to shapeit format
-if $EBROOTNGSMINUTILS/bin/prepareGenFromBeagle4 \
+if $EBROOTNGSMINUTILS/prepareGenFromBeagle4_modified20160601/bin/prepareGenFromBeagle4 \
  --likelihoods ${genotypedChrVcfGL} \
  --posteriors ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz \
  --threshold 0.995 \

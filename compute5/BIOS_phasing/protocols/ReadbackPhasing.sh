@@ -15,6 +15,7 @@
 #string chromosome
 #string OneKgPhase3VCF
 
+
 echo "## "$(date)" Start $0"
 
 
