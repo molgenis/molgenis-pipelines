@@ -137,11 +137,11 @@ done
 
 #Zip all directories containing logfiles
 cd ${phaserDir}
-zip -r ${project}.chr${chromosome}.variant_connections.zip ./variant_connections/
-zip -r ${project}.chr${chromosome}.allelic_counts.zip ./allelic_counts/
-zip -r ${project}.chr${chromosome}.haplotypes.zip ./haplotypes/
-zip -r ${project}.chr${chromosome}.haplotypic_counts.zip ./haplotypic_counts/
-zip -r ${project}.chr${chromosome}.allele_config.zip ./allele_config/
+zip -r ${project}.chr${chromosome}.variant_connections.zip ./variant_connections/*chr${chromosome}.*
+zip -r ${project}.chr${chromosome}.allelic_counts.zip ./allelic_counts/*chr${chromosome}.*
+zip -r ${project}.chr${chromosome}.haplotypes.zip ./haplotypes/*chr${chromosome}.*
+zip -r ${project}.chr${chromosome}.haplotypic_counts.zip ./haplotypic_counts/*chr${chromosome}.*
+zip -r ${project}.chr${chromosome}.allele_config.zip ./allele_config/*chr${chromosome}.*
 
 #Move final output to result file and create md5sums
  mv $TMPINPUTVCF $phaserOutPrefix.vcf.gz
