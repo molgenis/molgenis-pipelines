@@ -44,7 +44,7 @@ if java -jar -XX:ParallelGCThreads=4 -Xmx6g $EBROOTPICARD/MergeSamFiles.jar \
  SORT_ORDER=coordinate \
  CREATE_INDEX=true \
  USE_THREADING=true \
- TMP_DIR=${mergeBamFilesDir} \
+ TMP_DIR=${TMPDIR} \
  MAX_RECORDS_IN_RAM=6000000 \
  OUTPUT=${mergeBamFilesBam} \
 

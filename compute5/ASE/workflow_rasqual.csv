@@ -1,0 +1,7 @@
+step,protocol,dependencies
+GetReadCounts,protocols/GetReadCounts.sh,
+pasteReads,protocols/pasteReads.sh,GetReadCounts
+GetASCounts,protocols/GetASCounts.sh,pasteReads.sh
+pasteASCounts,protocols/pasteASCounts.sh,GetASCounts
+preRasqual,protocols/preRasqual.sh,pasteASCounts
+runRasqual,protocols/runRasqual.sh,pasteASCounts

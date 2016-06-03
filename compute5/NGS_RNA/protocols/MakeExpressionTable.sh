@@ -8,6 +8,8 @@
 #string project
 #string jdkVersion
 #string tmpTmpDataDir
+#string groupname
+#string tmpName
 
 #Function to check if array contains value
 array_contains () {

@@ -17,9 +17,12 @@ pipeline="dna"
 
 function finish {
 	echo "TRAPPED"
-	rm ${LOGDIR}/automated_copyDataToPrm.sh.locked
+	if [ -f ${LOGDIR}/automated_copyDataToPrm.sh.locked ]
+	then
+		rm ${LOGDIR}/automated_copyDataToPrm.sh.locked
+	fi
 }
-trap finish ERR
+trap finish HUP INT QUIT TERM EXIT ERR
 
 ARR=()
 while read i
@@ -44,6 +47,7 @@ do
 
         if [ -f ${LOGDIR}/automated_copyDataToPrm.sh.locked ]
         then
+		echo "copyToPrm is locked"
             	exit 0
 	else
 		touch ${LOGDIR}/automated_copyDataToPrm.sh.locked
@@ -54,8 +58,7 @@ do
 
 	if [[ -f $LOGDIR/${filePrefix}.dataCopiedToZinc && ! -f $LOGDIR/${filePrefix}.dataCopiedToPrm ]]
 	then
-		echo "1"
-		countFilesRawDataDirTmp=$(ls ${RAWDATADIR}/${filePrefix}/${filePrefix}*(*.gz*|*.log) | wc -l)
+		countFilesRawDataDirTmp=$(ls ${RAWDATADIR}/${filePrefix}/${filePrefix}* | wc -l)
 		if [ "${makeRawDataDir}" == "f" ]
 		then
 			echo "copying data from zinc to prm" >> ${LOGGER}
@@ -64,7 +67,7 @@ do
 		fi
 		if [ "${makeRawDataDir}" == "t" ]
                 then
-                        countFilesRawDataDirPrm=$(ssh ${groupname}-dm@calculon.hpc.rug.nl "ls ${RAWDATADIRPRM}/${filePrefix}/${filePrefix}*(*.gz*|*.log) | wc -l")
+                        countFilesRawDataDirPrm=$(ssh ${groupname}-dm@calculon.hpc.rug.nl "ls ${RAWDATADIRPRM}/${filePrefix}/${filePrefix}* | wc -l")
                         if [ ${countFilesRawDataDirTmp} -eq ${countFilesRawDataDirPrm} ]
                         then
                                 COPIEDTOPRM=$(ssh ${groupname}-dm@calculon.hpc.rug.nl "sh ${RAWDATADIRPRM}../check.sh ${RAWDATADIRPRM} ${filePrefix}")
@@ -79,8 +82,12 @@ do
 					scp ${SAMPLESHEETSDIR}/${csvFile} ${groupname}-dm@calculon.hpc.rug.nl:${SAMPLESHEETSPRMDIR}
 					echo "finished copying data to calculon" >> ${LOGGER}
 					logFileStatistics=$(cat ${RAWDATADIR}/${filePrefix}/${filePrefix}*.log)
-					printf "Demultiplex statistics ${filePrefix}: \n\n ${logFileStatistics}" | mail -s "Demultiplex statistics ${filePrefix}" ${ONTVANGER}
-					printf "De data voor project ${filePrefix} is gekopieerd naar ${RAWDATADIRPRM}" | mail -s "${filePrefix} copied to permanent storage" ${ONTVANGER}
+					if [ ${groupname} == "umcg-gaf" ]
+					then
+					
+						echo -e "Demultiplex statistics ${filePrefix}: \n\n ${logFileStatistics}" | mail -s "Demultiplex statistics ${filePrefix}" ${GAFmail}
+					fi
+					echo -e "De data voor project ${filePrefix} is gekopieerd naar ${RAWDATADIRPRM}" | mail -s "${filePrefix} copied to permanent storage" ${ONTVANGER}
 
 				  	if [ -f $LOGDIR/${filePrefix}.failed ] 
                                         then
@@ -100,8 +107,11 @@ do
 		if [ $COUNT == 10  ]
 		then
 			HOSTNA=$(hostname)
-			printf "De md5sum checks voor project ${filePrefix} op ${RAWDATADIRPRM} zijn mislukt.De originele data staat op ${HOSTNA}:${RAWDATADIR}\n\nDeze mail is verstuurd omdat er al 10 pogingen zijn gedaan om de data te kopieren/md5summen" | mail -s "${filePrefix} failing to copy to permanent storage" ${ONTVANGER}
+			echo -e "De md5sum checks voor project ${filePrefix} op ${RAWDATADIRPRM} zijn mislukt.De originele data staat op ${HOSTNA}:${RAWDATADIR}\n\nDeze mail is verstuurd omdat er al 10 pogingen zijn gedaan om de data te kopieren/md5summen" | mail -s "${filePrefix} failing to copy to permanent storage" ${ONTVANGER}
 		fi
 	fi
 	rm ${LOGDIR}/automated_copyDataToPrm.sh.locked
 done<${SAMPLESHEETSDIR}/allSampleSheets_Zinc.txt
+
+trap - EXIT
+exit 0
