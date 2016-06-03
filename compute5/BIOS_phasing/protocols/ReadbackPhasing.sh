@@ -1,4 +1,4 @@
-#MOLGENIS nodes=1 ppn=4 mem=8gb walltime=3-10:00:00
+#MOLGENIS nodes=1 ppn=12 mem=8gb walltime=3-10:00:00
 
 ### variables to help adding to database (have to use weave)
 #string project
@@ -98,7 +98,7 @@ if python $EBROOTPHASER/phaser/phaser.py \
     --baseq ${baseq} \
     --o $TMPOUTPUTVCF \
     --temp_dir $TMPDIR \
-    --threads 4 \
+    --threads 12 \
     --gw_phase_method 1 \
 	--chr ${chromosome} \
 	--gw_af_vcf ${OneKgPhase3VCF} \
