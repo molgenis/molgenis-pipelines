@@ -111,7 +111,7 @@ if python $EBROOTPHASER/phaser/phaser.py \
 	gunzip ${project}_$sampleName.readBackPhased.chr${chromosome}.vcf.gz
 	if [ $i -ne $last_bam ]; 
 	then
-		perl -pi -e 's/:PG:PB:PI:PW:PC//gs' "test_$sampleName.readBackPhased.chr20.vcf";
+		perl -pi -e 's/:PG:PB:PI:PW:PC//gs' "test_$sampleName.readBackPhased.chr${chromosome}.vcf";
 	fi
 	perl -pi -e 's/:.:.:.:.:.//gs' ${project}_$sampleName.readBackPhased.chr${chromosome}.vcf
 	gzip ${project}_$sampleName.readBackPhased.chr${chromosome}.vcf
