@@ -1,7 +1,6 @@
 #MOLGENIS walltime=23:59:00 mem=8gb nodes=1 ppn=2
 
 ### variables to help adding to database (have to use weave)
-#string sampleName
 #string project
 ###
 #string stage
@@ -11,25 +10,29 @@
 #string projectDir
 #string genotypedChrVcfGLDir
 #string genotypedChrVcfGL
-#list vcf
+#string vcf
 #string biopythonVersion
 #string genotypedChrVcfGL
+#string ngsutilsVersion
 
 echo "## "$(date)" Start $0"
 
 getFile ${vcf}
 
 ${stage} Biopython/${biopythonVersion}
+${stage} ngs-utils/${ngsutilsVersion}
 ${checkStage}
 
 mkdir -p ${genotypedChrVcfGLDir}
+
+echo "Starting conversion."
 
 #Gzip VCF because python script assumes gzipped input file
 cp ${vcf} ${vcf}.tmp.vcf
 gzip ${vcf}.tmp.vcf
 
 #Run conversion script beagle vcf to shapeit format
-if python /groups/umcg-bios/tmp04/users/umcg-aclaringbould/genotyping_pipeline/PL_to_GL/PL_to_GL_reorder.py \
+if python $EBROOTNGSMINUTILS/PL_to_GL_reorder.py \
     --vcf ${vcf}.tmp.vcf.gz \
     --out ${genotypedChrVcfGL}
 
@@ -46,6 +49,8 @@ else
  echo "returncode: $?";
  echo "fail";
 fi
+
+echo "Finished conversion."
 
 echo "## "$(date)" ##  $0 Done "
 
