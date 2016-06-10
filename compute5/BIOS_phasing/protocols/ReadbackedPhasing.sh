@@ -106,11 +106,19 @@ if python $EBROOTPHASER/phaser/phaser.py \
 
 # --show_warning 1 --debug 1 \
 
-	#Unzip output VCF, inline replace messed up sample output and gzip file again
+	#Unzip output VCF, inline replace messed up header lines, afterwards replace sample output and gzip file again
 	cd ${phaserDir}
 	gunzip ${project}_$sampleName.readBackPhased.chr${chromosome}.vcf.gz
 	if [ $i -ne $last_bam ]; 
 	then
+		#Replace header lines
+		perl -pi -e '!$x && s/##FORMAT=<ID=PG,Number=1,Type=String,Description="phASER Local Genotype">\n//  && ($x=1)' "test_$sampleName.readBackPhased.chr${chromosome}.vcf";
+		perl -pi -e '!$x && s/##FORMAT=<ID=PB,Number=1,Type=String,Description="phASER Local Block">\n//  && ($x=1)' "test_$sampleName.readBackPhased.chr${chromosome}.vcf";
+		perl -pi -e '!$x && s/##FORMAT=<ID=PI,Number=1,Type=String,Description="phASER Local Block Index \(unique for each block\)">\n//  && ($x=1)' "test_$sampleName.readBackPhased.chr${chromosome}.vcf";
+		perl -pi -e '!$x && s/##FORMAT=<ID=PW,Number=1,Type=String,Description="phASER Genome Wide Genotype">\n//  && ($x=1)' "test_$sampleName.readBackPhased.chr${chromosome}.vcf";
+		perl -pi -e '!$x && s/##FORMAT=<ID=PC,Number=1,Type=String,Description="phASER Genome Wide Confidence">\n//  && ($x=1)' "test_$sampleName.readBackPhased.chr${chromosome}.vcf";
+		
+		#Replace sample output line
 		perl -pi -e 's/:PG:PB:PI:PW:PC//gs' "test_$sampleName.readBackPhased.chr${chromosome}.vcf";
 	fi
 	perl -pi -e 's/:.:.:.:.:.//gs' ${project}_$sampleName.readBackPhased.chr${chromosome}.vcf
