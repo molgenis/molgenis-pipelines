@@ -48,6 +48,7 @@ do
 done
 
 if [ -f ${couplingFile} ];
+then
   rm ${couplingFile}
 fi
 echo "making coupling file..."
