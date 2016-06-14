@@ -9,7 +9,6 @@
 
 #string WORKDIR
 #string projectDir
-#string imputedVcf
 #string bam
 
 #string exonlist

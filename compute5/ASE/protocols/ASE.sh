@@ -8,12 +8,7 @@
 
 #string WORKDIR
 #string projectDir
-#string dbsnpVcf
-#string dbsnpVcfIdx
 
-#string tabixVersion
-#string samtoolsVersion
-#string haplotyperDir
 #string AseDir
 #string ASFiles
 #string AseOutput
@@ -25,14 +20,15 @@ echo "## "$(date)" Start $0"
 
 
 #Load gatk module
-${stage} ASE/${AseVersion}
+${stage} CS-ASE/${AseVersion}
 ${checkStage}
 
 mkdir -p ${AseDir}
 
-printf '%s\n' "${ASReads[@]}" > ${ASFiles}
+ASReadsUniq=($(printf "%s\n" "${ASReads[@]}" | sort -u))
 
-if java -jar ${EBROOTASE}/cellTypeSpecificAlleleSpecificExpression.jar \
+printf '%s\n' "${ASReadsUniq[@]}"  > ${ASFiles}
+if java -jar ${EBROOTCSMINASE}/cellTypeSpecificAlleleSpecificExpression-${AseVersion%-Java*}-jar-with-dependencies.jar \
 --action 2 \
 --output ${AseOutput} \
 --as_locations ${ASFiles} \
