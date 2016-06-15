@@ -14,7 +14,7 @@ myhost=$(hostname)
 
 pipeline="dna"
 
-NGS_DNA_3_2_3="NGS_DNA/3.2.3-Molgenis-Compute-v16.05.1-Java-1.8.0_45"
+NGS_DNA_3_2_3="NGS_DNA/3.2.3"
 
 if [ "${pipeline}" == "dna" ] 
 then
