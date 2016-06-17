@@ -1,7 +1,6 @@
 #MOLGENIS walltime=23:59:00 mem=8gb nodes=1 ppn=2
 
 ### variables to help adding to database (have to use weave)
-#string sampleName
 #string project
 ###
 #string stage
@@ -14,17 +13,24 @@
 #string genotypedChrVcfBeagleGenotypeProbabilities
 #string genotypedChrVcfShapeitInputPrefix
 #string GLibVersion
+#string ngsutilsVersion
+#string zlibVersion
+#string bzip2Version
+
 
 echo "## "$(date)" Start $0"
 
 getFile ${genotypedChrVcfGL}
 getFile ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz
 
+${stage} ngs-utils/${ngsutilsVersion}
 ${stage} GLib/${GLibVersion}
+${stage} zlib/${zlibVersion}
+${stage} bzip2/${bzip2Version}
 ${checkStage}
 
 #Run conversion script beagle vcf to shapeit format
-if /groups/umcg-bios/tmp04/umcg-fvandijk/projects/beagleTest/prepareGenFromBeagle4/bin/prepareGenFromBeagle4 \
+if $EBROOTNGSMINUTILS/prepareGenFromBeagle4_modified20160601/bin/prepareGenFromBeagle4 \
  --likelihoods ${genotypedChrVcfGL} \
  --posteriors ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz \
  --threshold 0.995 \

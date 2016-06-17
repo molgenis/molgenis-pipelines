@@ -31,10 +31,13 @@ do
 	LOGGER=${LOGDIR}/${filePrefix}.copyToZinc.logger
 
 	function finish {
-        	echo "TRAPPED"
-        	rm ${LOGDIR}/${filePrefix}.copyToZinc.locked
+		if [ -f ${LOGDIR}/${filePrefix}.copyToZinc.locked ]
+        	then
+	        	echo "TRAPPED"
+        		rm ${LOGDIR}/${filePrefix}.copyToZinc.locked
+		fi
 	}
-	trap finish ERR
+	trap finish HUP INT QUIT TERM EXIT ERR
 
 	FINISHED="no"
 	OLDIFS=$IFS
@@ -95,7 +98,6 @@ do
 					echo "data copied to zinc" >> $LOGGER
 					touch $LOGDIR/${filePrefix}.dataCopiedToZinc
 					touch ${filePrefix}.md5sums.checked
-					rm ${LOGDIR}/${filePrefix}.copyToZinc.locked
 				else
 					echo "md5sum check failed, the copying will start again" >> $LOGGER
 					rsync -r -a ${copyRawGatToZinc}
@@ -110,3 +112,6 @@ do
 	fi
 rm ${LOGDIR}/${filePrefix}.copyToZinc.locked
 done<${SAMPLESHEETSDIR}/allSampleSheets_${GAT}.txt
+
+trap - EXIT
+exit 0

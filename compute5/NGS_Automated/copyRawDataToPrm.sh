@@ -17,9 +17,12 @@ pipeline="dna"
 
 function finish {
 	echo "TRAPPED"
-	rm ${LOGDIR}/automated_copyDataToPrm.sh.locked
+	if [ -f ${LOGDIR}/copyDataToPrm.sh.locked ]
+	then
+		rm ${LOGDIR}/copyDataToPrm.sh.locked
+	fi
 }
-trap finish ERR
+trap finish HUP INT QUIT TERM EXIT ERR
 
 ARR=()
 while read i
@@ -42,11 +45,12 @@ do
         run=$3
         IFS=$OLDIFS
 
-        if [ -f ${LOGDIR}/automated_copyDataToPrm.sh.locked ]
+        if [ -f ${LOGDIR}/copyDataToPrm.sh.locked ]
         then
+		echo "copyToPrm is locked"
             	exit 0
 	else
-		touch ${LOGDIR}/automated_copyDataToPrm.sh.locked
+		touch ${LOGDIR}/copyDataToPrm.sh.locked
         fi
 
 	copyRawZincToPrm="${RAWDATADIR}/${filePrefix}/* ${groupname}-dm@calculon.hpc.rug.nl:${RAWDATADIRPRM}/${filePrefix}"
@@ -106,5 +110,8 @@ do
 			echo -e "De md5sum checks voor project ${filePrefix} op ${RAWDATADIRPRM} zijn mislukt.De originele data staat op ${HOSTNA}:${RAWDATADIR}\n\nDeze mail is verstuurd omdat er al 10 pogingen zijn gedaan om de data te kopieren/md5summen" | mail -s "${filePrefix} failing to copy to permanent storage" ${ONTVANGER}
 		fi
 	fi
-	rm ${LOGDIR}/automated_copyDataToPrm.sh.locked
+	rm ${LOGDIR}/copyDataToPrm.sh.locked
 done<${SAMPLESHEETSDIR}/allSampleSheets_Zinc.txt
+
+trap - EXIT
+exit 0

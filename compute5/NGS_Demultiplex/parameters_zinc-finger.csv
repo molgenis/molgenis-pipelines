@@ -1,7 +1,0 @@
-queue,ll
-tmpName,tmp05
-prmName,prm02
-root,/apps/
-
-nextSeqDir,${rawdataDir}/nextSeq
-nextSeqRunDataDir,${nextSeqDir}/${runPrefix}/
