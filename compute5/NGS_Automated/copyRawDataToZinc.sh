@@ -102,6 +102,9 @@ do
 				if md5sum -c $i
 				then
 					echo "data copied to zinc" >> $LOGGER
+					printf "adding samplesheet to rawdata folder .." >> $LOGGER
+					cp ${SAMPLESHEETSDIR}/${csvFile} .
+					printf".. done \n" >> $LOGGER
 					touch $LOGDIR/${filePrefix}.dataCopiedToZinc
 					touch ${filePrefix}.md5sums.checked
 				else
