@@ -1,5 +1,6 @@
-module load Molgenis-Compute/v15.04.1-Java-1.7.0_80
-sh molgenis_compute.sh \
+# if Molgenis-Compute is installed using EasyBuild, otherwise point to the full path
+module load Molgenis-Compute/v16.05.1-Java-1.7.0_45
+sh $EBROOTMOLGENISMINCOMPUTE/molgenis_compute.sh \
   --backend slurm \
   --generate \
   --header /groups/umcg-wijmenga/tmp04/umcg-ndeklein/templates/slurm/header.ftl \
