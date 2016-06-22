@@ -72,6 +72,11 @@ then
  putFile ${bqsrBam}
  putFile ${bqsrBai}
  putFile ${bqsrBeforeGrp}
+ cd ${bqsrDir}
+ md5sum $(basename ${bqsrBam})> $(basename ${bqsrBam}).md5sum
+ md5sum $(basename ${bqsrBam%bam}bai)> $(basename ${bqsrBam%bam}bai).md5sum
+cd -
+ 
  echo "succes moving files";
 else
  echo "returncode: $?";

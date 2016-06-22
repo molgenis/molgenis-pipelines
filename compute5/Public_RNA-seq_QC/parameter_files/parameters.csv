@@ -1,7 +1,7 @@
 ########################################################################
 ## General parameters for SLURM settings and cluster directory paths
 #
-queue,ll
+queue,medium
 defaultInterpreter,#!/bin/bash
 stage,module load
 checkStage,module list

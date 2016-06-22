@@ -46,11 +46,17 @@ do
 	sequencer=$2
 	run=$3
 	IFS=$OLDIFS
+
 	if ssh umcg-ateambot@${gattacaAddress} ls ${GATTACA}/logs/${filePrefix}_Demultiplexing.finished 1> /dev/null 2>&1 
 	then
 		### Demultiplexing is finished
 		printf ""
 	else
+		continue;
+	fi
+
+	if [ -f $LOGDIR/${filePrefix}.dataCopiedToZinc ]
+	then
 		continue;
 	fi
 
@@ -96,6 +102,9 @@ do
 				if md5sum -c $i
 				then
 					echo "data copied to zinc" >> $LOGGER
+					printf "adding samplesheet to rawdata folder .." >> $LOGGER
+					cp ${SAMPLESHEETSDIR}/${csvFile} .
+					printf".. done \n" >> $LOGGER
 					touch $LOGDIR/${filePrefix}.dataCopiedToZinc
 					touch ${filePrefix}.md5sums.checked
 				else

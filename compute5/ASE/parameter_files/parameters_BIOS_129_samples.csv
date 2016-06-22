@@ -1,59 +1,62 @@
 ########################################################################
 ## General parameters for SLURM settings and cluster directory paths
 #
-queue,nodes
+queue,medium
 defaultInterpreter,#!/bin/bash
 stage,module load
 checkStage,module list
-WORKDIR,/scratch/
+WORKDIR,/groups/
 root,${WORKDIR}
-group,p275394
+group,umcg-bios
 tmp,tmp04
 resDir,/groups/umcg-wijmenga/tmp04/resources/
 toolDir,/apps/software/
-projectDir,${root}/${group}/PipelineResult/GEUV-QC
-uniqueID,${sampleName}
+projectDir,${root}/${group}/${tmp}/projects/ASE_GoNL/results/
 ########################################################################
 ## Software and data versions/builds/paths
 #
-samtoolsVersion,1.3-foss-2016a
-bedtoolsVersion,2.23.0-goolfc-2.7.11
-tabixVersion,0.2.6-goolfc-2.7.11
-AseVersion,0.1
+genotypeHarmonizerVersion,1.4.15-Java-1.8.0_45
+samtoolsVersion,1.3-foss-2015b
+bedtoolsVersion,2.23.0-goolf-1.7.20
+tabixVersion,0.2.6-goolf-1.7.20 
+AseVersion,0.1-Java-1.8.0_45
 referenceFastaName,human_g1k_v37
-GSLVersion,2.1-intel-2016a
-RVersion,3.1.2-goolfc-2.7.11-default
+GSLVersion,2.1-foss-2015b
+RVersion,3.2.1-foss-2015b 
 genomeBuild,b37
+dbsnpVcf,${resDir}/${genomeBuild}/snp/dbSNP/dbsnp_138.b37.vcf
+dbsnpVcfIdx,${dbsnpVcf}.idx
 ########################################################################
 ## Specific tools paths
 #
 ## GetReadCounts
-exonlist,/scratch/p275394/Annotations/MetaInfo/exonlist_sorted.txt
+exonlist,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/exonlist_sorted.txt
 readCountDir,${projectDir}/readCounts/
 readCountFileGene,${readCountDir}/${sampleName}_readCountsGene.txt
 readCountFileExon,${readCountDir}/${sampleName}_readCountsExon.txt
 #
 ## GetASCounts
-RASQUALDIR,/scratch/p275394/rasqual/
+RASQUALDIR,/groups/umcg-wijmenga/tmp04/tools/rasqual/
 ASCountsDir,${projectDir}/AScounts/
-ASCountFile,${ASCountsDir}/chr${CHR}_${sampleName}_AScounts.bam.gz
-VCFprefix,/scratch/p275394/aGM_ASL/gEUVADISvcfs/RasqualTest/SNPSonly/clean_mine_ALL.chr
-VCFsuffix,.integrated_phase1_v3.20101123.snps_indels_svs.genotypes.vcf.gz
+ASCountFilePostfix,_${sampleName}_AScounts.bam.gz
+ASCountFile,${ASCountsDir}/chr${CHR}${ASCountFilePostfix}
+VCFprefix,/groups/umcg-bios/tmp04/umcg-fvandijk/projects/RNA-seq_rare_variants/GoNL_WGS_calls/gonl-abc_samples.chr
+VCFsuffix,.release5.NoMAFSelection.vcf.gz
 VCF,${VCFprefix}${CHR}${VCFsuffix}
 #
 ## pasteReads
 countTableDir,${projectDir}/countTable/
 binDir,${projectDir}/bins/
-featureFileExon,/scratch/p275394/Annotations/MetaInfo/exonlist_sorted.txt.gz
-featureFileGene,/scratch/p275394/Annotations/MetaInfo/transcriptlist_sorted.txt.gz
-genelist,/scratch/p275394/Annotations/MetaInfo/transcriptlist_sorted.txt
+featureFileExon,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/exonlist_sorted.txt.gz
+featureFileGene,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/transcriptlist_sorted.txt.gz
+genelist,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/transcriptlist_sorted.txt
 #
 ## Paste AS counts
 ASVCF,${binDir}/chr${CHR}_ASVCF.vcf.gz
 #
 ## RunRasqual
 featureType,gene
-regionsFile,/scratch/p275394/test.bed
+regionsFile,/groups/umcg-wijmenga/tmp04/umcg-ndeklein/data/genomeWideRegion.bed 
 rasqualOutDir,${projectDir}/Rasqual/
 cisWindow,1000000
 yfiletxtExon,${binDir}/Yexon.txt
@@ -63,18 +66,20 @@ yfilebinExon,${binDir}/Yexon.bin
 kfilebinGene,${binDir}/Kg.bin
 yfilebinGene,${binDir}/Ygene.bin
 minCoveragePerFeature,35
-exonGC,/scratch/p275394/Annotations/MetaInfo/GCexon.txt
-transcriptGC,/scratch/p275394/Annotations/MetaInfo/GCTranscript.txt
+exonGC,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/GCexon.txt
+transcriptGC,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/GCTranscript.txt
 insertSize,250
-RasqualizeScript,/scratch/p275394/Molgenis/molgenis-pipelines/compute5/ASE/protocols/rasqualize.R
+RasqualizeScript,/home/umcg-ndeklein/molgenis-pipelines/compute5/ASE/protocols/rasqualize.R
 sampleNum,24
 readCountFile,${readCountDir}/${sampleName}_readCounts.txt
 ## ASReads
+imputedVcf,${VCFprefix}${CHR}${VCFsuffix}
 ASReadsDir,${projectDir}/ASReads/
+trityperDir,${projectDir}/trityper_chr${CHR}/
 ASReadsDirSample,${ASReadsDir}/${sampleName}/
-couplingFile,${ASReadsDir}/coupling.txt
+couplingFile,${projectDir}//coupling.txt
 ASReads,${ASReadsDirSample}/${sampleName}_ASreads.txt
-imputedVcf,gonl-abc_samples.chr${chromosome}.release5.NoMAFSelection.vcf.gz
+haplotyperDir,${projectDir}/haplotypeCaller/
 ## ASE
 AseDir,${projectDir}/ASE/
 ASFiles,${AseDir}/ASFiles.txt
