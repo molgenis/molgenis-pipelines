@@ -82,6 +82,7 @@ hisatAlignmentDir,${projectDir}/hisat/
 filteredBamDir,${projectDir}/filteredBam/
 filteredBam,${filteredBamDir}/${uniqueID}_unique_mapping_only.bam
 unfilteredBamDir,${projectDir}/unfilteredBam/
+rnaStrandness,unstranded
 ## SortBam
 sortedBamDir,${projectDir}/sortedBam/
 sortedBam,${sortedBamDir}${uniqueID}.bam
