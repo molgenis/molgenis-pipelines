@@ -15,6 +15,7 @@
 #string hisatVersion
 #string uniqueID
 #string samtoolsVersion
+#string rnaStrandness
 
 getFile ${reads1FqGz}
 if [ ${#reads2FqGz} -eq 0 ]; then
@@ -48,6 +49,7 @@ if hisat -x ${referenceGenomeHisat} \
   --rg PU:${sampleName}_${internalId}_${internalId} \
   --rg LB:${sampleName}_${internalId} \
   --rg SM:${sampleName} \
+  --rna-strandness ${rnaStrandness} \
   -S ${hisatAlignmentDir}${uniqueID}.sam
 then
   echo "returncode: $?"; putFile ${hisatAlignmentDir}${uniqueID}.sam
