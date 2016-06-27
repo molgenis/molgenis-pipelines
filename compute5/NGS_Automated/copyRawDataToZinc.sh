@@ -20,10 +20,11 @@ gattacaSamplesheets=()
 
 while read line 
 do
-gattacaSamplesheets+=("${line} ")
+	gattacaSamplesheets+=("${line} ")
 done<${SAMPLESHEETSDIR}/allSampleSheets_${GAT}.txt
 
 echo "Logfiles will be written to $LOGDIR"
+
 for line in ${gattacaSamplesheets[@]}
 do
 	csvFile=$(basename $line)
@@ -120,7 +121,7 @@ do
 		fi
 	fi
 rm ${LOGDIR}/${filePrefix}.copyToZinc.locked
-done<${SAMPLESHEETSDIR}/allSampleSheets_${GAT}.txt
+done
 
 trap - EXIT
 exit 0

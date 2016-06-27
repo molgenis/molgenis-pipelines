@@ -1,8 +1,0 @@
-#### ENVIRONMENT VARIABLES ####
-queue,ll
-workDir,/groups/umcg-gaf/
-dataDir,${root}/data/
-tmpName,tmp05
-root,/apps/
-tempDir,${workDir}/${tmpName}/tmp/
-permanentDir,${workDir}/prm02
