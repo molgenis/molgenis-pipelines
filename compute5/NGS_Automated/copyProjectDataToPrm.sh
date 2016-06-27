@@ -63,7 +63,7 @@ do
 		if [ "${makeProjectDataDir}" == "f" ]
 		then
 			echo "copying project data from zinc to prm" >> ${LOGGER}
-                        rsync -r -av --exclude ${PROJECTSDIR}/${projectName}/*/rawdata/ ${copyProjectDataZincToPrm} >> $LOGGER
+                        rsync -r -av --exclude rawdata/ ${copyProjectDataZincToPrm} >> $LOGGER
 			rsync -r -av ${PROJECTSDIR}/${projectName}/${projectName}.allResultmd5sums ${groupname}-dm@calculon.hpc.rug.nl:${PROJECTSDIRPRM}/${projectName}/
 			makeProjectDataDir="t"
 		fi
