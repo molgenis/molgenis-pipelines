@@ -80,6 +80,7 @@ do
                                 then
                                         touch $LOGDIR/${filePrefix}.dataCopiedToPrm
 					scp ${SAMPLESHEETSDIR}/${csvFile} ${groupname}-dm@calculon.hpc.rug.nl:${RAWDATADIRPRM}/${filePrefix}/
+					scp ${SAMPLESHEETSDIR}/${csvFile} ${groupname}-dm@calculon.hpc.rug.nl:${SAMPLESHEETSDIRPRM}
 					echo "finished copying data to calculon" >> ${LOGGER}
 					logFileStatistics=$(cat ${RAWDATADIR}/${filePrefix}/${filePrefix}*.log)
 					if [ ${groupname} == "umcg-gaf" ]
