@@ -1,5 +1,5 @@
 #!bin/bash
-#MOLGENIS walltime=35:59:00 mem=8gb nodes=1 ppn=16 ### variables to help adding t$
+#MOLGENIS walltime=3-23:59:00 mem=8gb nodes=1 ppn=16 ### variables to help adding t$
 #string project
 ###
 #string stage

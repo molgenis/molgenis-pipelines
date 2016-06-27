@@ -1,7 +1,7 @@
 ########################################################################
 ## General parameters for SLURM settings and cluster directory paths
 #
-queue,ll
+queue,medium
 defaultInterpreter,#!/bin/bash
 stage,module load
 checkStage,module list
@@ -82,6 +82,7 @@ hisatAlignmentDir,${projectDir}/hisat/
 filteredBamDir,${projectDir}/filteredBam/
 filteredBam,${filteredBamDir}/${uniqueID}_unique_mapping_only.bam
 unfilteredBamDir,${projectDir}/unfilteredBam/
+rnaStrandness,unstranded
 ## SortBam
 sortedBamDir,${projectDir}/sortedBam/
 sortedBam,${sortedBamDir}${uniqueID}.bam

@@ -1,3 +1,5 @@
 step,protocol,dependencies
-ASEReads,protocols/ASReads.sh,
+GenotypeToTrityper,protocols/GenotypeToTrityper.sh,
+MakeCouplingFile,protocols/MakeCouplingFile.sh,
+ASEReads,protocols/ASEReads.sh,MakeCouplingFile;GenotypeToTrityper
 ASE,protocols/ASE.sh,ASEReads

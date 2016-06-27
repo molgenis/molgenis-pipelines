@@ -12,7 +12,6 @@ tmp,tmp04
 resDir,/groups/umcg-wijmenga/tmp04/resources/
 toolDir,/apps/software/
 projectDir,${root}/${group}/${tmp}/projects/${project}/
-uniqueID,${sampleName}
 fvdProjectDir,${root}/${group}/${tmp}/projects/umcg-fvandijk/projects/
 ########################################################################
 ## Software and data versions/builds/paths
@@ -26,22 +25,26 @@ samtoolsVersion,1.2-foss-2015b
 bedtoolsVersion,2.23.0-foss-2015b
 pythonVersion,3.4.1-foss-2015b
 biopythonVersion,1.65-foss-2015b-Python-3.4.1
+ngsutilsVersion,16.06.1
+zlibVersion,1.2.8
+bzip2Version,1.0.6-foss-2015b
 GLibVersion,2.45.2-foss-2015b
 vcftoolsVersion,0.1.12b-goolf-1.7.20-Perl-5.20.2-bare
 RVersion,3.2.1-foss-2015b
-phaserVersion,d688a18
+phaserVersion,f085550
 tabixVersion,0.2.6-goolf-1.7.20
 referenceFastaName,human_g1k_v37
 genomeBuild,b37
 onekgGenomeFasta,${resDir}/${genomeBuild}/indices/${referenceFastaName}.fasta
 geneticMapDir,/apps/data/www.shapeit.fr/genetic_map_b37/
 geneticMapChr,${geneticMapDir}/genetic_map_chr${chromosome}_combined_b37.txt
+OneKgPhase3VCF,/apps/data/1000G/release/20130502//ALL.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.vcf.gz
 ########################################################################
 ## Specific tools paths
 #
 ## Input Beagle from GATK GenotypeGVF
 genotypedChrVcfGLDir,${projectDir}/genotypeVcfGL/
-genotypedChrVcfGL,${genotypedChrVcfGLDir}chr${chromosome}.genotypeGVCF.gg.vcf.gz
+genotypedChrVcfGL,${genotypedChrVcfGLDir}/${project}.chr${chromosome}.genotypeGVCF.gg.vcf.gz
 genotypedChrVcfTbi,${genotypedChrVcfGL}.tbi
 ## Beagle
 beagleDir,${projectDir}/beagle/
@@ -50,11 +53,10 @@ genotypedChrVcfShapeitInputPrefix,${beagleDir}/${project}.chr${chromosome}.beagl
 ## Shapeit
 shapeitDir,${projectDir}/shapeit/
 phasedScaffoldDir,/groups/umcg-lld/tmp04/projects/genotypingRelease3/selectionLldeep/lldeepPhased/
-shapeitPhasedOutputPrefix,${shapeitDir}/chr${chromosome}.shapeit.phased
+shapeitPhasedOutputPrefix,${shapeitDir}/${project}.chr${chromosome}.shapeit.phased
 ## phASER
 mapq,0
 baseq,0
 phaserDir,${projectDir}/phASER
-phaserOutPrefix,${phaserDir}/${sampleName}_chr${chromosome}
 ## genotype concordance
 comparisonFileDir,${fvdProjectDir}RNA-seq_rare_variants/comparison_files/

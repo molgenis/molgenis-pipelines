@@ -22,7 +22,33 @@
 
 getFile ${dbsnpVcf}
 getFile ${onekgGenomeFasta}
-for file in "${sortedBam[@]}"; do
+
+
+#Function to check if array contains value
+array_contains () {
+    local array="$1[@]"
+    local seeking=$2
+    local in=1
+    for element in "${!array-}"; do
+        if [[ "$element" == "$seeking" ]]; then
+            in=0
+            break
+        fi
+    done
+    return $in
+}
+
+#This check needs to be performed because Compute generates duplicate values in array
+sortedBam_uniq=()
+for sortedBamFile in "${sortedBam[@]}"
+do
+        array_contains sortedBam_uniq "$sortedBamFile" || sortedBam_uniq+=("$sortedBamFile")    # If bamFile does not exist in array add it
+done
+
+
+
+
+for file in "${sortedBam_uniq[@]}"; do
   echo "getFile file='$file'"
   getFile $file
 done
@@ -40,7 +66,7 @@ echo "## "$(date)" Start $0"
 echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
 #print like '-I=file1.bam -I=file2.bam '
-inputs=$(printf ' -I %s ' $(printf '%s\n' ${sortedBam[@]}))
+inputs=$(printf ' -I %s ' $(printf '%s\n' ${sortedBam_uniq[@]}))
 
 if java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}GATK//${gatkVersion}/GenomeAnalysisTK.jar \
   -R ${onekgGenomeFasta} \
