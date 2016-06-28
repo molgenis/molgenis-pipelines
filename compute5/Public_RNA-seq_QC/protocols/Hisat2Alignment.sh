@@ -7,18 +7,17 @@
 ###
 #string stage
 #string checkStage
-#string referenceGenomeHisat
+#string referenceGenomeHisat2
 #string reads1FqGz
 #string reads2FqGz
 #string platform
 #string hisatAlignmentDir
-#string hisatVersion
+#string hisat2Version
 #string uniqueID
 #string samtoolsVersion
 #string rnaStrandness
 
 getFile ${reads1FqGz}
-
 if [ ${#reads2FqGz} -eq 0 ]; then
    input="-U ${reads1FqGz}"
    echo "Single end alignment of ${reads1FqGz}"
@@ -50,7 +49,7 @@ else
 fi
 
 #Load modules
-${stage} hisat/${hisatVersion}
+${stage} hisat2/${hisat2Version}
 
 #check modules
 ${checkStage}
@@ -60,7 +59,7 @@ mkdir -p ${hisatAlignmentDir}
 echo "## "$(date)" Start $0"
 echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
-if hisat -x ${referenceGenomeHisat} \
+if hisat2 -x ${referenceGenomeHisat2} \
   ${input} \
   -p 8 \
   --rg-id ${internalId} \
