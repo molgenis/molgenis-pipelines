@@ -79,6 +79,7 @@ do
                                 elif [[ "${COPIEDTOPRM}" == *"PASS"* ]]
                                 then
                                         touch $LOGDIR/${filePrefix}.dataCopiedToPrm
+					scp ${SAMPLESHEETSDIR}/${csvFile} ${groupname}-dm@calculon.hpc.rug.nl:${RAWDATADIRPRM}/${filePrefix}/
 					scp ${SAMPLESHEETSDIR}/${csvFile} ${groupname}-dm@calculon.hpc.rug.nl:${SAMPLESHEETSPRMDIR}
 					echo "finished copying data to calculon" >> ${LOGGER}
 					logFileStatistics=$(cat ${RAWDATADIR}/${filePrefix}/${filePrefix}*.log)
