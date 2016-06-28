@@ -7,17 +7,17 @@ stage,module load
 checkStage,module list
 
 ### Tool versions ####
-rVersion,3.2.1-goolf-1.7.20
-sambambaVersion,v0.5.9-goolf-1.7.20
-ngsUtilsVersion,16.01.1
-ppvForNiptVersion,0.1-goolf-1.7.20
+rVersion,3.2.1-${toolChain}
+sambambaVersion,v0.5.9-${toolChain}
+ngsUtilsVersion,16.05.1 
+ppvForNiptVersion,0.1-${toolChain}
 wkHtmlToPdfVersion,0.11.0_rc1-static-amd64
 tmpDataDir,${workDir}/${tmpName}/
 sambambaTool,sambamba_v0.5.9
 
 dataDir,/apps/data/
 intermediateDir,${tmpDataDir}/tmp/${project}/${runid}
-inputDataTmp,/groups/umcg-gd/tmp05/inputData/${project}
+inputDataTmp,/groups/umcg-gd/${tmpName}/inputData/${project}
 projectsDir,${tmpDataDir}/projects/${project}/${runid}
 resultsSampleDir,${projectsDir}/results/${DNA_nr}_${externalSampleID}/
 
