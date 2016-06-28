@@ -7,10 +7,10 @@ stage,module load
 checkStage,module list
 
 ### Tool versions ####
-rVersion,3.2.1-foss-2015b
-sambambaVersion,v0.5.9-foss-2015b
+rVersion,3.2.1-${toolChain}
+sambambaVersion,v0.5.9-${toolChain}
 ngsUtilsVersion,16.05.1 
-ppvForNiptVersion,0.1-foss-2015b
+ppvForNiptVersion,0.1-${toolChain}
 wkHtmlToPdfVersion,0.11.0_rc1-static-amd64
 tmpDataDir,${workDir}/${tmpName}/
 sambambaTool,sambamba_v0.5.9
