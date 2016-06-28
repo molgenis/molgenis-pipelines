@@ -57,7 +57,7 @@ do
 		then
 			cd ${PROJECTSDIR}/${projectName}/
 			md5deep -r -j0 -o f -l */results/ > ${projectName}.allResultmd5sums
-			chmod g+rx ${PROJECTSDIR}
+			chmod -R g+rx ${PROJECTSDIR}/${projectName}/
 		fi
 		
 		if [ "${makeProjectDataDir}" == "f" ]
