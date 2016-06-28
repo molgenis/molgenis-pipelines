@@ -55,7 +55,7 @@ do
 		module load hashdeep/4.4-foss-2015b
 		if [ ! -f ${PROJECTSDIR}/${projectName}.allResultmd5sums ]
 		then
-			cd ${PROJECTSDIR}/${projectName}/${projectName}.allResultmd5sums
+			cd ${PROJECTSDIR}/${projectName}/
 			md5deep -r -j0 -o f -l */results/ > ${projectName}.allResultmd5sums
 			chmod g+rx ${PROJECTSDIR}
 		fi
