@@ -25,17 +25,17 @@ if [ ${#reads2FqGz} -eq 0 ]; then
      echo "${reads1FqGz} does not exist"
      exit 1
    fi
-   if [ ${rnaStrandness} == "FR" ]; then
+   if [ "${rnaStrandness}" == "FR" ]; then
        rnaStrandness="F"
-   elif [ ${rnaStrandness} == "RF" ]; then
+   elif [ "${rnaStrandness}" == "RF" ]; then
        rnaStrandness="R"
    fi
 else
    getFile ${reads2FqGz}
    input="-1 ${reads1FqGz} -2 ${reads2FqGz}"
-   if [ ${rnaStrandness} == "F" ]; then
+   if [ "${rnaStrandness}" == "F" ]; then
        rnaStrandness="FR"
-   elif [ ${rnaStrandness} == "R" ]; then
+   elif [ "${rnaStrandness}" == "R" ]; then
        rnaStrandness="RF"
    fi
    echo "Paired end alignment of ${reads1FqGz} and ${reads2FqGz}"
@@ -58,7 +58,7 @@ mkdir -p ${hisatAlignmentDir}
 
 echo "## "$(date)" Start $0"
 echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
-
+echo "Using RNA strandedness $rnaStrandness"
 if hisat2 -x ${referenceGenomeHisat2} \
   ${input} \
   -p 8 \
@@ -67,7 +67,7 @@ if hisat2 -x ${referenceGenomeHisat2} \
   --rg PU:${sampleName}_${internalId}_${internalId} \
   --rg LB:${sampleName}_${internalId} \
   --rg SM:${sampleName} \
-  --rna-strandness ${rnaStrandness} \
+  --rna-strandness $rnaStrandness \
   -S ${hisatAlignmentDir}${uniqueID}.sam
 then
   echo "returncode: $?"; putFile ${hisatAlignmentDir}${uniqueID}.sam
