@@ -42,9 +42,6 @@ else
    if [[ ! -f ${reads1FqGz} ]] ; then
       echo "${reads1FqGz} does not exist"
       exit 1
-   elif [[ ! -f ${reads2FqGz} ]] ; then
-      echo "${reads1FqGz} does not exist"
-      exit 1
    fi
 fi
 
