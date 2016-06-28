@@ -1,0 +1,13 @@
+step,protocol,dependencies
+Hisat2Alignment,protocols/Hisat2Alignment.sh,
+SamToFilteredBam,protocols/SamToFilteredBam.sh,Hisat2Alignment
+FastQC,protocols/Fastqc.sh,
+SortBam,protocols/SortBam.sh,SamToFilteredBam
+GatkUnifiedGenotyper,protocols/GatkUnifiedGenotyper.sh,SortBam
+VerifyBamID,protocols/VerifyBamID.sh,GatkUnifiedGenotyper
+VariantEval,protocols/VariantEval.sh,GatkUnifiedGenotyper
+GenotypeHarmonizer,protocols/GenotypeHarmonizer.sh,GatkUnifiedGenotyper
+CombineBedFiles,protocols/CombineBedFiles.sh,GenotypeHarmonizer
+CollectRnaSeqMetrics,protocols/CollectRnaSeqMetrics.sh,SortBam
+CollectMultipleMetrics,protocols/CollectMultipleMetrics.sh,SortBam
+CreateCramFiles,protocols/CreateCramFiles.sh,SamToFilteredBam

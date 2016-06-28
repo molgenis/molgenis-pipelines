@@ -29,6 +29,7 @@ verifyBamIDVersion,1.1.2-goolf-1.7.20
 GenotypeHarmonizerVersion,1.4.14
 gatkVersion,3.4-0-Java-1.7.0_80 
 hisatVersion,0.1.6-beta-goolf-1.7.20
+hisat2Version,2.0.4-foss-2015b
 fastqcVersion,0.11.3-Java-1.7.0_80  
 genomeBuild,b37
 genomeGrchBuild,GRCh37
@@ -78,6 +79,7 @@ variantEvalDir,${projectDir}/variantEval/
 evalGrp,${variantEvalDir}${uniqueID}.eval.grp
 ## Hisat
 referenceGenomeHisat,${resDir}/${genomeBuild}/indices/hisat-${hisatVersion}/human_g1k_v${human_g1k_vers}
+referenceGenomeHisat2,/apps/data/UMCG/Hisat2_index/human_g1k_v37_hisat2_index_17062016
 hisatAlignmentDir,${projectDir}/hisat/
 filteredBamDir,${projectDir}/filteredBam/
 filteredBam,${filteredBamDir}/${uniqueID}_unique_mapping_only.bam
