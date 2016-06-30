@@ -57,6 +57,13 @@ mkdir -p ${hisatAlignmentDir}
 echo "## "$(date)" Start $0"
 echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 echo "Using RNA strandedness $rnaStrandness"
+if [ "$rnaStrandness" == "unstranded" ]; then
+    rnaStrandOption=""
+else
+    rnaStrandOption="--rna-strandness $rnaStrandness"
+fi
+
+
 if hisat -x ${referenceGenomeHisat} \
   ${input} \
   -p 8 \
@@ -65,8 +72,7 @@ if hisat -x ${referenceGenomeHisat} \
   --rg PU:${sampleName}_${internalId}_${internalId} \
   --rg LB:${sampleName}_${internalId} \
   --rg SM:${sampleName} \
-  --rna-strandness $rnaStrandness \
-  -S ${hisatAlignmentDir}${uniqueID}.sam
+  -S ${hisatAlignmentDir}${uniqueID}.sam $rnaStrandOption
 then
   echo "returncode: $?"; putFile ${hisatAlignmentDir}${uniqueID}.sam
   echo "succes moving files";
