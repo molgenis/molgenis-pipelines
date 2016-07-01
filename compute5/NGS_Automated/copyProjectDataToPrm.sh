@@ -55,9 +55,8 @@ do
 		module load hashdeep/4.4-foss-2015b
 		if [ ! -f ${PROJECTSDIR}/${projectName}.allResultmd5sums ]
 		then
-			cd ${PROJECTSDIR}/${projectName}/${projectName}.allResultmd5sums
+			cd ${PROJECTSDIR}/${projectName}/
 			md5deep -r -j0 -o f -l */results/ > ${projectName}.allResultmd5sums
-			chmod g+rx ${PROJECTSDIR}
 		fi
 		
 		if [ "${makeProjectDataDir}" == "f" ]
@@ -76,7 +75,7 @@ do
 				if [[ "${COPIEDTOPRM}" == *"FAILED"* ]]
                                 then
                                         echo "md5sum check failed, the copying will start again" >> ${LOGGER}
-                                        rsync -r -av --exclude ${PROJECTSDIR}/${projectName}/*/rawdata/ ${copyProjectDataZincToPrm} >> $LOGGER 2>&1
+                                        rsync -r -av --exclude rawdata/ ${copyProjectDataZincToPrm} >> $LOGGER 2>&1
 					echo "copy failed" >> $LOGDIR/${projectName}.copyProjectDataToPrm.failed
                                 elif [[ "${COPIEDTOPRM}" == *"PASS"* ]]
                                 then
@@ -91,7 +90,7 @@ do
                                 fi
                         else
 				echo "copying data..." >> $LOGGER
-                                rsync -r -av --exclude ${PROJECTSDIR}/${projectName}/*/rawdata/ ${copyProjectDataZincToPrm} >> $LOGGER 2>&1
+                                rsync -r -av --exclude rawdata/ ${copyProjectDataZincToPrm} >> $LOGGER 2>&1
                         fi
                 fi
         fi
