@@ -1,48 +1,61 @@
-#MOLGENIS nodes=1 ppn=1 mem=6gb walltime=23:59:00
+#MOLGENIS walltime=24:00:00 nodes=1 cores=1 mem=6gb
 
-#Parameter mapping  #why not string foo,bar? instead of string foo\nstring bar
-#string stage
-#string checkStage
-#string WORKDIR
-#string projectDir
-
+#Parameter mapping
 #string bam
-#string genomeEnsembleAnnotationFile
-
+#string annotationGtf
+#string htseqTxtOutput
 #string samtoolsVersion
 #string htseqVersion
-#string htseqCountDir
-#string htseqCountCounts
+#string stranded
+#string htseqDir
 
-echo "## "$(date)" ##  $0 Started "
+#Echo parameter values
+bam="${bam}"
+annotationGtf="${annotationGtf}"
+htseqTxtOutput="${htseqTxtOutput}"
 
+echo -e "bam=${bam}\nannotationGtf=${annotationGtf}\nhtseqTxtOutput=${htseqTxtOutput}"
 
-getFile ${bam}
-getFile ${bam%.bam}.bai
+module load SAMtools/${samtoolsVersion}
+module load HTSeq/${htseqVersion}
+module list
 
-${stage} HTSeq/${htseqVersion}
-${stage} SAMtools/${samtoolsVersion}
-${checkStage}
+echo "Sorting bam file by name"
+mkdir -p ${htseqDir}
+if samtools \
+        sort \
+        -n \
+        -o ${TMPDIR}/nameSorted.bam \
+        ${bam}
+then 
+        echo "bam file sorted"
+else
+        echo "Failed to sort bam file"
+        rm -f ${TMPDIR}/nameSorted.bam
+        exit 1
+fi 
+ls ${TMPDIR}
+echo -e "\nQuantifying expression"
 
-set -x
-set -e
-
-mkdir -p ${htseqCountDir}
-
-samtools view -h ${bam} \
-     | $EBROOTHTSEQ/scripts/htseq-count \
+if samtools \
+        view -h \
+        ${TMPDIR}/nameSorted.bam | \
+        htseq-count \
         -m union \
-        -s no \
-        -t exon \
-        -i gene_id \
+        --stranded ${stranded} \
         - \
-        ${genomeEnsembleAnnotationFile} > ${htseqCountCounts}
-
-putFile ${htseqCountCounts}
-
-if [ ! -z "$PBS_JOBID" ]; then
-	echo "## "$(date)" Collecting PBS job statistics"
-	qstat -f $PBS_JOBID
+        ${annotationGtf} | \
+        head -n -5 \
+        > ${htseqTxtOutput}___tmp___;
+then
+        echo "Gene count succesfull"
+        mv ${htseqTxtOutput}___tmp___ ${htseqTxtOutput}
+else
+        echo "Genecount failed"
+        rm -f ${TMPDIR}/nameSorted.bam
+        exit 1
 fi
 
-echo "## "$(date)" ##  $0 Done "
+rm ${TMPDIR}/nameSorted.bam
+
+echo "Finished!"
