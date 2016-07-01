@@ -6,8 +6,7 @@
 #string WORKDIR
 #string projectDir
 
-#string markDuplicatesBam
-#string markDuplicatesBai
+#string bam
 #string genomeEnsembleAnnotationFile
 
 #string samtoolsVersion
@@ -18,8 +17,8 @@
 echo "## "$(date)" ##  $0 Started "
 
 
-getFile ${markDuplicatesBam}
-getFile ${markDuplicatesBai}
+getFile ${bam}
+getFile ${bam%.bam}.bai
 
 ${stage} HTSeq/${htseqVersion}
 ${stage} SAMtools/${samtoolsVersion}
@@ -30,7 +29,14 @@ set -e
 
 mkdir -p ${htseqCountDir}
 
-samtools view -h ${markDuplicatesBam} | $EBROOTHTSEQ/scripts/htseq-count -m union -s no -t exon -i gene_id - ${genomeEnsembleAnnotationFile} > ${htseqCountCounts}
+samtools view -h ${bam} \
+     | $EBROOTHTSEQ/scripts/htseq-count \
+        -m union \
+        -s no \
+        -t exon \
+        -i gene_id \
+        - \
+        ${genomeEnsembleAnnotationFile} > ${htseqCountCounts}
 
 putFile ${htseqCountCounts}
 
