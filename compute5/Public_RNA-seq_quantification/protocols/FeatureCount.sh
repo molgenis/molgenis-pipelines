@@ -5,18 +5,13 @@
 #string annotationGtf
 #string htseqTxtOutput
 #string samtoolsVersion
-#string htseqVersion
+#string featureCountVersion
 #string stranded
 #string htseqDir
 #string mode
 #string sortType
 #string featureType
-#string internalId
-#string sampleName
-#string project
 
-echo "## "$(date)" Start $0"
-echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 #Echo parameter values
 bam="${bam}"
 annotationGtf="${annotationGtf}"
@@ -39,21 +34,24 @@ if htseq-count \
         -f bam \
         -t ${featureType} \
         --stranded ${stranded} \
+        -o ${htseqTxtOutput}___tmp___ \
         ${bam} \
-        ${annotationGtf} >  ${htseqTxtOutput}___tmp___ ;
+        ${annotationGtf} ;
 then
         echo "Gene count succesfull"
         if [[ $(wc -l <${htseqTxtOutput}___tmp___) -ge 2 ]]
         then
             mv ${htseqTxtOutput}___tmp___ ${htseqTxtOutput}
-            echo "returncode: $0"
         else
             echo "output not written correctly";
             exit 1;
         fi
 else
         echo "Genecount failed"
+        rm -f ${TMPDIR}/nameSorted.bam
         exit 1
 fi
 
-echo "## "$(date)" ##  $0 Done "
+rm ${TMPDIR}/nameSorted.bam
+
+echo "Finished!"
