@@ -1,0 +1,2 @@
+step,protocol,dependencies
+GenotypeGvcfs_individual,protocols/GatkGenotypeGvcfs_individual.sh,HaplotypeCallerGvcf
