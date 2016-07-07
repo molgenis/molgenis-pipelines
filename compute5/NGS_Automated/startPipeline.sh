@@ -32,6 +32,12 @@ do
 	##get header to decide later which column is project
 	HEADER=$(head -1 ${i})
 
+	if [ -d ${LOGDIR}/${filePrefix}/ ]
+        then
+                echo "(startPipeline) everything is finished of ${filePrefix}"
+                continue
+        fi
+
 	##Remove header, only want to keep samples
 	sed '1d' $i > ${LOGDIR}/TMP/${filePrefix}.tmp
 	OLDIFS=$IFS
@@ -90,7 +96,7 @@ do
 	### Decide if the scripts should be created (per Samplesheet)
 	##
 	#
-	if [[ -f $LOGDIR/${filePrefix}.dataCopiedToZinc && ! -f $LOGDIR/${filePrefix}.scriptsGenerated ]]
+	if [[ -f $LOGDIR/${filePrefix}.dataCopiedToDiagnosticsCluster && ! -f $LOGDIR/${filePrefix}.scriptsGenerated ]]
         then
                	### Step 4: Does the pipeline need to run?
                	if [ "${pipeline}" == "RNA-Lexogen-reverse" ]
@@ -158,13 +164,13 @@ do
 			WHOAMI=$(whoami)
 			HOSTN=$(hostname)
 		        LOGGER=${LOGDIR}/${PROJECT}.pipeline.logger
-			echo "${LOGDIR}/${PROJECT}"
 			if [ ! -f ${LOGDIR}/${PROJECT}.pipeline.started ]
 			then
 				cd ${PROJECTSDIR}/${PROJECT}/run01/jobs/
 				sh submit.sh
 
 				touch ${LOGDIR}/${PROJECT}.pipeline.started
+				echo "${LOGDIR}/${PROJECT} started" >> $LOGGER
 
 				printf "Pipeline: ${pipeline}\nStarttime:`date +%d/%m/%Y` `date +%H:%M`\nProject: $PROJECT\nStarted by: $WHOAMI\nHost: ${HOSTN}\n\nProgress can be followed via the command squeue -u $WHOAMI on $HOSTN.\nYou will receive an email when the pipeline is finished!\n\nCheers from the GCC :)" | mail -s "NGS_DNA pipeline is started for project $PROJECT on `date +%d/%m/%Y` `date +%H:%M`" ${ONTVANGER}
 				sleep 40

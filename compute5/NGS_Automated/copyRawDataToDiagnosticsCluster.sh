@@ -1,4 +1,4 @@
-set -e
+§set -e
 set -u
 
 GAT=$1
@@ -29,13 +29,19 @@ for line in ${gattacaSamplesheets[@]}
 do
 	csvFile=$(basename $line)
 	filePrefix="${csvFile%.*}"
-	LOGGER=${LOGDIR}/${filePrefix}.copyToZinc.logger
+	LOGGER=${LOGDIR}/${filePrefix}.copyToDiagnosticsCluster.logger
 
+	if [ -d ${LOGDIR}/${filePrefix}/ ]
+	then
+		echo "everything is finished of ${filePrefix}"
+		continue
+	fi
+ 
 	function finish {
-		if [ -f ${LOGDIR}/${filePrefix}.copyToZinc.locked ]
+		if [ -f ${LOGDIR}/${filePrefix}.copyToDiagnosticsCluster.locked ]
         	then
 	        	echo "TRAPPED"
-        		rm ${LOGDIR}/${filePrefix}.copyToZinc.locked
+        		rm ${LOGDIR}/${filePrefix}.copyToDiagnosticsCluster.locked
 		fi
 	}
 	trap finish HUP INT QUIT TERM EXIT ERR
@@ -56,36 +62,36 @@ do
 		continue;
 	fi
 
-	if [ -f $LOGDIR/${filePrefix}.dataCopiedToZinc ]
+	if [ -f $LOGDIR/${filePrefix}.dataCopiedToDiagnosticsCluster ]
 	then
 		continue;
 	fi
 
-	if [ -f ${LOGDIR}/${filePrefix}.copyToZinc.locked ]
+	if [ -f ${LOGDIR}/${filePrefix}.copyToDiagnosticsCluster.locked ]
 	then
 		exit 0
 	fi
-	touch ${LOGDIR}/${filePrefix}.copyToZinc.locked
+	touch ${LOGDIR}/${filePrefix}.copyToDiagnosticsCluster.locked
 
 	## Check if samplesheet is copied
-	copyRawGatToZinc="umcg-ateambot@${gattacaAddress}:${GATTACA}/runs/run_${run}_${sequencer}/results/${filePrefix}* ${RAWDATADIR}/$filePrefix"
+	copyRawGatToDiagnosticsCluster="umcg-ateambot@${gattacaAddress}:${GATTACA}/runs/run_${run}_${sequencer}/results/${filePrefix}* ${RAWDATADIR}/$filePrefix"
 
 	if [[ ! -f ${SAMPLESHEETSDIR}/$csvFile || ! -f $LOGDIR/${filePrefix}.SampleSheetCopied ]]
         then
                 scp umcg-ateambot@${gattacaAddress}:${GATTACA}/Samplesheets/${csvFile} ${SAMPLESHEETSDIR}
                 touch $LOGDIR/${filePrefix}.SampleSheetCopied
         fi
-	## Check if data is already copied to tmp05 on zinc-finger
+	## Check if data is already copied to DiagnosticsCluster
 
 	if [ ! -d ${RAWDATADIR}/$filePrefix ]
 	then
 		mkdir -p ${RAWDATADIR}/${filePrefix}/Info
-		echo "Copying data to zinc.." >> $LOGGER
-		rsync -r -a ${copyRawGatToZinc}
+		echo "Copying data to DiagnosticsCluster.." >> $LOGGER
+		rsync -r -a ${copyRawGatToDiagnosticsCluster}
 	fi
 
 
-	if [[ -d ${RAWDATADIR}/$filePrefix  && ! -f $LOGDIR/${filePrefix}.dataCopiedToZinc ]]
+	if [[ -d ${RAWDATADIR}/$filePrefix  && ! -f $LOGDIR/${filePrefix}.dataCopiedToDiagnosticsCluster ]]
 	then
 		##Compare how many files are on both the servers in the directory
 		countFilesRawDataDirTmp=$(ls ${RAWDATADIR}/${filePrefix}/${filePrefix}* | wc -l)
@@ -102,23 +108,23 @@ do
 			do
 				if md5sum -c $i
 				then
-					echo "data copied to zinc" >> $LOGGER
+					echo "data copied to DiagnosticsCluster" >> $LOGGER
 					printf ".. done \n" >> $LOGGER
-					touch $LOGDIR/${filePrefix}.dataCopiedToZinc
+					touch $LOGDIR/${filePrefix}.dataCopiedToDiagnosticsCluster
 					touch ${filePrefix}.md5sums.checked
 				else
 					echo "md5sum check failed, the copying will start again" >> $LOGGER
-					rsync -r -a ${copyRawGatToZinc}
-                                	echo "data copied to Zinc" >> $LOGGER
+					rsync -r -a ${copyRawGatToDiagnosticsCluster}
+                                	echo "data copied to DiagnosticsCluster" >> $LOGGER
 				fi
 			done
 		else
-			echo "Retry: Copying data to zinc" >> $LOGGER
-			rsync -r -a ${copyRawGatToZinc}
-			echo "data copied to Zinc" >> $LOGGER
+			echo "Retry: Copying data to DiagnosticsCluster" >> $LOGGER
+			rsync -r -a ${copyRawGatToDiagnosticsCluster}
+			echo "data copied to DiagnosticsCluster" >> $LOGGER
 		fi
 	fi
-rm ${LOGDIR}/${filePrefix}.copyToZinc.locked
+rm ${LOGDIR}/${filePrefix}.copyToDiagnosticsCluster.locked
 done
 
 trap - EXIT
