@@ -12,7 +12,7 @@ myhost=$(hostname)
 . ${MYINSTALLATIONDIR}/sharedConfig.cfg
 
 ### VERVANG DOOR UMCG-ATEAMBOT USER
-ls ${SAMPLESHEETSDIR}/*.csv > ${SAMPLESHEETSDIR}/allSampleSheets_Zinc.txt
+ls ${SAMPLESHEETSDIR}/*.csv > ${SAMPLESHEETSDIR}/allSampleSheets_DiagnosticsCluster.txt
 pipeline="dna"
 
 function finish {
@@ -28,7 +28,7 @@ ARR=()
 while read i
 do
 ARR+=($i)
-done<${SAMPLESHEETSDIR}/allSampleSheets_Zinc.txt
+done<${SAMPLESHEETSDIR}/allSampleSheets_DiagnosticsCluster.txt
 
 echo "Logfiles will be written to $LOGDIR"
 for line in ${ARR[@]}
@@ -45,6 +45,12 @@ do
         run=$3
         IFS=$OLDIFS
 
+	if [ -d ${LOGDIR}/${filePrefix}/ ]
+        then
+                echo "(copyPrm) everything is finished of ${filePrefix}"
+                continue
+        fi
+
         if [ -f ${LOGDIR}/copyDataToPrm.sh.locked ]
         then
 		echo "copyToPrm is locked"
@@ -53,16 +59,51 @@ do
 		touch ${LOGDIR}/copyDataToPrm.sh.locked
         fi
 
-	copyRawZincToPrm="${RAWDATADIR}/${filePrefix}/* ${groupname}-dm@calculon.hpc.rug.nl:${RAWDATADIRPRM}/${filePrefix}"
+	##get header to decide later which column is project
+        HEADER=$(head -1 ${line})
+
+        if [ -d ${LOGDIR}/${filePrefix}/ ]
+        then
+            	echo "(startPipeline) everything is finished of ${filePrefix}"
+                continue
+        fi
+
+	##Remove header, only want to keep samples
+        sed '1d' $line > ${LOGDIR}/TMP/${filePrefix}.utmp
+        OLDIFS=$IFS
+        IFS=','
+        array=($HEADER)
+        IFS=$OLDIFS
+        count=1
+        for j in "${array[@]}"
+        do
+          	if [ "${j}" == "project" ]
+                then
+                    	awk -F"," '{print $'$count'}' ${LOGDIR}/TMP/${filePrefix}.utmp > ${LOGDIR}/TMP/${filePrefix}.utmp2
+                fi
+                count=$((count + 1))
+        done
+	cat ${LOGDIR}/TMP/${filePrefix}.utmp2 | sort -V | uniq > ${LOGDIR}/TMP/${filePrefix}.unique.projects
+
+        PROJECTARRAY=()
+        while read line
+        do
+          	PROJECTARRAY+="${line} "
+
+        done<${LOGDIR}/TMP/${filePrefix}.unique.projects
+
+
+
+	copyRawDiagnosticsClusterToPrm="${RAWDATADIR}/${filePrefix}/* ${groupname}-dm@calculon.hpc.rug.nl:${RAWDATADIRPRM}/${filePrefix}"
 	makeRawDataDir=$(ssh ${groupname}-dm@calculon.hpc.rug.nl "sh ${RAWDATADIRPRM}/../checkRawData.sh ${RAWDATADIRPRM} ${filePrefix}")
 
-	if [[ -f $LOGDIR/${filePrefix}.dataCopiedToZinc && ! -f $LOGDIR/${filePrefix}.dataCopiedToPrm ]]
+	if [[ -f $LOGDIR/${filePrefix}.dataCopiedToDiagnosticsCluster && ! -f $LOGDIR/${filePrefix}.dataCopiedToPrm ]]
 	then
 		countFilesRawDataDirTmp=$(ls ${RAWDATADIR}/${filePrefix}/${filePrefix}* | wc -l)
 		if [ "${makeRawDataDir}" == "f" ]
 		then
-			echo "copying data from zinc to prm" >> ${LOGGER}
-                        rsync -r -av ${copyRawZincToPrm} >> $LOGGER
+			echo "copying data from DiagnosticsCluster to prm" >> ${LOGGER}
+                        rsync -r -av ${copyRawDiagnosticsClusterToPrm} >> $LOGGER
 			makeRawDataDir="t"
 		fi
 		if [ "${makeRawDataDir}" == "t" ]
@@ -74,14 +115,24 @@ do
 				if [[ "${COPIEDTOPRM}" == *"FAILED"* ]]
                                 then
                                         echo "md5sum check failed, the copying will start again" >> ${LOGGER}
-                                        rsync -r -av ${copyRawZincToPrm} >> $LOGGER 2>&1
+                                        rsync -r -av ${copyRawDiagnosticsClusterToPrm} >> $LOGGER 2>&1
 					echo "copy failed" >> $LOGDIR/${filePrefix}.failed
                                 elif [[ "${COPIEDTOPRM}" == *"PASS"* ]]
                                 then
-                                        touch $LOGDIR/${filePrefix}.dataCopiedToPrm
 					scp ${SAMPLESHEETSDIR}/${csvFile} ${groupname}-dm@calculon.hpc.rug.nl:${RAWDATADIRPRM}/${filePrefix}/
 					scp ${SAMPLESHEETSDIR}/${csvFile} ${groupname}-dm@calculon.hpc.rug.nl:${SAMPLESHEETSPRMDIR}
 					echo "finished copying data to calculon" >> ${LOGGER}
+
+					mkdir $LOGDIR/${filePrefix}/
+					echo "Moving ${filePrefix} logfiles to $LOGDIR/${filePrefix}/ and removing tmp finished files" >> $LOGGER
+					
+					rm $LOGDIR/${filePrefix}.SampleSheetCopied
+					rm $LOGDIR/${filePrefix}.dataCopiedToDiagnosticsCluster
+					mv $LOGDIR/${filePrefix}.copyToDiagnosticsCluster.logger $LOGDIR/${filePrefix}/
+					mv $LOGDIR/${filePrefix}.copyToPrm.logger $LOGDIR/${filePrefix}/
+					mv ${LOGDIR}/TMP/${filePrefix}.unique.projects $LOGDIR/${filePrefix}/projects.txt
+					echo "finished with rawdata" >> ${LOGDIR}/${filePrefix}/${filePrefix}.copyToPrm.logger
+
 					logFileStatistics=$(cat ${RAWDATADIR}/${filePrefix}/${filePrefix}*.log)
 					if [ ${groupname} == "umcg-gaf" ]
 					then
@@ -96,8 +147,9 @@ do
 					fi
                                 fi
                         else
+				echo "$filePrefix: $countFilesRawDataDirTmp | $countFilesRawDataDirPrm"
 				echo "copying data..." >> $LOGGER
-                                rsync -r -av ${copyRawZincToPrm} >> $LOGGER 2>&1
+                                rsync -r -av ${copyRawDiagnosticsClusterToPrm} >> $LOGGER 2>&1
                         fi
                 fi
         fi
@@ -112,7 +164,7 @@ do
 		fi
 	fi
 	rm ${LOGDIR}/copyDataToPrm.sh.locked
-done<${SAMPLESHEETSDIR}/allSampleSheets_Zinc.txt
+done<${SAMPLESHEETSDIR}/allSampleSheets_DiagnosticsCluster.txt
 
 trap - EXIT
 exit 0

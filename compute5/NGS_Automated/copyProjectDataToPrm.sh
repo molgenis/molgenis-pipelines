@@ -48,8 +48,8 @@ do
 	##command to check if projectfolder exists
 	makeProjectDataDir=$(ssh ${groupname}-dm@calculon.hpc.rug.nl "sh ${PROJECTSDIRPRM}/checkProjectData.sh ${PROJECTSDIRPRM} ${projectName}")	
 	
-	copyProjectDataZincToPrm="${PROJECTSDIR}/${projectName}/* ${groupname}-dm@calculon.hpc.rug.nl:${PROJECTSDIRPRM}/${projectName}"
-	if [[ -f $LOGDIR/${projectName}.pipeline.finished && ! -f $LOGDIR/${projectName}.projectDataCopiedToPrm ]]
+	copyProjectDataDiagnosticsClusterToPrm="${PROJECTSDIR}/${projectName}/* ${groupname}-dm@calculon.hpc.rug.nl:${PROJECTSDIRPRM}/${projectName}"
+	if [[ -f $LOGDIR/${projectName}/${projectName}.pipeline.finished && ! -f $LOGDIR/${projectName}/${projectName}.projectDataCopiedToPrm ]]
 	then
 		countFilesProjectDataDirTmp=$(ls -R ${PROJECTSDIR}/${projectName}/*/results/ | wc -l)
 		module load hashdeep/4.4-foss-2015b
@@ -61,8 +61,8 @@ do
 		
 		if [ "${makeProjectDataDir}" == "f" ]
 		then
-			echo "copying project data from zinc to prm" >> ${LOGGER}
-                        rsync -r -av --exclude rawdata/ ${copyProjectDataZincToPrm} >> $LOGGER
+			echo "copying project data from DiagnosticsCluster to prm" >> ${LOGGER}
+                        rsync -r -av --exclude rawdata/ ${copyProjectDataDiagnosticsClusterToPrm} >> $LOGGER
 			rsync -r -av ${PROJECTSDIR}/${projectName}/${projectName}.allResultmd5sums ${groupname}-dm@calculon.hpc.rug.nl:${PROJECTSDIRPRM}/${projectName}/
 			makeProjectDataDir="t"
 		fi
@@ -75,13 +75,16 @@ do
 				if [[ "${COPIEDTOPRM}" == *"FAILED"* ]]
                                 then
                                         echo "md5sum check failed, the copying will start again" >> ${LOGGER}
-                                        rsync -r -av --exclude rawdata/ ${copyProjectDataZincToPrm} >> $LOGGER 2>&1
+                                        rsync -r -av --exclude rawdata/ ${copyProjectDataDiagnosticsClusterToPrm} >> $LOGGER 2>&1
 					echo "copy failed" >> $LOGDIR/${projectName}.copyProjectDataToPrm.failed
                                 elif [[ "${COPIEDTOPRM}" == *"PASS"* ]]
                                 then
                                         touch $LOGDIR/${projectName}.projectDataCopiedToPrm
 					echo "finished copying project data to calculon" >> ${LOGGER}
 					printf "De project data voor project ${projectName} is gekopieerd naar ${PROJECTSDIRPRM}" | mail -s "project data for project ${projectName} is copied to permanent storage" ${ONTVANGER}
+
+					mv $LOGDIR/${projectName}.projectDataCopiedToPrm $LOGDIR/${projectName}/
+					mv $LOGDIR/${projectName}.copyProjectDataToPrm.logger $LOGDIR/${projectName}/
 
 				  	if [ -f $LOGDIR/${projectName}.copyProjectDataToPrm.failed ] 
                                         then
@@ -90,7 +93,7 @@ do
                                 fi
                         else
 				echo "copying data..." >> $LOGGER
-                                rsync -r -av --exclude rawdata/ ${copyProjectDataZincToPrm} >> $LOGGER 2>&1
+                                rsync -r -av --exclude rawdata/ ${copyProjectDataDiagnosticsClusterToPrm} >> $LOGGER 2>&1
                         fi
                 fi
         fi
