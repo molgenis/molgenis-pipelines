@@ -1,4 +1,4 @@
-§set -e
+set -e
 set -u
 
 GAT=$1
