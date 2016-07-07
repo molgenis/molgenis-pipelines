@@ -47,7 +47,6 @@ do
 
 	if [ -d ${LOGDIR}/${filePrefix}/ ]
         then
-                echo "(copyPrm) everything is finished of ${filePrefix}"
                 continue
         fi
 
@@ -132,15 +131,15 @@ do
 					mv $LOGDIR/${filePrefix}.copyToPrm.logger $LOGDIR/${filePrefix}/
 					mv ${LOGDIR}/TMP/${filePrefix}.unique.projects $LOGDIR/${filePrefix}/projects.txt
 					echo "finished with rawdata" >> ${LOGDIR}/${filePrefix}/${filePrefix}.copyToPrm.logger
-
-					logFileStatistics=$(cat ${RAWDATADIR}/${filePrefix}/${filePrefix}*.log)
-					if [ ${groupname} == "umcg-gaf" ]
+					if ls ${RAWDATADIR}/${filePrefix}/${filePrefix}*.log 1> /dev/null 2>&1
 					then
-					
-						echo -e "Demultiplex statistics ${filePrefix}: \n\n ${logFileStatistics}" | mail -s "Demultiplex statistics ${filePrefix}" ${GAFmail}
+						logFileStatistics=$(cat ${RAWDATADIR}/${filePrefix}/${filePrefix}*.log)
+						if [ ${groupname} == "umcg-gaf" ]
+						then
+							echo -e "Demultiplex statistics ${filePrefix}: \n\n ${logFileStatistics}" | mail -s "Demultiplex statistics ${filePrefix}" ${GAFmail}
+						fi
+						echo -e "De data voor project ${filePrefix} is gekopieerd naar ${RAWDATADIRPRM}" | mail -s "${filePrefix} copied to permanent storage" ${ONTVANGER}
 					fi
-					echo -e "De data voor project ${filePrefix} is gekopieerd naar ${RAWDATADIRPRM}" | mail -s "${filePrefix} copied to permanent storage" ${ONTVANGER}
-
 				  	if [ -f $LOGDIR/${filePrefix}.failed ] 
                                         then
 						rm $LOGDIR/${filePrefix}.failed
