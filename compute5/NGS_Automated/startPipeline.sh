@@ -32,12 +32,6 @@ do
 	##get header to decide later which column is project
 	HEADER=$(head -1 ${i})
 
-	if [ -d ${LOGDIR}/${filePrefix}/ ]
-        then
-                echo "(startPipeline) everything is finished of ${filePrefix}"
-                continue
-        fi
-
 	##Remove header, only want to keep samples
 	sed '1d' $i > ${LOGDIR}/TMP/${filePrefix}.tmp
 	OLDIFS=$IFS
@@ -77,7 +71,7 @@ do
 	miSeqRun="no"
 	while read line
         do
-        	if [[ "${line}" == *"CARDIO"* || "${line}" == *"DER_v1"* || "${line}" == *"DYS_v3"* || "${line}" == *"EPI_v3"* || "${line}" == *"LEVER_v1"* || "${line}" == *"NEURO_v1"* || "${line}" == *"ONCO_v1"* || "${line}" == *"PCS_v1"* ]]
+        	if [[ "${line}" == *"CARDIO_v"* || "${line}" == *"DER_v"* || "${line}" == *"DYS_v"* || "${line}" == *"EPI_v"* || "${line}" == *"LEVER_v"* || "${line}" == *"NEURO_v"* || "${line}" == *"ONCO_v"* || "${line}" == *"PCS_v"* ]]
 		then
 			miSeqRun="yes"
 			break
@@ -90,13 +84,13 @@ do
         sequencer=$2
         run=$3
 	IFS=$OLDIFS
-        LOGGER=${LOGDIR}/${filePrefix}.pipeline.logger
+        LOGGER=${LOGDIR}/${filePrefix}/${filePrefix}.pipeline.logger
 
 	####
 	### Decide if the scripts should be created (per Samplesheet)
 	##
 	#
-	if [[ -f $LOGDIR/${filePrefix}.dataCopiedToDiagnosticsCluster && ! -f $LOGDIR/${filePrefix}.scriptsGenerated ]]
+	if [[ -f $LOGDIR/${filePrefix}/${filePrefix}.dataCopiedToDiagnosticsCluster  && ! -f $LOGDIR/${filePrefix}/${filePrefix}.scriptsGenerated ]]
         then
                	### Step 4: Does the pipeline need to run?
                	if [ "${pipeline}" == "RNA-Lexogen-reverse" ]
@@ -149,7 +143,7 @@ do
 			cd scripts
 
 			sh submit.sh
-			touch $LOGDIR/${filePrefix}.scriptsGenerated
+			touch $LOGDIR/${filePrefix}/${filePrefix}.scriptsGenerated
 		fi
 	fi
 
@@ -157,20 +151,25 @@ do
 	### If generatedscripts is already done, step in this part to submit the jobs (per project)
 	##
 	#
-	if [ -f $LOGDIR/${filePrefix}.scriptsGenerated ] 
+	if [ -f $LOGDIR/${filePrefix}/${filePrefix}.scriptsGenerated ] 
 	then
 		for PROJECT in ${PROJECTARRAY[@]}
 		do
+			if [ ! -d ${LOGDIR}/${PROJECT} ]
+			then
+				mkdir ${LOGDIR}/${PROJECT}
+			fi
+ 
 			WHOAMI=$(whoami)
 			HOSTN=$(hostname)
-		        LOGGER=${LOGDIR}/${PROJECT}.pipeline.logger
-			if [ ! -f ${LOGDIR}/${PROJECT}.pipeline.started ]
+		        LOGGER=${LOGDIR}/${PROJECT}/${PROJECT}.pipeline.logger
+			if [ ! -f ${LOGDIR}/${PROJECT}/${PROJECT}.pipeline.started ]
 			then
 				cd ${PROJECTSDIR}/${PROJECT}/run01/jobs/
 				sh submit.sh
 
-				touch ${LOGDIR}/${PROJECT}.pipeline.started
-				echo "${LOGDIR}/${PROJECT} started" >> $LOGGER
+				touch ${LOGDIR}/${PROJECT}/${PROJECT}.pipeline.started
+				echo "${PROJECT} started" >> $LOGGER
 
 				printf "Pipeline: ${pipeline}\nStarttime:`date +%d/%m/%Y` `date +%H:%M`\nProject: $PROJECT\nStarted by: $WHOAMI\nHost: ${HOSTN}\n\nProgress can be followed via the command squeue -u $WHOAMI on $HOSTN.\nYou will receive an email when the pipeline is finished!\n\nCheers from the GCC :)" | mail -s "NGS_DNA pipeline is started for project $PROJECT on `date +%d/%m/%Y` `date +%H:%M`" ${ONTVANGER}
 				sleep 40

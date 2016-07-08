@@ -35,7 +35,7 @@ for line in ${ARR[@]}
 do
         csvFile=$(basename $line)
         filePrefix="${csvFile%.*}"
-        LOGGER=${LOGDIR}/${filePrefix}.copyToPrm.logger
+        LOGGER=${LOGDIR}/${filePrefix}/${filePrefix}.copyToPrm.logger
 
         FINISHED="no"
         OLDIFS=$IFS
@@ -44,11 +44,6 @@ do
         sequencer=$2
         run=$3
         IFS=$OLDIFS
-
-	if [ -d ${LOGDIR}/${filePrefix}/ ]
-        then
-                continue
-        fi
 
         if [ -f ${LOGDIR}/copyDataToPrm.sh.locked ]
         then
@@ -60,12 +55,6 @@ do
 
 	##get header to decide later which column is project
         HEADER=$(head -1 ${line})
-
-        if [ -d ${LOGDIR}/${filePrefix}/ ]
-        then
-            	echo "(startPipeline) everything is finished of ${filePrefix}"
-                continue
-        fi
 
 	##Remove header, only want to keep samples
         sed '1d' $line > ${LOGDIR}/TMP/${filePrefix}.utmp
@@ -96,7 +85,7 @@ do
 	copyRawDiagnosticsClusterToPrm="${RAWDATADIR}/${filePrefix}/* ${groupname}-dm@calculon.hpc.rug.nl:${RAWDATADIRPRM}/${filePrefix}"
 	makeRawDataDir=$(ssh ${groupname}-dm@calculon.hpc.rug.nl "sh ${RAWDATADIRPRM}/../checkRawData.sh ${RAWDATADIRPRM} ${filePrefix}")
 
-	if [[ -f $LOGDIR/${filePrefix}.dataCopiedToDiagnosticsCluster && ! -f $LOGDIR/${filePrefix}.dataCopiedToPrm ]]
+	if [[ -f $LOGDIR/${filePrefix}/${filePrefix}.dataCopiedToDiagnosticsCluster && ! -f $LOGDIR/${filePrefix}/${filePrefix}.dataCopiedToPrm ]]
 	then
 		countFilesRawDataDirTmp=$(ls ${RAWDATADIR}/${filePrefix}/${filePrefix}* | wc -l)
 		if [ "${makeRawDataDir}" == "f" ]
@@ -115,22 +104,20 @@ do
                                 then
                                         echo "md5sum check failed, the copying will start again" >> ${LOGGER}
                                         rsync -r -av ${copyRawDiagnosticsClusterToPrm} >> $LOGGER 2>&1
-					echo "copy failed" >> $LOGDIR/${filePrefix}.failed
+					echo "copy failed" >> $LOGDIR/${filePrefix}/${filePrefix}.failed
                                 elif [[ "${COPIEDTOPRM}" == *"PASS"* ]]
                                 then
 					scp ${SAMPLESHEETSDIR}/${csvFile} ${groupname}-dm@calculon.hpc.rug.nl:${RAWDATADIRPRM}/${filePrefix}/
 					scp ${SAMPLESHEETSDIR}/${csvFile} ${groupname}-dm@calculon.hpc.rug.nl:${SAMPLESHEETSPRMDIR}
 					echo "finished copying data to calculon" >> ${LOGGER}
-
-					mkdir $LOGDIR/${filePrefix}/
-					echo "Moving ${filePrefix} logfiles to $LOGDIR/${filePrefix}/ and removing tmp finished files" >> $LOGGER
 					
-					rm $LOGDIR/${filePrefix}.SampleSheetCopied
-					rm $LOGDIR/${filePrefix}.dataCopiedToDiagnosticsCluster
-					mv $LOGDIR/${filePrefix}.copyToDiagnosticsCluster.logger $LOGDIR/${filePrefix}/
-					mv $LOGDIR/${filePrefix}.copyToPrm.logger $LOGDIR/${filePrefix}/
-					mv ${LOGDIR}/TMP/${filePrefix}.unique.projects $LOGDIR/${filePrefix}/projects.txt
+					#rm $LOGDIR/${filePrefix}.SampleSheetCopied
+					#rm $LOGDIR/${filePrefix}.dataCopiedToDiagnosticsCluster
+					#mv $LOGDIR/${filePrefix}.copyToDiagnosticsCluster.logger $LOGDIR/${filePrefix}/
+					#mv $LOGDIR/${filePrefix}.copyToPrm.logger $LOGDIR/${filePrefix}/
+					#mv ${LOGDIR}/TMP/${filePrefix}.unique.projects $LOGDIR/${filePrefix}/projects.txt
 					echo "finished with rawdata" >> ${LOGDIR}/${filePrefix}/${filePrefix}.copyToPrm.logger
+
 					if ls ${RAWDATADIR}/${filePrefix}/${filePrefix}*.log 1> /dev/null 2>&1
 					then
 						logFileStatistics=$(cat ${RAWDATADIR}/${filePrefix}/${filePrefix}*.log)
@@ -140,9 +127,9 @@ do
 						fi
 						echo -e "De data voor project ${filePrefix} is gekopieerd naar ${RAWDATADIRPRM}" | mail -s "${filePrefix} copied to permanent storage" ${ONTVANGER}
 					fi
-				  	if [ -f $LOGDIR/${filePrefix}.failed ] 
+				  	if [ -f $LOGDIR/${filePrefix}/${filePrefix}.failed ] 
                                         then
-						rm $LOGDIR/${filePrefix}.failed
+						rm $LOGDIR/${filePrefix}/${filePrefix}.failed
 					fi
                                 fi
                         else
@@ -153,9 +140,9 @@ do
                 fi
         fi
 
-	if [ -f $LOGDIR/${filePrefix}.failed ]
+	if [ -f $LOGDIR/${filePrefix}/${filePrefix}.failed ]
 	then
-		COUNT=$(cat $LOGDIR/${filePrefix}.failed | wc -l)
+		COUNT=$(cat $LOGDIR/${filePrefix}/${filePrefix}.failed | wc -l)
 		if [ $COUNT == 10  ]
 		then
 			HOSTNA=$(hostname)
