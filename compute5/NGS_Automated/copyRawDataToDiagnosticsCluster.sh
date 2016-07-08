@@ -29,19 +29,18 @@ for line in ${gattacaSamplesheets[@]}
 do
 	csvFile=$(basename $line)
 	filePrefix="${csvFile%.*}"
-	LOGGER=${LOGDIR}/${filePrefix}.copyToDiagnosticsCluster.logger
+	LOGGER=${LOGDIR}/${filePrefix}/${filePrefix}.copyToDiagnosticsCluster.logger
 
-	if [ -d ${LOGDIR}/${filePrefix}/ ]
+	if [ ! -d ${LOGDIR}/${filePrefix}/ ]
 	then
-		echo "everything is finished of ${filePrefix}"
-		continue
+		mkdir ${LOGDIR}/${filePrefix}/
 	fi
  
 	function finish {
-		if [ -f ${LOGDIR}/${filePrefix}.copyToDiagnosticsCluster.locked ]
+		if [ -f ${LOGDIR}/${filePrefix}/${filePrefix}.copyToDiagnosticsCluster.locked ]
         	then
 	        	echo "TRAPPED"
-        		rm ${LOGDIR}/${filePrefix}.copyToDiagnosticsCluster.locked
+        		rm ${LOGDIR}/${filePrefix}/${filePrefix}.copyToDiagnosticsCluster.locked
 		fi
 	}
 	trap finish HUP INT QUIT TERM EXIT ERR
@@ -62,24 +61,24 @@ do
 		continue;
 	fi
 
-	if [ -f $LOGDIR/${filePrefix}.dataCopiedToDiagnosticsCluster ]
+	if [ -f $LOGDIR/${filePrefix}/${filePrefix}.dataCopiedToDiagnosticsCluster ]
 	then
 		continue;
 	fi
 
-	if [ -f ${LOGDIR}/${filePrefix}.copyToDiagnosticsCluster.locked ]
+	if [ -f ${LOGDIR}/${filePrefix}/${filePrefix}.copyToDiagnosticsCluster.locked ]
 	then
 		exit 0
 	fi
-	touch ${LOGDIR}/${filePrefix}.copyToDiagnosticsCluster.locked
+	touch ${LOGDIR}/${filePrefix}/${filePrefix}.copyToDiagnosticsCluster.locked
 
 	## Check if samplesheet is copied
 	copyRawGatToDiagnosticsCluster="umcg-ateambot@${gattacaAddress}:${GATTACA}/runs/run_${run}_${sequencer}/results/${filePrefix}* ${RAWDATADIR}/$filePrefix"
 
-	if [[ ! -f ${SAMPLESHEETSDIR}/$csvFile || ! -f $LOGDIR/${filePrefix}.SampleSheetCopied ]]
+	if [[ ! -f ${SAMPLESHEETSDIR}/$csvFile || ! -f $LOGDIR/${filePrefix}/${filePrefix}.SampleSheetCopied ]]
         then
                 scp umcg-ateambot@${gattacaAddress}:${GATTACA}/Samplesheets/${csvFile} ${SAMPLESHEETSDIR}
-                touch $LOGDIR/${filePrefix}.SampleSheetCopied
+                touch $LOGDIR/${filePrefix}/${filePrefix}.SampleSheetCopied
         fi
 	## Check if data is already copied to DiagnosticsCluster
 
@@ -91,7 +90,7 @@ do
 	fi
 
 
-	if [[ -d ${RAWDATADIR}/$filePrefix  && ! -f $LOGDIR/${filePrefix}.dataCopiedToDiagnosticsCluster ]]
+	if [[ -d ${RAWDATADIR}/$filePrefix  && ! -f $LOGDIR/${filePrefix}/${filePrefix}.dataCopiedToDiagnosticsCluster ]]
 	then
 		##Compare how many files are on both the servers in the directory
 		countFilesRawDataDirTmp=$(ls ${RAWDATADIR}/${filePrefix}/${filePrefix}* | wc -l)
@@ -110,7 +109,7 @@ do
 				then
 					echo "data copied to DiagnosticsCluster" >> $LOGGER
 					printf ".. done \n" >> $LOGGER
-					touch $LOGDIR/${filePrefix}.dataCopiedToDiagnosticsCluster
+					touch $LOGDIR/${filePrefix}/${filePrefix}.dataCopiedToDiagnosticsCluster
 					touch ${filePrefix}.md5sums.checked
 				else
 					echo "md5sum check failed, the copying will start again" >> $LOGGER
@@ -124,7 +123,7 @@ do
 			echo "data copied to DiagnosticsCluster" >> $LOGGER
 		fi
 	fi
-rm ${LOGDIR}/${filePrefix}.copyToDiagnosticsCluster.locked
+rm ${LOGDIR}/${filePrefix}/${filePrefix}.copyToDiagnosticsCluster.locked
 done
 
 trap - EXIT
