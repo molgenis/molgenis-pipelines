@@ -35,7 +35,7 @@ echo "Logfiles will be written to $LOGDIR"
 for line in ${ARR[@]}
 do
         projectName=${line}
-        LOGGER=${LOGDIR}/${projectName}.copyProjectDataToPrm.logger
+        LOGGER=${LOGDIR}/${projectName}/${projectName}.copyProjectDataToPrm.logger
 
         FINISHED="no"
 
@@ -49,7 +49,7 @@ do
 	makeProjectDataDir=$(ssh ${groupname}-dm@calculon.hpc.rug.nl "sh ${PROJECTSDIRPRM}/checkProjectData.sh ${PROJECTSDIRPRM} ${projectName}")	
 	
 	copyProjectDataDiagnosticsClusterToPrm="${PROJECTSDIR}/${projectName}/* ${groupname}-dm@calculon.hpc.rug.nl:${PROJECTSDIRPRM}/${projectName}"
-	if [[ -d $LOGDIR/${projectName}/ && ! -f $LOGDIR/${projectName}.projectDataCopiedToPrm ]]
+	if [[ -d $LOGDIR/${projectName}/ && ! -f $LOGDIR/${projectName}/${projectName}.projectDataCopiedToPrm ]]
 	then
 		countFilesProjectDataDirTmp=$(ls -R ${PROJECTSDIR}/${projectName}/*/results/ | wc -l)
 		module load hashdeep/4.4-foss-2015b
@@ -76,19 +76,16 @@ do
                                 then
                                         echo "md5sum check failed, the copying will start again" >> ${LOGGER}
                                         rsync -r -av --exclude rawdata/ ${copyProjectDataDiagnosticsClusterToPrm} >> $LOGGER 2>&1
-					echo "copy failed" >> $LOGDIR/${projectName}.copyProjectDataToPrm.failed
+					echo "copy failed" >> $LOGDIR/${projectName}/${projectName}.copyProjectDataToPrm.failed
                                 elif [[ "${COPIEDTOPRM}" == *"PASS"* ]]
                                 then
-                                        touch $LOGDIR/${projectName}.projectDataCopiedToPrm
+                                        touch $LOGDIR/${projectName}/${projectName}.projectDataCopiedToPrm
 					echo "finished copying project data to calculon" >> ${LOGGER}
 					printf "De project data voor project ${projectName} is gekopieerd naar ${PROJECTSDIRPRM}" | mail -s "project data for project ${projectName} is copied to permanent storage" ${ONTVANGER}
 
-					mv $LOGDIR/${projectName}.projectDataCopiedToPrm $LOGDIR/${projectName}/
-					mv $LOGDIR/${projectName}.copyProjectDataToPrm.logger $LOGDIR/${projectName}/
-
-				  	if [ -f $LOGDIR/${projectName}.copyProjectDataToPrm.failed ] 
+				  	if [ -f $LOGDIR/${projectName}/${projectName}.copyProjectDataToPrm.failed ] 
                                         then
-						rm $LOGDIR/${projectName}.copyProjectDataToPrm.failed
+						rm $LOGDIR/${projectName}/${projectName}.copyProjectDataToPrm.failed
 					fi
                                 fi
                         else
@@ -98,9 +95,9 @@ do
                 fi
         fi
 
-	if [ -f $LOGDIR/${projectName}.copyProjectDataToPrm.failed ]
+	if [ -f $LOGDIR/${projectName}/${projectName}.copyProjectDataToPrm.failed ]
 	then
-		COUNT=$(cat $LOGDIR/${projectName}.copyProjectDataToPrm.failed | wc -l)
+		COUNT=$(cat $LOGDIR/${projectName}/${projectName}.copyProjectDataToPrm.failed | wc -l)
 		if [ $COUNT == 10  ]
 		then
 			HOSTNA=$(hostname)
