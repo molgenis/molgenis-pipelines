@@ -31,6 +31,7 @@ gatkVersion,3.4-0-Java-1.7.0_80
 hisatVersion,0.1.6-beta-goolf-1.7.20
 hisat2Version,2.0.4-foss-2015b
 fastqcVersion,0.11.3-Java-1.7.0_80  
+fastxVersion,0.0.14-goolf-1.7.20
 genomeBuild,b37
 genomeGrchBuild,GRCh37
 human_g1k_vers,37

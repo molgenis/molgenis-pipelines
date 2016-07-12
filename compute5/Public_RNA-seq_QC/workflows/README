@@ -1,0 +1,6 @@
+\Different possible workflows to use. 
+
+workflow.csv uses Hisat
+workflowHisat2 is same but with Hisat2
+workflowHisat2ReverseComplement.csv is same but first takes reverse complement of input fastq file
+    Necesarry because at moment https://github.com/infphilo/hisat2/issues/61 is not resolved yet
