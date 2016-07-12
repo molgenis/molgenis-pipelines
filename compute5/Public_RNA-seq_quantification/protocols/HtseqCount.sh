@@ -35,7 +35,6 @@ echo -e "\nQuantifying expression"
 
 if htseq-count \
         -m ${mode} \
-        -r ${sortType} \
         -f bam \
         -t ${featureType} \
         --stranded ${stranded} \
@@ -45,14 +44,16 @@ then
         echo "Gene count succesfull"
         if [[ $(wc -l <${htseqTxtOutput}___tmp___) -ge 2 ]]
         then
+            echo "returncode: $?"
             mv ${htseqTxtOutput}___tmp___ ${htseqTxtOutput}
-            echo "returncode: $0"
         else
             echo "output not written correctly";
+            echo "returncode: 1"
             exit 1;
         fi
 else
         echo "Genecount failed"
+        echo "returncode: 1"
         exit 1
 fi
 
