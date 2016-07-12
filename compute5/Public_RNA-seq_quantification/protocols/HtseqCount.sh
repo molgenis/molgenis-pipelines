@@ -41,9 +41,9 @@ if htseq-count \
         ${bam} \
         ${annotationGtf} >  ${htseqTxtOutput}___tmp___ ;
 then
-        echo "Gene count succesfull"
         if [[ $(wc -l <${htseqTxtOutput}___tmp___) -ge 2 ]]
         then
+            echo "Gene count succesfull"
             echo "returncode: $?"
             mv ${htseqTxtOutput}___tmp___ ${htseqTxtOutput}
         else
@@ -53,7 +53,7 @@ then
         fi
 else
         echo "Genecount failed"
-        echo "returncode: 1"
+        echo 'returncode: 1'
         exit 1
 fi
 

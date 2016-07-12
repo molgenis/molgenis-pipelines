@@ -11,20 +11,39 @@ myhost=$(hostname)
 . ${MYINSTALLATIONDIR}/sharedConfig.cfg
 
 ALLFINISHED=()
-ls ${LOGDIR}/*.pipeline.finished > ${LOGDIR}/pipeline.finished.csv
+ls ${LOGDIR}/*.pipeline.finished > ${LOGDIR}/AllProjects.pipeline.finished.csv
 while read line 
 do
 	ALLFINISHED+=("${line} ")
-done<${LOGDIR}/pipeline.finished.csv
+done<${LOGDIR}/AllProjects.pipeline.finished.csv
+
 
 for i in ${ALLFINISHED[@]}
 do
 	filename=$(basename $i)
 	projectName="${filename%%.*}"
-	if [ ! -f ${LOGDIR}/${projectName}.pipeline.finished.mailed ]
+	for i in $(ls ${PROJECTSDIR}/${projectName}/*/rawdata/ngs/*); do if [ -L $i ];then readlink $i > ${LOGDIR}/${projectName}/${projectName}.rawdatalink ; fi;done
+
+	while read line ; do dirname $line > ${LOGDIR}/${projectName}/${projectName}.rawdatalinkDirName; done<${LOGDIR}/${projectName}/${projectName}.rawdatalink
+
+		rawDataName=$(while read line ; do basename $line ; done<${LOGDIR}/${projectName}/${projectName}.rawdatalinkDirName)
+
+		echo "moving ${projectName} files to ${LOGDIR}/${projectName}/ and removing tmp finished files"
+		if [[ -f ${LOGDIR}/${projectName}/${projectName}.pipeline.logger  && -f ${LOGDIR}/${projectName}/${projectName}.pipeline.started && -f ${LOGDIR}/${projectName}/${projectName}.rawdatalink && -f ${LOGDIR}/${projectName}/${projectName}.rawdatalinkDirName ]]
+		then 
+			touch ${LOGDIR}/${projectName}/${rawDataName}
+			mv ${LOGDIR}/${projectName}.pipeline.finished ${LOGDIR}/${projectName}/
+
+		else
+			echo "there is/are missing some files:${projectName}.pipeline.logger or  ${projectName}.pipeline.started or ${projectName}/${projectName}.rawdatalink or ${projectName}.rawdatalinkDirName"
+			echo "there is/are missing some files:${projectName}.pipeline.logger or  ${projectName}.pipeline.started or ${projectName}/${projectName}.rawdatalink or ${projectName}.rawdatalinkDirName" >> ${LOGDIR}/${projectName}/${projectName}.pipeline.logger
+		fi
+	if [ ! -f ${LOGDIR}/${projectName}/${projectName}.pipeline.finished.mailed ]
 	then
-		"The results can be found: ${PROJECTSDIR}/${projectName} \n\nCheers from the GCC :)"| mail -s "NGS_DNA pipeline is finished for project ${projectName} on `date +%d/%m/%Y` `date +%H:%M`" ${ONTVANGER}
-		touch ${LOGDIR}/${projectName}.pipeline.finished.mailed
+		printf "The results can be found: ${PROJECTSDIR}/${projectName} \n\nCheers from the GCC :)"| mail -s "NGS_DNA pipeline is finished for project ${projectName} on `date +%d/%m/%Y` `date +%H:%M`" ${ONTVANGER}
+		touch ${LOGDIR}/${projectName}/${projectName}.pipeline.finished.mailed
+
 	fi
+
 done
 
