@@ -50,9 +50,11 @@ if samtools \
 then
         echo "Gene count succesfull"
         mv ${htseqTxtOutput}___tmp___ ${htseqTxtOutput}
+        echo 'returncode: $?'
 else
         echo "Genecount failed"
         rm -f ${TMPDIR}/nameSorted.bam
+        echo 'returncode: 1'
         exit 1
 fi
 
