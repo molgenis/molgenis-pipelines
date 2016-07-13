@@ -32,7 +32,8 @@ echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}
 mkdir -p ${filteredBamDir}
 mkdir -p ${unfilteredBamDir}
    
-if [[ ! -f ${hisatAlignmentDir}${uniqueID}.sam]] ; then
+if [[ ! -f ${hisatAlignmentDir}${uniqueID}.sam ]]
+then
    echo "${hisatAlignmentDir}${uniqueID}.sam does not exist"
    exit 1
 fi
