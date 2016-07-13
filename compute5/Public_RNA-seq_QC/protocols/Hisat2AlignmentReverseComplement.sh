@@ -7,23 +7,22 @@
 ###
 #string stage
 #string checkStage
-#string referenceGenomeHisat
+#string referenceGenomeHisat2
 #string reads1FqGz
 #string reads2FqGz
 #string platform
 #string hisatAlignmentDir
-#string hisatVersion
+#string hisat2Version
 #string uniqueID
 #string samtoolsVersion
 #string rnaStrandness
 
-getFile ${reads1FqGz}
-
+getFile ${reads1FqGz%.gz}_reverse_complement.gz
 if [ ${#reads2FqGz} -eq 0 ]; then
-   input="-U ${reads1FqGz}"
-   echo "Single end alignment of ${reads1FqGz}"
-   if [[ ! -f ${reads1FqGz} ]] ; then
-     echo "${reads1FqGz} does not exist"
+   input="-U ${reads1FqGz%.gz}_reverse_complement.gz"
+   echo "Single end alignment of ${reads1FqGz%.gz}_reverse_complement.gz"
+   if [[ ! -f ${reads1FqGz%.gz}_reverse_complement.gz ]] ; then
+     echo "${reads1FqGz%.gz}_reverse_complement.gz does not exist"
      exit 1
    fi
    if [ "${rnaStrandness}" == "FR" ]; then
@@ -32,22 +31,22 @@ if [ ${#reads2FqGz} -eq 0 ]; then
        rnaStrandness="R"
    fi
 else
-   getFile ${reads2FqGz}
-   input="-1 ${reads1FqGz} -2 ${reads2FqGz}"
+   getFile ${reads2FqGz%.gz}_reverse_complement.gz
+   input="-1 ${reads1FqGz%.gz}_reverse_complement.gz -2 ${reads2FqGz%.gz}_reverse_complement.gz"
    if [ "${rnaStrandness}" == "F" ]; then
        rnaStrandness="FR"
    elif [ "${rnaStrandness}" == "R" ]; then
        rnaStrandness="RF"
    fi
-   echo "Paired end alignment of ${reads1FqGz} and ${reads2FqGz}"
-   if [[ ! -f ${reads1FqGz} ]] ; then
-      echo "${reads1FqGz} does not exist"
+   echo "Paired end alignment of ${reads1FqGz%.gz}_reverse_complement.gz and ${reads2FqGz%.gz}_reverse_complement.gz"
+   if [[ ! -f ${reads1FqGz%.gz}_reverse_complement.gz ]] ; then
+      echo "${reads1FqGz%.gz}_reverse_complement.gz does not exist"
       exit 1
    fi
 fi
 
 #Load modules
-${stage} hisat/${hisatVersion}
+${stage} hisat2/${hisat2Version}
 
 #check modules
 ${checkStage}
@@ -63,8 +62,7 @@ else
     rnaStrandOption="--rna-strandness $rnaStrandness"
 fi
 
-
-if hisat -x ${referenceGenomeHisat} \
+if hisat2 -x ${referenceGenomeHisat2} \
   ${input} \
   -p 8 \
   --rg-id ${internalId} \

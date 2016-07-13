@@ -1,4 +1,2 @@
 step,protocol,dependencies
 GenotypeGvcfs,protocols/GatkGenotypeGvcfs.sh,MergeGvcfs
-ASReads,protocols/ASReads.sh,GenotypeGvcfs
-ASE,protocols/ASE.sh,ASReads

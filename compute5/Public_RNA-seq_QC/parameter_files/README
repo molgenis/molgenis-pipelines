@@ -1,0 +1,3 @@
+Compute needs a long format file. Adjust the parameters in parameters.csv, then convert to long format with 
+
+    bash convert.sh parameters.csv parameters.converted.csv

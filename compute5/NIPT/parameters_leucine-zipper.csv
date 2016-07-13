@@ -1,0 +1,6 @@
+queue,lz-compute
+tmpName,tmp06
+prmName,prm02
+root,/apps/
+workDir,/groups/umcg-gd/
+toolChain,foss-2015b

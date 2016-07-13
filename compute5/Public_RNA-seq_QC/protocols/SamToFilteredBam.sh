@@ -31,7 +31,12 @@ echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}
 
 mkdir -p ${filteredBamDir}
 mkdir -p ${unfilteredBamDir}
-
+   
+if [[ ! -f ${hisatAlignmentDir}${uniqueID}.sam ]]
+then
+   echo "${hisatAlignmentDir}${uniqueID}.sam does not exist"
+   exit 1
+fi
 if sed '/NH:i:[^1]/d' ${hisatAlignmentDir}${uniqueID}.sam | samtools view -h -b - > ${filteredBam}
 then
    samtools view -h -b ${hisatAlignmentDir}${uniqueID}.sam > ${unfilteredBamDir}${uniqueID}.bam

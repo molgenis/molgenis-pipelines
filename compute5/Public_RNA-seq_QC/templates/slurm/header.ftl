@@ -53,7 +53,8 @@ getFile()
 
                 if test ! -e $myFile;
                 then
-                                echo "WARNING in getFile/putFile: $myFile is missing" 1>&2
+                                echo "ERROR in getFile/putFile: $myFile is missing" 1>&2
+                                exit 1
                 fi
 
         else
