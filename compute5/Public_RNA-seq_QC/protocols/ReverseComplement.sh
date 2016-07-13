@@ -21,10 +21,11 @@ echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}
 if [ ${#reads2FqGz} -eq 0 ];
 then
   echo 'single end'
-  if zcat ${reads1FqGz} | fastx_reverse_complement -o ${reads2FqGz%.gz}_reverse_complement.gz -z
+  if zcat ${reads1FqGz} | fastx_reverse_complement -o ${reads1FqGz%.gz}_reverse_complement.gz -z && \
+     getFile ${reads1FqGz%.gz}_reverse_complement.gz 
   then
       echo "returncode: $?";
-      echo "succes moving files";
+      echo "succes writing to ${reads1FqGz%.gz}_reverse_complement.gz";
   else
       echo "returncode: $?";
       echo "fail";
@@ -32,10 +33,12 @@ then
 else
   echo 'paired end'
   if zcat ${reads2FqGz} | fastx_reverse_complement -o ${reads2FqGz$.gz}_reverse_complement.gz -z && \
-     zcat ${reads1FqGz} | fastx_reverse_complement -o ${reads1FqGz%.gz}_reverse_complement.gz -z
+     zcat ${reads1FqGz} | fastx_reverse_complement -o ${reads1FqGz%.gz}_reverse_complement.gz -z && \
+     getFile ${reads2FqGz$.gz}_reverse_complement.gz && \
+     getFile ${reads1FqGz%.gz}_reverse_complement.gz
   then
     echo "returncode: $?";
-    echo "succes moving files";
+    echo "succes writing to ${reads1FqGz%.gz}_reverse_complement.gz and ${reads2FqGz$.gz}_reverse_complement.gz";
   else
     echo "returncode: $?";
     echo "fail";
