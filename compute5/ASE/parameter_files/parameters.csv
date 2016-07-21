@@ -1,4 +1,4 @@
-########################################################################
+\########################################################################
 ## General parameters for SLURM settings and cluster directory paths
 #
 queue,medium
@@ -11,7 +11,7 @@ group,umcg-bios
 tmp,tmp04
 resDir,/groups/umcg-wijmenga/tmp04/resources/
 toolDir,/apps/software/
-projectDir,${root}/${group}/${tmp}/projects/ASE_GoNL/results/
+projectDir,${root}/${group}/${tmp}/projects/ASE_GoNL/results_CSASE_99_samples_parentOnly_wgs_2501snps/
 ########################################################################
 ## Software and data versions/builds/paths
 #
@@ -40,8 +40,8 @@ RASQUALDIR,/groups/umcg-wijmenga/tmp04/tools/rasqual/
 ASCountsDir,${projectDir}/AScounts/
 ASCountFilePostfix,_${sampleName}_AScounts.bam.gz
 ASCountFile,${ASCountsDir}/chr${CHR}${ASCountFilePostfix}
-VCFprefix,/groups/umcg-bios/tmp04/umcg-fvandijk/projects/RNA-seq_rare_variants/GoNL_WGS_calls/gonl-abc_samples.chr
-VCFsuffix,.release5.NoMAFSelection.vcf.gz
+VCFprefix,/groups/umcg-bios/tmp04/umcg-fvandijk/projects/ASE/GoNL_WGS_calls_exonicEQTLsOnly/gonl-abc_samples.chr
+VCFsuffix,.release5.NoMAFSelection.exonicEQTLsOnly.vcf.gz
 VCF,${VCFprefix}${CHR}${VCFsuffix}
 #
 ## pasteReads
@@ -78,9 +78,9 @@ ASReadsDir,${projectDir}/ASReads/
 trityperDir,${projectDir}/trityper_chr${CHR}/
 ASReadsDirSample,${ASReadsDir}/${sampleName}/
 couplingFile,${projectDir}//coupling.txt
-ASReadsPrefix,${ASReadsDirSample}/${sampleName}_ASreads
+ASReadsPrefix,${ASReadsDirSample}/${sampleName}
 haplotyperDir,${projectDir}/haplotypeCaller/
 ## ASE
 AseDir,${projectDir}/ASE/
 ASFilesPrefix,${AseDir}/ASFiles
-AseOutput,${AseDir}/results
+AseOutput,${AseDir}/chr${CHR}
