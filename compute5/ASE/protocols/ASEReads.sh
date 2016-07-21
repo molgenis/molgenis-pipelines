@@ -14,7 +14,7 @@
 #string ASReadsDirSample
 #string projectDir
 #string ASReadsDir
-#string ASReads
+#string ASReadsPrefix
 #string couplingFile
 #string AseVersion
 #list CHR
@@ -34,7 +34,7 @@ do
     trityperDir=${projectDir}/trityper_chr${chromosome}
     if java -XX:ParallelGCThreads=2 -jar ${EBROOTCSMINASE}/cellTypeSpecificAlleleSpecificExpression-${AseVersion%-Java*}-jar-with-dependencies.jar \
         --action 1 \
-        --output ${ASReads} \
+        --output ${ASReadsPrefix}_chr${chromosome}.txt \
         --coupling_file ${couplingFile} \
         --genotype_location ${trityperDir} \
         --bam_file ${bam}
