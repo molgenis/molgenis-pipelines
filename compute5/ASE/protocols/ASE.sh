@@ -10,11 +10,12 @@
 #string projectDir
 
 #string AseDir
-#string ASFiles
+#string ASFilesPrefix
 #string AseOutput
 #string ASReadsDir
 #string couplingFile
-#list ASReads
+#string CHR
+#list ASReadsPrefix
 #string AseVersion
 echo "## "$(date)" Start $0"
 
@@ -25,13 +26,13 @@ ${checkStage}
 
 mkdir -p ${AseDir}
 
-ASReadsUniq=($(printf "%s\n" "${ASReads[@]}" | sort -u))
+ASReadsUniq=($(printf "%s_chr${CHR}.txt\n" "${ASReadsPrefix[@]}" | sort -u))
 
-printf '%s\n' "${ASReadsUniq[@]}"  > ${ASFiles}
+printf '%s\n' "${ASReadsUniq[@]}"  > ${ASFilesPrefix}_chr${CHR}.txt
 if java -jar ${EBROOTCSMINASE}/cellTypeSpecificAlleleSpecificExpression-${AseVersion%-Java*}-jar-with-dependencies.jar \
 --action 2 \
 --output ${AseOutput} \
---as_locations ${ASFiles} \
+--as_locations ${ASFilesPrefix}_chr${CHR}.txt \
 --minimum_hets 1 \
 --minimum_reads 10
 
