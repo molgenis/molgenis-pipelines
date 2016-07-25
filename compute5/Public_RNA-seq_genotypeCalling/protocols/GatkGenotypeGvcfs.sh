@@ -36,7 +36,7 @@ ${checkStage}
 
 mkdir -p ${haplotyperDir}
 
-if java -Xmx8g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${haplotyperDir} -jar $EBROOTGATK/GenomeAnalysisTK.jar \
+if java -Xmx8g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${TMP} -jar $EBROOTGATK/GenomeAnalysisTK.jar \
  -T GenotypeGVCFs \
  -R ${onekgGenomeFasta} \
  --dbsnp ${dbsnpVcf} \
