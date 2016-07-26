@@ -37,6 +37,8 @@ then
    echo "${hisatAlignmentDir}${uniqueID}.sam does not exist"
    exit 1
 fi
+# delete lines that contain NH:i:<not 1>, then convert sam to bam. See https://ccb.jhu.edu/software/hisat/manual.shtml, sam output
+# NH:i:<N>	The number of mapped locations for the read or the pair. 
 if sed '/NH:i:[^1]/d' ${hisatAlignmentDir}${uniqueID}.sam | samtools view -h -b - > ${filteredBam}
 then
    samtools view -h -b ${hisatAlignmentDir}${uniqueID}.sam > ${unfilteredBamDir}${uniqueID}.bam
