@@ -82,5 +82,6 @@ ASReadsPrefix,${ASReadsDirSample}/${sampleName}
 haplotyperDir,${projectDir}/haplotypeCaller/
 ## ASE
 AseDir,${projectDir}/ASE/
-ASFilesPrefix,${AseDir}/ASFiles
+ASFilesDir,${projectDir}/ASFiles/
+ASFilesPrefix,${ASFilesDir}/$(basename ${bam%.bam})
 AseOutput,${AseDir}/chr${CHR}
