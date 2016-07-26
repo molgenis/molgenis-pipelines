@@ -39,13 +39,13 @@ then
 fi
 if sed '/NH:i:[^1]/d' ${hisatAlignmentDir}${uniqueID}.sam | samtools view -h -b - > ${filteredBam}
 then
-   samtools view -h -b ${hisatAlignmentDir}${uniqueID}.sam > ${unfilteredBamDir}${uniqueID}.bam
+   samtools view -h -b ${hisatAlignmentDir}${uniqueID}.sam > ${unfilteredBamDir}/${uniqueID}.bam
   >&2 echo "Reads with flag NH:i:[2+] where filtered out (only leaving 'unique' mapping reads)."
   rm ${hisatAlignmentDir}${uniqueID}.sam
   echo "returncode: $?";
   putFile ${filteredBam}
   cd ${unfilteredBamDir}
-  md5sum $(basename ${unfilteredBamDir}${uniqueID}.bam)> $(basename ${unfilteredBamDir}${uniqueID}.bam).md5
+  md5sum $(basename ${unfilteredBamDir}/${uniqueID}.bam)> $(basename ${unfilteredBamDir}/${uniqueID}.bam).md5
   cd -
   echo "succes moving files";
 else
