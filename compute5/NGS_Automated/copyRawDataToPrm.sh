@@ -111,11 +111,6 @@ do
 					scp ${SAMPLESHEETSDIR}/${csvFile} ${groupname}-dm@calculon.hpc.rug.nl:${SAMPLESHEETSPRMDIR}
 					echo "finished copying data to calculon" >> ${LOGGER}
 					
-					#rm $LOGDIR/${filePrefix}.SampleSheetCopied
-					#rm $LOGDIR/${filePrefix}.dataCopiedToDiagnosticsCluster
-					#mv $LOGDIR/${filePrefix}.copyToDiagnosticsCluster.logger $LOGDIR/${filePrefix}/
-					#mv $LOGDIR/${filePrefix}.copyToPrm.logger $LOGDIR/${filePrefix}/
-					#mv ${LOGDIR}/TMP/${filePrefix}.unique.projects $LOGDIR/${filePrefix}/projects.txt
 					echo "finished with rawdata" >> ${LOGDIR}/${filePrefix}/${filePrefix}.copyToPrm.logger
 
 					if ls ${RAWDATADIR}/${filePrefix}/${filePrefix}*.log 1> /dev/null 2>&1
@@ -126,6 +121,7 @@ do
 							echo -e "Demultiplex statistics ${filePrefix}: \n\n ${logFileStatistics}" | mail -s "Demultiplex statistics ${filePrefix}" ${GAFmail}
 						fi
 						echo -e "De data voor project ${filePrefix} is gekopieerd naar ${RAWDATADIRPRM}" | mail -s "${filePrefix} copied to permanent storage" ${ONTVANGER}
+						touch $LOGDIR/${filePrefix}/${filePrefix}.dataCopiedToPrm
 					fi
 				  	if [ -f $LOGDIR/${filePrefix}/${filePrefix}.failed ] 
                                         then
