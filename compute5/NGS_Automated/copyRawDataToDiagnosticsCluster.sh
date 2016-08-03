@@ -106,17 +106,19 @@ do
 			for i in $(ls *.fq.gz.md5 )
 			do
 				if md5sum -c $i
-				then
-					echo "data copied to DiagnosticsCluster" >> $LOGGER
-					printf ".. done \n" >> $LOGGER
-					touch $LOGDIR/${filePrefix}/${filePrefix}.dataCopiedToDiagnosticsCluster
-					touch ${filePrefix}.md5sums.checked
+				then		
+					
+					awk '{print $2" CHECKED, and is correct"}' $i >> $LOGGER
 				else
 					echo "md5sum check failed, the copying will start again" >> $LOGGER
 					rsync -r -a ${copyRawGatToDiagnosticsCluster}
-                                	echo "data copied to DiagnosticsCluster" >> $LOGGER
+					echo -e "data copied to DiagnosticsCluster \n" >> $LOGGER
+		
 				fi
 			done
+			touch $LOGDIR/${filePrefix}/${filePrefix}.dataCopiedToDiagnosticsCluster
+			touch ${filePrefix}.md5sums.checked
+
 		else
 			echo "Retry: Copying data to DiagnosticsCluster" >> $LOGGER
 			rsync -r -a ${copyRawGatToDiagnosticsCluster}

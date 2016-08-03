@@ -17,10 +17,7 @@ pipeline="dna"
 
 function finish {
 	echo "TRAPPED"
-	if [ -f ${LOGDIR}/copyDataToPrm.sh.locked ]
-	then
-		rm ${LOGDIR}/copyDataToPrm.sh.locked
-	fi
+		rm -f ${LOGDIR}/copyDataToPrm.sh.locked
 }
 trap finish HUP INT QUIT TERM EXIT ERR
 
@@ -87,6 +84,7 @@ do
 
 	if [[ -f $LOGDIR/${filePrefix}/${filePrefix}.dataCopiedToDiagnosticsCluster && ! -f $LOGDIR/${filePrefix}/${filePrefix}.dataCopiedToPrm ]]
 	then
+		echo "working on ${filePrefix}"
 		countFilesRawDataDirTmp=$(ls ${RAWDATADIR}/${filePrefix}/${filePrefix}* | wc -l)
 		if [ "${makeRawDataDir}" == "f" ]
 		then
@@ -123,10 +121,7 @@ do
 						echo -e "De data voor project ${filePrefix} is gekopieerd naar ${RAWDATADIRPRM}" | mail -s "${filePrefix} copied to permanent storage" ${ONTVANGER}
 						touch $LOGDIR/${filePrefix}/${filePrefix}.dataCopiedToPrm
 					fi
-				  	if [ -f $LOGDIR/${filePrefix}/${filePrefix}.failed ] 
-                                        then
-						rm $LOGDIR/${filePrefix}/${filePrefix}.failed
-					fi
+						rm -f $LOGDIR/${filePrefix}/${filePrefix}.failed
                                 fi
                         else
 				echo "$filePrefix: $countFilesRawDataDirTmp | $countFilesRawDataDirPrm"
@@ -145,7 +140,7 @@ do
 			echo -e "De md5sum checks voor project ${filePrefix} op ${RAWDATADIRPRM} zijn mislukt.De originele data staat op ${HOSTNA}:${RAWDATADIR}\n\nDeze mail is verstuurd omdat er al 10 pogingen zijn gedaan om de data te kopieren/md5summen" | mail -s "${filePrefix} failing to copy to permanent storage" ${ONTVANGER}
 		fi
 	fi
-	rm ${LOGDIR}/copyDataToPrm.sh.locked
+	rm -f ${LOGDIR}/copyDataToPrm.sh.locked
 done<${SAMPLESHEETSDIR}/allSampleSheets_DiagnosticsCluster.txt
 
 trap - EXIT
