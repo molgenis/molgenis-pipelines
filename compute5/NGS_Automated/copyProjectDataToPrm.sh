@@ -41,7 +41,7 @@ do
 
         if [ -f ${LOGDIR}/copyProjectDataToPrm.sh.locked ]
         then
-            	exit 0
+            	continue
 	else
 		touch ${LOGDIR}/copyProjectDataToPrm.sh.locked
         fi
@@ -53,7 +53,7 @@ do
 	then
 		countFilesProjectDataDirTmp=$(ls -R ${PROJECTSDIR}/${projectName}/*/results/ | wc -l)
 		module load hashdeep/4.4-foss-2015b
-		if [ ! -f ${PROJECTSDIR}/${projectName}.allResultmd5sums ]
+		if [ ! -f ${PROJECTSDIR}/${projectName}/${projectName}.allResultmd5sums ]
 		then
 			cd ${PROJECTSDIR}/${projectName}/
 			md5deep -r -j0 -o f -l */results/ > ${projectName}.allResultmd5sums
