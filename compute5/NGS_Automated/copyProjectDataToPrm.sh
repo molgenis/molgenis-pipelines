@@ -36,7 +36,7 @@ for line in ${ARR[@]}
 do
         projectName=${line}
         LOGGER=${LOGDIR}/${projectName}/${projectName}.copyProjectDataToPrm.logger
-
+	
         FINISHED="no"
 
         if [ -f ${LOGDIR}/copyProjectDataToPrm.sh.locked ]
@@ -49,16 +49,22 @@ do
 	makeProjectDataDir=$(ssh ${groupname}-dm@calculon.hpc.rug.nl "sh ${PROJECTSDIRPRM}/checkProjectData.sh ${PROJECTSDIRPRM} ${projectName}")	
 	
 	copyProjectDataDiagnosticsClusterToPrm="${PROJECTSDIR}/${projectName}/* ${groupname}-dm@calculon.hpc.rug.nl:${PROJECTSDIRPRM}/${projectName}"
-	if [[ -d $LOGDIR/${projectName}/ && ! -f $LOGDIR/${projectName}/${projectName}.projectDataCopiedToPrm ]]
+	if [[ -d $LOGDIR/${projectName}/${projectName}.pipeline.finished && ! -f $LOGDIR/${projectName}/${projectName}.projectDataCopiedToPrm ]]
 	then
+		echo "working on ${projectName}"
 		countFilesProjectDataDirTmp=$(ls -R ${PROJECTSDIR}/${projectName}/*/results/ | wc -l)
 		module load hashdeep/4.4-foss-2015b
+		cd ${PROJECTSDIR}/${projectName}/
 		if [ ! -f ${PROJECTSDIR}/${projectName}/${projectName}.allResultmd5sums ]
 		then
-			cd ${PROJECTSDIR}/${projectName}/
 			md5deep -r -j0 -o f -l */results/ > ${projectName}.allResultmd5sums
+		else
+			SIZE=$(cat ${projectName}.allResultmd5sums | wc -l)
+			if [ $SIZE -eq 0 ]
+			then
+				md5deep -r -j0 -o f -l */results/ > ${projectName}.allResultmd5sums
+			fi
 		fi
-		
 		if [ "${makeProjectDataDir}" == "f" ]
 		then
 			echo "copying project data from DiagnosticsCluster to prm" >> ${LOGGER}
