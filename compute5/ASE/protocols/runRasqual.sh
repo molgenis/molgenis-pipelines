@@ -61,10 +61,10 @@ while read line;do
 	chr="${array[0]}"
 	start="${array[1]}"
 	end="${array[2]}"
-	featureStarts="${array[13]}"
-	featureEnds="${array[14]}"
-	seq_len="${array[11]}"
-	line_number="${array[15]}"
+	featureStarts="${array[14]}"
+	featureEnds="${array[15]}"
+	seq_len="${array[12]}"
+	line_number="${array[16]}"
 	Cutoff_for_this=$((cutoff * (seq_len/${insertSize})))
 	Coverage=$(sed "${line_number}q;d" ${yfiletxt} | awk '{ for(i=2; i<=NF;i++) j+=$i; print j; j=0 }') 
 	if (( start < window )); then L=1
