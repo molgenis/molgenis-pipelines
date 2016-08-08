@@ -17,10 +17,7 @@ pipeline="dna"
 
 function finish {
 	echo "TRAPPED"
-	if [ -f ${LOGDIR}/copyDataToPrm.sh.locked ]
-	then
-		rm ${LOGDIR}/copyDataToPrm.sh.locked
-	fi
+		rm -f ${LOGDIR}/copyDataToPrm.sh.locked
 }
 trap finish HUP INT QUIT TERM EXIT ERR
 
@@ -87,6 +84,7 @@ do
 
 	if [[ -f $LOGDIR/${filePrefix}/${filePrefix}.dataCopiedToDiagnosticsCluster && ! -f $LOGDIR/${filePrefix}/${filePrefix}.dataCopiedToPrm ]]
 	then
+		echo "working on ${filePrefix}"
 		countFilesRawDataDirTmp=$(ls ${RAWDATADIR}/${filePrefix}/${filePrefix}* | wc -l)
 		if [ "${makeRawDataDir}" == "f" ]
 		then
@@ -111,11 +109,6 @@ do
 					scp ${SAMPLESHEETSDIR}/${csvFile} ${groupname}-dm@calculon.hpc.rug.nl:${SAMPLESHEETSPRMDIR}
 					echo "finished copying data to calculon" >> ${LOGGER}
 					
-					#rm $LOGDIR/${filePrefix}.SampleSheetCopied
-					#rm $LOGDIR/${filePrefix}.dataCopiedToDiagnosticsCluster
-					#mv $LOGDIR/${filePrefix}.copyToDiagnosticsCluster.logger $LOGDIR/${filePrefix}/
-					#mv $LOGDIR/${filePrefix}.copyToPrm.logger $LOGDIR/${filePrefix}/
-					#mv ${LOGDIR}/TMP/${filePrefix}.unique.projects $LOGDIR/${filePrefix}/projects.txt
 					echo "finished with rawdata" >> ${LOGDIR}/${filePrefix}/${filePrefix}.copyToPrm.logger
 
 					if ls ${RAWDATADIR}/${filePrefix}/${filePrefix}*.log 1> /dev/null 2>&1
@@ -126,11 +119,9 @@ do
 							echo -e "Demultiplex statistics ${filePrefix}: \n\n ${logFileStatistics}" | mail -s "Demultiplex statistics ${filePrefix}" ${GAFmail}
 						fi
 						echo -e "De data voor project ${filePrefix} is gekopieerd naar ${RAWDATADIRPRM}" | mail -s "${filePrefix} copied to permanent storage" ${ONTVANGER}
+						touch $LOGDIR/${filePrefix}/${filePrefix}.dataCopiedToPrm
 					fi
-				  	if [ -f $LOGDIR/${filePrefix}/${filePrefix}.failed ] 
-                                        then
-						rm $LOGDIR/${filePrefix}/${filePrefix}.failed
-					fi
+						rm -f $LOGDIR/${filePrefix}/${filePrefix}.failed
                                 fi
                         else
 				echo "$filePrefix: $countFilesRawDataDirTmp | $countFilesRawDataDirPrm"
@@ -149,7 +140,7 @@ do
 			echo -e "De md5sum checks voor project ${filePrefix} op ${RAWDATADIRPRM} zijn mislukt.De originele data staat op ${HOSTNA}:${RAWDATADIR}\n\nDeze mail is verstuurd omdat er al 10 pogingen zijn gedaan om de data te kopieren/md5summen" | mail -s "${filePrefix} failing to copy to permanent storage" ${ONTVANGER}
 		fi
 	fi
-	rm ${LOGDIR}/copyDataToPrm.sh.locked
+	rm -f ${LOGDIR}/copyDataToPrm.sh.locked
 done<${SAMPLESHEETSDIR}/allSampleSheets_DiagnosticsCluster.txt
 
 trap - EXIT
