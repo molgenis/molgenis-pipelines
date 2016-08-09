@@ -49,7 +49,7 @@ do
 	makeProjectDataDir=$(ssh ${groupname}-dm@calculon.hpc.rug.nl "sh ${PROJECTSDIRPRM}/checkProjectData.sh ${PROJECTSDIRPRM} ${projectName}")	
 	
 	copyProjectDataDiagnosticsClusterToPrm="${PROJECTSDIR}/${projectName}/* ${groupname}-dm@calculon.hpc.rug.nl:${PROJECTSDIRPRM}/${projectName}"
-	if [[ -d $LOGDIR/${projectName}/${projectName}.pipeline.finished && ! -f $LOGDIR/${projectName}/${projectName}.projectDataCopiedToPrm ]]
+	if [[ -f $LOGDIR/${projectName}/${projectName}.pipeline.finished && ! -f $LOGDIR/${projectName}/${projectName}.projectDataCopiedToPrm ]]
 	then
 		echo "working on ${projectName}"
 		countFilesProjectDataDirTmp=$(ls -R ${PROJECTSDIR}/${projectName}/*/results/ | wc -l)
