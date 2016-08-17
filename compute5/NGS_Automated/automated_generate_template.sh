@@ -8,13 +8,10 @@ set -u
 module load NGS_DNA/3.2.4
 module list 
 HOST=$(hostname)
-##Running script for checking the environment variables
-sh ${EBROOTNGS_DNA}/checkEnvironment.sh ${HOST}
 
-
-ENVIRONMENT_PARAMETERS=$(awk '{print $1}' ./environment_checks.txt)
-TMPDIR=$(awk '{print $2}' ./environment_checks.txt)
-GROUP=$(awk '{print $3}' ./environment_checks.txt)
+ENVIRONMENT_PARAMETERS="parameters_${HOST%%.*}.csv"
+TMPDIR=$(basename $(cd ../../ && ${thisDir} ))
+GROUP=$(basename $(cd ../../../ && ${thisDir} ))
 
 PROJECT=$1
 WORKDIR="/groups/${GROUP}/${TMPDIR}"
@@ -57,6 +54,11 @@ then
     	rm -rf ${WORKDIR}/generatedscripts/${PROJECT}/out.csv
 fi
 
+echo "tmpName,${TMPDIR}" > ${WORKDIR}/generatedscripts/${PROJECT}/tmpdir_parameters.csv
+
+perl ${EBROOTNGS_DNA}/convertParametersGitToMolgenis.pl ${WORKDIR}/generatedscripts/${PROJECT}/tmpdir_parameters.csv > \
+${WORKDIR}/generatedscripts/${PROJECT}/tmpdir_parameters_converted.csv
+
 perl ${EBROOTNGS_DNA}/convertParametersGitToMolgenis.pl ${EBROOTNGS_DNA}/parameters.csv > \
 ${WORKDIR}/generatedscripts/${PROJECT}/out.csv
 
@@ -71,6 +73,7 @@ sh $EBROOTMOLGENISMINCOMPUTE/molgenis_compute.sh \
 -p ${WORKDIR}/generatedscripts/${PROJECT}/environment_parameters.csv \
 -p ${WORKDIR}/generatedscripts/${PROJECT}/group_parameters.csv \
 -p ${EBROOTNGS_DNA}/batchIDList${BATCH}.csv \
+-p ${WORKDIR}/generatedscripts/${PROJECT}/tmpdir_parameters_converted.csv \
 -p ${WORKDIR}/generatedscripts/${PROJECT}/${PROJECT}.csv \
 -w ${EBROOTNGS_DNA}/create_in-house_ngs_projects_workflow.csv \
 -rundir ${WORKDIR}/generatedscripts/${PROJECT}/scripts \
@@ -81,6 +84,7 @@ group_parameters=${WORKDIR}/generatedscripts/${PROJECT}/group_parameters.csv;\
 groupname=${GROUP};\
 ngsversion=$(module list | grep -o -P 'NGS_DNA(.+)');\
 environment_parameters=${WORKDIR}/generatedscripts/${PROJECT}/environment_parameters.csv;\
+tmpdir_parameters=${WORKDIR}/generatedscripts/${PROJECT}/tmpdir_parameters_converted.csv;\
 batchIDList=${EBROOTNGS_DNA}/batchIDList${BATCH}.csv;\
 worksheet=${WORKDIR}/generatedscripts/${PROJECT}/${PROJECT}.csv" \
 -weave \
