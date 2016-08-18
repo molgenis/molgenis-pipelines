@@ -36,6 +36,7 @@ readCountDir,${projectDir}/readCounts/
 readCountFileGene,${readCountDir}/${sampleName}_readCountsGene.txt
 readCountFileExon,${readCountDir}/${sampleName}_readCountsExon.txt
 pathSubread, # path to Subread bin
+stranded,1 # 0 = unstranded 1 = stranded
 #
 ## GetASCounts
 RASQUALDIR,/groups/umcg-wijmenga/tmp04/tools/rasqual/

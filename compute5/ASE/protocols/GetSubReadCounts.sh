@@ -18,6 +18,7 @@
 
 #string pathSubread
 #string sampleName
+#string stranded
 
 echo "## "$(date)" Start $0"
 getFile ${bam}
@@ -34,25 +35,12 @@ mkdir -p ${readCountDir}
 echo Intersecting with bams
 # Reads per Gene
 PATH=$PATH:${pathSubread}
-featureCounts \
-	-F SAF \ # Annotation type = SAF
-	-O \ # Allow a read to span two features (Not multimappers!)
-	-s 1 \ #stranded = yes
-	-p \ # count fragment not reads (for paired-end data)
-	-B \ # count only both ends mapped
-	-a ${exonSAF} \ # input file
-	-o $TMPDIR/${sampleName}.txt ${bam} # output file + Input bam
+# Reads per Gene
+PATH=$PATH:${pathSubread}
+featureCounts -F SAF -O -s ${stranded} -p -B -a ${exonSAF} -o $TMPDIR/${sampleName}.txt ${bam}
 tail -n +3 $TMPDIR/${sampleName}.txt | LC_ALL=C sort -t$'\t' -k1,1 | cut -f7 > ${readCountFileGene}
 ## Per Exon
-featureCounts \
-	-F SAF \ # Annotation type = SAF
-	-O \ # Allow a read to span two features (Not multimappers!)
-	-f \ # Count features not metafeatures ( Exons not genes)
-	-s 1 \ #stranded = yes
-	-p \ # count fragment not reads (for paired-end data)
-	-B \ # count only both ends mapped
-	-a ${exonSAF} \ # input file
-	-o $TMPDIR/${sampleName}.txt ${bam} # output file + Input bam
+featureCounts -F SAF -O -f -s ${stranded} -p -B -a ${exonSAF} -o $TMPDIR/${sampleName}.txt ${bam}
 tail -n +3 $TMPDIR/${sampleName}.txt | cut -f7 > ${readCountFileExon}
 ################################
 echo "## "$(date)" ##  $0 Done "
