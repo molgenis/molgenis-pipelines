@@ -49,10 +49,10 @@ do
     fi
     START=`zcat ${VCF} | grep '#CHROM' -A 1 | tail -n 1 | cut -f 2`
     END=`zcat ${VCF} | tail -n 1 | cut -f 2`
-    echo ${CHR}:$START-$END
+    echo ${chromosome}:$START-$END
 
-    tabix ${VCF} ${CHR} | cut -f 1-9 | gzip > $TMPDIR/temporalis.gz
-    samtools view -F 0x0100 ${bam} ${CHR}:$START-$END | \
+    tabix ${VCF} ${chromosome}: | cut -f 1-9 | gzip > $TMPDIR/temporalis.gz
+    samtools view -F 0x0100 ${bam} ${chromosome}:$START-$END | \
 			awk -v RASQUALDIR=${RASQUALDIR} '$7=="="{cmd = RASQUALDIR"/src/ASVCF/parseCigar "$6; cmd | getline N; print $3"\t"$4"\t"$4+N-1"\t"$6"\t"$10; close(cmd);}' | \
 			${RASQUALDIR}/src/ASVCF/countAS $TMPDIR/temporalis.gz | \
 			awk '{print $5","$6}' | gzip >> ${ASCountFile}

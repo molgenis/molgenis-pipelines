@@ -29,7 +29,6 @@ cut -f2,5 ${exonlist} |  awk '{print $1"."$2}' | \
 ##############################
 echo Generating Y file per transcript ID
 ##############################
-if [ ${featureType} == exon ]; then exit; fi
 cut -f5 ${genelist} | LC_ALL=C sort -t $'\t' -k1,1 | \
         paste -d "\t" - "${readCountFileGene[@]}" | cut -f1-$((${sampleNum}+1)) > ${yfiletxtGene}
 #FINISH#########################
