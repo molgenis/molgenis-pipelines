@@ -11,7 +11,12 @@ myhost=$(hostname)
 . ${MYINSTALLATIONDIR}/sharedConfig.cfg
 
 ALLFINISHED=()
-ls ${LOGDIR}/*.pipeline.finished > ${LOGDIR}/AllProjects.pipeline.finished.csv
+if ls ${LOGDIR}/*.pipeline.finished 1> /dev/null 2>&1 
+then
+	ls ${LOGDIR}/*.pipeline.finished > ${LOGDIR}/AllProjects.pipeline.finished.csv
+else
+	exit 0
+fi
 while read line 
 do
 	ALLFINISHED+=("${line} ")
@@ -70,11 +75,25 @@ do
 		echo "there is/are missing some files:${projectName}.pipeline.logger or  ${projectName}.pipeline.started" >> ${LOGDIR}/${projectName}/${projectName}.pipeline.logger
 	fi
 	if [ ! -f ${LOGDIR}/${projectName}/${projectName}.pipeline.finished.mailed ]
-	then
-		printf "The results can be found: ${PROJECTSDIR}/${projectName} \n\nCheers from the GCC :)"| mail -s "NGS_DNA pipeline is finished for project ${projectName} on `date +%d/%m/%Y` `date +%H:%M`" ${ONTVANGER}
-		touch ${LOGDIR}/${projectName}/${projectName}.pipeline.finished.mailed
+        then
+            	mailTo="helpdesk.gcc.groningen@gmail.com"
+                if [ $groupname == "umcg-gaf" ]
+                then
+                    	mailTo="helpdesk.gcc.groningen@gmail.com"
+                elif [ "${groupname}" == "umcg-gd" ]
+                then
+                    	if [ -f /groups/umcg-gd/${tmpDirectory}/logs/mailinglistDiagnostiek.txt ]
+                        then
+                            	mailTo=$(cat /groups/umcg-gd/${tmpDirectory}/logs/mailinglistDiagnostiek.txt)
+                        else
+                            	echo "mailingListDiagnostiek.txt bestaat niet!!"
+                                exit 0
+                        fi
+                fi
+                printf "The results can be found: ${PROJECTSDIR}/${projectName} \n\nCheers from the GCC :)"| mail -s "NGS_DNA pipeline is finished for project ${projectName} on `date +%d/%m/%Y` `date +%H:%M`" ${mailTo}
+                touch ${LOGDIR}/${projectName}/${projectName}.pipeline.finished.mailed
 
-	fi
+        fi
 
 done
 
