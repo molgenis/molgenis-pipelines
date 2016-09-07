@@ -29,9 +29,9 @@ do
         elif [ "${groupname}" == "umcg-gd" ]
         then
             	echo "mailTo is umcg-gd"
-                if [ -f /groups/umcg-gd/${tmpName}/logs/mailinglistDiagnostiek.txt ]
+                if [ -f /groups/umcg-gd/${tmpDirectory}/logs/mailinglistDiagnostiek.txt ]
                 then
-                       	mailTo=$(cat /groups/umcg-gd/${tmpName}/logs/mailinglistDiagnostiek.txt)
+                       	mailTo=$(cat /groups/umcg-gd/${tmpDirectory}/logs/mailinglistDiagnostiek.txt)
                 else
                       	echo "mailingListDiagnostiek.txt bestaat niet!!"
                         exit 0
@@ -41,7 +41,7 @@ do
 	if [ ! -f ${LOGDIR}/${projectName}.pipeline.failed.mailed ]
 	then
 		HEADER=$(head -1 ${LOGDIR}/${projectName}.pipeline.failed)
-		cat ${LOGDIR}/${projectName}.pipeline.failed | mail -s "The NGS_DNA pipeline has crashed for project ${projectName} on step ${HEADER}" ${mailTo}
+		cat ${LOGDIR}/${projectName}.pipeline.failed | mail -s "The NGS_DNA pipeline on $myhost has crashed for project ${projectName} on step ${HEADER}" ${mailTo}
 		touch ${LOGDIR}/${projectName}.pipeline.failed.mailed
 	fi
 done
