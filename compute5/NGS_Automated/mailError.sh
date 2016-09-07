@@ -11,7 +11,13 @@ myhost=$(hostname)
 . ${MYINSTALLATIONDIR}/sharedConfig.cfg
 
 ALLFINISHED=()
-ls ${LOGDIR}/*.pipeline.failed > ${LOGDIR}/pipeline.failed.csv
+if ls ${LOGDIR}/*.pipeline.failed 1> /dev/null 2>&1 
+then
+	ls ${LOGDIR}/*.pipeline.failed > ${LOGDIR}/pipeline.failed.csv
+else
+	exit 0
+fi
+
 while read line 
 do
 	ALLFAILED+=("${line} ")
