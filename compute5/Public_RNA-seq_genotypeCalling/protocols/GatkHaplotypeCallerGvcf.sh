@@ -19,6 +19,7 @@
 #list bqsrBam
 #string haplotyperDir
 #string toolDir
+#string haplotyperTargets
 
 echo "## "$(date)" Start $0"
 
