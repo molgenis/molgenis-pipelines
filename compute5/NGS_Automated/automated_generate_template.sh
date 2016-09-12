@@ -5,32 +5,32 @@ set -u
 
 ### NEEDS 2 arguments! PROJECT AND BATCH
 
-module load NGS_DNA/3.2.4
+module load NGS_DNA/3.2.5
 module list 
 HOST=$(hostname)
+THISDIR=$(pwd)
 
 ENVIRONMENT_PARAMETERS="parameters_${HOST%%.*}.csv"
-TMPDIR=$(basename $(cd ../../ && ${thisDir} ))
-GROUP=$(basename $(cd ../../../ && ${thisDir} ))
+TMPDIRECTORY=$(basename $(cd ../../ && pwd ))
+GROUP=$(basename $(cd ../../../ && pwd ))
 
 PROJECT=$1
-WORKDIR="/groups/${GROUP}/${TMPDIR}"
+WORKDIR="/groups/${GROUP}/${TMPDIRECTORY}"
 RUNID=run01
 
 ## Normal user, please leave BATCH at _chr
-## Expert modus: small batchsize (6) fill in '_small', _exome (10 batches), _wgs (20 batches), OR but this is beta _NO (1 batch),
+## Expert modus: small batchsize (6) fill in '_small', per chromsome '_chr'
 BATCH=$2
-THISDIR=$(pwd)
 
 ##Some error handling
 function errorExitandCleanUp()
 {
         echo "TRAPPED"
-	if [ ! -f /groups/${GROUP}/${TMPDIR}/logs/${PROJECT}.generating.failed.mailed ]
+	if [ ! -f /groups/${GROUP}/${TMPDIRECTORY}/logs/${PROJECT}.generating.failed.mailed ]
         then
               	mailTo="helpdesk.gcc.groningen@gmail.com"
                 tail -50 ${WORKDIR}/generatedscripts/${PROJECT}/generate.logger	| mail -s "The generate script has crashed for run/project ${PROJECT}" ${mailTo}
-                touch /groups/${GROUP}/${TMPDIR}/logs/${PROJECT}.generating.failed.mailed 
+                touch /groups/${GROUP}/${TMPDIRECTORY}/logs/${PROJECT}.generating.failed.mailed 
         fi
 }
 trap "errorExitandCleanUp" HUP INT QUIT TERM EXIT ERR
@@ -54,7 +54,7 @@ then
     	rm -rf ${WORKDIR}/generatedscripts/${PROJECT}/out.csv
 fi
 
-echo "tmpName,${TMPDIR}" > ${WORKDIR}/generatedscripts/${PROJECT}/tmpdir_parameters.csv
+echo "tmpName,${TMPDIRECTORY}" > ${WORKDIR}/generatedscripts/${PROJECT}/tmpdir_parameters.csv
 
 perl ${EBROOTNGS_DNA}/convertParametersGitToMolgenis.pl ${WORKDIR}/generatedscripts/${PROJECT}/tmpdir_parameters.csv > \
 ${WORKDIR}/generatedscripts/${PROJECT}/tmpdir_parameters_converted.csv
@@ -70,7 +70,6 @@ ${WORKDIR}/generatedscripts/${PROJECT}/environment_parameters.csv
 
 sh $EBROOTMOLGENISMINCOMPUTE/molgenis_compute.sh \
 -p ${WORKDIR}/generatedscripts/${PROJECT}/out.csv \
--p ${WORKDIR}/generatedscripts/${PROJECT}/environment_parameters.csv \
 -p ${WORKDIR}/generatedscripts/${PROJECT}/group_parameters.csv \
 -p ${EBROOTNGS_DNA}/batchIDList${BATCH}.csv \
 -p ${WORKDIR}/generatedscripts/${PROJECT}/tmpdir_parameters_converted.csv \
