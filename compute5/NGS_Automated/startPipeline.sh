@@ -14,11 +14,11 @@ myhost=$(hostname)
 
 pipeline="dna"
 
-NGS_DNA_3_2_3="NGS_DNA/3.2.3"
+NGS_DNA="NGS_DNA/3.2.5"
 
 if [ "${pipeline}" == "dna" ] 
 then
-	module load ${NGS_DNA_3_2_3}
+	module load ${NGS_DNA}
 fi
 
 count=0 
