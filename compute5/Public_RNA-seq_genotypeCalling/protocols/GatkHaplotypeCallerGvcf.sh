@@ -59,7 +59,7 @@ do
        -o ${haplotyperDir}${sampleName}.chr$CHR.g.vcf.gz \
        -variant_index_type LINEAR \
        -variant_index_parameter 128000 \
-       -L ${haplotyperTargetsPrefix}$CHR${haplotypeTargetsPostfix} \
+       -L ${haplotyperTargetsPrefix}$CHR${haplotyperTargetsPostfix} \
        --emitRefConfidence GVCF;
   then
     echo "returncode: $?";
