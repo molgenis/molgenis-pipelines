@@ -19,6 +19,8 @@
 #list bqsrBam
 #string haplotyperDir
 #string toolDir
+#string haplotyperTargetsPrefix
+#string haplotyperTargetsPostfix
 
 echo "## "$(date)" Start $0"
 
@@ -57,7 +59,7 @@ do
        -o ${haplotyperDir}${sampleName}.chr$CHR.g.vcf.gz \
        -variant_index_type LINEAR \
        -variant_index_parameter 128000 \
-       -L ${haplotyperTargets} \
+       -L ${haplotyperTargetsPrefix}$CHR${haplotypeTargetsPostfix} \
        --emitRefConfidence GVCF;
   then
     echo "returncode: $?";

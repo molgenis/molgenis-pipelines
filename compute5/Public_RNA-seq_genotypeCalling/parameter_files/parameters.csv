@@ -124,6 +124,8 @@ haplotyperGvcfIdx,${haplotyperGvcf}.tbi
 haplotyperChrGvcf,${haplotyperDir}${sampleName}.chr${chromosome}.g.vcf.gz
 haplotyperChrGvcfIdx,${haplotyperChrGvcf}.tbi
 haplotyperTargets,${resDir}/${genomeBuild}/intervals/${referenceFastaName}.chr${chromosome}.interval_list
+haplotyperTargetsPrefix,${resDir}/${genomeBuild}/intervals/${referenceFastaName}.chr
+haplotyperTargetsPostfix,.interval_list
 mergeGvcf,${haplotyperDir}${project}.g.vcf.gz
 mergeGvcfIdx,${mergeGvcf}.tbi
 mergeChrGvcf,${haplotyperDir}${project}.chr${chromosome}.g.vcf.gz
