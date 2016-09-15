@@ -31,9 +31,12 @@ dbsnpVcfIdx,${dbsnpVcf}.idx
 #
 ## GetReadCounts
 exonlist,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/exonlist_sorted.txt
+exonSAF,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/exonlist_sorted.saf
 readCountDir,${projectDir}/readCounts/
 readCountFileGene,${readCountDir}/${sampleName}_readCountsGene.txt
 readCountFileExon,${readCountDir}/${sampleName}_readCountsExon.txt
+pathSubread, # path to Subread bin
+stranded,1 # 0 = unstranded 1 = stranded
 #
 ## GetASCounts
 RASQUALDIR,/groups/umcg-wijmenga/tmp04/tools/rasqual/
