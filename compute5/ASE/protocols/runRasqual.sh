@@ -49,6 +49,8 @@ else
 	exit
 fi
 
+rm -f ${rasqualOutDir}/${featureType}/${CHR}region_Rasqual_Output.txt
+rm -f ${rasqualOutDir}/${featureType}/${CHR}region_Rasqual_Output_permutation.txt
 window=$((${cisWindow}/2)) # 1Mb
 samples_num=$(awk -F'\t' '{print NF-1; exit}' ${yfiletxt})
 cutoff=$((samples_num * ${minCoveragePerFeature}))
@@ -61,10 +63,10 @@ while read line;do
 	chr="${array[0]}"
 	start="${array[1]}"
 	end="${array[2]}"
-	featureStarts="${array[13]}"
-	featureEnds="${array[14]}"
-	seq_len="${array[11]}"
-	line_number="${array[15]}"
+	featureStarts="${array[14]}"
+	featureEnds="${array[15]}"
+	seq_len="${array[12]}"
+	line_number="${array[16]}"
 	Cutoff_for_this=$((cutoff * (seq_len/${insertSize})))
 	Coverage=$(sed "${line_number}q;d" ${yfiletxt} | awk '{ for(i=2; i<=NF;i++) j+=$i; print j; j=0 }') 
 	if (( start < window )); then L=1
@@ -75,7 +77,8 @@ while read line;do
 	#PREFILTERS###########################################
 #	if (( Coverage < Cutoff_for_this)); then continue; fi
 	######################################################
-	tabix ${ASVCF} $chr:$L-$R | ${RASQUALDIR}/bin/rasqual -y ${yfilebin} -k ${kfilebin} -n $samples_num -j $line_number -l $Totalsnps -m $Totalsnps -s $featureStarts -e $featureEnds -f "$id Output:" --n-threads 16 >> ${rasqualOutDir}/${featureType}/${CHR}region_Rasqual_Output.txt
+tabix ${ASVCF} $chr:$L-$R | ${RASQUALDIR}/bin/rasqual -y ${yfilebin} -k ${kfilebin} -n $samples_num -j $line_number -l $Totalsnps -m $Totalsnps -s $featureStarts -e $featureEnds -f "$id Output:" --n-threads 16 >> ${rasqualOutDir}/${featureType}/${CHR}region_Rasqual_Output.txt
+	tabix ${ASVCF} $chr:$L-$R | ${RASQUALDIR}/bin/rasqual -y ${yfilebin} -k ${kfilebin} -n $samples_num -j $line_number -l $Totalsnps -m $Totalsnps -s $featureStarts -e $featureEnds -f "$id Output:" --n-threads 16 -r >> ${rasqualOutDir}/${featureType}/${CHR}region_Rasqual_Output_permutation.txt
 done < <(tabix ${featureFile} "$region" )
 done < <(awk -F '\t' '$1 == ${CHR} {printf ("%s:%s-%s\n", $1, $2, $3)}' ${regionsFile})
 ################################
