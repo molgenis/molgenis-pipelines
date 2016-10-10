@@ -71,6 +71,7 @@ ${WORKDIR}/generatedscripts/${PROJECT}/environment_parameters.csv
 sh $EBROOTMOLGENISMINCOMPUTE/molgenis_compute.sh \
 -p ${WORKDIR}/generatedscripts/${PROJECT}/out.csv \
 -p ${WORKDIR}/generatedscripts/${PROJECT}/group_parameters.csv \
+-p ${WORKDIR}/generatedscripts/${PROJECT}/environment_parameters.csv \
 -p ${EBROOTNGS_DNA}/batchIDList${BATCH}.csv \
 -p ${WORKDIR}/generatedscripts/${PROJECT}/tmpdir_parameters_converted.csv \
 -p ${WORKDIR}/generatedscripts/${PROJECT}/${PROJECT}.csv \
