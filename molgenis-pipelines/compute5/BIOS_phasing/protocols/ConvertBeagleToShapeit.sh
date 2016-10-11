@@ -27,7 +27,8 @@ ${stage} ngs-utils/${ngsutilsVersion}
 ${stage} GLib/${GLibVersion}
 ${stage} zlib/${zlibVersion}
 ${stage} bzip2/${bzip2Version}
-${stage} GCC/4.9.3-binutils-2.25
+# THIS NEEDS TO BE LOADED AFTER NGS-UTILS TO PREVENT GCCXX ERROR
+${stage} GCC/${GCCversion}
 ${checkStage}
 
 #Run conversion script beagle vcf to shapeit format
