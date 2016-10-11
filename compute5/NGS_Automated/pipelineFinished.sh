@@ -63,7 +63,7 @@ do
 	echo "moving ${projectName} files to ${LOGDIR}/${projectName}/ and removing tmp finished files"
 	if [[ -f ${LOGDIR}/${projectName}/${projectName}.pipeline.logger  && -f ${LOGDIR}/${projectName}/${projectName}.pipeline.started ]]
 	then 
-		if [ -f ${LOGDIR}/${projectName}/${projectName}.rawdatalink && -f ${LOGDIR}/${projectName}/${projectName}.rawdatalinkDirName ]
+		if [[ -f ${LOGDIR}/${projectName}/${projectName}.rawdatalink && -f ${LOGDIR}/${projectName}/${projectName}.rawdatalinkDirName ]]
 		then
 			touch ${LOGDIR}/${projectName}/${rawDataName}
 		fi
