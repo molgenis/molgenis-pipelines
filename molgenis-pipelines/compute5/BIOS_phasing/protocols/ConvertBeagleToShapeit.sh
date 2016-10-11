@@ -16,7 +16,7 @@
 #string ngsutilsVersion
 #string zlibVersion
 #string bzip2Version
-
+#string GCCversion
 
 echo "## "$(date)" Start $0"
 
