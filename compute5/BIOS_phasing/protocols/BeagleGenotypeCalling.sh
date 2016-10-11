@@ -56,6 +56,7 @@ then
 else
  echo "returncode: $?";
  echo "fail";
+ exit 1;
 fi
 
 #changedir to logdir
