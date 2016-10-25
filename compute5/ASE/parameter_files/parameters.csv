@@ -24,6 +24,7 @@ referenceFastaName,human_g1k_v37
 GSLVersion,2.1-foss-2015b
 RVersion,3.2.1-foss-2015b 
 genomeBuild,b37
+onekgGenomeFasta,/apps/data/ftp.broadinstitute.org/bundle/2.8/b37/human_g1k_v37.fasta
 dbsnpVcf,${resDir}/${genomeBuild}/snp/dbSNP/dbsnp_138.b37.vcf
 dbsnpVcfIdx,${dbsnpVcf}.idx
 ########################################################################
@@ -38,12 +39,21 @@ readCountFileExon,${readCountDir}/${sampleName}_readCountsExon.txt
 pathSubread, # path to Subread bin
 stranded,1 # 0 = unstranded 1 = stranded
 #
+## SelectVariants
+selectVariantsDir,${projectDir}/SelectVariants/
+selectVariantsBiallelicSNPsVcf,${selectVariantsDir}/${VCFprefix}${CHR}${VCFsuffix}.biAllelicSNPsOnly.vcf.gz
+#
+## ASEReadCounter
+ASEReadCountsDir,${projectDir}/ASEReadCountsDir/
+ASEReadCountsChrOutput,${ASEReadCountsDir}/sampleName.ASEReadCounts.chr${CHR}.rtable
+#
 ## GetASCounts
 RASQUALDIR,/groups/umcg-wijmenga/tmp04/tools/rasqual/
 ASCountsDir,${projectDir}/AScounts/
 ASCountFilePostfix,_${sampleName}_AScounts.bam.gz
 ASCountFile,${ASCountsDir}/chr${CHR}${ASCountFilePostfix}
-VCFprefix,/groups/umcg-bios/tmp04/umcg-fvandijk/projects/ASE/GoNL_WGS_calls_exonicEQTLsOnly/gonl-abc_samples.chr
+VCFinputDir,/groups/umcg-bios/tmp04/umcg-fvandijk/projects/ASE/GoNL_WGS_calls_exonicEQTLsOnly/
+VCFprefix,gonl-abc_samples.chr
 VCFsuffix,.release5.NoMAFSelection.exonicEQTLsOnly.vcf.gz
 VCF,${VCFprefix}${CHR}${VCFsuffix}
 #
