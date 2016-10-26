@@ -1,4 +1,4 @@
-\########################################################################
+########################################################################
 ## General parameters for SLURM settings and cluster directory paths
 #
 queue,medium
@@ -23,6 +23,7 @@ AseVersion,0.1-Java-1.8.0_45
 referenceFastaName,human_g1k_v37
 GSLVersion,2.1-foss-2015b
 RVersion,3.2.1-foss-2015b 
+gatkVersion,3.6-Java-1.8.0_74
 genomeBuild,b37
 onekgGenomeFasta,/apps/data/ftp.broadinstitute.org/bundle/2.8/b37/human_g1k_v37.fasta
 dbsnpVcf,${resDir}/${genomeBuild}/snp/dbSNP/dbsnp_138.b37.vcf
@@ -45,7 +46,7 @@ selectVariantsBiallelicSNPsVcf,${selectVariantsDir}/${VCFprefix}${CHR}${VCFsuffi
 #
 ## ASEReadCounter
 ASEReadCountsDir,${projectDir}/ASEReadCountsDir/
-ASEReadCountsChrOutput,${ASEReadCountsDir}/sampleName.ASEReadCounts.chr${CHR}.rtable
+ASEReadCountsChrOutput,${ASEReadCountsDir}/${sampleName}.ASEReadCounts.chr${CHR}.rtable
 #
 ## GetASCounts
 RASQUALDIR,/groups/umcg-wijmenga/tmp04/tools/rasqual/

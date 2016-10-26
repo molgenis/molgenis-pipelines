@@ -33,6 +33,7 @@ if java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${TMPDIR} -jar ${EBROOTG
  -R ${onekgGenomeFasta} \
  -V ${VCFinputDir}/${VCFprefix}${CHR}${VCFsuffix} \
  -o ${selectVariantsBiallelicSNPsVcf} \
+ -selectType SNP \
  -restrictAllelesTo BIALLELIC
 then
  echo "returncode: $?"; 
