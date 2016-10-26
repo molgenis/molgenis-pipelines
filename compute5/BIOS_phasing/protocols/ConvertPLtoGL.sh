@@ -27,13 +27,10 @@ mkdir -p ${genotypedChrVcfGLDir}
 
 echo "Starting conversion."
 
-#Gzip VCF because python script assumes gzipped input file
-cp ${vcf} ${vcf}.tmp.vcf
-gzip ${vcf}.tmp.vcf
 
 #Run conversion script beagle vcf to shapeit format
 if python $EBROOTNGSMINUTILS/PL_to_GL_reorder.py \
-    --vcf ${vcf}.tmp.vcf.gz \
+    --vcf ${vcf} \
     --out ${genotypedChrVcfGL}
 
 then
@@ -43,7 +40,6 @@ then
  bname=$(basename ${genotypedChrVcfGL})
  md5sum ${bname} > ${bname}.md5
  cd -
- rm ${vcf}.tmp.vcf.gz
  echo "succes moving files";
 else
  echo "returncode: $?";

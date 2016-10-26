@@ -28,6 +28,7 @@ ${checkStage}
 
 mkdir -p ${ASEReadCountsDir}
 
+#When a site does NOT pass the minDepth filter it will NOT be emitted in output, that's why we use minDepth 0 in this case
 if java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${TMPDIR} -jar ${EBROOTGATK}/GenomeAnalysisTK.jar \
  -T ASEReadCounter \
  -R ${onekgGenomeFasta} \
@@ -36,7 +37,7 @@ if java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${TMPDIR} -jar ${EBROOTG
  -sites ${selectVariantsBiallelicSNPsVcf} \
  -L ${selectVariantsBiallelicSNPsVcf} \
  -U ALLOW_N_CIGAR_READS \
- -minDepth 10 \
+ -minDepth 0 \
  --minMappingQuality 10 \
  --minBaseQuality 2
 
