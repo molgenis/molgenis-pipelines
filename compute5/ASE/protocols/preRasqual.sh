@@ -11,11 +11,15 @@
 #string RasqualizeScript
 #string exonGC
 #string transcriptGC
+
+
 ${stage} R/${RVersion}
+${checkStage}
 
 mkdir -p ${binDir}
 
 echo "## "$(date)" Start $0"
+
 
 echo Generating bins for exon files
 
@@ -25,6 +29,7 @@ echo Generating Y bins for transcript files
 
 if [ ${featureType} == exon ]; then exit; fi
 Rscript ${RasqualizeScript} ${yfiletxtGene} ${transcriptGC}
+
 
 echo "## "$(date)" ##  $0 Done "
 

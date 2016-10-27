@@ -32,11 +32,11 @@ dbsnpVcfIdx,${dbsnpVcf}.idx
 ## Specific tools paths
 #
 ## GetReadCounts
-exonlist,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/exonlist_sorted.txt
-exonSAF,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/exonlist_sorted.saf
+exonlist,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/exonlist_sorted.chr${CHR}.txt
+exonSAF,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/exonlist_sorted.chr${CHR}.saf
 readCountDir,${projectDir}/readCounts/
-readCountFileGene,${readCountDir}/${sampleName}_readCountsGene.txt
-readCountFileExon,${readCountDir}/${sampleName}_readCountsExon.txt
+readCountFileGene,${readCountDir}/${sampleName}.readCountsGene.chr${CHR}.txt
+readCountFileExon,${readCountDir}/${sampleName}.readCountsExon.chr${CHR}.txt
 pathSubread, # path to Subread bin
 stranded,1 # 0 = unstranded 1 = stranded
 #
@@ -49,7 +49,7 @@ ASEReadCountsDir,${projectDir}/ASEReadCountsDir/
 ASEReadCountsChrOutput,${ASEReadCountsDir}/${sampleName}.ASEReadCounts.chr${CHR}.rtable
 #
 ## CreateCountsTable
-countsTableDir,${projectDir}/CreateCountsTable/
+countsTableDir,${projectDir}/countsTable/
 countsTable,${countsTableDir}/${VCFprefix}${CHR}${VCFsuffix}.ASEReadCounts.countsTable.txt
 #
 ## GetASCounts
@@ -63,11 +63,10 @@ VCFsuffix,.release5.NoMAFSelection.exonicEQTLsOnly.vcf.gz
 VCF,${VCFinputDir}/${VCFprefix}${CHR}${VCFsuffix}
 #
 ## pasteReads
-countTableDir,${projectDir}/countTable/
 binDir,${projectDir}/bins/
-featureFileExon,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/exonlist_sorted.txt.gz
-featureFileGene,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/transcriptlist_sorted.txt.gz
-genelist,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/transcriptlist_sorted.txt
+featureFileExon,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/exonlist_sorted.chr${CHR}.txt.gz
+featureFileGene,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/transcriptlist_sorted.chr${CHR}.txt.gz
+genelist,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/transcriptlist_sorted.chr${CHR}.txt
 #
 ## Paste AS counts
 ASVCF,${binDir}/chr${CHR}_ASVCF.vcf.gz
@@ -77,15 +76,15 @@ featureType,gene
 regionsFile,/groups/umcg-wijmenga/tmp04/umcg-ndeklein/data/genomeWideRegion.bed 
 rasqualOutDir,${projectDir}/Rasqual/
 cisWindow,1000000
-yfiletxtExon,${binDir}/Yexon.txt
-yfiletxtGene,${binDir}/Ygene.txt
-kfilebinExon,${binDir}/K.bin
-yfilebinExon,${binDir}/Yexon.bin
-kfilebinGene,${binDir}/Kg.bin
-yfilebinGene,${binDir}/Ygene.bin
+yfiletxtExon,${binDir}/Yexon.chr${CHR}.txt
+yfiletxtGene,${binDir}/Ygene.chr${CHR}.txt
+kfilebinExon,${binDir}/K.chr${CHR}.bin
+yfilebinExon,${binDir}/Yexon.chr${CHR}.bin
+kfilebinGene,${binDir}/Kg.chr${CHR}.bin
+yfilebinGene,${binDir}/Ygene.chr${CHR}.bin
 minCoveragePerFeature,35
-exonGC,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/GCexon.txt
-transcriptGC,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/GCTranscript.txt
+exonGC,${binDir}/GCexon.txt
+transcriptGC,${binDir}/GCTranscript.txt
 insertSize,250
 RasqualizeScript,/home/umcg-ndeklein/molgenis-pipelines/compute5/ASE/protocols/rasqualize.R
 sampleNum,24
