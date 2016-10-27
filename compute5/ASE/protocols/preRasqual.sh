@@ -14,17 +14,17 @@
 ${stage} R/${RVersion}
 
 mkdir -p ${binDir}
-#Start######################
+
 echo "## "$(date)" Start $0"
-################################
+
 echo Generating bins for exon files
-################################
+
 Rscript ${RasqualizeScript} ${yfiletxtExon} ${exonGC}
-##############################
+
 echo Generating Y bins for transcript files
-##############################
+
 if [ ${featureType} == exon ]; then exit; fi
 Rscript ${RasqualizeScript} ${yfiletxtGene} ${transcriptGC}
-#FINISH#########################
+
 echo "## "$(date)" ##  $0 Done "
-################################
+

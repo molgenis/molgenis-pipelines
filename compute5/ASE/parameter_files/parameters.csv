@@ -60,7 +60,7 @@ ASCountFile,${ASCountsDir}/chr${CHR}${ASCountFilePostfix}
 VCFinputDir,/groups/umcg-bios/tmp04/umcg-fvandijk/projects/ASE/GoNL_WGS_calls_exonicEQTLsOnly/
 VCFprefix,gonl-abc_samples.chr
 VCFsuffix,.release5.NoMAFSelection.exonicEQTLsOnly.vcf.gz
-VCF,${VCFprefix}${CHR}${VCFsuffix}
+VCF,${VCFinputDir}/${VCFprefix}${CHR}${VCFsuffix}
 #
 ## pasteReads
 countTableDir,${projectDir}/countTable/
@@ -90,6 +90,7 @@ insertSize,250
 RasqualizeScript,/home/umcg-ndeklein/molgenis-pipelines/compute5/ASE/protocols/rasqualize.R
 sampleNum,24
 readCountFile,${readCountDir}/${sampleName}_readCounts.txt
+#
 ## ASReads
 imputedVcf,${VCFprefix}${CHR}${VCFsuffix}
 ASReadsDir,${projectDir}/ASReads/
@@ -98,6 +99,7 @@ ASReadsDirSample,${ASReadsDir}/${sampleName}/
 couplingFile,${projectDir}//coupling.txt
 ASReadsPrefix,${ASReadsDirSample}/$(basename ${bam%.bam})
 haplotyperDir,${projectDir}/haplotypeCaller/
+#
 ## ASE
 AseDir,${projectDir}/ASE/
 ASFilesPrefix,${AseDir}/ASFiles

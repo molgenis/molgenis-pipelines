@@ -3,7 +3,6 @@ SelectVariants,protocols/SelectVariants.sh,
 ASEReadCounter,protocols/ASEReadCounter.sh,SelectVariants
 CreateCountsTable,protocols/CreateCountsTable.sh,ASEReadCounter
 pasteReads,protocols/pasteReads.sh,CreateCountsTable
-GetASCounts,protocols/GetASCounts.sh,pasteReads.sh
-pasteASCounts,protocols/pasteASCounts.sh,GetASCounts
+pasteASCounts,protocols/pasteASCounts.sh,pasteReads
 preRasqual,protocols/preRasqual.sh,pasteASCounts
 runRasqual,protocols/runRasqual.sh,pasteASCounts

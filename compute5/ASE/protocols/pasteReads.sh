@@ -18,19 +18,19 @@ ${stage} BEDTools/${bedtoolsVersion}
 ${stage} SAMtools/${samtoolsVersion}
 ${stage} tabix/${tabixVersion}
 mkdir -p ${binDir}
-#Start######################
+
 echo "## "$(date)" Start $0"
-################################
+
 echo Generating Y file per exon ID
-################################
+
 # Generate Y file
 cut -f2,5 ${exonlist} |  awk '{print $1"."$2}' | \
 	paste -d "\t" - "${readCountFileExon[@]}" | cut -f1-$((${sampleNum}+1)) > ${yfiletxtExon}
-##############################
+
 echo Generating Y file per transcript ID
-##############################
+
 cut -f5 ${genelist} | LC_ALL=C sort -t $'\t' -k1,1 | \
         paste -d "\t" - "${readCountFileGene[@]}" | cut -f1-$((${sampleNum}+1)) > ${yfiletxtGene}
-#FINISH#########################
+
 echo "## "$(date)" ##  $0 Done "
-################################
+
