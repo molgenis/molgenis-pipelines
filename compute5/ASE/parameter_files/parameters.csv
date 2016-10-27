@@ -83,8 +83,8 @@ yfilebinExon,${binDir}/Yexon.chr${CHR}.bin
 kfilebinGene,${binDir}/Kg.chr${CHR}.bin
 yfilebinGene,${binDir}/Ygene.chr${CHR}.bin
 minCoveragePerFeature,35
-exonGC,${binDir}/GCexon.txt
-transcriptGC,${binDir}/GCTranscript.txt
+exonGC,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/GCexon.chr${CHR}.txt
+transcriptGC,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/GCTranscript.chr${CHR}.txt
 insertSize,250
 RasqualizeScript,/home/umcg-ndeklein/molgenis-pipelines/compute5/ASE/protocols/rasqualize.R
 sampleNum,24
