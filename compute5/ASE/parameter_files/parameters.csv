@@ -48,6 +48,10 @@ selectVariantsBiallelicSNPsVcf,${selectVariantsDir}/${VCFprefix}${CHR}${VCFsuffi
 ASEReadCountsDir,${projectDir}/ASEReadCountsDir/
 ASEReadCountsChrOutput,${ASEReadCountsDir}/${sampleName}.ASEReadCounts.chr${CHR}.rtable
 #
+## CreateCountsTable
+countsTableDir,${projectDir}/CreateCountsTable/
+countsTable,${countsTableDir}/${VCFprefix}${CHR}${VCFsuffix}.ASEReadCounts.countsTable.txt
+#
 ## GetASCounts
 RASQUALDIR,/groups/umcg-wijmenga/tmp04/tools/rasqual/
 ASCountsDir,${projectDir}/AScounts/
