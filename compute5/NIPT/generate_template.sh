@@ -6,7 +6,7 @@ umask 0007
 project="<ProjectNameVar>"
 runId='run01'
 cluster="<GccClusterVar>"
-niptVersion='v3.0.2-Molgenis-Compute-v15.12.4-Java-1.8.0_45'
+niptVersion='v3.0.2'
 ENVIRONMENT_PARAMETERS="parameters_${cluster}.csv"
 TMPDIR=$(ls -1 /groups/umcg-gd/ |grep tmp)
 WORKDIR="/groups/umcg-gd/${TMPDIR}"
