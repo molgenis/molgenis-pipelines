@@ -11,6 +11,7 @@
 #string RasqualizeScript
 #string exonGC
 #string transcriptGC
+#string CHR
 
 
 ${stage} R/${RVersion}

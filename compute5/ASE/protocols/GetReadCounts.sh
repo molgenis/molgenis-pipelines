@@ -6,11 +6,10 @@
 ###
 #string stage
 #string checkStage
-
 #string WORKDIR
 #string projectDir
 #string bam
-
+#string CHR
 #string exonlist
 #string readCountDir
 #string readCountFileGene

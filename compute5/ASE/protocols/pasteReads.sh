@@ -13,6 +13,7 @@
 #string samtoolsVersion
 #string tabixVersion
 #string sampleNum
+#string CHR
 #list sampleName
 #list readCountFileExon,readCountFileGene
 

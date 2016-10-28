@@ -119,7 +119,7 @@ do
 	GREPCMD="$CHR\t$POS\t"
 	#Echo chr and pos for debugging purpose
 	#echo -e -n "$GREPCMD"
-	echo "Checking position: $GREPCMD"
+	echo -e -n "Checking position: $GREPCMD \n"
 	
 	#Loop over count files
 	for ((j=9; j<${#SAMPLESVCF[*]}; j++))
@@ -131,12 +131,14 @@ do
 		#Grep counts from file
 		RESULTCOUNTS=`grep -P "$GREPCMD" $COUNTSFILE | awk '{print $6","$7}'`
 		#If variable is longer than 0 characters it contains counts, print them, otherwise print 0,0
-		[ -z "$RESULTCOUNTS" ] && echo -e -n "\t0,0" >> ${countsTable} || echo -e -n "\t$RESULTCOUNTS" ${countsTable}
+		[ -z "$RESULTCOUNTS" ] && echo -e -n "\t0,0" >> ${countsTable} || echo -e -n "\t$RESULTCOUNTS" >> ${countsTable}
 	done
 	#Echo line break
-	echo -e -n "\n" ${countsTable}
+	echo -e -n "\n" >> ${countsTable}
 
 done<"$TMPFILE"
+
+perl -pi -e 's/^\t//g' ${countsTable}
 
 #Remove TMPFILE
 rm "$TMPFILE"
