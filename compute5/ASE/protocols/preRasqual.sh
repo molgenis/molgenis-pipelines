@@ -12,6 +12,14 @@
 #string exonGC
 #string transcriptGC
 #string CHR
+#string kfiletxtExon
+#string kfilebinExon
+#string yfilebinExon
+#string xfiletxtExon
+#string kfiletxtGene
+#string kfilebinGene
+#string yfilebinGene
+#string xfiletxtGene
 
 
 ${stage} R/${RVersion}
@@ -24,12 +32,12 @@ echo "## "$(date)" Start $0"
 
 echo Generating bins for exon files
 
-Rscript ${RasqualizeScript} ${yfiletxtExon} ${exonGC}
+Rscript ${RasqualizeScript} ${yfiletxtExon} ${exonGC} ${kfiletxtExon} ${kfilebinExon} ${yfilebinExon} ${xfiletxtExon}
 
 echo Generating Y bins for transcript files
 
 if [ ${featureType} == exon ]; then exit; fi
-Rscript ${RasqualizeScript} ${yfiletxtGene} ${transcriptGC}
+Rscript ${RasqualizeScript} ${yfiletxtGene} ${transcriptGC} ${kfiletxtGene} ${kfilebinGene} ${yfilebinGene} ${xfiletxtGene}
 
 
 echo "## "$(date)" ##  $0 Done "
