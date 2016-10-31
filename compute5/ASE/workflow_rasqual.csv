@@ -1,5 +1,5 @@
 step,protocol,dependencies
-GetReadCounts,protocols/GetReadCounts.sh,
+GetSubReadCounts,protocols/GetSubReadCounts.sh,
 pasteReads,protocols/pasteReads.sh,GetReadCounts
 preRasqual,protocols/preRasqual.sh,pasteReads
 SelectVariants,protocols/SelectVariants.sh,

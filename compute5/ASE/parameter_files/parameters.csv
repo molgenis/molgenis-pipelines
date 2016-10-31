@@ -24,6 +24,7 @@ referenceFastaName,human_g1k_v37
 GSLVersion,2.1-foss-2015b
 RVersion,3.2.1-foss-2015b 
 gatkVersion,3.6-Java-1.8.0_74
+subreadVersion,1.5.1-foss-2015b
 genomeBuild,b37
 onekgGenomeFasta,/apps/data/ftp.broadinstitute.org/bundle/2.8/b37/human_g1k_v37.fasta
 dbsnpVcf,${resDir}/${genomeBuild}/snp/dbSNP/dbsnp_138.b37.vcf
@@ -33,7 +34,7 @@ dbsnpVcfIdx,${dbsnpVcf}.idx
 #
 ## GetReadCounts
 exonlist,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/exonlist_sorted.chr${CHR}.txt
-exonSAF,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/exonlist_sorted.chr${CHR}.saf
+exonGTF,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/Homo_sapiens.GRCh37.75.chr${CHR}.gtf
 readCountDir,${projectDir}/readCounts/
 readCountFileGene,${readCountDir}/${sampleName}.readCountsGene.chr${CHR}.txt
 readCountFileExon,${readCountDir}/${sampleName}.readCountsExon.chr${CHR}.txt
