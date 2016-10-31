@@ -13,7 +13,7 @@
 #string readCountDir
 #string readCountFileGene
 #string readCountFileExon
-#string pathSubread
+#string subreadVersion
 #string sampleName
 #string stranded
 #string CHR

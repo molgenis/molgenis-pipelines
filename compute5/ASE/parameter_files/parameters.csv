@@ -39,8 +39,8 @@ readCountDir,${projectDir}/readCounts/
 readCountFileGene,${readCountDir}/${sampleName}.readCountsGene.chr${CHR}.txt
 readCountFileExon,${readCountDir}/${sampleName}.readCountsExon.chr${CHR}.txt
 pathSubread, # path to Subread bin
-stranded,1 # 0 = unstranded 1 = stranded
-#
+stranded,1
+# # stranded: 0 = unstranded 1 = stranded
 ## SelectVariants
 selectVariantsDir,${projectDir}/SelectVariants/
 selectVariantsBiallelicSNPsVcf,${selectVariantsDir}/${VCFprefix}${CHR}${VCFsuffix}.biAllelicSNPsOnly.vcf.gz
