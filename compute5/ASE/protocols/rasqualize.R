@@ -103,7 +103,11 @@ sf=log(apply(Y,2,sum))
 
 covs=fpkm.svd$v[,1:sum(fpkm.svd$d[-n]>fpkm.svd.r$d[-n])]
 
-if(cor(sf,covs[,1])^2<0.9){covs=cbind(sf, covs)}
+if (is.vector(covs)){
+		if(cor(sf,covs)^2<0.9){covs=cbind(sf, covs)}
+	}else{
+		if(cor(sf,covs[,1])^2<0.9){covs=cbind(sf, covs)}
+}
 
 # Write covariates
 write.table(covs,col=F,row=F,sep="\t",quote=F,file=xtxt)

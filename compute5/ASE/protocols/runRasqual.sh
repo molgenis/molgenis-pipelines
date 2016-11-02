@@ -10,14 +10,18 @@
 #string cisWindow
 #string kfilebinExon
 #string yfilebinExon
+#string yfiletxtExon
 #string kfilebinGene
 #string yfilebinGene
-#string yfiletxtExon
 #string yfiletxtGene
+#string kfilebinTranscript
+#string yfilebinTranscript
+#string yfiletxtTranscript
 #string featureType
 #string rasqualOutDir
 #string featureFileExon
 #string featureFileGene
+#string featureFileTranscript
 #string CHR
 #string regionsFile
 #string GSLVersion
@@ -37,18 +41,26 @@ ${checkStage}
 mkdir -p ${rasqualOutDir}/${featureType}
 
 echo LAST START >> ${rasqualOutDir}/${featureType}/chr${CHR}.region_Rasqual_Output.txt
-if [ ${featureType} == "exon" ]; then
+if [ ${featureType} == "exon" ];
+then
         kfilebin=${kfilebinExon}
         yfilebin=${yfilebinExon}
         yfiletxt=${yfiletxtExon}
         featureFile=${featureFileExon}
-elif [ ${featureType} == "gene" ]; then
+elif [ ${featureType} == "gene" ];
+then
         kfilebin=${kfilebinGene}
         yfilebin=${yfilebinGene}
         yfiletxt=${yfiletxtGene}
         featureFile=${featureFileGene}
+elif [ ${featureType} == "transcript" ];
+then
+        kfilebin=${kfilebinTranscript}
+        yfilebin=${yfilebinTranscript}
+        yfiletxt=${yfiletxtTranscript}
+        featureFile=${featureFileGene}
 else
-        echo featureType must be exon or gene in parameter file
+        echo featureType must be transcript, exon or gene in parameter file
         exit
 fi
 

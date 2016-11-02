@@ -15,7 +15,7 @@
 #string sampleNum
 #string CHR
 #list sampleName
-#list readCountFileExon,readCountFileGene
+#list readCountFileExon,readCountFileGene,readCountFileTranscript
 
 
 
@@ -39,10 +39,14 @@ echo "Generating Y file per exon ID"
 cut -f2,5 ${exonlist} |  awk '{print $1"."$2}' | \
 	paste -d "\t" - "${readCountFileExon[@]}" | cut -f1-$(($NUMSAMPLES+1)) > ${yfiletxtExon}
 
-echo "Generating Y file per transcript ID"
+echo "Generating Y file per gene ID"
 
 cut -f5 ${genelist} | LC_ALL=C sort -t $'\t' -k1,1 | \
         paste -d "\t" - "${readCountFileGene[@]}" | cut -f1-$(($NUMSAMPLES+1)) > ${yfiletxtGene}
+
+echo "Generating Y file per transcript ID"
+cut -f2,5 ${transcriptlist} |  awk '{print $1"."$2}' | \
+	paste -d "\t" - "${readCountFileTranscript[@]}" | cut -f1-$(($NUMSAMPLES+1)) > ${yfiletxtTranscript}
 
 echo "## "$(date)" ##  $0 Done "
 
