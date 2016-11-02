@@ -33,13 +33,13 @@ NUMSAMPLES=${#sampleName[*]}
 echo "Number of samples in samplesheet.csv: $NUMSAMPLES"
 
 
-echo Generating Y file per exon ID
+echo "Generating Y file per exon ID"
 
 # Generate Y file
 cut -f2,5 ${exonlist} |  awk '{print $1"."$2}' | \
 	paste -d "\t" - "${readCountFileExon[@]}" | cut -f1-$(($NUMSAMPLES+1)) > ${yfiletxtExon}
 
-echo Generating Y file per transcript ID
+echo "Generating Y file per transcript ID"
 
 cut -f5 ${genelist} | LC_ALL=C sort -t $'\t' -k1,1 | \
         paste -d "\t" - "${readCountFileGene[@]}" | cut -f1-$(($NUMSAMPLES+1)) > ${yfiletxtGene}
