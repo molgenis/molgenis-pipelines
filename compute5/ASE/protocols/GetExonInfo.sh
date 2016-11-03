@@ -6,8 +6,8 @@
 #SBATCH --mem=30G
 #SBATCH --output=O.txt
 
-module load BEDTools
-module load tabix
+module load BEDTools/2.23.0-goolf-1.7.20
+module load tabix/0.2.6-goolf-1.7.20
 
 # Generates Exon Information Files
 # O: Position sorted tab delimited file with info (coordinates, gc content, IDs) per transcript, per exona nd per forced gene.
@@ -27,7 +27,7 @@ REF="/apps/data/ftp.broadinstitute.org/bundle/2.8/b37/human_g1k_v37.fasta"
 	
 	
 	#Generate exonlist information
-	awk -F "\t" '$3 == "exon" && ($2 == "protein_coding" || $2 == "lincRNA" || $2 == "pseudogene" || $2 == "processed_transcript" || $2 == "antisense" || $2 = "metaGene") { print $0 }' ${GTF} | \
+	awk -F "\t" '{if ($3=="exon") print $0 }' ${GTF} | \
 	tr ' ' \\t | sed 's/[;"]//g' | \
 	cut -f1,4,5,7,10,12,14,16,22,26 | \
 	LC_ALL=C sort -t $'\t' -k1,1 -k2,2n | \

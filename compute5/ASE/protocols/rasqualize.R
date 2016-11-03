@@ -14,6 +14,7 @@ function(Y,gcvec,PLOT=F){
     x=sort(unlist(lapply(split(gcvec,bin),mean)))
     S=apply(Y,2,function(y){unlist(lapply(split(y,bin),sum))[as.character(0:(n-1))]});
     Fs=log(t(t(S)/apply(S,2,sum))/apply(S,1,sum)*sum(as.numeric(S))); # Produces table of NA's until as.Numeric is given
+    Fs[is.na(Fs)] <- 0 #Replace all NA's with 0
         Gs=apply(Fs,2,function(y){smooth.spline(x,y,spar=1)$y});
         if(PLOT){
                 par(mfcol=c(5,5),mar=c(2,2,2,2));

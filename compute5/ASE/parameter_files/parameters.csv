@@ -77,7 +77,7 @@ ASVCF,${binDir}/chr${CHR}_ASVCF.vcf.gz
 #
 ## RunRasqual
 featureType,gene
-regionsFile,/groups/umcg-wijmenga/tmp04/umcg-ndeklein/data/genomeWideRegion.bed 
+regionsFile,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/genomeWideRegion.chr${CHR}.bed
 rasqualOutDir,${projectDir}/Rasqual/
 cisWindow,1000000
 yfiletxtExon,${binDir}/Yexon.chr${CHR}.txt

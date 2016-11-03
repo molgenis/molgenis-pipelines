@@ -3,6 +3,7 @@
 ###
 #string stage
 #string checkStage
+#string yfiletxtTranscript
 #string yfiletxtExon
 #string yfiletxtGene
 #string featureType
