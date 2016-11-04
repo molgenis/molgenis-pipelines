@@ -1,4 +1,4 @@
-\########################################################################
+########################################################################
 ## General parameters for SLURM settings and cluster directory paths
 #
 queue,medium
@@ -23,58 +23,92 @@ AseVersion,0.1-Java-1.8.0_45
 referenceFastaName,human_g1k_v37
 GSLVersion,2.1-foss-2015b
 RVersion,3.2.1-foss-2015b 
+gatkVersion,3.6-Java-1.8.0_74
+subreadVersion,1.5.1-foss-2015b
 genomeBuild,b37
+onekgGenomeFasta,/apps/data/ftp.broadinstitute.org/bundle/2.8/b37/human_g1k_v37.fasta
 dbsnpVcf,${resDir}/${genomeBuild}/snp/dbSNP/dbsnp_138.b37.vcf
 dbsnpVcfIdx,${dbsnpVcf}.idx
 ########################################################################
 ## Specific tools paths
 #
 ## GetReadCounts
-exonlist,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/exonlist_sorted.txt
-exonSAF,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/exonlist_sorted.saf
+exonGTF,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/Homo_sapiens.GRCh37.75.chr${CHR}.gtf
+transcriptSAF,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/transcriptlist_sorted.chr${CHR}.saf
+exonSAF,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/exonlist_sorted.chr${CHR}.saf
+geneSAF,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/genelist_sorted.chr${CHR}.saf
 readCountDir,${projectDir}/readCounts/
-readCountFileGene,${readCountDir}/${sampleName}_readCountsGene.txt
-readCountFileExon,${readCountDir}/${sampleName}_readCountsExon.txt
+readCountFileGene,${readCountDir}/${sampleName}.readCountsGene.chr${CHR}.txt
+readCountFileExon,${readCountDir}/${sampleName}.readCountsExon.chr${CHR}.txt
+readCountFileTranscript,${readCountDir}/${sampleName}.readCountsTranscript.chr${CHR}.txt
 pathSubread, # path to Subread bin
-stranded,1 # 0 = unstranded 1 = stranded
+stranded,1
+# # stranded: 0 = unstranded 1 = stranded
+## SelectVariants
+selectVariantsDir,${projectDir}/SelectVariants/
+selectVariantsBiallelicSNPsVcf,${selectVariantsDir}/${VCFprefix}${CHR}${VCFsuffix}.biAllelicSNPsOnly.vcf.gz
+#
+## ASEReadCounter
+ASEReadCountsDir,${projectDir}/ASEReadCountsDir/
+ASEReadCountsChrOutput,${ASEReadCountsDir}/${sampleName}.ASEReadCounts.chr${CHR}.rtable
+minMappingQuality,10
+minBaseQuality,2
+#
+## CreateCountsTable
+countsTableDir,${projectDir}/countsTable/
+countsTable,${countsTableDir}/${VCFprefix}${CHR}${VCFsuffix}.ASEReadCounts.countsTable.txt
 #
 ## GetASCounts
 RASQUALDIR,/groups/umcg-wijmenga/tmp04/tools/rasqual/
 ASCountsDir,${projectDir}/AScounts/
 ASCountFilePostfix,_${sampleName}_AScounts.bam.gz
 ASCountFile,${ASCountsDir}/chr${CHR}${ASCountFilePostfix}
-VCFprefix,/groups/umcg-bios/tmp04/umcg-fvandijk/projects/ASE/GoNL_WGS_calls_exonicEQTLsOnly/gonl-abc_samples.chr
+VCFinputDir,/groups/umcg-bios/tmp04/umcg-fvandijk/projects/ASE/GoNL_WGS_calls_exonicEQTLsOnly/
+VCFprefix,gonl-abc_samples.chr
 VCFsuffix,.release5.NoMAFSelection.exonicEQTLsOnly.vcf.gz
-VCF,${VCFprefix}${CHR}${VCFsuffix}
+VCF,${VCFinputDir}/${VCFprefix}${CHR}${VCFsuffix}
 #
 ## pasteReads
-countTableDir,${projectDir}/countTable/
 binDir,${projectDir}/bins/
-featureFileExon,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/exonlist_sorted.txt.gz
-featureFileGene,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/transcriptlist_sorted.txt.gz
-genelist,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/transcriptlist_sorted.txt
+featureFileExon,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/exonlist_sorted.chr${CHR}.txt.gz
+featureFileGene,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/genelist_sorted.chr${CHR}.txt.gz
+featureFileTranscript,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/transcriptlist_sorted.chr${CHR}.txt.gz
+exonlist,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/exonlist_sorted.chr${CHR}.txt
+genelist,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/genelist_sorted.chr${CHR}.txt
+transcriptlist,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/transcriptlist_sorted.chr${CHR}.txt
 #
 ## Paste AS counts
 ASVCF,${binDir}/chr${CHR}_ASVCF.vcf.gz
 #
 ## RunRasqual
 featureType,gene
-regionsFile,/groups/umcg-wijmenga/tmp04/umcg-ndeklein/data/genomeWideRegion.bed 
+regionsFile,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/genomeWideRegion.chr${CHR}.bed
 rasqualOutDir,${projectDir}/Rasqual/
 cisWindow,1000000
-yfiletxtExon,${binDir}/Yexon.txt
-yfiletxtGene,${binDir}/Ygene.txt
-kfilebinExon,${binDir}/K.bin
-yfilebinExon,${binDir}/Yexon.bin
-kfilebinGene,${binDir}/Kg.bin
-yfilebinGene,${binDir}/Ygene.bin
+yfiletxtExon,${binDir}/Yexon.chr${CHR}.txt
+yfilebinExon,${binDir}/Yexon.chr${CHR}.bin
+yfiletxtGene,${binDir}/Ygene.chr${CHR}.txt
+yfilebinGene,${binDir}/Ygene.chr${CHR}.bin
+yfiletxtTranscript,${binDir}/Ytranscript.chr${CHR}.txt
+yfilebinTranscript,${binDir}/Ytranscript.chr${CHR}.bin
+kfiletxtExon,${binDir}/Kexon.chr${CHR}.txt
+kfilebinExon,${binDir}/Kexon.chr${CHR}.bin
+kfiletxtGene,${binDir}/Kgene.chr${CHR}.txt
+kfilebinGene,${binDir}/Kgene.chr${CHR}.bin
+kfiletxtTranscript,${binDir}/Ktranscript.chr${CHR}.txt
+kfilebinTranscript,${binDir}/Ktranscript.chr${CHR}.bin
+xfiletxtExon,${binDir}/Xexon.chr${CHR}.txt
+xfiletxtGene,${binDir}/Xgene.chr${CHR}.txt
+xfiletxtTranscript,${binDir}/Xtranscript.chr${CHR}.txt
 minCoveragePerFeature,35
-exonGC,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/GCexon.txt
-transcriptGC,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/GCTranscript.txt
+exonGC,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/GCexon.chr${CHR}.txt
+transcriptGC,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/GCTranscript.chr${CHR}.txt
+geneGC,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/GCgene.chr${CHR}.txt
 insertSize,250
-RasqualizeScript,/home/umcg-ndeklein/molgenis-pipelines/compute5/ASE/protocols/rasqualize.R
+RasqualizeScript,/groups/umcg-bios/tmp04/projects/ASE_GoNL/rasqual/test/ASE/protocols/rasqualize.R
 sampleNum,24
 readCountFile,${readCountDir}/${sampleName}_readCounts.txt
+#
 ## ASReads
 imputedVcf,${VCFprefix}${CHR}${VCFsuffix}
 ASReadsDir,${projectDir}/ASReads/
@@ -83,7 +117,10 @@ ASReadsDirSample,${ASReadsDir}/${sampleName}/
 couplingFile,${projectDir}//coupling.txt
 ASReadsPrefix,${ASReadsDirSample}/$(basename ${bam%.bam})
 haplotyperDir,${projectDir}/haplotypeCaller/
+#
 ## ASE
 AseDir,${projectDir}/ASE/
 ASFilesPrefix,${AseDir}/ASFiles
 AseOutput,${AseDir}/chr${CHR}
+Dummy1,dummy1
+Dummy2,dummy2

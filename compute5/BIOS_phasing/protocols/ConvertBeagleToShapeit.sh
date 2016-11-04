@@ -16,7 +16,7 @@
 #string ngsutilsVersion
 #string zlibVersion
 #string bzip2Version
-
+#string GCCversion
 
 echo "## "$(date)" Start $0"
 
@@ -27,6 +27,8 @@ ${stage} ngs-utils/${ngsutilsVersion}
 ${stage} GLib/${GLibVersion}
 ${stage} zlib/${zlibVersion}
 ${stage} bzip2/${bzip2Version}
+# THIS NEEDS TO BE LOADED AFTER NGS-UTILS TO PREVENT GCCXX ERROR
+${stage} GCC/${GCCversion}
 ${checkStage}
 
 #Run conversion script beagle vcf to shapeit format

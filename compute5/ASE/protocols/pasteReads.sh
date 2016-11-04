@@ -3,8 +3,10 @@
 ###
 #string stage
 #string checkStage
+#string transcriptlist
 #string exonlist
 #string genelist
+#string yfiletxtTranscript
 #string yfiletxtExon
 #string yfiletxtGene
 #string featureType
@@ -13,24 +15,39 @@
 #string samtoolsVersion
 #string tabixVersion
 #string sampleNum
-#list readCountFileExon,readCountFileGene
+#string CHR
+#list sampleName,readCountFileExon,readCountFileGene,readCountFileTranscript
+
+
+
 ${stage} BEDTools/${bedtoolsVersion}
 ${stage} SAMtools/${samtoolsVersion}
 ${stage} tabix/${tabixVersion}
+${checkStage}
+
 mkdir -p ${binDir}
-#Start######################
+
 echo "## "$(date)" Start $0"
-################################
-echo Generating Y file per exon ID
-################################
+
+#Extract total number of samples from samplesheet.csv
+NUMSAMPLES=${#sampleName[*]}
+echo "Number of samples in samplesheet.csv: $NUMSAMPLES"
+
+
+echo "Generating Y file per exon ID"
+
 # Generate Y file
 cut -f2,5 ${exonlist} |  awk '{print $1"."$2}' | \
-	paste -d "\t" - "${readCountFileExon[@]}" | cut -f1-$((${sampleNum}+1)) > ${yfiletxtExon}
-##############################
-echo Generating Y file per transcript ID
-##############################
+	paste -d "\t" - "${readCountFileExon[@]}" | cut -f1-$(($NUMSAMPLES+1)) > ${yfiletxtExon}
+
+echo "Generating Y file per gene ID"
+
 cut -f5 ${genelist} | LC_ALL=C sort -t $'\t' -k1,1 | \
-        paste -d "\t" - "${readCountFileGene[@]}" | cut -f1-$((${sampleNum}+1)) > ${yfiletxtGene}
-#FINISH#########################
+        paste -d "\t" - "${readCountFileGene[@]}" | cut -f1-$(($NUMSAMPLES+1)) > ${yfiletxtGene}
+
+echo "Generating Y file per transcript ID"
+cut -f2,5 ${transcriptlist} |  awk '{print $1"."$2}' | \
+	paste -d "\t" - "${readCountFileTranscript[@]}" | cut -f1-$(($NUMSAMPLES+1)) > ${yfiletxtTranscript}
+
 echo "## "$(date)" ##  $0 Done "
-################################
+

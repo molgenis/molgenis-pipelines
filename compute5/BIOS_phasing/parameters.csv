@@ -19,6 +19,7 @@ fvdProjectDir,${root}/${group}/${tmp}/projects/umcg-fvandijk/projects/
 beagleVersion,09Feb16.2b7-Java-1.8.0_45
 beagleJarVersion,09Feb16.2b7
 shapeitVersion,v2.r837-static
+GCCVersion,4.9.3-binutils-2.25
 intervaltreeVersion,2.1.0-foss-2015b-Python-2.7.9
 pyvcfVersion,0.6.7-foss-2015b-Python-2.7.9
 samtoolsVersion,1.2-foss-2015b

@@ -3,6 +3,7 @@
 ###
 #string stage
 #string checkStage
+#string yfiletxtTranscript
 #string yfiletxtExon
 #string yfiletxtGene
 #string featureType
@@ -11,20 +12,42 @@
 #string RasqualizeScript
 #string exonGC
 #string transcriptGC
+#string geneGC
+#string CHR
+#string kfiletxtExon
+#string kfilebinExon
+#string yfilebinExon
+#string xfiletxtExon
+#string kfiletxtGene
+#string kfilebinGene
+#string yfilebinGene
+#string xfiletxtGene
+#string kfiletxtTranscript
+#string kfilebinTranscript
+#string yfilebinTranscript
+#string xfiletxtTranscript
+
+
 ${stage} R/${RVersion}
+${checkStage}
 
 mkdir -p ${binDir}
-#Start######################
+
 echo "## "$(date)" Start $0"
-################################
-echo Generating bins for exon files
-################################
-Rscript ${RasqualizeScript} ${yfiletxtExon} ${exonGC}
-##############################
-echo Generating Y bins for transcript files
-##############################
-if [ ${featureType} == exon ]; then exit; fi
-Rscript ${RasqualizeScript} ${yfiletxtGene} ${transcriptGC}
-#FINISH#########################
+
+
+echo "Generating bins for exon files"
+
+Rscript ${RasqualizeScript} ${yfiletxtExon} ${exonGC} ${kfiletxtExon} ${kfilebinExon} ${yfilebinExon} ${xfiletxtExon}
+
+echo "Generating bins for gene files"
+
+Rscript ${RasqualizeScript} ${yfiletxtGene} ${geneGC} ${kfiletxtGene} ${kfilebinGene} ${yfilebinGene} ${xfiletxtGene}
+
+echo "Generating bins for transcript files"
+
+Rscript ${RasqualizeScript} ${yfiletxtTranscript} ${transcriptGC} ${kfiletxtTranscript} ${kfilebinTranscript} ${yfilebinTranscript} ${xfiletxtTranscript}
+
+
 echo "## "$(date)" ##  $0 Done "
-################################
+
