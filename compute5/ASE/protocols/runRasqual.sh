@@ -57,7 +57,7 @@ then
         kfilebin=${kfilebinTranscript}
         yfilebin=${yfilebinTranscript}
         yfiletxt=${yfiletxtTranscript}
-        featureFile=${featureFileGene}
+        featureFile=${featureFileTranscript}
 else
         echo featureType must be transcript, exon or gene in parameter file
         exit

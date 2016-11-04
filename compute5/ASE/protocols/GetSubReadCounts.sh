@@ -9,7 +9,9 @@
 #string WORKDIR
 #string projectDir
 #string bam
-#string exonGTF
+#string transcriptSAF
+#string exonSAF
+#string geneSAF
 #string readCountDir
 #string readCountFileGene
 #string readCountFileExon
@@ -35,14 +37,12 @@ ${checkStage}
 
 #Get featureCounts and group per gene
 featureCounts \
--F GTF \
+-F SAF \
 -O \
--t gene \
--g gene_id \
 -s ${stranded} \
 -p \
 -B \
--a ${exonGTF} \
+-a ${geneSAF} \
 -o $TMPDIR/${sampleName}.chr${CHR}.txt \
 ${bam}
 
@@ -52,17 +52,21 @@ sort -t$'\t' -k1,1 | \
 cut -f7 > ${readCountFileGene}
 
 
+featureCounts -F SAF -O -s ${stranded} -p -B -a ${exonSAF} -o $TMPDIR/${sampleName}.txt ${bam}
+tail -n +3 $TMPDIR/${sampleName}.txt | LC_ALL=C sort -t$'\t' -k1,1 | cut -f7 > ${readCountFileGene}
+
+
+
+
 ## Per Exon
 featureCounts \
--F GTF \
+-F SAF \
 -O \
--t exon \
--g transcript_id \
 -f \
 -s ${stranded} \
 -p \
 -B \
--a ${exonGTF} \
+-a ${exonSAF} \
 -o $TMPDIR/${sampleName}.chr${CHR}.txt \
 ${bam}
 
@@ -72,15 +76,13 @@ cut -f7 > ${readCountFileExon}
 
 ## Per transcript
 featureCounts \
--F GTF \
+-F SAF \
 -O \
--t transcript \
--g transcript_id \
 -f \
 -s ${stranded} \
 -p \
 -B \
--a ${exonGTF} \
+-a ${transcriptSAF} \
 -o $TMPDIR/${sampleName}.chr${CHR}.txt \
 ${bam}
 

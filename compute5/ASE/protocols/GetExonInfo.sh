@@ -35,8 +35,8 @@ REF="/apps/data/ftp.broadinstitute.org/bundle/2.8/b37/human_g1k_v37.fasta"
 	cut --complement -f11-13,16-18 | tail -n +2 | \
 	awk 'BEGIN {FS=OFS="\t"} {printf ("%s\t%s\t%s\t%s\t%s\n", $0, 1, $2, $3, NR)}' | LC_ALL=C sort -t $'\t' -k1,1 -k2,2n > exonlist_sorted.chr$CHR.txt
 	
-	# paste -d"\t" <(cut -f5 exonlist_sorted.txt) <(cut -f1-4 exonlist_sorted.txt) > exonlist_sorted.saf
-	# sed -i '1s/^/GeneID\tChr\tStart\tEnd\tStrand\n/' exonlist_sorted.saf # run these two on the shell
+	paste -d"\t" <(cut -f5 exonlist_sorted.chr$CHR.txt) <(cut -f1-4 exonlist_sorted.chr$CHR.txt) > exonlist_sorted.chr$CHR.saf
+	sed -i '1s/^/GeneID\tChr\tStart\tEnd\tStrand\n/' exonlist_sorted.chr$CHR.saf # run these two on the shell
 	
 	awk -F"\t" '{sum=($11+$12)/$13; print sum}' exonlist_sorted.chr$CHR.txt > GCexon.chr$CHR.txt
 	bgzip -c exonlist_sorted.chr$CHR.txt > exonlist_sorted.chr$CHR.txt.gz
@@ -56,6 +56,9 @@ REF="/apps/data/ftp.broadinstitute.org/bundle/2.8/b37/human_g1k_v37.fasta"
 	awk -F "\t" 'BEGIN {OFS="\t"} { $7 = "."; $10 = "."; $6 = $5; $9 = $8; print}' | \
 	LC_ALL=C sort -t $'\t' -k5,5 | awk 'BEGIN {FS=OFS="\t"} {printf ("%s\t%s\n", $0, NR)}' | LC_ALL=C sort -t $'\t' -k1,1 -k2,2n > transcriptlist_sorted.chr$CHR.txt
 	
+	paste -d"\t" <(cut -f5 transcriptlist_sorted.chr$CHR.txt) <(cut -f1-4 transcriptlist_sorted.chr$CHR.txt) > transcriptlist_sorted.chr$CHR.saf
+	sed -i '1s/^/GeneID\tChr\tStart\tEnd\tStrand\n/' transcriptlist_sorted.chr$CHR.saf # run these two on the shell
+	
 	awk -F"\t" '{sum=($11+$12)/$13; print sum}' transcriptlist_sorted.chr$CHR.txt > GCTranscript.chr$CHR.txt
 	bgzip -c transcriptlist_sorted.chr$CHR.txt > transcriptlist_sorted.chr$CHR.txt.gz
 	tabix -s 1 -b 2 -e 3 transcriptlist_sorted.chr$CHR.txt.gz
@@ -73,8 +76,11 @@ REF="/apps/data/ftp.broadinstitute.org/bundle/2.8/b37/human_g1k_v37.fasta"
 	cut --complement -f11-13,16-18 | tail -n +2 | \
 	awk 'BEGIN {FS=OFS="\t"} {printf ("%s\t%s\t%s\t%s\t%s\n", $0, 1, $2, $3, NR)}' | LC_ALL=C sort -t $'\t' -k1,1 -k2,2n > genelist_sorted.chr$CHR.txt
 	
+	paste -d"\t" <(cut -f5 genelist_sorted.chr$CHR.txt) <(cut -f1-4 genelist_sorted.chr$CHR.txt) > genelist_sorted.chr$CHR.saf
+	sed -i '1s/^/GeneID\tChr\tStart\tEnd\tStrand\n/' genelist_sorted.chr$CHR.saf # run these two on the shell
+	
 	awk -F"\t" '{print $10}' genelist_sorted.chr$CHR.txt > GCgene.chr$CHR.txt
-	bgzip -c genelist_sorted.chr1.txt > genelist_sorted.chr$CHR.txt.gz
+	bgzip -c genelist_sorted.chr$CHR.txt > genelist_sorted.chr$CHR.txt.gz
 	tabix -s 1 -b 2 -e 3 genelist_sorted.chr$CHR.txt.gz
 	
 	
