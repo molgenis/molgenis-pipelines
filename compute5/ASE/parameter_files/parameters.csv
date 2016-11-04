@@ -51,6 +51,8 @@ selectVariantsBiallelicSNPsVcf,${selectVariantsDir}/${VCFprefix}${CHR}${VCFsuffi
 ## ASEReadCounter
 ASEReadCountsDir,${projectDir}/ASEReadCountsDir/
 ASEReadCountsChrOutput,${ASEReadCountsDir}/${sampleName}.ASEReadCounts.chr${CHR}.rtable
+minMappingQuality,10
+minBaseQuality,2
 #
 ## CreateCountsTable
 countsTableDir,${projectDir}/countsTable/

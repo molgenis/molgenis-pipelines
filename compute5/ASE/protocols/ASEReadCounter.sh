@@ -12,7 +12,8 @@
 #string gatkVersion
 #string ASEReadCountsDir
 #string ASEReadCountsChrOutput
-
+#string minMappingQuality
+#string minBaseQuality
 
 
 echo "## "$(date)" Start $0"
@@ -38,8 +39,8 @@ if java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${TMPDIR} -jar ${EBROOTG
  -L ${selectVariantsBiallelicSNPsVcf} \
  -U ALLOW_N_CIGAR_READS \
  -minDepth 0 \
- --minMappingQuality 10 \
- --minBaseQuality 2
+ --minMappingQuality ${minMappingQuality} \
+ --minBaseQuality ${minBaseQuality}
 
 #-drf DuplicateRead #Add this parameter to NOT remove duplicate reads
 

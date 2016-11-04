@@ -16,8 +16,7 @@
 #string tabixVersion
 #string sampleNum
 #string CHR
-#list sampleName
-#list readCountFileExon,readCountFileGene,readCountFileTranscript
+#list sampleName,readCountFileExon,readCountFileGene,readCountFileTranscript
 
 
 
