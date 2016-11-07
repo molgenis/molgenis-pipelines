@@ -17,7 +17,8 @@
 #string ngsutilsVersion
 #string zlibVersion
 #string bzip2Version
-#CHR
+#string GCCversion
+#string CHR
 
 echo "## "$(date)" Start $0"
 
@@ -28,6 +29,8 @@ ${stage} ngs-utils/${ngsutilsVersion}
 ${stage} GLib/${GLibVersion}
 ${stage} zlib/${zlibVersion}
 ${stage} bzip2/${bzip2Version}
+# THIS NEEDS TO BE LOADED AFTER NGS-UTILS TO PREVENT GCCXX ERROR
+${stage} GCC/${GCCversion}
 ${checkStage}
 
 # the output is cut up into ..PrefixChromsomePostfix because it is needed for correct folding of Shapit jobs later

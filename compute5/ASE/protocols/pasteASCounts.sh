@@ -13,6 +13,7 @@
 #string CHR
 #string ASVCF
 #string binDir
+#string countsTable
 #list ASCountFile
 
 
@@ -28,17 +29,16 @@ getFile ${VCF}
 ${stage} BEDTools/${bedtoolsVersion}
 ${stage} SAMtools/${samtoolsVersion}
 ${stage} tabix/${tabixVersion}
+${checkStage}
 
 mkdir -p ${binDir}
 
 echo Merging ASreads
 export RASQUALDIR # rasqual must be declared and exported. Other scripts are in rasqualdir... what happens here
-##########################################################################AFFter this check mpileup for the 3% anomaly for test snps 
+##########################################################################AFter this check mpileup for the 3% anomaly for test snps 
 # count AS reads
-${RASQUALDIR}/src/ASVCF/zpaste "${ASCountFile[@]}" > $TMPDIR/temp.as.gz
-$RASQUALDIR/src/ASVCF/pasteFiles ${VCF} $TMPDIR/temp.as.gz | \
+$RASQUALDIR/src/ASVCF/pasteFiles ${VCF} ${countsTable} | \
 bgzip > ${ASVCF}
 tabix -f -p vcf ${ASVCF}
-rm $TMPDIR/temp.as.gz
 
 echo "## "$(date)" $0 Done"
