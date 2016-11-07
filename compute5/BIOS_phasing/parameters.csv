@@ -58,6 +58,9 @@ genotypedChrVcfBeagleGenotypeProbabilities,${beagleDir}/${project}.chr${CHR}.bea
 genotypedChrVcfShapeitInputPrefix,${beagleDir}/${project}.chr
 genotypedChrVcfShapeitInputPostfix,.beagle.genotype.probs.gg
 shapeitDir,${projectDir}/shapeit/
+shapeitLigatedHaplotypesDir,${projectDir}/shapeitLigatedHaplotypes/
+shapeitLigatedHaplotype,${shapeitLigatedHaplotypesDir}/chr${CHR}.ligatedHaplotype.hap
+scaffoldedSamples,${shapeitLigatedHaplotypesDir}/scaffolded_samples_chr${CHR}.txt
 phasedScaffoldDir,/groups/umcg-lld/tmp04/projects/genotypingRelease3/selectionLldeep/lldeepPhased/
 # prefix should be up until CHR number
 shapeitPhasedOutputPrefix,${shapeitDir}/${project}.chr
