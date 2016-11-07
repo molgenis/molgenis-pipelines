@@ -12,11 +12,12 @@
 #string genotypedChrVcfGL
 #string genotypedChrVcfBeagleGenotypeProbabilities
 #string genotypedChrVcfShapeitInputPrefix
+#string genotypedChrVcfShapeitInputPostfix
 #string GLibVersion
 #string ngsutilsVersion
 #string zlibVersion
 #string bzip2Version
-
+#CHR
 
 echo "## "$(date)" Start $0"
 
@@ -29,26 +30,29 @@ ${stage} zlib/${zlibVersion}
 ${stage} bzip2/${bzip2Version}
 ${checkStage}
 
+# the output is cut up into ..PrefixChromsomePostfix because it is needed for correct folding of Shapit jobs later
+
 #Run conversion script beagle vcf to shapeit format
 if $EBROOTNGSMINUTILS/prepareGenFromBeagle4_modified20160601/bin/prepareGenFromBeagle4 \
  --likelihoods ${genotypedChrVcfGL} \
  --posteriors ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz \
  --threshold 0.995 \
- --output ${genotypedChrVcfShapeitInputPrefix}
+ --output ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}
 then
  echo "returncode: $?";
- putFile ${genotypedChrVcfShapeitInputPrefix}.gen.gz
- putFile ${genotypedChrVcfShapeitInputPrefix}.gen.sample
- putFile ${genotypedChrVcfShapeitInputPrefix}.hap.gz
- putFile ${genotypedChrVcfShapeitInputPrefix}.hap.sample
+ putFile ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.gen.gz
+ putFile ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.gen.sample
+ putFile ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.hap.gz
+ putFile ${genotypedChrVcfShapeitInputPrefix}${chromsome}${genotypedChrVcfShapeitInputPostfix}.hap.sample
  cd ${beagleDir}
- bname=$(basename ${genotypedChrVcfShapeitInputPrefix}.gen.gz)
+ # want to have the base path, not full path in the md5sum file, so cd to output dir and md5sum the basepath
+ bname=$(basename ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.gen.gz)
  md5sum ${bname} > ${bname}.md5
- bname=$(basename ${genotypedChrVcfShapeitInputPrefix}.gen.sample)
+ bname=$(basename ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.gen.sample)
  md5sum ${bname} > ${bname}.md5
- bname=$(basename ${genotypedChrVcfShapeitInputPrefix}.hap.gz)
+ bname=$(basename ${genotypedChrVcfShapeitInputPrefix}${chromsome}${genotypedChrVcfShapeitInputPostfix}.hap.gz)
  md5sum ${bname} > ${bname}.md5
- bname=$(basename ${genotypedChrVcfShapeitInputPrefix}.hap.sample)
+ bname=$(basename ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.hap.sample)
  md5sum ${bname} > ${bname}.md5
  cd -
  echo "succes moving files";
