@@ -16,7 +16,7 @@
 #string genotypedChrVcfTbi
 
 #string genotypedChrVcfBeagleGenotypeProbabilities
-#string chromosome
+#string CHR
 #string beagleJarVersion
 
 echo "## "$(date)" Start $0"
@@ -36,14 +36,14 @@ mkdir -p ${beagleDir}
 if java -Xmx6g -Djava.io.tmpdir=$TMPDIR -XX:ParallelGCThreads=2 -jar $EBROOTBEAGLE/beagle.${beagleJarVersion}.jar \
  gl=${vcf} \
  out=${genotypedChrVcfBeagleGenotypeProbabilities} \
- chrom=${chromosome}
+ chrom=${CHR}
  
  #Decompress the beagle gzipped output and gzip it again. There's a bug on some platforms which causes incompatibility between normal zlib and boost zlib.
  #This also affects our system! More information here: https://mathgen.stats.ox.ac.uk/genetics_software/shapeit/shapeit.html#gcall
  
  cd ${beagleDir}
  gunzip ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz
- gzip ${beagleDir}/${project}.chr${chromosome}.beagle.genotype.probs.gg.vcf
+ gzip ${beagleDir}/${project}.chr${CHR}.beagle.genotype.probs.gg.vcf
  
 then
  echo "returncode: $?";

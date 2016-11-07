@@ -44,7 +44,7 @@ mkdir -p ${output_folder}
 for chr in {1..22}
 	
 do
-    echo "Starting chromosome ${chr}"
+    echo "Starting CHR ${chr}"
 	#	bgzip and tabix all RNA-seq individual calls
 	#	comment out if not needed
     if [ ! -f ${rnaseq_individual}mergeGVCFchr${chr}.gg.vcf.gz ]; then

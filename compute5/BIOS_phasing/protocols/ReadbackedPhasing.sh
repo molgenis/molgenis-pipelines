@@ -12,7 +12,7 @@
 #string vcf
 #string mapq
 #string baseq
-#string chromosome
+#string CHR
 #string OneKgPhase3VCF
 
 
@@ -55,7 +55,7 @@ mkdir -p ${phaserDir}/allele_config/
 
 #Set tmp files to use during interation
 INPUTVCF="${shapeitPhasedOutputPrefix}.vcf.gz"
-TMPINPUTVCF="${phaserDir}/${project}_TMP.chr${chromosome}.vcf.gz"
+TMPINPUTVCF="${phaserDir}/${project}_TMP.chr${CHR}.vcf.gz"
 
 cp $INPUTVCF $TMPINPUTVCF
 
@@ -84,10 +84,10 @@ echo "filename: $filename"
 echo "extension: $extension"
 echo "sampleName: $sampleName"
 
-phaserOutPrefix=${phaserDir}/${project}_phASER.chr${chromosome}
+phaserOutPrefix=${phaserDir}/${project}_phASER.chr${CHR}
 
 #Set output prefix per sample for statistics etc.
-TMPOUTPUTVCF="${phaserDir}/${project}_$sampleName.readBackPhased.chr${chromosome}"
+TMPOUTPUTVCF="${phaserDir}/${project}_$sampleName.readBackPhased.chr${CHR}"
 
 if python $EBROOTPHASER/phaser/phaser.py \
 	--paired_end 1 \
@@ -100,7 +100,7 @@ if python $EBROOTPHASER/phaser/phaser.py \
     --temp_dir $TMPDIR \
     --threads 12 \
     --gw_phase_method 1 \
-	--chr ${chromosome} \
+	--chr ${CHR} \
 	--gw_af_vcf ${OneKgPhase3VCF} \
 	--gw_phase_vcf 1
 
@@ -108,21 +108,21 @@ if python $EBROOTPHASER/phaser/phaser.py \
 
 	#Unzip output VCF, inline replace messed up header lines, afterwards replace sample output and gzip file again
 	cd ${phaserDir}
-	gunzip ${project}_$sampleName.readBackPhased.chr${chromosome}.vcf.gz
+	gunzip ${project}_$sampleName.readBackPhased.chr${CHR}.vcf.gz
 	if [ $i -ne $last_bam ]; 
 	then
 		#Replace header lines
-		perl -pi -e '!$x && s/##FORMAT=<ID=PG,Number=1,Type=String,Description="phASER Local Genotype">\n//  && ($x=1)' "${project}_$sampleName.readBackPhased.chr${chromosome}.vcf";
-		perl -pi -e '!$x && s/##FORMAT=<ID=PB,Number=1,Type=String,Description="phASER Local Block">\n//  && ($x=1)' "${project}_$sampleName.readBackPhased.chr${chromosome}.vcf";
-		perl -pi -e '!$x && s/##FORMAT=<ID=PI,Number=1,Type=String,Description="phASER Local Block Index \(unique for each block\)">\n//  && ($x=1)' "${project}_$sampleName.readBackPhased.chr${chromosome}.vcf";
-		perl -pi -e '!$x && s/##FORMAT=<ID=PW,Number=1,Type=String,Description="phASER Genome Wide Genotype">\n//  && ($x=1)' "${project}_$sampleName.readBackPhased.chr${chromosome}.vcf";
-		perl -pi -e '!$x && s/##FORMAT=<ID=PC,Number=1,Type=String,Description="phASER Genome Wide Confidence">\n//  && ($x=1)' "${project}_$sampleName.readBackPhased.chr${chromosome}.vcf";
+		perl -pi -e '!$x && s/##FORMAT=<ID=PG,Number=1,Type=String,Description="phASER Local Genotype">\n//  && ($x=1)' "${project}_$sampleName.readBackPhased.chr${CHR}.vcf";
+		perl -pi -e '!$x && s/##FORMAT=<ID=PB,Number=1,Type=String,Description="phASER Local Block">\n//  && ($x=1)' "${project}_$sampleName.readBackPhased.chr${CHR}.vcf";
+		perl -pi -e '!$x && s/##FORMAT=<ID=PI,Number=1,Type=String,Description="phASER Local Block Index \(unique for each block\)">\n//  && ($x=1)' "${project}_$sampleName.readBackPhased.chr${CHR}.vcf";
+		perl -pi -e '!$x && s/##FORMAT=<ID=PW,Number=1,Type=String,Description="phASER Genome Wide Genotype">\n//  && ($x=1)' "${project}_$sampleName.readBackPhased.chr${CHR}.vcf";
+		perl -pi -e '!$x && s/##FORMAT=<ID=PC,Number=1,Type=String,Description="phASER Genome Wide Confidence">\n//  && ($x=1)' "${project}_$sampleName.readBackPhased.chr${CHR}.vcf";
 		
 		#Replace sample output line
-		perl -pi -e 's/:PG:PB:PI:PW:PC//gs' "${project}_$sampleName.readBackPhased.chr${chromosome}.vcf";
+		perl -pi -e 's/:PG:PB:PI:PW:PC//gs' "${project}_$sampleName.readBackPhased.chr${CHR}.vcf";
 	fi
-	perl -pi -e 's/:.:.:.:.:.//gs' ${project}_$sampleName.readBackPhased.chr${chromosome}.vcf
-	gzip ${project}_$sampleName.readBackPhased.chr${chromosome}.vcf
+	perl -pi -e 's/:.:.:.:.:.//gs' ${project}_$sampleName.readBackPhased.chr${CHR}.vcf
+	gzip ${project}_$sampleName.readBackPhased.chr${CHR}.vcf
 	cd -
     
 then
@@ -145,32 +145,32 @@ done
 
 #Zip all directories containing logfiles
 cd ${phaserDir}
-zip -r ${project}.chr${chromosome}.variant_connections.zip ./variant_connections/*chr${chromosome}.*
-zip -r ${project}.chr${chromosome}.allelic_counts.zip ./allelic_counts/*chr${chromosome}.*
-zip -r ${project}.chr${chromosome}.haplotypes.zip ./haplotypes/*chr${chromosome}.*
-zip -r ${project}.chr${chromosome}.haplotypic_counts.zip ./haplotypic_counts/*chr${chromosome}.*
-zip -r ${project}.chr${chromosome}.allele_config.zip ./allele_config/*chr${chromosome}.*
+zip -r ${project}.chr${CHR}.variant_connections.zip ./variant_connections/*chr${chromosome}.*
+zip -r ${project}.chr${CHR}.allelic_counts.zip ./allelic_counts/*chr${chromosome}.*
+zip -r ${project}.chr${CHR}.haplotypes.zip ./haplotypes/*chr${chromosome}.*
+zip -r ${project}.chr${CHR}.haplotypic_counts.zip ./haplotypic_counts/*chr${chromosome}.*
+zip -r ${project}.chr${CHR}.allele_config.zip ./allele_config/*chr${chromosome}.*
 
 #Move final output to result file and create md5sums
  mv $TMPINPUTVCF $phaserOutPrefix.vcf.gz
  putFile $phaserOutPrefix.vcf.gz
- putFile ${phaserDir}/${project}.chr${chromosome}.variant_connections.zip
- putFile ${phaserDir}/${project}.chr${chromosome}.allelic_counts.zip
- putFile ${phaserDir}/${project}.chr${chromosome}.haplotypes.zip
- putFile ${phaserDir}/${project}.chr${chromosome}.haplotypic_counts.zip
- putFile ${phaserDir}/${project}.chr${chromosome}.allele_config.zip
+ putFile ${phaserDir}/${project}.chr${CHR}.variant_connections.zip
+ putFile ${phaserDir}/${project}.chr${CHR}.allelic_counts.zip
+ putFile ${phaserDir}/${project}.chr${CHR}.haplotypes.zip
+ putFile ${phaserDir}/${project}.chr${CHR}.haplotypic_counts.zip
+ putFile ${phaserDir}/${project}.chr${CHR}.allele_config.zip
 
  bname=$(basename $phaserOutPrefix.vcf.gz)
  md5sum ${bname} > ${bname}.md5
- bname=$(basename ${phaserDir}/${project}.chr${chromosome}.variant_connections.zip)
+ bname=$(basename ${phaserDir}/${project}.chr${CHR}.variant_connections.zip)
  md5sum ${bname} > ${bname}.md5
- bname=$(basename ${phaserDir}/${project}.chr${chromosome}.allelic_counts.zip)
+ bname=$(basename ${phaserDir}/${project}.chr${CHR}.allelic_counts.zip)
  md5sum ${bname} > ${bname}.md5
- bname=$(basename ${phaserDir}/${project}.chr${chromosome}.haplotypes.zip)
+ bname=$(basename ${phaserDir}/${project}.chr${CHR}.haplotypes.zip)
  md5sum ${bname} > ${bname}.md5
- bname=$(basename ${phaserDir}/${project}.chr${chromosome}.haplotypic_counts.zip)
+ bname=$(basename ${phaserDir}/${project}.chr${CHR}.haplotypic_counts.zip)
  md5sum ${bname} > ${bname}.md5
- bname=$(basename ${phaserDir}/${project}.chr${chromosome}.allele_config.zip)
+ bname=$(basename ${phaserDir}/${project}.chr${CHR}.allele_config.zip)
  md5sum ${bname} > ${bname}.md5
  cd -
  echo "succes moving files";

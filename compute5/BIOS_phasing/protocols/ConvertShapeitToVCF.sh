@@ -13,7 +13,7 @@
 #string shapeitVersion
 
 #string shapeitPhasedOutputPrefix
-#string chromosome
+#string CHR
 
 
 echo "## "$(date)" Start $0"
