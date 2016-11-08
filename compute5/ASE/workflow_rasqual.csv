@@ -1,6 +1,6 @@
 step,protocol,dependencies
 GetSubReadCounts,protocols/GetSubReadCounts.sh,
-pasteReads,protocols/pasteReads.sh,GetReadCounts
+pasteReads,protocols/pasteReads.sh,GetSubReadCounts
 preRasqual,protocols/preRasqual.sh,pasteReads
 SelectVariants,protocols/SelectVariants.sh,
 ASEReadCounter,protocols/ASEReadCounter.sh,SelectVariants
