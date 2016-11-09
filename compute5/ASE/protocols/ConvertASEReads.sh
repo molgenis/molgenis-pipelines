@@ -6,6 +6,8 @@
 #string stage
 #string checkStage
 #string CHR
+#string countsTableDir
+#string ASEReadCountsSampleChrOutput
 #string sampleCountsTable
 #string selectVariantsBiallelicSNPsVcfPositions
 
@@ -45,9 +47,9 @@ fi
 
 while read line
 do
-	POS=$line
+	CHRPOS=$line
 	#Create command to grep
-	GREPCMD="$CHR\t$POS\t"
+	GREPCMD="$CHRPOS\t"
 	#Echo chr and pos for debugging purpose
 	#echo -e -n "$GREPCMD"
 	echo -e -n "Checking position: $GREPCMD \n"

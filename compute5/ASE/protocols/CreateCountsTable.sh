@@ -106,12 +106,10 @@ echo "#####################################"
 echo "Pasting all sample count tables into one big table"
 echo "#####################################"
 
+toPasteArray=()
 #Loop over count files
 for ((j=9; j<${#SAMPLESVCF[*]}; j++))
 do
-
-
-	toPasteArray=()
 
 	SAMVCF=${SAMPLESVCF[j]}
 	#echo $SAMVCF
