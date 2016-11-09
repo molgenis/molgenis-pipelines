@@ -11,7 +11,7 @@
 #string selectVariantsBiallelicSNPsVcf
 #string gatkVersion
 #string ASEReadCountsDir
-#string ASEReadCountsChrOutput
+#string ASEReadCountsSampleChrOutput
 #string minMappingQuality
 #string minBaseQuality
 
@@ -33,7 +33,7 @@ mkdir -p ${ASEReadCountsDir}
 if java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${TMPDIR} -jar ${EBROOTGATK}/GenomeAnalysisTK.jar \
  -T ASEReadCounter \
  -R ${onekgGenomeFasta} \
- -o ${ASEReadCountsChrOutput} \
+ -o ${ASEReadCountsSampleChrOutput} \
  -I ${bam} \
  -sites ${selectVariantsBiallelicSNPsVcf} \
  -L ${selectVariantsBiallelicSNPsVcf} \
@@ -47,7 +47,7 @@ if java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${TMPDIR} -jar ${EBROOTG
 then
  echo "returncode: $?"; 
 
- putFile ${ASEReadCountsChrOutput}
+ putFile ${ASEReadCountsSampleChrOutput}
  echo "succes moving files";
 else
  echo "returncode: $?";
