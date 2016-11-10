@@ -32,7 +32,7 @@ ${checkStage}
 
 mkdir -p ${countsTableDir}
 
-perl /groups/umcg-bios/tmp04/projects/ASE_GoNL/rasqual/lld/test/convertASEReadCounts2CountsTable.pl \
+perl /apps/data/UMCG/scripts/convertASEReadCounts2CountsTable.pl \
 --VCF ${selectVariantsBiallelicSNPsVcf} \
 --ASEReadCounts ${ASEReadCountsSampleChrOutput} \
 --outputFile ${sampleCountsTable}
