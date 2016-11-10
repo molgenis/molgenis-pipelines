@@ -6,7 +6,6 @@
 #string stage
 #string checkStage
 #string CHR
-#string gatkVersion
 #string selectVariantsBiallelicSNPsVcf
 #string ASEReadCountsDir
 #string countsTableDir
@@ -27,7 +26,7 @@ echo "## "$(date)" Start $0"
 
 getFile ${selectVariantsBiallelicSNPsVcf}
 
-${stage} GATK/${gatkVersion}
+
 ${checkStage}
 
 mkdir -p ${countsTableDir}

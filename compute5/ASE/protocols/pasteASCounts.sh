@@ -33,12 +33,14 @@ ${checkStage}
 
 mkdir -p ${binDir}
 
-echo Merging ASreads
+echo "Merging ASreads"
 export RASQUALDIR # rasqual must be declared and exported. Other scripts are in rasqualdir... what happens here
 ##########################################################################AFter this check mpileup for the 3% anomaly for test snps 
 # count AS reads
 $RASQUALDIR/src/ASVCF/pasteFiles ${VCF} ${countsTable} | \
 bgzip > ${ASVCF}
 tabix -f -p vcf ${ASVCF}
+
+echo "Done merging ASreads"
 
 echo "## "$(date)" $0 Done"
