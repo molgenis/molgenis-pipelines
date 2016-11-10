@@ -1,4 +1,4 @@
-#MOLGENIS nodes=1 ppn=2 mem=10gb walltime=3-10:00:00
+#MOLGENIS nodes=1 ppn=2 mem=10gb walltime=05:59:00
 
 ### variables to help adding to database (have to use weave)
 #string project
@@ -13,6 +13,7 @@
 #string selectVariantsDir
 #string VCFinputDir
 #string selectVariantsBiallelicSNPsVcf
+
 
 echo "## "$(date)" Start $0"
 
@@ -43,6 +44,8 @@ then
 else
  echo "returncode: $?";
  echo "fail";
+ exit 1;
 fi
+
 
 echo "## "$(date)" ##  $0 Done "

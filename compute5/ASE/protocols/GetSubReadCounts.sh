@@ -1,4 +1,4 @@
-#MOLGENIS walltime=23:59:00 mem=6gb nodes=1 ppn=2
+#MOLGENIS walltime=05:59:00 mem=10gb nodes=1 ppn=2
 
 ### variables to help adding to database (have to use weave)
 #string sampleName
@@ -36,6 +36,9 @@ ${checkStage}
 #W: Make sure the formats are the same for exonlist and BAMS chr1/1..chrX/X
 
 #Get featureCounts and group per gene
+
+echo "Retrieving gene counts"
+
 featureCounts \
 -F SAF \
 -O \
@@ -55,10 +58,14 @@ cut -f7 > ${readCountFileGene}
 featureCounts -F SAF -O -s ${stranded} -p -B -a ${exonSAF} -o $TMPDIR/${sampleName}.txt ${bam}
 tail -n +3 $TMPDIR/${sampleName}.txt | LC_ALL=C sort -t$'\t' -k1,1 | cut -f7 > ${readCountFileGene}
 
+echo "Done retrieving gene counts"
 
 
 
 ## Per Exon
+
+echo "Retrieving exon counts"
+
 featureCounts \
 -F SAF \
 -O \
@@ -73,8 +80,14 @@ ${bam}
 tail -n +3 $TMPDIR/${sampleName}.chr${CHR}.txt | \
 cut -f7 > ${readCountFileExon}
 
+echo "Done retrieving exon counts"
+
+
 
 ## Per transcript
+
+echo "Retrieving transcript counts"
+
 featureCounts \
 -F SAF \
 -O \
@@ -89,6 +102,7 @@ ${bam}
 tail -n +3 $TMPDIR/${sampleName}.chr${CHR}.txt | \
 cut -f7 > ${readCountFileTranscript}
 
+echo "Done retrieving transcript counts"
 
 echo "## "$(date)" ##  $0 Done "
 
