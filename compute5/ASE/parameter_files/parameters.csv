@@ -47,7 +47,6 @@ stranded,1
 ## SelectVariants
 selectVariantsDir,${projectDir}/SelectVariants/
 selectVariantsBiallelicSNPsVcf,${selectVariantsDir}/${VCFprefix}${CHR}${VCFsuffix}.biAllelicSNPsOnly.vcf.gz
-selectVariantsBiallelicSNPsVcfPositions,${selectVariantsBiallelicSNPsVcf}.positions.txt
 #
 ## ASEReadCounter
 ASEReadCountsDir,${projectDir}/ASEReadCountsDir/

@@ -13,7 +13,7 @@
 #string selectVariantsDir
 #string VCFinputDir
 #string selectVariantsBiallelicSNPsVcf
-#string selectVariantsBiallelicSNPsVcfPositions
+
 
 echo "## "$(date)" Start $0"
 
@@ -44,10 +44,8 @@ then
 else
  echo "returncode: $?";
  echo "fail";
+ exit 1;
 fi
 
-# Loop through all chromosomal positions and create positions file to use during countTable merging
-#Grep all positions from vcf file
-zcat ${selectVariantsBiallelicSNPsVcf} | grep -v '^#' | awk '{print $1,$2}' OFS="\t" > ${selectVariantsBiallelicSNPsVcfPositions}
 
 echo "## "$(date)" ##  $0 Done "
