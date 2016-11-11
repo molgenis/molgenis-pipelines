@@ -46,6 +46,8 @@ while (my $line=<VCF>) {
         my $lastIdx = $#array;
         my $totalNumSamples = ($lastIdx-8);
         my @arrayToPrint; #Collect output in to print later
+        my $infoField = $array[7]; #Extract info column from file, 8th column
+        my @infoArray = split(";",$array[7]);
         my $formatField = $array[8]; #9th column, extract format line
         my $filterVal = $array[6];
         #Extract index of DP field
@@ -53,6 +55,21 @@ while (my $line=<VCF>) {
         my %idxGQ;
         @idxGQ{@format} = (0..$#format);
         my $idxGQ = $idxGQ{ "GQ" };
+        
+        #Extract index of AC,AF and AN field
+        my @info = split(";", $infoField);
+        my @inf;
+        foreach my $e (@info){
+            my @ar = split("=", $e); #For each info attribute split values from it
+            push(@inf, $ar[0]);
+        }
+        my %idxInfo;
+        @idxInfo{@inf} = (0..$#inf);
+        my $idxAC = $idxInfo{ "AC" };
+        my $idxAF = $idxInfo{ "AF" };
+        my $idxAN = $idxInfo{ "AN" };
+        my $allCount = 0;
+        my $allNumber = 0;
         
         my $passSamples = 0; #Use to count number of pass samples to calculate callRate later
         my $noGT = 0; #Use to count total number of no genotypes per VCF line
@@ -91,7 +108,32 @@ while (my $line=<VCF>) {
             if ($sampleGT eq "./.") { #Check if updated sample genotype is ./.
                 $noGT++;
             }
+            #Count occurences of genotypes, to update allele counts and MAF later
+            if ($sampleGT eq "0/0") {
+                $allNumber = ($allNumber+2);
+            }elsif ($sampleGT eq "0/1"){
+                $allNumber = ($allNumber+2);
+                $allCount++;
+            }elsif ($sampleGT eq "1/1"){
+                $allNumber = ($allNumber+2);
+                $allCount = ($allCount+2);
+            }
         }
+        
+        #Calculate new MAF
+        my $allAF;
+        if ($allNumber == 0) { #If no genotypes observed AF will be zero
+            $allAF = 0;
+        }else{
+            $allAF=($allCount/$allNumber);
+        }
+
+        #Update AC,AF and AN in info field array;
+        splice(@infoArray, $idxAC, 1, "AC=$allCount");
+        splice(@infoArray, $idxAF, 1, "AF=$allAF");
+        splice(@infoArray, $idxAN, 1, "AN=$allNumber");
+        my $infoString=join(";", @infoArray); #Join info array to string by ";" seperator
+        
         #Calculate if callRate observed passes user specified threshold
         my $ratio = ($passSamples/$totalNumSamples);
         #Print output line
@@ -102,14 +144,14 @@ while (my $line=<VCF>) {
         }else{
             print OUTPUT $array[0];
             for (my $i=1; $i<=5; $i++){
-                print OUTPUT "\t" . $array[$i]; #Print first 9 columns
+                print OUTPUT "\t" . $array[$i]; #Print first 6 columns
             }
             if (defined $callRate) { #If callRate is defined, use it for filtering
                 if ($ratio >= $callRate) {
                     $filterVal = "PASS";
                 }
             }
-            print OUTPUT "\t$filterVal" . "\t" . $array[7] . "\t" . $array[8];
+            print OUTPUT "\t$filterVal" . "\t" . $infoString . "\t" . $array[8];
             my $printSamples = join("\t", @arrayToPrint);
             
             #foreach my $e (@arrayToPrint){
