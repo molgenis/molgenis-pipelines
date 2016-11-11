@@ -1,4 +1,3 @@
-
 #MOLGENIS walltime=05:59:00 mem=8gb nodes=1 ppn=2
 
 ### variables to help adding to database (have to use weave)
@@ -33,12 +32,29 @@ ${checkStage}
 
 mkdir -p ${binDir}
 
-echo Merging ASreads
+echo "Merging ASreads"
 export RASQUALDIR # rasqual must be declared and exported. Other scripts are in rasqualdir... what happens here
 ##########################################################################AFter this check mpileup for the 3% anomaly for test snps 
 # count AS reads
 $RASQUALDIR/src/ASVCF/pasteFiles ${VCF} ${countsTable} | \
 bgzip > ${ASVCF}
 tabix -f -p vcf ${ASVCF}
+
+echo "Done merging ASreads"
+
+
+#Putfile the results
+if [ -f "${ASVCF}" ];
+then
+ echo "returncode: $?"; 
+ putFile ${ASVCF}
+ putFile ${ASVCF}.tbi
+ echo "succes moving files";
+else
+ echo "returncode: $?";
+ echo "fail";
+ exit 1;
+fi
+
 
 echo "## "$(date)" $0 Done"

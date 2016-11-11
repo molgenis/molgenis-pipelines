@@ -19,6 +19,7 @@
 #list sampleName,readCountFileExon,readCountFileGene,readCountFileTranscript
 
 
+echo "## "$(date)" Start $0"
 
 ${stage} BEDTools/${bedtoolsVersion}
 ${stage} SAMtools/${samtoolsVersion}
@@ -26,8 +27,6 @@ ${stage} tabix/${tabixVersion}
 ${checkStage}
 
 mkdir -p ${binDir}
-
-echo "## "$(date)" Start $0"
 
 #Extract total number of samples from samplesheet.csv
 NUMSAMPLES=${#sampleName[*]}

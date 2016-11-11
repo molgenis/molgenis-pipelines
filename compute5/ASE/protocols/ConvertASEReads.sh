@@ -26,12 +26,13 @@ echo "## "$(date)" Start $0"
 getFile ${selectVariantsBiallelicSNPsVcf}
 getFile ${ASEReadCountsSampleChrOutput}
 
-${stage} Term-ProgressBar/2.17-foss-2015b
+#Commented progressbar out because the module is working on calculon, but broken on the nodes
+##${stage} Term-ProgressBar/2.17-foss-2015b
 ${checkStage}
 
 mkdir -p ${countsTableDir}
 
-perl /groups/umcg-bios/tmp04/projects/ASE_GoNL/rasqual/lld/test/convertASEReadCounts2CountsTable.pl \
+perl /apps/data/UMCG/scripts/convertASEReadCounts2CountsTable.pl \
 --VCF ${selectVariantsBiallelicSNPsVcf} \
 --ASEReadCounts ${ASEReadCountsSampleChrOutput} \
 --outputFile ${sampleCountsTable}

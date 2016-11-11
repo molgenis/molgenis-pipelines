@@ -8,3 +8,4 @@ ConvertASEReads,protocols/ConvertASEReads.sh,ASEReadCounter
 CreateCountsTable,protocols/CreateCountsTable.sh,ConvertASEReads
 pasteASCounts,protocols/pasteASCounts.sh,CreateCountsTable
 runRasqual,protocols/runRasqual.sh,pasteASCounts;preRasqual
+MergeRasqualResults,protocols/MergeRasqualResults.sh,runRasqual
