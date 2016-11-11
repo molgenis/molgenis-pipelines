@@ -18,18 +18,22 @@
 #string yfiletxtTranscript
 #string featureType
 #string rasqualOutDir
-#string featureFileExon
-#string featureFileGene
-#string featureFileTranscript
+#string featureChunkFile
 #string CHR
 #string regionsFile
 #string GSLVersion
 #string tabixVersion
 #string minCoveragePerFeature
 #string insertSize
+#string rasqualFeatureChunkOutput
+#string rasqualFeatureChunkPermutationOutput
 
 
 echo "## "$(date)" ##  $0 Start "
+
+getFile ${featureChunkFile}
+getFile ${ASVCF}
+getFile ${regionsFile}
 
 
 ${stage} GSL/${GSLVersion}
@@ -39,32 +43,30 @@ ${checkStage}
 
 mkdir -p ${rasqualOutDir}/${featureType}
 
-echo LAST START >> ${rasqualOutDir}/${featureType}/chr${CHR}.region_Rasqual_Output.txt
+echo LAST START >> ${rasqualFeatureChunkOutput}
 if [ ${featureType} == "exon" ];
 then
         kfilebin=${kfilebinExon}
         yfilebin=${yfilebinExon}
         yfiletxt=${yfiletxtExon}
-        featureFile=${featureFileExon}
 elif [ ${featureType} == "gene" ];
 then
         kfilebin=${kfilebinGene}
         yfilebin=${yfilebinGene}
         yfiletxt=${yfiletxtGene}
-        featureFile=${featureFileGene}
 elif [ ${featureType} == "transcript" ];
 then
         kfilebin=${kfilebinTranscript}
         yfilebin=${yfilebinTranscript}
         yfiletxt=${yfiletxtTranscript}
-        featureFile=${featureFileTranscript}
 else
         echo featureType must be transcript, exon or gene in parameter file
         exit
 fi
 
-rm -f ${rasqualOutDir}/${featureType}/chr${CHR}.region_Rasqual_Output.txt
-rm -f ${rasqualOutDir}/${featureType}/chr${CHR}.region_Rasqual_Output_permutation.txt
+rm -f ${rasqualFeatureChunkOutput}
+rm -f ${rasqualFeatureChunkPermutationOutput}
+
 window=$((${cisWindow}/2)) # 1Mb
 samples_num=$(awk -F'\t' '{print NF-1; exit}' ${yfiletxt})
 cutoff=$((samples_num * ${minCoveragePerFeature}))
@@ -91,10 +93,25 @@ while read line;do
         #PREFILTERS###########################################
 #       if (( Coverage < Cutoff_for_this)); then continue; fi
         ######################################################
-        tabix ${ASVCF} $chr:$L-$R | ${RASQUALDIR}/bin/rasqual -y ${yfilebin} -k ${kfilebin} -n $samples_num -j $line_number -l $Totalsnps -m $Totalsnps -s $featureStarts -e $featureEnds -f "$id Output:" --n-threads 16 >> ${rasqualOutDir}/${featureType}/chr${CHR}.region_Rasqual_Output.txt
-        tabix ${ASVCF} $chr:$L-$R | ${RASQUALDIR}/bin/rasqual -y ${yfilebin} -k ${kfilebin} -n $samples_num -j $line_number -l $Totalsnps -m $Totalsnps -s $featureStarts -e $featureEnds -f "$id Output:" --n-threads 16 -r >> ${rasqualOutDir}/${featureType}/chr${CHR}.region_Rasqual_Output_permutation.txt
-done < <(tabix ${featureFile} "$region" )
+        tabix ${ASVCF} $chr:$L-$R | ${RASQUALDIR}/bin/rasqual -y ${yfilebin} -k ${kfilebin} -n $samples_num -j $line_number -l $Totalsnps -m $Totalsnps -s $featureStarts -e $featureEnds -f "$id Output:" --n-threads 16 >> ${rasqualFeatureChunkOutput}
+        tabix ${ASVCF} $chr:$L-$R | ${RASQUALDIR}/bin/rasqual -y ${yfilebin} -k ${kfilebin} -n $samples_num -j $line_number -l $Totalsnps -m $Totalsnps -s $featureStarts -e $featureEnds -f "$id Output:" --n-threads 16 -r >> ${rasqualFeatureChunkPermutationOutput}
+done < <(tabix ${featureChunkFile} "$region" )
 done < <(awk 'F"\t" $($1 == ${CHR}) {printf ("%s:%s-%s\n", $1, $2, $3)}' ${regionsFile})
+
+
+#Putfile the results
+if [ -f "${rasqualFeatureChunkOutput}" ];
+then
+ echo "returncode: $?"; 
+ putFile ${rasqualFeatureChunkOutput}
+ putFile ${rasqualFeatureChunkPermutationOutput}
+ echo "succes moving files";
+else
+ echo "returncode: $?";
+ echo "fail";
+ exit 1;
+fi
+
 
 echo "## "$(date)" ##  $0 Done "
 

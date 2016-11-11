@@ -136,6 +136,7 @@ then
 else
  echo "returncode: $?";
  echo "fail";
+ exit 1;
 fi
 
 echo "## "$(date)" ##  $0 Done "

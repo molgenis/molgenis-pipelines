@@ -1,4 +1,3 @@
-
 #MOLGENIS walltime=05:59:00 mem=8gb nodes=1 ppn=2
 
 ### variables to help adding to database (have to use weave)
@@ -42,5 +41,20 @@ bgzip > ${ASVCF}
 tabix -f -p vcf ${ASVCF}
 
 echo "Done merging ASreads"
+
+
+#Putfile the results
+if [ -f "${ASVCF}" ];
+then
+ echo "returncode: $?"; 
+ putFile ${ASVCF}
+ putFile ${ASVCF}.tbi
+ echo "succes moving files";
+else
+ echo "returncode: $?";
+ echo "fail";
+ exit 1;
+fi
+
 
 echo "## "$(date)" $0 Done"
