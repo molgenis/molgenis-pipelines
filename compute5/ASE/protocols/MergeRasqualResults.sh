@@ -18,14 +18,16 @@ echo "## "$(date)" Start $0"
 
 getFile ${onekgGenomeFasta}
 
-${stage} GATK/${gatkVersion}
 ${checkStage}
 
-mkdir -p ${ASEReadCountsDir}
+
+#Sort the arrays and only keep unique values
+read -ra sorted_unique_rasqualFeatureChunkOutput<<<$(printf '%s\n' "${rasqualFeatureChunkOutput[@]}" | awk -v RS='[[:space:]]+' '!a[$0]++{printf "%s%s", $0, RT}')
+read -ra sorted_unique_rasqualFeatureChunkPermutationOutput<<<$(printf '%s\n' "${rasqualFeatureChunkPermutationOutput[@]}" | awk -v RS='[[:space:]]+' '!a[$0]++{printf "%s%s", $0, RT}')
 
 
 #For all chromosome feature chunks
-for OCHUNK in "${rasqualFeatureChunkOutput[@]}"
+for OCHUNK in "${sorted_unique_rasqualFeatureChunkOutput[@]}"
 do
 #Check if files all exists, if so cat them into one chromosome file
 	if [ -f "$OCHUNK" ];
@@ -36,7 +38,7 @@ do
 	   exit 1;
 	fi
 done
-for PCHUNK in "${rasqualFeatureChunkPermutationOutput[@]}"
+for PCHUNK in "${sorted_unique_rasqualFeatureChunkPermutationOutput[@]}"
 do
 #Check if files all exists, if so cat them into one chromosome file
 	if [ -f "$PCHUNK" ];
@@ -50,8 +52,8 @@ done
 
 
 #Cat all feature chunks into one merged chromosome output file
-cat ${rasqualFeatureChunkOutput[@] > ${rasqualFeatureChrOutput}
-cat ${rasqualFeatureChunkPermutationOutput[@] > ${rasqualFeatureChrPermutationOutput}
+cat ${sorted_unique_rasqualFeatureChunkOutput[@]} > ${rasqualFeatureChrOutput}
+cat ${sorted_unique_rasqualFeatureChunkPermutationOutput[@]} > ${rasqualFeatureChrPermutationOutput}
 
 
 #Putfile the results
