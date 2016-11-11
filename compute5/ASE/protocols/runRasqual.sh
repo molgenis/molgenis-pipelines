@@ -25,6 +25,7 @@
 #string tabixVersion
 #string minCoveragePerFeature
 #string insertSize
+#string featureChunkDir
 #string rasqualFeatureChunkOutput
 #string rasqualFeatureChunkPermutationOutput
 
@@ -49,16 +50,19 @@ then
         kfilebin=${kfilebinExon}
         yfilebin=${yfilebinExon}
         yfiletxt=${yfiletxtExon}
+        featureDir=${featureChunkDir}/exonlistChunks/
 elif [ ${featureType} == "gene" ];
 then
         kfilebin=${kfilebinGene}
         yfilebin=${yfilebinGene}
         yfiletxt=${yfiletxtGene}
+        featureDir=${featureChunkDir}/genelistChunks/
 elif [ ${featureType} == "transcript" ];
 then
         kfilebin=${kfilebinTranscript}
         yfilebin=${yfilebinTranscript}
         yfiletxt=${yfiletxtTranscript}
+        featureDir=${featureChunkDir}/transcriptlistChunks/
 else
         echo featureType must be transcript, exon or gene in parameter file
         exit
@@ -95,7 +99,7 @@ while read line;do
         ######################################################
         tabix ${ASVCF} $chr:$L-$R | ${RASQUALDIR}/bin/rasqual -y ${yfilebin} -k ${kfilebin} -n $samples_num -j $line_number -l $Totalsnps -m $Totalsnps -s $featureStarts -e $featureEnds -f "$id Output:" --n-threads 16 >> ${rasqualFeatureChunkOutput}
         tabix ${ASVCF} $chr:$L-$R | ${RASQUALDIR}/bin/rasqual -y ${yfilebin} -k ${kfilebin} -n $samples_num -j $line_number -l $Totalsnps -m $Totalsnps -s $featureStarts -e $featureEnds -f "$id Output:" --n-threads 16 -r >> ${rasqualFeatureChunkPermutationOutput}
-done < <(tabix ${featureChunkFile} "$region" )
+done < <(tabix $featureDir/${featureChunkFile} "$region" )
 done < <(awk 'F"\t" $($1 == ${CHR}) {printf ("%s:%s-%s\n", $1, $2, $3)}' ${regionsFile})
 
 

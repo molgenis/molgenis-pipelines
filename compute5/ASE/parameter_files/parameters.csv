@@ -110,6 +110,7 @@ geneGC,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/GCgene.chr${CHR}.txt
 insertSize,250
 RasqualizeScript,/groups/umcg-bios/tmp04/projects/ASE_GoNL/rasqual/test/ASE/protocols/rasqualize.R
 sampleNum,24
+featureChunkDir,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/
 readCountFile,${readCountDir}/${sampleName}_readCounts.txt
 rasqualFeatureChunkOutput,${rasqualOutDir}/${featureType}/${featureChunkFile}.rasqual.output.txt
 rasqualFeatureChunkPermutationOutput,${rasqualOutDir}/${featureType}/${featureChunkFile}.rasqual.output.permutation.txt
