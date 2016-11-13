@@ -19,7 +19,7 @@ echo "## "$(date)" Start $0"
 
 
 getFile ${onekgGenomeFasta}
-getFile ${VCFprefix}${CHR}${VCFsuffix}
+getFile ${VCFinputDir}/${VCFprefix}${CHR}${VCFsuffix}
 
 
 ${stage} GATK/${gatkVersion}
