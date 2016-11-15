@@ -9,7 +9,8 @@ Quantile <-
 function(x,k=20){x=rank(x,ties="random"); z=rep(0,length(x));for(i in 1:k){z=z+as.numeric(x<=quantile(x,i/k,na.rm=T))};k-z}
 gcCor <-
 function(Y,gcvec,PLOT=F){
-		n=ncol(Y) #Select number of samples, to use in quantile function later
+		#n=ncol(Y) #Select number of samples, to use in quantile function later
+		n=40
 		bin=Quantile(gcvec,n);
 		x=sort(unlist(lapply(split(gcvec,bin),mean)))
 		S=apply(Y,2,function(y){unlist(lapply(split(y,bin),sum))[as.character(0:(n-1))]});

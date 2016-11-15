@@ -1,9 +1,11 @@
 step,protocol,dependencies
 GetSubReadCounts,protocols/GetSubReadCounts.sh,
-pasteReads,protocols/pasteReads.sh,GetReadCounts
+pasteReads,protocols/pasteReads.sh,GetSubReadCounts
 preRasqual,protocols/preRasqual.sh,pasteReads
 SelectVariants,protocols/SelectVariants.sh,
 ASEReadCounter,protocols/ASEReadCounter.sh,SelectVariants
-CreateCountsTable,protocols/CreateCountsTable.sh,ASEReadCounter
+ConvertASEReads,protocols/ConvertASEReads.sh,ASEReadCounter
+CreateCountsTable,protocols/CreateCountsTable.sh,ConvertASEReads
 pasteASCounts,protocols/pasteASCounts.sh,CreateCountsTable
 runRasqual,protocols/runRasqual.sh,pasteASCounts;preRasqual
+MergeRasqualResults,protocols/MergeRasqualResults.sh,runRasqual

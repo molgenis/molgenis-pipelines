@@ -1,4 +1,4 @@
-#MOLGENIS walltime=23:59:00 mem=8gb nodes=1 ppn=2### variables to help adding to database (have to use weave)
+#MOLGENIS walltime=05:59:00 mem=8gb nodes=1 ppn=2### variables to help adding to database (have to use weave)
 #string project
 ###
 #string stage
@@ -19,6 +19,7 @@
 #list sampleName,readCountFileExon,readCountFileGene,readCountFileTranscript
 
 
+echo "## "$(date)" Start $0"
 
 ${stage} BEDTools/${bedtoolsVersion}
 ${stage} SAMtools/${samtoolsVersion}
@@ -26,8 +27,6 @@ ${stage} tabix/${tabixVersion}
 ${checkStage}
 
 mkdir -p ${binDir}
-
-echo "## "$(date)" Start $0"
 
 #Extract total number of samples from samplesheet.csv
 NUMSAMPLES=${#sampleName[*]}
