@@ -6,6 +6,6 @@ sh $EBROOTMOLGENISMINCOMPUTE/molgenis_compute.sh \
   -p parameters.converted.csv \
   -p samplesheet.csv \
   -w workflow.csv \
-  -p chromosomes_X_Y.csv \
-  -p chromosome_chunks.txt \
+  -p CHRs_X_Y.csv \
+  -p CHR_chunks.txt \
   -rundir jobs/ --weave

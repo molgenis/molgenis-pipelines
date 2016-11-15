@@ -18,7 +18,8 @@
 #string phasedScaffoldDir
 #string geneticMapChrPrefix
 #string geneticMapChrPostfix
-
+#string shapeitLigatedHaplotype
+#string shapeitLigatedHaplotypeDir
 
 echo "## "$(date)" Start $0"
 

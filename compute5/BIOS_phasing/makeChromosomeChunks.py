@@ -1,7 +1,8 @@
-chunks = 5000000
+chunks = 500000000
+#chunks = 5000000
 overlap = 500000
 interval_list_location = '/apps/data/ftp.broadinstitute.org/bundle/2.8/b37/human_g1k_v37.chr'
-with open('chromosome_chunks.txt','w') as out:
+with open('chromosome_chunks.csv','w') as out:
     out.write('chromosomeChunk\n')
     for chr in range(1,26,1):
         with open(interval_list_location+str(chr)+'.interval_list') as interval_list:
