@@ -9,8 +9,8 @@ Quantile <-
 function(x,k=20){x=rank(x,ties="random"); z=rep(0,length(x));for(i in 1:k){z=z+as.numeric(x<=quantile(x,i/k,na.rm=T))};k-z}
 gcCor <-
 function(Y,gcvec,PLOT=F){
-		#n=ncol(Y) #Select number of samples, to use in quantile function later
-		n=40
+		#n=number of bins to use when performing GC correction. For exact method see section 6.1.1 in suppl. mat. of this paper: http://www.nature.com/nature/journal/v464/n7289/full/nature08872.html (Pickrell)
+		n=200
 		bin=Quantile(gcvec,n);
 		x=sort(unlist(lapply(split(gcvec,bin),mean)))
 		S=apply(Y,2,function(y){unlist(lapply(split(y,bin),sum))[as.character(0:(n-1))]});
