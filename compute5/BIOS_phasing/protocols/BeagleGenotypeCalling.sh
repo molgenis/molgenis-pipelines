@@ -1,4 +1,4 @@
-#MOLGENIS walltime=23:59:00 mem=8gb nodes=1 ppn=2
+#MOLGENIS walltime=23:59:00 mem=16gb nodes=1 ppn=2
 
 ### variables to help adding to database (have to use weave)
 #string project
@@ -33,7 +33,7 @@ ${checkStage}
 
 mkdir -p ${beagleDir}
 
-if java -Xmx6g -Djava.io.tmpdir=$TMPDIR -XX:ParallelGCThreads=2 -jar $EBROOTBEAGLE/beagle.${beagleJarVersion}.jar \
+if java -Xmx14g -Djava.io.tmpdir=$TMPDIR -XX:ParallelGCThreads=2 -jar $EBROOTBEAGLE/beagle.${beagleJarVersion}.jar \
  gl=${vcf} \
  out=${genotypedChrVcfBeagleGenotypeProbabilities} \
  chrom=${CHR}
