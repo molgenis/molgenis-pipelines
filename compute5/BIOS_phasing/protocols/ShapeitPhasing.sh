@@ -19,9 +19,21 @@
 #string geneticMapChrPrefix
 #string geneticMapChrPostfix
 
+${stage} shapeit/${shapeitVersion}
+${checkStage}
 
 echo "## "$(date)" Start $0"
 
+# chromosomeChunks are in the format chr:start-end, parse out the chr, start and end to separate variables
+echo "Shaping $chromosomeChunk"
+CHR=$(echo $chromosomeChunk | cut -d':' -f1 )
+position=$(echo $chromosomeChunk | cut -d':' -f2 )
+start=$(echo $position | cut -d'-' -f1 )
+end=$(echo $position | cut -d'-' -f1 )
+
+echo "CHR: $CHR"
+echo "start: $start"
+echo "end: $end"
 
 getFile ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.gen
 getFile ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.gen.sample
@@ -29,17 +41,9 @@ getFile ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputP
 getFile ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.hap.sample
 
 
-${stage} shapeit/${shapeitVersion}
-${checkStage}
 
 mkdir -p ${shapeitDir}
 
-# chromosomeChunks are in the format chr:start-end, parse out the chr, start and end to separate variables
-echo "Shaping $chromosomeChunk"
-CHR=$(echo $chromosomeChunk | cut -d':' -f1 | read str1)
-position=$(echo $chromosomeChunk | cut -d':' -f1 | read str2)
-start=$(echo $position | cut -d'-' -f1 | read str1)
-end=$(echo $position | cut -d'-' -f1 | read str2)
 
 #Run shapeit
 # The shaping is scaffolded using the chip-based or wgs phased genotypes (--input-init). For data without this information (like
@@ -48,11 +52,11 @@ end=$(echo $position | cut -d'-' -f1 | read str2)
 if shapeit \
  -call \
  --input-gen ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.gen \
-             ${genotypedChrVcfShapeitInputPrefix}${chromsome}${genotypedChrVcfShapeitInputPostfix}.gen.sample \
+             ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.gen.sample \
  --input-init ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.hap \
               ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.hap.sample \
  --input-map ${geneticMapChrPrefix}${CHR}${geneticMapChrPostfix} \
- --input-scaffold ${phasedScaffoldDir}/chr_${CHR}.haps ${phasedScaffoldDir}/chr_${chromosome}.sample \
+ --input-scaffold ${phasedScaffoldDir}/chr_${CHR}.haps ${phasedScaffoldDir}/chr${CHR}.sample \
  --input-thr 1.0 \
  --thread 8 \
  --window 0.1 \
@@ -62,8 +66,8 @@ if shapeit \
  --run 12 \
  --prune 4 \
  --main 20 \
- --output-max ${shapeitPhasedOutputPrefix}${CHR}_${start}_${end}${shapeitPhasedOutputPostfix}.haps ${shapeitPhasedOutputPrefix}${chromosome}_${start}_${end}${shapeitPhasedOutputPostfix}.haps.sample \
- --output-log ${shapeitPhasedOutputPrefix}${chromosomeChunk}${CHR}_${start}_${end}${shapeitPhasedOutputPostfix}.log \
+ --output-max ${shapeitPhasedOutputPrefix}/chr${CHR}_${start}_${end}${shapeitPhasedOutputPostfix}.haps ${shapeitPhasedOutputPrefix}/chr${CHR}_${start}_${end}${shapeitPhasedOutputPostfix}.haps.sample \
+ --output-log ${shapeitPhasedOutputPrefix}/chr${CHR}_${start}_${end}${shapeitPhasedOutputPostfix}.log \
  --input-from $start \
  --input-to $end
 then
