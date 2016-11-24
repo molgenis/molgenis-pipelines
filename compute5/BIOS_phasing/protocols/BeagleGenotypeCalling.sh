@@ -1,4 +1,4 @@
-#MOLGENIS walltime=23:59:00 mem=60gb nodes=1 ppn=2
+e#MOLGENIS walltime=3-23:59:00 mem=34gb nodes=1 ppn=2
 
 ### variables to help adding to database (have to use weave)
 #string project
@@ -13,9 +13,9 @@
 #string beagleVersion
 
 #string vcf
-#string genotypedChrVcfTbi
+#string.gen.gzotypedChrVcfTbi
 
-#string genotypedChrVcfBeagleGenotypeProbabilities
+#string.gen.gzotypedChrVcfBeagleGenotypeProbabilities
 #string CHR
 #string beagleJarVersion
 
@@ -33,27 +33,32 @@ ${checkStage}
 
 mkdir -p ${beagleDir}
 
-if java -Xmx60g -Djava.io.tmpdir=$TMPDIR -XX:ParallelGCThreads=2 -jar $EBROOTBEAGLE/beagle.${beagleJarVersion}.jar \
+if java -Xmx32g -Djava.io.tmpdir=$TMPDIR -XX:ParallelGCThreads=2 -jar $EBROOTBEAGLE/beagle.${beagleJarVersion}.jar \
  gl=${vcf} \
- out=${genotypedChrVcfBeagleGenotypeProbabilities} \
+ out=$.gen.gzotypedChrVcfBeagleGenotypeProbabilities} \
  chrom=${CHR}
  
  #Decompress the beagle gzipped output and gzip it again. There's a bug on some platforms which causes incompatibility between normal zlib and boost zlib.
- #This also affects our system! More information here: https://mathgen.stats.ox.ac.uk/genetics_software/shapeit/shapeit.html#gcall
+ #This also affects our system! More information here: https://mat.gen.gz.stats.ox.ac.uk.gen.gzetics_software/.hap.gzeit/.hap.gzeit.html#gcall
  
  cd ${beagleDir}
- gunzip ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz
- gzip ${beagleDir}/${project}.chr${CHR}.beagle.genotype.probs.gg.vcf
+ gunzip $.gen.gzotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz
+ gzip ${beagleDir}/${project}.chr${CHR}.beagle.gen.gzotype.probs.gg.vcf
  
 then
  echo "returncode: $?";
- putFile ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz
+ putFile $.gen.gzotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz
  cd ${beagleDir}
- bname=$(basename ${genotypedChrVcfBeagleGenotypeProbabilities})
+ bname=$(basename $.gen.gzotypedChrVcfBeagleGenotypeProbabilities})
  md5sum ${bname}.vcf.gz > ${bname}.vcf.gz.md5
  cd -
  echo "succes moving files";
 else
+ >&2 echo "went wrong with following command:"
+ >&2 echo "java -Xmx32g -Djava.io.tmpdir=$TMPDIR -XX:ParallelGCThreads=2 -jar $EBROOTBEAGLE/beagle.${beagleJarVersion}.jar \\
+                 gl=${vcf} \\
+                 out=$.gen.gzotypedChrVcfBeagleGenotypeProbabilities} \\
+                 chrom=${CHR}"
  echo "returncode: $?";
  echo "fail";
  exit 1;

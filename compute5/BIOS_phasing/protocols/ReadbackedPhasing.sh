@@ -133,12 +133,28 @@ then
   #Move log files to corresponding directories
   mv $TMPOUTPUTVCF.variant_connections.txt ${phaserDir}/variant_connections/
   mv $TMPOUTPUTVCF.allelic_counts.txt ${phaserDir}/allelic_counts/
-  mv $TMPOUTPUTVCF.haplotypes.txt ${phaserDir}/haplotypes/
-  mv $TMPOUTPUTVCF.haplotypic_counts.txt ${phaserDir}/haplotypic_counts/
+  mv $TMPOUTPUTVCF.hap.gzlotypes.txt ${phaserDir}/haplotypes/
+  mv $TMPOUTPUTVCF.hap.gzlotypic_counts.txt ${phaserDir}/haplotypic_counts/
   mv $TMPOUTPUTVCF.allele_config.txt ${phaserDir}/allele_config/
 else
+ >&2 echo "went wrong with following command:"
+ >&2 echo "python $EBROOTPHASER/phaser/phaser.py \\
+            --paired_end 1 \\
+            --bam $BAM \\
+            --vcf $TMPINPUTVCF \\
+            --mapq ${mapq} \\
+            --sample $sampleName \\
+            --baseq ${baseq} \\
+            --o $TMPOUTPUTVCF \\
+            --temp_dir $TMPDIR \\
+            --threads 12 \\
+            --gw_phase_method 1 \\
+            --chr ${CHR} \\
+            --gw_af_vcf ${OneKgPhase3VCF} \\
+            --gw_phase_vcf 1"
  echo "returncode: $?";
  echo "fail";
+ exit 1;
 fi
 
 done
@@ -147,8 +163,8 @@ done
 cd ${phaserDir}
 zip -r ${project}.chr${CHR}.variant_connections.zip ./variant_connections/*chr${chromosome}.*
 zip -r ${project}.chr${CHR}.allelic_counts.zip ./allelic_counts/*chr${chromosome}.*
-zip -r ${project}.chr${CHR}.haplotypes.zip ./haplotypes/*chr${chromosome}.*
-zip -r ${project}.chr${CHR}.haplotypic_counts.zip ./haplotypic_counts/*chr${chromosome}.*
+zip -r ${project}.chr${CHR}.hap.gzlotypes.zip ./haplotypes/*chr${chromosome}.*
+zip -r ${project}.chr${CHR}.hap.gzlotypic_counts.zip ./haplotypic_counts/*chr${chromosome}.*
 zip -r ${project}.chr${CHR}.allele_config.zip ./allele_config/*chr${chromosome}.*
 
 #Move final output to result file and create md5sums
@@ -156,8 +172,8 @@ zip -r ${project}.chr${CHR}.allele_config.zip ./allele_config/*chr${chromosome}.
  putFile $phaserOutPrefix.vcf.gz
  putFile ${phaserDir}/${project}.chr${CHR}.variant_connections.zip
  putFile ${phaserDir}/${project}.chr${CHR}.allelic_counts.zip
- putFile ${phaserDir}/${project}.chr${CHR}.haplotypes.zip
- putFile ${phaserDir}/${project}.chr${CHR}.haplotypic_counts.zip
+ putFile ${phaserDir}/${project}.chr${CHR}.hap.gzlotypes.zip
+ putFile ${phaserDir}/${project}.chr${CHR}.hap.gzlotypic_counts.zip
  putFile ${phaserDir}/${project}.chr${CHR}.allele_config.zip
 
  bname=$(basename $phaserOutPrefix.vcf.gz)
@@ -166,9 +182,9 @@ zip -r ${project}.chr${CHR}.allele_config.zip ./allele_config/*chr${chromosome}.
  md5sum ${bname} > ${bname}.md5
  bname=$(basename ${phaserDir}/${project}.chr${CHR}.allelic_counts.zip)
  md5sum ${bname} > ${bname}.md5
- bname=$(basename ${phaserDir}/${project}.chr${CHR}.haplotypes.zip)
+ bname=$(basename ${phaserDir}/${project}.chr${CHR}.hap.gzlotypes.zip)
  md5sum ${bname} > ${bname}.md5
- bname=$(basename ${phaserDir}/${project}.chr${CHR}.haplotypic_counts.zip)
+ bname=$(basename ${phaserDir}/${project}.chr${CHR}.hap.gzlotypic_counts.zip)
  md5sum ${bname} > ${bname}.md5
  bname=$(basename ${phaserDir}/${project}.chr${CHR}.allele_config.zip)
  md5sum ${bname} > ${bname}.md5

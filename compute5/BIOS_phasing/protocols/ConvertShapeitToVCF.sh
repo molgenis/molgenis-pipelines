@@ -20,8 +20,8 @@ ${stage} shapeit/${shapeitVersion}
 ${checkStage}
 
 #Copy original haps files to tmp to do conversion needed as input for shapeit convert
-gunzip -c ${shapeitPhasedOutputPrefix}.haps.gz > ${shapeitPhasedOutputPrefix}.haps
-cp ${shapeitPhasedOutputPrefix}.haps.sample ${shapeitPhasedOutputPrefix}.sample
+gunzip -c ${shapeitPhasedOutputPrefix}.hap.gz.gz > ${shapeitPhasedOutputPrefix}.hap.gz
+cp ${shapeitPhasedOutputPrefix}.hap.gz.sample ${shapeitPhasedOutputPrefix}.sample
 
 #Run shapeit convert
 
@@ -35,10 +35,15 @@ then
  cd ${shapeitDir}
  bname=$(basename ${shapeitPhasedOutputPrefix}.vcf.gz)
  md5sum ${bname} > ${bname}.md5
- rm ${shapeitPhasedOutputPrefix}.haps
+ rm ${shapeitPhasedOutputPrefix}.hap.gz
  cd -
  echo "succes moving files";
 else
+ >&2 echo "went wrong with following command:"
+ >&2 echo "shapeit \\
+            -convert \\
+            --input-haps ${shapeitLigatedHaplotype} \\
+            --output-vcf ${shapeitPhasedOutputPrefix}.vcf.gz"
  echo "returncode: $?";
  echo "fail";
  exit 1;

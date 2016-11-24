@@ -37,10 +37,10 @@ do
     position=$(echo $chromosomeChunk | cut -d':' -f1 | read str2)
     start=$(echo $position | cut -d'-' -f1 | read str1)
     end=$(echo $position | cut -d'-' -f1 | read str2)
-    getFile ${shapeitPhasedOutputPrefix}${CHR}_${start}_${end}${shapeitPhasedOutputPostfix}.haps
-    getFile ${shapeitPhasedOutputPrefix}${CHR}_${start}_${end}${shapeitPhasedOutputPostfix}.haps.sample
+    getFile ${shapeitPhasedOutputPrefix}${CHR}_${start}_${end}${shapeitPhasedOutputPostfix}.hap.gz
+    getFile ${shapeitPhasedOutputPrefix}${CHR}_${start}_${end}${shapeitPhasedOutputPostfix}.hap.gz.sample
     # since it is the correct chromsome add it to array to put as input later
-    shapeitInput[i]=${shapeitPhasedOutputPrefix}${CHR}_${start}_${end}${shapeitPhasedOutputPostfix}.haps
+    shapeitInput[i]=${shapeitPhasedOutputPrefix}${CHR}_${start}_${end}${shapeitPhasedOutputPostfix}.hap.gz
     i=$(($i+1))
   fi
 done
@@ -60,7 +60,7 @@ echo "Shaping $chromosomeChunk"
 # samples as scaffolding, but could give population problems)
 # have to get the scaffolded samples from the vcf file
 awk '{print $2}' ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.sample > ${scaffoldedSamples}
-if ligateHAPLOTYPES --vcf ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.hap \
+if ligateHAPLOTYPES --vcf ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.hap.gz \
                  --scaffold ${scaffoldedSamples} \
                  --chunks ${shapeitInput} \
                  --output ${shapeitLigatedHaplotype}
@@ -73,6 +73,11 @@ then
  cd -
  echo "succes moving files";
 else
+ >&2 echo "went wrong with following command:"
+ >&2 echo "ligateHAPLOTYPES --vcf ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.hap.gz \\
+                 --scaffold ${scaffoldedSamples} \\
+                 --chunks ${shapeitInput} \\
+                 --output ${shapeitLigatedHaplotype}"
  echo "returncode: $?";
  echo "fail";
  exit 1;
