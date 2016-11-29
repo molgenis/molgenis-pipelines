@@ -9,10 +9,10 @@
 #string WORKDIR
 #string projectDir
 #string beagleDir
-#string.gen.gzotypedChrVcfGL
-#string.gen.gzotypedChrVcfBeagleGenotypeProbabilities
-#string.gen.gzotypedChrVcf.hap.gzeitInputPrefix
-#string.gen.gzotypedChrVcf.hap.gzeitInputPostfix
+#string genotypedChrVcfGL
+#string genotypedChrVcfBeagleGenotypeProbabilities
+#string genotypedChrVcfShapeitInputPrefix
+#string genotypedChrVcfShapeitInputPostfix
 #string GLibVersion
 #string ngsutilsVersion
 #string zlibVersion
@@ -22,8 +22,8 @@
 
 echo "## "$(date)" Start $0"
 
-getFile $.gen.gzotypedChrVcfGL}
-getFile $.gen.gzotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz
+getFile ${genotypedChrVcfGL}
+getFile ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz
 
 ${stage} ngs-utils/${ngsutilsVersion}
 ${stage} GLib/${GLibVersion}
@@ -37,36 +37,36 @@ ${checkStage}
 
 #Run conversion script beagle vcf to .hap.gzeit format
 if $EBROOTNGSMINUTILS/prepareGenFromBeagle4_modified20160601/bin/prepareGenFromBeagle4 \
- --likelihoods $.gen.gzotypedChrVcfGL} \
- --posteriors $.gen.gzotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz \
+ --likelihoods ${genotypedChrVcfGL} \
+ --posteriors ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz \
  --threshold 0.995 \
- --output $.gen.gzotypedChrVcf.hap.gzeitInputPrefix}${CHR}$.gen.gzotypedChrVcf.hap.gzeitInputPostfix}
+ --output ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}
 then
  echo "returncode: $?";
  # these output files are NOT gzipped, so rename them to filename without gz
- putFile $.gen.gzotypedChrVcf.hap.gzeitInputPrefix}${CHR}$.gen.gzotypedChrVcf.hap.gzeitInputPostfix}.gen.gz
- putFile $.gen.gzotypedChrVcf.hap.gzeitInputPrefix}${CHR}$.gen.gzotypedChrVcf.hap.gzeitInputPostfix}.gen.sample
- putFile $.gen.gzotypedChrVcf.hap.gzeitInputPrefix}${CHR}$.gen.gzotypedChrVcf.hap.gzeitInputPostfix}.hap.gz
- putFile $.gen.gzotypedChrVcf.hap.gzeitInputPrefix}${chromsome}$.gen.gzotypedChrVcf.hap.gzeitInputPostfix}.hap.sample
+ putFile ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.gen.gz
+ putFile ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.gen.sample
+ putFile ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.hap.gz
+ putFile ${genotypedChrVcfShapeitInputPrefix}${chromsome}${genotypedChrVcfShapeitInputPostfix}.hap.sample
  cd ${beagleDir}
  # want to have the base path, not full path in the md5sum file, so cd to output dir and md5sum the basepath
- bname=$(basename $.gen.gzotypedChrVcf.hap.gzeitInputPrefix}${CHR}$.gen.gzotypedChrVcf.hap.gzeitInputPostfix}.gen.gz)
+ bname=$(basename ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.gen.gz)
  md5sum ${bname} > ${bname}.md5
- bname=$(basename $.gen.gzotypedChrVcf.hap.gzeitInputPrefix}${CHR}$.gen.gzotypedChrVcf.hap.gzeitInputPostfix}.gen.sample)
+ bname=$(basename ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.gen.sample)
  md5sum ${bname} > ${bname}.md5
- bname=$(basename $.gen.gzotypedChrVcf.hap.gzeitInputPrefix}${chromsome}$.gen.gzotypedChrVcf.hap.gzeitInputPostfix}.hap.gz)
+ bname=$(basename ${genotypedChrVcfShapeitInputPrefix}${chromsome}${genotypedChrVcfShapeitInputPostfix}.hap.gz)
  md5sum ${bname} > ${bname}.md5
- bname=$(basename $.gen.gzotypedChrVcf.hap.gzeitInputPrefix}${CHR}$.gen.gzotypedChrVcf.hap.gzeitInputPostfix}.hap.sample)
+ bname=$(basename ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.hap.sample)
  md5sum ${bname} > ${bname}.md5
  cd -
  echo "succes moving files";
 else
  >&2 echo "went wrong with following command:"
  >&2 echo "$EBROOTNGSMINUTILS/prepareGenFromBeagle4_modified20160601/bin/prepareGenFromBeagle4 \\
-             --likelihoods $.gen.gzotypedChrVcfGL} \\
-             --posteriors $.gen.gzotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz \\
+             --likelihoods ${genotypedChrVcfGL} \\
+             --posteriors ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz \\
              --threshold 0.995 \\
-             --output $.gen.gzotypedChrVcf.hap.gzeitInputPrefix}${CHR}$.gen.gzotypedChrVcf.hap.gzeitInputPostfix}"
+             --output ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}"
  echo "returncode: $?";
  echo "fail";
  exit 1; 

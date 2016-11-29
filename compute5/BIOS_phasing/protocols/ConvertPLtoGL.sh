@@ -8,11 +8,11 @@
 
 #string WORKDIR
 #string projectDir
-#string.gen.gzotypedChrVcfGLDir
-#string.gen.gzotypedChrVcfGL
+#string genotypedChrVcfGLDir
+#string genotypedChrVcfGL
 #string vcf
 #string biopythonVersion
-#string.gen.gzotypedChrVcfGL
+#string genotypedChrVcfGL
 #string ngsutilsVersion
 
 echo "## "$(date)" Start $0"
@@ -23,7 +23,7 @@ ${stage} Biopython/${biopythonVersion}
 ${stage} ngs-utils/${ngsutilsVersion}
 ${checkStage}
 
-mkdir -p $.gen.gzotypedChrVcfGLDir}
+mkdir -p ${genotypedChrVcfGLDir}
 
 echo "Starting conversion."
 
@@ -31,13 +31,13 @@ echo "Starting conversion."
 #Run conversion script beagle vcf to .hap.gzeit format
 if python $EBROOTNGSMINUTILS/PL_to_GL_reorder.py \
     --vcf ${vcf} \
-    --out $.gen.gzotypedChrVcfGL}
+    --out ${genotypedChrVcfGL}
 
 then
  echo "returncode: $?";
- putFile $.gen.gzotypedChrVcfGL}
- cd $.gen.gzotypedChrVcfGLDir}
- bname=$(basename $.gen.gzotypedChrVcfGL})
+ putFile ${genotypedChrVcfGL}
+ cd ${genotypedChrVcfGLDir}
+ bname=$(basename ${genotypedChrVcfGL})
  md5sum ${bname} > ${bname}.md5
  cd -
  echo "succes moving files";
@@ -45,7 +45,7 @@ else
  >&2 echo "went wrong with following command:"
  >&2 echo "python $EBROOTNGSMINUTILS/PL_to_GL_reorder.py \\
             --vcf ${vcf} \\
-            --out $.gen.gzotypedChrVcfGL}"
+            --out ${genotypedChrVcfGL}"
  echo "returncode: $?";
  echo "fail";
  exit 1;
