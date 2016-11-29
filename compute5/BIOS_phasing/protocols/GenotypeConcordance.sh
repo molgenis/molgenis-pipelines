@@ -129,7 +129,7 @@ do
 	
 	done
 
-	#	min mean dp is 20 and.genotype quality is 20
+	#	min mean dp is 20 and genotype quality is 20
 	vcftools --vcf ${comparison_files}RNA_seq/chr${chr}.genotypeGVCF.gg.vcf \
 	--min-meanDP 20 \
 	--minQ 20 \
