@@ -1,4 +1,4 @@
-#MOLGENIS walltime=23:59:00 mem=8gb nodes=1 ppn=8
+#MOLGENIS walltime=23:59:00 mem=16gb nodes=1 ppn=8
 
 ### variables to help adding to database (have to use weave)
 #string project
@@ -57,7 +57,7 @@ if shapeit \
               ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.hap.sample \
  --input-map ${geneticMapChrPrefix}${CHR}${geneticMapChrPostfix} \
  --input-scaffold ${phasedScaffoldDir}/chr_${CHR}.haps \
-                  ${phasedScaffoldDir}/chr${CHR}.sample \
+                  ${phasedScaffoldDir}/chr_${CHR}.sample \
  --input-thr 1.0 \
  --thread 8 \
  --window 0.1 \
@@ -96,7 +96,7 @@ else
               /groups/umcg-bios/tmp04/projects/lld_gvcfs/phasing/results_GQ20_callrate50//beagle//lld_plus_gonl.chr${CHR}.beagle.genotype.probs.gg.hap.sample \\
  --input-map /apps/data/www.shapeit.fr/genetic_map_b37//genetic_map_chr${CHR}_combined_b37.txt \\
  --input-scaffold /groups/umcg-lld/tmp04/projects/genotypingRelease3/selectionLldeep/lldeepPhased//chr_${CHR}.haps \\
-                  /groups/umcg-lld/tmp04/projects/genotypingRelease3/selectionLldeep/lldeepPhased//chr${CHR}.sample \\
+                  /groups/umcg-lld/tmp04/projects/genotypingRelease3/selectionLldeep/lldeepPhased//chr_${CHR}.sample \\
  --input-thr 1.0 \
  --thread 8 \
  --window 0.1 \

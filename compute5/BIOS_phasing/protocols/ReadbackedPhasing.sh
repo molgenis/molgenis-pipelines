@@ -163,8 +163,8 @@ done
 cd ${phaserDir}
 zip -r ${project}.chr${CHR}.variant_connections.zip ./variant_connections/*chr${chromosome}.*
 zip -r ${project}.chr${CHR}.allelic_counts.zip ./allelic_counts/*chr${chromosome}.*
-zip -r ${project}.chr${CHR}.hap.gzlotypes.zip ./haplotypes/*chr${chromosome}.*
-zip -r ${project}.chr${CHR}.hap.gzlotypic_counts.zip ./haplotypic_counts/*chr${chromosome}.*
+zip -r ${project}.chr${CHR}.hap.haplotypes.zip ./haplotypes/*chr${chromosome}.*
+zip -r ${project}.chr${CHR}.hap.haplotypic_counts.zip ./haplotypic_counts/*chr${chromosome}.*
 zip -r ${project}.chr${CHR}.allele_config.zip ./allele_config/*chr${chromosome}.*
 
 #Move final output to result file and create md5sums
@@ -172,8 +172,8 @@ zip -r ${project}.chr${CHR}.allele_config.zip ./allele_config/*chr${chromosome}.
  putFile $phaserOutPrefix.vcf.gz
  putFile ${phaserDir}/${project}.chr${CHR}.variant_connections.zip
  putFile ${phaserDir}/${project}.chr${CHR}.allelic_counts.zip
- putFile ${phaserDir}/${project}.chr${CHR}.hap.gzlotypes.zip
- putFile ${phaserDir}/${project}.chr${CHR}.hap.gzlotypic_counts.zip
+ putFile ${phaserDir}/${project}.chr${CHR}.hap.haplotypes.zip
+ putFile ${phaserDir}/${project}.chr${CHR}.hap.haplotypic_counts.zip
  putFile ${phaserDir}/${project}.chr${CHR}.allele_config.zip
 
  bname=$(basename $phaserOutPrefix.vcf.gz)
@@ -182,9 +182,9 @@ zip -r ${project}.chr${CHR}.allele_config.zip ./allele_config/*chr${chromosome}.
  md5sum ${bname} > ${bname}.md5
  bname=$(basename ${phaserDir}/${project}.chr${CHR}.allelic_counts.zip)
  md5sum ${bname} > ${bname}.md5
- bname=$(basename ${phaserDir}/${project}.chr${CHR}.hap.gzlotypes.zip)
+ bname=$(basename ${phaserDir}/${project}.chr${CHR}.hap.haplotypes.zip)
  md5sum ${bname} > ${bname}.md5
- bname=$(basename ${phaserDir}/${project}.chr${CHR}.hap.gzlotypic_counts.zip)
+ bname=$(basename ${phaserDir}/${project}.chr${CHR}.hap.haplotypic_counts.zip)
  md5sum ${bname} > ${bname}.md5
  bname=$(basename ${phaserDir}/${project}.chr${CHR}.allele_config.zip)
  md5sum ${bname} > ${bname}.md5
