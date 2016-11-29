@@ -13,7 +13,7 @@ e#MOLGENIS walltime=3-23:59:00 mem=34gb nodes=1 ppn=2
 #string beagleVersion
 
 #string vcf
-#stringgenotypedChrVcfTbi
+#string genotypedChrVcfTbi
 
 #string genotypedChrVcfBeagleGenotypeProbabilities
 #string CHR
@@ -35,19 +35,19 @@ mkdir -p ${beagleDir}
 
 if java -Xmx32g -Djava.io.tmpdir=$TMPDIR -XX:ParallelGCThreads=2 -jar $EBROOTBEAGLE/beagle.${beagleJarVersion}.jar \
  gl=${vcf} \
- out=$genotypedChrVcfBeagleGenotypeProbabilities} \
+ out=${genotypedChrVcfBeagleGenotypeProbabilities} \
  chrom=${CHR}
  
  #Decompress the beagle gzipped output and gzip it again. There's a bug on some platforms which causes incompatibility between normal zlib and boost zlib.
  #This also affects our system! More information here: https://mat.gen.gz.stats.ox.ac.uk.gen.gzetics_software/.hap.gzeit/.hap.gzeit.html#gcall
  
  cd ${beagleDir}
- gunzip $genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz
- gzip ${beagleDir}/${project}.chr${CHR}.beagle.gen.gzotype.probs.gg.vcf
+ gunzip ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz
+ gzip ${beagleDir}/${project}.chr${CHR}.beagle.genotype.probs.gg.vcf
  
 then
  echo "returncode: $?";
- putFile $genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz
+ putFile ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz
  cd ${beagleDir}
  bname=$(basename $genotypedChrVcfBeagleGenotypeProbabilities})
  md5sum ${bname}.vcf.gz > ${bname}.vcf.gz.md5
@@ -57,7 +57,7 @@ else
  >&2 echo "went wrong with following command:"
  >&2 echo "java -Xmx32g -Djava.io.tmpdir=$TMPDIR -XX:ParallelGCThreads=2 -jar $EBROOTBEAGLE/beagle.${beagleJarVersion}.jar \\
                  gl=${vcf} \\
-                 out=$genotypedChrVcfBeagleGenotypeProbabilities} \\
+                 out=${genotypedChrVcfBeagleGenotypeProbabilities} \\
                  chrom=${CHR}"
  echo "returncode: $?";
  echo "fail";
