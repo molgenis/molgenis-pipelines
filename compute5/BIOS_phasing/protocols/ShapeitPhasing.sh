@@ -1,4 +1,4 @@
-#MOLGENIS walltime=23:59:00 mem=16gb nodes=1 ppn=8
+#MOLGENIS walltime=23:59:00 mem=8gb nodes=1 ppn=4
 
 ### variables to help adding to database (have to use weave)
 #string project
@@ -59,7 +59,7 @@ if shapeit \
  --input-scaffold ${phasedScaffoldDir}/chr_${CHR}.haps \
                   ${phasedScaffoldDir}/chr_${CHR}.sample \
  --input-thr 1.0 \
- --thread 8 \
+ --thread 4 \
  --window 0.1 \
  --states 400 \
  --states-random 200 \
