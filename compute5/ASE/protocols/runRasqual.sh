@@ -1,4 +1,4 @@
-#MOLGENIS walltime=23:59:00 mem=8gb nodes=1 ppn=16 ### variables to help adding t$
+#MOLGENIS walltime=05:59:00 mem=8gb nodes=1 ppn=16 ### variables to help adding t$
 #string project
 ###
 #string stage
@@ -42,7 +42,7 @@ ${stage} tabix/${tabixVersion}
 ${checkStage}
 
 
-mkdir -p ${rasqualOutDir}/${featureType}
+mkdir -p ${rasqualOutDir}/${featureType}/chr${CHR}/
 
 echo LAST START >> ${rasqualFeatureChunkOutput}
 if [ ${featureType} == "exon" ];
@@ -56,7 +56,8 @@ then
         kfilebin=${kfilebinGene}
         yfilebin=${yfilebinGene}
         yfiletxt=${yfiletxtGene}
-        featureDir=${featureChunkDir}/genelistChunks/
+        #featureDir=${featureChunkDir}/genelistChunks/
+        featureDir=${featureChunkDir}/genelistChunksPerFeature/
 elif [ ${featureType} == "transcript" ];
 then
         kfilebin=${kfilebinTranscript}
@@ -71,12 +72,19 @@ fi
 rm -f ${rasqualFeatureChunkOutput}
 rm -f ${rasqualFeatureChunkPermutationOutput}
 
+#Copy feature file, bgzip and tabix it (this to reduce number of files on shared storage space)
+cp $featureDir/${featureChunkFile} $TMPDIR/${featureChunkFile}
+bgzip -c $TMPDIR/${featureChunkFile} > $TMPDIR/${featureChunkFile}.gz
+tabix -s 1 -b 2 -e 3 $TMPDIR/${featureChunkFile}.gz
+
+#Run analysis
 window=$((${cisWindow}/2)) # 1Mb
 samples_num=$(awk -F'\t' '{print NF-1; exit}' ${yfiletxt})
 cutoff=$((samples_num * ${minCoveragePerFeature}))
 Top=$(tabix ${ASVCF} ${CHR}: | tail -n 1 | cut -f 2)
 while read region;do
 while read line;do
+		echo "Analyzing feature: $line";
         #INIT#########################
         array=($line)
         id=$(echo $line| cut -f1-5,7-9,13,16)
@@ -97,9 +105,9 @@ while read line;do
         #PREFILTERS###########################################
 #       if (( Coverage < Cutoff_for_this)); then continue; fi
         ######################################################
-        tabix ${ASVCF} $chr:$L-$R | ${RASQUALDIR}/bin/rasqual -y ${yfilebin} -k ${kfilebin} -n $samples_num -j $line_number -l $Totalsnps -m $Totalsnps -s $featureStarts -e $featureEnds -f "$id Output:" --n-threads 16 >> ${rasqualFeatureChunkOutput}
-        tabix ${ASVCF} $chr:$L-$R | ${RASQUALDIR}/bin/rasqual -y ${yfilebin} -k ${kfilebin} -n $samples_num -j $line_number -l $Totalsnps -m $Totalsnps -s $featureStarts -e $featureEnds -f "$id Output:" --n-threads 16 -r >> ${rasqualFeatureChunkPermutationOutput}
-done < <(tabix $featureDir/${featureChunkFile} "$region" )
+        tabix ${ASVCF} $chr:$L-$R | ${RASQUALDIR}/bin/rasqual --force -y ${yfilebin} -k ${kfilebin} -n $samples_num -j $line_number -l $Totalsnps -m $Totalsnps -s $featureStarts -e $featureEnds -f "$id Output:" --n-threads 16 >> ${rasqualFeatureChunkOutput}
+        tabix ${ASVCF} $chr:$L-$R | ${RASQUALDIR}/bin/rasqual --force -y ${yfilebin} -k ${kfilebin} -n $samples_num -j $line_number -l $Totalsnps -m $Totalsnps -s $featureStarts -e $featureEnds -f "$id Output:" --n-threads 16 -r >> ${rasqualFeatureChunkPermutationOutput}
+done < <(tabix $TMPDIR/${featureChunkFile}.gz "$region" )
 done < <(awk 'F"\t" $($1 == ${CHR}) {printf ("%s:%s-%s\n", $1, $2, $3)}' ${regionsFile})
 
 

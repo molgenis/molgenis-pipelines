@@ -112,8 +112,8 @@ RasqualizeScript,/apps/data/UMCG/scripts/rasqualize.R
 sampleNum,24
 featureChunkDir,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/
 readCountFile,${readCountDir}/${sampleName}_readCounts.txt
-rasqualFeatureChunkOutput,${rasqualOutDir}/${featureType}/${featureChunkFile}.rasqual.output.txt
-rasqualFeatureChunkPermutationOutput,${rasqualOutDir}/${featureType}/${featureChunkFile}.rasqual.output.permutation.txt
+rasqualFeatureChunkOutput,${rasqualOutDir}/${featureType}/chr${CHR}/${featureChunkFile}.rasqual.output.txt
+rasqualFeatureChunkPermutationOutput,${rasqualOutDir}/${featureType}/chr${CHR}/${featureChunkFile}.rasqual.output.permutation.txt
 #
 ## MergeRasqualResults
 rasqualFeatureChrOutput,${rasqualOutDir}/${featureType}/chr${CHR}.rasqual.output.txt
