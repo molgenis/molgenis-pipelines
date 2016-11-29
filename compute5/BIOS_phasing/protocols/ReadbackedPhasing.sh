@@ -133,8 +133,8 @@ then
   #Move log files to corresponding directories
   mv $TMPOUTPUTVCF.variant_connections.txt ${phaserDir}/variant_connections/
   mv $TMPOUTPUTVCF.allelic_counts.txt ${phaserDir}/allelic_counts/
-  mv $TMPOUTPUTVCF.hap.gzlotypes.txt ${phaserDir}/haplotypes/
-  mv $TMPOUTPUTVCF.hap.gzlotypic_counts.txt ${phaserDir}/haplotypic_counts/
+  mv $TMPOUTPUTVCF.hap.haplotypes.txt ${phaserDir}/haplotypes/
+  mv $TMPOUTPUTVCF.hap.haplotypic_counts.txt ${phaserDir}/haplotypic_counts/
   mv $TMPOUTPUTVCF.allele_config.txt ${phaserDir}/allele_config/
 else
  >&2 echo "went wrong with following command:"
