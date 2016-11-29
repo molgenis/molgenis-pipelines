@@ -49,7 +49,7 @@ then
  echo "returncode: $?";
  putFile ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz
  cd ${beagleDir}
- bname=$(basename $genotypedChrVcfBeagleGenotypeProbabilities})
+ bname=$(basename ${genotypedChrVcfBeagleGenotypeProbabilities})
  md5sum ${bname}.vcf.gz > ${bname}.vcf.gz.md5
  cd -
  echo "succes moving files";
