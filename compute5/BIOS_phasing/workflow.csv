@@ -3,5 +3,6 @@ BeagleGenotypeCalling,protocols/BeagleGenotypeCalling.sh,
 ConvertPLtoGL,protocols/ConvertPLtoGL.sh,
 ConvertBeagleToShapeit,protocols/ConvertBeagleToShapeit.sh,ConvertPLtoGL;BeagleGenotypeCalling
 ShapeitPhasing,protocols/ShapeitPhasing.sh,ConvertBeagleToShapeit
-ConvertShapeitToVCF,protocols/ConvertShapeitToVCF.sh,ShapeitPhasing
+LigateHaplotypes,protocols/LigateHaplotypes.sh,ShapeitPhasing
+ConvertShapeitToVCF,protocols/ConvertShapeitToVCF.sh,LigateHaplotypes
 ReadbackedPhasing,protocols/ReadbackedPhasing.sh,ConvertShapeitToVCF

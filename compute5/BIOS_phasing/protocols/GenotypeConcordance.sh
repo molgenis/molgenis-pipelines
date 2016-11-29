@@ -44,7 +44,7 @@ mkdir -p ${output_folder}
 for chr in {1..22}
 	
 do
-    echo "Starting chromosome ${chr}"
+    echo "Starting CHR ${chr}"
 	#	bgzip and tabix all RNA-seq individual calls
 	#	comment out if not needed
     if [ ! -f ${rnaseq_individual}mergeGVCFchr${chr}.gg.vcf.gz ]; then
@@ -62,7 +62,7 @@ do
 	#	WGS
 	gunzip -c ${wgs_folder}gonl-abc_samples.chr${chr}${wgs_postfix}.vcf.gz | grep 'PASS' | wc -l >> ${output_folder}WGS_filtered_count.txt
 	#	unfiltered individual calling
-	gunzip -c ${comparison_files}RNA_seq/chr${chr}.genotypeGVCF.gg.vcf.gz | grep 'GT:AD' | wc -l >> ${output_folder}RNA_unfiltered_count.txt
+	gunzip -c ${comparison_files}RNA_seq/chr${chr}.gen.gzotypeGVCF.gg.vcf.gz | grep 'GT:AD' | wc -l >> ${output_folder}RNA_unfiltered_count.txt
 	#	unfiltered merged
 	gunzip -c ${rnaseq_individual}mergeGVCFchr${chr}.gg.vcf.gz |  grep 'GT:AD' | wc -l >> ${output_folder}RNA_individual_calls_unfiltered_count.txt
 
@@ -71,21 +71,21 @@ do
 		## Step 1: Filter 
 		#	Without individual calling
 		#	min mean dp is ${dp}
-		vcftools --vcf ${comparison_files}RNA_seq/chr${chr}.genotypeGVCF.gg.vcf \
+		vcftools --vcf ${comparison_files}RNA_seq/chr${chr}.gen.gzotypeGVCF.gg.vcf \
 			--min-meanDP ${dp} \
 			--recode \
-			--remove-filtered-geno-all \
-			--out ${comparison_files}RNA_seq/chr${chr}.genotypeGVCF_filtered.gg_meanDP${dp}
+			--remove-filtered.gen.gzo-all \
+			--out ${comparison_files}RNA_seq/chr${chr}.gen.gzotypeGVCF_filtered.gg_meanDP${dp}
 
-		bgzip -c ${comparison_files}RNA_seq/chr${chr}.genotypeGVCF_filtered.gg_meanDP${dp}.recode.vcf  > ${comparison_files}RNA_seq/chr${chr}.genotypeGVCF_filtered.gg_meanDP${dp}.recode.vcf.gz
-		tabix -p vcf ${comparison_files}RNA_seq/chr${chr}.genotypeGVCF_filtered.gg_meanDP${dp}.recode.vcf.gz
+		bgzip -c ${comparison_files}RNA_seq/chr${chr}.gen.gzotypeGVCF_filtered.gg_meanDP${dp}.recode.vcf  > ${comparison_files}RNA_seq/chr${chr}.gen.gzotypeGVCF_filtered.gg_meanDP${dp}.recode.vcf.gz
+		tabix -p vcf ${comparison_files}RNA_seq/chr${chr}.gen.gzotypeGVCF_filtered.gg_meanDP${dp}.recode.vcf.gz
 	
 	
 		#	With individual calling
 		vcftools --vcf ${rnaseq_individual}mergeGVCFchr${chr}.gg.vcf \
 			--min-meanDP ${dp} \
 			--recode \
-			--remove-filtered-geno-all \
+			--remove-filtered.gen.gzo-all \
 			--out ${rnaseq_individual}mergeGVCFchr${chr}.gg_meanDP${dp}
 
 		bgzip -c ${rnaseq_individual}mergeGVCFchr${chr}.gg_meanDP${dp}.recode.vcf  > ${rnaseq_individual}mergeGVCFchr${chr}.gg_meanDP${dp}.recode.vcf.gz
@@ -94,7 +94,7 @@ do
 		
 		##	Step 2: Read how many variants in WGS and RNA-seq
 		#merged
-		gunzip -c ${comparison_files}RNA_seq/chr${chr}.genotypeGVCF_filtered.gg_meanDP${dp}.recode.vcf.gz | grep 'GT:AD' | wc -l >> ${output_folder}RNA_filteredDP${dp}_count.txt
+		gunzip -c ${comparison_files}RNA_seq/chr${chr}.gen.gzotypeGVCF_filtered.gg_meanDP${dp}.recode.vcf.gz | grep 'GT:AD' | wc -l >> ${output_folder}RNA_filteredDP${dp}_count.txt
 		#individual
 		gunzip -c ${rnaseq_individual}mergeGVCFchr${chr}.gg_meanDP${dp}.recode.vcf.gz | grep 'GT:AD' | wc -l >> ${output_folder}RNA_individual_calls_filteredDP${dp}_count.txt
 	
@@ -104,7 +104,7 @@ do
 		java -jar /groups/umcg-bios/tmp04/users/umcg-mjbonder/CompareGenotypeCalls-1.5-SNAPSHOT/CompareGenotypeCalls.jar \
 			-d1 ${wgs_folder}gonl-abc_samples.chr${chr}${wgs_postfix} \
 			-D1 VCF \
-			-d2 ${comparison_files}RNA_seq/chr${chr}.genotypeGVCF_filtered.gg_meanDP${dp}.recode \
+			-d2 ${comparison_files}RNA_seq/chr${chr}.gen.gzotypeGVCF_filtered.gg_meanDP${dp}.recode \
 			-D2 VCF \
 			-o ${output_folder}intersected_filter_DP${dp}${chr} \
 			-s ${rnaseq_rare_variants}linking_file.txt 2>&1 | tee ${output_folder}intersected_DP${dp}${chr}.log
@@ -120,7 +120,7 @@ do
 	
 		##	compare unified calling vs individual calling
 		java -jar /groups/umcg-bios/tmp04/users/umcg-mjbonder/CompareGenotypeCalls-1.5-SNAPSHOT/CompareGenotypeCalls.jar \
-			-d1 ${comparison_files}RNA_seq/chr${chr}.genotypeGVCF_filtered.gg_meanDP${dp}.recode \
+			-d1 ${comparison_files}RNA_seq/chr${chr}.gen.gzotypeGVCF_filtered.gg_meanDP${dp}.recode \
 			-D1 VCF \
 			-d2 ${rnaseq_individual}mergeGVCFchr${chr}.gg_meanDP${dp}.recode \
 			-D2 VCF \
@@ -129,16 +129,16 @@ do
 	
 	done
 
-	#	min mean dp is 20 and genotype quality is 20
-	vcftools --vcf ${comparison_files}RNA_seq/chr${chr}.genotypeGVCF.gg.vcf \
+	#	min mean dp is 20 and.gen.gzotype quality is 20
+	vcftools --vcf ${comparison_files}RNA_seq/chr${chr}.gen.gzotypeGVCF.gg.vcf \
 	--min-meanDP 20 \
 	--minQ 20 \
 	--recode \
-	--remove-filtered-geno-all \
-	--out ${comparison_files}RNA_seq/chr${chr}.genotypeGVCF_filtered.gg_meanDP20_minQC20
+	--remove-filtered.gen.gzo-all \
+	--out ${comparison_files}RNA_seq/chr${chr}.gen.gzotypeGVCF_filtered.gg_meanDP20_minQC20
 
-	bgzip -c ${comparison_files}RNA_seq/chr${chr}.genotypeGVCF_filtered.gg_meanDP20_minQC20.recode.vcf  > ${comparison_files}RNA_seq/chr${chr}.genotypeGVCF_filtered.gg_meanDP20_minQC20.recode.vcf.gz
-	tabix -p vcf ${comparison_files}RNA_seq/chr${chr}.genotypeGVCF_filtered.gg_meanDP20_minQC20.recode.vcf.gz
+	bgzip -c ${comparison_files}RNA_seq/chr${chr}.gen.gzotypeGVCF_filtered.gg_meanDP20_minQC20.recode.vcf  > ${comparison_files}RNA_seq/chr${chr}.gen.gzotypeGVCF_filtered.gg_meanDP20_minQC20.recode.vcf.gz
+	tabix -p vcf ${comparison_files}RNA_seq/chr${chr}.gen.gzotypeGVCF_filtered.gg_meanDP20_minQC20.recode.vcf.gz
 
 	#	filter in only PASS in WGS
 	vcftools --vcf ${wgs_folder}gonl-abc_samples.chr${chr}.release5.raw_SNVs.intersect.vcf \
@@ -147,12 +147,12 @@ do
 	--remove-filtered-all > ${wgs_folder}gonl-abc_samples.chr${chr}${wgs_postfix}.vcf
 
 
-	#	min mean dp is 20 and genotype quality is 20
+	#	min mean dp is 20 and.gen.gzotype quality is 20
 	vcftools --vcf ${rnaseq_individual}mergeGVCFchr${chr}.gg.vcf \
 	--min-meanDP 20 \
 	--minQ 20 \
 	--recode \
-	--remove-filtered-geno-all \
+	--remove-filtered.gen.gzo-all \
 	--out ${rnaseq_individual}mergeGVCFchr${chr}.gg_meanDP20_minQC20
 
 	bgzip -c ${rnaseq_individual}mergeGVCFchr${chr}.gg_meanDP20_minQC20.recode.vcf  > ${rnaseq_individual}mergeGVCFchr${chr}.gg_meanDP20_minQC20.recode.vcf.gz
@@ -160,7 +160,7 @@ do
 
 	###############################################################
 
-	gunzip -c ${comparison_files}RNA_seq/chr${chr}.genotypeGVCF_filtered.gg_meanDP20_minQC20.recode.vcf.gz | grep 'GT:AD' | wc -l >> ${output_folder}RNA_filteredDP20_GQ20_count.txt
+	gunzip -c ${comparison_files}RNA_seq/chr${chr}.gen.gzotypeGVCF_filtered.gg_meanDP20_minQC20.recode.vcf.gz | grep 'GT:AD' | wc -l >> ${output_folder}RNA_filteredDP20_GQ20_count.txt
 	# individual 
 	gunzip -c ${rnaseq_individual}mergeGVCFchr${chr}.gg_meanDP20_minQC20.recode.vcf.gz | grep 'GT:AD' | wc -l >> ${output_folder}RNA_individual_calls_filteredDP20_GQ20_count.txt
 
@@ -173,7 +173,7 @@ do
 	java -jar /groups/umcg-bios/tmp04/users/umcg-mjbonder/CompareGenotypeCalls-1.5-SNAPSHOT/CompareGenotypeCalls.jar \
 	-d1 ${wgs_folder}gonl-abc_samples.chr${chr}${wgs_postfix} \
 	-D1 VCF \
-	-d2 ${comparison_files}RNA_seq/chr${chr}.genotypeGVCF.gg \
+	-d2 ${comparison_files}RNA_seq/chr${chr}.gen.gzotypeGVCF.gg \
 	-D2 VCF \
 	-o ${output_folder}intersected_no_filter${chr} \
 	-s ${rnaseq_rare_variants}linking_file.txt 2>&1 | tee ${output_folder}intersected_no_filter${chr}.log	
@@ -182,7 +182,7 @@ do
 	java -jar /groups/umcg-bios/tmp04/users/umcg-mjbonder/CompareGenotypeCalls-1.5-SNAPSHOT/CompareGenotypeCalls.jar \
 	-d1 ${wgs_folder}gonl-abc_samples.chr${chr}${wgs_postfix} \
 	-D1 VCF \
-	-d2 ${comparison_files}RNA_seq/chr${chr}.genotypeGVCF_filtered.gg_meanDP20_minQC20.recode \
+	-d2 ${comparison_files}RNA_seq/chr${chr}.gen.gzotypeGVCF_filtered.gg_meanDP20_minQC20.recode \
 	-D2 VCF \
 	-o ${output_folder}intersected_filter_DP20__minQC20${chr} \
 	-s ${rnaseq_rare_variants}linking_file.txt 2>&1 | tee ${output_folder}intersected_DP20_GC20${chr}.log
@@ -213,7 +213,7 @@ do
 
 	#	 no filter
 	java -jar /groups/umcg-bios/tmp04/users/umcg-mjbonder/CompareGenotypeCalls-1.5-SNAPSHOT/CompareGenotypeCalls.jar \
-		-d1 ${comparison_files}RNA_seq/chr${chr}.genotypeGVCF.gg \
+		-d1 ${comparison_files}RNA_seq/chr${chr}.gen.gzotypeGVCF.gg \
 		-D1 VCF \
 		-d2 ${rnaseq_individual}mergeGVCFchr${chr}.gg \
 		-D2 VCF \
@@ -223,7 +223,7 @@ do
 
 	#	 DP20 GQ20
 	java -jar /groups/umcg-bios/tmp04/users/umcg-mjbonder/CompareGenotypeCalls-1.5-SNAPSHOT/CompareGenotypeCalls.jar \
-		-d1 ${comparison_files}RNA_seq/chr${chr}.genotypeGVCF_filtered.gg_meanDP20_minQC20.recode \
+		-d1 ${comparison_files}RNA_seq/chr${chr}.gen.gzotypeGVCF_filtered.gg_meanDP20_minQC20.recode \
 		-D1 VCF \
 		-d2 ${rnaseq_individual}mergeGVCFchr${chr}.gg_meanDP20_minQC20.recode \
 		-D2 VCF \
@@ -256,7 +256,7 @@ done
 
 Rscript script_concatenate_variant_test.R
 
-#	Step 5: Use R script to generate report plots and files
+#	Step 5: Use R script to.gen.gzerate report plots and files
 
 Rscript script_rMarkdown_render.R
 

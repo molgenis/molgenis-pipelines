@@ -1,7 +1,7 @@
 ########################################################################
 ## General parameters for SLURM settings and cluster directory paths
 #
-queue,ll
+queue,leftover
 defaultInterpreter,#!/bin/bash
 stage,module load
 checkStage,module list
@@ -11,7 +11,7 @@ group,umcg-bios
 tmp,tmp04
 resDir,/groups/umcg-wijmenga/tmp04/resources/
 toolDir,/apps/software/
-projectDir,${root}/${group}/${tmp}/projects/${project}/
+projectDir,/groups/umcg-bios/tmp04/projects/lld_gvcfs/phasing/results_no_filter/
 fvdProjectDir,${root}/${group}/${tmp}/projects/umcg-fvandijk/projects/
 ########################################################################
 ## Software and data versions/builds/paths
@@ -28,6 +28,7 @@ pythonVersion,3.4.1-foss-2015b
 biopythonVersion,1.65-foss-2015b-Python-3.4.1
 ngsutilsVersion,16.06.1
 zlibVersion,1.2.8
+GCCversion,4.9.3-binutils-2.25
 bzip2Version,1.0.6-foss-2015b
 GLibVersion,2.45.2-foss-2015b
 vcftoolsVersion,0.1.12b-goolf-1.7.20-Perl-5.20.2-bare
@@ -38,23 +39,33 @@ referenceFastaName,human_g1k_v37
 genomeBuild,b37
 onekgGenomeFasta,${resDir}/${genomeBuild}/indices/${referenceFastaName}.fasta
 geneticMapDir,/apps/data/www.shapeit.fr/genetic_map_b37/
-geneticMapChr,${geneticMapDir}/genetic_map_chr${chromosome}_combined_b37.txt
+# prefix before CHR, postfix after. Necesarry for correct chunking of Shapeit
+geneticMapChrPrefix,${geneticMapDir}/genetic_map_chr
+geneticMapChrPostfix,_combined_b37.txt
 OneKgPhase3VCF,/apps/data/1000G/release/20130502//ALL.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.vcf.gz
 ########################################################################
 ## Specific tools paths
 #
 ## Input Beagle from GATK GenotypeGVF
 genotypedChrVcfGLDir,${projectDir}/genotypeVcfGL/
-genotypedChrVcfGL,${genotypedChrVcfGLDir}/${project}.chr${chromosome}.genotypeGVCF.gg.vcf.gz
+genotypedChrVcfGL,${genotypedChrVcfGLDir}/${project}.chr${CHR}.genotypeGVCF.gg.vcf.gz
 genotypedChrVcfTbi,${genotypedChrVcfGL}.tbi
 ## Beagle
 beagleDir,${projectDir}/beagle/
-genotypedChrVcfBeagleGenotypeProbabilities,${beagleDir}/${project}.chr${chromosome}.beagle.genotype.probs.gg
-genotypedChrVcfShapeitInputPrefix,${beagleDir}/${project}.chr${chromosome}.beagle.genotype.probs.gg
+genotypedChrVcfBeagleGenotypeProbabilities,${beagleDir}/${project}.chr${CHR}.beagle.genotype.probs.gg
 ## Shapeit
+# prefix until before chr, postfix after chr
+genotypedChrVcfShapeitInputPrefix,${beagleDir}/${project}.chr
+genotypedChrVcfShapeitInputPostfix,.beagle.genotype.probs.gg
 shapeitDir,${projectDir}/shapeit/
+shapeitLigatedHaplotypeDir,${projectDir}/shapeitLigatedHaplotypes/
+shapeitLigatedHaplotype,${shapeitLigatedHaplotypesDir}/chr${CHR}.ligatedHaplotype.hap
+scaffoldedSamples,${shapeitLigatedHaplotypesDir}/scaffolded_samples_chr${CHR}.txt
 phasedScaffoldDir,/groups/umcg-lld/tmp04/projects/genotypingRelease3/selectionLldeep/lldeepPhased/
-shapeitPhasedOutputPrefix,${shapeitDir}/${project}.chr${chromosome}.shapeit.phased
+# prefix should be up until CHR number
+shapeitPhasedOutputPrefix,${shapeitDir}/${project}.chr
+# postfix should be after chr number
+shapeitPhasedOutputPostfix,.shapeit.phased
 ## phASER
 mapq,0
 baseq,0
