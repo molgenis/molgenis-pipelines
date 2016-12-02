@@ -19,24 +19,25 @@
 #string bzip2Version
 #string GCCversion
 #string CHR
+#string prepareGenFromBeagle4Version
 
 echo "## "$(date)" Start $0"
 
 getFile ${genotypedChrVcfGL}
 getFile ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz
 
-${stage} ngs-utils/${ngsutilsVersion}
+${stage} prepareGenFromBeagle4/${prepareGenFromBeagle4Version}
+# don't know if below should still be loaded or if it should be included in the prepareGenFromBeagle4 easyconfig
 ${stage} GLib/${GLibVersion}
 ${stage} zlib/${zlibVersion}
 ${stage} bzip2/${bzip2Version}
-# THIS NEEDS TO BE LOADED AFTER NGS-UTILS TO PREVENT GCCXX ERROR
 ${stage} GCC/${GCCversion}
 ${checkStage}
 
 # the output is cut up into ..PrefixChromsomePostfix because it is needed for correct folding of .hap.gzit jobs later
 
 #Run conversion script beagle vcf to .hap.gzeit format
-if $EBROOTNGSMINUTILS/prepareGenFromBeagle4_modified20160601/bin/prepareGenFromBeagle4 \
+if prepareGenFromBeagle4 \
  --likelihoods ${genotypedChrVcfGL} \
  --posteriors ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz \
  --threshold 0.995 \

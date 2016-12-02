@@ -29,6 +29,7 @@ getFile ${vcf}
 
 
 ${stage} beagle/${beagleVersion}
+${stage} tabix/${tabixVersion}
 ${checkStage}
 
 mkdir -p ${beagleDir}
@@ -43,8 +44,8 @@ if java -Xmx32g -Djava.io.tmpdir=$TMPDIR -XX:ParallelGCThreads=2 -jar $EBROOTBEA
  
  cd ${beagleDir}
  gunzip ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz
- gzip ${beagleDir}/${project}.chr${CHR}.beagle.genotype.probs.gg.vcf
- 
+ bgzip ${beagleDir}/${project}.chr${CHR}.beagle.genotype.probs.gg.vcf
+ tabix ${beagleDir}/${project}.chr${CHR}.beagle.genotype.probs.gg.vcf.gz
 then
  echo "returncode: $?";
  putFile ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz
