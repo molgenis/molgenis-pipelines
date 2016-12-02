@@ -18,7 +18,10 @@
 #string phasedScaffoldDir
 #string geneticMapChrPrefix
 #string geneticMapChrPostfix
+#string beagleDir
+#string tabixVersion
 
+${stage} tabix/${tabixVersion}
 ${stage} shapeit/${shapeitVersion}
 ${checkStage}
 
@@ -30,6 +33,7 @@ CHR=$(echo $chromosomeChunk | cut -d':' -f1 )
 position=$(echo $chromosomeChunk | cut -d':' -f2 )
 start=$(echo $position | cut -d'-' -f1 )
 end=$(echo $position | cut -d'-' -f2 )
+
 
 echo "CHR: $CHR"
 echo "start: $start"
@@ -44,12 +48,28 @@ getFile ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputP
 
 mkdir -p ${shapeitDir}
 
+# check if there is at least one SNP in this chromosome chunk
+containsSnps=$(tabix ${beagleDir}/${project}.chr${CHR}.beagle.genotype.probs.gg.vcf.gz  $CHR:$start-$end | head | wc -l)
+# boolean is used later to skip shapeit if needed
+containsSnpsBoolean="false"
+if [ $containsSnps -eq 0 ]; 
+then 
+  # if it does not contain any SNPs, make empty file
+  echo "Region $CHR:$start-$end of ${beagleDir}/${project}.chr${CHR}.beagle.genotype.probs.gg.vcf.gz does not contain any SNPs"; 
+  echo "Creating empty output files"
+  touch ${shapeitPhasedOutputPrefix}${CHR}_${start}_${end}${shapeitPhasedOutputPostfix}.hap.gz
+  touch ${shapeitPhasedOutputPrefix}${CHR}_${start}_${end}${shapeitPhasedOutputPostfix}.hap.gz.sample
+  echo "Region $CHR:$start-$end of ${beagleDir}/${project}.chr${CHR}.beagle.genotype.probs.gg.vcf.gz does not contain any SNPs" > ${shapeitPhasedOutputPrefix}${CHR}_${start}_${end}${shapeitPhasedOutputPostfix}.log
+else 
+  echo "Region contains SNPs";
+  containsSnpsBoolean="true"
+fi
 
 #Run shapeit
 # The shaping is scaffolded using the chip-based or wgs phased genotypes (--input-init). For data without this information (like
 # vcfs from public rnaseq) this pipeline needs to be different OR it needs to be phased together with BIOS samples (using BIOS
 # samples as scaffolding, but could give population problems)
-if shapeit \
+if [ "$containsSnpsBoolean" == "false" ] || shapeit \
  -call \
  --input-gen ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.gen.gz \
              ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.gen.sample \

@@ -19,15 +19,9 @@
 echo "## "$(date)" Start $0"
 
 
-#for file in "${bam[@]}"; do
-#	echo "getFile file='$file'"
-#	getFile $file
-#	if [[ ! -f $file ]] ; then
-#  		exit 1
-#	fi
-#done
 if [[ ! -f ${shapeitPhasedOutputPrefix}.vcf.gz ]] ; then
-exit 1
+  >&2 echo "${shapeitPhasedOutputPrefix}.vcf.gz does not exist"
+  exit 1
 fi
 
 #sort unique and print like 'INPUT=file1.bam INPUT=file2.bam '
@@ -69,47 +63,47 @@ last_bam=${#bams[@]}
 for BAM in "${bams[@]}"
 do
 
-let i=i+1
+  let i=i+1
 
-#Extract sampleName from BAM
+  #Extract sampleName from BAM
 
-filename=$(basename "$BAM")
-extension="${BAM##*.}"
-sampleName="${filename%.*}"
+  filename=$(basename "$BAM")
+  extension="${BAM##*.}"
+  sampleName="${filename%.*}"
 
-echo ""
-echo ""
-echo "Processing.."
-echo "filename: $filename"
-echo "extension: $extension"
-echo "sampleName: $sampleName"
+  echo ""
+  echo ""
+  echo "Processing.."
+  echo "filename: $filename"
+  echo "extension: $extension"
+  echo "sampleName: $sampleName"
 
-phaserOutPrefix=${phaserDir}/${project}_phASER.chr${CHR}
+  phaserOutPrefix=${phaserDir}/${project}_phASER.chr${CHR}
 
-#Set output prefix per sample for statistics etc.
-TMPOUTPUTVCF="${phaserDir}/${project}_$sampleName.readBackPhased.chr${CHR}"
+  #Set output prefix per sample for statistics etc.
+  TMPOUTPUTVCF="${phaserDir}/${project}_$sampleName.readBackPhased.chr${CHR}"
 
-if python $EBROOTPHASER/phaser/phaser.py \
-	--paired_end 1 \
-    --bam $BAM \
-    --vcf $TMPINPUTVCF \
-    --mapq ${mapq} \
-    --sample $sampleName \
-    --baseq ${baseq} \
-    --o $TMPOUTPUTVCF \
-    --temp_dir $TMPDIR \
-    --threads 12 \
-    --gw_phase_method 1 \
-	--chr ${CHR} \
-	--gw_af_vcf ${OneKgPhase3VCF} \
-	--gw_phase_vcf 1
+  if python $EBROOTPHASER/phaser/phaser.py \
+  	  --paired_end 1 \
+      --bam $BAM \
+      --vcf $TMPINPUTVCF \
+      --mapq ${mapq} \
+      --sample $sampleName \
+      --baseq ${baseq} \
+      --o $TMPOUTPUTVCF \
+      --temp_dir $TMPDIR \
+      --threads 12 \
+      --gw_phase_method 1 \
+	  --chr ${CHR} \
+      --gw_af_vcf ${OneKgPhase3VCF} \
+      --gw_phase_vcf 1
 
-# --show_warning 1 --debug 1 \
+  # --show_warning 1 --debug 1 \
 
-	#Unzip output VCF, inline replace messed up header lines, afterwards replace sample output and gzip file again
+    #Unzip output VCF, inline replace messed up header lines, afterwards replace sample output and gzip file again
 	cd ${phaserDir}
 	gunzip ${project}_$sampleName.readBackPhased.chr${CHR}.vcf.gz
-	if [ $i -ne $last_bam ]; 
+    if [ $i -ne $last_bam ]; 
 	then
 		#Replace header lines
 		perl -pi -e '!$x && s/##FORMAT=<ID=PG,Number=1,Type=String,Description="phASER Local Genotype">\n//  && ($x=1)' "${project}_$sampleName.readBackPhased.chr${CHR}.vcf";
@@ -125,20 +119,20 @@ if python $EBROOTPHASER/phaser/phaser.py \
 	gzip ${project}_$sampleName.readBackPhased.chr${CHR}.vcf
 	cd -
     
-then
-  echo "returncode: $?";
-  #Replace TMPINPUTVCF with newly generated TMPOUTPUTVCF
-  rm $TMPINPUTVCF
-  mv $TMPOUTPUTVCF.vcf.gz $TMPINPUTVCF
-  #Move log files to corresponding directories
-  mv $TMPOUTPUTVCF.variant_connections.txt ${phaserDir}/variant_connections/
-  mv $TMPOUTPUTVCF.allelic_counts.txt ${phaserDir}/allelic_counts/
-  mv $TMPOUTPUTVCF.hap.haplotypes.txt ${phaserDir}/haplotypes/
-  mv $TMPOUTPUTVCF.hap.haplotypic_counts.txt ${phaserDir}/haplotypic_counts/
-  mv $TMPOUTPUTVCF.allele_config.txt ${phaserDir}/allele_config/
-else
- >&2 echo "went wrong with following command:"
- >&2 echo "python $EBROOTPHASER/phaser/phaser.py \\
+  then
+    echo "returncode: $?";
+    #Replace TMPINPUTVCF with newly generated TMPOUTPUTVCF
+    rm $TMPINPUTVCF
+    mv $TMPOUTPUTVCF.vcf.gz $TMPINPUTVCF
+    #Move log files to corresponding directories
+    mv $TMPOUTPUTVCF.variant_connections.txt ${phaserDir}/variant_connections/
+    mv $TMPOUTPUTVCF.allelic_counts.txt ${phaserDir}/allelic_counts/
+    mv $TMPOUTPUTVCF.hap.haplotypes.txt ${phaserDir}/haplotypes/
+    mv $TMPOUTPUTVCF.hap.haplotypic_counts.txt ${phaserDir}/haplotypic_counts/
+    mv $TMPOUTPUTVCF.allele_config.txt ${phaserDir}/allele_config/
+  else
+   >&2 echo "went wrong with following command:"
+   >&2 echo "python $EBROOTPHASER/phaser/phaser.py \\
             --paired_end 1 \\
             --bam $BAM \\
             --vcf $TMPINPUTVCF \\
@@ -152,10 +146,10 @@ else
             --chr ${CHR} \\
             --gw_af_vcf ${OneKgPhase3VCF} \\
             --gw_phase_vcf 1"
- echo "returncode: $?";
- echo "fail";
- exit 1;
-fi
+   echo "returncode: $?";
+   echo "fail";
+   exit 1;
+  fi
 
 done
 

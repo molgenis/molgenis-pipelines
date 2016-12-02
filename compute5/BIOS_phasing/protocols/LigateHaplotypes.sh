@@ -14,36 +14,38 @@
 #string genotypedChrVcfShapeitInputPrefix
 #string genotypedChrVcfShapeitInputPostfix
 #list chromosomeChunk
-#string CHR
 #string phasedScaffoldDir
 #string geneticMapChrPrefix
 #string geneticMapChrPostfix
 #string shapeitLigatedHaplotype
 #string shapeitLigatedHaplotypeDir
+#string scaffoldedSamples
+#string ligateHAPLOTYPESVersion
 
 echo "## "$(date)" Start $0"
 
+${stage} ligateHAPLOTYPES/${ligateHAPLOTYPESVersion}
 ${stage} shapeit/${shapeitVersion}
 ${checkStage}
 
 
-i=0
+shapeitInput=()
+echo "looping through chunk to retrieve input files"
 for chunk in "${chromosomeChunk[@]}"
 do
   # chromosomeChunks are in the format chr:start-end, parse out the chr, start and end to separate variables
-  CHR_from_chunk=$(echo $chromosomeChunk | cut -d':' -f1 | read str1)
-  if [ "$CHR_from_chunk" == "$CHR" ];
-  then 
-    position=$(echo $chromosomeChunk | cut -d':' -f1 | read str2)
-    start=$(echo $position | cut -d'-' -f1 | read str1)
-    end=$(echo $position | cut -d'-' -f1 | read str2)
-    getFile ${shapeitPhasedOutputPrefix}${CHR}_${start}_${end}${shapeitPhasedOutputPostfix}.hap.gz
-    getFile ${shapeitPhasedOutputPrefix}${CHR}_${start}_${end}${shapeitPhasedOutputPostfix}.hap.gz.sample
-    # since it is the correct chromsome add it to array to put as input later
-    shapeitInput[i]=${shapeitPhasedOutputPrefix}${CHR}_${start}_${end}${shapeitPhasedOutputPostfix}.hap.gz
-    i=$(($i+1))
-  fi
+  CHR=$(echo $chromosomeChunk | cut -d':' -f1 )
+  position=$(echo $chromosomeChunk | cut -d':' -f2 )
+  start=$(echo $position | cut -d'-' -f1 )
+  end=$(echo $position | cut -d'-' -f2 )  CHR=$(echo $chromosomeChunk | cut -d':' -f1 )
+  echo -n "$CHR:$start-$end "
+
+  getFile ${shapeitPhasedOutputPrefix}${CHR}_${start}_${end}${shapeitPhasedOutputPostfix}.hap.gz
+  getFile ${shapeitPhasedOutputPrefix}${CHR}_${start}_${end}${shapeitPhasedOutputPostfix}.hap.sample
+  # since it is the correct chromsome add it to array to put as input later
+  shapeitInput+=("${shapeitPhasedOutputPrefix}${CHR}_${start}_${end}${shapeitPhasedOutputPostfix}.hap.gz")
 done
+echo
 
 # for check, echo the files we will use as input
 echo "input files selected for input:"
@@ -52,14 +54,14 @@ do
   echo "$inputFile"
 done
 
-mkdir -p ${shapeitLigatedHaplotypesDir}
+mkdir -p ${shapeitLigatedHaplotypeDir}
 echo "Shaping $chromosomeChunk"
 
 # The shaping is scaffolded using the chip-based or wgs phased genotypes (--input-init from ShapeitPhasing step). For data without this information (like
 # vcfs from public rnaseq) this pipeline needs to be different OR it needs to be phased together with BIOS samples (using BIOS
 # samples as scaffolding, but could give population problems)
 # have to get the scaffolded samples from the vcf file
-awk '{print $2}' ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.sample > ${scaffoldedSamples}
+awk '{print $2}' ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.hap.sample > ${scaffoldedSamples}
 if ligateHAPLOTYPES --vcf ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.hap.gz \
                  --scaffold ${scaffoldedSamples} \
                  --chunks ${shapeitInput} \
@@ -67,7 +69,7 @@ if ligateHAPLOTYPES --vcf ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedC
 then
  echo "returncode: $?";
  putFile ${shapeitLigatedHaplotype}
- cd ${shapeitLigatedHaplotypesDir}
+ cd ${shapeitLigatedHaplotypeDir}
  bname=$(basename ${shapeitLigatedHaplotype})
  md5sum ${bname} > ${bname}.md5
  cd -
