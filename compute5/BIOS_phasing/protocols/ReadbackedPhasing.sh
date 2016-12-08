@@ -9,6 +9,7 @@
 #string phaserDir
 #string shapeitPhasedOutputPrefix
 #list bam
+#list chr
 #string vcf
 #string mapq
 #string baseq
