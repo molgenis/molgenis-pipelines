@@ -34,12 +34,15 @@ dbsnpVcfIdx,${dbsnpVcf}.idx
 #
 ## GetReadCounts
 exonGTF,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/Homo_sapiens.GRCh37.75.chr${CHR}.gtf
+metaExonGTF,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/meta-exons.Ensembl.GRCh37.75.chr${CHR}.gtf
 transcriptSAF,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/transcriptlist_sorted.chr${CHR}.saf
 exonSAF,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/exonlist_sorted.chr${CHR}.saf
+metaExonSAF,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/meta-exonlist_sorted.chr${CHR}.saf
 geneSAF,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/genelist_sorted.chr${CHR}.saf
 readCountDir,${projectDir}/readCounts/
 readCountFileGene,${readCountDir}/${sampleName}.readCountsGene.chr${CHR}.txt
 readCountFileExon,${readCountDir}/${sampleName}.readCountsExon.chr${CHR}.txt
+readCountFileMetaExon,${readCountDir}/${sampleName}.readCountsMetaExon.chr${CHR}.txt
 readCountFileTranscript,${readCountDir}/${sampleName}.readCountsTranscript.chr${CHR}.txt
 pathSubread, # path to Subread bin
 stranded,1
@@ -74,9 +77,11 @@ VCF,${VCFinputDir}/${VCFprefix}${CHR}${VCFsuffix}
 ## pasteReads
 binDir,${projectDir}/bins/
 featureFileExon,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/exonlist_sorted.chr${CHR}.txt.gz
+featureFileMetaExon,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/meta-exonlist_sorted.chr${CHR}.txt.gz
 featureFileGene,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/genelist_sorted.chr${CHR}.txt.gz
 featureFileTranscript,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/transcriptlist_sorted.chr${CHR}.txt.gz
 exonlist,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/exonlist_sorted.chr${CHR}.txt
+metaExonlist,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/meta-exonlist_sorted.chr${CHR}.txt
 genelist,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/genelist_sorted.chr${CHR}.txt
 transcriptlist,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/transcriptlist_sorted.chr${CHR}.txt
 #
@@ -84,27 +89,33 @@ transcriptlist,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/transcriptlis
 ASVCF,${binDir}/chr${CHR}_ASVCF.vcf.gz
 #
 ## RunRasqual
-featureType,gene
+featureType,metaExon
 regionsFile,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/genomeWideRegion.chr${CHR}.bed
 rasqualOutDir,${projectDir}/Rasqual/
 cisWindow,1000000
 yfiletxtExon,${binDir}/Yexon.chr${CHR}.txt
+yfiletxtMetaExon,${binDir}/YmetaExon.chr${CHR}.txt
 yfilebinExon,${binDir}/Yexon.chr${CHR}.bin
+yfilebinMetaExon,${binDir}/YmetaExon.chr${CHR}.bin
 yfiletxtGene,${binDir}/Ygene.chr${CHR}.txt
 yfilebinGene,${binDir}/Ygene.chr${CHR}.bin
 yfiletxtTranscript,${binDir}/Ytranscript.chr${CHR}.txt
 yfilebinTranscript,${binDir}/Ytranscript.chr${CHR}.bin
 kfiletxtExon,${binDir}/Kexon.chr${CHR}.txt
+kfiletxtMetaExon,${binDir}/KmetaExon.chr${CHR}.txt
 kfilebinExon,${binDir}/Kexon.chr${CHR}.bin
+kfilebinMetaExon,${binDir}/KmetaExon.chr${CHR}.bin
 kfiletxtGene,${binDir}/Kgene.chr${CHR}.txt
 kfilebinGene,${binDir}/Kgene.chr${CHR}.bin
 kfiletxtTranscript,${binDir}/Ktranscript.chr${CHR}.txt
 kfilebinTranscript,${binDir}/Ktranscript.chr${CHR}.bin
 xfiletxtExon,${binDir}/Xexon.chr${CHR}.txt
+xfiletxtMetaExon,${binDir}/XmetaExon.chr${CHR}.txt
 xfiletxtGene,${binDir}/Xgene.chr${CHR}.txt
 xfiletxtTranscript,${binDir}/Xtranscript.chr${CHR}.txt
 minCoveragePerFeature,35
 exonGC,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/GCexon.chr${CHR}.txt
+metaExonGC,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/GCmeta-exon.chr${CHR}.txt
 transcriptGC,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/GCTranscript.chr${CHR}.txt
 geneGC,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/GCgene.chr${CHR}.txt
 insertSize,250
