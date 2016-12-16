@@ -12,6 +12,7 @@
 #string RVersion
 #string RasqualizeScript
 #string exonGC
+#string metaExonGC
 #string transcriptGC
 #string geneGC
 #string CHR

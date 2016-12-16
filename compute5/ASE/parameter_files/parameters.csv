@@ -136,7 +136,7 @@ ASReadsDir,${projectDir}/ASReads/
 trityperDir,${projectDir}/trityper_chr${CHR}/
 ASReadsDirSample,${ASReadsDir}/${sampleName}/
 couplingFile,${projectDir}//coupling.txt
-ASReadsPrefix,${ASReadsDirSample}/$(basename ${bam%.bam})
+ASReadsPrefix,${ASReadsDirSample}/BAM.bam
 haplotyperDir,${projectDir}/haplotypeCaller/
 #
 ## ASE
