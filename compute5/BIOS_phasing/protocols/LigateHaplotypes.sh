@@ -32,6 +32,7 @@ echo "## "$(date)" Start $0"
 ${stage} ligateHAPLOTYPES/${ligateHAPLOTYPESVersion}
 # Glib is also set as dependency of ligateHAPLOTYPES but still needs to be loaded after
 ${stage} GLib/${GLibVersion}
+${stage} GCC/4.9.3-binutils-2.25
 ${checkStage}
 
 
@@ -73,12 +74,11 @@ echo "Shaping $chromosomeChunk"
 # vcfs from public rnaseq) this pipeline needs to be different OR it needs to be phased together with BIOS samples (using BIOS
 # samples as scaffolding, but could give population problems)
 # have to get the scaffolded samples from the vcf file
-#awk '{print $2}' ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.hap.sample | tail -n +3 > ${scaffoldedSamplesPrefix}${CHR}.txt
 awk '{print $2}' ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.hap.sample | tail -n +3 > ${scaffoldedSamplesPrefix}${CHR}.txt
 if ligateHAPLOTYPES --vcf ${genotypedChrVcfGL} \
                  --scaffold ${scaffoldedSamplesPrefix}${CHR}.txt \
                  --chunks ${shapeitInput[@]} \
-                 --output ${shapeitLigatedHaplotype} ${shapeitLigatedHaplotype}.sample
+                 --output ${shapeitLigatedHaplotype} ${shapeitLigatedHaplotype%.haps}.sample
 then
  echo "returncode: $?";
  putFile ${shapeitLigatedHaplotype}

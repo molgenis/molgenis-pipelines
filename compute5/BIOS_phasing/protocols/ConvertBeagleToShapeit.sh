@@ -31,7 +31,7 @@ ${stage} prepareGenFromBeagle4/${prepareGenFromBeagle4Version}
 ${stage} GLib/${GLibVersion}
 ${checkStage}
 
-# the output is cut up into ..PrefixChromsomePostfix because it is needed for correct folding of .hap.gzit jobs later
+# the output is cut up into ..PrefixChromosomePostfix because it is needed for correct folding of .hap.gzit jobs later
 
 #Run conversion script beagle vcf to .hap.gzeit format
 if prepareGenFromBeagle4 \
@@ -45,14 +45,14 @@ then
  putFile ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.gen.gz
  putFile ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.gen.sample
  putFile ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.hap.gz
- putFile ${genotypedChrVcfShapeitInputPrefix}${chromsome}${genotypedChrVcfShapeitInputPostfix}.hap.sample
+ putFile ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.hap.sample
  cd ${beagleDir}
  # want to have the base path, not full path in the md5sum file, so cd to output dir and md5sum the basepath
  bname=$(basename ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.gen.gz)
  md5sum ${bname} > ${bname}.md5
  bname=$(basename ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.gen.sample)
  md5sum ${bname} > ${bname}.md5
- bname=$(basename ${genotypedChrVcfShapeitInputPrefix}${chromsome}${genotypedChrVcfShapeitInputPostfix}.hap.gz)
+ bname=$(basename ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.hap.gz)
  md5sum ${bname} > ${bname}.md5
  bname=$(basename ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.hap.sample)
  md5sum ${bname} > ${bname}.md5
