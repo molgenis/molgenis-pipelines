@@ -10,6 +10,9 @@
 #string kfilebinExon
 #string yfilebinExon
 #string yfiletxtExon
+#string kfilebinMetaExon
+#string yfilebinMetaExon
+#string yfiletxtMetaExon
 #string kfilebinGene
 #string yfilebinGene
 #string yfiletxtGene
@@ -51,6 +54,12 @@ then
         yfilebin=${yfilebinExon}
         yfiletxt=${yfiletxtExon}
         featureDir=${featureChunkDir}/exonlistChunks/
+elif [ ${featureType} == "metaExon" ];
+then
+        kfilebin=${kfilebinMetaExon}
+        yfilebin=${yfilebinMetaExon}
+        yfiletxt=${yfiletxtMetaExon}
+        featureDir=${featureChunkDir}/meta-exonlistChunksPerFeature/chr${CHR}/
 elif [ ${featureType} == "gene" ];
 then
         kfilebin=${kfilebinGene}
