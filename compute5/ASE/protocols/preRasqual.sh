@@ -5,12 +5,14 @@
 #string checkStage
 #string yfiletxtTranscript
 #string yfiletxtExon
+#string yfiletxtMetaExon
 #string yfiletxtGene
 #string featureType
 #string binDir
 #string RVersion
 #string RasqualizeScript
 #string exonGC
+#string metaExonGC
 #string transcriptGC
 #string geneGC
 #string CHR
@@ -18,6 +20,10 @@
 #string kfilebinExon
 #string yfilebinExon
 #string xfiletxtExon
+#string kfiletxtMetaExon
+#string kfilebinMetaExon
+#string yfilebinMetaExon
+#string xfiletxtMetaExon
 #string kfiletxtGene
 #string kfilebinGene
 #string yfilebinGene
@@ -39,6 +45,10 @@ echo "## "$(date)" Start $0"
 echo "Generating bins for exon files"
 
 Rscript ${RasqualizeScript} ${yfiletxtExon} ${exonGC} ${kfiletxtExon} ${kfilebinExon} ${yfilebinExon} ${xfiletxtExon}
+
+echo "Generating bins for meta-exon files"
+
+Rscript ${RasqualizeScript} ${yfiletxtMetaExon} ${metaExonGC} ${kfiletxtMetaExon} ${kfilebinMetaExon} ${yfilebinMetaExon} ${xfiletxtMetaExon}
 
 echo "Generating bins for gene files"
 
