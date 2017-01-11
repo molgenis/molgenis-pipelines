@@ -1,4 +1,4 @@
-e#MOLGENIS walltime=3-23:59:00 mem=34gb nodes=1 ppn=2
+#MOLGENIS walltime=3-23:59:00 mem=34gb nodes=1 ppn=2
 
 ### variables to help adding to database (have to use weave)
 #string project
@@ -18,6 +18,7 @@ e#MOLGENIS walltime=3-23:59:00 mem=34gb nodes=1 ppn=2
 #string genotypedChrVcfBeagleGenotypeProbabilities
 #string CHR
 #string beagleJarVersion
+#string tabixVersion
 
 echo "## "$(date)" Start $0"
 
@@ -43,8 +44,12 @@ if java -Xmx32g -Djava.io.tmpdir=$TMPDIR -XX:ParallelGCThreads=2 -jar $EBROOTBEA
  #This also affects our system! More information here: https://mat.gen.gz.stats.ox.ac.uk.gen.gzetics_software/.hap.gzeit/.hap.gzeit.html#gcall
  
  cd ${beagleDir}
+ pwd
+ echo "gunzipping.."
  gunzip ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz
+ echo "bgzipping..."
  bgzip ${beagleDir}/${project}.chr${CHR}.beagle.genotype.probs.gg.vcf
+ echo "tabixing..."
  tabix ${beagleDir}/${project}.chr${CHR}.beagle.genotype.probs.gg.vcf.gz
 then
  echo "returncode: $?";

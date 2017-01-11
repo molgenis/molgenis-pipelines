@@ -1,4 +1,4 @@
-#MOLGENIS nodes=1 ppn=12 mem=8gb walltime=3-10:00:00
+#MOLGENIS nodes=1 ppn=12 mem=8gb walltime=23:59:59
 
 ### variables to help adding to database (have to use weave)
 #string project
@@ -8,19 +8,21 @@
 #string phaserVersion
 #string phaserDir
 #string shapeitPhasedOutputPrefix
+#string shapeitPhasedOutputPostfix
 #list bam
-#string vcf
+#list CHR
+#string CHR
 #string mapq
 #string baseq
 #string CHR
 #string OneKgPhase3VCF
-
+#string tabixVersion
 
 echo "## "$(date)" Start $0"
 
 
-if [[ ! -f ${shapeitPhasedOutputPrefix}.vcf.gz ]] ; then
-  >&2 echo "${shapeitPhasedOutputPrefix}.vcf.gz does not exist"
+if [[ ! -f ${shapeitPhasedOutputPrefix}${CHR}${shapeitPhasedOutputPostfix}.vcf.gz ]] ; then
+  >&2 echo "${shapeitPhasedOutputPrefix}${CHR}${shapeitPhasedOutputPostfix}.vcf.gz does not exist"
   exit 1
 fi
 
@@ -35,6 +37,7 @@ ml purge
 
 #Load module
 ${stage} phASER/${phaserVersion}
+${stage} tabix/${tabixVersion}
 
 #check modules
 ${checkStage}
@@ -48,7 +51,7 @@ mkdir -p ${phaserDir}/allele_config/
 
 
 #Set tmp files to use during interation
-INPUTVCF="${shapeitPhasedOutputPrefix}.vcf.gz"
+INPUTVCF="${shapeitPhasedOutputPrefix}${CHR}${shapeitPhasedOutputPostfix}.vcf.gz"
 TMPINPUTVCF="${phaserDir}/${project}_TMP.chr${CHR}.vcf.gz"
 
 cp $INPUTVCF $TMPINPUTVCF

@@ -27,14 +27,11 @@ getFile ${genotypedChrVcfGL}
 getFile ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz
 
 ${stage} prepareGenFromBeagle4/${prepareGenFromBeagle4Version}
-# don't know if below should still be loaded or if it should be included in the prepareGenFromBeagle4 easyconfig
+# Glib is also set as dependency of prepareGenFromBeagle4 but still needs to be loaded after
 ${stage} GLib/${GLibVersion}
-${stage} zlib/${zlibVersion}
-${stage} bzip2/${bzip2Version}
-${stage} GCC/${GCCversion}
 ${checkStage}
 
-# the output is cut up into ..PrefixChromsomePostfix because it is needed for correct folding of .hap.gzit jobs later
+# the output is cut up into ..PrefixChromosomePostfix because it is needed for correct folding of .hap.gzit jobs later
 
 #Run conversion script beagle vcf to .hap.gzeit format
 if prepareGenFromBeagle4 \
@@ -48,14 +45,14 @@ then
  putFile ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.gen.gz
  putFile ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.gen.sample
  putFile ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.hap.gz
- putFile ${genotypedChrVcfShapeitInputPrefix}${chromsome}${genotypedChrVcfShapeitInputPostfix}.hap.sample
+ putFile ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.hap.sample
  cd ${beagleDir}
  # want to have the base path, not full path in the md5sum file, so cd to output dir and md5sum the basepath
  bname=$(basename ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.gen.gz)
  md5sum ${bname} > ${bname}.md5
  bname=$(basename ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.gen.sample)
  md5sum ${bname} > ${bname}.md5
- bname=$(basename ${genotypedChrVcfShapeitInputPrefix}${chromsome}${genotypedChrVcfShapeitInputPostfix}.hap.gz)
+ bname=$(basename ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.hap.gz)
  md5sum ${bname} > ${bname}.md5
  bname=$(basename ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.hap.sample)
  md5sum ${bname} > ${bname}.md5
@@ -63,7 +60,7 @@ then
  echo "succes moving files";
 else
  >&2 echo "went wrong with following command:"
- >&2 echo "$EBROOTNGSMINUTILS/prepareGenFromBeagle4_modified20160601/bin/prepareGenFromBeagle4 \\
+ >&2 echo "prepareGenFromBeagle4_modified20160601/bin/prepareGenFromBeagle4 \\
              --likelihoods ${genotypedChrVcfGL} \\
              --posteriors ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz \\
              --threshold 0.995 \\

@@ -1,18 +1,3 @@
-#MOLGENIS nodes=1 ppn=1 mem=40gb walltime=06:00:00
-
-### variables to help adding to database (have to use weave)
-#string sampleName
-###
-#string stage
-#string checkStage
-#string pyvcfVersion
-#string vcftoolsVersion
-#string RVersion
-#string tabixVersion
-#string comparisonFileDir
-module load VCFtools/${vcftoolsVersion}
-module load R/${RVersion}
-module load tabix/${tabixVersion}
 fvdProjectDir=/groups/umcg-bios/tmp04/umcg-fvandijk/projects/
 rnaseq_rare_variants=${fvdProjectDir}RNA-seq_rare_variants/
 comparison_files=${rnaseq_rare_variants}/comparison_files/

@@ -11,15 +11,17 @@ group,umcg-bios
 tmp,tmp04
 resDir,/groups/umcg-wijmenga/tmp04/resources/
 toolDir,/apps/software/
-projectDir,/groups/umcg-bios/tmp04/projects/lld_gvcfs/phasing/results_no_filter/
+projectDir,/groups/umcg-bios/tmp04/projects/lld_gvcfs/phasing/results_GQ20_callrate50/
 fvdProjectDir,${root}/${group}/${tmp}/projects/umcg-fvandijk/projects/
 ########################################################################
 ## Software and data versions/builds/paths
 #
-beagleVersion,09Feb16.2b7-Java-1.8.0_45
-beagleJarVersion,09Feb16.2b7
+tabixVersion,0.2.6-foss-2015b
+beagleVersion,27Jul16.86a-Java-1.8.0_45
+beagleJarVersion,27Jul16.86a
 shapeitVersion,v2.r837-static
-GCCVersion,4.9.3-binutils-2.25
+ligateHAPLOTYPESVersion,02-Dec-2016-foss-2015b
+prepareGenFromBeagle4Version,02-Dec-2016-foss-2015b
 intervaltreeVersion,2.1.0-foss-2015b-Python-2.7.9
 pyvcfVersion,0.6.7-foss-2015b-Python-2.7.9
 samtoolsVersion,1.2-foss-2015b
@@ -33,7 +35,7 @@ bzip2Version,1.0.6-foss-2015b
 GLibVersion,2.45.2-foss-2015b
 vcftoolsVersion,0.1.12b-goolf-1.7.20-Perl-5.20.2-bare
 RVersion,3.2.1-foss-2015b
-phaserVersion,f085550
+phaserVersion,c067827
 tabixVersion,0.2.6-goolf-1.7.20
 referenceFastaName,human_g1k_v37
 genomeBuild,b37
@@ -53,18 +55,15 @@ genotypedChrVcfTbi,${genotypedChrVcfGL}.tbi
 ## Beagle
 beagleDir,${projectDir}/beagle/
 genotypedChrVcfBeagleGenotypeProbabilities,${beagleDir}/${project}.chr${CHR}.beagle.genotype.probs.gg
-## Shapeit
-# prefix until before chr, postfix after chr
 genotypedChrVcfShapeitInputPrefix,${beagleDir}/${project}.chr
 genotypedChrVcfShapeitInputPostfix,.beagle.genotype.probs.gg
+## Shapeit
 shapeitDir,${projectDir}/shapeit/
-shapeitLigatedHaplotypeDir,${projectDir}/shapeitLigatedHaplotypes/
-shapeitLigatedHaplotype,${shapeitLigatedHaplotypesDir}/chr${CHR}.ligatedHaplotype.hap
-scaffoldedSamples,${shapeitLigatedHaplotypesDir}/scaffolded_samples_chr${CHR}.txt
-phasedScaffoldDir,/groups/umcg-lld/tmp04/projects/genotypingRelease3/selectionLldeep/lldeepPhased/
-# prefix should be up until CHR number
+phasedScaffoldDir,/groups/umcg-lld/tmp04/projects/genotypingRelease3/selectionLldeep/lldeepPhased_RNA_IDs/
 shapeitPhasedOutputPrefix,${shapeitDir}/${project}.chr
-# postfix should be after chr number
+shapeitLigatedHaplotypeDir,${projectDir}/shapeitLigatedHaplotypes/
+shapeitLigatedHaplotype,${shapeitLigatedHaplotypeDir}/chr${CHR}.ligatedHaplotype.hap
+scaffoldedSamplesPrefix,${shapeitLigatedHaplotypeDir}/scaffolded_samples_chr
 shapeitPhasedOutputPostfix,.shapeit.phased
 ## phASER
 mapq,0
@@ -72,3 +71,4 @@ baseq,0
 phaserDir,${projectDir}/phASER
 ## genotype concordance
 comparisonFileDir,${fvdProjectDir}RNA-seq_rare_variants/comparison_files/
+chr,
