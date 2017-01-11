@@ -65,6 +65,10 @@ do
   # if it does not contain any SNPs, search upstream and downstream until at least one SNP is found  
   echo -n "Region $CHR:$start-$halfWay does not contain any SNPs"
   start=`expr $start - $stepsize`
+  if [ $start -le 0 ];
+  then
+      start=1;
+  fi
   echo -n ", searching with $CHR:$start-$halfWay..."; 
   containsSnpsStart=$(tabix ${beagleDir}/${project}.chr${CHR}.beagle.genotype.probs.gg.vcf.gz $CHR:$start-$halfWay  | wc -l)
   echo " $containsSnpsStart SNPs"
