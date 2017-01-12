@@ -37,7 +37,6 @@ ${checkStage}
 if prepareGenFromBeagle4 \
  --likelihoods ${genotypedChrVcfGL} \
  --posteriors ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz \
- --threshold 0.995 \
  --output ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}
 then
  echo "returncode: $?";
