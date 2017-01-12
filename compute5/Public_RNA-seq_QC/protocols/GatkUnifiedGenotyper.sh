@@ -20,8 +20,6 @@
 
 
 
-getFile ${dbsnpVcf}
-getFile ${onekgGenomeFasta}
 
 
 #Function to check if array contains value
@@ -49,8 +47,6 @@ done
 
 
 for file in "${sortedBam_uniq[@]}"; do
-  echo "getFile file='$file'"
-  getFile $file
 done
 
 #Load modules
@@ -86,10 +82,6 @@ tabix -p vcf ${rawVCF}.gz
 
 then
  echo "returncode: $?";
- putFile ${rawVCF}
- putFile ${rawVCF}.gz
- putFile ${rawVCF}.gz.tbi
- putFile ${rawVCF}.idx
  echo "succes moving files";
 else
  echo "returncode: $?";

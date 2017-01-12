@@ -15,7 +15,6 @@
 echo "## "$(date)" Start $0"
 
 
-getFile ${markDuplicatesBam}
 
 #load modules
 ${stage} SAMtools/${samtoolsVersion}
@@ -28,7 +27,6 @@ mkdir -p ${flagstatDir}
 if samtools flagstat ${markDuplicatesBam} > ${flagstatFile}
 then
  echo "returncode: $?"; 
- putFile  ${flagstatFile}
  cd ${flagstatDir}
 md5sum $(basename ${flagstatFile}) > $(basename ${flagstatFile}).md5
  cd -

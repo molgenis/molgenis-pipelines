@@ -29,15 +29,6 @@ echo "## "$(date)" Start $0"
 
 
 
-getFile ${onekgGenomeFasta}
-getFile ${oneKgPhase1IndelsVcf}
-getFile ${oneKgPhase1IndelsVcfIdx}
-getFile ${dbsnpVcf}
-getFile ${dbsnpVcfIdx}
-getFile ${goldStandardVcf} 
-getFile ${goldStandardVcfIdx}
-getFile ${bqsrBam}
-getFile ${bqsrBai}
 ${stage} R/${RVersion}
 ${stage} GATK/${gatkVersion}
 ${checkStage}
@@ -70,8 +61,6 @@ if java -Xmx6g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${bqsrDir} -jar $EBROOTG
 then
  echo "returncode: $?"; 
  
- putFile ${bqsrAfterGrp}
- putFile ${analyseCovariatesPdf}
  echo "succes moving files";
 else
  echo "returncode: $?";

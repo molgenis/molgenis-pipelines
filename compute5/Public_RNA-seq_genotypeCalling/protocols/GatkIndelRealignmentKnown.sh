@@ -29,14 +29,6 @@ echo "## "$(date)" Start $0"
 ${stage} GATK/${gatkVersion}
 ${checkStage}
 
-getFile ${onekgGenomeFasta}
-getFile ${splitAndTrimBam}
-getFile ${splitAndTrimBai}
-getFile ${indelRealignmentTargets}
-getFile ${oneKgPhase1IndelsVcf}
-getFile ${goldStandardVcf}
-getFile ${oneKgPhase1IndelsVcfIdx}
-getFile ${goldStandardVcfIdx}
 
 
 if [ ! -e ${indelRealignmentDir} ]; then
@@ -59,8 +51,6 @@ if java -Xmx8g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${TMPDIR} -jar $EBROOTGA
 then
  echo "returncode: $?"; 
 
- putFile ${indelRealignmentBam}
- putFile ${indelRealignmentBai}
 echo "succes moving files";
 else
  echo "returncode: $?";

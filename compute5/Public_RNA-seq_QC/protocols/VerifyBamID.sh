@@ -16,9 +16,6 @@
 
 
 
-getFile ${unifiedGenotyperDir}${uniqueID}.raw.vcf
-getFile ${sortedBam}
-getFile ${sortedBai}
 
 #Load modules
 ${stage} verifyBamID/${verifyBamIDVersion}
@@ -37,11 +34,6 @@ if verifyBamID \
   --out ${verifyBamIdDir}${uniqueID}
 
 then
- echo "returncode: $?"; putFile ${verifyBamIdDir}${uniqueID}.depthRG
- putFile ${verifyBamIdDir}${uniqueID}.depthSM
- putFile ${verifyBamIdDir}${uniqueID}.log
- putFile ${verifyBamIdDir}${uniqueID}.selfRG
- putFile ${verifyBamIdDir}${uniqueID}.selfSM
 cd ${verifyBamIdDir}
  md5sum $(basename ${verifyBamIdDir}${uniqueID}.depthSM) > $(basename ${verifyBamIdDir}${uniqueID}).depthSM.md5
  md5sum $(basename ${verifyBamIdDir}${uniqueID}).log > $(basename ${verifyBamIdDir}${uniqueID}).log.md5

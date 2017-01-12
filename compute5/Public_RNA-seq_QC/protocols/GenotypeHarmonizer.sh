@@ -18,7 +18,6 @@
 
 
 
-getFile ${rawVCF}.gz
 
 #Load modules
 ${stage} GenotypeHarmonizer/${GenotypeHarmonizerVersion}
@@ -38,10 +37,6 @@ if java -Xmx6g -XX:ParallelGCThreads=4 -jar ${toolDir}GenotypeHarmonizer/${Genot
  -O PLINK_BED
 
 then
- echo "returncode: $?"; putFile ${genotypeHarmonizerOutput}.fam
- putFile ${genotypeHarmonizerOutput}.log
- putFile ${genotypeHarmonizerOutput}.bed
- putFile ${genotypeHarmonizerOutput}.bim
 cd ${genotypeHarmonizerDir}
 md5sum $(basename ${genotypeHarmonizerOutput}).log > $(basename ${genotypeHarmonizerOutput}).log.md5
 md5sum $(basename ${genotypeHarmonizerOutput}).fam > $(basename ${genotypeHarmonizerOutput}).fam.md5

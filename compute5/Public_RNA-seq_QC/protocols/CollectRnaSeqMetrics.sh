@@ -19,8 +19,6 @@
 #string toolDir
 #string RVersion
 
-getFile ${sortedBam}
-getFile ${sortedBai}
 
 #Load module
 ${stage} picard/${picardVersion}
@@ -48,8 +46,6 @@ if java -Xmx8g -XX:ParallelGCThreads=4 -jar $EBROOTPICARD/CollectRnaSeqMetrics.j
 
 then
  echo "returncode: $?";
- putFile ${collectRnaSeqMetrics}
- putFile ${collectRnaSeqMetricsChart}
 cd ${collectRnaSeqMetricsDir}
   md5sum $(basename ${collectRnaSeqMetrics}) > $(basename ${collectRnaSeqMetrics}).md5
  md5sum $(basename ${collectRnaSeqMetricsChart}) > $(basename ${collectRnaSeqMetricsChart}).md5

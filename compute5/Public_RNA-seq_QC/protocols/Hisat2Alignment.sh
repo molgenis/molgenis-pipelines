@@ -17,7 +17,6 @@
 #string samtoolsVersion
 #string rnaStrandness
 
-getFile ${reads1FqGz}
 if [ ${#reads2FqGz} -eq 0 ]; then
    input="-U ${reads1FqGz}"
    echo "Single end alignment of ${reads1FqGz}"
@@ -31,7 +30,6 @@ if [ ${#reads2FqGz} -eq 0 ]; then
        rnaStrandness="R"
    fi
 else
-   getFile ${reads2FqGz}
    input="-1 ${reads1FqGz} -2 ${reads2FqGz}"
    if [ "${rnaStrandness}" == "F" ]; then
        rnaStrandness="FR"
@@ -72,7 +70,6 @@ if hisat2 -x ${referenceGenomeHisat2} \
   --rg SM:${sampleName} \
   -S ${hisatAlignmentDir}${uniqueID}.sam $rnaStrandOption
 then
-  echo "returncode: $?"; putFile ${hisatAlignmentDir}${uniqueID}.sam
   echo "succes moving files";
 else
  echo "returncode: $?";

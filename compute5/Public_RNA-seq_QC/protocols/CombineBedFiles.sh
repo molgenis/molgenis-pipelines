@@ -13,10 +13,6 @@
 
 
 
-getFile ${genotypeHarmonizerOutput}.bed
-getFile ${genotypeHarmonizerOutput}.bim
-getFile ${genotypeHarmonizerOutput}.fam
-getFile ${genotypeHarmonizerOutput}.log
 
 #Load module
 ${stage} PLINK/${plinkVersion}
@@ -46,12 +42,6 @@ if plink \
 
 then
  echo "returncode: $?";
- putFile ${combinedBEDDir}combinedFiles.txt
- putFile ${combinedBEDDir}combinedFiles.log
- putFile ${combinedBEDDir}combinedFiles.bed
- putFile ${combinedBEDDir}combinedFiles.bim
- putFile ${combinedBEDDir}combinedFiles.fam
- putFile ${combinedBEDDir}combinedFiles.nosex
 echo "md5sums"
 md5sum ${combinedBEDDir}combinedFiles.txt
 md5sum ${combinedBEDDir}combinedFiles.log
@@ -76,12 +66,6 @@ else
 
  then
   echo "returncode: $?";
-  putFile ${combinedBEDDir}combinedFiles_remove_missnps.txt
-  putFile ${combinedBEDDir}combinedFiles_remove_missnps.log
-  putFile ${combinedBEDDir}combinedFiles_remove_missnps.bed
-  putFile ${combinedBEDDir}combinedFiles_remove_missnps.bim
-  putFile ${combinedBEDDir}combinedFiles_remove_missnps.fam
-  putFile ${combinedBEDDir}combinedFiles_remove_missnps.nosex
 cd ${combinedBEDDir}
 md5sum $(basename ${combinedBEDDir}).txt > $(basename ${mergeGvcf}).txt.md5
 md5sum $(basename ${combinedBEDDir}).log > $(basename ${mergeGvcf}).log.md5

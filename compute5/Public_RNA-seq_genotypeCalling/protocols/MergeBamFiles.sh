@@ -23,8 +23,6 @@ echo "## "$(date)" Start $0"
 
 #for file in "${addOrReplaceGroupsBam[@]}" "${addOrReplaceGroupsBai[@]}"; do
 for file in "${addOrReplaceGroupsBam[@]}"; do
-    echo "getFile file='$file'"
-	getFile $file
 done
 
 #Load Picard module
@@ -53,8 +51,6 @@ if java -jar -XX:ParallelGCThreads=4 -Xmx6g $EBROOTPICARD/MergeSamFiles.jar \
 then
  echo "returncode: $?"; 
 
- putFile ${mergeBamFilesBam}
- putFile ${mergeBamFilesBai}
  echo "succes moving files";
 else
  echo "returncode: $?";
