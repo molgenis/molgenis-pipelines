@@ -38,6 +38,7 @@ if java -Xmx6g -XX:ParallelGCThreads=4 -jar $EBROOTPICARD/SortSam.jar \
   TMP_DIR=${TMPDIR}
 
 then
+ echo "returncode: $?";
  echo "succes moving files";
 else
  echo "returncode: $?";

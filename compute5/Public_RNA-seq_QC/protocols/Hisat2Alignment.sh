@@ -70,6 +70,7 @@ if hisat2 -x ${referenceGenomeHisat2} \
   --rg SM:${sampleName} \
   -S ${hisatAlignmentDir}${uniqueID}.sam $rnaStrandOption
 then
+  echo "returncode: $?";
   echo "succes moving files";
 else
  echo "returncode: $?";
