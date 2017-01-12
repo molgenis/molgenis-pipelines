@@ -17,8 +17,6 @@
 echo "## "$(date)" Start $0"
 
 
-getFile ${shapeitLigatedHaplotype}
-
 
 ${stage} shapeit/${shapeitVersion}
 ${checkStage}
@@ -33,7 +31,6 @@ if shapeit \
     --output-vcf ${shapeitPhasedOutputPrefix}${CHR}${shapeitPhasedOutputPostfix}.vcf.gz
 then
  echo "returncode: $?";
- putFile ${shapeitPhasedOutputPrefix}${CHR}${shapeitPhasedOutputPostfix}.vcf.gz
  cd ${shapeitDir}
  bname=$(basename ${shapeitPhasedOutputPrefix}${CHR}${shapeitPhasedOutputPostfix}.vcf.gz)
  echo "making md5sum..."

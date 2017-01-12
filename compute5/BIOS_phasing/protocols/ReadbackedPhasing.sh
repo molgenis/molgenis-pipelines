@@ -166,12 +166,6 @@ zip -r ${project}.chr${CHR}.allele_config.zip ./allele_config/*chr${chromosome}.
 
 #Move final output to result file and create md5sums
  mv $TMPINPUTVCF $phaserOutPrefix.vcf.gz
- putFile $phaserOutPrefix.vcf.gz
- putFile ${phaserDir}/${project}.chr${CHR}.variant_connections.zip
- putFile ${phaserDir}/${project}.chr${CHR}.allelic_counts.zip
- putFile ${phaserDir}/${project}.chr${CHR}.hap.haplotypes.zip
- putFile ${phaserDir}/${project}.chr${CHR}.hap.haplotypic_counts.zip
- putFile ${phaserDir}/${project}.chr${CHR}.allele_config.zip
 
  bname=$(basename $phaserOutPrefix.vcf.gz)
  md5sum ${bname} > ${bname}.md5
