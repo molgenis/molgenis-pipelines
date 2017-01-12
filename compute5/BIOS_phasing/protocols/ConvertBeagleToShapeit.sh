@@ -23,8 +23,6 @@
 
 echo "## "$(date)" Start $0"
 
-getFile ${genotypedChrVcfGL}
-getFile ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz
 
 ${stage} prepareGenFromBeagle4/${prepareGenFromBeagle4Version}
 # Glib is also set as dependency of prepareGenFromBeagle4 but still needs to be loaded after
@@ -41,10 +39,7 @@ if prepareGenFromBeagle4 \
 then
  echo "returncode: $?";
  # these output files are NOT gzipped, so rename them to filename without gz
- putFile ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.gen.gz
- putFile ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.gen.sample
- putFile ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.hap.gz
- putFile ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.hap.sample
+
  cd ${beagleDir}
  # want to have the base path, not full path in the md5sum file, so cd to output dir and md5sum the basepath
  bname=$(basename ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.gen.gz)

@@ -36,7 +36,6 @@ ${stage} GCC/4.9.3-binutils-2.25
 ${checkStage}
 
 
-getFile ${genotypedChrVcfGL}
 shapeitInput=()
 echo "looping through chunk to retrieve input files"
 for chunk in "${chromosomeChunk[@]}"
@@ -48,10 +47,6 @@ do
   end=$(echo $position | cut -d'-' -f2 ) 
   echo -n "$CHR:$start-$end "
 
-  getFile ${shapeitPhasedOutputPrefix}${CHR}_${start}_${end}${shapeitPhasedOutputPostfix}.hap.gz
-  getFile ${shapeitPhasedOutputPrefix}${CHR}_${start}_${end}${shapeitPhasedOutputPostfix}.hap.gz.sample
-  getFile ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.hap.sample
-  getFile ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.hap.gz
   # since it is the correct chromsome add it to array to put as input later
   # [[ -s -> if file exists and not empty
   if [[ -s ${shapeitPhasedOutputPrefix}${CHR}_${start}_${end}${shapeitPhasedOutputPostfix}.hap.gz ]];
@@ -81,7 +76,6 @@ if ligateHAPLOTYPES --vcf ${genotypedChrVcfGL} \
                  --output ${shapeitLigatedHaplotype} ${shapeitLigatedHaplotype%.haps}.sample
 then
  echo "returncode: $?";
- putFile ${shapeitLigatedHaplotype}
  cd ${shapeitLigatedHaplotypeDir}
  bname=$(basename ${shapeitLigatedHaplotype})
  md5sum ${bname} > ${bname}.md5

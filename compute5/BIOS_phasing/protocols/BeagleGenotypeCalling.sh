@@ -26,7 +26,6 @@ echo "## "$(date)" Start $0"
 #Set logdir to return to after gzipping created files, otherwise *.env and *.finished file are not written to correct folder/directory
 LOGDIR="$PWD"
 
-getFile ${vcf}
 
 
 ${stage} beagle/${beagleVersion}
@@ -53,7 +52,6 @@ if java -Xmx32g -Djava.io.tmpdir=$TMPDIR -XX:ParallelGCThreads=2 -jar $EBROOTBEA
  tabix ${beagleDir}/${project}.chr${CHR}.beagle.genotype.probs.gg.vcf.gz
 then
  echo "returncode: $?";
- putFile ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz
  cd ${beagleDir}
  bname=$(basename ${genotypedChrVcfBeagleGenotypeProbabilities})
  md5sum ${bname}.vcf.gz > ${bname}.vcf.gz.md5

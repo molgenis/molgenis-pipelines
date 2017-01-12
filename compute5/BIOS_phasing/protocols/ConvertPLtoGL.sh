@@ -17,7 +17,6 @@
 
 echo "## "$(date)" Start $0"
 
-getFile ${vcf}
 
 ${stage} Biopython/${biopythonVersion}
 ${stage} ngs-utils/${ngsutilsVersion}
@@ -35,7 +34,6 @@ if python $EBROOTNGSMINUTILS/PL_to_GL_reorder.py \
 
 then
  echo "returncode: $?";
- putFile ${genotypedChrVcfGL}
  cd ${genotypedChrVcfGLDir}
  bname=$(basename ${genotypedChrVcfGL})
  md5sum ${bname} > ${bname}.md5

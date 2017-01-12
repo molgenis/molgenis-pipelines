@@ -40,11 +40,6 @@ echo "CHR: $CHR"
 echo "start: $start"
 echo "end: $end"
 
-getFile ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.gen.gz
-getFile ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.gen.sample
-getFile ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.hap.gz
-getFile ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.hap.sample
-
 
 
 mkdir -p ${shapeitDir}
@@ -127,9 +122,6 @@ if shapeit \
  --input-to $end
 then
  echo "returncode: $?";
- putFile ${shapeitPhasedOutputPrefix}${CHR}_${oldStart}_${oldEnd}${shapeitPhasedOutputPostfix}.hap.gz
- putFile ${shapeitPhasedOutputPrefix}${CHR}_${oldStart}_${oldEnd}${shapeitPhasedOutputPostfix}.hap.gz.sample
- putFile ${shapeitPhasedOutputPrefix}${CHR}_${oldStart}_${oldEnd}${shapeitPhasedOutputPostfix}.log
  cd ${shapeitDir}
  bname=$(basename ${shapeitPhasedOutputPrefix}${CHR}_${oldStart}_${oldEnd}${shapeitPhasedOutputPostfix}.hap.gz)
  md5sum ${bname} > ${bname}.md5
