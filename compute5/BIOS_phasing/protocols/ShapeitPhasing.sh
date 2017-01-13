@@ -66,9 +66,10 @@ do
 done
 
 echo "searching if SNPs at end"
-totalSnps=$(zcat ${beagleDir}/${project}.chr${CHR}.beagle.genotype.probs.gg.vcf.gz | tail -1 | awk '{print $2}')
+totalSnps=$(zcat ${beagleDir}/${project}.chr${CHR}.beagle.genotype.probs.gg.vcf.gz | grep -v '^#' | wc -l)
+lastSnp=$(zcat ${beagleDir}/${project}.chr${CHR}.beagle.genotype.probs.gg.vcf.gz | tail -1 | awk '{print $2}')
 echo "totalSnps on chr ${CHR}: ${totalSnps}"
-while [ ${containsSnpsEnd} -eq 0 ] && [ ${end} -le ${totalSnps} ];
+while [ ${containsSnpsEnd} -eq 0 ] && [ ${end} -le ${lastSnp} ];
 do
   # if it does not contain any SNPs, search upstream and downstream until at least one SNP is found
   echo -n "Region $CHR:$halfWay-$end does not contain any SNPs"
@@ -84,9 +85,9 @@ then
     start=1;
 fi
 
-if [ $end -ge $totalSnps ];
+if [ $end -ge $lastSnp ];
 then
-    end=$totalSnps;
+    end=$lastSnp;
 fi
 
 echo 
