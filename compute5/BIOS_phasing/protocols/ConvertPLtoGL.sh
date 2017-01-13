@@ -14,14 +14,12 @@
 #string biopythonVersion
 #string genotypedChrVcfGL
 #string ngsutilsVersion
-#string tabixVersion
 
 echo "## "$(date)" Start $0"
 
 
 ${stage} Biopython/${biopythonVersion}
 ${stage} ngs-utils/${ngsutilsVersion}
-${stage} tabix/${tabixVersion}
 ${checkStage}
 
 mkdir -p ${genotypedChrVcfGLDir}
