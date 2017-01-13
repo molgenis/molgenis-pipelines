@@ -36,7 +36,6 @@ if python $EBROOTNGSMINUTILS/PL_to_GL_reorder.py \
 
 then
  echo "returncode: $?";
- echo "unzipping and re-bgzipping"
  cd ${genotypedChrVcfGLDir}
  bname=$(basename ${genotypedChrVcfGL})
  md5sum ${bname} > ${bname}.md5
