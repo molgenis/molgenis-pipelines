@@ -19,7 +19,6 @@
 #string uniqueID
 
 echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
-getFile ${sortedBamFile}
 
 ${stage} picard/${picardVersion}
 ${checkStage}
@@ -45,8 +44,6 @@ if java -Xmx6g -XX:ParallelGCThreads=8 -jar $EBROOTPICARD/AddOrReplaceReadGroups
 then
  echo "returncode: $?"; 
 
- putFile ${addOrReplaceGroupsBam}
- putFile ${addOrReplaceGroupsBai}
  echo "succes moving files";
 else
  echo "returncode: $?";

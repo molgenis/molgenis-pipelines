@@ -20,9 +20,6 @@
 echo "## "$(date)" Start $0"
 
 
-getFile ${onekgGenomeFasta}
-getFile ${markDuplicatesBam}
-getFile ${markDuplicatesBai}
 
 ${stage} SAMtools/${samtoolsVersion}
 ${stage} GATK/${gatkVersion}
@@ -75,8 +72,6 @@ if java -Xmx8g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${TMPDIR} -jar $EBROOTGA
 then
  echo "returncode: $?"; 
 
- putFile ${splitAndTrimBam}
- putFile ${splitAndTrimBai}
  echo "succes moving files";
 else
  echo "returncode: $?";

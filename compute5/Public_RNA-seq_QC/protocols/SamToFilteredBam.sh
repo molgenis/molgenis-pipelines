@@ -18,7 +18,6 @@
 #string unfilteredBamDir
 #string filteredBam
 
-getFile ${hisatAlignmentDir}${uniqueID}.sam
 
 #Load modules
 ${stage} SAMtools/${samtoolsVersion}
@@ -45,7 +44,6 @@ then
   >&2 echo "Reads with flag NH:i:[2+] where filtered out (only leaving 'unique' mapping reads)."
   rm ${hisatAlignmentDir}${uniqueID}.sam
   echo "returncode: $?";
-  putFile ${filteredBam}
   cd ${unfilteredBamDir}
   md5sum $(basename ${unfilteredBamDir}/${uniqueID}.bam)> $(basename ${unfilteredBamDir}/${uniqueID}.bam).md5
   cd -

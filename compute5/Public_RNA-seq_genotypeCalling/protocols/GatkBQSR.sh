@@ -29,15 +29,6 @@
 echo "## "$(date)" Start $0"
 
 
-getFile ${onekgGenomeFasta}
-getFile ${oneKgPhase1IndelsVcf}
-getFile ${oneKgPhase1IndelsVcfIdx}
-getFile ${dbsnpVcf}
-getFile ${dbsnpVcfIdx}
-getFile ${goldStandardVcf} 
-getFile ${goldStandardVcfIdx}
-getFile ${indelRealignmentBam}
-getFile ${indelRealignmentBai}
 
 ${stage} GATK/${gatkVersion}
 ${checkStage}
@@ -69,9 +60,6 @@ if java -Xmx14g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${TMPDIR} -jar $EBROOTG
 then
  echo "returncode: $?"; 
 
- putFile ${bqsrBam}
- putFile ${bqsrBai}
- putFile ${bqsrBeforeGrp}
  cd ${bqsrDir}
  md5sum $(basename ${bqsrBam})> $(basename ${bqsrBam}).md5sum
  md5sum $(basename ${bqsrBam%bam}bai)> $(basename ${bqsrBam%bam}bai).md5sum

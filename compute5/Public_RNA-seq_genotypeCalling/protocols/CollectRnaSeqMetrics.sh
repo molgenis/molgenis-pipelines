@@ -21,8 +21,6 @@
 #string toolDir
 
 
-getFile ${markDuplicatesBam}
-getFile ${markDuplicatesBai}
 
 ${stage} picard/${picardVersion}
 ${checkStage}
@@ -48,8 +46,6 @@ if java -Xmx8g -XX:ParallelGCThreads=4 -jar $EBROOTPICARD/CollectRnaSeqMetrics.j
 then
  echo "returncode: $?"; 
  cd ${collectRnaSeqMetricsDir}
- putFile ${collectRnaSeqMetrics}
- putFile ${collectRnaSeqMetricsChart}
   md5sum $(basename ${collectRnaSeqMetrics}) > $(basename ${collectRnaSeqMetrics}).md5
  md5sum $(basename ${collectRnaSeqMetricsChart}) > $(basename ${collectRnaSeqMetricsChart}).md5
  echo "succes moving files";

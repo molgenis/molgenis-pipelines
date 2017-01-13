@@ -24,8 +24,6 @@
 echo "## "$(date)" Start $0"
 
 
-getFile ${mergeBamFilesBam}
-getFile ${mergeBamFilesBai}
 
 ${stage} picard/${picardVersion}
 ${checkStage}
@@ -41,9 +39,6 @@ if java -Xmx6g -XX:ParallelGCThreads=8 -jar $EBROOTPICARD/MarkDuplicates.jar \
  METRICS_FILE=${markDuplicatesMetrics}
 then
  echo "returncode: $?"; 
- putFile ${markDuplicatesBam}
- putFile ${markDuplicatesBai}
- putFile ${markDuplicatesMetrics}
 cd ${markDuplicatesDir}
  md5sum ${markDuplicatesMetrics} > ${markDuplicatesMetrics}.md5
 cd -

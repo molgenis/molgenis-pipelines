@@ -27,7 +27,6 @@ echo "## "$(date)" Start $0"
 #Generate input files, according to number of batches
 for i in {0..2}
 do
-	echo "getFile file=${haplotyperDir}${sampleName}.chr${chromosome}.g.vcf.gz"
 	inputs+=" --variant ${haplotyperDir}${sampleName}.chr${chromosome}.g.vcf.gz"
 done
 
@@ -50,7 +49,6 @@ if java -Xmx8g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${TMPDIR} -jar $EBROOTGA
 then
  echo "returncode: $?"; 
  
- putFile ${genotypedChrVcf}
  cd ${haplotyperDir}
  md5sum $(basename ${genotypedChrVcf})> $(basename ${genotypedChrVcf}).md5sum
  cd -

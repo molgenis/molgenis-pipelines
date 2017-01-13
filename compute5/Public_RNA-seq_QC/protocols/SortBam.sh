@@ -18,7 +18,6 @@
 #string jdkVersion
 #string filteredBam
 
-getFile ${filteredBam}
 
 #Load modules
 ${stage} picard/${picardVersion}
@@ -39,8 +38,7 @@ if java -Xmx6g -XX:ParallelGCThreads=4 -jar $EBROOTPICARD/SortSam.jar \
   TMP_DIR=${TMPDIR}
 
 then
- echo "returncode: $?"; putFile ${sortedBam}
- putFile ${sortedBai}
+ echo "returncode: $?";
  echo "succes moving files";
 else
  echo "returncode: $?";
