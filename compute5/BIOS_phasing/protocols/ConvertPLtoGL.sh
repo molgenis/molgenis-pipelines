@@ -14,12 +14,14 @@
 #string biopythonVersion
 #string genotypedChrVcfGL
 #string ngsutilsVersion
+#string tabixVersion
 
 echo "## "$(date)" Start $0"
 
 
 ${stage} Biopython/${biopythonVersion}
 ${stage} ngs-utils/${ngsutilsVersion}
+${stage} tabix/${tabixVersion}
 ${checkStage}
 
 mkdir -p ${genotypedChrVcfGLDir}
@@ -34,6 +36,9 @@ if python $EBROOTNGSMINUTILS/PL_to_GL_reorder.py \
 
 then
  echo "returncode: $?";
+ echo "unzipping and re-bgzipping"
+ gunzip ${genotypedChrVcfGL};
+ bgzip ${genotypedChrVcfGL%.gz};
  cd ${genotypedChrVcfGLDir}
  bname=$(basename ${genotypedChrVcfGL})
  md5sum ${bname} > ${bname}.md5
