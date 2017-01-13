@@ -60,17 +60,13 @@ do
   # if it does not contain any SNPs, search upstream and downstream until at least one SNP is found  
   echo -n "Region $CHR:$start-$halfWay does not contain any SNPs"
   start=`expr $start - $stepsize`
-  if [ $start -le 0 ];
-  then
-      start=1;
-  fi
   echo -n ", searching with $CHR:$start-$halfWay..."; 
   containsSnpsStart=$(tabix ${beagleDir}/${project}.chr${CHR}.beagle.genotype.probs.gg.vcf.gz $CHR:$start-$halfWay  | wc -l)
   echo " $containsSnpsStart SNPs"
 done
 
 echo "searching if SNPs at end"
-totalSnps=$(zcat ${beagleDir}/${project}.chr${CHR}.beagle.genotype.probs.gg.vcf.gz | grep -v '^#' | wc -l)
+totalSnps=$(zcat ${beagleDir}/${project}.chr${CHR}.beagle.genotype.probs.gg.vcf.gz | tail -1 | awk '{print $2}')
 echo "totalSnps on chr ${CHR}: ${totalSnps}"
 while [ ${containsSnpsEnd} -eq 0 ] && [ ${end} -le ${totalSnps} ];
 do
@@ -81,6 +77,17 @@ do
   containsSnpsEnd=$(tabix ${beagleDir}/${project}.chr${CHR}.beagle.genotype.probs.gg.vcf.gz  $CHR:$halfWay-$end  | wc -l)
   echo " $containsSnpsEnd SNPs"
 done
+
+#Set start and end positions within chromosome length
+if [ $start -le 0 ];
+then
+    start=1;
+fi
+
+if [ $end -ge $totalSnps ];
+then
+    end=$totalSnps;
+fi
 
 echo 
 echo "Found SNPs on both sides, final chunk used for this job is: "
