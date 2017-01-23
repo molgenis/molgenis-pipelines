@@ -1,3 +1,6 @@
+# to install rasqual run rasqual_install.sh. Before running, check if the latest version of rasqual and the version number in the rasqual_install.sh script are the same
+bash rasqual_install.sh
+
 ########################################################
 ###To prevent issues with folding time, eg. when using >20 samples, job generation for the Rasqual step needs to be done separately.
 ###To do so one must generate jobs in multiple steps "two-step rocket".
