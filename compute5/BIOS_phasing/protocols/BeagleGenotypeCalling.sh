@@ -46,7 +46,7 @@ if java -Xmx32g -Djava.io.tmpdir=$TMPDIR -XX:ParallelGCThreads=2 -jar $EBROOTBEA
  pwd
  echo "gunzipping.."
  gunzip ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz
- echo "bgzipping..."
+ echo "gzipping..."
  gzip ${beagleDir}/${project}.chr${CHR}.beagle.genotype.probs.gg.vcf
 then
  echo "returncode: $?";
