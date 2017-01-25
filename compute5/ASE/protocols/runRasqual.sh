@@ -35,9 +35,6 @@
 
 echo "## "$(date)" ##  $0 Start "
 
-getFile ${featureChunkFile}
-getFile ${ASVCF}
-getFile ${regionsFile}
 
 
 ${stage} GSL/${GSLVersion}
@@ -124,8 +121,6 @@ done < <(awk 'F"\t" $($1 == ${CHR}) {printf ("%s:%s-%s\n", $1, $2, $3)}' ${regio
 if [ -f "${rasqualFeatureChunkOutput}" ];
 then
  echo "returncode: $?"; 
- putFile ${rasqualFeatureChunkOutput}
- putFile ${rasqualFeatureChunkPermutationOutput}
  echo "succes moving files";
 else
  echo "returncode: $?";

@@ -25,7 +25,6 @@
 
 echo "## "$(date)" Start $0"
 
-getFile ${bam}
 
 mkdir -p ${readCountDir}
 

@@ -23,8 +23,6 @@ containsElement () {
 echo "## "$(date)" Start $0"
 
 
-getFile ${selectVariantsBiallelicSNPsVcf}
-getFile ${ASEReadCountsSampleChrOutput}
 
 #Commented progressbar out because the module is working on calculon, but broken on the nodes
 ##${stage} Term-ProgressBar/2.17-foss-2015b
@@ -35,13 +33,11 @@ mkdir -p ${countsTableDir}
 perl /apps/data/UMCG/scripts/convertASEReadCounts2CountsTable.pl \
 --VCF ${selectVariantsBiallelicSNPsVcf} \
 --ASEReadCounts ${ASEReadCountsSampleChrOutput} \
---outputFile ${sampleCountsTable}
 
 #Putfile the results
 if [ -f "${sampleCountsTable}" ];
 then
  echo "returncode: $?"; 
- putFile ${sampleCountsTable}
  echo "succes moving files";
 else
  echo "returncode: $?";

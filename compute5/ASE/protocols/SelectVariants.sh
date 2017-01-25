@@ -18,8 +18,6 @@
 echo "## "$(date)" Start $0"
 
 
-getFile ${onekgGenomeFasta}
-getFile ${VCFinputDir}/${VCFprefix}${CHR}${VCFsuffix}
 
 
 ${stage} GATK/${gatkVersion}
@@ -38,8 +36,6 @@ if java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${TMPDIR} -jar ${EBROOTG
  -restrictAllelesTo BIALLELIC
 then
  echo "returncode: $?"; 
- putFile ${selectVariantsBiallelicSNPsVcf}
- putFile ${selectVariantsBiallelicSNPsVcf}.idx
  echo "succes moving files";
 else
  echo "returncode: $?";
