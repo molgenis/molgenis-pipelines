@@ -24,7 +24,6 @@ containsElement () {
 
 echo "## "$(date)" Start $0"
 
-getFile ${selectVariantsBiallelicSNPsVcf}
 
 
 ${checkStage}
@@ -131,7 +130,6 @@ echo -e -n "\n\n\n"
 if [ -f "${countsTable}" ];
 then
  echo "returncode: $?"; 
- putFile ${countsTable}
  echo "succes moving files";
 else
  echo "returncode: $?";

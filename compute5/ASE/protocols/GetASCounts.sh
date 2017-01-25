@@ -25,7 +25,6 @@
 #string ASCountFilePostfix
 
 echo "## "$(date)" Start $0"
-getFile ${bam}
 
 ${stage} BEDTools/${bedtoolsVersion}
 ${stage} SAMtools/${samtoolsVersion}
@@ -57,6 +56,5 @@ do
 			${RASQUALDIR}/src/ASVCF/countAS $TMPDIR/temporalis.gz | \
 			awk '{print $5","$6}' | gzip >> ${ASCountFile}
     rm $TMPDIR/temporalis.gz
-    putFile ${ASCountFile}
 done
 echo "## "$(date)" $0 Done"

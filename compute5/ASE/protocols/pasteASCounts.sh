@@ -23,7 +23,6 @@
 #string ASCountsDir
 
 echo "## "$(date)" Start $0"
-getFile ${VCF}
 
 ${stage} BEDTools/${bedtoolsVersion}
 ${stage} SAMtools/${samtoolsVersion}
@@ -47,8 +46,6 @@ echo "Done merging ASreads"
 if [ -f "${ASVCF}" ];
 then
  echo "returncode: $?"; 
- putFile ${ASVCF}
- putFile ${ASVCF}.tbi
  echo "succes moving files";
 else
  echo "returncode: $?";

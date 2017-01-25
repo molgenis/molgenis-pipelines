@@ -20,7 +20,6 @@
 #list CHR
 echo "## "$(date)" Start $0"
 
-getFile ${bam}
 
 #Load gatk module
 ${stage} CS-ASE/${AseVersion}

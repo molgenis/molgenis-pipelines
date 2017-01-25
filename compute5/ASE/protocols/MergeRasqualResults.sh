@@ -16,7 +16,6 @@
 echo "## "$(date)" Start $0"
 
 
-getFile ${onekgGenomeFasta}
 
 ${checkStage}
 
@@ -60,8 +59,6 @@ cat ${sorted_unique_rasqualFeatureChunkPermutationOutput[@]} > ${rasqualFeatureC
 if [ -f "${rasqualFeatureChrOutput}" ];
 then
  echo "returncode: $?"; 
- putFile ${rasqualFeatureChrOutput}
- putFile ${rasqualFeatureChrPermutationOutput}
  echo "succes moving files";
 else
  echo "returncode: $?";
