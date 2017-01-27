@@ -20,7 +20,6 @@
 
 echo "## "$(date)" Start $0"
 
-getFile ${bam}
 
 ${stage} BEDTools/${bedtoolsVersion}
 ${stage} SAMtools/${samtoolsVersion}
