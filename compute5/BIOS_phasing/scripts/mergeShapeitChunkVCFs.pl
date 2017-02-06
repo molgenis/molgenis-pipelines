@@ -16,8 +16,8 @@ my $outputFile = "/groups/umcg-bios/tmp03/projects/phasing/results_GQ20/shapeitS
 my $header = `zcat /groups/umcg-bios/tmp03/projects/phasing/results_GQ20//shapeitSmallChunksVcfs/chr1/BIOS_freeze2.chr1.156776035.157015162.shapeit.phased.vcf.gz | head -200 | grep "^#"`;
 chomp($header);
 
-open(INPUT, "< /home/umcg-fvandijk/outputChromosomeChunksShapeitNiek.txt") || die "canÕt open input file!\n";
-open(OUTPUT, "> $outputFile") || die "canÕt open output file!\n";
+open(INPUT, "< /home/umcg-fvandijk/outputChromosomeChunksShapeitNiek.txt") || die "canï¿½t open input file!\n";
+open(OUTPUT, "> $outputFile") || die "canï¿½t open output file!\n";
 print OUTPUT "$header\n";
 #CHR,chromosomeChunk
 #1,1:1-134836    1:11869-29806
@@ -45,7 +45,7 @@ while (my $line = <INPUT>){
         my $grepVCF = `tabix $searchVCF $CHR:$chunkStart-$chunkEnd`;
         if (defined $grepVCF && $grepVCF ne "") {
             chomp($grepVCF);
-            print OUTPUT "$grepVCF";
+            print OUTPUT "$grepVCF\n";
         }else{
             print "Can not find any variants in file: $searchVCF using search coordinates: $CHR:$chunkStart-$chunkEnd\n";
         }
