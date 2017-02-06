@@ -19,6 +19,7 @@
 #string bedtoolsVersion
 #string samtoolsVersion
 #string tabixVersion
+#string GSLVersion
 #string RASQUALDIR
 #string ASCountsDir
 
@@ -27,6 +28,7 @@ echo "## "$(date)" Start $0"
 ${stage} BEDTools/${bedtoolsVersion}
 ${stage} SAMtools/${samtoolsVersion}
 ${stage} tabix/${tabixVersion}
+${stage} GSL/${GSLVersion}
 ${checkStage}
 
 mkdir -p ${binDir}
