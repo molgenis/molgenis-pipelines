@@ -8,7 +8,7 @@
 
 #string WORKDIR
 #string projectDir
-#string VCF
+#string selectVariantsBiallelicSNPsVcf
 #string CHR
 #string ASVCF
 #string binDir
@@ -37,7 +37,7 @@ echo "Merging ASreads"
 export RASQUALDIR # rasqual must be declared and exported. Other scripts are in rasqualdir... what happens here
 ##########################################################################AFter this check mpileup for the 3% anomaly for test snps 
 # count AS reads
-$RASQUALDIR/src/ASVCF/pasteFiles ${VCF} ${countsTable} | \
+$RASQUALDIR/src/ASVCF/pasteFiles ${selectVariantsBiallelicSNPsVcf} ${countsTable} | \
 bgzip > ${ASVCF}
 tabix -f -p vcf ${ASVCF}
 
