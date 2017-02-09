@@ -51,6 +51,11 @@ echo "halfWay: $halfWay"
 # from start to halfway check if there is a SNP. Because chromosomeChunks at the moment gets made separatly of the 
 # protocols this is used, however if a small overlap was chosen this might still go wrong. Check the makeChromosomeChunks.py
 # script to see if this catches all overlap
+if [ ! -f ${beagleDir}/${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz ];
+then
+  echo "${beagleDir}/${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz does not exist"
+  exit 1;
+fi
 containsSnpsStart=$(tabix ${beagleDir}/${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz  $CHR:$start-$halfWay | wc -l)
 containsSnpsEnd=$(tabix ${beagleDir}/${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz  $CHR:$halfWay-$end  | wc -l)
 # stepsize for searching up and down stream for SNP
