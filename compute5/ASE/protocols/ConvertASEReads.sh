@@ -33,7 +33,7 @@ mkdir -p ${countsTableDir}
 perl /apps/data/UMCG/scripts/convertASEReadCounts2CountsTable.pl \
   --VCF ${selectVariantsBiallelicSNPsVcf} \
   --ASEReadCounts ${ASEReadCountsSampleChrOutput} \
-  ---outputFile ${sampleCountsTable}
+  --outputFile ${sampleCountsTable}
 #Putfile the results
 if [ -f "${sampleCountsTable}" ];
 then
