@@ -43,7 +43,7 @@ then
 fi
 cd ../
 
-# if GSL is not installed, install it first. Should be already present tho
+# if GSL is not installed, install it first. Should be already present through easybuild tho
 module load GSL/2.1-foss-2015b 
 
 
@@ -58,7 +58,10 @@ sed -i 's;/usr/include/gsl;${EBROOTGSL}/lib/;' Makefile
 make
 make install
 
-cd ..
+cd ASVCF
+make
+
+cd ../..
 
 # test
 module load tabix
