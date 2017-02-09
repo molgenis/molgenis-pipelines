@@ -52,9 +52,13 @@ mkdir -p ${phaserDir}/allele_config/
 
 #Set tmp files to use during interation
 INPUTVCF="${shapeitPhasedOutputPrefix}${CHR}${shapeitPhasedOutputPostfix}.vcf.gz"
+INPUTVCFINDEX="${shapeitPhasedOutputPrefix}${CHR}${shapeitPhasedOutputPostfix}.vcf.gz.tbi"
 TMPINPUTVCF="${phaserDir}/${project}_TMP.chr${CHR}.vcf.gz"
+TMPINPUTVCFINDEX="${phaserDir}/${project}_TMP.chr${CHR}.vcf.gz.tbi"
 
+echo "Copying $INPUTVCF to $TMPINPUTVCF to use as tmp input file"
 cp $INPUTVCF $TMPINPUTVCF
+cp $INPUTVCFINDEX $TMPINPUTVCFINDEX
 
 #Iterate over all BAM files.
 #Do this to prevent running lots of samples in parallel all using the same input VCF.gz file
@@ -63,6 +67,7 @@ cp $INPUTVCF $TMPINPUTVCF
 i=0
 last_bam=${#bams[@]}
 
+echo "Looping over bam files..."
 for BAM in "${bams[@]}"
 do
 
@@ -74,19 +79,17 @@ do
   extension="${BAM##*.}"
   sampleName="${filename%.*}"
 
-  echo ""
-  echo ""
-  echo "Processing.."
-  echo "filename: $filename"
-  echo "extension: $extension"
-  echo "sampleName: $sampleName"
+  echo -n "Processing.. "
+  echo -n "filename: $filename "
+  echo -n "extension: $extension "
+  echo -n "sampleName: $sampleName "
 
   phaserOutPrefix=${phaserDir}/${project}_phASER.chr${CHR}
 
   #Set output prefix per sample for statistics etc.
   TMPOUTPUTVCF="${phaserDir}/${project}_$sampleName.readBackPhased.chr${CHR}"
 
-  if python $EBROOTPHASER/phaser/phaser.py \
+  if output=$(python $EBROOTPHASER/phaser/phaser.py \
   	  --paired_end 1 \
       --bam $BAM \
       --vcf $TMPINPUTVCF \
@@ -99,8 +102,15 @@ do
       --gw_phase_method 1 \
 	  --chr ${CHR} \
       --gw_af_vcf ${OneKgPhase3VCF} \
-      --gw_phase_vcf 1
-
+      --gw_phase_vcf 1)
+    echo $output
+    # phaser does't send appropriate exit signal so try like this
+    if echo $output | grep -q ERROR;
+    then
+       echo "exit, phASER error"
+       exit 1;
+    fi
+    echo "phaser done"
   # --show_warning 1 --debug 1 \
 
     #Unzip output VCF, inline replace messed up header lines, afterwards replace sample output and gzip file again
@@ -124,14 +134,15 @@ do
     
   then
     echo "returncode: $?";
+    echo "Replace $TMPINPUTVCF with $TMPINPUTVCF"
     #Replace TMPINPUTVCF with newly generated TMPOUTPUTVCF
     rm $TMPINPUTVCF
     mv $TMPOUTPUTVCF.vcf.gz $TMPINPUTVCF
     #Move log files to corresponding directories
     mv $TMPOUTPUTVCF.variant_connections.txt ${phaserDir}/variant_connections/
     mv $TMPOUTPUTVCF.allelic_counts.txt ${phaserDir}/allelic_counts/
-    mv $TMPOUTPUTVCF.hap.haplotypes.txt ${phaserDir}/haplotypes/
-    mv $TMPOUTPUTVCF.hap.haplotypic_counts.txt ${phaserDir}/haplotypic_counts/
+    mv $TMPOUTPUTVCF.haplotypes.txt ${phaserDir}/haplotypes/
+    mv $TMPOUTPUTVCF.haplotypic_counts.txt ${phaserDir}/haplotypic_counts/
     mv $TMPOUTPUTVCF.allele_config.txt ${phaserDir}/allele_config/
   else
    >&2 echo "went wrong with following command:"
@@ -155,23 +166,17 @@ do
   fi
 
 done
-
+echo "Done looping"
 #Zip all directories containing logfiles
 cd ${phaserDir}
 zip -r ${project}.chr${CHR}.variant_connections.zip ./variant_connections/*chr${chromosome}.*
 zip -r ${project}.chr${CHR}.allelic_counts.zip ./allelic_counts/*chr${chromosome}.*
-zip -r ${project}.chr${CHR}.hap.haplotypes.zip ./haplotypes/*chr${chromosome}.*
-zip -r ${project}.chr${CHR}.hap.haplotypic_counts.zip ./haplotypic_counts/*chr${chromosome}.*
+zip -r ${project}.chr${CHR}.haplotypes.zip ./haplotypes/*chr${chromosome}.*
+zip -r ${project}.chr${CHR}.haplotypic_counts.zip ./haplotypic_counts/*chr${chromosome}.*
 zip -r ${project}.chr${CHR}.allele_config.zip ./allele_config/*chr${chromosome}.*
 
 #Move final output to result file and create md5sums
  mv $TMPINPUTVCF $phaserOutPrefix.vcf.gz
- putFile $phaserOutPrefix.vcf.gz
- putFile ${phaserDir}/${project}.chr${CHR}.variant_connections.zip
- putFile ${phaserDir}/${project}.chr${CHR}.allelic_counts.zip
- putFile ${phaserDir}/${project}.chr${CHR}.hap.haplotypes.zip
- putFile ${phaserDir}/${project}.chr${CHR}.hap.haplotypic_counts.zip
- putFile ${phaserDir}/${project}.chr${CHR}.allele_config.zip
 
  bname=$(basename $phaserOutPrefix.vcf.gz)
  md5sum ${bname} > ${bname}.md5
@@ -179,9 +184,9 @@ zip -r ${project}.chr${CHR}.allele_config.zip ./allele_config/*chr${chromosome}.
  md5sum ${bname} > ${bname}.md5
  bname=$(basename ${phaserDir}/${project}.chr${CHR}.allelic_counts.zip)
  md5sum ${bname} > ${bname}.md5
- bname=$(basename ${phaserDir}/${project}.chr${CHR}.hap.haplotypes.zip)
+ bname=$(basename ${phaserDir}/${project}.chr${CHR}.haplotypes.zip)
  md5sum ${bname} > ${bname}.md5
- bname=$(basename ${phaserDir}/${project}.chr${CHR}.hap.haplotypic_counts.zip)
+ bname=$(basename ${phaserDir}/${project}.chr${CHR}.haplotypic_counts.zip)
  md5sum ${bname} > ${bname}.md5
  bname=$(basename ${phaserDir}/${project}.chr${CHR}.allele_config.zip)
  md5sum ${bname} > ${bname}.md5

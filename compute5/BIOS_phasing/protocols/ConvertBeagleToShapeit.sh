@@ -18,14 +18,14 @@
 #string zlibVersion
 #string bzip2Version
 #string GCCversion
+#string tabixVersion
 #string CHR
 #string prepareGenFromBeagle4Version
 
 echo "## "$(date)" Start $0"
 
-getFile ${genotypedChrVcfGL}
-getFile ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz
 
+${stage} tabix/${tabixVersion}
 ${stage} prepareGenFromBeagle4/${prepareGenFromBeagle4Version}
 # Glib is also set as dependency of prepareGenFromBeagle4 but still needs to be loaded after
 ${stage} GLib/${GLibVersion}
@@ -37,15 +37,11 @@ ${checkStage}
 if prepareGenFromBeagle4 \
  --likelihoods ${genotypedChrVcfGL} \
  --posteriors ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz \
- --threshold 0.995 \
  --output ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}
 then
  echo "returncode: $?";
  # these output files are NOT gzipped, so rename them to filename without gz
- putFile ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.gen.gz
- putFile ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.gen.sample
- putFile ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.hap.gz
- putFile ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.hap.sample
+
  cd ${beagleDir}
  # want to have the base path, not full path in the md5sum file, so cd to output dir and md5sum the basepath
  bname=$(basename ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.gen.gz)
@@ -58,6 +54,19 @@ then
  md5sum ${bname} > ${bname}.md5
  cd -
  echo "succes moving files";
+ 
+ # Do additional unzipping, bgzipping and tabixing of posterior probabilities VCF to use it in next step
+ cd ${beagleDir}
+ gunzip ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz
+ bgzip ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf
+ tabix ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz
+ #Generate checksums
+ bname=$(basename ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz)
+ md5sum ${bname} > ${bname}.md5
+ bname=$(basename basename ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz.tbi)
+ md5sum ${bname} > ${bname}.md5
+ cd -
+ echo "succes bgzipping, tabixing and moving VCF files";
 else
  >&2 echo "went wrong with following command:"
  >&2 echo "prepareGenFromBeagle4_modified20160601/bin/prepareGenFromBeagle4 \\

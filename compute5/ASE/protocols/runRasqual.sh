@@ -10,6 +10,9 @@
 #string kfilebinExon
 #string yfilebinExon
 #string yfiletxtExon
+#string kfilebinMetaExon
+#string yfilebinMetaExon
+#string yfiletxtMetaExon
 #string kfilebinGene
 #string yfilebinGene
 #string yfiletxtGene
@@ -32,9 +35,6 @@
 
 echo "## "$(date)" ##  $0 Start "
 
-getFile ${featureChunkFile}
-getFile ${ASVCF}
-getFile ${regionsFile}
 
 
 ${stage} GSL/${GSLVersion}
@@ -51,6 +51,12 @@ then
         yfilebin=${yfilebinExon}
         yfiletxt=${yfiletxtExon}
         featureDir=${featureChunkDir}/exonlistChunks/
+elif [ ${featureType} == "metaExon" ];
+then
+        kfilebin=${kfilebinMetaExon}
+        yfilebin=${yfilebinMetaExon}
+        yfiletxt=${yfiletxtMetaExon}
+        featureDir=${featureChunkDir}/meta-exonlistChunksPerFeature/chr${CHR}/
 elif [ ${featureType} == "gene" ];
 then
         kfilebin=${kfilebinGene}
@@ -115,8 +121,6 @@ done < <(awk 'F"\t" $($1 == ${CHR}) {printf ("%s:%s-%s\n", $1, $2, $3)}' ${regio
 if [ -f "${rasqualFeatureChunkOutput}" ];
 then
  echo "returncode: $?"; 
- putFile ${rasqualFeatureChunkOutput}
- putFile ${rasqualFeatureChunkPermutationOutput}
  echo "succes moving files";
 else
  echo "returncode: $?";

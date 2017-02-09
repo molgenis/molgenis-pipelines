@@ -36,10 +36,7 @@
 echo "## "$(date)" Start $0"
 echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
-#getFile functions
 
-getFile ${genomeEnsembleAnnotationFile}
-getFile ${onekgGenomeFasta}
 
 #Load modules
 ${stage} STAR/${starVersion}
@@ -51,14 +48,11 @@ ${checkStage}
 #read length parameters on the fly
 
 if [ ${#reads2FqGz} -eq 0 ]; then
-	getFile ${reads1FqGz}
 	echo "## "$(date)" ## Single-end readlength test"
 	readLength=$(gzip -dc ${reads1FqGz} | \
 		head -10000 | \
 		perl -we 'use strict;use List::Util qw/max/; my $in;$in=*STDIN; my @l;while(<$in>){chomp;my $line = $_;  push(@l, length($line)) if(($. % 4 )==2);}; my $sjboh=(max(@l)); print $sjboh."\n"')
 else
-	getFile ${reads1FqGz}
-	getFile ${reads2FqGz}
 	echo "## "$(date)" ## Paired-end readlength test"
 	
 	readLength1=$(gzip -dc ${reads1FqGz} | \
@@ -145,11 +139,6 @@ then
  echo "## "$(date)" ## Removing starindexdir:"$starIndexDir" because ~27 gb" 
  rm -rv $starIndexDir
 
- putFile ${starAlignmentPassOneDir}/Aligned.out.sam
- putFile ${starAlignmentPassOneDir}/Log.final.out
- putFile ${starAlignmentPassOneDir}/Log.out
- putFile ${starAlignmentPassOneDir}/Log.progress.out
- putFile ${sjdbFileChrStartEnd} 
 
  echo "succes moving files";
 else

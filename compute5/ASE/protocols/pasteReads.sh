@@ -5,9 +5,11 @@
 #string checkStage
 #string transcriptlist
 #string exonlist
+#string metaExonlist
 #string genelist
 #string yfiletxtTranscript
 #string yfiletxtExon
+#string yfiletxtMetaExon
 #string yfiletxtGene
 #string featureType
 #string binDir
@@ -16,7 +18,7 @@
 #string tabixVersion
 #string sampleNum
 #string CHR
-#list sampleName,readCountFileExon,readCountFileGene,readCountFileTranscript
+#list sampleName,readCountFileExon,readCountFileMetaExon,readCountFileGene,readCountFileTranscript
 
 
 echo "## "$(date)" Start $0"
@@ -38,6 +40,12 @@ echo "Generating Y file per exon ID"
 # Generate Y file
 cut -f2,5 ${exonlist} |  awk '{print $1"."$2}' | \
 	paste -d "\t" - "${readCountFileExon[@]}" | cut -f1-$(($NUMSAMPLES+1)) > ${yfiletxtExon}
+	
+echo "Generating Y file per meta-exon ID"
+
+# Generate Y file
+cut -f2,5 ${metaExonlist} |  awk '{print $1"."$2}' | \
+	paste -d "\t" - "${readCountFileMetaExon[@]}" | cut -f1-$(($NUMSAMPLES+1)) > ${yfiletxtMetaExon}
 
 echo "Generating Y file per gene ID"
 

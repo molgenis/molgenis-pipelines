@@ -27,8 +27,6 @@ echo "## "$(date)" Start $0"
 
 for file in "${bqsrBam[@]}" "${dbsnpVcf}" "${dbsnpVcfIdx}" "${onekgGenomeFasta}"; do
 #for file in "${bqsrBam[@]}" "${bqsrBai[@]}" "${dbsnpVcf}" "${dbsnpVcfIdx}" "${onekgGenomeFasta}"; do
-	echo "getFile file='$file'"
-	getFile $file
 done
 
 #Load gatk module
@@ -65,8 +63,6 @@ do
     echo "returncode: $?";
     #haplotyperGvcf is split into seperate variables now
 
-    putFile ${haplotyperDir}${sampleName}.chr$CHR.g.vcf.gz
-    putFile ${haplotyperDir}${sampleName}.chr$CHR.g.vcf.gz.tbi
     cd ${haplotyperDir}
 	md5sum $(basename ${haplotyperDir}${sampleName}.chr$CHR.g.vcf.gz)> $(basename ${haplotyperDir}${sampleName}.chr$CHR.g.vcf.gz).md5sum
     cd -

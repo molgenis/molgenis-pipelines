@@ -11,10 +11,12 @@
 #string bam
 #string transcriptSAF
 #string exonSAF
+#string metaExonSAF
 #string geneSAF
 #string readCountDir
 #string readCountFileGene
 #string readCountFileExon
+#string readCountFileMetaExon
 #string readCountFileTranscript
 #string subreadVersion
 #string sampleName
@@ -23,7 +25,6 @@
 
 echo "## "$(date)" Start $0"
 
-getFile ${bam}
 
 mkdir -p ${readCountDir}
 
@@ -81,6 +82,28 @@ tail -n +3 $TMPDIR/${sampleName}.chr${CHR}.txt | \
 cut -f7 > ${readCountFileExon}
 
 echo "Done retrieving exon counts"
+
+
+
+## Per Meta-Exon
+
+echo "Retrieving meta-exon counts"
+
+featureCounts \
+-F SAF \
+-O \
+-f \
+-s ${stranded} \
+-p \
+-B \
+-a ${metaExonSAF} \
+-o $TMPDIR/${sampleName}.chr${CHR}.txt \
+${bam}
+
+tail -n +3 $TMPDIR/${sampleName}.chr${CHR}.txt | \
+cut -f7 > ${readCountFileMetaExon}
+
+echo "Done retrieving meta-exon counts"
 
 
 

@@ -32,7 +32,6 @@ if [ ${#reads2FqGz} -eq 0 ]; then
 	echo "## "$(date)" Started single end fastqc"
         
 
-	getFile ${reads1FqGz}
 	
 	mkdir -p ${fastqcDir}
 	cd ${fastqcDir}
@@ -54,8 +53,6 @@ if [ ${#reads2FqGz} -eq 0 ]; then
 	
 	  cd $OLDPWD
 
-      putFile ${fastqcDir}/$(basename ${reads1FqGz} ${fastqExtension})${fastqcZipExt}
-	  putFile ${singleEndfastqcZip}
       cd ${fastqcDir}
       md5sum $(basename ${singleEndfastqcZip}) > $(basename ${singleEndfastqcZip}).md5
       cd -
@@ -69,8 +66,6 @@ else
 	echo "## "$(date)" Started paired end fastqc"
 	
 
-	getFile ${reads1FqGz}
-	getFile ${reads2FqGz}
 	
 	mkdir -p ${fastqcDir}
 	cd ${fastqcDir}
@@ -100,10 +95,6 @@ else
 	##################################################################
 	  cd $OLDPWD
 		
-	  putFile ${fastqcDir}/$(basename ${reads1FqGz} ${fastqExtension})${fastqcZipExt}
-	  putFile ${fastqcDir}/$(basename ${reads2FqGz} ${fastqExtension})${fastqcZipExt}
-	  putFile ${pairedEndfastqcZip1}
-	  putFile ${pairedEndfastqcZip2}
       cd ${fastqcDir}
       md5sum $(basename ${pairedEndfastqcZip1}) > $(basename ${pairedEndfastqcZip1}).md5
       md5sum $(basename ${pairedEndfastqcZip2}) > $(basename ${pairedEndfastqcZip2}).md5

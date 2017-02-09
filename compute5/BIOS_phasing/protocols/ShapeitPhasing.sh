@@ -40,11 +40,6 @@ echo "CHR: $CHR"
 echo "start: $start"
 echo "end: $end"
 
-getFile ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.gen.gz
-getFile ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.gen.sample
-getFile ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.hap.gz
-getFile ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.hap.sample
-
 
 
 mkdir -p ${shapeitDir}
@@ -72,8 +67,9 @@ done
 
 echo "searching if SNPs at end"
 totalSnps=$(zcat ${beagleDir}/${project}.chr${CHR}.beagle.genotype.probs.gg.vcf.gz | grep -v '^#' | wc -l)
+lastSnp=$(zcat ${beagleDir}/${project}.chr${CHR}.beagle.genotype.probs.gg.vcf.gz | tail -1 | awk '{print $2}')
 echo "totalSnps on chr ${CHR}: ${totalSnps}"
-while [ ${containsSnpsEnd} -eq 0 ] && [ ${end} -le ${totalSnps} ];
+while [ ${containsSnpsEnd} -eq 0 ] && [ ${end} -le ${lastSnp} ];
 do
   # if it does not contain any SNPs, search upstream and downstream until at least one SNP is found
   echo -n "Region $CHR:$halfWay-$end does not contain any SNPs"
@@ -82,6 +78,17 @@ do
   containsSnpsEnd=$(tabix ${beagleDir}/${project}.chr${CHR}.beagle.genotype.probs.gg.vcf.gz  $CHR:$halfWay-$end  | wc -l)
   echo " $containsSnpsEnd SNPs"
 done
+
+#Set start and end positions within chromosome length
+if [ $start -le 0 ];
+then
+    start=1;
+fi
+
+if [ $end -ge $lastSnp ];
+then
+    end=$lastSnp;
+fi
 
 echo 
 echo "Found SNPs on both sides, final chunk used for this job is: "
@@ -123,9 +130,6 @@ if shapeit \
  --input-to $end
 then
  echo "returncode: $?";
- putFile ${shapeitPhasedOutputPrefix}${CHR}_${oldStart}_${oldEnd}${shapeitPhasedOutputPostfix}.hap.gz
- putFile ${shapeitPhasedOutputPrefix}${CHR}_${oldStart}_${oldEnd}${shapeitPhasedOutputPostfix}.hap.gz.sample
- putFile ${shapeitPhasedOutputPrefix}${CHR}_${oldStart}_${oldEnd}${shapeitPhasedOutputPostfix}.log
  cd ${shapeitDir}
  bname=$(basename ${shapeitPhasedOutputPrefix}${CHR}_${oldStart}_${oldEnd}${shapeitPhasedOutputPostfix}.hap.gz)
  md5sum ${bname} > ${bname}.md5

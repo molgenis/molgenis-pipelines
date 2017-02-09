@@ -23,8 +23,6 @@
 echo "## "$(date)" Start $0"
 
 for file in "${haplotyperChrGvcf[@]}" "${onekgGenomeFasta}"; do
-	echo "getFile file='$file'"
-	getFile $file
 done
 
 #Load gatk module
@@ -50,8 +48,6 @@ if java -Xmx30g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${TMPDIR} -jar $EBROOTG
 then
  echo "returncode: $?"; 
 
- putFile ${mergeChrGvcf}
- putFile ${mergeChrGvcf}
 cd ${haplotyperDir}
 md5sum $(basename ${mergeGvcf})> $(basename ${mergeGvcf}).md5sum
  cd -

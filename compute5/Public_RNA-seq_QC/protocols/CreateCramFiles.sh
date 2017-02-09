@@ -17,7 +17,6 @@
 
 
 # Get input file
-getFile ${unfilteredBamDir}${uniqueID}.bam
 
 #Load modules
 ${stage} picard/${picardVersion}
@@ -35,7 +34,7 @@ echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}
 #Use old picard instead of new one "picard.jar FixMateInformation"
 if java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${tmpCramFileDir} \
  -jar $EBROOTPICARD/FixMateInformation.jar \
- INPUT=${unfilteredBamDir}${uniqueID}.bam \
+ INPUT=${unfilteredBamDir}/${uniqueID}.bam \
  OUTPUT=${tmpCramFileDir}${uniqueID}.fixmates.bam \
  VALIDATION_STRINGENCY=LENIENT \
  CREATE_INDEX=true \
@@ -43,8 +42,6 @@ if java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${tmpCramFileDir} \
 then
 
  echo "returncode: $?";
- putFile ${tmpCramFileDir}${uniqueID}.fixmates.bam
- putFile ${tmpCramFileDir}${uniqueID}.fixmates.bai
  echo "succes moving files";
 else
  echo "returncode: $?";
@@ -65,7 +62,6 @@ if scramble \
 then
 
  echo "returncode: $?";
- putFile ${cramFileDir}${uniqueID}.cram
  cd ${cramFileDir}
  md5sum $(basename ${cramFileDir}${uniqueID}.cram)> $(basename ${cramFileDir}${uniqueID}.cram).md5
  cd -

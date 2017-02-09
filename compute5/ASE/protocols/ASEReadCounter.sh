@@ -19,10 +19,6 @@
 echo "## "$(date)" Start $0"
 
 
-getFile ${onekgGenomeFasta}
-getFile ${bam}
-getFile ${selectVariantsBiallelicSNPsVcf}
-getFile ${selectVariantsBiallelicSNPsVcf}.idx
 
 ${stage} GATK/${gatkVersion}
 ${checkStage}
@@ -47,7 +43,6 @@ if java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${TMPDIR} -jar ${EBROOTG
 then
  echo "returncode: $?"; 
 
- putFile ${ASEReadCountsSampleChrOutput}
  echo "succes moving files";
 else
  echo "returncode: $?";
