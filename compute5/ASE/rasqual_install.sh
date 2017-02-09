@@ -43,11 +43,7 @@ then
 fi
 cd ../
 
-<<<<<<< HEAD
 # if GSL is not installed, install it first. Should be already present through easybuild tho
-=======
-# if GSL is not installed, install it first. Should be already present tho
->>>>>>> 69d1265a543237a74d428426238968a88e4c369a
 module load GSL/2.1-foss-2015b 
 
 
