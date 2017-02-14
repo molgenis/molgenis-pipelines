@@ -17,12 +17,14 @@
 #string CHR
 #string OneKgPhase3VCF
 #string tabixVersion
+#string bcftoolsVersion
+#string bamExtension
 
 echo "## "$(date)" Start $0"
 
-
-if [[ ! -f ${shapeitPhasedOutputPrefix}${CHR}${shapeitPhasedOutputPostfix}.vcf.gz ]] ; then
-  >&2 echo "${shapeitPhasedOutputPrefix}${CHR}${shapeitPhasedOutputPostfix}.vcf.gz does not exist"
+INPUTVCF="${shapeitPhasedOutputPrefix}${CHR}${shapeitPhasedOutputPostfix}.vcf.gz"
+if [[ ! -f $INPUTVCF ]] ; then
+  >&2 echo "$INPUTVCF does not exist"
   exit 1
 fi
 
@@ -38,7 +40,7 @@ ml purge
 #Load module
 ${stage} phASER/${phaserVersion}
 ${stage} tabix/${tabixVersion}
-
+${stage} BCFtools/${bcftoolsVersion}
 #check modules
 ${checkStage}
 
@@ -50,22 +52,12 @@ mkdir -p ${phaserDir}/haplotypic_counts/
 mkdir -p ${phaserDir}/allele_config/
 
 
-#Set tmp files to use during interation
-INPUTVCF="${shapeitPhasedOutputPrefix}${CHR}${shapeitPhasedOutputPostfix}.vcf.gz"
-INPUTVCFINDEX="${shapeitPhasedOutputPrefix}${CHR}${shapeitPhasedOutputPostfix}.vcf.gz.tbi"
-TMPINPUTVCF="${phaserDir}/${project}_TMP.chr${CHR}.vcf.gz"
-TMPINPUTVCFINDEX="${phaserDir}/${project}_TMP.chr${CHR}.vcf.gz.tbi"
-
-echo "Copying $INPUTVCF to $TMPINPUTVCF to use as tmp input file"
-cp $INPUTVCF $TMPINPUTVCF
-cp $INPUTVCFINDEX $TMPINPUTVCFINDEX
 
 #Iterate over all BAM files.
 #Do this to prevent running lots of samples in parallel all using the same input VCF.gz file
 
 #Check when last BAM, if so don't replace the GT:etc info fields in VCF
 i=0
-last_bam=${#bams[@]}
 
 echo "Looping over bam files..."
 for BAM in "${bams[@]}"
@@ -76,23 +68,22 @@ do
   #Extract sampleName from BAM
 
   filename=$(basename "$BAM")
-  extension="${BAM##*.}"
-  sampleName="${filename%.*}"
+  sampleName="${filename%$bamExtension}"
 
   echo -n "Processing.. "
   echo -n "filename: $filename "
-  echo -n "extension: $extension "
+  echo -n "bamExtension: $bamExtension "
   echo -n "sampleName: $sampleName "
-
+  echo "Input vcf: $INPUTVCF"
   phaserOutPrefix=${phaserDir}/${project}_phASER.chr${CHR}
 
   #Set output prefix per sample for statistics etc.
-  TMPOUTPUTVCF="${phaserDir}/${project}_$sampleName.readBackPhased.chr${CHR}"
+  TMPOUTPUTVCF="${phaserDir}/${project}_$sampleName.readBackPhased.vcf$i.chr${CHR}"
 
   if output=$(python $EBROOTPHASER/phaser/phaser.py \
   	  --paired_end 1 \
       --bam $BAM \
-      --vcf $TMPINPUTVCF \
+      --vcf $INPUTVCF \
       --mapq ${mapq} \
       --sample $sampleName \
       --baseq ${baseq} \
@@ -103,63 +94,42 @@ do
 	  --chr ${CHR} \
       --gw_af_vcf ${OneKgPhase3VCF} \
       --gw_phase_vcf 1)
-    echo $output
+    echo "$output"
     # phaser does't send appropriate exit signal so try like this
     if echo $output | grep -q ERROR;
     then
+       echo "returncode: $?";
+        echo "fail";
        echo "exit, phASER error"
        exit 1;
     fi
     echo "phaser done"
   # --show_warning 1 --debug 1 \
 
-    #Unzip output VCF, inline replace messed up header lines, afterwards replace sample output and gzip file again
-	cd ${phaserDir}
-	gunzip ${project}_$sampleName.readBackPhased.chr${CHR}.vcf.gz
-    if [ $i -ne $last_bam ]; 
-	then
-		#Replace header lines
-		perl -pi -e '!$x && s/##FORMAT=<ID=PG,Number=1,Type=String,Description="phASER Local Genotype">\n//  && ($x=1)' "${project}_$sampleName.readBackPhased.chr${CHR}.vcf";
-		perl -pi -e '!$x && s/##FORMAT=<ID=PB,Number=1,Type=String,Description="phASER Local Block">\n//  && ($x=1)' "${project}_$sampleName.readBackPhased.chr${CHR}.vcf";
-		perl -pi -e '!$x && s/##FORMAT=<ID=PI,Number=1,Type=String,Description="phASER Local Block Index \(unique for each block\)">\n//  && ($x=1)' "${project}_$sampleName.readBackPhased.chr${CHR}.vcf";
-		perl -pi -e '!$x && s/##FORMAT=<ID=PW,Number=1,Type=String,Description="phASER Genome Wide Genotype">\n//  && ($x=1)' "${project}_$sampleName.readBackPhased.chr${CHR}.vcf";
-		perl -pi -e '!$x && s/##FORMAT=<ID=PC,Number=1,Type=String,Description="phASER Genome Wide Confidence">\n//  && ($x=1)' "${project}_$sampleName.readBackPhased.chr${CHR}.vcf";
-		
-		#Replace sample output line
-		perl -pi -e 's/:PG:PB:PI:PW:PC//gs' "${project}_$sampleName.readBackPhased.chr${CHR}.vcf";
-	fi
-	perl -pi -e 's/:.:.:.:.:.//gs' ${project}_$sampleName.readBackPhased.chr${CHR}.vcf
-	gzip ${project}_$sampleName.readBackPhased.chr${CHR}.vcf
-	cd -
-    
+    # Merge VCF outputs from previous loops with VCF output of current loop
+    # if it is the first loop start of with that vcf
+    if [ $i -eq 1 ];
+    then
+        echo "mv $TMPOUTPUTVCF.vcf.gz $phaserOutPrefix.vcf.gz"
+        mv $TMPOUTPUTVCF.vcf.gz $phaserOutPrefix.vcf.gz
+    else
+    	cd ${phaserDir}
+        echo "Merging VCF file from step $i with VCF output file of previous step"
+        echo "bcftools merge $phaserOutPrefix.vcf.gz $TMPOUTPUTVCF.vcf.gz -O z > $phaserOutPrefix.vcf.gz.tmp"
+        bcftools merge $phaserOutPrefix.vcf.gz $TMPOUTPUTVCF.vcf.gz -O z > $phaserOutPrefix.vcf.gz.tmp
+        mv $phaserOutPrefix.vcf.gz.tmp $phaserOutPrefix.vcf.gz
+	    cd -
+    fi
   then
     echo "returncode: $?";
-    echo "Replace $TMPINPUTVCF with $TMPINPUTVCF"
-    #Replace TMPINPUTVCF with newly generated TMPOUTPUTVCF
-    rm $TMPINPUTVCF
-    mv $TMPOUTPUTVCF.vcf.gz $TMPINPUTVCF
     #Move log files to corresponding directories
+    echo " moving log files to corresponding directories"
     mv $TMPOUTPUTVCF.variant_connections.txt ${phaserDir}/variant_connections/
     mv $TMPOUTPUTVCF.allelic_counts.txt ${phaserDir}/allelic_counts/
     mv $TMPOUTPUTVCF.haplotypes.txt ${phaserDir}/haplotypes/
     mv $TMPOUTPUTVCF.haplotypic_counts.txt ${phaserDir}/haplotypic_counts/
     mv $TMPOUTPUTVCF.allele_config.txt ${phaserDir}/allele_config/
   else
-   >&2 echo "went wrong with following command:"
-   >&2 echo "python $EBROOTPHASER/phaser/phaser.py \\
-            --paired_end 1 \\
-            --bam $BAM \\
-            --vcf $TMPINPUTVCF \\
-            --mapq ${mapq} \\
-            --sample $sampleName \\
-            --baseq ${baseq} \\
-            --o $TMPOUTPUTVCF \\
-            --temp_dir $TMPDIR \\
-            --threads 12 \\
-            --gw_phase_method 1 \\
-            --chr ${CHR} \\
-            --gw_af_vcf ${OneKgPhase3VCF} \\
-            --gw_phase_vcf 1"
    echo "returncode: $?";
    echo "fail";
    exit 1;
@@ -175,8 +145,6 @@ zip -r ${project}.chr${CHR}.haplotypes.zip ./haplotypes/*chr${chromosome}.*
 zip -r ${project}.chr${CHR}.haplotypic_counts.zip ./haplotypic_counts/*chr${chromosome}.*
 zip -r ${project}.chr${CHR}.allele_config.zip ./allele_config/*chr${chromosome}.*
 
-#Move final output to result file and create md5sums
- mv $TMPINPUTVCF $phaserOutPrefix.vcf.gz
 
  bname=$(basename $phaserOutPrefix.vcf.gz)
  md5sum ${bname} > ${bname}.md5
