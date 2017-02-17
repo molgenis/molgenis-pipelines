@@ -1,4 +1,4 @@
-#MOLGENIS nodes=1 ppn=12 mem=8gb walltime=23:59:59
+#MOLGENIS nodes=1 ppn=1 mem=4gb walltime=5:59:59
 
 ### variables to help adding to database (have to use weave)
 #string project
@@ -9,8 +9,8 @@
 #string phaserDir
 #string shapeitPhasedOutputPrefix
 #string shapeitPhasedOutputPostfix
-#list bam
-#list CHR
+#string bam
+#string sampleName
 #string CHR
 #string mapq
 #string baseq
@@ -28,11 +28,10 @@ if [[ ! -f $INPUTVCF ]] ; then
   exit 1
 fi
 
-#sort unique and print like 'INPUT=file1.bam INPUT=file2.bam '
-bams=($(printf '%s\n' "${bam[@]}" | sort -u ))
-
-inputs=$(printf ' -I %s ' $(printf '%s\n' ${bams[@]}))
-
+# copy vcf to tmpdir so each job reads its own vcf
+TMPVCF=${TMPDIR}/$(basename ${shapeitPhasedOutputPrefix}${CHR}${shapeitPhasedOutputPostfix}.vcf.gz)
+rsync -vP ${shapeitPhasedOutputPrefix}${CHR}${shapeitPhasedOutputPostfix}.vcf.gz ${TMPDIR}/$(basename ${TMPVCF})
+rsync -vP ${shapeitPhasedOutputPrefix}${CHR}${shapeitPhasedOutputPostfix}.vcf.gz.tbi ${TMPDIR}/$(basename ${TMPVCF}).tbi
 
 #Clean environment from "old" python versions
 ml purge
@@ -44,124 +43,61 @@ ${stage} BCFtools/${bcftoolsVersion}
 #check modules
 ${checkStage}
 
-mkdir -p ${phaserDir}
-mkdir -p ${phaserDir}/variant_connections/
-mkdir -p ${phaserDir}/allelic_counts/
-mkdir -p ${phaserDir}/haplotypes/
-mkdir -p ${phaserDir}/haplotypic_counts/
-mkdir -p ${phaserDir}/allele_config/
+mkdir -p ${phaserDir}/variant_connections/chr$CHR
+mkdir -p ${phaserDir}/allelic_counts/chr$CHR
+mkdir -p ${phaserDir}/haplotypes/chr$CHR
+mkdir -p ${phaserDir}/haplotypic_counts/chr$CHR
+mkdir -p ${phaserDir}/allele_config/chr$CHR
+mkdir -p ${phaserDir}/vcf_per_sample/chr$CHR
 
+echo  "Processing.. "
+echo  "bamExtension: $bamExtension "
+echo  "sampleName: $sampleName "
+echo "Input vcf: $INPUTVCF"
+phaserOutPrefix=${phaserDir}/${project}_phASER.chr${CHR}
 
+#Set output prefix per sample for statistics etc.
+TMPOUTPUTVCF="${phaserDir}/${project}_$sampleName.readBackPhased.chr${CHR}"
 
-#Iterate over all BAM files.
-#Do this to prevent running lots of samples in parallel all using the same input VCF.gz file
+output=$(python $EBROOTPHASER/phaser/phaser.py \
+  --paired_end 1 \
+  --bam $bam \
+  --vcf $TMPVCF \
+  --mapq ${mapq} \
+  --sample $sampleName \
+  --baseq ${baseq} \
+  --o $TMPOUTPUTVCF \
+  --temp_dir $TMPDIR \
+  --threads 1 \
+  --gw_phase_method 1 \
+  --chr ${CHR} \
+  --gw_af_vcf ${OneKgPhase3VCF} \
+  --gw_phase_vcf 1 \
+  --show_warning 1 \
+  --debug 1)
 
-#Check when last BAM, if so don't replace the GT:etc info fields in VCF
-i=0
+  echo "$output"
 
-echo "Looping over bam files..."
-for BAM in "${bams[@]}"
-do
-
-  let i=i+1
-
-  #Extract sampleName from BAM
-
-  filename=$(basename "$BAM")
-  sampleName="${filename%$bamExtension}"
-
-  echo -n "Processing.. "
-  echo -n "filename: $filename "
-  echo -n "bamExtension: $bamExtension "
-  echo -n "sampleName: $sampleName "
-  echo "Input vcf: $INPUTVCF"
-  phaserOutPrefix=${phaserDir}/${project}_phASER.chr${CHR}
-
-  #Set output prefix per sample for statistics etc.
-  TMPOUTPUTVCF="${phaserDir}/${project}_$sampleName.readBackPhased.vcf$i.chr${CHR}"
-
-  if output=$(python $EBROOTPHASER/phaser/phaser.py \
-  	  --paired_end 1 \
-      --bam $BAM \
-      --vcf $INPUTVCF \
-      --mapq ${mapq} \
-      --sample $sampleName \
-      --baseq ${baseq} \
-      --o $TMPOUTPUTVCF \
-      --temp_dir $TMPDIR \
-      --threads 12 \
-      --gw_phase_method 1 \
-	  --chr ${CHR} \
-      --gw_af_vcf ${OneKgPhase3VCF} \
-      --gw_phase_vcf 1)
-    echo "$output"
-    # phaser does't send appropriate exit signal so try like this
-    if echo $output | grep -q ERROR;
-    then
-       echo "returncode: $?";
-        echo "fail";
-       echo "exit, phASER error"
-       exit 1;
-    fi
-    echo "phaser done"
-  # --show_warning 1 --debug 1 \
-
-    # Merge VCF outputs from previous loops with VCF output of current loop
-    # if it is the first loop start of with that vcf
-    if [ $i -eq 1 ];
-    then
-        echo "mv $TMPOUTPUTVCF.vcf.gz $phaserOutPrefix.vcf.gz"
-        mv $TMPOUTPUTVCF.vcf.gz $phaserOutPrefix.vcf.gz
-    else
-    	cd ${phaserDir}
-        echo "Merging VCF file from step $i with VCF output file of previous step"
-        echo "bcftools merge $phaserOutPrefix.vcf.gz $TMPOUTPUTVCF.vcf.gz -O z > $phaserOutPrefix.vcf.gz.tmp"
-        bcftools merge $phaserOutPrefix.vcf.gz $TMPOUTPUTVCF.vcf.gz -O z > $phaserOutPrefix.vcf.gz.tmp
-        mv $phaserOutPrefix.vcf.gz.tmp $phaserOutPrefix.vcf.gz
-	    cd -
-    fi
+  # phaser does't send appropriate exit signal so try like this
+  if echo $output | grep -q ERROR;
   then
-    echo "returncode: $?";
-    #Move log files to corresponding directories
-    echo " moving log files to corresponding directories"
-    mv $TMPOUTPUTVCF.variant_connections.txt ${phaserDir}/variant_connections/
-    mv $TMPOUTPUTVCF.allelic_counts.txt ${phaserDir}/allelic_counts/
-    mv $TMPOUTPUTVCF.haplotypes.txt ${phaserDir}/haplotypes/
-    mv $TMPOUTPUTVCF.haplotypic_counts.txt ${phaserDir}/haplotypic_counts/
-    mv $TMPOUTPUTVCF.allele_config.txt ${phaserDir}/allele_config/
-  else
-   echo "returncode: $?";
-   echo "fail";
-   exit 1;
+     echo "returncode: $?";
+     echo "fail";
+     >&2 echo $"output"
+     >&2 echo "exit, phASER error"
+     exit 1;
   fi
+echo "phaser done"
 
-done
-echo "Done looping"
-#Zip all directories containing logfiles
-cd ${phaserDir}
-zip -r ${project}.chr${CHR}.variant_connections.zip ./variant_connections/*chr${chromosome}.*
-zip -r ${project}.chr${CHR}.allelic_counts.zip ./allelic_counts/*chr${chromosome}.*
-zip -r ${project}.chr${CHR}.haplotypes.zip ./haplotypes/*chr${chromosome}.*
-zip -r ${project}.chr${CHR}.haplotypic_counts.zip ./haplotypic_counts/*chr${chromosome}.*
-zip -r ${project}.chr${CHR}.allele_config.zip ./allele_config/*chr${chromosome}.*
+echo "returncode: $?";
+#Move log files to corresponding directories
+echo " moving log files to corresponding directories"
+mv $TMPOUTPUTVCF.variant_connections.txt ${phaserDir}/variant_connections/chr$CHR/
+mv $TMPOUTPUTVCF.allelic_counts.txt ${phaserDir}/allelic_counts/chr$CHR/
+mv $TMPOUTPUTVCF.haplotypes.txt ${phaserDir}/haplotypes/chr$CHR/
+mv $TMPOUTPUTVCF.haplotypic_counts.txt ${phaserDir}/haplotypic_counts/chr$CHR/
+mv $TMPOUTPUTVCF.allele_config.txt ${phaserDir}/allele_config/chr$CHR/
+mv $TMPOUTPUTVCF.vcf.gz ${phaserDir}/vcf_per_sample/chr$CHR/
+mv $TMPOUTPUTVCF.vcf.gz.tbi ${phaserDir}/vcf_per_sample/chr$CHR/
 
-
- bname=$(basename $phaserOutPrefix.vcf.gz)
- md5sum ${bname} > ${bname}.md5
- bname=$(basename ${phaserDir}/${project}.chr${CHR}.variant_connections.zip)
- md5sum ${bname} > ${bname}.md5
- bname=$(basename ${phaserDir}/${project}.chr${CHR}.allelic_counts.zip)
- md5sum ${bname} > ${bname}.md5
- bname=$(basename ${phaserDir}/${project}.chr${CHR}.haplotypes.zip)
- md5sum ${bname} > ${bname}.md5
- bname=$(basename ${phaserDir}/${project}.chr${CHR}.haplotypic_counts.zip)
- md5sum ${bname} > ${bname}.md5
- bname=$(basename ${phaserDir}/${project}.chr${CHR}.allele_config.zip)
- md5sum ${bname} > ${bname}.md5
- cd -
- echo "succes moving files";
-
-
-
-echo "## "$(date)" ##  $0 Done "
 
