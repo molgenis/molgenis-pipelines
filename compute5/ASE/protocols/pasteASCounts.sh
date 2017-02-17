@@ -35,6 +35,21 @@ mkdir -p ${binDir}
 
 echo "Merging ASreads"
 export RASQUALDIR # rasqual must be declared and exported. Other scripts are in rasqualdir... what happens here
+
+# pasteFiles does not give an error when vcf and counts table have different number of SNPs, and it doesn't 
+# use chr/pos info so if the number of lines is not the same it should exit
+numberOfVcfs=$(zcat ${selectVariantsBiallelicSNPsVcf} | grep -v '^#' | wc -l
+numberOfCounts=$(wc -l ${countsTable} | awk '{print $1}' )
+
+if [ ${numerOfVcfs} -ne ${numberOfCounts} ];
+then
+  echo "ERROR"
+  echo "Number of lines in ${selectVariantsBiallelicSNPsVcf}: ${numberOfVcfs}"
+  echo "Number of lines in ${countsTable}: ${numberOfCounts}"
+  echo "Should be the same..."
+  exit 1;
+fi
+
 ##########################################################################AFter this check mpileup for the 3% anomaly for test snps 
 # count AS reads
 $RASQUALDIR/src/ASVCF/pasteFiles ${selectVariantsBiallelicSNPsVcf} ${countsTable} | \
