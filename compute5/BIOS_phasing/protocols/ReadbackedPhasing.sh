@@ -52,13 +52,6 @@ mkdir -p ${phaserDir}/allele_config/
 
 #Set tmp files to use during interation
 INPUTVCF="${shapeitPhasedOutputPrefix}${CHR}${shapeitPhasedOutputPostfix}.vcf.gz"
-INPUTVCFINDEX="${shapeitPhasedOutputPrefix}${CHR}${shapeitPhasedOutputPostfix}.vcf.gz.tbi"
-TMPINPUTVCF="${phaserDir}/${project}_TMP.chr${CHR}.vcf.gz"
-TMPINPUTVCFINDEX="${phaserDir}/${project}_TMP.chr${CHR}.vcf.gz.tbi"
-
-echo "Copying $INPUTVCF to $TMPINPUTVCF to use as tmp input file"
-cp $INPUTVCF $TMPINPUTVCF
-cp $INPUTVCFINDEX $TMPINPUTVCFINDEX
 
 #Iterate over all BAM files.
 #Do this to prevent running lots of samples in parallel all using the same input VCF.gz file
@@ -92,7 +85,7 @@ do
   if output=$(python $EBROOTPHASER/phaser/phaser.py \
   	  --paired_end 1 \
       --bam $BAM \
-      --vcf $TMPINPUTVCF \
+      --vcf $INPUTVCF \
       --mapq ${mapq} \
       --sample $sampleName \
       --baseq ${baseq} \
@@ -103,7 +96,7 @@ do
 	  --chr ${CHR} \
       --gw_af_vcf ${OneKgPhase3VCF} \
       --gw_phase_vcf 1)
-    echo $output
+    echo "$output"
     # phaser does't send appropriate exit signal so try like this
     if echo $output | grep -q ERROR;
     then
@@ -134,10 +127,6 @@ do
     
   then
     echo "returncode: $?";
-    echo "Replace $TMPINPUTVCF with $TMPINPUTVCF"
-    #Replace TMPINPUTVCF with newly generated TMPOUTPUTVCF
-    rm $TMPINPUTVCF
-    mv $TMPOUTPUTVCF.vcf.gz $TMPINPUTVCF
     #Move log files to corresponding directories
     mv $TMPOUTPUTVCF.variant_connections.txt ${phaserDir}/variant_connections/
     mv $TMPOUTPUTVCF.allelic_counts.txt ${phaserDir}/allelic_counts/
@@ -149,7 +138,7 @@ do
    >&2 echo "python $EBROOTPHASER/phaser/phaser.py \\
             --paired_end 1 \\
             --bam $BAM \\
-            --vcf $TMPINPUTVCF \\
+            --vcf $INPUTVCF \\
             --mapq ${mapq} \\
             --sample $sampleName \\
             --baseq ${baseq} \\
@@ -176,7 +165,7 @@ zip -r ${project}.chr${CHR}.haplotypic_counts.zip ./haplotypic_counts/*chr${chro
 zip -r ${project}.chr${CHR}.allele_config.zip ./allele_config/*chr${chromosome}.*
 
 #Move final output to result file and create md5sums
- mv $TMPINPUTVCF $phaserOutPrefix.vcf.gz
+ mv ${project}_$sampleName.readBackPhased.chr${CHR}.vcf.gz $phaserOutPrefix.vcf.gz
 
  bname=$(basename $phaserOutPrefix.vcf.gz)
  md5sum ${bname} > ${bname}.md5
