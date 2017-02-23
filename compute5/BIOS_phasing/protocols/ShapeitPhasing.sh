@@ -18,7 +18,6 @@
 #string phasedScaffoldDir
 #string geneticMapChrPrefix
 #string geneticMapChrPostfix
-#string beagleDir
 #string tabixVersion
 #string genotypedChrVcfBeagleGenotypeProbabilities
 
@@ -51,13 +50,13 @@ echo "halfWay: $halfWay"
 # from start to halfway check if there is a SNP. Because chromosomeChunks at the moment gets made separatly of the 
 # protocols this is used, however if a small overlap was chosen this might still go wrong. Check the makeChromosomeChunks.py
 # script to see if this catches all overlap
-if [ ! -f ${beagleDir}/${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz ];
+if [ ! -f ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz ];
 then
-  echo "${beagleDir}/${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz does not exist"
+  echo "${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz does not exist"
   exit 1;
 fi
-containsSnpsStart=$(tabix ${beagleDir}/${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz  $CHR:$start-$halfWay | wc -l)
-containsSnpsEnd=$(tabix ${beagleDir}/${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz  $CHR:$halfWay-$end  | wc -l)
+containsSnpsStart=$(tabix ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz  $CHR:$start-$halfWay | wc -l)
+containsSnpsEnd=$(tabix ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz  $CHR:$halfWay-$end  | wc -l)
 # stepsize for searching up and down stream for SNP
 stepsize=100000
 echo "searching if SNPs at start"
@@ -67,12 +66,12 @@ do
   echo -n "Region $CHR:$start-$halfWay does not contain any SNPs"
   start=`expr $start - $stepsize`
   echo -n ", searching with $CHR:$start-$halfWay..."; 
-  containsSnpsStart=$(tabix ${beagleDir}/${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz $CHR:$start-$halfWay  | wc -l)
+  containsSnpsStart=$(tabix ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz $CHR:$start-$halfWay  | wc -l)
   echo " $containsSnpsStart SNPs"
 done
 
 echo "searching if SNPs at end"
-lastSnp=$(zcat ${beagleDir}/${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz | tail -1 | awk '{print $2}')
+lastSnp=$(zcat ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz | tail -1 | awk '{print $2}')
 echo "lastSnp on chr ${CHR}: ${lastSnp}"
 while [ ${containsSnpsEnd} -eq 0 ] && [ ${end} -le ${lastSnp} ];
 do
@@ -80,7 +79,7 @@ do
   echo -n "Region $CHR:$halfWay-$end does not contain any SNPs"
   end=`expr $end + $stepsize`
   echo -n ", searching with $CHR:$halfWay-$end...";
-  containsSnpsEnd=$(tabix ${beagleDir}/${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz  $CHR:$halfWay-$end  | wc -l)
+  containsSnpsEnd=$(tabix ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz  $CHR:$halfWay-$end  | wc -l)
   echo " $containsSnpsEnd SNPs"
 done
 
