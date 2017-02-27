@@ -63,7 +63,7 @@ then
  #Generate checksums
  bname=$(basename ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz)
  md5sum ${bname} > ${bname}.md5
- bname=$(basename basename ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz.tbi)
+ bname=$(basename ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz.tbi)
  md5sum ${bname} > ${bname}.md5
  cd -
  echo "succes bgzipping, tabixing and moving VCF files";
