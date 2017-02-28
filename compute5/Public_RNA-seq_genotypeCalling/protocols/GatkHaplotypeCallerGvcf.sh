@@ -24,11 +24,6 @@
 
 echo "## "$(date)" Start $0"
 
-
-for file in "${bqsrBam[@]}" "${dbsnpVcf}" "${dbsnpVcfIdx}" "${onekgGenomeFasta}"; do
-#for file in "${bqsrBam[@]}" "${bqsrBai[@]}" "${dbsnpVcf}" "${dbsnpVcfIdx}" "${onekgGenomeFasta}"; do
-done
-
 #Load gatk module
 ${stage} GATK/${gatkVersion}
 ${checkStage}
