@@ -4,11 +4,11 @@
   "plugins": ["edit-link", "prism", "-fontsettings", "-highlight", "github"],
   "pluginsConfig": {
     "edit-link": {
-      "base": "https://github.com/Mark-de-Haan/molgenis-pipelines/tree/feature/gitbook/docs",
+      "base": "https://github.com/molgenis/molgenis-pipelines/tree/master/docs",
       "label": "Edit This Page"
     },
     "github": {
-      "url": "https://github.com/Mark-de-Haan/molgenis-pipelines/"
+      "url": "https://github.com/molgenis/molgenis-pipelines/"
     }
   },
   "links": {
