@@ -33,3 +33,7 @@ SCA_C_QCStatistics.csv
 
 # Also ignore all (generated) *.md files
 *.md
+
+# Do not ignore .md files in docs folder
+!docs/**
+docs/.DS_Store
