@@ -37,3 +37,4 @@ SCA_C_QCStatistics.csv
 # Do not ignore .md files in docs folder
 !docs/**
 docs/.DS_Store
+docs/convading/.DS_Store

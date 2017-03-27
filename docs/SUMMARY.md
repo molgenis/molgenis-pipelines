@@ -27,3 +27,6 @@
   - [Parameters](pipelines/mc-parameters.md)
   - [Reference](pipelines/mc-reference.md)
   - [Read more](pipelines/mc-publications.md)
+
+- MOLGENIS CoNVaDING
+  - [CoNVaDING](convading/CoNVaDING.md)
