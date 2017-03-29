@@ -32,7 +32,8 @@ echo "## "$(date)" Start $0"
 echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
 insertSizeMetrics=""
-if [ ${#reads2FqGz} -ne 0 ]; then
+if [ ${#reads2FqGz} -ne 0 ]; 
+then
 	insertSizeMetrics="PROGRAM=CollectInsertSizeMetrics"
 fi
 
@@ -58,21 +59,20 @@ if java -jar -Xmx4g -XX:ParallelGCThreads=4 ${toolDir}picard/${picardVersion}/Co
  TMP_DIR=${collectMultipleMetricsDir}
 then
  echo "returncode: $?";
-if [ ${#reads2FqGz} -ne 0 ]; then
-fi
-cd ${collectMultipleMetricsDir}
-bname=$(basename ${collectMultipleMetricsPrefix})
-md5sum ${bname}.quality_distribution_metrics > ${bname}.quality_distribution_metrics.md5
-md5sum ${bname}.alignment_summary_metrics > ${bname}.alignment_summary_metrics.md5
-md5sum ${bname}.quality_by_cycle_metrics > ${bname}.quality_by_cycle_metrics.md5
-md5sum ${bname}.quality_by_cycle.pdf > ${bname}.quality_by_cycle.pdf.md5
-md5sum ${bname}.quality_distribution.pdf > ${bname}.quality_distribution.pdf.md5
-if [ ${#reads2FqGz} -ne 0 ]; then
-    md5sum ${bname}.insert_size_histogram.pdf > ${bname}.insert_size_histogram.pdf.md5
-    md5sum ${bname}.insert_size_metrics > ${bname}.insert_size_metrics.md5
-fi
-  cd -
-  echo "succes moving files";
+
+ cd ${collectMultipleMetricsDir}
+ bname=$(basename ${collectMultipleMetricsPrefix})
+ md5sum ${bname}.quality_distribution_metrics > ${bname}.quality_distribution_metrics.md5
+ md5sum ${bname}.alignment_summary_metrics > ${bname}.alignment_summary_metrics.md5
+ md5sum ${bname}.quality_by_cycle_metrics > ${bname}.quality_by_cycle_metrics.md5
+ md5sum ${bname}.quality_by_cycle.pdf > ${bname}.quality_by_cycle.pdf.md5
+ md5sum ${bname}.quality_distribution.pdf > ${bname}.quality_distribution.pdf.md5
+ if [ ${#reads2FqGz} -ne 0 ]; then
+  md5sum ${bname}.insert_size_histogram.pdf > ${bname}.insert_size_histogram.pdf.md5
+  md5sum ${bname}.insert_size_metrics > ${bname}.insert_size_metrics.md5 
+ fi
+ cd -
+ echo "succes moving files";
 else
  echo "returncode: $?";
  echo "fail";
