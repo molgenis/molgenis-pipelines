@@ -5,7 +5,7 @@
 - Environment setup with easybuild
   - [Install environment](pipelines/eb-install.md)
 
-- NGS_DNA
+- [NGS_DNA](https://www.gitbook.com/book/molgenis/ngs_dna)
   - [Quickstart](https://molgenis.gitbooks.io/ngs_dna/content/ngs-quickstart.html)
   - [Install pipeline](https://molgenis.gitbooks.io/ngs_dna/content/ngs-install.html)
   - [Dependencies](https://molgenis.gitbooks.io/ngs_dna/content/ngs-dependencies.html)
