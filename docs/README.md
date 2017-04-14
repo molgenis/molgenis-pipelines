@@ -21,8 +21,9 @@ Below we explain (step 1) how to download and deploy Molgenis Compute. This dist
 For a 'walkthrough' tutorial on Molgenis Compute, please visit https://github.com/molgenis/molgenis_apps-legacy/blob/testing/doc/compute/01_compute_introduction.md
 
 ### Step 1: download Molgenis Compute
-** Download the latest MOLGENIS Compute from http://www.molgenis.org/wiki/ComputeStart **
-** Currently (March 2013) http://www.molgenis.org/raw-attachment/wiki/ComputeStart/molgenis_compute-fb05467.zip **
+* Download the latest MOLGENIS Compute from http://www.molgenis.org/wiki/ComputeStart
+
+* Currently (March 2013) http://www.molgenis.org/raw-attachment/wiki/ComputeStart/molgenis_compute-fb05467.zip 
 
 #### create dir
 ```
