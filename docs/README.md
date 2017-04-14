@@ -3,9 +3,7 @@
 ### Pipelines
 
 This repository contains the following pipelines:
-* Alignment
 * Imputation
-* GWAS
 * RNA-seq (Experimental)
 
 It also contains pipelines with their own repo's like:
@@ -18,12 +16,12 @@ In addition it contains protocols that may be re-used between different (version
 
 Below we explain (step 1) how to download and deploy Molgenis Compute. This distribution already contains several pipelines/protocols/parameter files which you can use 'out-of-the-box' to align and impute your NGS data. Next, we explain (step 2) how you can download even more pipelines and protocols by cloning this repo.
 
-For a 'walkthrough' tutorial on Molgenis Compute, please visit https://github.com/molgenis/molgenis_apps-legacy/blob/testing/doc/compute/01_compute_introduction.md
+For a 'walkthrough' tutorial on Molgenis Compute, please [go here](https://molgenis.gitbooks.io/molgenis-pipelines/content/pipelines/mc-start.html)
 
 ### Step 1: download Molgenis Compute
-* Download the latest MOLGENIS Compute from http://www.molgenis.org/wiki/ComputeStart
+* Download the latest MOLGENIS Compute from https://github.com/molgenis/molgenis-compute/releases
 
-* Currently (March 2013) http://www.molgenis.org/raw-attachment/wiki/ComputeStart/molgenis_compute-fb05467.zip 
+* Currently (April 2017) MOLGENIS Compute v1.4 (16.11.1)
 
 #### create dir
 ```
@@ -32,24 +30,19 @@ cd mycompute
 ```
 #### download
 ```
-wget http://www.molgenis.org/raw-attachment/wiki/ComputeStart/molgenis_compute-fb05467.zip
-unzip molgenis_compute-\<version>.zip
+wget https://github.com/molgenis/molgenis-compute/releases/download/v16.11.1/molgenis-compute-v16.11.1.tar.gz
+tar -xzvf molgenis-compute-v16.11.1.tar.gz
 mv molgenis_compute-\<version>/* .  
 ```
 #### test
 ```
 sh molgenis_compute.sh  
 ```
-
 ### Step 2: clone this repo
 
 #### For read/write access:
 ```
 git clone https://github.com/molgenis/molgenis-pipelines.git
 ```
-#### Alternatively to only download the pipelines use:
-```
-wget https://github.com/molgenis/molgenis-pipelines/archive/master.zip
-unzip master
-```
+
 {% include "./SUMMARY.md" %}
