@@ -31,8 +31,7 @@ cd mycompute
 #### download
 ```
 wget https://github.com/molgenis/molgenis-compute/releases/download/v16.11.1/molgenis-compute-v16.11.1.tar.gz
-tar -xzvf molgenis-compute-v16.11.1.tar.gz
-mv molgenis_compute-\<version>/* .  
+tar -xzvf molgenis-compute-v16.11.1.tar.gz  
 ```
 #### test
 ```
