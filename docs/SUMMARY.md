@@ -6,14 +6,14 @@
   - [Install environment](pipelines/eb-install.md)
 
 - NGS_DNA
-  - [Quickstart](pipelines/ngs-quickstart.md)
-  - [Install pipeline](pipelines/ngs-install.md)
-  - [Dependencies](pipelines/ngs-dependencies.md)
-  - [Run](pipelines/ngs-run.md)
-  - [Workflow](pipelines/ngs-workflow.md)
-  - [Protocols](pipelines/ngs-protocols.md)
-  - [FAQ](pipelines/ngs-faq.md)
-  - [Samplesheet](pipelines/ngs-samplesheets.md)
+  - [Quickstart](https://molgenis.gitbooks.io/ngs_dna/content/ngs-quickstart.html)
+  - [Install pipeline](https://molgenis.gitbooks.io/ngs_dna/content/ngs-install.html)
+  - [Dependencies](https://molgenis.gitbooks.io/ngs_dna/content/ngs-dependencies.html)
+  - [Run](https://molgenis.gitbooks.io/ngs_dna/content/ngs-run.html)
+  - [Workflow](https://molgenis.gitbooks.io/ngs_dna/content/ngs-workflow.html)
+  - [Protocols](https://molgenis.gitbooks.io/ngs_dna/content/ngs-protocols.html)
+  - [FAQ](https://molgenis.gitbooks.io/ngs_dna/content/ngs-faq.html)
+  - [Samplesheet](https://molgenis.gitbooks.io/ngs_dna/content/ngs-samplesheets.html)
 
 - NGS_RNA
   - [Install pipeline](pipelines/rna-install.md)   
