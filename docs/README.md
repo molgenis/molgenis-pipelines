@@ -9,7 +9,7 @@ This repository contains the following pipelines:
 * RNA-seq (Experimental)
 
 It also contains pipelines with their own repo's like:
-* NGS_DNA
+* [NGS_DNA](https://www.gitbook.com/book/molgenis/ngs_dna)
 * NGS_RNA
 
 In addition it contains protocols that may be re-used between different (versions of a) pipeline(s).
