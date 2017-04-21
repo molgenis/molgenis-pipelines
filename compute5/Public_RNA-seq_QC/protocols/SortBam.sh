@@ -30,20 +30,14 @@ mkdir -p ${sortedBamDir}
 echo "## "$(date)" Start $0"
 echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
-if java -Xmx6g -XX:ParallelGCThreads=4 -jar $EBROOTPICARD/SortSam.jar \
+java -Xmx6g -XX:ParallelGCThreads=4 -jar $EBROOTPICARD/SortSam.jar \
   INPUT=${filteredBam} \
   OUTPUT=${sortedBam} \
   SO=coordinate \
   CREATE_INDEX=true \
   TMP_DIR=${TMPDIR}
 
-then
- echo "returncode: $?";
- echo "succes moving files";
-else
- echo "returncode: $?";
- echo "fail";
-fi
+echo "returncode: $?";
 
 echo "## "$(date)" ##  $0 Done "
 

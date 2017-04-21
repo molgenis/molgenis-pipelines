@@ -28,12 +28,17 @@ if samtools flagstat ${markDuplicatesBam} > ${flagstatFile}
 then
  echo "returncode: $?"; 
  cd ${flagstatDir}
-md5sum $(basename ${flagstatFile}) > $(basename ${flagstatFile}).md5
+ md5sum $(basename ${flagstatFile}) > $(basename ${flagstatFile}).md5
  cd -
  echo "succes moving files";
 else
  echo "returncode: $?";
  echo "fail";
+fi
+
+if [ ! -f ${flagstatFile} ]; then
+    echo "${flagstatFile}"
+    exit 1
 fi
 
 echo "## "$(date)" ##  $0 Done "

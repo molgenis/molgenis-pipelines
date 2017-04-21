@@ -36,7 +36,7 @@ if [ ! -e ${indelRealignmentDir} ]; then
 fi
 
 
-if java -Xmx8g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${TMPDIR} -jar $EBROOTGATK/GenomeAnalysisTK.jar \
+java -Xmx8g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${TMPDIR} -jar $EBROOTGATK/GenomeAnalysisTK.jar \
  -T IndelRealigner \
  -R ${onekgGenomeFasta} \
  -I ${splitAndTrimBam} \
@@ -48,13 +48,6 @@ if java -Xmx8g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${TMPDIR} -jar $EBROOTGA
  --consensusDeterminationModel KNOWNS_ONLY \
  --LODThresholdForCleaning 0.4 \
 
-then
- echo "returncode: $?"; 
-
-echo "succes moving files";
-else
- echo "returncode: $?";
- echo "fail";
-fi
+echo "returncode: $?"; 
 
 echo "## "$(date)" ##  $0 Done "
