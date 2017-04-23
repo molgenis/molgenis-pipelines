@@ -7,7 +7,7 @@ In this quickstart you will learn to:
 
 # 1. Create a workflow
 
-We assume you   downloaded and unzipped molgenis compute commandline and are now in the directory you downloaded.
+We assume you downloaded and unzipped molgenis compute commandline and are now in the directory you downloaded.
 
 You can generate a template for a new workflow using command:
 
@@ -113,6 +113,7 @@ parameters, they should use the same names in protocols and parameters files. Th
 # 2. Generate jobs
 
 Once you defined your workflow you can generate 1000s of jobs. Just change the parameter values to have different runs. 
+### N.B. always use full paths to parameter files, workflow etc
 
 ```bash
   sh molgenis_compute.sh --generate --parameters myfirst_workflow/parameters.csv --workflow myfirst_workflow/workflow.csv --defaults myfirst_workflow/workflow.defaults.csv

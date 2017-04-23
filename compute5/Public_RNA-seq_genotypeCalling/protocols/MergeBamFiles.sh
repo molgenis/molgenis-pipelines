@@ -20,11 +20,6 @@
 
 echo "## "$(date)" Start $0"
 
-
-#for file in "${addOrReplaceGroupsBam[@]}" "${addOrReplaceGroupsBai[@]}"; do
-for file in "${addOrReplaceGroupsBam[@]}"; do
-done
-
 #Load Picard module
 ${stage} picard/${picardVersion}
 ${checkStage}
