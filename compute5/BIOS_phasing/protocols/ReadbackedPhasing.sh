@@ -100,4 +100,3 @@ mv $TMPOUTPUTVCF.allele_config.txt ${phaserDir}/allele_config/chr$CHR/
 mv $TMPOUTPUTVCF.vcf.gz ${phaserDir}/vcf_per_sample/chr$CHR/
 mv $TMPOUTPUTVCF.vcf.gz.tbi ${phaserDir}/vcf_per_sample/chr$CHR/
 
-

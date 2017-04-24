@@ -51,6 +51,7 @@ Input: BAM files from step 2 ${filePrefix}_${barcode}.sorted.bam)
 
 Output: merged BAM file ${filePrefix}_${barcode}.sorted.rg.bam)
 
+```
 java -Xmx6g -XX:ParallelGCThreads=8 -jar ${EBROOTPICARD}/${picardJar} AddOrReplaceReadGroups \
 	INPUT=${sortedBam} \
 	OUTPUT=${tmpAddOrReplaceGroupsBam} \
@@ -78,6 +79,7 @@ Input: BAM files from step 2 ${filePrefix}_${barcode}.sorted.bam)
 
 Output: merged BAM file (${sample}. sorted .merged.bam)
 
+```
 java -XX:ParallelGCThreads=4 -jar -Xmx6g ${EBROOTPICARD}/${picardJar} ${mergeSamFilesJar} \
 	${INPUTS[@]} \
 	SORT_ORDER=coordinate \
@@ -102,14 +104,13 @@ Output: BAM file with duplicates flagged (${sample}.sorted.merged dedup.bam)
 BAM index file (${sample}.dedup.bam.bai)
 Dedup metrics file (${sample}.merged.dedup.metrics)
 
+```
 java -XX:ParallelGCThreads=4 -jar -Xmx6g ${EBROOTPICARD}/${picardJar} MarkDuplicates \
 	I=${sampleMergedBam} \
 	O=${tmpSampleMergedDedupBam} \
 	CREATE_INDEX=true \
 	VALIDATION_STRINGENCY=LENIENT \
 	M=${dupStatMetrics} AS=true
-
-
 ```
 ### Step 6: Calculate alignment QC metrics
 In this step, QC metrics are calculated for the alignments created in the previous steps. This is done using several QC related tools:
@@ -137,8 +138,9 @@ toolVersion: HTSeq/0.6.1p1, Samtools/1.2-goolf-1.7.20
 Input: BAM file
 Output: Textfile with gene level quantification per sample.
 
+```
 samtools \
-	view -h \
+    view -h \
     ${sampleMergedBam}.nameSorted.bam | \
     $EBROOTHTSEQ/scripts/htseq-count \
     -m union \
@@ -157,6 +159,7 @@ Scriptname: SplitAndTrim
 Input: merged BAM files
 Output: BAM file (${sample}.sorted.merged.dedup.splitAndTrim.bam)
 
+```
 java -Xmx9g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${tmpTmpDataDir} -jar ${EBROOTGATK}/GenomeAnalysisTK.jar \
   -T SplitNCigarReads \
   -R ${indexFile} \
@@ -175,6 +178,7 @@ Toolname GATK SplitAndTrim
 Input: BAM file from step 8a
 Output: BAM file (${sample}.sorted.merged.dedup.splitAndTrim. realigned.bam)
 
+```
 java -Xmx8g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${tmpTmpDataDir} -jar $EBROOTGATK/GenomeAnalysisTK.jar \
 	-T IndelRealigner \
 	-R ${indexFile} \
@@ -186,7 +190,7 @@ java -Xmx8g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${tmpTmpDataDir} -jar $EBRO
 	-U ALLOW_N_CIGAR_READS \
 	--consensusDeterminationModel KNOWNS_ONLY \
 	--LODThresholdForCleaning 0.4
-
+```
 
 ### Step 8c: BQSR
 In this step BQSR is performed. This is a data pre-processing step that detects systematic errors made by the sequencer when it estimates the quality score of each base call.
@@ -194,6 +198,7 @@ Toolname GATK BQSR
 Input: BAM file from step 8b
 Output: BAM file (${sample}.sorted.merged.dedup.splitAndTrim. realigned.bqsr.bam)
 
+```
 java -Xmx14g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${tmpTmpDataDir} -jar $EBROOTGATK/GenomeAnalysisTK.jar \
 	-T BaseRecalibrator\
 	-R ${indexFile} \
@@ -211,7 +216,7 @@ java -Xmx14g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${tmpTmpDataDir} -jar $EBR
 	-o ${tmpBqsrBam} \
 	-BQSR ${bqsrBeforeGrp} \
 	-nct 2
- 
+
 ```
 
 ### Step 9a: HaplotypeCallerGvcf (VariantCalling)
@@ -221,7 +226,7 @@ Toolname: GATK HaplotypeCallerGvcf
 Scriptname: HaplotypeCallerGvcf
 Input: (${sample.sorted.merged.dedup.splitAndTrim.bam 
 Output: gVCF file (${sample}.${batchBed}.variant.calls.g.vcf)
-
+```
 java -Xmx10g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${tmpTmpDataDir} -jar ${EBROOTGATK}/GenomeAnalysisTK.jar \
 	-T HaplotypeCaller \
 	-R ${indexFile} \
@@ -234,7 +239,7 @@ java -Xmx10g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${tmpTmpDataDir} -jar ${EB
 	-variant_index_type LINEAR \
 	-variant_index_parameter 128000 \
 	--emitRefConfidence GVCF
-
+```
 ### Step 9b: Combine variants
 When there 200 or more samples the gVCF files should be combined into batches of equal size. (NB: These batches are different then the ${batchBed}.)
 The batches will be calculated and created in this step. If there are less then 200, this step will automatically be skipped.
@@ -243,7 +248,7 @@ Toolname: GATK CombineGVCFs
 Scriptname: VariantGVCFCombine
 Input: gVCF file (from step 9a)
 Output: Multiple combined gVCF files ${project}.${batchBed}.variant.calls.combined.g.vcf{batch}
-
+```
 java -Xmx30g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${tmpTmpDataDir} -jar \
 	${EBROOTGATK}/GenomeAnalysisTK.jar \
 	-T CombineGVCFs \
@@ -251,7 +256,7 @@ java -Xmx30g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${tmpTmpDataDir} -jar \
 	-L ${indexChrIntervalList} \
 	-o ${tmpProjectBatchCombinedVariantCalls}.${b} \
 	${ALLGVCFs[@]}
-
+```
 ### Step 9c: Genotype variants
 
 In this step there will be a joint analysis over all the samples in the project. This leads to a posterior probability of a variant allele at a site. SNPs and small Indels are written to a VCF file, along with information such as genotype quality, allele frequency, strand bias and read depth for that SNP/Indel.
@@ -260,7 +265,7 @@ Toolname: GATK GenotypeGVCFs
 Scriptname: VariantGVCFGenotype
 Input: gVCF files from step 9a or combined gVCF files from step 9b
 Output: VCF file for all the samples in the project: ${project}.${batchBed}.variant.calls.genotyped.vcf
-
+```
 java -Xmx16g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${tmpTmpDataDir} -jar ${EBROOTGATK}/GenomeAnalysisTK.jar \
 	-T GenotypeGVCFs \
 	-R ${indexFile} \
@@ -269,20 +274,20 @@ java -Xmx16g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${tmpTmpDataDir} -jar ${EB
 	${ALLGVCFs[@]} \
 	-stand_call_conf 10.0 \
 	-stand_emit_conf 20.0
-
+```
 ### Step 10: MakeExpressionTable
 In this step, gene level quantification files per sample, created in step 6 are merged into one table, using a inhouse developt script ProcessReadCounts.
 
 Scriptname: MakeExpressionTable
 Input: textfile with gene level quantification per sample.
 Output: gene level quantification table with all samples in the project.
-
+```
 java -Xmx1g -XX:ParallelGCThreads=1 -Djava.io.tmpdir=${tmpTmpDataDir} -jar ${EBROOTNGSMINUTILS}/${processReadCountsJar} \
 	--mode makeExpressionTable \
 	--fileList ${intermediateDir}/fileList.txt \
 	--annot ${geneAnnotationTxt} \
 	--out ${tmpProjectHTseqExpressionTable}
-
+```
 ### Step 11: Generate quality control report
 This step is to collect the statistics and metrics from step 3. Tables and graphs merged into a HTML and PDF Reports using KnitR. QC reports are then written to a quality control (QC) directory. 
 
@@ -297,12 +302,12 @@ In this step kallisto is for quantifying abundances of transcripts from RNA-Seq 
 Scriptname: Kallisto
 Input: raw sequence file in the form of a gzipped fastq file (.fq.gz)
 Output: results of the main quantification, i.e. the abundance estimate using Kallisto on the data is in the abundance.txt
-
+```
 kallisto quant \
 	-i ${kallistoIndex} \
 	-o ${tmpIntermediateDir}/${uniqueID} \
 	${peEnd1BarcodeFqGz} ${peEnd2BarcodeFqGz}
-
+```
 ### Step 13: Prepare data to ship to the customer
 In this last step the final results of the inhouse sequence analysis pipeline are gathered and prepared to be shipped to the customer. The pipeline tools and scripts write intermediate results to a temporary directory. From these, a selection is copied to a results directory. This directory has five subdirectories:
 
