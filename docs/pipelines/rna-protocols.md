@@ -140,7 +140,7 @@ Output: Textfile with gene level quantification per sample.
 
 ```
 samtools \
-	view -h \
+    view -h \
     ${sampleMergedBam}.nameSorted.bam | \
     $EBROOTHTSEQ/scripts/htseq-count \
     -m union \
