@@ -47,7 +47,7 @@ echo java -jar -Xmx4g -XX:ParallelGCThreads=4 $EBROOTPICARD/CollectMultipleMetri
         $insertSizeMetrics \
         TMP_DIR=${collectMultipleMetricsDir}
         
-java -jar -Xmx4g -XX:ParallelGCThreads=4 ${toolDir}picard/${picardVersion}/CollectMultipleMetrics.jar \
+java -jar -Xmx4g -XX:ParallelGCThreads=4 $EBROOTPICARD/CollectMultipleMetrics.jar \
  I=${sortedBam} \
  O=${collectMultipleMetricsPrefix} \
  R=${onekgGenomeFasta} \
