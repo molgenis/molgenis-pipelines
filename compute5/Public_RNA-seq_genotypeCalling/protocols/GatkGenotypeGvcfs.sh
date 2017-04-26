@@ -35,7 +35,7 @@ ${checkStage}
 
 mkdir -p ${haplotyperDir}
 
-if java -Xmx8g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${TMP} -jar $EBROOTGATK/GenomeAnalysisTK.jar \
+java -Xmx8g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${TMP} -jar $EBROOTGATK/GenomeAnalysisTK.jar \
  -T GenotypeGVCFs \
  -R ${onekgGenomeFasta} \
  --dbsnp ${dbsnpVcf} \
@@ -45,16 +45,10 @@ if java -Xmx8g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${TMP} -jar $EBROOTGATK/
  -stand_emit_conf 20.0 \
  -nt 6
 
-then
- echo "returncode: $?"; 
+echo "returncode: $?"; 
  
- cd ${haplotyperDir}
- md5sum $(basename ${genotypedChrVcf})> $(basename ${genotypedChrVcf}).md5sum
- cd -
- echo "succes moving files";
-else
- echo "returncode: $?";
- echo "fail";
-fi
+cd ${haplotyperDir}
+md5sum $(basename ${genotypedChrVcf})> $(basename ${genotypedChrVcf}).md5sum
+cd -
 
 echo "## "$(date)" ##  $0 Done "I

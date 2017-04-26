@@ -41,7 +41,7 @@ mkdir -p ${haplotyperDir}
 for CHR in {1..25}
 do
    echo "CHR $CHR"
-   if java -Xmx12g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${TMPDIR} -jar $EBROOTGATK/GenomeAnalysisTK.jar \
+   java -Xmx12g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${TMPDIR} -jar $EBROOTGATK/GenomeAnalysisTK.jar \
        -T HaplotypeCaller \
        -R ${onekgGenomeFasta} \
        --dbsnp ${dbsnpVcf} \
@@ -54,18 +54,14 @@ do
        -variant_index_parameter 128000 \
        -L ${haplotyperTargetsPrefix}$CHR${haplotyperTargetsPostfix} \
        --emitRefConfidence GVCF;
-  then
+
     echo "returncode: $?";
     #haplotyperGvcf is split into seperate variables now
 
     cd ${haplotyperDir}
 	md5sum $(basename ${haplotyperDir}${sampleName}.chr$CHR.g.vcf.gz)> $(basename ${haplotyperDir}${sampleName}.chr$CHR.g.vcf.gz).md5sum
     cd -
-    echo "succes moving files";
-  else
-    echo "returncode: $?";
-    echo "fail";
-  fi
+
 done
 
 

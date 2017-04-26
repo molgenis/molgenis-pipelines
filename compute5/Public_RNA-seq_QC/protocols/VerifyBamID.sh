@@ -35,8 +35,8 @@ if verifyBamID \
 
 then
 cd ${verifyBamIdDir}
-  echo "returncode: $?";
-md5sum $(basename ${verifyBamIdDir}${uniqueID}.depthSM) > $(basename ${verifyBamIdDir}${uniqueID}).depthSM.md5
+ echo "returncode: $?";
+ md5sum $(basename ${verifyBamIdDir}${uniqueID}.depthSM) > $(basename ${verifyBamIdDir}${uniqueID}).depthSM.md5
  md5sum $(basename ${verifyBamIdDir}${uniqueID}).log > $(basename ${verifyBamIdDir}${uniqueID}).log.md5
  md5sum $(basename ${verifyBamIdDir}${uniqueID}).selfRG > $(basename ${verifyBamIdDir}${uniqueID}).selfRG.md5
  md5sum $(basename ${verifyBamIdDir}${uniqueID}).selfSM > $(basename ${verifyBamIdDir}${uniqueID}).selfSM.md5

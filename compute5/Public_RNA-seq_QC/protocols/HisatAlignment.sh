@@ -79,4 +79,10 @@ else
  echo "fail";
 fi
 
+
+if [ ! -f ${hisatAlignmentDir}${uniqueID}.sam ]; then
+    echo "${hisatAlignmentDir}${uniqueID}.sam"
+    exit 1
+fi
+
 echo "## "$(date)" ##  $0 Done "

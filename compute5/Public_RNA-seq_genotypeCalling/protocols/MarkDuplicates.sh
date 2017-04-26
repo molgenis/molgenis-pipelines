@@ -30,22 +30,18 @@ ${checkStage}
 
 mkdir -p ${markDuplicatesDir}
 
-if java -Xmx6g -XX:ParallelGCThreads=8 -jar $EBROOTPICARD/MarkDuplicates.jar \
+java -Xmx6g -XX:ParallelGCThreads=8 -jar $EBROOTPICARD/MarkDuplicates.jar \
  INPUT=${mergeBamFilesBam} \
  OUTPUT=${markDuplicatesBam} \
  CREATE_INDEX=true \
  MAX_RECORDS_IN_RAM=4000000 \
  TMP_DIR=${markDuplicatesDir} \
  METRICS_FILE=${markDuplicatesMetrics}
-then
- echo "returncode: $?"; 
+
+echo "returncode: $?";
+
 cd ${markDuplicatesDir}
- md5sum ${markDuplicatesMetrics} > ${markDuplicatesMetrics}.md5
+md5sum ${markDuplicatesMetrics} > ${markDuplicatesMetrics}.md5
 cd -
- echo "succes moving files";
-else
- echo "returncode: $?";
- echo "fail";
-fi
 
 echo "## "$(date)" ##  $0 Done "

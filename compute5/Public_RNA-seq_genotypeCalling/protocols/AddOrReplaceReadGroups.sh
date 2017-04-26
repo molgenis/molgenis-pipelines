@@ -27,7 +27,7 @@ mkdir -p ${addOrReplaceGroupsDir}
 
 echo "## "$(date)" Start $0"
 
-if java -Xmx6g -XX:ParallelGCThreads=8 -jar $EBROOTPICARD/AddOrReplaceReadGroups.jar \
+java -Xmx6g -XX:ParallelGCThreads=8 -jar $EBROOTPICARD/AddOrReplaceReadGroups.jar \
  INPUT=${sortedBamFile} \
  OUTPUT=${addOrReplaceGroupsBam} \
  SORT_ORDER=coordinate \
@@ -39,16 +39,9 @@ if java -Xmx6g -XX:ParallelGCThreads=8 -jar $EBROOTPICARD/AddOrReplaceReadGroups
  RGDT=$(date --rfc-3339=date) \
  CREATE_INDEX=true \
  MAX_RECORDS_IN_RAM=4000000 \
- TMP_DIR=${addOrReplaceGroupsDir} \
+ TMP_DIR=${addOrReplaceGroupsDir}
 
-then
- echo "returncode: $?"; 
-
- echo "succes moving files";
-else
- echo "returncode: $?";
- echo "fail";
-fi
+echo "returncode: $?";
 
 echo "## "$(date)" ##  $0 Done "
 

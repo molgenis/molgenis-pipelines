@@ -53,4 +53,9 @@ else
  echo "fail";
 fi
 
+if [ ! -f ${unfilteredBamDir}/${uniqueID}.bam ]; then
+    echo "${unfilteredBamDir}/${uniqueID}.bam"
+    exit 1
+fi
+
 echo "## "$(date)" ##  $0 Done "
