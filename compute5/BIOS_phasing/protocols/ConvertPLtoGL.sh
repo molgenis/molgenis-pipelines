@@ -28,26 +28,17 @@ echo "Starting conversion."
 
 
 #Run conversion script beagle vcf to .hap.gzeit format
-if python $EBROOTNGSMINUTILS/PL_to_GL_reorder.py \
+python $EBROOTNGSMINUTILS/PL_to_GL_reorder.py \
     --vcf ${vcf} \
     --out ${genotypedChrVcfGL}
 
-then
- echo "returncode: $?";
- cd ${genotypedChrVcfGLDir}
- bname=$(basename ${genotypedChrVcfGL})
- md5sum ${bname} > ${bname}.md5
- cd -
- echo "succes moving files";
-else
- >&2 echo "went wrong with following command:"
- >&2 echo "python $EBROOTNGSMINUTILS/PL_to_GL_reorder.py \\
-            --vcf ${vcf} \\
-            --out ${genotypedChrVcfGL}"
- echo "returncode: $?";
- echo "fail";
- exit 1;
-fi
+
+echo "returncode: $?";
+cd ${genotypedChrVcfGLDir}
+bname=$(basename ${genotypedChrVcfGL})
+md5sum ${bname} > ${bname}.md5
+cd -
+echo "succes moving files";
 
 echo "Finished conversion."
 

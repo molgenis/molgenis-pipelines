@@ -70,26 +70,16 @@ echo "Shaping $chromosomeChunk"
 # samples as scaffolding, but could give population problems)
 # have to get the scaffolded samples from the vcf file
 awk '{print $2}' ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.hap.sample | tail -n +3 > ${scaffoldedSamplesPrefix}${CHR}.txt
-if ligateHAPLOTYPES --vcf ${genotypedChrVcfGL} \
+ligateHAPLOTYPES --vcf ${genotypedChrVcfGL} \
                  --scaffold ${scaffoldedSamplesPrefix}${CHR}.txt \
                  --chunks ${shapeitInput[@]} \
                  --output ${shapeitLigatedHaplotype} ${shapeitLigatedHaplotype%.haps}.sample
-then
- echo "returncode: $?";
- cd ${shapeitLigatedHaplotypeDir}
- bname=$(basename ${shapeitLigatedHaplotype})
- md5sum ${bname} > ${bname}.md5
- cd -
- echo "succes moving files";
-else
- >&2 echo "went wrong with following command:"
- >&2 echo "ligateHAPLOTYPES --vcf ${genotypedChrVcfGL} \\
-                 --scaffold ${scaffoldedSamplesPrefix}${CHR}.txt  \\
-                 --chunks ${shapeitInput[@]} \\
-                 --output ${shapeitLigatedHaplotype}"
- echo "returncode: $?";
- echo "fail";
- exit 1;
-fi
+
+echo "returncode: $?";
+cd ${shapeitLigatedHaplotypeDir}
+bname=$(basename ${shapeitLigatedHaplotype})
+md5sum ${bname} > ${bname}.md5
+cd -
+echo "succes moving files";
 
 echo "## "$(date)" ##  $0 Done "

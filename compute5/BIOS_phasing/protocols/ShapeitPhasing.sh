@@ -109,7 +109,7 @@ echo "File name will use original chunk size, $oldStart and $oldEnd"
 # The shaping is scaffolded using the chip-based or wgs phased genotypes (--input-init). For data without this information (like
 # vcfs from public rnaseq) this pipeline needs to be different OR it needs to be phased together with BIOS samples (using BIOS
 # samples as scaffolding, but could give population problems)
-if shapeit \
+shapeit \
  -call \
  --input-gen ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.gen.gz \
              ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.gen.sample \
@@ -132,46 +132,17 @@ if shapeit \
  --output-log ${shapeitPhasedOutputPrefix}${CHR}_${oldStart}_${oldEnd}${shapeitPhasedOutputPostfix}.log \
  --input-from $start \
  --input-to $end
-then
- echo "returncode: $?";
- cd ${shapeitDir}
- bname=$(basename ${shapeitPhasedOutputPrefix}${CHR}_${oldStart}_${oldEnd}${shapeitPhasedOutputPostfix}.hap.gz)
- md5sum ${bname} > ${bname}.md5
- bname=$(basename ${shapeitPhasedOutputPrefix}${CHR}_${oldStart}_${oldEnd}${shapeitPhasedOutputPostfix}.hap.gz.sample)
- md5sum ${bname} > ${bname}.md5
- bname=$(basename ${shapeitPhasedOutputPrefix}${CHR}_${oldStart}_${oldEnd}${shapeitPhasedOutputPostfix}.log)
- md5sum ${bname} > ${bname}.md5
- cd -
- echo "succes moving files";
-else
-  >&2 echo "went wrong with following command:"
- >&2 echo "shapeit \\
- -call \\
- --input-gen /groups/umcg-bios/tmp04/projects/lld_gvcfs/phasing/results_GQ20_callrate50//beagle//lld_plus_gonl.chr${CHR}.beagle.genotype.probs.gg.gen.gz \\
-             /groups/umcg-bios/tmp04/projects/lld_gvcfs/phasing/results_GQ20_callrate50//beagle//lld_plus_gonl.chr${CHR}.beagle.genotype.probs.gg.gen.sample \\
- --input-init /groups/umcg-bios/tmp04/projects/lld_gvcfs/phasing/results_GQ20_callrate50//beagle//lld_plus_gonl.chr${CHR}.beagle.genotype.probs.gg.hap.gz \\
-              /groups/umcg-bios/tmp04/projects/lld_gvcfs/phasing/results_GQ20_callrate50//beagle//lld_plus_gonl.chr${CHR}.beagle.genotype.probs.gg.hap.sample \\
- --input-map /apps/data/www.shapeit.fr/genetic_map_b37//genetic_map_chr${CHR}_combined_b37.txt \\
- --input-scaffold /groups/umcg-lld/tmp04/projects/genotypingRelease3/selectionLldeep/lldeepPhased//chr_${CHR}.haps \\
-                  /groups/umcg-lld/tmp04/projects/genotypingRelease3/selectionLldeep/lldeepPhased//chr_${CHR}.sample \\
- --input-thr 1.0 \
- --thread 8 \
- --window 0.1 \
- --states 400 \
- --states-random 200 \
- --burn 0 \
- --run 12 \
- --prune 4 \
- --main 20 \
- --output-max /groups/umcg-bios/tmp04/projects/lld_gvcfs/phasing/results_GQ20_callrate50//shapeit//lld_plus_gonl.chr${CHR}_${oldStart}_${oldEnd}.shapeit.phased.hap.gz \\
-              /groups/umcg-bios/tmp04/projects/lld_gvcfs/phasing/results_GQ20_callrate50//shapeit//lld_plus_gonl.chr${CHR}_${oldStart}_${oldEnd}.shapeit.phased.hap.gz.sample \\
- --output-log /groups/umcg-bios/tmp04/projects/lld_gvcfs/phasing/results_GQ20_callrate50//shapeit//lld_plus_gonl.chr${CHR}_${oldStart}_${oldEnd}.shapeit.phased.log \\
- --input-from $start \\
- --input-to $end"
 
- echo "returncode: $?";
- echo "fail";
- exit 1;
-fi
+echo "returncode: $?";
+cd ${shapeitDir}
+bname=$(basename ${shapeitPhasedOutputPrefix}${CHR}_${oldStart}_${oldEnd}${shapeitPhasedOutputPostfix}.hap.gz)
+md5sum ${bname} > ${bname}.md5
+bname=$(basename ${shapeitPhasedOutputPrefix}${CHR}_${oldStart}_${oldEnd}${shapeitPhasedOutputPostfix}.hap.gz.sample)
+md5sum ${bname} > ${bname}.md5
+bname=$(basename ${shapeitPhasedOutputPrefix}${CHR}_${oldStart}_${oldEnd}${shapeitPhasedOutputPostfix}.log)
+md5sum ${bname} > ${bname}.md5
+cd -
+echo "succes moving files";
+
 
 echo "## "$(date)" ##  $0 Done "
