@@ -43,11 +43,12 @@ java -Xmx32g -Djava.io.tmpdir=$TMPDIR -XX:ParallelGCThreads=2 -jar $EBROOTBEAGLE
  #This also affects our system! More information here: https://mat.gen.gz.stats.ox.ac.uk.gen.gzetics_software/.hap.gzeit/.hap.gzeit.html#gcall
  
 cd ${beagleDir}
-pwd
-echo "gunzipping.."
-gunzip ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz
-echo "gzipping..."
-gzip ${beagleDir}/${project}.chr${CHR}.beagle.genotype.probs.gg.vcf
+
+#### below commented code moved to after BeagleFilter, kept in as reminder of stupid gzipping
+#echo "gunzipping.."
+#gunzip ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz
+#echo "gzipping..."
+#gzip ${beagleDir}/${project}.chr${CHR}.beagle.genotype.probs.gg.vcf
 
 cd ${beagleDir}
 bname=$(basename ${genotypedChrVcfBeagleGenotypeProbabilities})

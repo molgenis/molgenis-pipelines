@@ -10,9 +10,9 @@
 #string projectDir
 #string beagleDir
 #string genotypedChrVcfGL
-#string genotypedChrVcfBeagleGenotypeProbabilities
 #string genotypedChrVcfShapeitInputPrefix
 #string genotypedChrVcfShapeitInputPostfix
+#string genotypedChrVcfBeagleGenotypeProbabilitiesFiltered
 #string GLibVersion
 #string ngsutilsVersion
 #string zlibVersion
@@ -36,7 +36,7 @@ ${checkStage}
 #Run conversion script beagle vcf to .hap.gzeit format
 prepareGenFromBeagle4 \
  --likelihoods ${genotypedChrVcfGL} \
- --posteriors ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz \
+ --posteriors ${genotypedChrVcfBeagleGenotypeProbabilitiesFiltered} \
  --output ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}
 
 echo "returncode: $?";

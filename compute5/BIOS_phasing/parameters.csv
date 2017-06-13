@@ -44,6 +44,7 @@ geneticMapDir,/apps/data/www.shapeit.fr/genetic_map_b37/
 geneticMapChrPrefix,${geneticMapDir}/genetic_map_chr
 geneticMapChrPostfix,_combined_b37.txt
 OneKgPhase3VCF,/apps/data/1000G/phase3/20130502//ALL.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.vcf.gz
+referenceFasta,/apps/data/ftp.broadinstitute.org/bundle/2.8/b37/human_g1k_v37.fasta
 ########################################################################
 ## Specific tools paths
 #
@@ -56,6 +57,9 @@ beagleDir,${projectDir}/beagle/
 genotypedChrVcfBeagleGenotypeProbabilities,${beagleDir}/${project}.chr${CHR}.beagle.genotype.probs.gg
 genotypedChrVcfShapeitInputPrefix,${beagleDir}/${project}.chr
 genotypedChrVcfShapeitInputPostfix,.beagle.genotype.probs.gg
+beagleFilteredDir,${projectDir}/beagle_vcf_filtered/
+genotypedChrVcfBeagleGenotypeProbabilitiesFiltered,${beagleFilteredDir}/${project}.chr${CHR}.beagle.genotype.probs.gg.vcf.gz
+DR2Filter,0.989999999999999999
 ## Shapeit
 shapeitDir,${projectDir}/shapeit/
 phasedScaffoldDir,/groups/umcg-lld/${tmp}/projects/genotypingRelease3/selectionLldeep/lldeepPhased_RNA_IDs/
