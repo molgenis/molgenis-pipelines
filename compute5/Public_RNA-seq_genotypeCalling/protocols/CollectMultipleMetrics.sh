@@ -39,7 +39,7 @@ if [ ${#reads2FqGz} -ne 0 ]; then
 fi
 
 #Run Picard CollectAlignmentSummaryMetrics, CollectInsertSizeMetrics, QualityScoreDistribution and MeanQualityByCycle
-if java -jar -Xmx4g -XX:ParallelGCThreads=8 $EBROOTPICARD/CollectMultipleMetrics.jar \
+java -jar -Xmx4g -XX:ParallelGCThreads=8 $EBROOTPICARD/CollectMultipleMetrics.jar \
  I=${markDuplicatesBam} \
  O=${collectMultipleMetricsPrefix} \
  R=${onekgGenomeFasta} \
@@ -49,27 +49,21 @@ if java -jar -Xmx4g -XX:ParallelGCThreads=8 $EBROOTPICARD/CollectMultipleMetrics
  $insertSizeMetrics \
  TMP_DIR=${collectMultipleMetricsDir}
 
+echo "returncode: $?"; 
+
 #VALIDATION_STRINGENCY=LENIENT \
 
-then
- echo "returncode: $?"; 
-
- cd ${collectMultipleMetricsDir}
+cd ${collectMultipleMetricsDir}
 bname=$(basename ${collectMultipleMetricsPrefix})
- md5sum ${bname}.quality_distribution_metrics > ${bname}.quality_distribution_metrics.md5
+md5sum ${bname}.quality_distribution_metrics > ${bname}.quality_distribution_metrics.md5
 md5sum ${bname}.alignment_summary_metrics > ${bname}.alignment_summary_metrics.md5
 md5sum ${bname}.quality_by_cycle_metrics > ${bname}.quality_by_cycle_metrics.md5
 md5sum ${bname}.quality_by_cycle.pdf > ${bname}.quality_by_cycle.pdf.md5
 md5sum ${bname}.quality_distribution.pdf > ${bname}.quality_distribution.pdf.md5
- if [ ${#reads2FqGz} -ne 0 ]; then
+if [ ${#reads2FqGz} -ne 0 ]; then
     md5sum ${bname}.insert_size_histogram.pdf > ${bname}.insert_size_histogram.pdf.md5
     md5sum ${bname}.insert_size_metrics > ${bname}.insert_size_metrics.md5
- fi
- cd -
- echo "succes moving files";
-else
- echo "returncode: $?";
- echo "fail";
 fi
+cd -
 
 echo "## "$(date)" ##  $0 Done "

@@ -58,7 +58,7 @@ echo
 echo "## Action to perform in quals: "$qualAction" ##"
 echo
 
-if java -Xmx8g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${TMPDIR} -jar $EBROOTGATK/GenomeAnalysisTK.jar \
+java -Xmx8g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${TMPDIR} -jar $EBROOTGATK/GenomeAnalysisTK.jar \
  -T SplitNCigarReads \
  -R ${onekgGenomeFasta} \
  -I ${markDuplicatesBam} \
@@ -69,13 +69,6 @@ if java -Xmx8g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${TMPDIR} -jar $EBROOTGA
  -U ALLOW_N_CIGAR_READS \
  $qualAction
 
-then
- echo "returncode: $?"; 
-
- echo "succes moving files";
-else
- echo "returncode: $?";
- echo "fail";
-fi
+echo "returncode: $?";
 
 echo "## "$(date)" ##  $0 Done "

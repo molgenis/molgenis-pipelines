@@ -29,6 +29,8 @@ genomeBuild,b37
 onekgGenomeFasta,/apps/data/ftp.broadinstitute.org/bundle/2.8/b37/human_g1k_v37.fasta
 dbsnpVcf,${resDir}/${genomeBuild}/snp/dbSNP/dbsnp_138.b37.vcf
 dbsnpVcfIdx,${dbsnpVcf}.idx
+#################
+CHR,1
 ########################################################################
 ## Specific tools paths
 #
@@ -39,7 +41,7 @@ transcriptSAF,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/transcriptlist
 exonSAF,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/exonlist_sorted.chr${CHR}.saf
 metaExonSAF,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/meta-exonlist_sorted.chr${CHR}.saf
 geneSAF,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/genelist_sorted.chr${CHR}.saf
-readCountDir,${projectDir}/readCounts/
+readCountDir,${projectDir}/readCounts/chr${CHR}/
 readCountFileGene,${readCountDir}/${sampleName}.readCountsGene.chr${CHR}.txt
 readCountFileExon,${readCountDir}/${sampleName}.readCountsExon.chr${CHR}.txt
 readCountFileMetaExon,${readCountDir}/${sampleName}.readCountsMetaExon.chr${CHR}.txt
@@ -48,17 +50,17 @@ pathSubread, # path to Subread bin
 stranded,1
 # # stranded: 0 = unstranded 1 = stranded
 ## SelectVariants
-selectVariantsDir,${projectDir}/SelectVariants/
+selectVariantsDir,${projectDir}/SelectVariants/chr${CHR}/
 selectVariantsBiallelicSNPsVcf,${selectVariantsDir}/${VCFprefix}${CHR}${VCFsuffix}.biAllelicSNPsOnly.vcf.gz
 #
 ## ASEReadCounter
-ASEReadCountsDir,${projectDir}/ASEReadCountsDir/
+ASEReadCountsDir,${projectDir}/ASEReadCountsDir/chr${CHR}/
 ASEReadCountsSampleChrOutput,${ASEReadCountsDir}/${sampleName}.ASEReadCounts.chr${CHR}.rtable
 minMappingQuality,10
 minBaseQuality,2
 #
 ## ConvertASEReads
-countsTableDir,${projectDir}/countsTable/
+countsTableDir,${projectDir}/countsTable/chr${CHR}/
 sampleCountsTable,${countsTableDir}/${sampleName}.ASEReadCounts.countsTable.chr${CHR}.txt
 #
 ## CreateCountsTable
@@ -66,7 +68,7 @@ countsTable,${countsTableDir}/${VCFprefix}${CHR}${VCFsuffix}.ASEReadCounts.count
 #
 ## GetASCounts
 RASQUALDIR,/groups/umcg-wijmenga/tmp04/tools/rasqual/
-ASCountsDir,${projectDir}/AScounts/
+ASCountsDir,${projectDir}/AScounts/chr${CHR}/
 ASCountFilePostfix,_${sampleName}_AScounts.bam.gz
 ASCountFile,${ASCountsDir}/chr${CHR}${ASCountFilePostfix}
 VCFinputDir,/groups/umcg-bios/tmp04/umcg-fvandijk/projects/ASE/GoNL_WGS_calls_exonicEQTLsOnly/
@@ -75,7 +77,7 @@ VCFsuffix,.release5.NoMAFSelection.exonicEQTLsOnly.vcf.gz
 VCF,${VCFinputDir}/${VCFprefix}${CHR}${VCFsuffix}
 #
 ## pasteReads
-binDir,${projectDir}/bins/
+binDir,${projectDir}/bins/chr${CHR}/
 featureFileExon,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/exonlist_sorted.chr${CHR}.txt.gz
 featureFileMetaExon,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/meta-exonlist_sorted.chr${CHR}.txt.gz
 featureFileGene,/apps/data/UMCG/Ensembl.GRCh37.75-Exon_And_GeneList/genelist_sorted.chr${CHR}.txt.gz

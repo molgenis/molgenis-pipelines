@@ -49,7 +49,7 @@ java -Xmx14g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${TMPDIR} -jar $EBROOTGATK
  -knownSites ${oneKgPhase1IndelsVcf}\
  -nct 2
 
-if java -Xmx14g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${TMPDIR} -jar $EBROOTGATK/GenomeAnalysisTK.jar \
+java -Xmx14g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${TMPDIR} -jar $EBROOTGATK/GenomeAnalysisTK.jar \
  -T PrintReads \
  -R ${onekgGenomeFasta} \
  -I ${indelRealignmentBam} \
@@ -57,18 +57,11 @@ if java -Xmx14g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${TMPDIR} -jar $EBROOTG
  -BQSR ${bqsrBeforeGrp} \
  -nct 2
 
-then
- echo "returncode: $?"; 
+echo "returncode: $?"; 
 
- cd ${bqsrDir}
- md5sum $(basename ${bqsrBam})> $(basename ${bqsrBam}).md5sum
- md5sum $(basename ${bqsrBam%bam}bai)> $(basename ${bqsrBam%bam}bai).md5sum
+cd ${bqsrDir}
+md5sum $(basename ${bqsrBam})> $(basename ${bqsrBam}).md5sum
+md5sum $(basename ${bqsrBam%bam}bai)> $(basename ${bqsrBam%bam}bai).md5sum
 cd -
- 
- echo "succes moving files";
-else
- echo "returncode: $?";
- echo "fail";
-fi
 
 echo "## "$(date)" ##  $0 Done "

@@ -32,21 +32,15 @@ echo "## "$(date)" Start $0"
 echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
 #Use old picard instead of new one "picard.jar FixMateInformation"
-if java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${tmpCramFileDir} \
+java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${tmpCramFileDir} \
  -jar $EBROOTPICARD/FixMateInformation.jar \
- INPUT=${unfilteredBamDir}${uniqueID}.bam \
+ INPUT=${unfilteredBamDir}/${uniqueID}.bam \
  OUTPUT=${tmpCramFileDir}${uniqueID}.fixmates.bam \
  VALIDATION_STRINGENCY=LENIENT \
  CREATE_INDEX=true \
  SORT_ORDER=coordinate
-then
 
- echo "returncode: $?";
- echo "succes moving files";
-else
- echo "returncode: $?";
- echo "fail";
-fi
+echo "returncode: $?";
 
 
 #Run scramble on 2 cores to do BAM -> CRAM conversion
@@ -69,6 +63,11 @@ then
 else
  echo "returncode: $?";
  echo "fail";
+fi
+
+if [ ! -f ${cramFileDir}${uniqueID}.cram ]; then
+    echo "${cramFileDir}${uniqueID}.cram"
+    exit 1
 fi
 
 echo "Finished scramble BAM to CRAM conversion";

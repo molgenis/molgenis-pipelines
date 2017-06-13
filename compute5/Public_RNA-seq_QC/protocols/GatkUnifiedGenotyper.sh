@@ -44,11 +44,6 @@ do
 done
 
 
-
-
-for file in "${sortedBam_uniq[@]}"; do
-done
-
 #Load modules
 ${stage} GATK/${gatkVersion}
 ${stage} tabix/${tabixVersion}

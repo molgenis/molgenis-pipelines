@@ -1,4 +1,4 @@
-#MOLGENIS walltime=3-23:59:00 mem=34gb nodes=1 ppn=2
+#MOLGENIS walltime=6-23:59:00 mem=34gb nodes=1 ppn=2
 
 ### variables to help adding to database (have to use weave)
 #string project
@@ -34,7 +34,7 @@ ${checkStage}
 
 mkdir -p ${beagleDir}
 
-if java -Xmx32g -Djava.io.tmpdir=$TMPDIR -XX:ParallelGCThreads=2 -jar $EBROOTBEAGLE/beagle.${beagleJarVersion}.jar \
+java -Xmx32g -Djava.io.tmpdir=$TMPDIR -XX:ParallelGCThreads=2 -jar $EBROOTBEAGLE/beagle.${beagleJarVersion}.jar \
  gl=${vcf} \
  out=${genotypedChrVcfBeagleGenotypeProbabilities} \
  chrom=${CHR}
@@ -42,29 +42,19 @@ if java -Xmx32g -Djava.io.tmpdir=$TMPDIR -XX:ParallelGCThreads=2 -jar $EBROOTBEA
  #Decompress the beagle gzipped output and gzip it again. There's a bug on some platforms which causes incompatibility between normal zlib and boost zlib.
  #This also affects our system! More information here: https://mat.gen.gz.stats.ox.ac.uk.gen.gzetics_software/.hap.gzeit/.hap.gzeit.html#gcall
  
- cd ${beagleDir}
- pwd
- echo "gunzipping.."
- gunzip ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz
- echo "gzipping..."
- gzip ${beagleDir}/${project}.chr${CHR}.beagle.genotype.probs.gg.vcf
-then
- echo "returncode: $?";
- cd ${beagleDir}
- bname=$(basename ${genotypedChrVcfBeagleGenotypeProbabilities})
- md5sum ${bname}.vcf.gz > ${bname}.vcf.gz.md5
- cd -
- echo "succes moving files";
-else
- >&2 echo "went wrong with following command:"
- >&2 echo "java -Xmx32g -Djava.io.tmpdir=$TMPDIR -XX:ParallelGCThreads=2 -jar $EBROOTBEAGLE/beagle.${beagleJarVersion}.jar \\
-                 gl=${vcf} \\
-                 out=${genotypedChrVcfBeagleGenotypeProbabilities} \\
-                 chrom=${CHR}"
- echo "returncode: $?";
- echo "fail";
- exit 1;
-fi
+cd ${beagleDir}
+
+#### below commented code moved to after BeagleFilter, kept in as reminder of stupid gzipping
+#echo "gunzipping.."
+#gunzip ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz
+#echo "gzipping..."
+#gzip ${beagleDir}/${project}.chr${CHR}.beagle.genotype.probs.gg.vcf
+
+cd ${beagleDir}
+bname=$(basename ${genotypedChrVcfBeagleGenotypeProbabilities})
+md5sum ${bname}.vcf.gz > ${bname}.vcf.gz.md5
+cd -
+echo "succes moving files";
 
 #changedir to logdir
 cd $LOGDIR

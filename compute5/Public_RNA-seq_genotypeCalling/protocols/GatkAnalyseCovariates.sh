@@ -48,7 +48,7 @@ java -Xmx6g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${TMPDIR} -jar $EBROOTGATK/
  -knownSites ${oneKgPhase1IndelsVcf} \
  -nct 2
 
-if java -Xmx6g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${bqsrDir} -jar $EBROOTGATK/GenomeAnalysisTK.jar \
+java -Xmx6g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${bqsrDir} -jar $EBROOTGATK/GenomeAnalysisTK.jar \
  -T AnalyzeCovariates \
  -R ${onekgGenomeFasta} \
  -ignoreLMT \
@@ -58,13 +58,6 @@ if java -Xmx6g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${bqsrDir} -jar $EBROOTG
  -csv ${analyseCovariatesIntermediateCsv} \
  -plots ${analyseCovariatesPdf}
 
-then
- echo "returncode: $?"; 
+echo "returncode: $?"; 
  
- echo "succes moving files";
-else
- echo "returncode: $?";
- echo "fail";
-fi
-
 echo "## "$(date)" ##  $0 Done "

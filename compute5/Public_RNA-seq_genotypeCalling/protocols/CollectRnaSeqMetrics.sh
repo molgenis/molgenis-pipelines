@@ -31,7 +31,7 @@ mkdir -p ${collectRnaSeqMetricsDir}
 echo "## "$(date)" ##  $0 Started "
 
 
-if java -Xmx8g -XX:ParallelGCThreads=4 -jar $EBROOTPICARD/CollectRnaSeqMetrics.jar \
+java -Xmx8g -XX:ParallelGCThreads=4 -jar $EBROOTPICARD/CollectRnaSeqMetrics.jar \
  INPUT=${markDuplicatesBam} \
  OUTPUT=${collectRnaSeqMetrics} \
  CHART_OUTPUT=${collectRnaSeqMetricsChart} \
@@ -43,15 +43,12 @@ if java -Xmx8g -XX:ParallelGCThreads=4 -jar $EBROOTPICARD/CollectRnaSeqMetrics.j
  STRAND_SPECIFICITY=NONE \
  TMP_DIR=${collectRnaSeqMetricsDir} \
  
-then
- echo "returncode: $?"; 
- cd ${collectRnaSeqMetricsDir}
-  md5sum $(basename ${collectRnaSeqMetrics}) > $(basename ${collectRnaSeqMetrics}).md5
- md5sum $(basename ${collectRnaSeqMetricsChart}) > $(basename ${collectRnaSeqMetricsChart}).md5
- echo "succes moving files";
- cd -
-else
- echo "returncode: $?";
- echo "fail";
-fi
+echo "returncode: $?";
+
+cd ${collectRnaSeqMetricsDir}
+md5sum $(basename ${collectRnaSeqMetrics}) > $(basename ${collectRnaSeqMetrics}).md5
+md5sum $(basename ${collectRnaSeqMetricsChart}) > $(basename ${collectRnaSeqMetricsChart}).md5
+echo "succes moving files";
+cd -
+
 echo "## "$(date)" ##  $0 Done "

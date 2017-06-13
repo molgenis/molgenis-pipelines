@@ -20,11 +20,6 @@
 
 echo "## "$(date)" Start $0"
 
-
-#for file in "${addOrReplaceGroupsBam[@]}" "${addOrReplaceGroupsBai[@]}"; do
-for file in "${addOrReplaceGroupsBam[@]}"; do
-done
-
 #Load Picard module
 ${stage} picard/${picardVersion}
 ${checkStage}
@@ -37,7 +32,7 @@ inputs=$(printf 'INPUT=%s ' $(printf '%s\n' ${bams[@]}))
 
 mkdir -p ${mergeBamFilesDir}
 
-if java -jar -XX:ParallelGCThreads=4 -Xmx6g $EBROOTPICARD/MergeSamFiles.jar \
+java -jar -XX:ParallelGCThreads=4 -Xmx6g $EBROOTPICARD/MergeSamFiles.jar \
  $inputs \
  SORT_ORDER=coordinate \
  CREATE_INDEX=true \
@@ -48,13 +43,6 @@ if java -jar -XX:ParallelGCThreads=4 -Xmx6g $EBROOTPICARD/MergeSamFiles.jar \
 
 # VALIDATION_STRINGENCY=LENIENT \
 
-then
- echo "returncode: $?"; 
-
- echo "succes moving files";
-else
- echo "returncode: $?";
- echo "fail";
-fi
+echo "returncode: $?"; 
 
 echo "## "$(date)" ##  $0 Done "

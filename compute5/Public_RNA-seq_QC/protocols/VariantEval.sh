@@ -29,21 +29,16 @@ mkdir -p ${variantEvalDir}
 echo "## "$(date)" Start $0"
 echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
-if java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
+java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
    -T VariantEval \
    -R ${onekgGenomeFasta} \
    -o ${evalGrp} \
    --eval ${rawVCF} \
 
-then
-  echo "returncode: $?";
+echo "returncode: $?";
+
 cd ${variantEvalDir}
 md5sum $(basename ${evalGrp}) > $(basename ${evalGrp}).md5
-  echo "succes moving file";
 cd -
-else
-  echo "returncode: $?";
-  echo "fail";
-fi
 
 echo "## "$(date)" ##  $0 Done "
