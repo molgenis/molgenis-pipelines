@@ -9,7 +9,7 @@
 #string WORKDIR
 #string projectDir
 #string beagleDir
-#string genotypedChrVcfGL
+#string genotypedChrVcfGLFiltered
 #string genotypedChrVcfShapeitInputPrefix
 #string genotypedChrVcfShapeitInputPostfix
 #string genotypedChrVcfBeagleGenotypeProbabilitiesFiltered
@@ -35,7 +35,7 @@ ${checkStage}
 
 #Run conversion script beagle vcf to .hap.gzeit format
 prepareGenFromBeagle4 \
- --likelihoods ${genotypedChrVcfGL} \
+ --likelihoods ${genotypedChrVcfGLFiltered} \
  --posteriors ${genotypedChrVcfBeagleGenotypeProbabilitiesFiltered} \
  --output ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}
 
