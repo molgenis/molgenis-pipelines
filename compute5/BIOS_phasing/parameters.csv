@@ -31,6 +31,7 @@ pythonVersion,3.4.1-foss-2015b
 biopythonVersion,1.65-foss-2015b-Python-3.4.1
 ngsutilsVersion,16.06.1
 zlibVersion,1.2.8
+gatkVersion,3.7-Java-1.8.0_74
 GCCversion,4.9.3-binutils-2.25
 bzip2Version,1.0.6-foss-2015b
 GLibVersion,2.45.2-foss-2015b
