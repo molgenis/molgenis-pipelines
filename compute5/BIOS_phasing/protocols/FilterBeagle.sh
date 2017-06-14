@@ -1,4 +1,4 @@
-#MOLGENIS walltime=6-23:59:00 mem=34gb nodes=1 ppn=2
+#MOLGENIS walltime=6:59:00 mem=34gb nodes=1 ppn=2
 
 ### variables to help adding to database (have to use weave)
 #string project
@@ -11,7 +11,6 @@
 
 #string gatkVersion
 
-#string vcf
 #string genotypedChrVcfTbi
 
 #string CHR
@@ -45,15 +44,10 @@ java -Xmx8g -jar ${EBROOTGATK}/GenomeAnalysisTK.jar \
     -select "DR2 > ${DR2Filter}"
 
 
-cd ${beagleDir}
-echo "gunzipping.."
-gunzip ${genotypedChrVcfBeagleGenotypeProbabilitiesFiltered}
-echo "gzipping..."
-gzip ${genotypedChrVcfBeagleGenotypeProbabilitiesFiltered%.gz}
 
-cd ${beagleDir}
+cd ${beagleFilteredDir}
 bname=$(basename ${genotypedChrVcfBeagleGenotypeProbabilitiesFiltered})
-md5sum ${bname}.vcf.gz > ${bname}.vcf.gz.md5
+md5sum ${bname}> ${bname}.md5
 cd -
 echo "succes moving files";
 
@@ -61,4 +55,5 @@ echo "succes moving files";
 cd $LOGDIR
 
 echo "## "$(date)" ##  $0 Done "
+
 
