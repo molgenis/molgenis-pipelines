@@ -9,10 +9,10 @@
 #string WORKDIR
 #string projectDir
 #string beagleDir
-#string genotypedChrVcfGL
-#string genotypedChrVcfBeagleGenotypeProbabilities
+#string genotypedChrVcfGLFiltered
 #string genotypedChrVcfShapeitInputPrefix
 #string genotypedChrVcfShapeitInputPostfix
+#string genotypedChrVcfBeagleGenotypeProbabilitiesFiltered
 #string GLibVersion
 #string ngsutilsVersion
 #string zlibVersion
@@ -21,6 +21,7 @@
 #string tabixVersion
 #string CHR
 #string prepareGenFromBeagle4Version
+#string beagleShapeitDir
 
 echo "## "$(date)" Start $0"
 
@@ -31,18 +32,22 @@ ${stage} prepareGenFromBeagle4/${prepareGenFromBeagle4Version}
 ${stage} GLib/${GLibVersion}
 ${checkStage}
 
-# the output is cut up into ..PrefixChromosomePostfix because it is needed for correct folding of .hap.gzit jobs later
+mkdir -p ${beagleShapeitDir}
+
+# had to be gzipped again otherwise it will not read the last line
+zcat ${genotypedChrVcfBeagleGenotypeProbabilitiesFiltered} > $TMPDIR/$(basename ${genotypedChrVcfBeagleGenotypeProbabilitiesFiltered%.gz})
+gzip $TMPDIR/$(basename ${genotypedChrVcfBeagleGenotypeProbabilitiesFiltered%.gz})
 
 #Run conversion script beagle vcf to .hap.gzeit format
 prepareGenFromBeagle4 \
- --likelihoods ${genotypedChrVcfGL} \
- --posteriors ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz \
+ --likelihoods ${genotypedChrVcfGLFiltered} \
+ --posteriors $TMPDIR/$(basename ${genotypedChrVcfBeagleGenotypeProbabilitiesFiltered}) \
  --output ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}
 
 echo "returncode: $?";
 # these output files are NOT gzipped, so rename them to filename without gz
 
-cd ${beagleDir}
+cd ${beagleShapeitDir}
 # want to have the base path, not full path in the md5sum file, so cd to output dir and md5sum the basepath
 bname=$(basename ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.gen.gz)
 md5sum ${bname} > ${bname}.md5
@@ -54,7 +59,7 @@ bname=$(basename ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShap
 md5sum ${bname} > ${bname}.md5
 cd -
 echo "succes moving files";
- 
+
 # Do additional unzipping, bgzipping and tabixing of posterior probabilities VCF to use it in next step
 cd ${beagleDir}
 gunzip ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz

@@ -11,7 +11,7 @@ group,umcg-bios
 tmp,tmp03
 resDir,/groups/umcg-wijmenga/${tmp}/resources/
 toolDir,/apps/software/
-projectDir,/groups/umcg-bios/${tmp}/projects/phasing/results_GQ20/
+projectDir,/groups/umcg-bios/${tmp}/projects/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing/results/
 fvdProjectDir,${root}/${group}/${tmp}/projects/umcg-fvandijk/projects/
 ########################################################################
 ## Software and data versions/builds/paths
@@ -20,6 +20,7 @@ tabixVersion,0.2.6-foss-2015b
 beagleVersion,27Jul16.86a-Java-1.8.0_45
 beagleJarVersion,27Jul16.86a
 shapeitVersion,v2.r837-static
+bcftoolVersion,1.3-foss-2015b
 ligateHAPLOTYPESVersion,02-Dec-2016-foss-2015b
 prepareGenFromBeagle4Version,02-Dec-2016-foss-2015b
 intervaltreeVersion,2.1.0-foss-2015b-Python-2.7.9
@@ -30,6 +31,7 @@ pythonVersion,3.4.1-foss-2015b
 biopythonVersion,1.65-foss-2015b-Python-3.4.1
 ngsutilsVersion,16.06.1
 zlibVersion,1.2.8
+gatkVersion,3.7-Java-1.8.0_74
 GCCversion,4.9.3-binutils-2.25
 bzip2Version,1.0.6-foss-2015b
 GLibVersion,2.45.2-foss-2015b
@@ -38,24 +40,31 @@ RVersion,3.2.1-foss-2015b
 phaserVersion,c067827
 referenceFastaName,human_g1k_v37
 genomeBuild,b37
+gatkVersion,3.7-Java-1.8.0_74
 onekgGenomeFasta,${resDir}/${genomeBuild}/indices/${referenceFastaName}.fasta
 geneticMapDir,/apps/data/www.shapeit.fr/genetic_map_b37/
 # prefix before CHR, postfix after. Necesarry for correct chunking of Shapeit
 geneticMapChrPrefix,${geneticMapDir}/genetic_map_chr
 geneticMapChrPostfix,_combined_b37.txt
 OneKgPhase3VCF,/apps/data/1000G/phase3/20130502//ALL.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.vcf.gz
+referenceFasta,/apps/data/ftp.broadinstitute.org/bundle/2.8/b37/human_g1k_v37.fasta
 ########################################################################
 ## Specific tools paths
 #
 ## Input Beagle from GATK GenotypeGVF
 genotypedChrVcfGLDir,${projectDir}/genotypeVcfGL/
+genotypedChrVcfGLFilteredDir,${projectDir}/genotypeVcfGLFiltered/
 genotypedChrVcfGL,${genotypedChrVcfGLDir}/${project}.chr${CHR}.genotypeGVCF.gg.vcf.gz
 genotypedChrVcfTbi,${genotypedChrVcfGL}.tbi
+genotypedChrVcfGLFiltered,${genotypedChrVcfGLFilteredDir}/${project}.chr${CHR}.genotypeGVCF.DR2Filtered.gg.vcf.gz
 ## Beagle
 beagleDir,${projectDir}/beagle/
+beagleFilteredDir,${projectDir}/beagle_vcf_filtered/
 genotypedChrVcfBeagleGenotypeProbabilities,${beagleDir}/${project}.chr${CHR}.beagle.genotype.probs.gg
 genotypedChrVcfShapeitInputPrefix,${beagleDir}/${project}.chr
 genotypedChrVcfShapeitInputPostfix,.beagle.genotype.probs.gg
+genotypedChrVcfBeagleGenotypeProbabilitiesFiltered,${beagleFilteredDir}/${project}.chr${CHR}.beagle.genotype.probs.gg.vcf.gz
+DR2Filter,0.989999999999999999
 ## Shapeit
 shapeitDir,${projectDir}/shapeit/
 phasedScaffoldDir,/groups/umcg-lld/${tmp}/projects/genotypingRelease3/selectionLldeep/lldeepPhased_RNA_IDs/

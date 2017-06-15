@@ -28,7 +28,7 @@ echo "Starting conversion."
 
 
 #Run conversion script beagle vcf to .hap.gzeit format
-python $EBROOTNGSMINUTILS/PL_to_GL_reorder.py \
+python ${EBROOTNGSMINUTILS}/PL_to_GL_reorder.py \
     --vcf ${vcf} \
     --out ${genotypedChrVcfGL}
 
