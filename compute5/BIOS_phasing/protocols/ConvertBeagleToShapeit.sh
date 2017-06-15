@@ -21,6 +21,7 @@
 #string tabixVersion
 #string CHR
 #string prepareGenFromBeagle4Version
+#string beagleShapeitDir
 
 echo "## "$(date)" Start $0"
 
@@ -31,12 +32,16 @@ ${stage} prepareGenFromBeagle4/${prepareGenFromBeagle4Version}
 ${stage} GLib/${GLibVersion}
 ${checkStage}
 
-# the output is cut up into ..PrefixChromosomePostfix because it is needed for correct folding of .hap.gzit jobs later
+mkdir -p ${beagleShapeitDir}
+
+# had to be gzipped again otherwise it will not read the last line
+zcat ${genotypedChrVcfBeagleGenotypeProbabilitiesFiltered} > $TMPDIR/$(basename ${genotypedChrVcfBeagleGenotypeProbabilitiesFiltered%.gz})
+gzip $TMPDIR/$(basename ${genotypedChrVcfBeagleGenotypeProbabilitiesFiltered%.gz})
 
 #Run conversion script beagle vcf to .hap.gzeit format
 prepareGenFromBeagle4 \
  --likelihoods ${genotypedChrVcfGLFiltered} \
- --posteriors ${genotypedChrVcfBeagleGenotypeProbabilitiesFiltered} \
+ --posteriors $TMPDIR/$(basename ${genotypedChrVcfBeagleGenotypeProbabilitiesFiltered}) \
  --output ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}
 
 echo "returncode: $?";
@@ -54,9 +59,9 @@ bname=$(basename ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShap
 md5sum ${bname} > ${bname}.md5
 cd -
 echo "succes moving files";
- 
+
 # Do additional unzipping, bgzipping and tabixing of posterior probabilities VCF to use it in next step
-cd ${beagleDir}
+cd ${beagleShapeitDir}
 gunzip ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz
 bgzip ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf
 tabix ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz
