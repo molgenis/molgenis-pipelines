@@ -47,7 +47,7 @@ prepareGenFromBeagle4 \
 echo "returncode: $?";
 # these output files are NOT gzipped, so rename them to filename without gz
 
-cd ${beagleDir}
+cd ${beagleShapeitDir}
 # want to have the base path, not full path in the md5sum file, so cd to output dir and md5sum the basepath
 bname=$(basename ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.gen.gz)
 md5sum ${bname} > ${bname}.md5
@@ -61,7 +61,7 @@ cd -
 echo "succes moving files";
 
 # Do additional unzipping, bgzipping and tabixing of posterior probabilities VCF to use it in next step
-cd ${beagleShapeitDir}
+cd ${beagleDir}
 gunzip ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz
 bgzip ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf
 tabix ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz
