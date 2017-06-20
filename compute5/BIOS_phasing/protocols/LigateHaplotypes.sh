@@ -10,21 +10,16 @@
 #string shapeitPhasedOutputPrefix
 #string shapeitPhasedOutputPostfix
 
+#string CHR
 #string genotypedChrVcfShapeitInputPrefix
 #string genotypedChrVcfShapeitInputPostfix
-#list chromosomeChunk
-#list CHR
-#string phasedScaffoldDir
-#string geneticMapChrPrefix
-#string geneticMapChrPostfix
+#string bglchunkOutfile
 #string shapeitLigatedHaplotype
 #string shapeitLigatedHaplotypeDir
 #string scaffoldedSamplesPrefix
 #string ligateHAPLOTYPESVersion
-#string genotypedChrVcfGL
+#string genotypedChrVcfGLFiltered
 #string GLibVersion
-#string zlibVersion
-#string bzip2Version
 #string GCCversion
 
 echo "## "$(date)" Start $0"
@@ -38,39 +33,34 @@ ${checkStage}
 
 shapeitInput=()
 echo "looping through chunk to retrieve input files"
-for chunk in "${chromosomeChunk[@]}"
+while read line
 do
-  # chromosomeChunks are in the format chr:start-end, parse out the chr, start and end to separate variables
-  CHR=$(echo $chunk | cut -d':' -f1 )
-  position=$(echo $chunk | cut -d':' -f2 )
-  start=$(echo $position | cut -d'-' -f1 )
-  end=$(echo $position | cut -d'-' -f2 ) 
+  CHR=$(echo $line | awk '{print $2}' )
+  start=`echo $line | awk '{print $2}'`
+  end=`echo $line | awk '{print $3}'`
   echo -n "$CHR:$start-$end "
 
   # since it is the correct chromsome add it to array to put as input later
   # [[ -s -> if file exists and not empty
-  if [[ -s ${shapeitPhasedOutputPrefix}${CHR}_${start}_${end}${shapeitPhasedOutputPostfix}.hap.gz ]];
-  then 
+  # because of new protocols upstream where we created bgl chunks, none of the files should be empty
+  # keeping commented code around incase this has to repeated with some chunks missing
+  #if [[ -s ${shapeitPhasedOutputPrefix}${CHR}_${start}_${end}${shapeitPhasedOutputPostfix}.hap.gz ]];
+  #then 
       shapeitInput+=("${shapeitPhasedOutputPrefix}${CHR}_${start}_${end}${shapeitPhasedOutputPostfix}.hap.gz")
-  else
-      echo "${shapeitPhasedOutputPrefix}${CHR}_${start}_${end}${shapeitPhasedOutputPostfix}.hap.gz is empty, skipping this chunk"
-  fi
-done
+  #else
+  #    echo "${shapeitPhasedOutputPrefix}${CHR}_${start}_${end}${shapeitPhasedOutputPostfix}.hap.gz is empty, skipping this chunk"
+  #fi
+done < ${bglchunkOutfile}
+
 echo
 
 # for check, echo the files we will use as input
 echo "input files selected for input:"
 echo "${shapeitInput[@]}"
-
 mkdir -p ${shapeitLigatedHaplotypeDir}
-echo "Shaping $chromosomeChunk"
 
-# The shaping is scaffolded using the chip-based or wgs phased genotypes (--input-init from ShapeitPhasing step). For data without this information (like
-# vcfs from public rnaseq) this pipeline needs to be different OR it needs to be phased together with BIOS samples (using BIOS
-# samples as scaffolding, but could give population problems)
-# have to get the scaffolded samples from the vcf file
 awk '{print $2}' ${genotypedChrVcfShapeitInputPrefix}${CHR}${genotypedChrVcfShapeitInputPostfix}.hap.sample | tail -n +3 > ${scaffoldedSamplesPrefix}${CHR}.txt
-ligateHAPLOTYPES --vcf ${genotypedChrVcfGL} \
+ligateHAPLOTYPES --vcf ${genotypedChrVcfGLFiltered} \
                  --scaffold ${scaffoldedSamplesPrefix}${CHR}.txt \
                  --chunks ${shapeitInput[@]} \
                  --output ${shapeitLigatedHaplotype} ${shapeitLigatedHaplotype%.haps}.sample
@@ -80,6 +70,7 @@ cd ${shapeitLigatedHaplotypeDir}
 bname=$(basename ${shapeitLigatedHaplotype})
 md5sum ${bname} > ${bname}.md5
 cd -
+
 echo "succes moving files";
 
 echo "## "$(date)" ##  $0 Done "

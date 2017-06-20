@@ -11,14 +11,12 @@
 #string shapeitPhasedOutputPostfix
 #string bam
 #string sampleName
-#string CHR
 #string mapq
 #string baseq
 #string CHR
 #string OneKgPhase3VCF
 #string tabixVersion
 #string bcftoolsVersion
-#string bamExtension
 
 echo "## "$(date)" Start $0"
 
@@ -51,7 +49,6 @@ mkdir -p ${phaserDir}/allele_config/chr$CHR
 mkdir -p ${phaserDir}/vcf_per_sample/chr$CHR
 
 echo  "Processing.. "
-echo  "bamExtension: $bamExtension "
 echo  "sampleName: $sampleName "
 echo "Input vcf: $INPUTVCF"
 phaserOutPrefix=${phaserDir}/${project}_phASER.chr${CHR}
@@ -59,12 +56,12 @@ phaserOutPrefix=${phaserDir}/${project}_phASER.chr${CHR}
 #Set output prefix per sample for statistics etc.
 TMPOUTPUTVCF="${phaserDir}/${project}_$sampleName.readBackPhased.chr${CHR}"
 
-output=$(python $EBROOTPHASER/phaser/phaser.py \
+python $EBROOTPHASER/phaser/phaser.py \
   --paired_end 1 \
-  --bam $bam \
+  --bam ${bam} \
   --vcf $TMPVCF \
   --mapq ${mapq} \
-  --sample $sampleName \
+  --sample ${sampleName} \
   --baseq ${baseq} \
   --o $TMPOUTPUTVCF \
   --temp_dir $TMPDIR \
@@ -74,12 +71,12 @@ output=$(python $EBROOTPHASER/phaser/phaser.py \
   --gw_af_vcf ${OneKgPhase3VCF} \
   --gw_phase_vcf 1 \
   --show_warning 1 \
-  --debug 1)
+  --debug 1
 
   echo "$output"
 
-  # phaser does't send appropriate exit signal so try like this
-  if echo $output | grep -q ERROR;
+  # phaser does't send appropriate exit signal so look in .out file if there is info
+  if grep -q ERROR ${taskId}.out;
   then
      echo "returncode: $?";
      echo "fail";
