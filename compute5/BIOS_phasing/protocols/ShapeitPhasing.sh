@@ -1,4 +1,4 @@
-#MOLGENIS walltime=23:59:00 mem=8gb nodes=1 ppn=4
+#MOLGENIS walltime=0:30:00 mem=4gb nodes=1 ppn=1
 
 ### variables to help adding to database (have to use weave)
 #string project
@@ -12,98 +12,58 @@
 #string shapeitPhasedOutputPostfix
 #string shapeitVersion
 
+#string CHR
+#string bglchunkOutfile
+#string bglchunkDir
 #string genotypedChrVcfShapeitInputPrefix
 #string genotypedChrVcfShapeitInputPostfix
-#string chromosomeChunk
 #string phasedScaffoldDir
 #string geneticMapChrPrefix
 #string geneticMapChrPostfix
 #string tabixVersion
-#string genotypedChrVcfBeagleGenotypeProbabilitiesFiltered
+#string shapeitJobsDir
 
-${stage} tabix/${tabixVersion}
-${stage} shapeit/${shapeitVersion}
-${checkStage}
 
 echo "## "$(date)" Start $0"
 
-# chromosomeChunks are in the format chr:start-end, parse out the chr, start and end to separate variables
-echo "Shaping $chromosomeChunk"
-CHR=$(echo $chromosomeChunk | cut -d':' -f1 )
-position=$(echo $chromosomeChunk | cut -d':' -f2 )
-start=$(echo $position | cut -d'-' -f1 )
-oldStart=$start
-end=$(echo $position | cut -d'-' -f2 )
-oldEnd=$end
+mkdir -p ${bglchunkDir}
+mkdir -p ${shapeitJobsDir}
 
-echo "CHR: $CHR"
-echo "start: $start"
-echo "end: $end"
-
-
-
-mkdir -p ${shapeitDir}
-
-# check if there is at least one SNP in this chromosome chunk overlapping on both sides
-let halfWay="($start + $end) / 2"
-echo "halfWay: $halfWay"
-# from start to halfway check if there is a SNP. Because chromosomeChunks at the moment gets made separatly of the 
-# protocols this is used, however if a small overlap was chosen this might still go wrong. Check the makeChromosomeChunks.py
-# script to see if this catches all overlap
-if [ ! -f ${genotypedChrVcfBeagleGenotypeProbabilitiesFiltered} ];
-then
-  echo "${genotypedChrVcfBeagleGenotypeProbabilities} does not exist"
-  exit 1;
-fi
-containsSnpsStart=$(tabix ${genotypedChrVcfBeagleGenotypeProbabilitiesFiltered}  $CHR:$start-$halfWay | wc -l)
-containsSnpsEnd=$(tabix ${genotypedChrVcfBeagleGenotypeProbabilitiesFiltered}  $CHR:$halfWay-$end  | wc -l)
-# stepsize for searching up and down stream for SNP
-stepsize=100000
-echo "searching if SNPs at start"
-while [ $containsSnpsStart -eq 0 ] && [ $start -ge 1 ]; 
+# echo the jobs to protocol files and then sbatch them
+while read line
 do
-  # if it does not contain any SNPs, search upstream and downstream until at least one SNP is found  
-  echo -n "Region $CHR:$start-$halfWay does not contain any SNPs"
-  start=`expr $start - $stepsize`
-  echo -n ", searching with $CHR:$start-$halfWay..."; 
-  containsSnpsStart=$(tabix ${genotypedChrVcfBeagleGenotypeProbabilitiesFiltered} $CHR:$start-$halfWay  | wc -l)
-  echo " $containsSnpsStart SNPs"
-done
+    start=`echo $line | awk '{print $2}'`
+    end=`echo $line | awk '{print $3}'`
+    chunk="ShapeitPhasing_chunk_${CHR}.$start.$end"
 
-echo "searching if SNPs at end"
-lastSnp=$(zcat ${genotypedChrVcfBeagleGenotypeProbabilitiesFiltered} | tail -1 | awk '{print $2}')
-echo "lastSnp on chr ${CHR}: ${lastSnp}"
-while [ ${containsSnpsEnd} -eq 0 ] && [ ${end} -le ${lastSnp} ];
-do
-  # if it does not contain any SNPs, search upstream and downstream until at least one SNP is found
-  echo -n "Region $CHR:$halfWay-$end does not contain any SNPs"
-  end=`expr $end + $stepsize`
-  echo -n ", searching with $CHR:$halfWay-$end...";
-  containsSnpsEnd=$(tabix ${genotypedChrVcfBeagleGenotypeProbabilitiesFiltered}  $CHR:$halfWay-$end  | wc -l)
-  echo " $containsSnpsEnd SNPs"
-done
+    echo "#!/bin/bash
+#SBATCH --job-name=ShapeitPhasing_chunk_${chunk}
+#SBATCH --output=ShapeitPhasing_chunk_${chunk}.out
+#SBATCH --error=ShapeitPhasing_chunk_${chunk}.err
+#SBATCH --time=23:59:00
+#SBATCH --cpus-per-task 4
+#SBATCH --mem 8gb
+#SBATCH --open-mode=append
+#SBATCH --export=NONE
+#SBATCH --get-user-env=30L
+#SBATCH --qos=leftover
 
-#Set start and end positions within chromosome length
-if [ $start -le 0 ];
-then
-    start=1;
-fi
+set -e
+set -u
 
-if [ $end -ge $lastSnp ];
-then
-    end=$lastSnp;
-fi
 
-echo 
-echo "Found SNPs on both sides, final chunk used for this job is: "
-echo "CHR: $CHR"
-echo "start: $start"
-echo "end: $end"
-snpsTotal=`expr $containsSnpsStart + $containsSnpsEnd`
-echo
-echo "number of snps: $snpsTotal"
-echo
-echo "File name will use original chunk size, $oldStart and $oldEnd"
+trap 'errorExitAndCleanUp HUP  NA $?' HUP
+trap 'errorExitAndCleanUp INT  NA $?' INT
+trap 'errorExitAndCleanUp QUIT NA $?' QUIT
+trap 'errorExitAndCleanUp TERM NA $?' TERM
+trap 'errorExitAndCleanUp EXIT NA $?' EXIT
+trap 'errorExitAndCleanUp ERR  $LINENO $?' ERR
+
+
+echo \"## \"$(date)\" Start $0\"
+module load tabix/${tabixVersion}
+module load shapeit/${shapeitVersion}
+module list
 
 #Run shapeit
 # The shaping is scaffolded using the chip-based or wgs phased genotypes (--input-init). For data without this information (like
@@ -127,22 +87,35 @@ shapeit \
  --run 12 \
  --prune 4 \
  --main 20 \
- --output-max ${shapeitPhasedOutputPrefix}${CHR}_${oldStart}_${oldEnd}${shapeitPhasedOutputPostfix}.hap.gz \
-             ${shapeitPhasedOutputPrefix}${CHR}_${oldStart}_${oldEnd}${shapeitPhasedOutputPostfix}.hap.gz.sample \
- --output-log ${shapeitPhasedOutputPrefix}${CHR}_${oldStart}_${oldEnd}${shapeitPhasedOutputPostfix}.log \
+ --output-max ${shapeitPhasedOutputPrefix}${CHR}_${start}_${end}${shapeitPhasedOutputPostfix}.hap.gz \
+             ${shapeitPhasedOutputPrefix}${CHR}_${start}_${end}${shapeitPhasedOutputPostfix}.hap.gz.sample \
+ --output-log ${shapeitPhasedOutputPrefix}${CHR}_${start}_${end}${shapeitPhasedOutputPostfix}.log \
  --input-from $start \
  --input-to $end
 
-echo "returncode: $?";
+echo \"returncode: \$?\";
 cd ${shapeitDir}
-bname=$(basename ${shapeitPhasedOutputPrefix}${CHR}_${oldStart}_${oldEnd}${shapeitPhasedOutputPostfix}.hap.gz)
-md5sum ${bname} > ${bname}.md5
-bname=$(basename ${shapeitPhasedOutputPrefix}${CHR}_${oldStart}_${oldEnd}${shapeitPhasedOutputPostfix}.hap.gz.sample)
-md5sum ${bname} > ${bname}.md5
-bname=$(basename ${shapeitPhasedOutputPrefix}${CHR}_${oldStart}_${oldEnd}${shapeitPhasedOutputPostfix}.log)
-md5sum ${bname} > ${bname}.md5
+bname=$(basename ${shapeitPhasedOutputPrefix}${CHR}_${start}_${end}${shapeitPhasedOutputPostfix}.hap.gz)
+md5sum \${bname} > \${bname}.md5
+bname=$(basename ${shapeitPhasedOutputPrefix}${CHR}_${start}_${end}${shapeitPhasedOutputPostfix}.hap.gz.sample)
+md5sum \${bname} > \${bname}.md5
+bname=$(basename ${shapeitPhasedOutputPrefix}${CHR}_${start}_${end}${shapeitPhasedOutputPostfix}.log)
+md5sum \${bname} > \${bname}.md5
 cd -
-echo "succes moving files";
+echo \"succes moving files\";
 
+
+echo \"## \"\$(date)\" ##  $0 Done \"
+
+trap - EXIT
+exit 0
+" > ${shapeitJobsDir}/ShapeitPhasing_chunk_${chunk}.sh
+echo "Submitting shapeit chunk ${chunk}"
+echo "Job and logs written to ${shapeitJobsDir}"
+cd ${shapeitJobsDir}
+sbatch ShapeitPhasing_chunk_${chunk}.sh
+cd -
+
+done < ${bglchunkOutfile}
 
 echo "## "$(date)" ##  $0 Done "

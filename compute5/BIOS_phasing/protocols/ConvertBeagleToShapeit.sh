@@ -22,6 +22,7 @@
 #string CHR
 #string prepareGenFromBeagle4Version
 #string beagleShapeitDir
+#string genotypedChrVcfBeagleGenotypeProbabilities
 
 echo "## "$(date)" Start $0"
 

@@ -39,16 +39,14 @@ java -Xmx32g -Djava.io.tmpdir=$TMPDIR -XX:ParallelGCThreads=2 -jar $EBROOTBEAGLE
  out=${genotypedChrVcfBeagleGenotypeProbabilities} \
  chrom=${CHR}
  
- #Decompress the beagle gzipped output and gzip it again. There's a bug on some platforms which causes incompatibility between normal zlib and boost zlib.
- #This also affects our system! More information here: https://mat.gen.gz.stats.ox.ac.uk.gen.gzetics_software/.hap.gzeit/.hap.gzeit.html#gcall
- 
 cd ${beagleDir}
 
-#### below commented code moved to after BeagleFilter, kept in as reminder of stupid gzipping
+# need to bgzip to work with FilterBeagle
 #echo "gunzipping.."
-#gunzip ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz
-#echo "gzipping..."
-#gzip ${beagleDir}/${project}.chr${CHR}.beagle.genotype.probs.gg.vcf
+gunzip ${genotypedChrVcfBeagleGenotypeProbabilities}.vcf.gz
+#echo "bgzipping..."
+bgzip ${beagleDir}/${project}.chr${CHR}.beagle.genotype.probs.gg.vcf
+tabix bgzip ${beagleDir}/${project}.chr${CHR}.beagle.genotype.probs.gg.vcf.gz
 
 cd ${beagleDir}
 bname=$(basename ${genotypedChrVcfBeagleGenotypeProbabilities})
