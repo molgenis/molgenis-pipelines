@@ -1,7 +1,8 @@
 step,protocol,dependencies
-BeagleGenotypeCalling,protocols/BeagleGenotypeCalling.sh,
+FilterGenotypeCalls,protocols/FilterGenotypeCalls.sh,
+BeagleGenotypeCalling,protocols/BeagleGenotypeCalling.sh,FilterGenotypeCalls
 FilterBeagle,protocols/FilterBeagle.sh,BeagleGenotypeCalling
-ConvertPLtoGL,protocols/ConvertPLtoGL.sh,
+ConvertPLtoGL,protocols/ConvertPLtoGL.sh,FilterGenotypeCalls
 MakeChunksForPhasing,protocols/MakeChunksForPhasing.sh,FilterBeagle
 FilterPLVCF,protocols/FilterPLVCF.sh,ConvertPLtoGL;FilterBeagle
 ConvertBeagleToShapeit,protocols/ConvertBeagleToShapeit.sh,FilterPLVCF;FilterBeagle

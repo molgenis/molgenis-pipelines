@@ -52,6 +52,13 @@ referenceFasta,/apps/data/ftp.broadinstitute.org/bundle/2.8/b37/human_g1k_v37.fa
 ########################################################################
 ## Specific tools paths
 #
+## Filter genotype calls
+callRateFilteredVCFDir,${projectDir}/callRateFilteredVCF/
+callRateFilteredVCF,${callRateFilteredVCFDir}/${project}.chr${CHR}.genotypeGVCF.callRateFiltered.gg.vcf
+genotypeQuality,20
+callRate,0.50
+callRateFilteredPASSonlyVCF,${projectDir}/callRateFilteredVCF/${project}.chr${CHR}.genotypeGVCF.callRateFiltered.PASSonly.gg.vcf
+callRateFilteredPASSonlyVCFgz,${callRateFilteredPASSonlyVCF}.gz
 ## Input Beagle from GATK GenotypeGVF
 genotypedChrVcfGLDir,${projectDir}/genotypeVcfGL/
 genotypedChrVcfGLFilteredDir,${projectDir}/genotypeVcfGLFiltered/

@@ -10,7 +10,7 @@
 #string projectDir
 #string genotypedChrVcfGLDir
 #string genotypedChrVcfGL
-#string vcf
+#string callRateFilteredPASSonlyVCFgz
 #string biopythonVersion
 #string genotypedChrVcfGL
 #string ngsutilsVersion
@@ -29,7 +29,7 @@ echo "Starting conversion."
 
 #Run conversion script beagle vcf to .hap.gzeit format
 python ${EBROOTNGSMINUTILS}/PL_to_GL_reorder.py \
-    --vcf ${vcf} \
+    --vcf ${callRateFilteredPASSonlyVCFgz} \
     --out ${genotypedChrVcfGL}
 
 
