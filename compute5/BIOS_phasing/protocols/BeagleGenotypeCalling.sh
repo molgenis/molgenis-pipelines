@@ -12,7 +12,7 @@
 
 #string beagleVersion
 
-#string vcf
+#string callRateFilteredPASSonlyVCFgz
 #string genotypedChrVcfTbi
 
 #string genotypedChrVcfBeagleGenotypeProbabilities
@@ -35,7 +35,7 @@ ${checkStage}
 mkdir -p ${beagleDir}
 
 java -Xmx32g -Djava.io.tmpdir=$TMPDIR -XX:ParallelGCThreads=2 -jar $EBROOTBEAGLE/beagle.${beagleJarVersion}.jar \
- gl=${vcf} \
+ gl=${callRateFilteredPASSonlyVCFgz} \
  out=${genotypedChrVcfBeagleGenotypeProbabilities} \
  chrom=${CHR}
  
