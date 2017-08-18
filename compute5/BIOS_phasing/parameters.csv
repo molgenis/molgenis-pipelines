@@ -31,7 +31,7 @@ samtoolsVersion,1.2-foss-2015b
 bedtoolsVersion,2.23.0-foss-2015b
 pythonVersion,3.4.1-foss-2015b
 biopythonVersion,1.65-foss-2015b-Python-3.4.1
-ngsutilsVersion,16.06.1
+ngsutilsVersion,17.08.3
 zlibVersion,1.2.8
 GCCversion,4.9.3-binutils-2.25
 bzip2Version,1.0.6-foss-2015b
