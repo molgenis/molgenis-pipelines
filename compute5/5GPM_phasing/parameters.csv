@@ -1,0 +1,111 @@
+########################################################################
+## General parameters for SLURM settings and cluster directory paths
+#
+queue,leftover
+defaultInterpreter,#!/bin/bash
+stage,module load
+checkStage,module list
+WORKDIR,/groups/
+root,${WORKDIR}
+group,umcg-gdio
+tmp,tmp02
+resDir,/groups/umcg-wijmenga/${tmp}/resources/
+toolDir,/apps/software/
+projectDir,/groups/umcg-bios/${tmp}/projects/5GPM_PhasingValidation/results/
+fvdProjectDir,${root}/${group}/${tmp}/projects/umcg-fvandijk/projects/
+########################################################################
+## Software and data versions/builds/paths
+#
+bcftoolsVersion,1.3-foss-2015b
+makeBGLCHUNKSVersion,02-Dec-2016-foss-2015b
+tabixVersion,0.2.6-foss-2015b
+beagleVersion,27Jul16.86a-Java-1.8.0_45
+beagleJarVersion,27Jul16.86a
+shapeitVersion,v2.r837-static
+bcftoolVersion,1.3-foss-2015b
+ligateHAPLOTYPESVersion,2016-12-02-foss-2015b
+prepareGenFromBeagle4Version,2016-12-02-foss-2015b
+intervaltreeVersion,2.1.0-foss-2015b-Python-2.7.9
+pyvcfVersion,0.6.7-foss-2015b-Python-2.7.9
+samtoolsVersion,1.2-foss-2015b
+bedtoolsVersion,2.23.0-foss-2015b
+pythonVersion,3.4.1-foss-2015b
+biopythonVersion,1.65-foss-2015b-Python-3.4.1
+ngsutilsVersion,17.08.3
+zlibVersion,1.2.8
+GCCversion,4.9.3-binutils-2.25
+bzip2Version,1.0.6-foss-2015b
+GLibVersion,2.45.2-foss-2015b
+vcftoolsVersion,0.1.12b-goolf-1.7.20-Perl-5.20.2-bare
+RVersion,3.2.1-foss-2015b
+phaserVersion,c067827
+referenceFastaName,human_g1k_v37
+genomeBuild,b37
+gatkVersion,3.7-Java-1.8.0_74
+onekgGenomeFasta,${resDir}/${genomeBuild}/indices/${referenceFastaName}.fasta
+geneticMapDir,/apps/data/www.shapeit.fr/genetic_map_b37/
+# prefix before CHR, postfix after. Necesarry for correct chunking of Shapeit
+geneticMapChrPrefix,${geneticMapDir}/genetic_map_chr
+geneticMapChrPostfix,_combined_b37.txt
+OneKgPhase3VCF,/apps/data/1000G/phase3/20130502//ALL.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.vcf.gz
+referenceFasta,/apps/data/ftp.broadinstitute.org/bundle/2.8/b37/human_g1k_v37.fasta
+########################################################################
+## Specific tools paths
+#
+## Extract Sample from VCF
+outputSampleDNAVCFdir,${projectDir}/sampleDNAVCFs/
+outputSampleDNAVCF,${outputSampleDNAVCFdir}/${project}.${familyID}.${sampleName}.DNA.chr${CHR}.vcf.gz
+outputSampleRNAVCFdir,${projectDir}/sampleRNAVCFs/
+outputSampleRNAVCF,${outputSampleRNAVCFdir}/${project}.${familyID}.${sampleName}.RNA.chr${CHR}.vcf.gz
+## Merge VCFs
+mergedFamilyVCFdir,${projectDir}/mergedFamilyVCF/
+mergedFamilyVCF,${mergedFamilyVCFdir}/${project}.${familyID}.merged.chr${CHR}.vcf.gz
+## Filter VCFs
+filteredFamilyVCFdir,${projectDir}/filteredFamilyVCF/
+filteredFamilyVCF,${filteredFamilyVCFdir}/${project}.${familyID}.merged.filtered.chr${CHR}.vcf.gz
+
+
+
+## Filter genotype calls
+callRateFilteredVCFDir,${projectDir}/callRateFilteredVCF/
+callRateFilteredVCF,${callRateFilteredVCFDir}/${project}.chr${CHR}.genotypeGVCF.callRateFiltered.gg.vcf
+genotypeQuality,20
+callRate,0.50
+callRateFilteredPASSonlyVCF,${projectDir}/callRateFilteredVCF/${project}.chr${CHR}.genotypeGVCF.callRateFiltered.PASSonly.gg.vcf
+callRateFilteredPASSonlyVCFgz,${callRateFilteredPASSonlyVCF}.gz
+## Input Beagle from GATK GenotypeGVF
+genotypedChrVcfGLDir,${projectDir}/genotypeVcfGL/
+genotypedChrVcfGLFilteredDir,${projectDir}/genotypeVcfGLFiltered/
+genotypedChrVcfGL,${genotypedChrVcfGLDir}/${project}.chr${CHR}.genotypeGVCF.gg.vcf.gz
+genotypedChrVcfTbi,${genotypedChrVcfGL}.tbi
+genotypedChrVcfGLFiltered,${genotypedChrVcfGLFilteredDir}/${project}.chr${CHR}.genotypeGVCF.DR2Filtered.gg.vcf.gz
+## Beagle
+beagleDir,${projectDir}/beagle/
+beagleFilteredDir,${projectDir}/beagle_vcf_filtered/
+genotypedChrVcfBeagleGenotypeProbabilities,${beagleDir}/${project}.chr${CHR}.beagle.genotype.probs.gg
+beagleShapeitDir,${projectDir}/beagleShapeit
+genotypedChrVcfShapeitInputPrefix,${beagleShapeitDir}/${project}.chr
+genotypedChrVcfShapeitInputPostfix,.beagle.genotype.probs.gg
+genotypedChrVcfBeagleGenotypeProbabilitiesFiltered,${beagleFilteredDir}/${project}.chr${CHR}.beagle.genotype.probs.gg.vcf.gz
+DR2Filter,0.989999999999999999
+## Shapeit
+shapeitJobsDir,${projectDir}/shapeitJobs
+bglchunkDir,${projectDir}/bglchunks
+bglchunkOutfile,${bglchunkDir}/chr${CHR}.chunks.txt
+shapeitDir,${projectDir}/shapeit/
+phasedScaffoldDir,/groups/umcg-lld/${tmp}/projects/genotypingRelease3/selectionLldeep/lldeepPhased_RNA_IDs/
+shapeitPhasedOutputPrefix,${shapeitDir}/${project}.chr
+shapeitLigatedHaplotypeDir,${projectDir}/shapeitLigatedHaplotypes/
+shapeitLigatedHaplotype,${shapeitLigatedHaplotypeDir}/chr${CHR}.ligatedHaplotype.haps
+scaffoldedSamplesPrefix,${shapeitLigatedHaplotypeDir}/scaffolded_samples_chr
+shapeitPhasedOutputPostfix,.shapeit.phased
+## phASER
+mapq,0
+baseq,0
+phaserDir,${projectDir}/phASER
+phaserOutputPrefix,"${phaserDir}/${project}_${sampleName}.readBackPhased.chr${CHR}"
+phaserOutputVcf,${phaserOutputPrefix}.vcf.gz
+phaserMergedVcf,${phaserDir}/${project}.chr${CHR}.phASER.vcf.gz
+## genotype concordance
+comparisonFileDir,${fvdProjectDir}RNA-seq_rare_variants/comparison_files/
+chr,

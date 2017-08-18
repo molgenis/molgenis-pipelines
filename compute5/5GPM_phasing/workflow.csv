@@ -1,0 +1,5 @@
+step,protocol,dependencies
+ExtractSampleFromDNAVCF,protocols/ExtractSampleFromVCF.sh,;inputVCF=DNAVCF;outputVCF=outputSampleDNAVCF;outputVCFdir=outputSampleDNAVCFdir;sample=DNAVCFID
+ExtractSampleFromRNAVCF,protocols/ExtractSampleFromVCF.sh,;inputVCF=RNAVCF;outputVCF=outputSampleRNAVCF;outputVCFdir=outputSampleRNAVCFdir;sample=RNAVCFID
+MergeVCFs,protocols/MergeVCFs.sh,ExtractSampleFromDNAVCF;ExtractSampleFromRNAVCF
+FilterVCF,protocols/FilterVCF.sh,MergeVCFs
