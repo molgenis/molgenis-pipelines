@@ -3,3 +3,4 @@ ExtractSampleFromDNAVCF,protocols/ExtractSampleFromVCF.sh,;inputVCF=DNAVCF;outpu
 ExtractSampleFromRNAVCF,protocols/ExtractSampleFromVCF.sh,;inputVCF=RNAVCF;outputVCF=outputSampleRNAVCF;outputVCFdir=outputSampleRNAVCFdir;sample=RNAVCFID
 MergeVCFs,protocols/MergeVCFs.sh,ExtractSampleFromDNAVCF;ExtractSampleFromRNAVCF
 FilterVCF,protocols/FilterVCF.sh,MergeVCFs
+ConvertVCFtoPlink,protocols/ConvertVCFtoPlink.sh,FilterVCF
