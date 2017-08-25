@@ -56,31 +56,28 @@ VCFs=()
 
 #Extract child DNA VCF from array by index
 ChildDNAVCFidx=$(get_index relations "child")
-ChildDNAVCF=${outputSampleDNAVCF[$ChildDNAVCFidx]}
-VCFs+=('$ChildDNAVCF')
+ChildDNAVCF=${outputSampleDNAVCF["$ChildDNAVCFidx"]}
+VCFs+=($ChildDNAVCF)
 
 #Extract father RNA VCF from array by index
 FatherRNAVCFidx=$(get_index relations "father")
-FatherRNAVCF=${outputSampleRNAVCF[$FatherRNAVCFidx]}
-VCFs+=('$FatherRNAVCF')
+FatherRNAVCF=${outputSampleRNAVCF["$FatherRNAVCFidx"]}
+VCFs+=($FatherRNAVCF)
 
 #Extract mother RNA VCF from array by index
 MotherRNAVCFidx=$(get_index relations "mother")
-MotherRNAVCF=${outputSampleRNAVCF[$MotherRNAVCFidx]}
-VCFs+=('$MotherRNAVCF')
+MotherRNAVCF=${outputSampleRNAVCF["$MotherRNAVCFidx"]}
+VCFs+=($MotherRNAVCF)
 
-toMerge=$(printf '--variant=%s ' $(printf '%s\n' ${VCFs[@]}))
-
+toMerge=$(printf ' --variant %s ' $(printf '%s\n' ${VCFs[@]}))
 
 # Merge VCFs per family ID
 java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${TMPDIR} -jar ${EBROOTGATK}/GenomeAnalysisTK.jar \
--T SelectVariants \
+-T CombineVariants \
 -R ${onekgGenomeFasta} \
--V ${toMerge} \
+${toMerge} \
 -o ${mergedFamilyVCF} \
--selectType SNP \
--L ${CHR} \
--restrictAllelesTo BIALLELIC
+-L ${CHR}
 
 
 cd ${mergedFamilyVCFdir}/
