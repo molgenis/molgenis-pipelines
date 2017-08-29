@@ -40,6 +40,7 @@ vcftoolsVersion,0.1.12b-goolf-1.7.20-Perl-5.20.2-bare
 RVersion,3.2.1-foss-2015b
 phaserVersion,c067827
 plinkVersion,1.9-foss-2015b
+genotypeHarmonizerVersion,1.4.18-Java-1.8.0_45
 referenceFastaName,human_g1k_v37
 genomeBuild,b37
 gatkVersion,3.7-Java-1.8.0_74
@@ -65,8 +66,16 @@ mergedFamilyVCF,${mergedFamilyVCFdir}/${project}.${familyID}.merged.chr${CHR}.vc
 filteredFamilyVCFdir,${projectDir}/filteredFamilyVCF/
 filteredFamilyVCF,${filteredFamilyVCFdir}/${project}.${familyID}.merged.filtered.chr${CHR}.vcf.gz
 ## Convert VCF to Plink
+haplotypeReferencePanelVCFdir,/groups/umcg-gonl/tmp04/reference/06_IL_haplotype_panel/VCF/
 convertVCFtoPlinkDir,${projectDir}/convertVCFtoPlink/
 convertVCFtoPlinkPrefix,${convertVCFtoPlinkDir}/${project}.${familyID}.merged.filtered.chr${CHR}
+## Phase Family trio
+phasedFamilyOutputDir,${projectDir}/phasedFamilyOutput/
+
+
+
+
+
 
 ## Filter genotype calls
 callRateFilteredVCFDir,${projectDir}/callRateFilteredVCF/

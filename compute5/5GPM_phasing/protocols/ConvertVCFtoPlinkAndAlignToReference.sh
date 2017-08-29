@@ -7,9 +7,10 @@
 #string checkStage
 #string CHR
 #string onekgGenomeFasta
-#string plinkVersion
+#string genotypeHarmonizerVersion
 #string familyID
 #string filteredFamilyVCF
+#string haplotypeReferencePanelVCFdir
 #string convertVCFtoPlinkDir
 #string convertVCFtoPlinkPrefix
 #list DNAVCFID,RNAVCFID,relation,sex
@@ -64,8 +65,9 @@ echo "## "$(date)" Start $0"
 
 
 #Load modules
-${stage} plink/${plinkVersion}
+${stage} GenotypeHarmonizer/${genotypeHarmonizerVersion}
 ${checkStage}
+
 
 mkdir -p ${convertVCFtoPlinkDir}
 
@@ -139,14 +141,14 @@ fi
 
 
 
-##Create BED/BIM files, use sample IDs as family IDs and keep allele order same as in VCF file
-plink \
---vcf ${filteredFamilyVCF} \
---out ${convertVCFtoPlinkPrefix} \
---double-id \
---make-bed \
---keep-allele-order
-
+##Create BED/BIM files and align to GoNL reference which we use as ref panel for shapeit phasing
+java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${TMPDIR} -jar $EBROOTGENOTYPEHARMONIZER/GenotypeHarmonizer.jar \
+--input ${filteredFamilyVCF} \
+--inputType VCF \
+--ref ${haplotypeReferencePanelVCFdir} \
+--refType VCFFOLDER \
+--output ${convertVCFtoPlinkPrefix} \
+--outputType PLINK_BED
 
 
 
