@@ -6,6 +6,7 @@
 #string stage
 #string checkStage
 #string shapeitVersion
+#string phasedFamilyOutputDir
 #string phasedFamilyOutputPrefix
 #string CHR
 #string htslibVersion
