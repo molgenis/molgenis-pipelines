@@ -7,10 +7,12 @@
 #string checkStage
 #string CHR
 #string shapeitVersion
-#string convertVCFtoPlinkPrefix
+#string mendelianErrorCheckOutputPrefix
 #string phasedFamilyOutputDir
 #string phasedFamilyOutputPrefix
 #string haplotypeReferencePanelShapeit2Prefix
+#string geneticMapChrPrefix
+#string geneticMapChrPostfix
 
 
 
@@ -24,14 +26,15 @@ mkdir -p ${phasedFamilyOutputDir}
         
 #Run Shapeit2 for trio phasing
 shapeit \
--B ${convertVCFtoPlinkPrefix} \
--M /apps/data/www.shapeit.fr/genetic_map_b37/genetic_map_chr20_combined_b37.txt \
+-B ${mendelianErrorCheckOutputPrefix} \
+-M ${geneticMapChrPrefix}${CHR}${geneticMapChrPostfix} \
 --input-ref ${haplotypeReferencePanelShapeit2Prefix}.hap.gz \
 ${haplotypeReferencePanelShapeit2Prefix}.legend.gz \
 ${haplotypeReferencePanelShapeit2Prefix}.samples \
 --duohmm \
 -W 5 \
 -O ${phasedFamilyOutputPrefix}
+
 
 
 cd ${phasedFamilyOutputDir}/

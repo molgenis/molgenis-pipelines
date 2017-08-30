@@ -71,6 +71,10 @@ haplotypeReferencePanelVCFdir,/groups/umcg-gonl/tmp04/reference/06_IL_haplotype_
 haplotypeReferencePanelVCFPrefix,${haplotypeReferencePanelVCFdir}/gonl.chr${CHR}.snps_indels.r5.3.PASSonly
 convertVCFtoPlinkDir,${projectDir}/convertVCFtoPlink/
 convertVCFtoPlinkPrefix,${convertVCFtoPlinkDir}/${project}.${familyID}.merged.filtered.chr${CHR}
+## Mendelian error check
+mendelianErrorCheckDir,${projectDir}/mendelianErrorCheck/
+mendelianErrorCheckOutputPrefix,${mendelianErrorCheckDir}/${project}.${familyID}.merged.filtered.mendelianErrorCheck.chr${CHR}
+## Remove mendelian errors
 ## Phase Family trio
 phasedFamilyOutputDir,${projectDir}/phasedFamilyOutput/
 haplotypeReferencePanelShapeit2dir,/groups/umcg-gonl/tmp04/reference/06_IL_haplotype_panel/SHAPEIT2/
