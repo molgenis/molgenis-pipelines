@@ -26,6 +26,7 @@ shapeit \
 --input-haps ${phasedFamilyOutputPrefix} \
 --output-vcf ${phasedFamilyOutputPrefix}.vcf.gz
 
+
 echo "returncode: $?";
 cd ${phasedFamilyOutputDir}
 bname=$(basename ${phasedFamilyOutputPrefix}.vcf.gz)
