@@ -68,6 +68,7 @@ filteredFamilyVCFdir,${projectDir}/filteredFamilyVCF/
 filteredFamilyVCF,${filteredFamilyVCFdir}/${project}.${familyID}.merged.filtered.chr${CHR}.vcf.gz
 ## Convert VCF to Plink and align to reference
 haplotypeReferencePanelVCFdir,/groups/umcg-gonl/tmp04/reference/06_IL_haplotype_panel/VCF/
+haplotypeReferencePanelVCFPrefix,${haplotypeReferencePanelVCFdir}/gonl.chr${CHR}.snps_indels.r5.3.PASSonly
 convertVCFtoPlinkDir,${projectDir}/convertVCFtoPlink/
 convertVCFtoPlinkPrefix,${convertVCFtoPlinkDir}/${project}.${familyID}.merged.filtered.chr${CHR}
 ## Phase Family trio

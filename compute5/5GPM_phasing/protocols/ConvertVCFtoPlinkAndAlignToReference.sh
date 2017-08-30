@@ -11,6 +11,7 @@
 #string familyID
 #string filteredFamilyVCF
 #string haplotypeReferencePanelVCFdir
+#string haplotypeReferencePanelVCFPrefix
 #string convertVCFtoPlinkDir
 #string convertVCFtoPlinkPrefix
 #list DNAVCFID,RNAVCFID,relation,sex
@@ -114,6 +115,14 @@ else
 	echo "Succesfully retrieved father RNAID: $FatherRNAID"
 fi
 
+if [ $ChildDNAID == "NA" ]
+then
+	ChildDNAID = "0";
+	echo "Changed child DNAID to value: 0";
+else
+	echo "Succesfully retrieved child DNAID: $ChildDNAID"
+fi
+
 #Check if retrieved genders don't match "NA"
 if [ $MotherGender == "NA" ]
 then
@@ -145,8 +154,8 @@ fi
 java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${TMPDIR} -jar $EBROOTGENOTYPEHARMONIZER/GenotypeHarmonizer.jar \
 --input ${filteredFamilyVCF} \
 --inputType VCF \
---ref ${haplotypeReferencePanelVCFdir} \
---refType VCFFOLDER \
+--ref ${haplotypeReferencePanelVCFPrefix} \
+--refType VCF \
 --output ${convertVCFtoPlinkPrefix} \
 --outputType PLINK_BED
 
@@ -174,7 +183,7 @@ fi
 while read line
 do
 	#Retrieve sample ID from input fam file
-	SAMPLE=$(echo "$line" | awk '{print $1}' FS=" ")
+	SAMPLE=$(echo "$line" | awk '{print $2}' FS=" ")
 	
 	if [ $SAMPLE == "$MotherRNAID" ]
 	then

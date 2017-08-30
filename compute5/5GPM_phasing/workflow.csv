@@ -3,6 +3,6 @@ ExtractSampleFromDNAVCF,protocols/ExtractSampleFromVCF.sh,;inputVCF=DNAVCF;outpu
 ExtractSampleFromRNAVCF,protocols/ExtractSampleFromVCF.sh,;inputVCF=RNAVCF;outputVCF=outputSampleRNAVCF;outputVCFdir=outputSampleRNAVCFdir;sample=RNAVCFID
 MergeVCFs,protocols/MergeVCFs.sh,ExtractSampleFromDNAVCF;ExtractSampleFromRNAVCF
 FilterVCF,protocols/FilterVCF.sh,MergeVCFs
-ConvertVCFtoPlinkAndAlignToReference,protocols/ConvertVCFtoPlink.sh,FilterVCF
+ConvertVCFtoPlinkAndAlignToReference,protocols/ConvertVCFtoPlinkAndAlignToReference.sh,FilterVCF
 PhaseFamily,protocols/PhaseFamily.sh,ConvertVCFtoPlinkAndAlignToReference
 ConvertShapeitToVCF,protocols/ConvertShapeitToVCF.sh,PhaseFamily
