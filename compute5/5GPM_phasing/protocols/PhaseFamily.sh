@@ -9,7 +9,8 @@
 #string shapeitVersion
 #string convertVCFtoPlinkPrefix
 #string phasedFamilyOutputDir
-
+#string phasedFamilyOutputPrefix
+#string haplotypeReferencePanelShapeit2Prefix
 
 
 
@@ -20,33 +21,24 @@ ${stage} shapeit/${shapeitVersion}
 ${checkStage}
 
 mkdir -p ${phasedFamilyOutputDir}
-
-
-
-module load shapeit/v2.r837-static
-
-
         
-        
-shapeit -B ./test/testProject.5GPM_1510.merged.filtered.chr20 \
+#Run Shapeit2 for trio phasing
+shapeit \
+-B ${convertVCFtoPlinkPrefix} \
 -M /apps/data/www.shapeit.fr/genetic_map_b37/genetic_map_chr20_combined_b37.txt \
---input-ref /groups/umcg-gonl/tmp04/reference/test.chr20.hap.gz \
-/groups/umcg-gonl/tmp04/reference/test.chr20.legend.gz \
-/groups/umcg-gonl/tmp04/reference/test.chr20.samples \
+--input-ref ${haplotypeReferencePanelShapeit2Prefix}.hap.gz \
+${haplotypeReferencePanelShapeit2Prefix}.legend.gz \
+${haplotypeReferencePanelShapeit2Prefix}.samples \
 --duohmm \
 -W 5 \
--O output.test
+-O ${phasedFamilyOutputPrefix}
 
 
+cd ${phasedFamilyOutputDir}/
+md5sum $(basename ${phasedFamilyOutputPrefix}.sample) > ${phasedFamilyOutputPrefix}.sample.md5
+md5sum $(basename ${phasedFamilyOutputPrefix}.haps) > ${phasedFamilyOutputPrefix}.haps.md5
+cd -
+echo "returncode: $?";
 
 
-shapeit -B gwas-nomendel \
-        -M genetic_map.txt \
-        --input-ref reference.haplotypes.gz reference.legend.gz reference.sample \
-        --duohmm \
-        -W 5 \
-        --output-max gwas-duohmm \
-        --output-graph gwas-duohmm.graph
-        
-        --no-mcmc ?
-
+echo "## "$(date)" ##  $0 Done "

@@ -5,3 +5,4 @@ MergeVCFs,protocols/MergeVCFs.sh,ExtractSampleFromDNAVCF;ExtractSampleFromRNAVCF
 FilterVCF,protocols/FilterVCF.sh,MergeVCFs
 ConvertVCFtoPlinkAndAlignToReference,protocols/ConvertVCFtoPlink.sh,FilterVCF
 PhaseFamily,protocols/PhaseFamily.sh,ConvertVCFtoPlinkAndAlignToReference
+ConvertShapeitToVCF,protocols/ConvertShapeitToVCF.sh,PhaseFamily
