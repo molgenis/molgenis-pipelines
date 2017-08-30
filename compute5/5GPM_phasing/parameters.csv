@@ -28,7 +28,7 @@ prepareGenFromBeagle4Version,2016-12-02-foss-2015b
 intervaltreeVersion,2.1.0-foss-2015b-Python-2.7.9
 pyvcfVersion,0.6.7-foss-2015b-Python-2.7.9
 samtoolsVersion,1.2-foss-2015b
-bedtoolsVersion,2.23.0-foss-2015b
+bedtoolsVersion,2.25.0-foss-2015b
 pythonVersion,3.4.1-foss-2015b
 biopythonVersion,1.65-foss-2015b-Python-3.4.1
 ngsutilsVersion,17.08.3
@@ -66,6 +66,10 @@ mergedFamilyVCF,${mergedFamilyVCFdir}/${project}.${familyID}.merged.chr${CHR}.vc
 ## Filter VCFs
 filteredFamilyVCFdir,${projectDir}/filteredFamilyVCF/
 filteredFamilyVCF,${filteredFamilyVCFdir}/${project}.${familyID}.merged.filtered.chr${CHR}.vcf.gz
+## Filter RNA-editting sites from VCF
+rnaEditBed,/apps/data/rnaedit.com/Human_AG_all_hg19_v2.sorted.bed
+filteredRNAsitesFamilyVCF,${filteredFamilyVCFdir}/${project}.${familyID}.merged.filtered.RNAedittingSitesRemoved.chr${CHR}.vcf
+filteredRNAsitesFamilyVCFgz,${filteredRNAsitesFamilyVCF}.gz
 ## Convert VCF to Plink and align to reference
 haplotypeReferencePanelVCFdir,/groups/umcg-gonl/tmp04/reference/06_IL_haplotype_panel/VCF/
 haplotypeReferencePanelVCFPrefix,${haplotypeReferencePanelVCFdir}/gonl.chr${CHR}.snps_indels.r5.3.PASSonly

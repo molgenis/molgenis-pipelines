@@ -9,7 +9,7 @@
 #string onekgGenomeFasta
 #string genotypeHarmonizerVersion
 #string familyID
-#string filteredFamilyVCF
+#string filteredRNAsitesFamilyVCFgz
 #string haplotypeReferencePanelVCFdir
 #string haplotypeReferencePanelVCFPrefix
 #string convertVCFtoPlinkDir
@@ -152,7 +152,7 @@ fi
 
 ##Create BED/BIM files and align to GoNL reference which we use as ref panel for shapeit phasing
 java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${TMPDIR} -jar $EBROOTGENOTYPEHARMONIZER/GenotypeHarmonizer.jar \
---input ${filteredFamilyVCF} \
+--input ${filteredRNAsitesFamilyVCFgz} \
 --inputType VCF \
 --ref ${haplotypeReferencePanelVCFPrefix} \
 --refType VCF \
