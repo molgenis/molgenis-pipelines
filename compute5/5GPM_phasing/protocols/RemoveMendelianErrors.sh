@@ -26,11 +26,13 @@ mkdir -p ${mendelianErrorCheckDir}
 
 #Count number of lines containing mendel error in *.snp.me file
 mendelErrors=$(awk '{ if ($3 != "0") print $0}' FS="\t" ${mendelianErrorCheckOutputPrefix}.snp.me | wc -l)
+count=$(($mendelErrors-1))
 
-#The output always contains a headerline, so needs to have more than 1 line
-if [ $mendelErrors > 1 ]
+#Check if more than 0 lines were detected
+if [ $mendelErrors > 0 ]
 then
-	echo "Detected $mendelErrors mendelian errors. Starting analysis to remove those SNPs .."
+	echo "Detected $count mendelian errors. Starting analysis to remove those SNPs .."
+	echo ""
 	
 	#Create file containing IDs to remove
 	awk '{ if ($3 != "0") print $1}' FS="\t" ${mendelianErrorCheckOutputPrefix}.snp.me > ${mendelianErrorCheckOutputPrefix}.IDsToExclude.txt
@@ -47,6 +49,7 @@ then
 
 else
 	echo "No mendelian errors detected, nothing to remove."
+	echo ""
 	
 	#Copy input plink BED/BIM data to new output directory
 	cp ${convertVCFtoPlinkPrefix}.bed ${mendelianErrorCheckOutputPrefix}.bed
