@@ -32,6 +32,7 @@ shapeit \
 	${haplotypeReferencePanelShapeit2Prefix}.legend.gz \
 	${haplotypeReferencePanelShapeit2Prefix}.samples \
 	--duohmm \
+	--no-mcmc \
 	-W 5 \
 	-O ${phasedFamilyOutputPrefix}
 
