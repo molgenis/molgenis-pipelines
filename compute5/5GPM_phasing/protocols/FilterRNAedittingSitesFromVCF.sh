@@ -26,16 +26,28 @@ ${checkStage}
 
 mkdir -p ${filteredFamilyVCFdir}
 
-#Extract header from input VCF file
-zcat ${filteredFamilyVCF} | head -2000 > ${filteredRNAsitesFamilyVCF}
 
-#Use bedtools to remove overlapping RNA-editting sites from VCF file
+#Use bedtools to remove overlapping RNA-editting sites from VCF file, this results in unsorted file
 bedtools \
 intersect \
 -v \
 -a ${filteredFamilyVCF} \
 -b ${rnaEditBed} \
--wa >> ${filteredRNAsitesFamilyVCF}
+-wa >> ${filteredRNAsitesFamilyVCF}.tmp.txt
+
+#Sort *.tmp.txt file by chromosome and position
+sort -k1n -k2n ${filteredRNAsitesFamilyVCF}.tmp.txt > ${filteredRNAsitesFamilyVCF}.tmp.sorted.txt
+
+#Extract header from input VCF file
+zcat ${filteredFamilyVCF} | head -2000 | grep '^#' > ${filteredRNAsitesFamilyVCF}.header.txt
+
+#Cat header and sorted file together into single file
+cat ${filteredRNAsitesFamilyVCF}.header.txt ${filteredRNAsitesFamilyVCF}.tmp.sorted.txt > ${filteredRNAsitesFamilyVCF}
+
+#Remove all tmp data
+rm ${filteredRNAsitesFamilyVCF}.tmp.txt
+rm ${filteredRNAsitesFamilyVCF}.tmp.sorted.txt
+rm ${filteredRNAsitesFamilyVCF}.header.txt
 
 
 echo "returncode: $?";

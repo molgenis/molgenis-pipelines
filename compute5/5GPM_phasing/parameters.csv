@@ -67,7 +67,7 @@ mergedFamilyVCF,${mergedFamilyVCFdir}/${project}.${familyID}.merged.chr${CHR}.vc
 filteredFamilyVCFdir,${projectDir}/filteredFamilyVCF/
 filteredFamilyVCF,${filteredFamilyVCFdir}/${project}.${familyID}.merged.filtered.chr${CHR}.vcf.gz
 ## Filter RNA-editting sites from VCF
-rnaEditBed,/apps/data/rnaedit.com/Human_AG_all_hg19_v2.sorted.bed
+rnaEditBed,/apps/data/rnaedit.com/Human_AG_all_hg19_v2.bedTools.sorted.bed
 filteredRNAsitesFamilyVCF,${filteredFamilyVCFdir}/${project}.${familyID}.merged.filtered.RNAedittingSitesRemoved.chr${CHR}.vcf
 filteredRNAsitesFamilyVCFgz,${filteredRNAsitesFamilyVCF}.gz
 ## Convert VCF to Plink and align to reference
