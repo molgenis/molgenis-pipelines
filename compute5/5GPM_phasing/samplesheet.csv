@@ -1,0 +1,7 @@
+project,sampleName,sex,familyID,relation,RNAVCFID,DNAVCFID,RNAVCF,DNAVCF
+testProject,sample1,female,fam1,child,sample1,dnaIDsomething1,pathToVCF.chr${CHR}.vcf.gz,pathToVCF2.chr${CHR}.vcf.gz
+testProject,sample2,male,fam1,father,sample2,dnaIDsomething452,pathToVCF.chr${CHR}.vcf.gz,pathToVCF2.chr${CHR}.vcf.gz
+testProject,sample3,female,fam1,mother,sample3,dnaIDsomething3,pathToVCF.chr${CHR}.vcf.gz,pathToVCF2.chr${CHR}.vcf.gz
+testProject,sample4,male,fam2,father,sample4,dnaIDsomething45723,pathToVCF.chr${CHR}.vcf.gz,pathToVCF2.chr${CHR}.vcf.gz
+testProject,sample5,female,fam2,mother,sample5,dnaIDsomething21,pathToVCF.chr${CHR}.vcf.gz,pathToVCF2.chr${CHR}.vcf.gz
+testProject,sample6,male,fam2,child,sample6,dnaIDsomething119,pathToVCF.chr${CHR}.vcf.gz,pathToVCF2.chr${CHR}.vcf.gz
