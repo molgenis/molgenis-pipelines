@@ -1,4 +1,4 @@
-#MOLGENIS nodes=1 ppn=2 mem=8gb walltime=05:59:00
+#MOLGENIS nodes=1 ppn=1 mem=4gb walltime=05:59:00
 
 ### variables to help adding to database (have to use weave)
 #string project
@@ -27,16 +27,13 @@ ${checkStage}
 mkdir -p ${filteredFamilyVCFdir}
 
 
-#Use bedtools to remove overlapping RNA-editting sites from VCF file, this results in unsorted file
+#Use bedtools to remove overlapping RNA-editting sites from VCF file and sort on the fly on chr and position
 bedtools \
-intersect \
--v \
--a ${filteredFamilyVCF} \
--b ${rnaEditBed} \
--wa >> ${filteredRNAsitesFamilyVCF}.tmp.txt
-
-#Sort *.tmp.txt file by chromosome and position
-sort -k1n -k2n ${filteredRNAsitesFamilyVCF}.tmp.txt > ${filteredRNAsitesFamilyVCF}.tmp.sorted.txt
+	intersect \
+	-v \
+	-a ${filteredFamilyVCF} \
+	-b ${rnaEditBed} \
+	-wa | sort -k1n -k2n >> ${filteredRNAsitesFamilyVCF}.tmp.sorted.txt
 
 #Extract header from input VCF file
 zcat ${filteredFamilyVCF} | head -2000 | grep '^#' > ${filteredRNAsitesFamilyVCF}.header.txt
@@ -45,7 +42,6 @@ zcat ${filteredFamilyVCF} | head -2000 | grep '^#' > ${filteredRNAsitesFamilyVCF
 cat ${filteredRNAsitesFamilyVCF}.header.txt ${filteredRNAsitesFamilyVCF}.tmp.sorted.txt > ${filteredRNAsitesFamilyVCF}
 
 #Remove all tmp data
-rm ${filteredRNAsitesFamilyVCF}.tmp.txt
 rm ${filteredRNAsitesFamilyVCF}.tmp.sorted.txt
 rm ${filteredRNAsitesFamilyVCF}.header.txt
 

@@ -30,14 +30,14 @@ then
 
 	# Extract only bi-allelic sites for samples of interest from VCF
 	java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${TMPDIR} -jar ${EBROOTGATK}/GenomeAnalysisTK.jar \
-	-T SelectVariants \
-	-R ${onekgGenomeFasta} \
-	-V ${inputVCF} \
-	-o ${outputVCF} \
-	-sn ${sample} \
-	-selectType SNP \
-	-L ${CHR} \
-	-restrictAllelesTo BIALLELIC
+		-T SelectVariants \
+		-R ${onekgGenomeFasta} \
+		-V ${inputVCF} \
+		-o ${outputVCF} \
+		-sn ${sample} \
+		-selectType SNP \
+		-L ${CHR} \
+		-restrictAllelesTo BIALLELIC
 
 	cd ${outputVCFdir}/
 	md5sum $(basename ${outputVCF}) > ${outputVCF}.md5

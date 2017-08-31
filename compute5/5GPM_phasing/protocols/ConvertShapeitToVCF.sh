@@ -22,9 +22,9 @@ ${checkStage}
 
 #Run shapeit convert
 shapeit \
--convert \
---input-haps ${phasedFamilyOutputPrefix} \
---output-vcf ${phasedFamilyOutputPrefix}.vcf.gz
+	-convert \
+	--input-haps ${phasedFamilyOutputPrefix} \
+	--output-vcf ${phasedFamilyOutputPrefix}.vcf.gz
 
 
 echo "returncode: $?";

@@ -1,4 +1,4 @@
-#MOLGENIS nodes=1 ppn=2 mem=8gb walltime=05:59:00
+#MOLGENIS nodes=1 ppn=1 mem=4gb walltime=05:59:00
 
 ### variables to help adding to database (have to use weave)
 #string project
@@ -42,10 +42,10 @@ then
 
 	#Run plink to exclude variants with mendelian errors
 	plink \
-	--bfile ${convertVCFtoPlinkPrefix} \
-	--exclude ${mendelianErrorCheckOutputPrefix}.IDsToExclude.txt \
-	--out ${mendelianErrorCheckOutputPrefix} \
-	--make-bed
+		--bfile ${convertVCFtoPlinkPrefix} \
+		--exclude ${mendelianErrorCheckOutputPrefix}.IDsToExclude.txt \
+		--out ${mendelianErrorCheckOutputPrefix} \
+		--make-bed
 
 else
 	echo "No mendelian errors detected, nothing to remove."

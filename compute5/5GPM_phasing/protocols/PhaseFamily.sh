@@ -26,14 +26,14 @@ mkdir -p ${phasedFamilyOutputDir}
         
 #Run Shapeit2 for trio phasing
 shapeit \
--B ${mendelianErrorCheckOutputPrefix} \
--M ${geneticMapChrPrefix}${CHR}${geneticMapChrPostfix} \
---input-ref ${haplotypeReferencePanelShapeit2Prefix}.hap.gz \
-${haplotypeReferencePanelShapeit2Prefix}.legend.gz \
-${haplotypeReferencePanelShapeit2Prefix}.samples \
---duohmm \
--W 5 \
--O ${phasedFamilyOutputPrefix}
+	-B ${mendelianErrorCheckOutputPrefix} \
+	-M ${geneticMapChrPrefix}${CHR}${geneticMapChrPostfix} \
+	--input-ref ${haplotypeReferencePanelShapeit2Prefix}.hap.gz \
+	${haplotypeReferencePanelShapeit2Prefix}.legend.gz \
+	${haplotypeReferencePanelShapeit2Prefix}.samples \
+	--duohmm \
+	-W 5 \
+	-O ${phasedFamilyOutputPrefix}
 
 
 

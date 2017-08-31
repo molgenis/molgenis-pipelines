@@ -152,12 +152,12 @@ fi
 
 ##Create BED/BIM files and align to GoNL reference which we use as ref panel for shapeit phasing
 java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${TMPDIR} -jar $EBROOTGENOTYPEHARMONIZER/GenotypeHarmonizer.jar \
---input ${filteredRNAsitesFamilyVCFgz} \
---inputType VCF \
---ref ${haplotypeReferencePanelVCFPrefix} \
---refType VCF \
---output ${convertVCFtoPlinkPrefix} \
---outputType PLINK_BED
+	--input ${filteredRNAsitesFamilyVCFgz} \
+	--inputType VCF \
+	--ref ${haplotypeReferencePanelVCFPrefix} \
+	--refType VCF \
+	--output ${convertVCFtoPlinkPrefix} \
+	--outputType PLINK_BED
 
 
 

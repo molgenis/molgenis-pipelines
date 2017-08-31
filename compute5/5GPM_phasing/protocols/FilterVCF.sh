@@ -25,14 +25,14 @@ mkdir -p ${filteredFamilyVCFdir}
 # Also only select sites where all samples have a genotype
 # Do we still need to add other filtering options like GQ, DP, etc?
 java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${TMPDIR} -jar ${EBROOTGATK}/GenomeAnalysisTK.jar \
--T SelectVariants \
--R ${onekgGenomeFasta} \
--V ${mergedFamilyVCF} \
--o ${filteredFamilyVCF} \
--selectType SNP \
--L ${CHR} \
---maxNOCALLfraction 0 \
--restrictAllelesTo BIALLELIC
+	-T SelectVariants \
+	-R ${onekgGenomeFasta} \
+	-V ${mergedFamilyVCF} \
+	-o ${filteredFamilyVCF} \
+	-selectType SNP \
+	-L ${CHR} \
+	--maxNOCALLfraction 0 \
+	-restrictAllelesTo BIALLELIC
 
 
 cd ${filteredFamilyVCFdir}/

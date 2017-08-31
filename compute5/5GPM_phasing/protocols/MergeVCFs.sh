@@ -73,11 +73,11 @@ toMerge=$(printf ' --variant %s ' $(printf '%s\n' ${VCFs[@]}))
 
 # Merge VCFs per family ID
 java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${TMPDIR} -jar ${EBROOTGATK}/GenomeAnalysisTK.jar \
--T CombineVariants \
--R ${onekgGenomeFasta} \
-${toMerge} \
--o ${mergedFamilyVCF} \
--L ${CHR}
+	-T CombineVariants \
+	-R ${onekgGenomeFasta} \
+	${toMerge} \
+	-o ${mergedFamilyVCF} \
+	-L ${CHR}
 
 
 cd ${mergedFamilyVCFdir}/
