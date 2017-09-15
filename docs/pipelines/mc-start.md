@@ -81,7 +81,7 @@ In addition, the contents of 'out' will be available to the next step.
 
 Inputs can either be '#string' for variables with a single value or '#list' for variables with multiple values. The outputs are specified with the flag '#output'
 
-In the same way, we can map outputs of one step to the inputs of the next steps. In our example, 'strings' in the 'step2', which has protocol step2.ftl
+In the same way, we can map outputs of one step to the inputs of the next steps. In our example, 'strings' in the 'step2', which has protocol step2.sh
 
 ```bash
   #string wf
@@ -116,13 +116,15 @@ Once you defined your workflow you can generate 1000s of jobs. Just change the p
 ### N.B. always use full paths to parameter files, workflow etc
 
 ```bash
-  sh molgenis_compute.sh --generate --parameters myfirst_workflow/parameters.csv --workflow myfirst_workflow/workflow.csv --defaults myfirst_workflow/workflow.defaults.csv
+cd ..
+sh molgenis_compute.sh --generate --parameters myfirst_workflow/parameters.csv --workflow myfirst_workflow/workflow.csv --defaults myfirst_workflow/workflow.defaults.csv
 ```
 
 or with a short command-line version
 
 ```bash
-  sh molgenis_compute.sh -g -p myfirst_workflow/parameters.csv -w myfirst_workflow/workflow.csv -defaults myfirst_workflow/workflow.defaults.csv
+cd ..
+sh molgenis_compute.sh -g -p myfirst_workflow/parameters.csv -w myfirst_workflow/workflow.csv -defaults myfirst_workflow/workflow.defaults.csv
 ```
 
 The directory `rundir` is created.
