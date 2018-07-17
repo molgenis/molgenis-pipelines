@@ -39,11 +39,13 @@ ensemblVersion,75
 RVersion,3.2.1-goolf-1.7.20
 samtoolsVersion,1.2-goolf-1.7.20
 genomeLatSpecies,Homo_sapiens
+starVersion=2.5.1b-foss-2015b
 dbsnpVcf,${resDir}/${genomeBuild}/snp/dbSNP/dbsnp_138.b37.vcf
 onekgGenomeFasta,${resDir}/${genomeBuild}/indices/human_g1k_v${human_g1k_vers}.fasta
 genomeEnsembleAnnotationFile,${resDir}/Ensembl/release-${ensemblVersion}/gtf/homo_sapiens/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.gtf
 testIntervalList,${resDir}/b37/intervals/ALL.wgs.phase3_shapeit2_mvncall_integrated_v5.20130502.sites.MAF_0.05.SNPs_only.recode.annotated.EXON_only.interval_list
 ########################################################################
+alignmentDir,${projectDir}/hisat/
 ## Specific tools paths
 #
 ## FastQC
@@ -81,7 +83,6 @@ evalGrp,${variantEvalDir}${uniqueID}.eval.grp
 ## Hisat
 referenceGenomeHisat,${resDir}/${genomeBuild}/indices/hisat-${hisatVersion}/human_g1k_v${human_g1k_vers}
 referenceGenomeHisat2,/apps/data/UMCG/Hisat2_index/human_g1k_v37_hisat2_index_17062016
-hisatAlignmentDir,${projectDir}/hisat/
 filteredBamDir,${projectDir}/filteredBam/
 filteredBam,${filteredBamDir}/${uniqueID}_unique_mapping_only.bam
 unfilteredBamDir,${projectDir}/unfilteredBam/
@@ -93,6 +94,8 @@ sortedBai,${sortedBamDir}${uniqueID}.bai
 ## cutadapt
 adapterDir,${projectDir}/fastqAdapterFiltered/
 contaminantFile,${toolDir}/FastQC/${fastqcVersion}/Configuration/contaminant_list.txt
+## STAR
+STARindex
 ## ?
 rRnaIntervalList,${resDir}//picard-tools/Ensembl${ensemblVersion}/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.rrna.interval_list
 genesRefFlat,${resDir}/picard-tools/Ensembl${ensemblVersion}/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.refflat

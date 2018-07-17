@@ -7,11 +7,13 @@
 #string STARindex
 #string jdkVersion
 #string starVersion
+#string uniqueID
+#string alignmentDir
 
 #Echo parameter values
 fastq1="${reads1FqGz}"
 fastq2="${reads2FqGz}"
-prefix="${internalId}"
+prefix="${alignmentDir}/${uniqueID}"
 STARindex="${STARindex}"
 seqType="${seqType}"
 
