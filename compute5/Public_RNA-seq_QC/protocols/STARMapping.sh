@@ -13,7 +13,7 @@
 #Echo parameter values
 fastq1="${reads1FqGz}"
 fastq2="${reads2FqGz}"
-prefix="${alignmentDir}/${uniqueID}"
+prefix="${uniqueID}"
 STARindex="${STARindex}"
 
 
@@ -94,8 +94,8 @@ then
 
 	for tempFile in ${TMPDIR}/${prefix}___tmp___* ; do
 		finalFile=`echo $tempFile | sed -e "s/___tmp___//g"`
-		echo "Moving temp file: ${tempFile} to ${finalFile}"
-		mv $tempFile $finalFile
+		echo "Moving temp file: ${tempFile} to ${alignmentDir}/${finalFile}"
+		mv $tempFile ${alignmentDir}/$finalFile
 	done
 	
 else
