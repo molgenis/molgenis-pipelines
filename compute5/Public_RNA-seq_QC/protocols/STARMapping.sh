@@ -53,7 +53,7 @@ then
 	echo "Mapping single-end reads"
 	echo "Allowing $numMism mismatches"
 	STAR \
-		--outFileNamePrefix ${TMPDIR}/${prefix}___tmp___. \
+		--outFileNamePrefix ${TMPDIR}/${prefix}. \
 		--readFilesIn ${fastq1} \
 		--readFilesCommand zcat \
 		--genomeDir ${STARindex} \
@@ -71,7 +71,7 @@ then
 	let numMism=$numMism*2
 	echo "Allowing $numMism mismatches"
 	STAR \
-		--outFileNamePrefix ${TMPDIR}/${prefix}___tmp___. \
+		--outFileNamePrefix ${TMPDIR}/${prefix}. \
 		--readFilesIn ${fastq1} ${fastq2} \
 		--readFilesCommand zcat \
 		--genomeDir ${STARindex} \
@@ -92,18 +92,15 @@ echo "STAR return code: ${starReturnCode}"
 if [ $starReturnCode -eq 0 ]
 then
 
-	for tempFile in ${TMPDIR}/${prefix}___tmp___* ; do
-		finalFile=`echo $tempFile | sed -e "s/___tmp___//g"`
+	for tempFile in ${TMPDIR}/${prefix}* ; do
+		finalFile=$(basename $tempFile)
 		echo "Moving temp file: ${tempFile} to ${alignmentDir}/${finalFile}"
 		mv $tempFile ${alignmentDir}/$finalFile
 	done
-	
 else
-  
 	echo -e "\nNon zero return code not making files final. Existing temp files are kept for debugging purposes\n\n"
 	#Return non zero return code
 	exit 1
-	
 fi
 
 
