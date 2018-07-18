@@ -96,6 +96,7 @@ adapterDir,${projectDir}/fastqAdapterFiltered/
 contaminantFile,${toolDir}/FastQC/${fastqcVersion}/Configuration/contaminant_list.txt
 ## STAR
 STARindex
+twoPassMethod,Basic
 ## ?
 rRnaIntervalList,${resDir}//picard-tools/Ensembl${ensemblVersion}/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.rrna.interval_list
 genesRefFlat,${resDir}/picard-tools/Ensembl${ensemblVersion}/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.refflat
