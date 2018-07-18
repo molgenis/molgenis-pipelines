@@ -5,7 +5,6 @@
 #string reads2FqGz
 #string internalId
 #string STARindex
-#string jdkVersion
 #string starVersion
 #string uniqueID
 #string alignmentDir
@@ -18,7 +17,6 @@ STARindex="${STARindex}"
 
 
 #load modules JDK,STAR,PICARDTools
-module load jdk/${jdkVersion}
 module load STAR/${starVersion}
 module list
 
