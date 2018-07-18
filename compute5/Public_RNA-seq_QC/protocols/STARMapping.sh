@@ -8,6 +8,7 @@
 #string starVersion
 #string uniqueID
 #string alignmentDir
+#string twoPassMethod
 
 #Echo parameter values
 fastq1="${reads1FqGz}"
