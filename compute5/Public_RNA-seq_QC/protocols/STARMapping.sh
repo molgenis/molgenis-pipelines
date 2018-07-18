@@ -25,9 +25,9 @@ module list
 
 hostname
 
-echo -e "fastq1=${fastq1}\nfastq2=${fastq2}\noutputFolder=${outputFolder}\nprefix=${prefix}\nSTARindex=${STARindex}"
+echo -e "fastq1=${fastq1}\nfastq2=${fastq2}\nprefix=${prefix}\nSTARindex=${STARindex}"
 
-mkdir -p ${outputFolder}
+mkdir -p ${alignmentDir}
 
 if [ ${#reads2FqGz} -eq 0 ]; then
     seqType="SR"
