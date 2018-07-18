@@ -15,7 +15,6 @@ fastq1="${reads1FqGz}"
 fastq2="${reads2FqGz}"
 prefix="${alignmentDir}/${uniqueID}"
 STARindex="${STARindex}"
-seqType="${seqType}"
 
 
 #load modules JDK,STAR,PICARDTools
