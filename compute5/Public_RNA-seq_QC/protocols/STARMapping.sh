@@ -23,8 +23,6 @@ module load jdk/${jdkVersion}
 module load STAR/${starVersion}
 module list
 
-hostname
-
 echo -e "fastq1=${fastq1}\nfastq2=${fastq2}\nprefix=${prefix}\nSTARindex=${STARindex}"
 
 mkdir -p ${alignmentDir}
