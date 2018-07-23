@@ -58,6 +58,7 @@ then
 	else
  	  echo "returncode: $?";
  	  echo "fail";
+      exit 1;
 	fi
 
 else
@@ -98,6 +99,7 @@ else
 	else
  	  echo "returncode: $?";
  	  echo "fail";
+      exit 1;
 	fi
 fi
 
