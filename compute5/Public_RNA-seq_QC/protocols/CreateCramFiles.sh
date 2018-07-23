@@ -63,6 +63,7 @@ then
 else
  echo "returncode: $?";
  echo "fail";
+ exit 1;
 fi
 
 if [ ! -f ${cramFileDir}${uniqueID}.cram ]; then
