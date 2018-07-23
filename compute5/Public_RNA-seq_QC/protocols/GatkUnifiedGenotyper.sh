@@ -72,8 +72,8 @@ if java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}GATK//${gatkVersion}/Genom
   -DMQ 60
 
 # have to gzip for GenometypeHarmonizer usage later
-bgzip -c -f ${rawVCF} > ${rawVCF}.gz
-tabix -p -f vcf ${rawVCF}.gz
+bgzip -f ${rawVCF}
+tabix -f -p vcf ${rawVCF}.gz
 
 then
  echo "returncode: $?";
