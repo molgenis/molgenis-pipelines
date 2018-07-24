@@ -96,6 +96,12 @@ then
 		finalFile=$(basename $tempFile)
 		echo "Moving temp file: ${tempFile} to ${alignmentDir}/${finalFile}"
 		mv $tempFile ${alignmentDir}/$finalFile
+        # STAR appends some extra stuff to filename, which makes it not match with HISAT in next steps
+        # therefore, rename it so that next steps can use same naming scheme
+        if [[ ${alignmentDir}/$finalFile == *.sam ]];
+        then
+            mv ${alignmentDir}/$finalFile ${alignmentDir}/${uniqueID}.sam
+        fi
 	done
 else
 	echo -e "\nNon zero return code not making files final. Existing temp files are kept for debugging purposes\n\n"
