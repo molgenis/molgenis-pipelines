@@ -31,18 +31,18 @@ echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}
 mkdir -p ${filteredBamDir}
 mkdir -p ${unfilteredBamDir}
    
-if [[ ! -f ${alignmentDir}${uniqueID}.sam ]]
+if [[ ! -f ${alignmentDir}/${uniqueID}.sam ]]
 then
    echo "${alignmentDir}${uniqueID}.sam does not exist"
    exit 1
 fi
 # delete lines that contain NH:i:<not 1>, then convert sam to bam. See https://ccb.jhu.edu/software/hisat/manual.shtml, sam output
 # NH:i:<N>	The number of mapped locations for the read or the pair. 
-if sed '/NH:i:[^1]/d' ${alignmentDir}${uniqueID}.sam | samtools view -h -b - > ${filteredBam}
+if sed '/NH:i:[^1]/d' ${alignmentDir}/${uniqueID}.sam | samtools view -h -b - > ${filteredBam}
 then
-   samtools view -h -b ${alignmentDir}${uniqueID}.sam > ${unfilteredBamDir}/${uniqueID}.bam
+   samtools view -h -b ${alignmentDir}/${uniqueID}.sam > ${unfilteredBamDir}/${uniqueID}.bam
   >&2 echo "Reads with flag NH:i:[2+] where filtered out (only leaving 'unique' mapping reads)."
-  rm ${alignmentDir}${uniqueID}.sam
+  rm ${alignmentDir}/${uniqueID}.sam
   echo "returncode: $?";
   cd ${unfilteredBamDir}
   md5sum $(basename ${unfilteredBamDir}/${uniqueID}.bam)> $(basename ${unfilteredBamDir}/${uniqueID}.bam).md5
