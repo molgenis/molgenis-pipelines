@@ -30,10 +30,10 @@ echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}
 
 mkdir -p ${filteredBamDir}
 mkdir -p ${unfilteredBamDir}
-   
+
 if [[ ! -f ${alignmentDir}/${uniqueID}.sam ]]
 then
-   echo "${alignmentDir}${uniqueID}.sam does not exist"
+   echo "${alignmentDir}/${uniqueID}.sam does not exist"
    exit 1
 fi
 # delete lines that contain NH:i:<not 1>, then convert sam to bam. See https://ccb.jhu.edu/software/hisat/manual.shtml, sam output
