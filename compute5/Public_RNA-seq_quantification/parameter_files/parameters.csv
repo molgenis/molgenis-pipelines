@@ -11,7 +11,7 @@ group,umcg-wijmenga
 tmp,tmp03
 resDir,/apps/data
 toolDir,/apps/software/
-projectDir,${root}/${group}/${tmp}/projects/umcg-ndeklein/${project}/results/
+projectDir,${root}/${group}/${tmp}/projects/umcg-ndeklein/${project}/
 uniqueID,${sampleName}_${internalId}
 platform,ILLUMINA
 ########################################################################
