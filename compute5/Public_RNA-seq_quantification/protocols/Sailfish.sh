@@ -49,7 +49,7 @@ if [ ${#reads2FqGz} -eq 0 ]; then
 else
   echo "Paired end sailfish of ${reads1FqGz} and ${reads2FqGz}"
   if sailfish quant \
-        -i sailfishIndex \
+        -i ${sailfishIndex} \
         -l ${libType} \
         -1 reads1FqGz -2 reads2FqGz \
         -o ${sailfishDir} \
