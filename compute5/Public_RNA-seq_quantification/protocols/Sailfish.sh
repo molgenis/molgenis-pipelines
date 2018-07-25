@@ -29,19 +29,14 @@ echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}
 mkdir -p ${sailfishDir}
 
 
-
-
 if [ ${#reads2FqGz} -eq 0 ]; then
-  tmpFastq1=$TMPDIR/$(basename $reads1FqGz)
-  echo "extracting  $reads1FqGz to $tmpFastq1"
-  zcat $reads2FqGz > tmpFastq1;
   echo "Single end Sailfish of ${reads1FqGz}"
   # don't know how to determine libType from the fastq files, so defined in parameter file..
   # TODO: add a check if the libtype is compatible with the quant option
   if sailfish quant \
         -i ${sailfishIndex} \
         -l ${libType} \
-        -r $tmpFastq1 \
+        -r <(gunzip -c $tmpFastq1) \
         -o ${sailfishDir} \
         --numBootstraps ${numBootstraps} \
         ${flags}
@@ -55,17 +50,10 @@ if [ ${#reads2FqGz} -eq 0 ]; then
     exit 1;
   fi
 else 
-  tmpFastq1=$TMPDIR/$(basename $reads1FqGz)
-  echo "extracting  $reads1FqGz to $tmpFastq1"
-  zcat $reads2FqGz > tmpFastq1;
-  tmpFastq2=$TMPDIR/$(basename $reads2FqGz)
-  echo "extracting  $reads2FqGz to $tmpFastq2"
-  zcat $reads2FqGz > tmpFastq2;
-  echo "Paired end sailfish of ${reads1FqGz} and ${reads2FqGz}"
   if sailfish quant \
         -i ${sailfishIndex} \
         -l ${libType} \
-        -1 $tmpFastq1 -2 $tmpFastq2 \
+        -1 <(gunzip -c $tmpFastq1) -2 <(gunzip -c $tmpFastq2) \
         -o ${sailfishDir} \
         --numBootstraps ${numBootstraps} \
         ${flags}
