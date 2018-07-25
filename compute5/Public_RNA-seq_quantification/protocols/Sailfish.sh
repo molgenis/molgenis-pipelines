@@ -36,7 +36,7 @@ if [ ${#reads2FqGz} -eq 0 ]; then
   if sailfish quant \
         -i ${sailfishIndex} \
         -l ${libType} \
-        -r <(gunzip -c $tmpFastq1) \
+        -r <(gunzip -c $reads1FqGz) \
         -o ${sailfishDir} \
         --numBootstraps ${numBootstraps} \
         ${flags}
@@ -53,7 +53,7 @@ else
   if sailfish quant \
         -i ${sailfishIndex} \
         -l ${libType} \
-        -1 <(gunzip -c $tmpFastq1) -2 <(gunzip -c $tmpFastq2) \
+        -1 <(gunzip -c $reads1FqGz) -2 <(gunzip -c $reads2FqGz) \
         -o ${sailfishDir} \
         --numBootstraps ${numBootstraps} \
         ${flags}
