@@ -1,3 +1,0 @@
-step,protocol,dependencies
-MergeFastq,protocols/MergeFastq.sh,
-Kallisto,protocols/Kallisto.sh,MergeFastq
