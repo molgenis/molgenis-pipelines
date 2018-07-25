@@ -26,7 +26,8 @@ ${checkStage}
 echo "## "$(date)" Start $0"
 echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
-mkdir -p ${sailfishDir}
+outDir=${sailfishDir}/${uniqueID}/
+mkdir -p $outDir
 
 
 if [ ${#reads2FqGz} -eq 0 ]; then
@@ -37,7 +38,7 @@ if [ ${#reads2FqGz} -eq 0 ]; then
         -i ${sailfishIndex} \
         -l ${libType} \
         -r <(gunzip -c $reads1FqGz) \
-        -o ${sailfishDir} \
+        -o $outDir} \
         --numBootstraps ${numBootstraps} \
         ${flags}
   then
@@ -52,7 +53,7 @@ else
         -i ${sailfishIndex} \
         -l ${libType} \
         -1 <(gunzip -c $reads1FqGz) -2 <(gunzip -c $reads2FqGz) \
-        -o ${sailfishDir} \
+        -o $outDir \
         --numBootstraps ${numBootstraps} \
         ${flags}
   then
