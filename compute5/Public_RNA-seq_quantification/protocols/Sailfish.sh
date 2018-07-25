@@ -34,11 +34,11 @@ if [ ${#reads2FqGz} -eq 0 ]; then
   # TODO: add a check if the libtype is compatible with the quant option
   if sailfish quant \
         -i sailfishIndex \
-        -l $libType \
-        -r $reads1FqGz \
-        -o $sailfishDir \
-        --numBootstraps $numBootstraps \
-        $flags
+        -l ${libType} \
+        -r ${reads1FqGz} \
+        -o ${sailfishDir} \
+        --numBootstraps ${numBootstraps} \
+        ${flags}
   then
     echo "returncode: $?";
   else
@@ -50,11 +50,11 @@ else
   echo "Paired end sailfish of ${reads1FqGz} and ${reads2FqGz}"
   if sailfish quant \
         -i sailfishIndex \
-        -l $libType \
+        -l ${libType} \
         -1 reads1FqGz -2 reads2FqGz \
-        -o $sailfishDir \
-        --numBootstraps $numBootstraps \
-        $flags
+        -o ${sailfishDir} \
+        --numBootstraps ${numBootstraps} \
+        ${flags}
   then
     echo "returncode: $?";
   else
