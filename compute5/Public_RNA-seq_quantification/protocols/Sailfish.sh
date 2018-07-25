@@ -35,7 +35,7 @@ if [ ${#reads2FqGz} -eq 0 ]; then
   if sailfish quant \
         -i ${sailfishIndex} \
         -l ${libType} \
-        -r ${reads1FqGz} \
+        -r <(decompressor ${reads1FqGz}) \
         -o ${sailfishDir} \
         --numBootstraps ${numBootstraps} \
         ${flags}
@@ -51,7 +51,7 @@ else
   if sailfish quant \
         -i ${sailfishIndex} \
         -l ${libType} \
-        -1 ${reads1FqGz} -2 ${reads2FqGz} \
+        -1 <(decompressor ${reads1FqGz}) -2 <(decompressor ${reads2FqGz}) \
         -o ${sailfishDir} \
         --numBootstraps ${numBootstraps} \
         ${flags}
