@@ -33,7 +33,7 @@ if [ ${#reads2FqGz} -eq 0 ]; then
   # don't know how to determine libType from the fastq files, so defined in parameter file..
   # TODO: add a check if the libtype is compatible with the quant option
   if sailfish quant \
-        -i sailfishIndex \
+        -i ${sailfishIndex} \
         -l ${libType} \
         -r ${reads1FqGz} \
         -o ${sailfishDir} \
