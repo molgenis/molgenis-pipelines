@@ -51,7 +51,7 @@ else
   if sailfish quant \
         -i ${sailfishIndex} \
         -l ${libType} \
-        -1 reads1FqGz -2 reads2FqGz \
+        -1 ${reads1FqGz} -2 ${reads2FqGz} \
         -o ${sailfishDir} \
         --numBootstraps ${numBootstraps} \
         ${flags}
