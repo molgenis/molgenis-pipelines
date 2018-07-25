@@ -42,11 +42,9 @@ if [ ${#reads2FqGz} -eq 0 ]; then
         ${flags}
   then
     echo "returncode: $?";
-    rm $tmpFastq1
   else
     echo "returncode: $?";
     echo "fail";
-    rm $tmpFastq1
     exit 1;
   fi
 else 
@@ -59,13 +57,9 @@ else
         ${flags}
   then
     echo "returncode: $?";
-    rm $tmpFastq1
-    rm $tmpFastq2
   else
     echo "returncode: $?";
     echo "fail";
-    rm $tmpFastq1
-    rm $tmpFastq2
     exit 1;
   fi
 fi
