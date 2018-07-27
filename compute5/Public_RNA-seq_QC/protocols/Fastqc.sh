@@ -45,7 +45,7 @@ then
  	  echo "returncode: $?"; 
 
 	  echo
-	  cp -v ${fastqcDir}/$(basename ${reads1FqGz} ${fastqExtension})${fastqcZipExt} ${singleEndfastqcZip}
+	  cp -v ${fastqcDir}/$(basename ${reads1FqGz}%${fastqExtension})${fastqcZipExt} ${singleEndfastqcZip}
 
 	##################################################################
 
@@ -58,6 +58,7 @@ then
 	else
  	  echo "returncode: $?";
  	  echo "fail";
+      exit 1;
 	fi
 
 else
@@ -73,7 +74,7 @@ else
 	--noextract ${reads1FqGz} \
 	--outdir ${fastqcDir}
 
-   cp -v ${fastqcDir}/$(basename ${reads1FqGz} ${fastqExtension})${fastqcZipExt} ${pairedEndfastqcZip1}
+    cp -v ${fastqcDir}/$(basename ${reads1FqGz%${fastqExtension}})${fastqcZipExt} ${pairedEndfastqcZip1}
 	echo
 	echo "## "$(date)" reads2FqGz"
 
@@ -85,7 +86,7 @@ else
  	  echo "returncode: $?";
 
 	  echo
-	  cp -v ${fastqcDir}/$(basename ${reads2FqGz} ${fastqExtension})${fastqcZipExt} ${pairedEndfastqcZip2}
+	  cp -v ${fastqcDir}/$(basename ${reads2FqGz%${fastqExtension}})${fastqcZipExt} ${pairedEndfastqcZip2}
 
 	##################################################################
 	  cd $OLDPWD
@@ -98,6 +99,7 @@ else
 	else
  	  echo "returncode: $?";
  	  echo "fail";
+      exit 1;
 	fi
 fi
 

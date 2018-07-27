@@ -3,7 +3,6 @@ module load Molgenis-Compute/v16.05.1-Java-1.8.0_45
 sh $EBROOTMOLGENISMINCOMPUTE/molgenis_compute.sh \
   --backend slurm \
   --generate \
-  --header /path/to/molgenis-pipelines/compute5/Public_RNA-seq_QC/templates/slurm/header.ftl \
   -p /groups/umcg-wijmenga/tmp04/umcg-ndeklein/molgenis-pipelines/compute5/Public_RNA-seq_QC/parameters.converted.csv \
   -p /groups/umcg-wijmenga/tmp04/umcg-ndeklein/samplesheets/samplesheet.csv \
   -w /groups/umcg-wijmenga/tmp04/umcg-ndeklein/molgenis-pipelines/compute5/Public_RNA-seq_QC/workflow.csv \

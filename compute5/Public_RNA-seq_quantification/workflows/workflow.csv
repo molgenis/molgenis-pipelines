@@ -1,0 +1,3 @@
+step,protocol,dependencies
+Kallisto,../protocols/Kallisto.sh,
+HtseqCount,../protocols/HtseqCount.sh,

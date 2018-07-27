@@ -11,7 +11,7 @@
 #string reads1FqGz
 #string reads2FqGz
 #string platform
-#string hisatAlignmentDir
+#string alignmentDir
 #string hisat2Version
 #string uniqueID
 #string samtoolsVersion
@@ -49,7 +49,7 @@ ${stage} hisat2/${hisat2Version}
 #check modules
 ${checkStage}
 
-mkdir -p ${hisatAlignmentDir}
+mkdir -p ${alignmentDir}
 
 echo "## "$(date)" Start $0"
 echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
@@ -68,7 +68,7 @@ if hisat2 -x ${referenceGenomeHisat2} \
   --rg PU:${sampleName}_${internalId}_${internalId} \
   --rg LB:${sampleName}_${internalId} \
   --rg SM:${sampleName} \
-  -S ${hisatAlignmentDir}${uniqueID}.sam $rnaStrandOption
+  -S ${alignmentDir}${uniqueID}.sam $rnaStrandOption
 then
   echo "returncode: $?";
   echo "succes moving files";
