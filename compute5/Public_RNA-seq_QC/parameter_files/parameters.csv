@@ -86,6 +86,7 @@ referenceGenomeHisat2,/apps/data/UMCG/Hisat2_index/human_g1k_v37_hisat2_index_17
 filteredBamDir,${projectDir}/filteredBam/
 filteredBam,${filteredBamDir}/${uniqueID}_unique_mapping_only.bam
 unfilteredBamDir,${projectDir}/unfilteredBam/
+unfilteredBam,${unfilteredBamDir}/${uniqueID}.bam
 rnaStrandness,unstranded
 ## SortBam
 sortedBamDir,${projectDir}/sortedBam/
