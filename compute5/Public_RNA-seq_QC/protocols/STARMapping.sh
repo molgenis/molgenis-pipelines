@@ -61,8 +61,8 @@ then
 		--runThreadN 8 \
 		--outFilterMultimapNmax 1 \
 		--outFilterMismatchNmax ${numMism} \
-		--twopassMode ${twoPassMethod}
-
+		--twopassMode ${twoPassMethod} \
+        --quantMode GeneCounts
 	starReturnCode=$?
 
 elif [ ${seqType} == "PE" ]
@@ -79,12 +79,12 @@ then
 		--runThreadN 8 \
 		--outFilterMultimapNmax 1 \
 		--outFilterMismatchNmax ${numMism} \
-		--twopassMode ${twoPassMethod}
+		--twopassMode ${twoPassMethod} \
+        --quantMode GeneCounts
 	starReturnCode=$?
-else 
+else
 	echo "Seqtype unknown"
 	exit 1
-	
 fi
 
 echo "STAR return code: ${starReturnCode}"
