@@ -93,14 +93,18 @@ if [ $starReturnCode -eq 0 ]
 then
 
 	for tempFile in ${TMPDIR}/${prefix}* ; do
-		finalFile=$(basename $tempFile)
-		echo "Moving temp file: ${tempFile} to ${alignmentDir}/${finalFile}"
-		mv $tempFile ${alignmentDir}/$finalFile
-        # STAR appends some extra stuff to filename, which makes it not match with HISAT in next steps
-        # therefore, rename it so that next steps can use same naming scheme
-        if [[ ${alignmentDir}/$finalFile == *.sam ]];
+        # exclude dir as they are tmpoutput
+        if [ ! -d "$tempFile" ];
         then
-            mv ${alignmentDir}/$finalFile ${alignmentDir}/${uniqueID}.sam
+    		finalFile=$(basename $tempFile)
+	    	echo "Moving temp file: ${tempFile} to ${alignmentDir}/${finalFile}"
+    		mv $tempFile ${alignmentDir}/$finalFile
+            # STAR appends some extra stuff to filename, which makes it not match with HISAT in next steps
+            # therefore, rename it so that next steps can use same naming scheme
+            if [[ ${alignmentDir}/$finalFile == *.sam ]];
+            then
+                mv ${alignmentDir}/$finalFile ${alignmentDir}/${uniqueID}.sam
+            fi
         fi
 	done
 else
