@@ -9,6 +9,7 @@
 #string uniqueID
 #string alignmentDir
 #string twoPassMethod
+#string unfilteredBamDir
 
 #Echo parameter values
 fastq1="${reads1FqGz}"
