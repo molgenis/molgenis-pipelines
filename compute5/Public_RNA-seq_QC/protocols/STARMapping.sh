@@ -25,6 +25,7 @@ module list
 echo -e "fastq1=${fastq1}\nfastq2=${fastq2}\nprefix=${prefix}\nSTARindex=${STARindex}"
 
 mkdir -p ${alignmentDir}
+mkdir -p ${unfilteredBamDir}
 
 if [ ${#reads2FqGz} -eq 0 ]; then
     seqType="SR"
