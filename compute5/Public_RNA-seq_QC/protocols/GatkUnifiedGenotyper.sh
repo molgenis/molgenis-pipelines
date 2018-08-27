@@ -71,13 +71,13 @@ if java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}GATK//${gatkVersion}/Genom
   -out_mode EMIT_ALL_SITES \
   -DMQ 60
 
-# have to gzip for GenometypeHarmonizer usage later
-bgzip -f ${rawVCF}
-tabix -f -p vcf ${rawVCF}.gz
 
 then
  echo "returncode: $?";
  echo "succes moving files";
+ # have to gzip for GenometypeHarmonizer usage later
+ bgzip -f ${rawVCF}
+ tabix -f -p vcf ${rawVCF}.gz
 else
  echo "returncode: $?";
  echo "fail";
