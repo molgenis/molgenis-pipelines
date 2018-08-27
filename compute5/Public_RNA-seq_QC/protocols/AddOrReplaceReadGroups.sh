@@ -11,9 +11,6 @@
 #string WORKDIR
 #string projectDir
 #string picardVersion
-#string addOrReplaceGroupsDir
-#string addOrReplaceGroupsBam
-#string addOrReplaceGroupsBai
 #string sortedBam
 #string toolDir
 #string uniqueID
