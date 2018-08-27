@@ -25,7 +25,7 @@ echo "## "$(date)" Start $0"
 
 tmpBam=$TMPDIR/$(basename ${sortedBam})
 
-if java -Xmx6g -XX:ParallelGCThreads=8 -jar $EBROOTPICARD/AddOrReplaceReadGroups.jar \
+java -Xmx6g -XX:ParallelGCThreads=8 -jar $EBROOTPICARD/AddOrReplaceReadGroups.jar \
  INPUT=${sortedBam} \
  OUTPUT=$tmpBam \
  SORT_ORDER=coordinate \
