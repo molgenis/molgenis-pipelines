@@ -1,0 +1,12 @@
+step,protocol,dependencies
+STARMapping,../protocols/STARMapping.sh,
+SamToFilteredBam,../protocols/SamToFilteredBam.sh,STARMapping
+FastQC,../protocols/Fastqc.sh,
+SortBam,../protocols/SortBam.sh,SamToFilteredBam
+AddReadGroup,../protocols/AddOrReplaceReadGroups.sh,SortBam
+GatkUnifiedGenotyper,../protocols/GatkUnifiedGenotyper.sh,AddReadGroup
+VerifyBamID,../protocols/VerifyBamID.sh,GatkUnifiedGenotyper
+VariantEval,../protocols/VariantEval.sh,GatkUnifiedGenotyper
+CollectRnaSeqMetrics,../protocols/CollectRnaSeqMetrics.sh,SortBam
+CollectMultipleMetrics,../protocols/CollectMultipleMetrics.sh,SortBam
+CreateCramFiles,../protocols/CreateCramFiles.sh,SamToFilteredBam
