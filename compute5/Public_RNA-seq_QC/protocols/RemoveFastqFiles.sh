@@ -25,6 +25,7 @@
 ${stage} picard/${picardVersion}
 ${stage} io_lib/${iolibVersion}
 ${stage} SAMtools/${samtoolsVersion}
+${stage} BEDTools/${betoolsVersion}
 
 #check modules
 ${checkStage}
