@@ -17,6 +17,7 @@ platform,ILLUMINA
 ########################################################################
 ## Software and data versions/builds
 #
+bedtoolsVersion,2.25.0-foss-2015b
 cutadaptVersion,1.8.1-foss-2015b-Python-2.7.9
 picardVersion,1.102-Java-1.7.0_80
 iolibVersion,1.14.6-foss-2015b
