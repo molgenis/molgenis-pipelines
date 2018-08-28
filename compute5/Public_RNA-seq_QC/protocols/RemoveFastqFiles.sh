@@ -16,6 +16,7 @@
 #string uniqueID
 #string reads1FqGz
 #string reads2FqGz
+#string samtoolsVersion
 
 
 # Get input file
