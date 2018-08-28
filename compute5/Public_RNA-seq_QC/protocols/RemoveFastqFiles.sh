@@ -17,7 +17,7 @@
 #string reads1FqGz
 #string reads2FqGz
 #string samtoolsVersion
-
+#string bedtoolsVersion
 
 # Get input file
 
