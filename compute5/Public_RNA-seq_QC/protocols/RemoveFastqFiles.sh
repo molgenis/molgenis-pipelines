@@ -25,7 +25,7 @@
 ${stage} picard/${picardVersion}
 ${stage} io_lib/${iolibVersion}
 ${stage} SAMtools/${samtoolsVersion}
-${stage} BEDTools/${betoolsVersion}
+${stage} BEDTools/${bedtoolsVersion}
 
 #check modules
 ${checkStage}
@@ -48,13 +48,13 @@ then
   if [ ${#reads2FqGz} -eq 0 ]; 
   then
     bedtools bamtofastq -i $TMPDIR/${uniqueID}.bam  \
-      -fq $TMPDIR/$(basename ${reads1FqGz} )
+      -fq $TMPDIR/$(basename ${reads1FqGz})
   else
     bedtools bamtofastq -i $TMPDIR/${uniqueID}.bam  \
       -fq $TMPDIR/$(basename ${reads1FqGz}) \
       -fq2 $TMPDIR/$(basename ${reads2FqGz})
-   echo "fastq lines: $(wc -l $TMPDIR/$(basename ${reads1FqGz})"
-   echo "BAM lines: $(samtools view $TMPDIR/${uniqueID}.bam | wc -l)"
+   echo 'fastq lines: $(wc -l $TMPDIR/$(basename ${reads1FqGz})'
+   echo 'BAM lines: $(samtools view $TMPDIR/${uniqueID}.bam | wc -l)'
  fi
  echo "returncode: $?";
  echo "succes moving files";
