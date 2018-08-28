@@ -34,7 +34,7 @@ echo "## "$(date)" Start $0"
 echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
 #Run scramble on 2 cores to do BAM -> CRAM conversion
-echo "Starting scramble BAM to CRAM conversion";
+echo "Starting scramble CRAM to BAM conversion";
 
 if scramble \
     -I cram \
@@ -50,7 +50,9 @@ then
     bedtools bamtofastq -i $TMPDIR/${uniqueID}.bam  \
       -fq $TMPDIR/$(basename ${reads1FqGz})
   else
-    bedtools bamtofastq -i $TMPDIR/${uniqueID}.bam  \
+    echo "Starting BAM to FASTQ conversion";
+    samtools sort -n $TMPDIR/${uniqueID}.bam $TMPDIR/${uniqueID}.sorted.bam
+    bedtools bamtofastq -i $TMPDIR/${uniqueID}.sorted.bam  \
       -fq $TMPDIR/$(basename ${reads1FqGz}) \
       -fq2 $TMPDIR/$(basename ${reads2FqGz})
    echo 'fastq lines: $(wc -l $TMPDIR/$(basename ${reads1FqGz})'
