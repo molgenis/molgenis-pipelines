@@ -9,3 +9,4 @@ VariantEval,../protocols/VariantEval.sh,GatkUnifiedGenotyper
 CollectRnaSeqMetrics,../protocols/CollectRnaSeqMetrics.sh,SortBam
 CollectMultipleMetrics,../protocols/CollectMultipleMetrics.sh,SortBam
 CreateCramFiles,../protocols/CreateCramFiles.sh,STARMapping
+RemoveFastqFiles,../protocols/RemoveFastqFiles.sh,CreateCramFiles
