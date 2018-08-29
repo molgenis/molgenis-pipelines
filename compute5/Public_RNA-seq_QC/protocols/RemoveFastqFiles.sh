@@ -46,7 +46,7 @@ if scramble \
     -t 1
 then
   echo "Starting BAM to FASTQ conversion: sort BAM file";
-  samtools sort -n $TMPDIR/${uniqueID}.bam $TMPDIR/${uniqueID}.sorted.bam
+  samtools sort -n -o $TMPDIR/${uniqueID}.sorted.bam $TMPDIR/${uniqueID}.bam 
   echo "count lines in BAM"
   bamlines=$(samtools view $TMPDIR/${uniqueID}.bam | wc -l)
   echo "Starting BAM to FASTQ conversion: convert sorted BAM file";
