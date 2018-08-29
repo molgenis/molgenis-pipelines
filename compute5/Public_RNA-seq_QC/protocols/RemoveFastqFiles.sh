@@ -50,8 +50,6 @@ then
     -n \
     -o $TMPDIR/${uniqueID}.sorted.bam \
     $TMPDIR/${uniqueID}.bam 
-  echo "count lines in BAM"
-  bamlines=$(samtools view $TMPDIR/${uniqueID}.bam | wc -l)
   echo "Starting BAM to FASTQ conversion: convert sorted BAM file";
   fq1NameGz=$(basename ${reads1FqGz}
   fq1Name=${fq1NameGz%gz}
@@ -85,7 +83,6 @@ then
 
   echo "originalFastq1Lines: $originalFastq1Lines"
   echo "originalFastq2lines: $originalFastq2lines"
-  echo "bamlines: $bamlines"
   if [ "$originalFastq1Lines" -eq "$fastq1Lines" ];
   then
     echo "Fastq1 same number of lines"
