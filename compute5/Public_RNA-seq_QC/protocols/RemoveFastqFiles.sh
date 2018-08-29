@@ -52,9 +52,9 @@ then
     $TMPDIR/${uniqueID}.bam 
   echo "Starting BAM to FASTQ conversion: convert sorted BAM file";
   fq1NameGz=$(basename $reads1FqGz)
-  fq1Name=${fq1NameGz%gz}
+  fq1Name=${fq1NameGz%.gz}
   fq2NameGz=$(basename $reads2FqGz)
-  fq2Name=${fq2NameGz%gz}
+  fq2Name=${fq2NameGz%.gz}
   if [ ${#reads2FqGz} -eq 0 ]; 
   then
     samtools fastq \
@@ -67,10 +67,10 @@ then
   else
     samtools fastq \
       -@ 4 \
-      -0 $TMPDIR/$fq1Name \
-      $TMPDIR/${uniqueID}.sorted.bam
       -1 $TMPDIR/$fq1Name \
-      -2 $TMPDIR/$fq2Name
+      -2 $TMPDIR/$fq2Name \
+      $TMPDIR/${uniqueID}.sorted.bam
+
     echo "count fastq lines"
     fastq1Lines=$(wc -l $TMPDIR/$fq1Name)
     fastq2Lines=$(wc -l $TMPDIR/$fq2Name)
