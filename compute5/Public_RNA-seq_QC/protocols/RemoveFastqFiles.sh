@@ -1,4 +1,4 @@
-#MOLGENIS nodes=1 ppn=4 mem=8gb walltime=08:00:00
+#MOLGENIS nodes=1 ppn=4 mem=10gb walltime=08:00:00
 
 ### variables to help adding to database (have to use weave)
 #string internalId
@@ -34,7 +34,7 @@ echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}
 
 #Run scramble on 2 cores to do BAM -> CRAM conversion
 echo "Convert fastq to unaligned BAM";
-${EBROOTPICARD}/picard.jar FastqToSam \
+java -jar -Xmx8g -Djava.io.tmpdir=${TMPDIR} -XX:ParallelGCThreads=3 ${EBROOTPICARD}/picard.jar FastqToSam \
         F1=$reads1FqGz \
         F2=$reads2FqGz \
         O=$TMPDIR/${uniqueID}.bam \
@@ -52,9 +52,10 @@ fi
   
 echo "Convert unaligned BAM to CRAM";
 samtools view -T $onekgGenomeFasta \
-                -C \
-                -o  ${cramFileDir}${uniqueID}.cram \ 
-                $TMPDIR/${uniqueID}.bam
+    -@ 4 \
+    -C \
+    -o  ${cramFileDir}${uniqueID}.cram \ 
+    $TMPDIR/${uniqueID}.bam
 returnCode=$?
 echo "returncode: $returnCode";
 if [ $returnCode -eq 0 ]
