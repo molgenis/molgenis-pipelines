@@ -45,36 +45,46 @@ if scramble \
     $TMPDIR/${uniqueID}.bam \
     -t 1
 then
+  echo "Starting BAM to FASTQ conversion: sort BAM file";
+  samtools sort -n $TMPDIR/${uniqueID}.bam $TMPDIR/${uniqueID}.sorted.bam
+  echo "count lines in BAM"
+  bamlines=$(samtools view $TMPDIR/${uniqueID}.bam | wc -l)
+  echo "Starting BAM to FASTQ conversion: convert sorted BAM file";
+
   if [ ${#reads2FqGz} -eq 0 ]; 
   then
+  
     bedtools bamtofastq -i $TMPDIR/${uniqueID}.bam  \
       -fq $TMPDIR/$(basename ${reads1FqGz})
+    fastq1Lines=$(wc -l $TMPDIR/$(basename ${reads1FqGz})
+    echo "fastq1Lines: $fastq1Lines"
+    totalLines=$fastq1Lines
   else
-    echo "Starting BAM to FASTQ conversion: sort BAM file";
-    samtools sort -n $TMPDIR/${uniqueID}.bam $TMPDIR/${uniqueID}.sorted.bam
-    echo "Starting BAM to FASTQ conversion: convert sorted BAM file";
     bedtools bamtofastq -i $TMPDIR/${uniqueID}.sorted.bam  \
       -fq $TMPDIR/$(basename ${reads1FqGz}) \
       -fq2 $TMPDIR/$(basename ${reads2FqGz})
-   fastqLines=$(wc -l $TMPDIR/$(basename ${reads1FqGz})
-   bamlines=$(samtools view $TMPDIR/${uniqueID}.bam | wc -l)
-   echo "fastqLines: $fastqLines"
-   echo "bamlines: $bamlines"
-   if [ "$fastqLines" -eq "$bamlines" ];
-   then
-        echo "Same number of lines, removing fastq"
-        echo "rm $reads1FqGz"
-        echo "rm $reads2FqGz"
-    else
-        echo "ERROR: different number of lines"
-        exit 1;
-    fi
- fi
- echo "returncode: $?";
- echo "succes moving files";
+    fastq1Lines=$(wc -l $TMPDIR/$(basename ${reads1FqGz})
+    fastq2Lines=$(wc -l $TMPDIR/$(basename ${reads2FqGz})
+    echo "fastq1Lines: $fastq1Lines"
+    echo "fastq2Lines: $fastq2Lines"
+    totalLines=`expr "$fastq1Lines" + "$fastq2Lines"`
+  fi
+  echo "totalLines: $totalLines"
+  echo "bamlines: $bamlines"
+  if [ "$totalLines" -eq "$bamlines" ];
+  then
+    echo "Same number of lines, removing fastq"
+    echo "rm $reads1FqGz"
+    echo "rm $reads2FqGz"
+  else
+    echo "ERROR: different number of lines"
+    exit 1;
+  fi
+  echo "returncode: $?";
+  echo "succes removing files";
 else
  echo "returncode: $?";
- echo "fail";
+ echo "scramble failed";
  exit 1;
 fi
 
