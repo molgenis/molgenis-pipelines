@@ -50,22 +50,24 @@ then
   echo "count lines in BAM"
   bamlines=$(samtools view $TMPDIR/${uniqueID}.bam | wc -l)
   echo "Starting BAM to FASTQ conversion: convert sorted BAM file";
-
+  fq1NameGz=$(basename ${reads1FqGz}
+  fq1Name=${fq1NameGz%gz}
+  fq2NameGz=$(basename ${reads2FqGz}
+  fq2Name=${fq2NameGz%gz}
   if [ ${#reads2FqGz} -eq 0 ]; 
   then
-  
     bedtools bamtofastq -i $TMPDIR/${uniqueID}.bam  \
-      -fq $TMPDIR/$(basename ${reads1FqGz})
+      -fq $TMPDIR/$fq1Name)
     echo "count fastq lines"
-    fastq1Lines=$(wc -l $TMPDIR/$(basename ${reads1FqGz}))
+    fastq1Lines=$(wc -l $TMPDIR/$fq1Name)
     echo "fastq1Lines: $fastq1Lines"
   else
     bedtools bamtofastq -i $TMPDIR/${uniqueID}.sorted.bam  \
-      -fq $TMPDIR/$(basename ${reads1FqGz}) \
-      -fq2 $TMPDIR/$(basename ${reads2FqGz})
+      -fq $TMPDIR/$fq1Name \
+      -fq2 $TMPDIR/$fq2Name
     echo "count fastq lines"
-    fastq1Lines=$(wc -l $TMPDIR/$(basename ${reads1FqGz}))
-    fastq2Lines=$(wc -l $TMPDIR/$(basename ${reads2FqGz}))
+    fastq1Lines=$(wc -l $TMPDIR/$fq1Name)
+    fastq2Lines=$(wc -l $TMPDIR/$fq2Name)
     echo "fastq1Lines: $fastq1Lines"
     echo "fastq2Lines: $fastq2Lines"
     originalFastq2lines=$(wc -l ${reads2FqGz})
