@@ -19,7 +19,7 @@ platform,ILLUMINA
 #
 bedtoolsVersion,2.25.0-foss-2015b
 cutadaptVersion,1.8.1-foss-2015b-Python-2.7.9
-picardVersion,1.102-Java-1.7.0_80
+picardVersion,2.10.0-foss-2015b-Java-1.8.0_74
 iolibVersion,1.14.6-foss-2015b
 genotypeIOVersion,1.0.2
 verifyBamVersion,1.1.3

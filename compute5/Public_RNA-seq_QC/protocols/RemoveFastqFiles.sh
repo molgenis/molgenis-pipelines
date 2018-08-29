@@ -34,7 +34,7 @@ echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}
 
 #Run scramble on 2 cores to do BAM -> CRAM conversion
 echo "Convert fastq to unaligned BAM";
-picard FastqToSam \
+${EBROOTPICARD}/picard.jar FastqToSam \
         F1=$reads1FqGz \
         F2=$reads2FqGz \
         O=$TMPDIR/${uniqueID}.bam \
