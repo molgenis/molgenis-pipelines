@@ -56,15 +56,15 @@ then
   
     bedtools bamtofastq -i $TMPDIR/${uniqueID}.bam  \
       -fq $TMPDIR/$(basename ${reads1FqGz})
-    fastq1Lines=$(wc -l $TMPDIR/$(basename ${reads1FqGz})
+    fastq1Lines=$(wc -l $TMPDIR/$(basename ${reads1FqGz}))
     echo "fastq1Lines: $fastq1Lines"
     totalLines=$fastq1Lines
   else
     bedtools bamtofastq -i $TMPDIR/${uniqueID}.sorted.bam  \
       -fq $TMPDIR/$(basename ${reads1FqGz}) \
       -fq2 $TMPDIR/$(basename ${reads2FqGz})
-    fastq1Lines=$(wc -l $TMPDIR/$(basename ${reads1FqGz})
-    fastq2Lines=$(wc -l $TMPDIR/$(basename ${reads2FqGz})
+    fastq1Lines=$(wc -l $TMPDIR/$(basename ${reads1FqGz}))
+    fastq2Lines=$(wc -l $TMPDIR/$(basename ${reads2FqGz}))
     echo "fastq1Lines: $fastq1Lines"
     echo "fastq2Lines: $fastq2Lines"
     totalLines=`expr "$fastq1Lines" + "$fastq2Lines"`
