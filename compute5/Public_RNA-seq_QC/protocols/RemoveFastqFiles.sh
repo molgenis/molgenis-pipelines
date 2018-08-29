@@ -1,4 +1,4 @@
-#MOLGENIS nodes=1 ppn=1 mem=8gb walltime=08:00:00
+#MOLGENIS nodes=1 ppn=4 mem=8gb walltime=08:00:00
 
 ### variables to help adding to database (have to use weave)
 #string internalId
@@ -25,7 +25,6 @@
 ${stage} picard/${picardVersion}
 ${stage} io_lib/${iolibVersion}
 ${stage} SAMtools/${samtoolsVersion}
-${stage} BEDTools/${bedtoolsVersion}
 
 #check modules
 ${checkStage}
@@ -43,10 +42,14 @@ if scramble \
     -r ${onekgGenomeFasta} \
     ${cramFileDir}${uniqueID}.cram \
     $TMPDIR/${uniqueID}.bam \
-    -t 1
+    -t 4
 then
   echo "Starting BAM to FASTQ conversion: sort BAM file";
-  samtools sort -n -o $TMPDIR/${uniqueID}.sorted.bam $TMPDIR/${uniqueID}.bam 
+  samtools sort \
+    -@ 4 \
+    -n \
+    -o $TMPDIR/${uniqueID}.sorted.bam \
+    $TMPDIR/${uniqueID}.bam 
   echo "count lines in BAM"
   bamlines=$(samtools view $TMPDIR/${uniqueID}.bam | wc -l)
   echo "Starting BAM to FASTQ conversion: convert sorted BAM file";
@@ -56,15 +59,20 @@ then
   fq2Name=${fq2NameGz%gz}
   if [ ${#reads2FqGz} -eq 0 ]; 
   then
-    bedtools bamtofastq -i $TMPDIR/${uniqueID}.bam  \
-      -fq $TMPDIR/$fq1Name)
+    samtools fastq \
+      -@ 4 \
+      -0 $TMPDIR/$fq1Name \
+      $TMPDIR/${uniqueID}.sorted.bam
     echo "count fastq lines"
     fastq1Lines=$(wc -l $TMPDIR/$fq1Name)
     echo "fastq1Lines: $fastq1Lines"
   else
-    bedtools bamtofastq -i $TMPDIR/${uniqueID}.sorted.bam  \
-      -fq $TMPDIR/$fq1Name \
-      -fq2 $TMPDIR/$fq2Name
+    samtools fastq \
+      -@ 4 \
+      -0 $TMPDIR/$fq1Name \
+      $TMPDIR/${uniqueID}.sorted.bam
+      -1 $TMPDIR/$fq1Name \
+      -2 $TMPDIR/$fq2Name
     echo "count fastq lines"
     fastq1Lines=$(wc -l $TMPDIR/$fq1Name)
     fastq2Lines=$(wc -l $TMPDIR/$fq2Name)
