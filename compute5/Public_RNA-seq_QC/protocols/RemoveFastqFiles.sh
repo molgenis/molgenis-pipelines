@@ -51,9 +51,9 @@ then
     -o $TMPDIR/${uniqueID}.sorted.bam \
     $TMPDIR/${uniqueID}.bam 
   echo "Starting BAM to FASTQ conversion: convert sorted BAM file";
-  fq1NameGz=$(basename ${reads1FqGz}
+  fq1NameGz=$(basename $reads1FqGz)
   fq1Name=${fq1NameGz%gz}
-  fq2NameGz=$(basename ${reads2FqGz}
+  fq2NameGz=$(basename $reads2FqGz)
   fq2Name=${fq2NameGz%gz}
   if [ ${#reads2FqGz} -eq 0 ]; 
   then

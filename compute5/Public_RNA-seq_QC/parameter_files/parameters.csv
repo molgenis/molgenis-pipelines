@@ -38,7 +38,7 @@ genomeGrchBuild,GRCh37
 human_g1k_vers,37
 ensemblVersion,75
 RVersion,3.2.1-foss-2015b
-samtoolsVersion,1.2-foss-2015b
+samtoolsVersion,1.5-foss-2015b
 genomeLatSpecies,Homo_sapiens
 starVersion,2.5.1b-foss-2015b
 dbsnpVcf,${resDir}/dbSNP/dbsnp_138.b37.vcf
