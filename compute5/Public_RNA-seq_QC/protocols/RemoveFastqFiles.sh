@@ -56,28 +56,43 @@ then
   
     bedtools bamtofastq -i $TMPDIR/${uniqueID}.bam  \
       -fq $TMPDIR/$(basename ${reads1FqGz})
+    echo "count fastq lines"
     fastq1Lines=$(wc -l $TMPDIR/$(basename ${reads1FqGz}))
     echo "fastq1Lines: $fastq1Lines"
-    totalLines=$fastq1Lines
   else
     bedtools bamtofastq -i $TMPDIR/${uniqueID}.sorted.bam  \
       -fq $TMPDIR/$(basename ${reads1FqGz}) \
       -fq2 $TMPDIR/$(basename ${reads2FqGz})
+    echo "count fastq lines"
     fastq1Lines=$(wc -l $TMPDIR/$(basename ${reads1FqGz}))
     fastq2Lines=$(wc -l $TMPDIR/$(basename ${reads2FqGz}))
     echo "fastq1Lines: $fastq1Lines"
     echo "fastq2Lines: $fastq2Lines"
-    totalLines=`expr "$fastq1Lines" + "$fastq2Lines"`
+    originalFastq2lines=$(wc -l ${reads2FqGz})
   fi
-  echo "totalLines: $totalLines"
+  echo "count original fastq lines"
+  originalFastq1Lines=$(wc -l ${reads1FqGz})
+
+  echo "originalFastq1Lines: $originalFastq1Lines"
+  echo "originalFastq2lines: $originalFastq2lines"
   echo "bamlines: $bamlines"
-  if [ "$totalLines" -eq "$bamlines" ];
+  if [ "$originalFastq1Lines" -eq "$fastq1Lines" ];
   then
-    echo "Same number of lines, removing fastq"
+    echo "Fastq1 same number of lines"
+    if [ ${#reads2FqGz} -eq 0 ]; 
+    then
+      if [ "$originalFastq2Lines" -eq "$fastq2Lines" ];
+      then
+        echo "Fastq2 same number of lines"
+        echo "rm $reads2FqGz"
+      else
+        echo "ERROR: Fastq2 not same number of lines"
+        exit 1;
+      fi
+    fi
     echo "rm $reads1FqGz"
-    echo "rm $reads2FqGz"
   else
-    echo "ERROR: different number of lines"
+    echo "ERROR: Fastq1 not same number of lines"
     exit 1;
   fi
   echo "returncode: $?";
