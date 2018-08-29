@@ -1,4 +1,4 @@
-#MOLGENIS nodes=1 ppn=2 mem=8gb walltime=08:00:00
+#MOLGENIS nodes=1 ppn=1 mem=8gb walltime=08:00:00
 
 ### variables to help adding to database (have to use weave)
 #string internalId
@@ -43,20 +43,32 @@ if scramble \
     -r ${onekgGenomeFasta} \
     ${cramFileDir}${uniqueID}.cram \
     $TMPDIR/${uniqueID}.bam \
-    -t 2
+    -t 1
 then
   if [ ${#reads2FqGz} -eq 0 ]; 
   then
     bedtools bamtofastq -i $TMPDIR/${uniqueID}.bam  \
       -fq $TMPDIR/$(basename ${reads1FqGz})
   else
-    echo "Starting BAM to FASTQ conversion";
+    echo "Starting BAM to FASTQ conversion: sort BAM file";
     samtools sort -n $TMPDIR/${uniqueID}.bam $TMPDIR/${uniqueID}.sorted.bam
+    echo "Starting BAM to FASTQ conversion: convert sorted BAM file";
     bedtools bamtofastq -i $TMPDIR/${uniqueID}.sorted.bam  \
       -fq $TMPDIR/$(basename ${reads1FqGz}) \
       -fq2 $TMPDIR/$(basename ${reads2FqGz})
-   echo 'fastq lines: $(wc -l $TMPDIR/$(basename ${reads1FqGz})'
-   echo 'BAM lines: $(samtools view $TMPDIR/${uniqueID}.bam | wc -l)'
+   fastqLines=$(wc -l $TMPDIR/$(basename ${reads1FqGz})
+   bamlines=$(samtools view $TMPDIR/${uniqueID}.bam | wc -l)
+   echo "fastqLines: $fastqLines"
+   echo "bamlines: $bamlines"
+   if [ "$fastqLines" -eq "$bamlines" ];
+   then
+        echo "Same number of lines, removing fastq"
+        echo "rm $reads1FqGz"
+        echo "rm $reads2FqGz"
+    else
+        echo "ERROR: different number of lines"
+        exit 1;
+    fi
  fi
  echo "returncode: $?";
  echo "succes moving files";
