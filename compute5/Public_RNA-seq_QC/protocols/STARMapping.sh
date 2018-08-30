@@ -9,6 +9,7 @@
 #string uniqueID
 #string alignmentDir
 #string twoPassMethod
+#string unfilteredBamDir
 
 #Echo parameter values
 fastq1="${reads1FqGz}"
@@ -24,6 +25,7 @@ module list
 echo -e "fastq1=${fastq1}\nfastq2=${fastq2}\nprefix=${prefix}\nSTARindex=${STARindex}"
 
 mkdir -p ${alignmentDir}
+mkdir -p ${unfilteredBamDir}
 
 if [ ${#reads2FqGz} -eq 0 ]; then
     seqType="SR"
@@ -61,8 +63,8 @@ then
 		--runThreadN 8 \
 		--outFilterMultimapNmax 1 \
 		--outFilterMismatchNmax ${numMism} \
-		--twopassMode ${twoPassMethod}
-
+		--twopassMode ${twoPassMethod} \
+        --quantMode GeneCounts
 	starReturnCode=$?
 
 elif [ ${seqType} == "PE" ]
@@ -79,12 +81,12 @@ then
 		--runThreadN 8 \
 		--outFilterMultimapNmax 1 \
 		--outFilterMismatchNmax ${numMism} \
-		--twopassMode ${twoPassMethod}
+		--twopassMode ${twoPassMethod} \
+        --quantMode GeneCounts
 	starReturnCode=$?
-else 
+else
 	echo "Seqtype unknown"
 	exit 1
-	
 fi
 
 echo "STAR return code: ${starReturnCode}"
@@ -93,14 +95,18 @@ if [ $starReturnCode -eq 0 ]
 then
 
 	for tempFile in ${TMPDIR}/${prefix}* ; do
-		finalFile=$(basename $tempFile)
-		echo "Moving temp file: ${tempFile} to ${alignmentDir}/${finalFile}"
-		mv $tempFile ${alignmentDir}/$finalFile
-        # STAR appends some extra stuff to filename, which makes it not match with HISAT in next steps
-        # therefore, rename it so that next steps can use same naming scheme
-        if [[ ${alignmentDir}/$finalFile == *.sam ]];
+        # exclude dir as they are tmpoutput
+        if [ ! -d "$tempFile" ];
         then
-            mv ${alignmentDir}/$finalFile ${alignmentDir}/${uniqueID}.sam
+    		finalFile=$(basename $tempFile)
+	    	echo "Moving temp file: ${tempFile} to ${alignmentDir}/${finalFile}"
+    		mv $tempFile ${alignmentDir}/$finalFile
+            # STAR appends some extra stuff to filename, which makes it not match with HISAT in next steps
+            # therefore, rename it so that next steps can use same naming scheme
+            if [[ ${alignmentDir}/$finalFile == *.sam ]];
+            then
+                mv ${alignmentDir}/$finalFile ${alignmentDir}/${uniqueID}.sam
+            fi
         fi
 	done
 else
