@@ -116,13 +116,16 @@ fi
 echo "count original fastq lines"
 originalFastq1Lines=$(zcat ${reads1FqGz} | wc -l)
 
-echo "originalFastq1Lines: $originalFastq1Lines"
-echo "originalFastq2lines: $originalFastq2lines"
+
+    echo "originalFastq1Lines: $originalFastq1Lines"
 if [ "$originalFastq1Lines" -eq "$fastq1Lines" ];
 then
   echo "Fastq1 same number of lines"
   if [ ${#reads2FqGz} -eq 0 ];
   then
+    :
+  else
+      echo "originalFastq2lines: $originalFastq2lines"
     if [ "$originalFastq2Lines" -eq "$fastq2Lines" ];
     then
       echo "Fastq2 same number of lines"
