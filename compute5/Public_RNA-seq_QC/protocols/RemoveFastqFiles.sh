@@ -1,4 +1,4 @@
-#MOLGENIS nodes=1 ppn=4 mem=10gb walltime=08:00:00
+#MOLGENIS nodes=1 ppn=4 mem=8gb walltime=08:00:00
 
 ### variables to help adding to database (have to use weave)
 #string internalId
@@ -33,79 +33,97 @@ echo "## "$(date)" Start $0"
 echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
 #Run scramble on 2 cores to do BAM -> CRAM conversion
-echo "Convert fastq to unaligned BAM";
-java -jar -Xmx8g -Djava.io.tmpdir=${TMPDIR} -XX:ParallelGCThreads=3 ${EBROOTPICARD}/picard.jar FastqToSam \
-        F1=$reads1FqGz \
-        F2=$reads2FqGz \
-        O=$TMPDIR/${uniqueID}.bam \
-        SM=$uniqueID
+echo "Starting scramble CRAM to BAM conversion";
+
+scramble \
+    -I cram \
+    -O bam \
+    -m \
+    -r ${onekgGenomeFasta} \
+    ${cramFileDir}${uniqueID}.cram \
+    $TMPDIR/${uniqueID}.bam \
+    -t 4
 
 returnCode=$?
 echo "returncode: $returnCode";
 if [ $returnCode -eq 0 ]
 then
-  echo "convert fastq to unalligned BAM successful"
+  echo "convert CRAM to BAM successful"
 else
-  echo "ERROR: couldn't convert to fastq to unalligned BAM"
+  echo "ERROR: couldn't convert to CRAM to BAM"
   exit 1;
 fi
-  
-echo "Convert unaligned BAM to CRAM";
-samtools view -T $onekgGenomeFasta \
+
+echo "Starting BAM to FASTQ conversion: sort BAM file";
+samtools sort \
     -@ 4 \
-    -C \
-    -o  ${cramFileDir}${uniqueID}.cram \ 
+    -n \
+    -o $TMPDIR/${uniqueID}.sorted.bam \
     $TMPDIR/${uniqueID}.bam
+
 returnCode=$?
 echo "returncode: $returnCode";
 if [ $returnCode -eq 0 ]
 then
-  echo "convert to cram successful"
+  echo "sorting BAM successful"
 else
-  echo "ERROR: couldn't convert to cram"
+  echo "ERROR: couldn't sort BAM"
   exit 1;
 fi
-                
-echo "Convert CRAM to fastq";
+
+# get the filenames from the full path
 fq1NameGz=$(basename $reads1FqGz)
 fq1Name=${fq1NameGz%.gz}
 fq2NameGz=$(basename $reads2FqGz)
 fq2Name=${fq2NameGz%.gz}
-samtools fastq \
-    -@ 4 \
-    -1 $TMPDIR/$fq1Name \
-    -2 $TMPDIR/$fq2Name \
-    $TMPDIR/${uniqueID}.bam
+
+echo "Starting BAM to FASTQ conversion: convert sorted BAM file"
+if [ ${#reads2FqGz} -eq 0 ];
+then
+  samtools fastq \
+      -@ 4 \
+      -0 $TMPDIR/$fq1Name \
+      $TMPDIR/${uniqueID}.sorted.bam
+    echo "count fastq lines"
+    fastq1Lines=$(wc -l $TMPDIR/$fq1Name)
+    echo "fastq1Lines: $fastq1Lines"
+else
+  samtools fastq \
+      -@ 4 \
+      -1 $TMPDIR/$fq1Name \
+      -2 $TMPDIR/$fq2Name \
+      $TMPDIR/${uniqueID}.sorted.bam
+
+  echo "count fastq lines"
+  fastq1Lines=$(wc -l $TMPDIR/$fq1Name)
+  fastq2Lines=$(wc -l $TMPDIR/$fq2Name)
+  echo "fastq1Lines: $fastq1Lines"
+  echo "fastq2Lines: $fastq2Lines"
+  originalFastq2lines=$(zcat ${reads2FqGz} | wc -l)
+fi
+
 returnCode=$?
 echo "returncode: $returnCode";
 if [ $returnCode -eq 0 ]
 then
-  echo "convert CRAM to fastq successful"
+  echo "convert BAM to fastq successful"
 else
-  echo "ERROR: couldn't convert cram to fastq"
+  echo "ERROR: couldn't convert BAM to fastq"
   exit 1;
 fi
 
 
-echo "count fastq lines"
-fastq1Lines=$(wc -l $TMPDIR/$fq1Name)
-fastq2Lines=$(wc -l $TMPDIR/$fq2Name)
-echo "fastq1Lines: $fastq1Lines"
-echo "fastq2Lines: $fastq2Lines"
-
 echo "count original fastq lines"
-originalFastq1Lines=$(wc -l ${reads1FqGz})
-originalFastq2Lines=$(wc -l ${reads2FqGz})
+originalFastq1Lines=$(zcat ${reads1FqGz} | wc -l)
 
 echo "originalFastq1Lines: $originalFastq1Lines"
 echo "originalFastq2lines: $originalFastq2lines"
-  
 if [ "$originalFastq1Lines" -eq "$fastq1Lines" ];
 then
   echo "Fastq1 same number of lines"
-  if [ ${#reads2FqGz} -eq 0 ]; 
+  if [ ${#reads2FqGz} -eq 0 ];
   then
-  if [ "$originalFastq2Lines" -eq "$fastq2Lines" ];
+    if [ "$originalFastq2Lines" -eq "$fastq2Lines" ];
     then
       echo "Fastq2 same number of lines"
       echo "rm $reads2FqGz"
@@ -115,17 +133,13 @@ then
     fi
   fi
   echo "rm $reads1FqGz"
-  else
-    echo "ERROR: Fastq1 not same number of lines"
-    exit 1;
-  fi
-  echo "returncode: $?";
-  echo "succes removing files";
 else
- echo "returncode: $?";
- echo "scramble failed";
- exit 1;
+  echo "ERROR: Fastq1 not same number of lines"
+  exit 1;
 fi
+
+echo "final returncode: $?";
+echo "succes removing files";
 
 
 echo "## "$(date)" ##  $0 Done "
