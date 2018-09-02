@@ -85,7 +85,7 @@ then
       -0 $TMPDIR/$fq1Name \
       $TMPDIR/${uniqueID}.sorted.bam
     echo "count fastq lines"
-    fastq1Lines=$(wc -l $TMPDIR/$fq1Name)
+    fastq1Lines=$(cat $TMPDIR/$fq1Name | wc -l)
     echo "fastq1Lines: $fastq1Lines"
 else
   samtools fastq \
@@ -95,8 +95,8 @@ else
       $TMPDIR/${uniqueID}.sorted.bam
 
   echo "count fastq lines"
-  fastq1Lines=$(wc -l $TMPDIR/$fq1Name)
-  fastq2Lines=$(wc -l $TMPDIR/$fq2Name)
+  fastq1Lines=$(cat $TMPDIR/$fq1Name | wc -l)
+  fastq2Lines=$(cat $TMPDIR/$fq2Name | wc -l)
   echo "fastq1Lines: $fastq1Lines"
   echo "fastq2Lines: $fastq2Lines"
   originalFastq2lines=$(zcat ${reads2FqGz} | wc -l)
@@ -117,7 +117,7 @@ echo "count original fastq lines"
 originalFastq1Lines=$(zcat ${reads1FqGz} | wc -l)
 
 
-    echo "originalFastq1Lines: $originalFastq1Lines"
+echo "originalFastq1Lines: $originalFastq1Lines"
 if [ "$originalFastq1Lines" -eq "$fastq1Lines" ];
 then
   echo "Fastq1 same number of lines"
