@@ -54,12 +54,30 @@ else
   exit 1;
 fi
 
-echo "Starting BAM to FASTQ conversion: sort BAM file";
-samtools sort \
-    -@ 4 \
-    -n \
-    -o $TMPDIR/${uniqueID}.sorted.bam \
-    $TMPDIR/${uniqueID}.bam
+#echo "Starting BAM to FASTQ conversion: sort BAM file";
+#samtools sort \
+#    -@ 4 \
+#    -n \
+#    -o $TMPDIR/${uniqueID}.sorted.bam \
+#    $TMPDIR/${uniqueID}.bam
+
+
+# from https://gatkforums.broadinstitute.org/firecloud/discussion/6484
+echo "Starting BAM to FASTQ conversion: make unaligned BAM file";
+java -Xmx8G -jar -XX:ParallelGCThreads=4 ${EBROOTPICARD}/picard.jar RevertSam \
+    I=$TMPDIR/${uniqueID}.bam \
+    O=$TMPDIR/${uniqueID}.revertSam.bam \
+    SANITIZE=true \
+    MAX_DISCARD_FRACTION=0.005 \ #informational; does not affect processing
+    ATTRIBUTE_TO_CLEAR=XT \
+    ATTRIBUTE_TO_CLEAR=XN \
+    ATTRIBUTE_TO_CLEAR=AS \ #Picard release of 9/2015 clears AS by default
+    ATTRIBUTE_TO_CLEAR=OC \
+    ATTRIBUTE_TO_CLEAR=OP \
+    SORT_ORDER=queryname \ #default
+    RESTORE_ORIGINAL_QUALITIES=true \ #default
+    REMOVE_DUPLICATE_INFORMATION=true \ #default
+    REMOVE_ALIGNMENT_INFORMATION=true #default
 
 returnCode=$?
 echo "returncode: $returnCode";
@@ -77,13 +95,14 @@ fq1Name=${fq1NameGz%.gz}
 fq2NameGz=$(basename $reads2FqGz)
 fq2Name=${fq2NameGz%.gz}
 
-echo "Starting BAM to FASTQ conversion: convert sorted BAM file"
+echo "Starting BAM to FASTQ conversion: convert unaligned BAM file to fastq"
 if [ ${#reads2FqGz} -eq 0 ];
 then
   samtools fastq \
       -@ 4 \
       -0 $TMPDIR/$fq1Name \
-      $TMPDIR/${uniqueID}.sorted.bam
+      $TMPDIR/${uniqueID}.revertSam.bam
+#      $TMPDIR/${uniqueID}.sorted.bam
     echo "count fastq lines"
     fastq1Lines=$(cat $TMPDIR/$fq1Name | wc -l)
     echo "fastq1Lines: $fastq1Lines"
@@ -92,7 +111,8 @@ else
       -@ 4 \
       -1 $TMPDIR/$fq1Name \
       -2 $TMPDIR/$fq2Name \
-      $TMPDIR/${uniqueID}.sorted.bam
+      $TMPDIR/${uniqueID}.revertSam.bam
+#      $TMPDIR/${uniqueID}.sorted.bam
 
   echo "count fastq lines"
   fastq1Lines=$(cat $TMPDIR/$fq1Name | wc -l)
