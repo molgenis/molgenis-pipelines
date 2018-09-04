@@ -33,7 +33,7 @@ echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}
 
 #Use old picard instead of new one "picard.jar FixMateInformation"
 java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${tmpCramFileDir} \
- -jar $EBROOTPICARD/FixMateInformation.jar \
+ -jar $EBROOTPICARD/picard.jar FixMateInformation \
  INPUT=${unfilteredBamDir}/${uniqueID}.bam \
  OUTPUT=${tmpCramFileDir}${uniqueID}.fixmates.bam \
  VALIDATION_STRINGENCY=LENIENT \
