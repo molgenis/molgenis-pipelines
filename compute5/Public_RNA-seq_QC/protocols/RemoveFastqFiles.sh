@@ -61,23 +61,11 @@ fi
 #    -o $TMPDIR/${uniqueID}.sorted.bam \
 #    $TMPDIR/${uniqueID}.bam
 
-
-# from https://gatkforums.broadinstitute.org/firecloud/discussion/6484
 echo "Starting BAM to FASTQ conversion: make unaligned BAM file";
 java -Xmx8G -jar -XX:ParallelGCThreads=4 ${EBROOTPICARD}/picard.jar RevertSam \
     I=$TMPDIR/${uniqueID}.bam \
     O=$TMPDIR/${uniqueID}.revertSam.bam \
-    SANITIZE=true \
-    MAX_DISCARD_FRACTION=0.005 \ #informational; does not affect processing
-    ATTRIBUTE_TO_CLEAR=XT \
-    ATTRIBUTE_TO_CLEAR=XN \
-    ATTRIBUTE_TO_CLEAR=AS \ #Picard release of 9/2015 clears AS by default
-    ATTRIBUTE_TO_CLEAR=OC \
-    ATTRIBUTE_TO_CLEAR=OP \
-    SORT_ORDER=queryname \ #default
-    RESTORE_ORIGINAL_QUALITIES=true \ #default
-    REMOVE_DUPLICATE_INFORMATION=true \ #default
-    REMOVE_ALIGNMENT_INFORMATION=true #default
+    VALIDATION_STRINGENCY=LENIENT
 
 returnCode=$?
 echo "returncode: $returnCode";
