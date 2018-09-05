@@ -60,6 +60,7 @@ samtools sort \
     -n \
     -o $TMPDIR/${uniqueID}.sorted.bam \
     $TMPDIR/${uniqueID}.bam
+rm $TMPDIR/${uniqueID}.bam
 
 returnCode=$?
 echo "returncode: $returnCode";
