@@ -100,7 +100,7 @@ else
   fastq2Lines=$(cat $TMPDIR/$fq2Name | wc -l)
   echo "fastq1Lines: $fastq1Lines"
   echo "fastq2Lines: $fastq2Lines"
-  originalFastq2lines=$(zcat ${reads2FqGz} | wc -l)
+  originalFastq2Lines=$(zcat ${reads2FqGz} | wc -l)
 fi
 
 returnCode=$?
@@ -126,7 +126,7 @@ then
   then
     :
   else
-      echo "originalFastq2lines: $originalFastq2lines"
+      echo "originalFastq2Lines: $originalFastq2Lines"
     if [ "$originalFastq2Lines" -eq "$fastq2Lines" ];
     then
       echo "Fastq2 same number of lines"
