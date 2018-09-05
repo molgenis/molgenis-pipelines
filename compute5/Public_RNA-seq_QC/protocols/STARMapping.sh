@@ -65,7 +65,7 @@ then
 		--outFilterMismatchNmax ${numMism} \
 		--twopassMode ${twoPassMethod} \
         --quantMode GeneCounts \
-        --outSamUnmapped Within
+        --outSAMunmapped Within
 	starReturnCode=$?
 
 elif [ ${seqType} == "PE" ]
@@ -84,7 +84,7 @@ then
 		--outFilterMismatchNmax ${numMism} \
 		--twopassMode ${twoPassMethod} \
         --quantMode GeneCounts \
-        --outSamUnmapped Within
+        --outSAMunmapped Within
 	starReturnCode=$?
 else
 	echo "Seqtype unknown"
