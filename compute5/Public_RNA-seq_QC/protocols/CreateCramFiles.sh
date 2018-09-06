@@ -26,16 +26,15 @@ ${stage} io_lib/${iolibVersion}
 ${checkStage}
 
 mkdir -p ${cramFileDir}
-mkdir -p ${tmpCramFileDir}
 
 echo "## "$(date)" Start $0"
 echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
 #Use old picard instead of new one "picard.jar FixMateInformation"
-java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${tmpCramFileDir} \
+java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${TMPDIR} \
  -jar $EBROOTPICARD/picard.jar FixMateInformation \
  INPUT=${unfilteredBamDir}/${uniqueID}.bam \
- OUTPUT=${tmpCramFileDir}${uniqueID}.fixmates.bam \
+ OUTPUT=${MTPDIR}/${uniqueID}.fixmates.bam \
  VALIDATION_STRINGENCY=LENIENT \
  CREATE_INDEX=true \
  SORT_ORDER=coordinate
@@ -50,7 +49,7 @@ if scramble \
  -I bam \
  -O cram \
  -r ${onekgGenomeFasta} \
- ${tmpCramFileDir}${uniqueID}.fixmates.bam \
+ ${TMPDIR}/${uniqueID}.fixmates.bam \
  ${cramFileDir}${uniqueID}.cram \
  -t 2
 then
@@ -74,8 +73,8 @@ fi
 echo "Finished scramble BAM to CRAM conversion";
 
 #Remove temporary BAM files containing mate fixed reads
-rm ${tmpCramFileDir}${uniqueID}.fixmates.bam
-rm ${tmpCramFileDir}${uniqueID}.fixmates.bai
+rm ${TMPDIR}/${uniqueID}.fixmates.bam
+rm ${TMPDIR}/${uniqueID}.fixmates.bai
 
 
 echo "## "$(date)" ##  $0 Done "
