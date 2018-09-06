@@ -58,7 +58,7 @@ pairedEndfastqcZip2,${fastqcDir}/${uniqueID}_2${fastqcZipExt}
 fastqExtension,.gz
 ## CreateCramFile
 cramFileDir,${projectDir}/cramFiles/
-tmpCramFileDir,${projectDir}/tmpCramFiles/
+tmpCramFileDir,$TMPDIR
 ## CollectMultipleMetrics
 collectMultipleMetricsDir,${projectDir}/collectMultipleMetrics_QC/
 collectMultipleMetricsPrefix,${collectMultipleMetricsDir}/${uniqueID}.multiplemetrics
