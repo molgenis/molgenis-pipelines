@@ -130,7 +130,7 @@ then
     if [ "$originalFastq2Lines" -eq "$fastq2Lines" ];
     then
       echo "Fastq2 same number of lines"
-      echo rm $reads2FqGz
+      rm $reads2FqGz
     else
       echo "ERROR: Fastq2 not same number of lines"
       exit 1;
