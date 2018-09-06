@@ -30,7 +30,7 @@ mkdir -p ${sortedBamDir}
 echo "## "$(date)" Start $0"
 echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
-java -Xmx6g -XX:ParallelGCThreads=4 -jar $EBROOTPICARD/SortSam.jar \
+java -Xmx6g -XX:ParallelGCThreads=4 -jar $EBROOTPICARD/picard.jar SortSam \
   INPUT=${filteredBam} \
   OUTPUT=${sortedBam} \
   SO=coordinate \
