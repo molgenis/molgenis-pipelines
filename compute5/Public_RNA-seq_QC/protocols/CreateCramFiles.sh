@@ -34,7 +34,7 @@ echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}
 java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${TMPDIR} \
  -jar $EBROOTPICARD/picard.jar FixMateInformation \
  INPUT=${unfilteredBamDir}/${uniqueID}.bam \
- OUTPUT=${MTPDIR}/${uniqueID}.fixmates.bam \
+ OUTPUT=${TMPDIR}/${uniqueID}.fixmates.bam \
  VALIDATION_STRINGENCY=LENIENT \
  CREATE_INDEX=true \
  SORT_ORDER=coordinate
