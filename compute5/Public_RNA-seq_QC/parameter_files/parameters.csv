@@ -47,6 +47,7 @@ genomeEnsembleAnnotationFile,${resDir}/Ensembl/release-${ensemblVersion}/gtf/hom
 testIntervalList,${resDir}/UMCG/1000G_interval_list//ALL.wgs.phase3_shapeit2_mvncall_integrated_v5.20130502.sites.MAF_0.05.SNPs_only.recode.annotated.EXON_only.interval_list
 ########################################################################
 alignmentDir,${projectDir}/hisat/
+twoPassAlignmentDir,${projectDir}/starTwoPass/
 ## Specific tools paths
 #
 ## FastQC
@@ -87,6 +88,7 @@ referenceGenomeHisat2,/apps/data/UMCG/Hisat2_index/human_g1k_v37_hisat2_index_17
 filteredBamDir,${projectDir}/filteredBam/
 filteredBam,${filteredBamDir}/${uniqueID}_unique_mapping_only.bam
 unfilteredBamDir,${projectDir}/unfilteredBam/
+unfilteredTwoPassBamDir,${projectDir}/unfilteredTwoPassBam/
 unfilteredBam,${unfilteredBamDir}/${uniqueID}.bam
 rnaStrandness,unstranded
 ## SortBam
