@@ -42,3 +42,5 @@ sailfishDir,${projectDir}/sailfish/
 libType,IU
 numBootstraps,100
 flags,--biasCorrect
+## Other
+cramFileDir,${projectDir}/cramFiles/
