@@ -36,6 +36,7 @@ htseqTxtOutput,${htseqDir}/${uniqueID}.txt
 mode,union
 sortType,pos
 featureType,exon
+pysamVersion,0.11.0-foss-2015b-Python-2.7.11
 ## Sailfish
 sailfishIndex,/apps/data/UMCG/Sailfish_index
 sailfishDir,${projectDir}/sailfish/

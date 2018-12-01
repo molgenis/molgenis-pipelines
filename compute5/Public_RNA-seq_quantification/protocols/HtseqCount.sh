@@ -15,6 +15,7 @@
 #string sampleName
 #string project
 #string uniqueID
+#string pysamVersion
 
 echo "## "$(date)" Start $0"
 echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
@@ -27,6 +28,7 @@ echo -e "bam=${bam}\nannotationGtf=${annotationGtf}\nhtseqTxtOutput=${htseqTxtOu
 
 module load SAMtools/${samtoolsVersion}
 module load HTSeq/${htseqVersion}
+module load Pysam/${pysamVersion}
 module list
 
 echo "Assuming that the bam file is position sorted, if htseq fails check if your input bam is sorted"
