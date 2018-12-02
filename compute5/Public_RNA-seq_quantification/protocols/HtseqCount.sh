@@ -27,8 +27,8 @@ htseqTxtOutput="${htseqTxtOutput}"
 echo -e "bam=${bam}\nannotationGtf=${annotationGtf}\nhtseqTxtOutput=${htseqTxtOutput}"
 
 module load SAMtools/${samtoolsVersion}
-module load HTSeq/${htseqVersion}
 module load Pysam/${pysamVersion}
+module load HTSeq/${htseqVersion}
 module list
 
 echo "Assuming that the bam file is position sorted, if htseq fails check if your input bam is sorted"
