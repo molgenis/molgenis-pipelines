@@ -42,6 +42,7 @@ if htseq-count \
         -t ${featureType} \
         --stranded ${stranded} \
         ${bam} \
+        -r pos \
         ${annotationGtf} >  ${htseqTxtOutput}___tmp___ ;
 then
         if [[ $(wc -l <${htseqTxtOutput}___tmp___) -ge 2 ]]
