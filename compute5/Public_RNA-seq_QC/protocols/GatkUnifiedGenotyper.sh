@@ -4,6 +4,7 @@
 #string project
 #string sampleName
 #string internalId
+#string uniqueID
 ###
 #string stage
 #string checkStage
