@@ -17,6 +17,7 @@ platform,ILLUMINA
 ########################################################################
 ## Software and data versions/builds
 #
+pythonVersion,3.6.4-intel-2018a
 bedtoolsVersion,2.25.0-foss-2015b
 cutadaptVersion,1.8.1-foss-2015b-Python-2.7.9
 picardVersion,2.10.0-foss-2015b-Java-1.8.0_74
@@ -47,6 +48,7 @@ genomeEnsembleAnnotationFile,${resDir}/Ensembl/release-${ensemblVersion}/gtf/hom
 testIntervalList,${resDir}/UMCG/1000G_interval_list//ALL.wgs.phase3_shapeit2_mvncall_integrated_v5.20130502.sites.MAF_0.05.SNPs_only.recode.annotated.EXON_only.interval_list
 ########################################################################
 alignmentDir,${projectDir}/hisat/
+twoPassAlignmentDir,${projectDir}/starTwoPass/
 ## Specific tools paths
 #
 ## FastQC
@@ -58,7 +60,7 @@ pairedEndfastqcZip2,${fastqcDir}/${uniqueID}_2${fastqcZipExt}
 fastqExtension,.gz
 ## CreateCramFile
 cramFileDir,${projectDir}/cramFiles/
-tmpCramFileDir,${projectDir}/tmpCramFiles/
+tmpCramFileDir,$TMPDIR
 ## CollectMultipleMetrics
 collectMultipleMetricsDir,${projectDir}/collectMultipleMetrics_QC/
 collectMultipleMetricsPrefix,${collectMultipleMetricsDir}/${uniqueID}.multiplemetrics
@@ -87,6 +89,7 @@ referenceGenomeHisat2,/apps/data/UMCG/Hisat2_index/human_g1k_v37_hisat2_index_17
 filteredBamDir,${projectDir}/filteredBam/
 filteredBam,${filteredBamDir}/${uniqueID}_unique_mapping_only.bam
 unfilteredBamDir,${projectDir}/unfilteredBam/
+unfilteredTwoPassBamDir,${projectDir}/unfilteredTwoPassBam/
 unfilteredBam,${unfilteredBamDir}/${uniqueID}.bam
 rnaStrandness,unstranded
 ## SortBam

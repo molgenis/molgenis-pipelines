@@ -133,15 +133,30 @@ then
       echo "Deleting $reads2FqGz...."
       rm $reads2FqGz
     else
-      echo "ERROR: Fastq2 not same number of lines"
-      exit 1;
+      echo "try to see if there is only 1 read difference between the two"
+      fastq2LinesPlusOneRead=`expr $fastq2Lines + 4`
+      echo "Number of lines: $fastq2LinesPlusOneRead"
+      if [ "$originalFastq2Lines" -eq "$fastq2LinesPlusOneRead" ];
+      then
+        echo "only 1 read missing, will still delete"
+      else
+        echo "ERROR: Fastq2 not same number of lines"
+        exit 1;
     fi
   fi
   echo "Deleting $reads1FqGz...."
   rm $reads1FqGz
 else
-  echo "ERROR: Fastq1 not same number of lines"
-  exit 1;
+  echo "try to see if there is only 1 read difference between the two"
+  fastq1LinesPlusOneRead=`expr $fastq1Lines + 4`
+  echo "Number of lines: $fastq1LinesPlusOneRead"
+  if [ "$originalFastq1Lines" -eq "$fastq1LinesPlusOneRead" ];
+  then
+    echo "only 1 read missing, will still delete"
+  else
+    echo "ERROR: Fastq1 not same number of lines"
+    exit 1;
+  fi
 fi
 
 echo "final returncode: $?";

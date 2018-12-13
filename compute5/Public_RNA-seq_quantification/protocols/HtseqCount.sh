@@ -14,6 +14,8 @@
 #string internalId
 #string sampleName
 #string project
+#string uniqueID
+#string pysamVersion
 
 echo "## "$(date)" Start $0"
 echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
@@ -25,6 +27,7 @@ htseqTxtOutput="${htseqTxtOutput}"
 echo -e "bam=${bam}\nannotationGtf=${annotationGtf}\nhtseqTxtOutput=${htseqTxtOutput}"
 
 module load SAMtools/${samtoolsVersion}
+module load Pysam/${pysamVersion}
 module load HTSeq/${htseqVersion}
 module list
 
@@ -39,6 +42,7 @@ if htseq-count \
         -t ${featureType} \
         --stranded ${stranded} \
         ${bam} \
+        -r pos \
         ${annotationGtf} >  ${htseqTxtOutput}___tmp___ ;
 then
         if [[ $(wc -l <${htseqTxtOutput}___tmp___) -ge 2 ]]

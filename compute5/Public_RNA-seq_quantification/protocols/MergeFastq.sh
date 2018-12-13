@@ -3,6 +3,7 @@
 ### variables to help adding to database (have to use weave)
 #string sampleName
 #string project
+#string uniqueID
 ###
 #list reads1FqGz,reads2FqGz
 
