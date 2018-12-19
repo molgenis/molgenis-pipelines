@@ -1,6 +1,5 @@
 step,protocol,dependencies
 STARMapping,../protocols/STARMapping.sh,
-CreateCramFiles,../protocols/CreateCramFiles.sh,STARMapping
 FastQC,../protocols/Fastqc.sh,
 SortBam,../protocols/SortBam.sh,STARMapping
 AddReadGroup,../protocols/AddOrReplaceReadGroups.sh,SortBam
@@ -9,4 +8,5 @@ VerifyBamID,../protocols/VerifyBamID.sh,GatkUnifiedGenotyper
 VariantEval,../protocols/VariantEval.sh,GatkUnifiedGenotyper
 CollectRnaSeqMetrics,../protocols/CollectRnaSeqMetrics.sh,SortBam
 CollectMultipleMetrics,../protocols/CollectMultipleMetrics.sh,SortBam
+CreateCramFiles,../protocols/CreateCramFiles.sh,SortBam;CollectRnaSeqMetrics;CollectMultipleMetrics
 RemoveFastqFiles,../protocols/RemoveFastqFiles.sh,CreateCramFiles;FastQC
