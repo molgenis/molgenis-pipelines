@@ -43,7 +43,6 @@ echo "SortBam return code: ${sortBamReturnCode}"
 
 if [ $sortBamReturnCode -eq 0 ]
 then
-then
     echo "Bam sorted succesfuly"
 else
     echo "ERROR: Bam not sorted successfully"
