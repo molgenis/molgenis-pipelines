@@ -142,6 +142,7 @@ then
       else
         echo "ERROR: Fastq2 not same number of lines"
         exit 1;
+      fi
     fi
   fi
   echo "Deleting $reads1FqGz...."
