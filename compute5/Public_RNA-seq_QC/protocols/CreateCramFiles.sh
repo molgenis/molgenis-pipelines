@@ -9,7 +9,7 @@
 #string checkStage
 #string picardVersion
 #string iolibVersion
-#string unfilteredBamDir
+#string sortedBamDir
 #string cramFileDir
 #string tmpCramFileDir
 #string onekgGenomeFasta
@@ -33,7 +33,7 @@ echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}
 #Use old picard instead of new one "picard.jar FixMateInformation"
 java -Xmx8g -XX:ParallelGCThreads=2 -Djava.io.tmpdir=${TMPDIR} \
  -jar $EBROOTPICARD/picard.jar FixMateInformation \
- INPUT=${unfilteredBamDir}/${uniqueID}.bam \
+ INPUT=${sortedBamDir}/${uniqueID}.bam \
  OUTPUT=${TMPDIR}/${uniqueID}.fixmates.bam \
  VALIDATION_STRINGENCY=LENIENT \
  CREATE_INDEX=true \
