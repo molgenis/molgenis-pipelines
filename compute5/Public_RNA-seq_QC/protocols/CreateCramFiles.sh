@@ -5,6 +5,7 @@
 #string sampleName
 #string project
 ###
+#string sortedBamDir
 #string stage
 #string checkStage
 #string picardVersion
