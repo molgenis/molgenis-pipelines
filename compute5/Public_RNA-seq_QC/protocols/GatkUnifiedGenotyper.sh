@@ -60,7 +60,7 @@ echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}
 #print like '-I=file1.bam -I=file2.bam '
 inputs=$(printf ' -I %s ' $(printf '%s\n' ${sortedBam_uniq[@]}))
 
-if java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}GATK//${gatkVersion}/GenomeAnalysisTK.jar \
+if java -Xmx8g -XX:ParallelGCThreads=4 -jar $EBROOTGATK/GenomeAnalysisTK.jar \
   -R ${onekgGenomeFasta} \
   -T UnifiedGenotyper \
   $inputs \
