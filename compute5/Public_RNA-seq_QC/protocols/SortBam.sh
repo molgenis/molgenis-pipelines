@@ -37,7 +37,17 @@ java -Xmx6g -XX:ParallelGCThreads=4 -jar $EBROOTPICARD/picard.jar SortSam \
   CREATE_INDEX=true \
   TMP_DIR=${TMPDIR}
 
-echo "returncode: $?";
+sortBamReturnCode=$?
+
+echo "SortBam return code: ${sortBamReturnCode}"
+
+if [ $sortBamReturnCode -eq 0 ]
+then
+    echo "Bam sorted succesfuly"
+else
+    echo "ERROR: Bam not sorted successfully"
+    exit 1;
+fi
 
 echo "## "$(date)" ##  $0 Done "
 
