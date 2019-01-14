@@ -33,7 +33,7 @@ java -Xmx8g -XX:ParallelGCThreads=4 -jar $EBROOTGATK/GenomeAnalysisTK.jar \
    -T VariantEval \
    -R ${onekgGenomeFasta} \
    -o ${evalGrp} \
-   --eval ${rawVCF} \
+   --eval ${rawVCF}.gz \
 
 echo "returncode: $?";
 

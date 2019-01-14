@@ -79,6 +79,7 @@ then
  # have to gzip for GenometypeHarmonizer usage later
  bgzip -f ${rawVCF}
  tabix -f -p vcf ${rawVCF}.gz
+ rm ${rawVCF}.idx
 else
  echo "returncode: $?";
  echo "fail";
