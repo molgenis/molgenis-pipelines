@@ -13,7 +13,7 @@
 #string verifyBamIDVersion
 #string stage
 #string checkStage
-
+#string rawVCF
 
 
 
