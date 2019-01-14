@@ -29,7 +29,7 @@ echo "## "$(date)" Start $0"
 echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
 if verifyBamID \
-  --vcf ${unifiedGenotyperDir}${uniqueID}.raw.vcf \
+  --vcf ${rawVCF}.gz \
   --bam ${sortedBam} \
   --out ${verifyBamIdDir}${uniqueID}
 
