@@ -23,11 +23,10 @@ cutadaptVersion,1.8.1-foss-2015b-Python-2.7.9
 picardVersion,2.10.0-foss-2015b-Java-1.8.0_74
 iolibVersion,1.14.6-foss-2015b
 genotypeIOVersion,1.0.2
-verifyBamVersion,1.1.3
 tabixVersion,0.2.6-foss-2015b
 plinkVersion,1.07-x86_64
 jdkVersion,1.8.0_25
-verifyBamIDVersion,1.1.2-foss-2015b
+verifyBamIDVersion,1.1.3-foss-2015b
 GenotypeHarmonizerVersion,1.4.14
 gatkVersion,3.4-0-Java-1.7.0_80 
 hisatVersion,0.1.6-beta-foss-2015b
