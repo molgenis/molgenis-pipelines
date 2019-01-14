@@ -29,7 +29,7 @@ mkdir -p ${variantEvalDir}
 echo "## "$(date)" Start $0"
 echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
 
-java -Xmx8g -XX:ParallelGCThreads=4 -jar ${toolDir}GATK/${gatkVersion}/GenomeAnalysisTK.jar \
+java -Xmx8g -XX:ParallelGCThreads=4 -jar $EBROOTGATK/GenomeAnalysisTK.jar \
    -T VariantEval \
    -R ${onekgGenomeFasta} \
    -o ${evalGrp} \
