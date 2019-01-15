@@ -16,7 +16,6 @@ uniqueID,${sampleName}_${internalId}
 ########################################################################
 ## Software and data versions/builds/paths
 #
-fastqcVersion,0.11.3-Java-1.7.0_80
 RVersion,3.2.1-goolf-1.7.20
 samtoolsVersion,1.2-goolf-1.7.20
 gatkVersion,3.4-0-Java-1.7.0_80 
@@ -45,12 +44,6 @@ dbsnpVcfIdx,${dbsnpVcf}.idx
 ########################################################################
 ## Specific tools paths
 #
-## FastQC
-fastqcDir,${projectDir}/fastqc_genotypeCalling/
-fastqcZipExt,_fastqc.zip
-singleEndfastqcZip,${fastqcDir}/${uniqueID}.fq${fastqcZipExt}
-pairedEndfastqcZip1,${fastqcDir}/${uniqueID}_1.fq${fastqcZipExt}
-pairedEndfastqcZip2,${fastqcDir}/${uniqueID}_2.fq${fastqcZipExt}
 ## STAR
 starAlignmentDir,${projectDir}/star/
 starAlignmentPassOneDir,${starAlignmentDir}/${uniqueID}/alignmentP1/
