@@ -42,20 +42,6 @@ oneKgPhase1IndelsVcf,${resDir}/${genomeBuild}/sv/1000G/1000G_phase1.indels.b37.v
 oneKgPhase1IndelsVcfIdx,${oneKgPhase1IndelsVcf}.idx
 dbsnpVcf,${resDir}/${genomeBuild}/snp/dbSNP/dbsnp_138.b37.vcf
 dbsnpVcfIdx,${dbsnpVcf}.idx
-regulation_CD4Bin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_CD4.bin
-regulation_GM06990Bin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_GM06990.bin
-regulation_GM12878Bin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_GM12878.bin
-regulation_H1ESCBin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_H1ESC.bin
-regulation_HeLaS3Bin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_HeLa-S3.bin
-regulation_HepG2Bin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_HepG2.bin
-regulation_HMECBin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_HMEC.bin
-regulation_HSMMBin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_HSMM.bin
-regulation_HUVECBin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_HUVEC.bin
-regulation_IMR90Bin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_IMR90.bin
-regulation_K562bBin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_K562b.bin
-regulation_K562Bin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_K562.bin
-regulation_NHABin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_NH-A.bin
-regulation_NHEKBin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_NHEK.bin
 ########################################################################
 ## Specific tools paths
 #
