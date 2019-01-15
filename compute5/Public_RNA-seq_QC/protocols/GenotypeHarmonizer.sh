@@ -17,7 +17,7 @@
 #string rawVCF
 
 #Load modules
-${stage} GenotypeHarmonizer/${GenotypeHarmonizerVersion}
+${stage} GenotypeHarmonizer/${genotypeHarmonizerVersion}
 
 #check modules
 ${checkStage}

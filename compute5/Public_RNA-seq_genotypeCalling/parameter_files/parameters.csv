@@ -16,10 +16,10 @@ uniqueID,${sampleName}_${internalId}
 ########################################################################
 ## Software and data versions/builds/paths
 #
-RVersion,3.2.1-goolf-1.7.20
-samtoolsVersion,1.2-goolf-1.7.20
+RVersion,3.2.1-foss-2015b
+samtoolsVersion,1.5-foss-2015b
 gatkVersion,3.4-0-Java-1.7.0_80 
-picardVersion,1.102-Java-1.7.0_80
+picardVersion,2.10.0-foss-2015b-Java-1.8.0_74
 ensemblVersion,75
 genomeBuild,b37
 genomeGrchBuild,GRCh37
@@ -27,9 +27,9 @@ genomeLatSpecies,Homo_sapiens
 genomeSpecies,human
 AseVersion,14-10-2015
 genotypeHarmonizerVersion,1.4.14
-tabixVersion,0.2.6-goolf-1.7.20
+tabixVersion,0.2.6-foss-2015b
 referenceFastaName,human_g1k_v37
-onekgGenomeFasta,${resDir}/${genomeBuild}/indices/${referenceFastaName}.fasta
+onekgGenomeFasta,${resDir}/${genomeBuild}/indices/human_g1k_v${human_g1k_vers}.fasta
 genomeEnsembleAnnotationFile,${resDir}/Ensembl/release-${ensemblVersion}/gtf/homo_sapiens/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.gtf
 genesRefFlat,${resDir}/Ensembl/release-${ensemblVersion}/gtf/homo_sapiens/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.refflat
 rRnaIntervalList,${resDir}//picard-tools/Ensembl${ensemblVersion}/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.rrna.interval_list
@@ -39,7 +39,7 @@ oneKgPhase1SnpsVcf,${resDir}/${genomeBuild}/snp/1000G/1000G_phase1.snps.high_con
 oneKgPhase1SnpsVcfIdx,${oneKgPhase1SnpsVcf}.idx
 oneKgPhase1IndelsVcf,${resDir}/${genomeBuild}/sv/1000G/1000G_phase1.indels.b37.vcf
 oneKgPhase1IndelsVcfIdx,${oneKgPhase1IndelsVcf}.idx
-dbsnpVcf,${resDir}/${genomeBuild}/snp/dbSNP/dbsnp_138.b37.vcf
+dbsnpVcf,${resDir}/dbSNP/dbsnp_138.b37.vcf
 dbsnpVcfIdx,${dbsnpVcf}.idx
 ########################################################################
 ## Specific tools paths
