@@ -95,11 +95,8 @@ rnaStrandness,unstranded
 sortedBamDir,${projectDir}/sortedBam/
 sortedBam,${sortedBamDir}${uniqueID}.bam
 sortedBai,${sortedBamDir}${uniqueID}.bai
-## cutadapt
-adapterDir,${projectDir}/fastqAdapterFiltered/
-contaminantFile,${toolDir}/FastQC/${fastqcVersion}/Configuration/contaminant_list.txt
 ## STAR
-STARindex
+STARindex,${resDir}/ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_24/STAR/${starVersion}/
 twoPassMethod,Basic
 ## ?
 rRnaIntervalList,${resDir}//picard-tools/Ensembl${ensemblVersion}/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.rrna.interval_list
