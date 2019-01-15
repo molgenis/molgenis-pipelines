@@ -65,8 +65,8 @@ collectMultipleQcMetricsDir,${projectDir}/collectMultipleMetrics_QC/
 collectMultipleQcMetricsPrefix,${collectMultipleQcMetricsDir}/${uniqueID}.multiplemetrics
 ## CollectRnaSeqMetrics
 collectRnaSeqQcMetricsDir,${projectDir}/collectRnaSeqMetrics_QC/
-collectRnaSeqQcMetrics,${collectRnaSeqMetricsDir}${uniqueID}.rna_metrics.log
-collectRnaSeqQcMetricsChart,${collectRnaSeqMetricsDir}${uniqueID}.chart.pdf
+collectRnaSeqQcMetrics,${collectRnaSeqQcMetricsDir}${uniqueID}.rna_metrics.log
+collectRnaSeqQcMetricsChart,${collectRnaSeqQcMetricsDir}${uniqueID}.chart.pdf
 ## veryifyBamID
 verifyBamIdDir,${projectDir}/verifyBamID/
 ## GenotypeHarmonizer + GenotypeIO
