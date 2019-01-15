@@ -32,7 +32,7 @@ inputs=$(printf 'INPUT=%s ' $(printf '%s\n' ${bams[@]}))
 
 mkdir -p ${mergeBamFilesDir}
 
-java -jar -XX:ParallelGCThreads=4 -Xmx6g $EBROOTPICARD/MergeSamFiles.jar \
+java -jar -XX:ParallelGCThreads=4 -Xmx6g $EBROOTPICARD/picard.jar MergeSameFiles \
  $inputs \
  SORT_ORDER=coordinate \
  CREATE_INDEX=true \

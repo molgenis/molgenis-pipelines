@@ -31,7 +31,7 @@ mkdir -p ${collectRnaSeqMetricsDir}
 echo "## "$(date)" ##  $0 Started "
 
 
-java -Xmx8g -XX:ParallelGCThreads=4 -jar $EBROOTPICARD/CollectRnaSeqMetrics.jar \
+java -Xmx8g -XX:ParallelGCThreads=4 -jar $EBROOTPICARD/picard.jar CollectRnaSeqMetrics \
  INPUT=${markDuplicatesBam} \
  OUTPUT=${collectRnaSeqMetrics} \
  CHART_OUTPUT=${collectRnaSeqMetricsChart} \
