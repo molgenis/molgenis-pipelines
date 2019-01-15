@@ -61,12 +61,12 @@ fastqExtension,.gz
 cramFileDir,${projectDir}/cramFiles/
 tmpCramFileDir,$TMPDIR
 ## CollectMultipleMetrics
-collectMultipleMetricsDir,${projectDir}/collectMultipleMetrics_QC/
-collectMultipleMetricsPrefix,${collectMultipleMetricsDir}/${uniqueID}.multiplemetrics
+collectMultipleQcMetricsDir,${projectDir}/collectMultipleMetrics_QC/
+collectMultipleQcMetricsPrefix,${collectMultipleMetricsDir}/${uniqueID}.multiplemetrics
 ## CollectRnaSeqMetrics
-collectRnaSeqMetricsDir,${projectDir}/collectRnaSeqMetrics_QC/
-collectRnaSeqMetrics,${collectRnaSeqMetricsDir}${uniqueID}.rna_metrics.log
-collectRnaSeqMetricsChart,${collectRnaSeqMetricsDir}${uniqueID}.chart.pdf
+collectRnaSeqQcMetricsDir,${projectDir}/collectRnaSeqMetrics_QC/
+collectRnaSeqQcMetrics,${collectRnaSeqMetricsDir}${uniqueID}.rna_metrics.log
+collectRnaSeqQcMetricsChart,${collectRnaSeqMetricsDir}${uniqueID}.chart.pdf
 ## veryifyBamID
 verifyBamIdDir,${projectDir}/verifyBamID/
 ## GenotypeHarmonizer + GenotypeIO
