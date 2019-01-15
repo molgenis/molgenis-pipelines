@@ -62,7 +62,7 @@ cramFileDir,${projectDir}/cramFiles/
 tmpCramFileDir,$TMPDIR
 ## CollectMultipleMetrics
 collectMultipleQcMetricsDir,${projectDir}/collectMultipleMetrics_QC/
-collectMultipleQcMetricsPrefix,${collectMultipleMetricsDir}/${uniqueID}.multiplemetrics
+collectMultipleQcMetricsPrefix,${collectMultipleQcMetricsDir}/${uniqueID}.multiplemetrics
 ## CollectRnaSeqMetrics
 collectRnaSeqQcMetricsDir,${projectDir}/collectRnaSeqMetrics_QC/
 collectRnaSeqQcMetrics,${collectRnaSeqMetricsDir}${uniqueID}.rna_metrics.log
