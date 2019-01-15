@@ -30,7 +30,7 @@ ${checkStage}
 
 mkdir -p ${markDuplicatesDir}
 
-java -Xmx6g -XX:ParallelGCThreads=8 -jar $EBROOTPICARD/picard.jard MarkDuplicates \
+java -Xmx6g -XX:ParallelGCThreads=8 -jar $EBROOTPICARD/picard.jar MarkDuplicates \
  INPUT=${mergeBamFilesBam} \
  OUTPUT=${markDuplicatesBam} \
  CREATE_INDEX=true \
