@@ -48,8 +48,8 @@ java -Xmx8g -XX:ParallelGCThreads=4 -jar $EBROOTPICARD/picard.jar CollectRnaSeqM
 echo "returncode: $?";
 
 cd ${collectRnaSeqQcMetricsDir}
-md5sum $(basename ${collectRnaSeqQcMetrics}) > $(basename ${collectRnaSeqMetrics}).md5
-md5sum $(basename ${collectRnaSeqQcMetricsChart}) > $(basename ${collectRnaSeqMetricsChart}).md5
+md5sum $(basename ${collectRnaSeqQcMetrics}) > $(basename ${collectRnaSeqQcMetrics}).md5
+md5sum $(basename ${collectRnaSeqQcMetricsChart}) > $(basename ${collectRnaSeqQcMetricsChart}).md5
 cd -
 
 echo "## "$(date)" ##  $0 Done "
