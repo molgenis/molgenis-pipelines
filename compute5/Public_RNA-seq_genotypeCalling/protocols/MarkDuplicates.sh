@@ -40,8 +40,4 @@ java -Xmx6g -XX:ParallelGCThreads=8 -jar $EBROOTPICARD/picard.jar MarkDuplicates
 
 echo "returncode: $?";
 
-cd ${markDuplicatesDir}
-md5sum ${markDuplicatesMetrics} > ${markDuplicatesMetrics}.md5
-cd -
-
 echo "## "$(date)" ##  $0 Done "
