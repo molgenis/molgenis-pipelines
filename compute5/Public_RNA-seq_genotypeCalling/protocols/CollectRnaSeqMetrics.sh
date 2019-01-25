@@ -1,4 +1,4 @@
-#MOLGENIS walltime=23:59:00 mem=12gb nodes=1 ppn=4
+#MOLGENIS walltime=23:59:00 mem=20gb nodes=1 ppn=4
 
 ### variables to help adding to database (have to use weave)
 #string sampleName
@@ -31,7 +31,7 @@ mkdir -p ${collectRnaSeqMetricsDir}
 echo "## "$(date)" ##  $0 Started "
 
 
-java -Xmx11g -XX:ParallelGCThreads=4 -jar $EBROOTPICARD/picard.jar CollectRnaSeqMetrics \
+java -Xmx19g -XX:ParallelGCThreads=4 -jar $EBROOTPICARD/picard.jar CollectRnaSeqMetrics \
  INPUT=${markDuplicatesBam} \
  OUTPUT=${collectRnaSeqMetrics} \
  CHART_OUTPUT=${collectRnaSeqMetricsChart} \
