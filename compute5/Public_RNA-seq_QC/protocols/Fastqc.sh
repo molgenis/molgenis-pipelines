@@ -46,7 +46,7 @@ then
  	  echo "returncode: $?"; 
 
 	  echo
-	  cp -v ${fastqcDir}/$(basename ${reads1FqGz}%${fastqExtension})${fastqcZipExt} ${singleEndfastqcZip}
+	  cp -v ${fastqcDir}/$(basename ${reads1FqGz%${fastqExtension}})${fastqcZipExt} ${singleEndfastqcZip}
 
 	##################################################################
 
