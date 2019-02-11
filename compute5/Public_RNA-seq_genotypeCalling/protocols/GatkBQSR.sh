@@ -60,8 +60,8 @@ java -Xmx14g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${TMPDIR} -jar $EBROOTGATK
 echo "returncode: $?"; 
 
 cd ${bqsrDir}
-md5sum $(basename ${bqsrBam})> $(basename ${bqsrBam}).md5sum
-md5sum $(basename ${bqsrBam%bam}bai)> $(basename ${bqsrBam%bam}bai).md5sum
+md5sum $(basename ${bqsrBam})> $(basename ${bqsrBam}).md5
+md5sum $(basename ${bqsrBam%bam}bai)> $(basename ${bqsrBam%bam}bai).md5
 cd -
 
 echo "## "$(date)" ##  $0 Done "
