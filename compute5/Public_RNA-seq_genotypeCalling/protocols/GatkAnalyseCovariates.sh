@@ -58,6 +58,11 @@ java -Xmx6g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${bqsrDir} -jar $EBROOTGATK
  -csv ${analyseCovariatesIntermediateCsv} \
  -plots ${analyseCovariatesPdf}
 
+md5sum ${bqsrBeforeGrp} ${bqsrBeforeGrp}.md5
+md5sum ${bqsrAfterGrp} ${bqsrAfterGrp}.md5
+md5sum ${analyseCovariatesIntermediateCsv}
+md5sum ${analyseCovariatesPdf}
+
 echo "returncode: $?"; 
  
 echo "## "$(date)" ##  $0 Done "
