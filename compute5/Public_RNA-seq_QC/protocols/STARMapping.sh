@@ -65,7 +65,8 @@ then
 		--outFilterMismatchNmax ${numMism} \
 		--twopassMode ${twoPassMethod} \
         --quantMode GeneCounts \
-        --outSAMunmapped Within
+        --outSAMunmapped Within \
+        --outSAMmapqUnique ${outSAMmapqUnique}
 	starReturnCode=$?
 
 elif [ ${seqType} == "PE" ]
@@ -103,6 +104,9 @@ then
     		finalFile=$(basename $tempFile)
 	    	echo "Moving temp file: ${tempFile} to ${alignmentDir}/${finalFile}"
     		mv $tempFile ${alignmentDir}/$finalFile
+            cd ${alignmentDir}
+            md5sum ${alignmentDir}/$finalFile > ${alignmentDir}/$finalFile.md5
+            cd -
             # STAR appends some extra stuff to filename, which makes it not match with HISAT in next steps
             # therefore, rename it so that next steps can use same naming scheme
             if [[ ${alignmentDir}/$finalFile == *.sam ]];
