@@ -46,7 +46,7 @@ qualAction=$(samtools view ${markDuplicatesBam} | \
     }elsif(min(@ords) >= 33 && max(@ords) <= 74){
 	  print " ";
 	  warn "quals > illumina 1.8 detected no action to take.\n";
-    }elsif(min(@ords) >= 33 && max(@ords) <= 80){
+    }elsif(min(@ords) >= 33 && max(@ords) <= 83){
 	  print " --allow_potentially_misencoded_quality_scores ";
 	  warn "Strange illumina like quals detected using:--allow_potentially_misencoded_quality_scores."
     }else{
