@@ -40,13 +40,13 @@ then
 	echo "## "$(date)" reads1FqGz"
 	if fastqc \
 	--noextract ${reads1FqGz} \
-	--outdir ${fastqcDir}
+	--outdir ${TMPDIR}
 
 	then
  	  echo "returncode: $?"; 
 
 	  echo
-	  cp -v ${fastqcDir}/$(basename ${reads1FqGz%${fastqExtension}})${fastqcZipExt} ${singleEndfastqcZip}
+	  cp -v ${TMPDIR}/$(basename ${reads1FqGz%${fastqExtension}})${fastqcZipExt} ${singleEndfastqcZip}
 
 	##################################################################
 
@@ -73,21 +73,21 @@ else
 	echo "## "$(date)" reads1FqGz"
 	fastqc \
 	--noextract ${reads1FqGz} \
-	--outdir ${fastqcDir}
+	--outdir ${TMPDIR}
 
-    cp -v ${fastqcDir}/$(basename ${reads1FqGz%${fastqExtension}})${fastqcZipExt} ${pairedEndfastqcZip1}
+    cp -v ${TMPDIR}/$(basename ${reads1FqGz%${fastqExtension}})${fastqcZipExt} ${pairedEndfastqcZip1}
 	echo
 	echo "## "$(date)" reads2FqGz"
 
 	if fastqc \
 	--noextract ${reads2FqGz} \
-	--outdir ${fastqcDir}
+	--outdir ${TMPDIR}
 
 	then
  	  echo "returncode: $?";
 
 	  echo
-	  cp -v ${fastqcDir}/$(basename ${reads2FqGz%${fastqExtension}})${fastqcZipExt} ${pairedEndfastqcZip2}
+	  cp -v ${TMPDIR}/$(basename ${reads2FqGz%${fastqExtension}})${fastqcZipExt} ${pairedEndfastqcZip2}
 
 	##################################################################
 	  cd $OLDPWD
