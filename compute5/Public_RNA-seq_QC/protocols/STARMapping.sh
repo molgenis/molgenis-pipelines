@@ -10,6 +10,7 @@
 #string alignmentDir
 #string twoPassMethod
 #string unfilteredBamDir
+#string outSAMmapqUnique
 
 #Echo parameter values
 fastq1="${reads1FqGz}"
@@ -85,7 +86,8 @@ then
 		--outFilterMismatchNmax ${numMism} \
 		--twopassMode ${twoPassMethod} \
         --quantMode GeneCounts \
-        --outSAMunmapped Within
+        --outSAMunmapped Within \
+        --outSAMmapUnique ${outSAMmapqUnique}
 	starReturnCode=$?
 else
 	echo "Seqtype unknown"
