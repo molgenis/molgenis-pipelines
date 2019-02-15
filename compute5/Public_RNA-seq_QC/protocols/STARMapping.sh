@@ -66,8 +66,11 @@ then
 		--outFilterMismatchNmax ${numMism} \
 		--twopassMode ${twoPassMethod} \
         --quantMode GeneCounts \
-        --outSAMunmapped Within \
-        --outSAMmapqUnique ${outSAMmapqUnique}
+        --outSAMunmapped Within
+# Option --outSAMmapqUnique is not necesarry anymore
+# GatkSplitAndTrim automatically changes 255 to 60
+# see https://gatkforums.broadinstitute.org/gatk/discussion/10800/gatk4-how-to-reassign-star-mapping-quality-from-255-to-60-with-splitncigarreads
+# Leaving this commnet in for future reference why it is not included
 	starReturnCode=$?
 
 elif [ ${seqType} == "PE" ]
@@ -86,8 +89,12 @@ then
 		--outFilterMismatchNmax ${numMism} \
 		--twopassMode ${twoPassMethod} \
         --quantMode GeneCounts \
-        --outSAMunmapped Within \
-        --outSAMmapUnique ${outSAMmapqUnique}
+        --outSAMunmapped Within
+# Option --outSAMmapqUnique is not necesarry anymore
+# GatkSplitAndTrim automatically changes 255 to 60
+# see https://gatkforums.broadinstitute.org/gatk/discussion/10800/gatk4-how-to-reassign-star-mapping-quality-from-255-to-60-with-splitncigarreads
+# Think it was added in commit f26cb5dbd7f8bb4ee549c7c1c1044e8ec7a28645 of GATK
+# Leaving this commnet in for future reference why it is not included
 	starReturnCode=$?
 else
 	echo "Seqtype unknown"
