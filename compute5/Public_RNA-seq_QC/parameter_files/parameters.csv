@@ -98,6 +98,8 @@ sortedBai,${sortedBamDir}${uniqueID}.bai
 ## STAR
 STARindex,${resDir}/ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_24/STAR/${starVersion}/
 twoPassMethod,Basic
+## MultiQC
+multiqcAlignmentDir,${projectDir}/multiQC
 # outSAMmapqUnique is set to 60 because by default we use STAR for genotype calling
 # GATK needs this set to 60 (default = 255). However, other downstream tools like CuffLinks
 # expect this to be 255, so check this number based on your downstream analysis

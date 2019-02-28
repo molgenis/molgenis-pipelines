@@ -10,3 +10,4 @@ CollectRnaSeqQcMetrics,../protocols/CollectRnaSeqQcMetrics.sh,SortBam
 CollectMultipleQcMetrics,../protocols/CollectMultipleQcMetrics.sh,SortBam
 CreateCramFiles,../protocols/CreateCramFiles.sh,SortBam;CollectRnaSeqQcMetrics;CollectMultipleQcMetrics
 RemoveFastqFiles,../protocols/RemoveFastqFiles.sh,CreateCramFiles;FastQC
+MultiQC_alignment,../protocols/MultiQC_alignment.sh,FastQC;VerifyBamID;VariantEval;CollectRnaSeqQcMetrics;CollectMultipleQcMetrics
