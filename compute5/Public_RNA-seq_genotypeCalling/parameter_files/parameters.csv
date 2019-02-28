@@ -125,6 +125,8 @@ readQuality,1
 ## Flagstat
 flagstatDir,${projectDir}/flagStat
 flagstatFile,${flagstatDir}/${sampleName}.flagstat
+## MultiQC
+multiqcGenotypingDir,${projectDir}/multiQC_genotyping
 ## ?
 motifBin,/gcc/resources/snpEff/3.6c/GRCh37.75/motif.bin
 nextProtBin,/gcc/resources/snpEff/3.6c/GRCh37.75/nextProt.bin
@@ -135,3 +137,4 @@ annotVcfIdx,${annotVcf}.idx
 oneKgP1wgsVcf,${resDir}/
 oneKgP1wgsVcfIdx,${resDir}/
 projectMarkdown,${projectDir}/${project}.summary.Rmd
+

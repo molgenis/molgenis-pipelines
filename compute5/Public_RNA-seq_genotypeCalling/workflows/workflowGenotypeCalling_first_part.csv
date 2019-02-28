@@ -10,3 +10,4 @@ IndelRealignmentKnown,protocols/GatkIndelRealignmentKnown.sh,GatkSplitAndTrim
 BQSR,protocols/GatkBQSR.sh,IndelRealignmentKnown
 AnalyseCovariates,protocols/GatkAnalyseCovariates.sh,BQSR
 HaplotypeCallerGvcf,protocols/GatkHaplotypeCallerGvcf.sh,BQSR
+MultiQC_genotyping,../protocols/MultiQC_genotypingt.sh,CollectRnaSeqMetrics;CollectMultipleMetrics;Flagstat;BQSR;AnalyseCovariates
