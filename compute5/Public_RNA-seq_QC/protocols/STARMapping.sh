@@ -23,6 +23,14 @@ STARindex="${STARindex}"
 module load STAR/${starVersion}
 module list
 
+# something that can go easily wrong is that R1 and R2 have the same name
+# (because R1 got written twice), so double check they are not the same
+if [ "$reads1FqGz" == "$reads2FqGz" ];
+then
+    echo "ERROR: Reads1FqGz and reads2FqGz are the same"
+    exit 1;
+fi
+
 echo -e "fastq1=${fastq1}\nfastq2=${fastq2}\nprefix=${prefix}\nSTARindex=${STARindex}"
 
 mkdir -p ${alignmentDir}
