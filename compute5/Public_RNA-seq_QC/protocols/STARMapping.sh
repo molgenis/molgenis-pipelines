@@ -23,6 +23,12 @@ STARindex="${STARindex}"
 module load STAR/${starVersion}
 module list
 
+if [ ! -f ${fastq1} ];
+then
+    echo "ERROR: ${fastq1} does not exist"
+    exit 1;
+fi
+
 # something that can go easily wrong is that R1 and R2 have the same name
 # (because R1 got written twice), so double check they are not the same
 if [ "$reads1FqGz" == "$reads2FqGz" ];
@@ -40,6 +46,11 @@ if [ ${#reads2FqGz} -eq 0 ]; then
     seqType="SR"
 else
     seqType="PE"
+    if [ ! -f ${fastq2} ];
+    then
+        echo "ERROR: ${fastq2} does not exist"
+        exit 1;
+    fi
 fi
 
 seq=`zcat ${fastq1} | head -2 | tail -1`
