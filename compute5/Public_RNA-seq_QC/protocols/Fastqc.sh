@@ -46,10 +46,10 @@ then
     if [ ! -f $fastqc_out ];
     then
         # in case it does not work, try some hardcoded, often seen patterns
-        fastqc_out=${TMPDIR}/$(basename ${reads1FqGz%fastq.gz})${fastqcZipExt}
+        fastqc_out=${TMPDIR}/$(basename ${reads1FqGz%.fastq.gz})${fastqcZipExt}
         if [ ! -f $fastqc_out ];
         then
-            fastqc_out=${TMPDIR}/$(basename ${reads1FqGz%fq.gz})${fastqcZipExt}
+            fastqc_out=${TMPDIR}/$(basename ${reads1FqGz%.fq.gz})${fastqcZipExt}
             if [ ! -f $fastqc_out ];
             then
                 echo "ERROR: $fastqc_out does not exist"
@@ -105,10 +105,10 @@ else
     if [ ! -f $fastqc_out ];
     then
         # in case it does not work, try some hardcoded, often seen patterns
-        fastqc_out=${TMPDIR}/$(basename ${reads1FqGz%fastq.gz})${fastqcZipExt}
+        fastqc_out=${TMPDIR}/$(basename ${reads1FqGz%.fastq.gz})${fastqcZipExt}
         if [ ! -f $fastqc_out ];
         then
-            fastqc_out=${TMPDIR}/$(basename ${reads1FqGz%fq.gz})${fastqcZipExt}
+            fastqc_out=${TMPDIR}/$(basename ${reads1FqGz%.fq.gz})${fastqcZipExt}
             if [ ! -f $fastqc_out ];
             then
                 echo "ERROR: $fastqc_out does not exist"
@@ -119,7 +119,7 @@ else
                 ls ${TMPDIR}
                 echo "Also tried:"
                 echo "${TMPDIR}/$(basename ${reads1FqGz%${fastqExtension}})${fastqcZipExt}"
-                echo "${TMPDIR}/$(basename ${reads1FqGz%fastq.gz})${fastqcZipExt}"
+                echo "${TMPDIR}/$(basename ${reads1FqGz%.fastq.gz})${fastqcZipExt}"
             fi
         fi
 
@@ -137,10 +137,10 @@ else
     if [ ! -f $fastqc_out ];
     then
         # in case it does not work, try some hardcoded, often seen patterns
-        fastqc_out=${TMPDIR}/$(basename ${reads2FqGz%fastq.gz})${fastqcZipExt}
+        fastqc_out=${TMPDIR}/$(basename ${reads2FqGz%.fastq.gz})${fastqcZipExt}
         if [ ! -f $fastqc_out ];
         then
-            fastqc_out=${TMPDIR}/$(basename ${reads2FqGz%fq.gz})${fastqcZipExt}
+            fastqc_out=${TMPDIR}/$(basename ${reads2FqGz%.fq.gz})${fastqcZipExt}
             if [ ! -f $fastqc_out ];
             then
                 echo "ERROR: $fastqc_out does not exist"
@@ -150,8 +150,8 @@ else
                 echo "Files in TMPDIR:"
                 ls ${TMPDIR}
                 echo "Also tried:"
+                echo "${TMPDIR}/$(basename ${reads2FqGz%.fastq.gz})${fastqcZipExt}"
                 echo "${TMPDIR}/$(basename ${reads2FqGz%${fastqExtension}})${fastqcZipExt}"
-                echo "${TMPDIR}/$(basename ${reads2FqGz%fastq.gz})${fastqcZipExt}"
             fi
         fi
 
