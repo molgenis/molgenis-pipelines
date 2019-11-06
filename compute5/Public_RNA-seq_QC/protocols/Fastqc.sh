@@ -125,7 +125,7 @@ else
 
     fi
 
-    cp -v $fastqc_out ${TMPDIR}/$(basename ${reads1FqGz%${fastqExtension}})${fastqcZipExt} ${pairedEndfastqcZip1}
+    cp -v $fastqc_out ${pairedEndfastqcZip1}
 	echo
 	echo "## "$(date)" reads2FqGz"
 
