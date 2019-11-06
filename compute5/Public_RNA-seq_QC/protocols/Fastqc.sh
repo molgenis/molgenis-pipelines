@@ -75,6 +75,11 @@ else
 	--noextract ${reads1FqGz} \
 	--outdir ${TMPDIR}
 
+    echo "Fast1 name: ${reads1FqGz}"
+    echo "Will remove: ${fastqExtension}"
+    echo "Files in TMPDIR:"
+    ls ${TMPDIR}
+
     cp -v ${TMPDIR}/$(basename ${reads1FqGz%${fastqExtension}})${fastqcZipExt} ${pairedEndfastqcZip1}
 	echo
 	echo "## "$(date)" reads2FqGz"
