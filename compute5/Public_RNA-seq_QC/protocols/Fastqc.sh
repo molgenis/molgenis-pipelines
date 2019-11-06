@@ -42,11 +42,36 @@ then
 	--noextract ${reads1FqGz} \
 	--outdir ${TMPDIR}
 
+    fastqc_out=${TMPDIR}/$(basename ${reads1FqGz%${fastqExtension}})${fastqcZipExt}
+    if [ ! -f $fastqc_out ];
+    then
+        # in case it does not work, try some hardcoded, often seen patterns
+        fastqc_out=${TMPDIR}/$(basename ${reads1FqGz%fastq.gz})${fastqcZipExt}
+        if [ ! -f $fastqc_out ];
+        then
+            fastqc_out=${TMPDIR}/$(basename ${reads1FqGz%fq.gz})${fastqcZipExt}
+            if [ ! -f $fastqc_out ];
+            then
+                echo "ERROR: $fastqc_out does not exist"
+                echo "Fast1 name: ${reads1FqGz}"
+                echo "Will remove: ${fastqExtension}"
+                echo "result: $fastqc_out"
+                echo "Files in TMPDIR:"
+                ls ${TMPDIR}
+                echo "Also tried:"
+                echo "${TMPDIR}/$(basename ${reads1FqGz%${fastqExtension}})${fastqcZipExt}"
+                echo "${TMPDIR}/$(basename ${reads1FqGz%fastq.gz})${fastqcZipExt}"
+            fi
+        fi
+
+    fi
+
+
 	then
- 	  echo "returncode: $?"; 
+ 	  echo "returncode: $?";
 
 	  echo
-	  cp -v ${TMPDIR}/$(basename ${reads1FqGz%${fastqExtension}})${fastqcZipExt} ${singleEndfastqcZip}
+	  cp -v $fastqc_out ${singleEndfastqcZip}
 
 	##################################################################
 
@@ -75,12 +100,32 @@ else
 	--noextract ${reads1FqGz} \
 	--outdir ${TMPDIR}
 
-    echo "Fast1 name: ${reads1FqGz}"
-    echo "Will remove: ${fastqExtension}"
-    echo "Files in TMPDIR:"
-    ls ${TMPDIR}
 
-    cp -v ${TMPDIR}/$(basename ${reads1FqGz%${fastqExtension}})${fastqcZipExt} ${pairedEndfastqcZip1}
+    fastqc_out=${TMPDIR}/$(basename ${reads1FqGz%${fastqExtension}})${fastqcZipExt}
+    if [ ! -f $fastqc_out ];
+    then
+        # in case it does not work, try some hardcoded, often seen patterns
+        fastqc_out=${TMPDIR}/$(basename ${reads1FqGz%fastq.gz})${fastqcZipExt}
+        if [ ! -f $fastqc_out ];
+        then
+            fastqc_out=${TMPDIR}/$(basename ${reads1FqGz%fq.gz})${fastqcZipExt}
+            if [ ! -f $fastqc_out ];
+            then
+                echo "ERROR: $fastqc_out does not exist"
+                echo "Fast1 name: ${reads1FqGz}"
+                echo "Will remove: ${fastqExtension}"
+                echo "result: $fastqc_out"
+                echo "Files in TMPDIR:"
+                ls ${TMPDIR}
+                echo "Also tried:"
+                echo "${TMPDIR}/$(basename ${reads1FqGz%${fastqExtension}})${fastqcZipExt}"
+                echo "${TMPDIR}/$(basename ${reads1FqGz%fastq.gz})${fastqcZipExt}"
+            fi
+        fi
+
+    fi
+
+    cp -v $fastqc_out ${TMPDIR}/$(basename ${reads1FqGz%${fastqExtension}})${fastqcZipExt} ${pairedEndfastqcZip1}
 	echo
 	echo "## "$(date)" reads2FqGz"
 
@@ -88,11 +133,36 @@ else
 	--noextract ${reads2FqGz} \
 	--outdir ${TMPDIR}
 
+    fastqc_out=${TMPDIR}/$(basename ${reads2FqGz%${fastqExtension}})${fastqcZipExt}
+    if [ ! -f $fastqc_out ];
+    then
+        # in case it does not work, try some hardcoded, often seen patterns
+        fastqc_out=${TMPDIR}/$(basename ${reads2FqGz%fastq.gz})${fastqcZipExt}
+        if [ ! -f $fastqc_out ];
+        then
+            fastqc_out=${TMPDIR}/$(basename ${reads2FqGz%fq.gz})${fastqcZipExt}
+            if [ ! -f $fastqc_out ];
+            then
+                echo "ERROR: $fastqc_out does not exist"
+                echo "Fast1 name: ${reads2FqGz}"
+                echo "Will remove: ${fastqExtension}"
+                echo "result: $fastqc_out"
+                echo "Files in TMPDIR:"
+                ls ${TMPDIR}
+                echo "Also tried:"
+                echo "${TMPDIR}/$(basename ${reads2FqGz%${fastqExtension}})${fastqcZipExt}"
+                echo "${TMPDIR}/$(basename ${reads2FqGz%fastq.gz})${fastqcZipExt}"
+            fi
+        fi
+
+    fi
+
+
 	then
  	  echo "returncode: $?";
 
 	  echo
-	  cp -v ${TMPDIR}/$(basename ${reads2FqGz%${fastqExtension}})${fastqcZipExt} ${pairedEndfastqcZip2}
+	  cp -v $fastqc_out ${pairedEndfastqcZip2}
 
 	##################################################################
 	  cd $OLDPWD
