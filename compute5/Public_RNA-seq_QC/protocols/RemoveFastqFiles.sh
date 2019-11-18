@@ -35,10 +35,20 @@ echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}
 #Run scramble on 2 cores to do BAM -> CRAM conversion
 echo "Starting scramble CRAM to BAM conversion";
 
+if [ ! -f ${reads1FqGz} ];
+then
+    echo "ERROR: ${reads1FqGz} does not exist"
+fi
+
 if [ ${#reads2FqGz} -eq 0 ]; then
     seqType="SR"
 else
     seqType="PE"
+
+    if [ ! -f ${reads2FqGz} ];
+    then
+        echo "ERROR: ${reads2FqGz} does not exist"
+    fi
 fi
 
 scramble \
