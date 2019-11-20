@@ -1,5 +1,5 @@
 # if Molgenis-Compute is installed using EasyBuild, otherwise point to the full path
-module load Molgenis-Compute/v19.01.1-Java-11-LTS
+module load Molgenis-Compute/v16.04.1-Java-11-LTS
 sh $EBROOTMOLGENISMINCOMPUTE/molgenis_compute.sh \
   --backend slurm \
   --generate \
