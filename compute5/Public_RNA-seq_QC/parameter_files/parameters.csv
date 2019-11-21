@@ -56,7 +56,7 @@ fastqcZipExt,_fastqc.zip
 singleEndfastqcZip,${fastqcDir}/${uniqueID}${fastqcZipExt}
 pairedEndfastqcZip1,${fastqcDir}/${uniqueID}_1${fastqcZipExt}
 pairedEndfastqcZip2,${fastqcDir}/${uniqueID}_2${fastqcZipExt}
-fastqExtension,.gz
+fastqExtension,fastq.gz
 ## CreateCramFile
 cramFileDir,${projectDir}/cramFiles/
 tmpCramFileDir,$TMPDIR
