@@ -9,6 +9,6 @@ VerifyBamID,../protocols/VerifyBamID.sh,GatkUnifiedGenotyper
 VariantEval,../protocols/VariantEval.sh,GatkUnifiedGenotyper
 GenotypeHarmonizer,../protocols/GenotypeHarmonizer.sh,GatkUnifiedGenotyper
 CombineBedFiles,../protocols/CombineBedFiles.sh,GenotypeHarmonizer
-CollectRnaSeqMetrics,../protocols/CollectRnaSeqMetrics.sh,SortBam
-CollectMultipleMetrics,../protocols/CollectMultipleMetrics.sh,SortBam
+CollectRnaSeqQcMetrics,../protocols/CollectRnaSeqMetrics.sh,SortBam
+CollectMultipleQcMetrics,../protocols/CollectMultipleMetrics.sh,SortBam
 CreateCramFiles,../protocols/CreateCramFiles.sh,SamToFilteredBam

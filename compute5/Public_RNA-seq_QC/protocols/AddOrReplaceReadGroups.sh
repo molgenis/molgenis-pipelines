@@ -45,6 +45,7 @@ echo "returncode: $returnCode";
 if [ $returnCode -eq 0 ]
 then
     mv $tmpBam ${sortedBam}
+    mv ${tmpBam%bam}bai ${sortedBam%bam}bai
 else
     echo "fail!"
     exit 1;

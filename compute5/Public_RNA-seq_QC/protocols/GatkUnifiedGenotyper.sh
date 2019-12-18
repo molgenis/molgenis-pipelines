@@ -79,6 +79,9 @@ then
  # have to gzip for GenometypeHarmonizer usage later
  bgzip -f ${rawVCF}
  tabix -f -p vcf ${rawVCF}.gz
+ md5sum ${rawVCF}.gz > ${rawVCF}.gz.md5
+ md5sum ${rawVCF}.gz.tbi > ${rawVCF}.gz.tbi.md5
+ rm ${rawVCF}.idx
 else
  echo "returncode: $?";
  echo "fail";

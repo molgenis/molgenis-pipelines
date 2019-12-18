@@ -16,11 +16,10 @@ uniqueID,${sampleName}_${internalId}
 ########################################################################
 ## Software and data versions/builds/paths
 #
-fastqcVersion,0.11.3-Java-1.7.0_80
-RVersion,3.2.1-goolf-1.7.20
-samtoolsVersion,1.2-goolf-1.7.20
+RVersion,3.2.1-foss-2015b
+samtoolsVersion,1.5-foss-2015b
 gatkVersion,3.4-0-Java-1.7.0_80 
-picardVersion,1.102-Java-1.7.0_80
+picardVersion,2.10.0-foss-2015b-Java-1.8.0_74
 ensemblVersion,75
 genomeBuild,b37
 genomeGrchBuild,GRCh37
@@ -28,9 +27,9 @@ genomeLatSpecies,Homo_sapiens
 genomeSpecies,human
 AseVersion,14-10-2015
 genotypeHarmonizerVersion,1.4.14
-tabixVersion,0.2.6-goolf-1.7.20
+tabixVersion,0.2.6-foss-2015b
 referenceFastaName,human_g1k_v37
-onekgGenomeFasta,${resDir}/${genomeBuild}/indices/${referenceFastaName}.fasta
+onekgGenomeFasta,${resDir}/${genomeBuild}/indices/human_g1k_v${human_g1k_vers}.fasta
 genomeEnsembleAnnotationFile,${resDir}/Ensembl/release-${ensemblVersion}/gtf/homo_sapiens/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.gtf
 genesRefFlat,${resDir}/Ensembl/release-${ensemblVersion}/gtf/homo_sapiens/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.refflat
 rRnaIntervalList,${resDir}//picard-tools/Ensembl${ensemblVersion}/${genomeLatSpecies}.${genomeGrchBuild}.${ensemblVersion}.rrna.interval_list
@@ -40,31 +39,11 @@ oneKgPhase1SnpsVcf,${resDir}/${genomeBuild}/snp/1000G/1000G_phase1.snps.high_con
 oneKgPhase1SnpsVcfIdx,${oneKgPhase1SnpsVcf}.idx
 oneKgPhase1IndelsVcf,${resDir}/${genomeBuild}/sv/1000G/1000G_phase1.indels.b37.vcf
 oneKgPhase1IndelsVcfIdx,${oneKgPhase1IndelsVcf}.idx
-dbsnpVcf,${resDir}/${genomeBuild}/snp/dbSNP/dbsnp_138.b37.vcf
+dbsnpVcf,${resDir}/dbSNP/dbsnp_138.b37.vcf
 dbsnpVcfIdx,${dbsnpVcf}.idx
-regulation_CD4Bin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_CD4.bin
-regulation_GM06990Bin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_GM06990.bin
-regulation_GM12878Bin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_GM12878.bin
-regulation_H1ESCBin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_H1ESC.bin
-regulation_HeLaS3Bin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_HeLa-S3.bin
-regulation_HepG2Bin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_HepG2.bin
-regulation_HMECBin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_HMEC.bin
-regulation_HSMMBin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_HSMM.bin
-regulation_HUVECBin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_HUVEC.bin
-regulation_IMR90Bin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_IMR90.bin
-regulation_K562bBin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_K562b.bin
-regulation_K562Bin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_K562.bin
-regulation_NHABin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_NH-A.bin
-regulation_NHEKBin,/gcc/resources/snpEff/3.6c/GRCh37.75/regulation_NHEK.bin
 ########################################################################
 ## Specific tools paths
 #
-## FastQC
-fastqcDir,${projectDir}/fastqc_genotypeCalling/
-fastqcZipExt,_fastqc.zip
-singleEndfastqcZip,${fastqcDir}/${uniqueID}.fq${fastqcZipExt}
-pairedEndfastqcZip1,${fastqcDir}/${uniqueID}_1.fq${fastqcZipExt}
-pairedEndfastqcZip2,${fastqcDir}/${uniqueID}_2.fq${fastqcZipExt}
 ## STAR
 starAlignmentDir,${projectDir}/star/
 starAlignmentPassOneDir,${starAlignmentDir}/${uniqueID}/alignmentP1/
@@ -146,6 +125,8 @@ readQuality,1
 ## Flagstat
 flagstatDir,${projectDir}/flagStat
 flagstatFile,${flagstatDir}/${sampleName}.flagstat
+## MultiQC
+multiqcGenotypingDir,${projectDir}/multiQC_genotyping
 ## ?
 motifBin,/gcc/resources/snpEff/3.6c/GRCh37.75/motif.bin
 nextProtBin,/gcc/resources/snpEff/3.6c/GRCh37.75/nextProt.bin
@@ -156,3 +137,4 @@ annotVcfIdx,${annotVcf}.idx
 oneKgP1wgsVcf,${resDir}/
 oneKgP1wgsVcfIdx,${resDir}/
 projectMarkdown,${projectDir}/${project}.summary.Rmd
+

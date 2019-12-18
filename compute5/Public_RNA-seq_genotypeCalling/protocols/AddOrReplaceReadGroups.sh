@@ -11,10 +11,7 @@
 #string WORKDIR
 #string projectDir
 #string picardVersion
-#string addOrReplaceGroupsDir
-#string addOrReplaceGroupsBam
-#string addOrReplaceGroupsBai
-#string sortedBamFile
+#string sortedBam
 #string toolDir
 #string uniqueID
 
@@ -23,13 +20,14 @@ echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}
 ${stage} picard/${picardVersion}
 ${checkStage}
 
-mkdir -p ${addOrReplaceGroupsDir}
 
 echo "## "$(date)" Start $0"
 
-java -Xmx6g -XX:ParallelGCThreads=8 -jar $EBROOTPICARD/AddOrReplaceReadGroups.jar \
- INPUT=${sortedBamFile} \
- OUTPUT=${addOrReplaceGroupsBam} \
+tmpBam=$TMPDIR/$(basename ${sortedBam})
+
+java -Xmx6g -XX:ParallelGCThreads=8 -jar $EBROOTPICARD/picard.jar AddOrReplaceReadGroups \
+ INPUT=${sortedBam} \
+ OUTPUT=$tmpBam \
  SORT_ORDER=coordinate \
  RGID=${internalId} \
  RGLB=${uniqueID} \
@@ -39,9 +37,19 @@ java -Xmx6g -XX:ParallelGCThreads=8 -jar $EBROOTPICARD/AddOrReplaceReadGroups.ja
  RGDT=$(date --rfc-3339=date) \
  CREATE_INDEX=true \
  MAX_RECORDS_IN_RAM=4000000 \
- TMP_DIR=${addOrReplaceGroupsDir}
+ TMP_DIR=${TMPDIR}
 
-echo "returncode: $?";
+returnCode=$?
+echo "returncode: $returnCode";
+
+if [ $returnCode -eq 0 ]
+then
+    mv $tmpBam ${sortedBam}
+    mv ${tmpBam%bam}bai ${sortedBam%bam}bai
+else
+    echo "fail!"
+    exit 1;
+fi
 
 echo "## "$(date)" ##  $0 Done "
 

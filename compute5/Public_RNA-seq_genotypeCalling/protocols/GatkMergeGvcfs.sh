@@ -46,7 +46,7 @@ java -Xmx30g -XX:ParallelGCThreads=8 -Djava.io.tmpdir=${TMPDIR} -jar $EBROOTGATK
 echo "returncode: $?"; 
 
 cd ${haplotyperDir}
-md5sum $(basename ${mergeGvcf})> $(basename ${mergeGvcf}).md5sum
+md5sum $(basename ${mergeGvcf})> $(basename ${mergeGvcf}).md5
 cd -
 
 echo "## "$(date)" ##  $0 Done "

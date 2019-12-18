@@ -10,6 +10,7 @@
 #string alignmentDir
 #string twoPassMethod
 #string unfilteredBamDir
+#string outSAMmapqUnique
 
 #Echo parameter values
 fastq1="${reads1FqGz}"
@@ -22,6 +23,20 @@ STARindex="${STARindex}"
 module load STAR/${starVersion}
 module list
 
+if [ ! -f ${fastq1} ];
+then
+    echo "ERROR: ${fastq1} does not exist"
+    exit 1;
+fi
+
+# something that can go easily wrong is that R1 and R2 have the same name
+# (because R1 got written twice), so double check they are not the same
+if [ "$reads1FqGz" == "$reads2FqGz" ];
+then
+    echo "ERROR: Reads1FqGz and reads2FqGz are the same"
+    exit 1;
+fi
+
 echo -e "fastq1=${fastq1}\nfastq2=${fastq2}\nprefix=${prefix}\nSTARindex=${STARindex}"
 
 mkdir -p ${alignmentDir}
@@ -31,6 +46,11 @@ if [ ${#reads2FqGz} -eq 0 ]; then
     seqType="SR"
 else
     seqType="PE"
+    if [ ! -f ${fastq2} ];
+    then
+        echo "ERROR: ${fastq2} does not exist"
+        exit 1;
+    fi
 fi
 
 seq=`zcat ${fastq1} | head -2 | tail -1`
@@ -66,6 +86,10 @@ then
 		--twopassMode ${twoPassMethod} \
         --quantMode GeneCounts \
         --outSAMunmapped Within
+# Option --outSAMmapqUnique is not necesarry anymore
+# GatkSplitAndTrim automatically changes 255 to 60
+# see https://gatkforums.broadinstitute.org/gatk/discussion/10800/gatk4-how-to-reassign-star-mapping-quality-from-255-to-60-with-splitncigarreads
+# Leaving this commnet in for future reference why it is not included
 	starReturnCode=$?
 
 elif [ ${seqType} == "PE" ]
@@ -85,6 +109,11 @@ then
 		--twopassMode ${twoPassMethod} \
         --quantMode GeneCounts \
         --outSAMunmapped Within
+# Option --outSAMmapqUnique is not necesarry anymore
+# GatkSplitAndTrim automatically changes 255 to 60
+# see https://gatkforums.broadinstitute.org/gatk/discussion/10800/gatk4-how-to-reassign-star-mapping-quality-from-255-to-60-with-splitncigarreads
+# Think it was added in commit f26cb5dbd7f8bb4ee549c7c1c1044e8ec7a28645 of GATK
+# Leaving this commnet in for future reference why it is not included
 	starReturnCode=$?
 else
 	echo "Seqtype unknown"
@@ -103,6 +132,9 @@ then
     		finalFile=$(basename $tempFile)
 	    	echo "Moving temp file: ${tempFile} to ${alignmentDir}/${finalFile}"
     		mv $tempFile ${alignmentDir}/$finalFile
+            cd ${alignmentDir}
+            md5sum ${alignmentDir}/$finalFile > ${alignmentDir}/$finalFile.md5
+            cd -
             # STAR appends some extra stuff to filename, which makes it not match with HISAT in next steps
             # therefore, rename it so that next steps can use same naming scheme
             if [[ ${alignmentDir}/$finalFile == *.sam ]];

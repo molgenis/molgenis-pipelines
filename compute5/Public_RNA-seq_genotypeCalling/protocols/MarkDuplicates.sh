@@ -30,7 +30,7 @@ ${checkStage}
 
 mkdir -p ${markDuplicatesDir}
 
-java -Xmx6g -XX:ParallelGCThreads=8 -jar $EBROOTPICARD/MarkDuplicates.jar \
+java -Xmx6g -XX:ParallelGCThreads=8 -jar $EBROOTPICARD/picard.jar MarkDuplicates \
  INPUT=${mergeBamFilesBam} \
  OUTPUT=${markDuplicatesBam} \
  CREATE_INDEX=true \
@@ -39,9 +39,5 @@ java -Xmx6g -XX:ParallelGCThreads=8 -jar $EBROOTPICARD/MarkDuplicates.jar \
  METRICS_FILE=${markDuplicatesMetrics}
 
 echo "returncode: $?";
-
-cd ${markDuplicatesDir}
-md5sum ${markDuplicatesMetrics} > ${markDuplicatesMetrics}.md5
-cd -
 
 echo "## "$(date)" ##  $0 Done "

@@ -39,7 +39,7 @@ if [ ${#reads2FqGz} -ne 0 ]; then
 fi
 
 #Run Picard CollectAlignmentSummaryMetrics, CollectInsertSizeMetrics, QualityScoreDistribution and MeanQualityByCycle
-java -jar -Xmx4g -XX:ParallelGCThreads=8 $EBROOTPICARD/CollectMultipleMetrics.jar \
+java -jar -Xmx4g -XX:ParallelGCThreads=8 $EBROOTPICARD/picard.jar CollectMultipleMetrics \
  I=${markDuplicatesBam} \
  O=${collectMultipleMetricsPrefix} \
  R=${onekgGenomeFasta} \

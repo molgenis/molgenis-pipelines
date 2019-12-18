@@ -11,8 +11,8 @@
 #string picardVersion
 #string RVersion
 #string reads2FqGz
-#string collectMultipleMetricsDir
-#string collectMultipleMetricsPrefix
+#string collectMultipleQcMetricsDir
+#string collectMultipleQcMetricsPrefix
 #string onekgGenomeFasta
 #string sortedBam
 #string sortedBai
@@ -25,7 +25,7 @@ ${stage} picard/${picardVersion}
 #Check modules
 ${checkStage}
 
-mkdir -p ${collectMultipleMetricsDir}
+mkdir -p ${collectMultipleQcMetricsDir}
 
 echo "## "$(date)" Start $0"
 echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}"
@@ -40,28 +40,28 @@ fi
 
 echo java -jar -Xmx4g -XX:ParallelGCThreads=4 $EBROOTPICARD/picard.jar CollectMultipleMetrics \
         I=${sortedBam} \
-        O=${collectMultipleMetricsPrefix} \
+        O=${collectMultipleQcMetricsPrefix} \
         R=${onekgGenomeFasta} \
         PROGRAM=CollectAlignmentSummaryMetrics \
         PROGRAM=QualityScoreDistribution \
         PROGRAM=MeanQualityByCycle \
         $insertSizeMetrics \
-        TMP_DIR=${collectMultipleMetricsDir}
+        TMP_DIR=${collectMultipleQcMetricsDir}
         
 java -jar -Xmx4g -XX:ParallelGCThreads=4 $EBROOTPICARD/picard.jar CollectMultipleMetrics \
  I=${sortedBam} \
- O=${collectMultipleMetricsPrefix} \
+ O=${collectMultipleQcMetricsPrefix} \
  R=${onekgGenomeFasta} \
  PROGRAM=CollectAlignmentSummaryMetrics \
  PROGRAM=QualityScoreDistribution \
  PROGRAM=MeanQualityByCycle \
  $insertSizeMetrics \
- TMP_DIR=${collectMultipleMetricsDir}
+ TMP_DIR=${collectMultipleQcMetricsDir}
 
 echo "returncode: $?";
 
-cd ${collectMultipleMetricsDir}
-bname=$(basename ${collectMultipleMetricsPrefix})
+cd ${collectMultipleQcMetricsDir}
+bname=$(basename ${collectMultipleQcMetricsPrefix})
 md5sum ${bname}.quality_distribution_metrics > ${bname}.quality_distribution_metrics.md5
 md5sum ${bname}.alignment_summary_metrics > ${bname}.alignment_summary_metrics.md5
 md5sum ${bname}.quality_by_cycle_metrics > ${bname}.quality_by_cycle_metrics.md5

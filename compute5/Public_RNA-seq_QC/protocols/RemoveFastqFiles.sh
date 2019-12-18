@@ -35,6 +35,24 @@ echo "ID (internalId-project-sampleName): ${internalId}-${project}-${sampleName}
 #Run scramble on 2 cores to do BAM -> CRAM conversion
 echo "Starting scramble CRAM to BAM conversion";
 
+if [ ! -f ${reads1FqGz} ];
+then
+    echo "ERROR: ${reads1FqGz} does not exist"
+    exit 1;
+fi
+
+if [ ${#reads2FqGz} -eq 0 ]; then
+    seqType="SR"
+else
+    seqType="PE"
+
+    if [ ! -f ${reads2FqGz} ];
+    then
+        echo "ERROR: ${reads2FqGz} does not exist"
+        exit 1;
+    fi
+fi
+
 scramble \
     -I cram \
     -O bam \
@@ -75,11 +93,17 @@ fi
 # get the filenames from the full path
 fq1NameGz=$(basename $reads1FqGz)
 fq1Name=${fq1NameGz%.gz}
-fq2NameGz=$(basename $reads2FqGz)
-fq2Name=${fq2NameGz%.gz}
+
+if [ ${seqType} == "PE" ]
+then
+    fq2NameGz=$(basename $reads2FqGz)
+    fq2Name=${fq2NameGz%.gz}
+fi
+
+
 
 echo "Starting BAM to FASTQ conversion: convert sorted BAM file to fastq"
-if [ ${#reads2FqGz} -eq 0 ];
+if [ ${seqType} == "SR" ]
 then
   samtools fastq \
       -@ 4 \
@@ -122,7 +146,7 @@ echo "originalFastq1Lines: $originalFastq1Lines"
 if [ "$originalFastq1Lines" -eq "$fastq1Lines" ];
 then
   echo "Fastq1 same number of lines"
-  if [ ${#reads2FqGz} -eq 0 ];
+  if [ ${seqType} == "SR" ]
   then
     :
   else
