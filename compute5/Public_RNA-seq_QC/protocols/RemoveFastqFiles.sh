@@ -38,6 +38,7 @@ echo "Starting scramble CRAM to BAM conversion";
 if [ ! -f ${reads1FqGz} ];
 then
     echo "ERROR: ${reads1FqGz} does not exist"
+    exit 1;
 fi
 
 if [ ${#reads2FqGz} -eq 0 ]; then
@@ -48,6 +49,7 @@ else
     if [ ! -f ${reads2FqGz} ];
     then
         echo "ERROR: ${reads2FqGz} does not exist"
+        exit 1;
     fi
 fi
 
